@@ -5,6 +5,8 @@
 #include "Model/User.h"
 #include "View/Printer.h"
 #include "View/Widgets/MedicationTemplateDialog.h"
+#include "GlobalSettings.h"
+#include "Model/DirTree.h"
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 
@@ -286,4 +288,21 @@ TabName PrescriptionPresenter::getTabName()
 	}
 
 	return result;
+}
+
+void PrescriptionPresenter::pdfPrint()
+{
+	if (m_prescription.NRN.empty()) {
+		ModalDialogBuilder::showMessage(
+			"Първо изпратете рецептата в НЗИС"
+		);
+		return;
+	}
+
+	auto filepath = DirTree::get(m_prescription, *patient);
+
+	if (filepath.empty()) return;
+
+	Print::prescription(m_prescription, *patient, filepath);
+	
 }

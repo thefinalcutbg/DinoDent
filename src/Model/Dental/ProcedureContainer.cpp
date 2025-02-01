@@ -69,6 +69,48 @@ bool ProcedureContainer::hasDentureManifactureProcedure() const
     return false;
 }
 
+std::string ProcedureContainer::nhifDentureStr() const
+{
+    bool upper = false;
+    bool lower = false;
+
+    for (auto& p : m_proc) {
+        
+        if (p.financingSource != FinancingSource::NHIF) continue;
+        
+        if (p.code.nhifCode() == 832) upper = true;
+
+        if (p.code.nhifCode() == 833) lower = true;
+    }
+
+    if (upper && lower) return "<b>горна и долна</b>";
+    if (upper) return "<b>горна</b>";
+    if (lower) return "<b>долна</b>";
+    
+    return "горна и/или долна";
+}
+
+std::string ProcedureContainer::nhifDentureDate() const
+{
+    Date date;
+
+    for (auto& p : m_proc) {
+
+        if (p.financingSource != FinancingSource::NHIF) continue;
+
+        if (p.code.nhifCode() == 832
+         || p.code.nhifCode() == 833
+        ) 
+        {
+            date = std::max(date, p.date);
+        }
+    }
+
+    if (date.isDefault()) return "";
+
+    return "<b>" + date.toBgStandard() + std::string("</b>");
+}
+
 bool ProcedureContainer::hasDentalExam() const
 {
     for (auto& p : m_proc) {

@@ -138,13 +138,13 @@ DinoDent::DinoDent(QWidget* parent)
     ui.userButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
-
+/*
     ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));
     
     QFont font;
     font.setBold(true);
     ui.practiceLabel->setFont(font);
-
+*/
     SplashScreen::hideAndDestroy();
 
     ui.tabView->showWelcomeScreen();

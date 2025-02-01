@@ -109,6 +109,11 @@ std::string FreeFn::escapeXml(const std::string& data)
     return result;
 }
 
+std::string FreeFn::toUpper(const std::string& src)
+{
+    return QString(src.c_str()).toUpper().toStdString();
+}
+
 
 bool FreeFn::contains(const std::string& parent, const std::string& child)
 {

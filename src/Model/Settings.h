@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 struct Settings //only practice-specific settings
 {
@@ -12,5 +13,4 @@ struct Settings //only practice-specific settings
 	bool autoDiagnosis{ true };
 	bool showPatientList{ false };
 	int timeout{ 15 }; //in seconds!
-
 };

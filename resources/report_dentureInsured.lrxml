@@ -23,12 +23,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -70,12 +68,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -117,16 +113,14 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
-              <content Type="QString">Декларирам, че на дата .................... ми е  поставена от  ....................................................... &lt;i>&lt;b> горна и/или долна &lt;/b> &lt;/i> цяла плакова зъбна протеза.</content>
+              <content Type="QString">Декларирам, че на дата .................... ми е  поставена от  ....................................................... &lt;i>&lt;b> $V{denture} &lt;/b> &lt;/i> цяла плакова зъбна протеза.</content>
               <margin Type="int" Value="4"/>
               <alignment Type="enumAndFlags" Value="33"/>
               <autoWidth Type="enumAndFlags" Value="0"/>
@@ -164,12 +158,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -211,12 +203,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -258,12 +248,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -305,12 +293,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -352,12 +338,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -399,12 +383,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -446,12 +428,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -493,12 +473,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -540,16 +518,14 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
-              <content Type="QString">Декларирам, че на лицето ........................................................................................................ е поставена от д-р ...........................................................  горна и/или долна цяла плакова зъбна протеза на дата .......................</content>
+              <content Type="QString">Декларирам, че на лицето ........................................................................................................ е поставена от д-р ...........................................................  $V{denture} цяла плакова зъбна протеза на дата .......................</content>
               <margin Type="int" Value="4"/>
               <alignment Type="enumAndFlags" Value="33"/>
               <autoWidth Type="enumAndFlags" Value="0"/>
@@ -587,12 +563,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -634,12 +608,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -681,16 +653,14 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
-              <content Type="QString">Информиран сьм, че д-р .............................................................. &lt;b>&lt;i>отчита / не отчита&lt;/i>&lt;/b> дейности по изработка на тотални зьбни протези по договор с НЗОК, поради което кьм цената на денталната услуга е &lt;b>&lt;i>добавена / не е добавена&lt;/i>&lt;/b> цена за изработка на протезата.</content>
+              <content Type="QString">Информиран сьм, че д-р .............................................................. &lt;b>&lt;i>$V{includeManifacture}&lt;/i>&lt;/b> дейности по изработка на тотални зьбни протези по договор с НЗОК, поради което кьм цената на денталната услуга е &lt;b>&lt;i>$V{priceAdded}&lt;/i>&lt;/b> цена за изработка на протезата.</content>
               <margin Type="int" Value="4"/>
               <alignment Type="enumAndFlags" Value="40"/>
               <autoWidth Type="enumAndFlags" Value="0"/>
@@ -728,12 +698,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -775,12 +743,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -822,12 +788,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -869,12 +833,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -916,12 +878,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -963,12 +923,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1010,12 +968,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1057,12 +1013,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1104,12 +1058,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1151,12 +1103,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1198,12 +1148,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1245,12 +1193,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1292,12 +1238,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1339,12 +1283,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1386,12 +1328,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1433,12 +1373,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage2</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <itemLocation Type="enumAndFlags" Value="1"/>
               <stretchToMaxHeight Type="bool" Value="0"/>
               <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1473,16 +1411,149 @@
               <hideIfEmpty Type="bool" Value="0"/>
               <fontLetterSpacing Type="int" Value="0"/>
             </item>
+            <item ClassName="TextItem" Type="Object">
+              <objectName Type="QString">TextItem4</objectName>
+              <geometry Type="QRect" height="60" width="256" x="643" y="1241"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Reportpage2</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <content Type="QString">$V{date}</content>
+              <margin Type="int" Value="4"/>
+              <alignment Type="enumAndFlags" Value="33"/>
+              <autoWidth Type="enumAndFlags" Value="0"/>
+              <autoHeight Type="bool" Value="0"/>
+              <font Type="QFont" family="Arial" italic="0" pointSize="12" underline="0" weight="700"/>
+              <backgroundOpacity Type="int" Value="100"/>
+              <backgroundMode Type="enumAndFlags" Value="0"/>
+              <backgroundColor Type="QColor" Value="#ffffff"/>
+              <fontColor Type="QColor" Value="#000000"/>
+              <angle Type="enumAndFlags" Value="0"/>
+              <foregroundOpacity Type="int" Value="100"/>
+              <underlines Type="bool" Value="0"/>
+              <adaptFontToSize Type="bool" Value="0"/>
+              <trimValue Type="bool" Value="1"/>
+              <lineSpacing Type="int" Value="1"/>
+              <underlineLineSize Type="int" Value="1"/>
+              <allowHTML Type="bool" Value="0"/>
+              <allowHTMLInFields Type="bool" Value="0"/>
+              <format Type="QString"></format>
+              <valueType Type="enumAndFlags" Value="0"/>
+              <followTo Type="QString"></followTo>
+              <backgroundBrushStyle Type="enumAndFlags" Value="1"/>
+              <textIndent Type="qreal" Value="0"/>
+              <textLayoutDirection Type="enumAndFlags" Value="2"/>
+              <fillInSecondPass Type="bool" Value="0"/>
+              <watermark Type="bool" Value="0"/>
+              <replaceCRwithBR Type="bool" Value="0"/>
+              <hideIfEmpty Type="bool" Value="1"/>
+              <fontLetterSpacing Type="int" Value="0"/>
+            </item>
+            <item ClassName="TextItem" Type="Object">
+              <objectName Type="QString">TextItem7</objectName>
+              <geometry Type="QRect" height="60" width="256" x="277" y="2516"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Reportpage2</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <content Type="QString">$V{date}</content>
+              <margin Type="int" Value="4"/>
+              <alignment Type="enumAndFlags" Value="33"/>
+              <autoWidth Type="enumAndFlags" Value="0"/>
+              <autoHeight Type="bool" Value="0"/>
+              <font Type="QFont" family="Arial" italic="0" pointSize="12" underline="0" weight="700"/>
+              <backgroundOpacity Type="int" Value="100"/>
+              <backgroundMode Type="enumAndFlags" Value="0"/>
+              <backgroundColor Type="QColor" Value="#ffffff"/>
+              <fontColor Type="QColor" Value="#000000"/>
+              <angle Type="enumAndFlags" Value="0"/>
+              <foregroundOpacity Type="int" Value="100"/>
+              <underlines Type="bool" Value="0"/>
+              <adaptFontToSize Type="bool" Value="0"/>
+              <trimValue Type="bool" Value="1"/>
+              <lineSpacing Type="int" Value="1"/>
+              <underlineLineSize Type="int" Value="1"/>
+              <allowHTML Type="bool" Value="0"/>
+              <allowHTMLInFields Type="bool" Value="0"/>
+              <format Type="QString"></format>
+              <valueType Type="enumAndFlags" Value="0"/>
+              <followTo Type="QString"></followTo>
+              <backgroundBrushStyle Type="enumAndFlags" Value="1"/>
+              <textIndent Type="qreal" Value="0"/>
+              <textLayoutDirection Type="enumAndFlags" Value="2"/>
+              <fillInSecondPass Type="bool" Value="0"/>
+              <watermark Type="bool" Value="0"/>
+              <replaceCRwithBR Type="bool" Value="0"/>
+              <hideIfEmpty Type="bool" Value="1"/>
+              <fontLetterSpacing Type="int" Value="0"/>
+            </item>
+            <item ClassName="TextItem" Type="Object">
+              <objectName Type="QString">TextItem9</objectName>
+              <geometry Type="QRect" height="60" width="1186" x="280" y="2627"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Reportpage2</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <content Type="QString">$V{city}</content>
+              <margin Type="int" Value="4"/>
+              <alignment Type="enumAndFlags" Value="33"/>
+              <autoWidth Type="enumAndFlags" Value="0"/>
+              <autoHeight Type="bool" Value="0"/>
+              <font Type="QFont" family="Arial" italic="0" pointSize="12" underline="0" weight="700"/>
+              <backgroundOpacity Type="int" Value="100"/>
+              <backgroundMode Type="enumAndFlags" Value="0"/>
+              <backgroundColor Type="QColor" Value="#ffffff"/>
+              <fontColor Type="QColor" Value="#000000"/>
+              <angle Type="enumAndFlags" Value="0"/>
+              <foregroundOpacity Type="int" Value="100"/>
+              <underlines Type="bool" Value="0"/>
+              <adaptFontToSize Type="bool" Value="0"/>
+              <trimValue Type="bool" Value="1"/>
+              <lineSpacing Type="int" Value="1"/>
+              <underlineLineSize Type="int" Value="1"/>
+              <allowHTML Type="bool" Value="0"/>
+              <allowHTMLInFields Type="bool" Value="0"/>
+              <format Type="QString"></format>
+              <valueType Type="enumAndFlags" Value="0"/>
+              <followTo Type="QString"></followTo>
+              <backgroundBrushStyle Type="enumAndFlags" Value="1"/>
+              <textIndent Type="qreal" Value="0"/>
+              <textLayoutDirection Type="enumAndFlags" Value="2"/>
+              <fillInSecondPass Type="bool" Value="0"/>
+              <watermark Type="bool" Value="0"/>
+              <replaceCRwithBR Type="bool" Value="0"/>
+              <hideIfEmpty Type="bool" Value="1"/>
+              <fontLetterSpacing Type="int" Value="0"/>
+            </item>
           </children>
           <zOrder Type="qreal" Value="0"/>
           <borders Type="enumAndFlags" Value="0"/>
           <parentName Type="QString"></parentName>
-          <borderLineSize Type="qreal" Value="1"/>
+          <borderLineSize Type="int" Value="1"/>
           <isVisible Type="bool" Value="1"/>
-          <shadow Type="bool" Value="0"/>
           <borderColor Type="QColor" Value="#000000"/>
           <geometryLocked Type="bool" Value="0"/>
-          <borderStyle Type="enumAndFlags" Value="1"/>
           <topMargin Type="int" Value="5"/>
           <bottomMargin Type="int" Value="5"/>
           <rightMargin Type="int" Value="5"/>

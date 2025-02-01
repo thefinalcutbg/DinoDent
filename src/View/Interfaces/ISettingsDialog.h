@@ -3,21 +3,23 @@
 #include "Model/Settings.h"
 #include "Model/DynamicNum.h"
 #include "Model/UserStructs.h"
+#include "Model/TabletSettings.h";
 
 struct PlainTable;
 class ProcedureListView;
 
-enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract, CodeList, SQL};
+enum class SettingsTab {General, PKCS, PenTablet, Doctor, Practice, Company, NhifContract, CodeList, SQL};
 
 class ISettingsDialog
 {
 public:
 
 	struct GlobalSettingsData {
-		std::vector<std::string> list;
+		std::vector<std::string> pkcs11_list;
 		bool dev_branch;
 		bool show_requests;
 		bool show_replies;
+		TabletSettings tablet_settings;
 	};
 
 	virtual void focusTab(SettingsTab tab) = 0;

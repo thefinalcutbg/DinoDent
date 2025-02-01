@@ -5,11 +5,13 @@
 #include <json/json.h>
 #include <QtGlobal>
 #include <QTextStream>
+#include <QFileInfo>
 
 #include "Model/User.h"
 #include "Model/Date.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Time.h"
+#include "View/ModalDialogBuilder.h"
 
 void rewriteCfg(const Json::Value& settings)
 {
@@ -106,6 +108,14 @@ void GlobalSettings::createCfgIfNotExists()
 
     if (!settings.isMember("dev_branch")) {
         settings["dev_branch"] = false;
+    }
+
+    if (!settings.isMember("tablet")) {
+        settings["tablet"]["model"] = 0;
+        settings["tablet"]["signer_path"] = "";
+        settings["tablet"]["pdf_dir"] = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).path().toStdString();
+        settings["tablet"]["dir_tree"].append(TabletSettings::PRACTICE);
+        settings["tablet"]["dir_tree"].append(TabletSettings::PATIENTLF);
     }
 
     rewriteCfg(settings);
@@ -241,44 +251,39 @@ bool GlobalSettings::showRepliesEnabled()
     return s_showReplies;
 }
 
-std::string GlobalSettings::getDocDir(const std::string& ISO8601, const std::string& filename, DocDir dir)
+TabletSettings GlobalSettings::getTabletSettings()
 {
-    QDir result(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    Json::Value tablet = getSettingsAsJson()["tablet"];
 
-    if (dir == DocDir::Root) {
-        return result.absolutePath().toStdString();
+    TabletSettings result;
+
+    result.model = tablet["model"].asInt();
+    result.signer_filepath = tablet["signer_path"].asString();
+    result.pdfDir = tablet["pdf_dir"].asString();
+
+    for (auto& v : tablet["dir_tree"]) {
+        result.subdirStructure.push_back(static_cast<TabletSettings::DirType>(v.asInt()));
     }
 
-    const std::string subdirType[] = {
-        "",
-        "Амбулаторни листове",
-        "Информирани съгласия",
-        "Декларации за тотални протези",
-        "Декларации за валидна ЗК",
-        "Фактури"
-    };
-
-    auto subdir =
-        User::practice().rziCode + " - " +
-        User::practice().name + "/";
-    
-    if (dir != DocDir::Invoice) {
-        subdir +=
-            User::doctor().LPK + " - " +
-            User::doctor().getFullName() + "/";
-    }
-
-    subdir += subdirType[static_cast<int>(dir)] + "/";
-    subdir += ISO8601.substr(0, 7).c_str();
-
-    bool pathExists = result.mkpath(subdir.c_str());
-
-    if (!pathExists) {
-        return "";
-    }
-
-    result.cd(subdir.c_str());
-
-    return result.absoluteFilePath(filename.c_str()).toStdString();
-    
+    return result;
 }
+
+void GlobalSettings::setTabletSettings(const TabletSettings& tabletSettings)
+{
+    auto settings = getSettingsAsJson();
+
+    settings["tablet"]["model"] = tabletSettings.model;
+    settings["tablet"]["signer_path"] = tabletSettings.signer_filepath;
+    settings["tablet"]["pdf_dir"] = tabletSettings.pdfDir;
+
+    Json::Value dirTree;
+
+    for (auto& v : tabletSettings.subdirStructure) {
+        dirTree.append(v);
+    }
+
+    settings["tablet"]["dir_tree"] = dirTree;
+
+    rewriteCfg(settings);
+}
+

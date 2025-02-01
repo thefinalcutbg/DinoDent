@@ -31,10 +31,11 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	view->setSettings(practice.settings);
 
 	ISettingsDialog::GlobalSettingsData data{
-		.list = GlobalSettings::pkcs11PathList(),
+		.pkcs11_list = GlobalSettings::pkcs11PathList(),
 		.dev_branch = GlobalSettings::getDevBranch(),
 		.show_requests = GlobalSettings::showRequestsEnabled(),
-		.show_replies = GlobalSettings::showRepliesEnabled()
+		.show_replies = GlobalSettings::showRepliesEnabled(),
+		.tablet_settings = GlobalSettings::getTabletSettings()
 	};
 
 	view->setGlobalSettings(data);
@@ -229,10 +230,11 @@ bool SettingsMainPresenter::applyChanges()
 
 	auto globalData = view->getGlobalSettings();
 
-	GlobalSettings::setPkcs11PathList(globalData.list);
-	PKCS11::setDriverPaths(globalData.list);
+	GlobalSettings::setPkcs11PathList(globalData.pkcs11_list);
+	PKCS11::setDriverPaths(globalData.pkcs11_list);
 	GlobalSettings::setDebug(globalData.show_requests, globalData.show_replies);
 	GlobalSettings::setDevBranch(globalData.dev_branch);
+	GlobalSettings::setTabletSettings(globalData.tablet_settings);
 
 	if (User::hasNhifContract() != nhif_contract_temp) {
 

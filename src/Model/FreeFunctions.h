@@ -14,6 +14,7 @@ namespace FreeFn {
     std::string getTimeStampUTC();
     std::string LocalToUTC(const std::string& timeStamp);
     std::string escapeXml(const std::string& data);
+    std::string toUpper(const std::string& src);
     bool contains(const std::string& parent, const std::string& child);
 
 };

@@ -10,6 +10,7 @@
 
 #include <QApplication>
 #include <QString>
+#include <QFileInfo>
 
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
 #include "View/TableModels/BusinessOperationModel.h"
@@ -28,6 +29,7 @@
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/NhifSpecReport.h"
 #include "Model/Prescription/Prescription.h"
+#include "GlobalSettings.h"
 
 void printLogic(LimeReport::ReportEngine& report, const std::string& filepath) 
 {
@@ -38,8 +40,12 @@ void printLogic(LimeReport::ReportEngine& report, const std::string& filepath)
 
     report.printToPDF(filepath.c_str());
 
+    QString signerPath = GlobalSettings::getTabletSettings().signer_filepath.c_str();
+
+    if (!QFileInfo::exists(signerPath)) { return; }
+
     QProcess p;
-    p.startDetached("C:/Program Files/Wacom sign pro PDF/Sign Pro PDF.exe", QStringList{ filepath.c_str() });
+    p.startDetached(signerPath, QStringList{ filepath.c_str() });
 }
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
@@ -295,6 +301,20 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
         report.dataManager()->setReportVariable("refHSA", refData.highlySpecializedActivity);
     }
 
+    //setting denture declaration
+
+    auto dentureDate = amb.procedures.nhifDentureDate();
+
+    std::string dentureStr = "<b>Декларирам, че</b> ми е поставена ";
+    
+    dentureStr += amb.procedures.nhifDentureStr();
+
+    dentureStr += " цяла плакова зъбна протеза на дата ";
+
+    dentureStr += dentureDate.size() ? dentureDate : "....................... (подчертава се вярното)";
+    
+    report.dataManager()->setReportVariable("denture", dentureStr.c_str());
+
     QApplication::restoreOverrideCursor();
 
     printLogic(report, pdfFilename);
@@ -492,17 +512,20 @@ void Print::ambList()
     report.dataManager()->setReportVariable("refType", QString{ "" });
 
     report.setShowProgressDialog(true);
-    QApplication::restoreOverrideCursor();
 
-  //  report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
-  //  report.setPreviewPageBackgroundColor(QColor(Qt::white));
-  //  report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+    std::string dentureStr =
+    "<b>Декларирам, че</b> ми е поставена горна и/или долна ";
+    "цяла плакова зъбна протеза на дата ....................... (подчертава се вярното)";
+
+    report.dataManager()->setReportVariable("denture", dentureStr.c_str());
+
+    QApplication::restoreOverrideCursor();
 
     report.printReport();
 
 }
 
-void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type, const std::string& pdfFilename)
+void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type, const AmbList* amblist, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -523,6 +546,20 @@ void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type,
 
     if (type != DeclaratorType::Empty) {
         fillCommonData(report, patient, User::doctor(), User::practice());
+    }
+    report.dataManager()->setReportVariable("denture", "горна и/или долна");
+    report.dataManager()->setReportVariable("includeManifacture", "включва/не включва");
+
+    if (amblist) {
+        bool includeManifacture = amblist->procedures.hasDentureManifactureProcedure();
+        report.dataManager()->setReportVariable("date", amblist->procedures.nhifDentureDate().c_str());
+        report.dataManager()->setReportVariable("denture", amblist->procedures.nhifDentureStr().c_str());
+        report.dataManager()->setReportVariable(
+            "includeManifacture",
+            includeManifacture ? "включва" : "не включва"
+        );
+
+        report.dataManager()->setReportVariable("city", User::practice().practice_address.getString().c_str());
     }
 
     QApplication::restoreOverrideCursor();
@@ -707,7 +744,7 @@ void Print::saveNhifSpecReport(const NhifSpecReport& spec_report)
     report.printReport();
 }
 
-void Print::prescription(const Prescription& prescr, const Patient& patient)
+void Print::prescription(const Prescription& prescr, const Patient& patient, const std::string& filename)
 {
     auto report = LimeReport::ReportEngine();
 
@@ -779,6 +816,13 @@ void Print::prescription(const Prescription& prescr, const Patient& patient)
     }
 
     QApplication::restoreOverrideCursor();
+
+    if (filename.size()) {
+
+        report.printToPDF(filename.c_str());
+        return;
+    }
+
     report.printReport();
 
 }

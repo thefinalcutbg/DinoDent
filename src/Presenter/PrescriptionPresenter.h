@@ -34,6 +34,7 @@ public:
 	void deletePressed(int idx);
 	void eRxPressed();
 	void addTemplate();
+	
 
 	void setFemaleProperties(bool pregnancy, bool breastfeeding);
 
@@ -46,12 +47,9 @@ public:
 	virtual long long rowID() const override;
 
 	bool save() override;
-
 	void print() override;
-
 	bool isNew() override;
-
 	TabName getTabName() override;
-
+	void pdfPrint() override final;
 };
 

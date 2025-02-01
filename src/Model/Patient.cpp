@@ -1,4 +1,5 @@
 ﻿#include "Patient.h"
+#include "FreeFunctions.h"
 
 Patient::Sex Patient::getSexFromEgn(const std::string& egn)
 {
@@ -126,6 +127,22 @@ std::string Patient::getMedStatusStr() const
 		result.pop_back();
 		result.pop_back();
 	}
+
+	return result;
+}
+
+std::string Patient::getDirName() const
+{
+	std::string result;
+
+	result += FreeFn::toUpper(LastName) + " " + FirstName + " ";
+
+	if (MiddleName.size()) {
+		result += MiddleName;
+		result += " ";
+	}
+
+	result += id.substr(0, 6);
 
 	return result;
 }

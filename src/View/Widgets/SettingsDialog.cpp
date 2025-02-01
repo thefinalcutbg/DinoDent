@@ -8,7 +8,8 @@
 #include <QtGlobal>
 #include <QInputDialog>
 #include "Model/User.h"
-#include <QDebug>
+#include "Model/SignatureTablet.h"
+
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
 {
@@ -27,6 +28,9 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	setWindowTitle("Настройки");
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
+
+	ui.addSubdir->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.removeSubdir->setIcon(QIcon(":/icons/icon_remove.png"));
 
 	ui.sqlTable->setModel(&sql_table_model);
 	ui.sqlTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -49,6 +53,65 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	{
 		ui.specialtyCombo->addItem(specialty);
 	}
+
+	ui.tabletCombo->addItem("Изберете");
+
+	for (int i = 1; i < SignatureTablet::s_models.size(); i++)
+	{
+		ui.tabletCombo->addItem(SignatureTablet::s_models[i].c_str());
+	}
+
+	connect(ui.tabletCombo, &QComboBox::currentIndexChanged, this, [&](int idx) {
+
+		ui.signSoftEdit->setText(SignatureTablet(idx).defaultPDFSignerLocation().c_str());
+		ui.signSoftEdit->setDisabled(!idx);
+		ui.signSoftButton->setDisabled(!idx);
+	});
+
+	connect(ui.signSoftButton, &QPushButton::clicked, this, [&] {
+			
+		QString fileName = QFileDialog::getOpenFileName(this, "Изберете програма за подписване на PDF",
+			ui.signSoftEdit->text(), //default path here
+			"Application (*.exe)"
+		);
+
+		if (fileName.isEmpty()) return;
+
+		ui.signSoftEdit->setText(fileName);
+
+	});
+
+	connect(ui.dirButton, &QPushButton::clicked, this, [&] {
+
+		QString path = QFileDialog::getExistingDirectory(this, "Изберете директория за PDF документите",
+			ui.dirEdit->text()
+		);
+
+		if (path.isEmpty()) return;
+
+		ui.dirEdit->setText(path);
+
+	});
+
+	connect(ui.addSubdir, &QPushButton::clicked, this, [&] {
+
+		int result = ModalDialogBuilder::openButtonDialog(s_dirStr, "Добавяне на поддиректория", "Избере поддиректория:");
+		if (result < 0) return;
+
+		dir_structure.push_back(static_cast<TabletSettings::DirType>(result));
+
+		refreshDirStructureUI();
+	});
+
+	connect(ui.removeSubdir, &QPushButton::clicked, this, [&] {
+
+		if (dir_structure.empty()) return;
+
+		dir_structure.pop_back();
+
+		refreshDirStructureUI();
+	});
+
 
 	//practice validators
 	ui.practiceNameEdit->setInputValidator(&not_empty_validator);
@@ -309,7 +372,7 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 {
 	ui.pkcs11list->clear();
 
-	for (auto& path : data.list) {
+	for (auto& path : data.pkcs11_list) {
 		ui.pkcs11list->addItem(path.c_str());
 	}
 
@@ -320,19 +383,38 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 	ui.requestsCheck->setChecked(data.show_requests);
 	ui.repliesCheck->setChecked(data.show_replies);
 	ui.devBranch->setChecked(data.dev_branch);
+	ui.tabletCombo->setCurrentIndex(data.tablet_settings.model);
+
+	if (data.tablet_settings.model) {
+		ui.signSoftEdit->setText(data.tablet_settings.signer_filepath.c_str());
+	}
+
+	ui.dirEdit->setText(data.tablet_settings.pdfDir.c_str());
+
+	dir_structure = data.tablet_settings.subdirStructure;
+
+	refreshDirStructureUI();
 }
 
 ISettingsDialog::GlobalSettingsData SettingsDialog::getGlobalSettings() {
 
 	GlobalSettingsData data{
-		.list = {},
+		.pkcs11_list = {},
 		.dev_branch = ui.devBranch->isChecked(),
 		.show_requests = ui.requestsCheck->isChecked(),
-		.show_replies = ui.repliesCheck->isChecked()
+		.show_replies = ui.repliesCheck->isChecked(),
+		.tablet_settings = TabletSettings{
+			.model = ui.tabletCombo->currentIndex(),
+			.signer_filepath = ui.signSoftEdit->text().toStdString(),
+			.pdfDir = ui.dirEdit->text().toStdString(),
+			.subdirStructure = dir_structure
+		}
 	};
 
 	for (int i = 0; i < ui.pkcs11list->count(); i++)
-		data.list.push_back(ui.pkcs11list->item(i)->text().toUtf8().toStdString());
+		data.pkcs11_list.push_back(ui.pkcs11list->item(i)->text().toUtf8().toStdString());
+
+
 
 	return data;
 }
@@ -375,6 +457,23 @@ void SettingsDialog::setSqlTable(const PlainTable& table)
 	sql_table_model.setTableData(table);
 	ui.sqlEdit->clear();
 	ui.sqlEdit->setFocus();
+}
+
+void SettingsDialog::refreshDirStructureUI()
+{
+	QString text;
+
+	for (auto value : dir_structure) {
+		text += s_dirStr[value];
+		text += "->";
+	}
+
+	if (text.size()) {
+		text.removeLast();
+		text.removeLast();
+	}
+
+	ui.subDirEdit->setText(text);
 }
 
 void SettingsDialog::setPractice(const Practice& practice)

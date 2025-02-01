@@ -38,9 +38,21 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	SpecialtyTableModel his_specialtyModel;
 	PlainTableModel sql_table_model;
 
+	std::vector<TabletSettings::DirType> dir_structure;
+
+	static inline const std::vector<std::string> s_dirStr = {
+		"Практика",
+		"Лекар",
+		"Пациент (ФАМИЛИЯ, Име)",
+		"Пациент (Име, Фамилия)",
+		"Година-Месец",
+		"Вид на документа"
+	};
+
 	void disableNhifValidators(bool disabled);
 	void legalEntityChanged(bool selfInsured);
     QString getDoctorName(const PracticeDoctor& entity);
+	void refreshDirStructureUI();
 //	void paintEvent(QPaintEvent* event) override;
 
 public:
@@ -59,6 +71,8 @@ public:
 
 	ProcedureListView* getPriceListView();
 	void setSqlTable(const PlainTable& table) final;
+
+
 
 	~SettingsDialog();
 

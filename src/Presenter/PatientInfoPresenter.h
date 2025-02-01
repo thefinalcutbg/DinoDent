@@ -34,7 +34,6 @@ public:
 	void allergiesClicked();
 	void patientTileClicked();
 	void medStatTileClicked();
-	void printDeclarations();
 	void appointmentClicked();
 	void notesRequested();
 	void checkHospitalization();

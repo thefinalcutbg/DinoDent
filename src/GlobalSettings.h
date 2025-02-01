@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Model/TabletSettings.h"
+
 
 namespace GlobalSettings
 {
@@ -22,8 +24,7 @@ namespace GlobalSettings
 	void setDebug(bool showRequests, bool showReplies);
 	bool showRequestsEnabled();
 	bool showRepliesEnabled();
-
-	enum DocDir { Root, AmbSheet, Consent, Denture, Hirbno, Invoice };
-
-	std::string getDocDir(const std::string& ISO8601, const std::string& filename, DocDir dir);
+	
+	TabletSettings getTabletSettings();
+	void setTabletSettings(const TabletSettings& tabletSettings);
 }

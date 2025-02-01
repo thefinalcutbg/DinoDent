@@ -112,8 +112,13 @@ bool AmbListValidator::ambListIsValid()
         auto [date, minutes] = *result;
 
         _error = "За дата " + date.toBgStandard()
-         + " дневният лимит по НЗОК е надвишен с "
-         + std::to_string(minutes) + " минути. ";
+            + " дневният лимит по НЗОК е надвишен с "
+            + std::to_string(minutes);
+
+        _error += minutes == 1 ? 
+            " минута" 
+            : 
+            " минути";
 
         return false;
     }
@@ -359,7 +364,7 @@ std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
 
     //adding the additional duration from other nhif procedures in the dadabase
 
-    for (auto [date, minutesSum] : dates_minutes)
+    for (auto &[date, minutesSum] : dates_minutes)
     {
         auto codes = DbProcedure::getDailyNhifProcedures(date, ambList.rowid);
 

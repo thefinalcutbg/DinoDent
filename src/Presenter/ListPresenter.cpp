@@ -15,6 +15,7 @@
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Presenter/FiscalReceiptPresenter.h"
 #include "Model/FreeFunctions.h"
+#include "Model/DirTree.h"
 
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
@@ -293,17 +294,13 @@ void ListPresenter::print()
 void ListPresenter::pdfPrint()
 {
     if (m_ambList.nrn.empty()) {
-        ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
+        ModalDialogBuilder::showMessage("Първо изпратете амбулаторният лист към НЗИС");
         return;
     }
-
-    auto filename = m_ambList.nrn + " - " + patient->firstLastName() + ".pdf";
-
-    auto filepath = GlobalSettings::getDocDir(
-        m_ambList.date,
-        filename,
-        GlobalSettings::DocDir::AmbSheet
-    );
+    
+    auto filepath = DirTree::get(m_ambList, *patient);
+    
+    if (filepath.empty()) return;
 
     Print::ambList(m_ambList, *patient, filepath);
 }
@@ -923,6 +920,7 @@ void ListPresenter::addReferral(ReferralType type)
             }
         }
     }
+    /*
     else if(type == ReferralType::MDD4)
     {
         int mddCounter = 0;
@@ -939,6 +937,7 @@ void ListPresenter::addReferral(ReferralType type)
             return;
         }
     }
+    */
     else
     {
         for (auto& r : m_ambList.referrals)
@@ -1148,13 +1147,43 @@ void ListPresenter::printDeclarations()
         "Декларация за GDPR"
     };
 
-    static std::vector<std::string> declaratorType{
+    
+
+    std::vector<std::string> declaratorType{
         "За осигурено лице",
-        "За родител/настойник",
-        "Празна бланка"
+        "За родител/настойник"
     };
 
     int result = ModalDialogBuilder::openButtonDialog(printOptions, "Изберете декларация");
+
+    bool sign = false;
+
+    if(true) //insert pen tablet check here
+    {
+        std::vector<std::string> printOrSign{
+            "Принтиране",
+            "Подписване с пен таблет"
+        };
+
+        sign = ModalDialogBuilder::openButtonDialog(printOrSign, "Изберете формат");
+
+    }
+    std::string filepath;
+
+
+    if (sign) {
+        /*
+        filepath = GlobalSettings::getDocDir(
+        {
+            "Пациенти",
+            patient->getDirName()
+        },
+        Date::currentDate().to8601() + "-DENTURE-" + User::doctor().LPK + ".pdf"
+        );
+
+        if (filepath.empty()) return;
+        */
+    }
 
     switch (result)
     {
@@ -1171,7 +1200,7 @@ void ListPresenter::printDeclarations()
 
         Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
 
-        Print::printDentureDeclaration(*patient, type);
+        Print::printDentureDeclaration(*patient, type, &m_ambList, filepath);
 
         return;
     }

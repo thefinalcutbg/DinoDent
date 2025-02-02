@@ -21,16 +21,16 @@ bool TabInstance::premissionToClose()
 {
 	if (!isNew() && !edited) return true;
 
-	DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName().toString());
+	std::string question = "Желаете ли да запазите промените по ";
+	question += getTabName().toString();
+	question += "?";
+
+	DialogAnswer answer = ModalDialogBuilder::YesNoCancelDailog(question);
 
 	switch (answer)
 	{
-		case DialogAnswer::Yes:
-			//is save interrupted?
-			return save() ? true : false;
-
+		case DialogAnswer::Yes: return save(); //is save interrupted?
 		case DialogAnswer::No: return true;
-
 		case DialogAnswer::Cancel: return false;
 	}
 

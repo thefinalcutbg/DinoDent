@@ -50,7 +50,7 @@ namespace ModalDialogBuilder
 
 	void openBrowserDialog();
 
-	DialogAnswer openSaveDialog(const std::string& text);
+	DialogAnswer YesNoCancelDailog(const std::string& text);
 	std::string inputDialog(const std::string& text, const std::string& title, const std::string& input = {}, bool asPassword = false, bool emptyNotAllowed = true);
 	void saveFile(const std::string& data, const std::string& filename);
 	bool askDialog(const std::string& questionText);

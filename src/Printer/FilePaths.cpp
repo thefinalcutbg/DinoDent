@@ -25,21 +25,39 @@ std::string getPath(const std::string& subdir, const std::string& filename)
 
     result.cd(subdir.c_str());
 
-    auto filepath = result.absoluteFilePath(filename.c_str());
+    const auto filepath = result.absoluteFilePath(filename.c_str());
 
     QFileInfo check_file(filepath);
 
-    if (check_file.exists() &&
-        !ModalDialogBuilder::askDialog(
-            "Този файл вече съществува. Сигурни ли"
-            " сте че ""искате да го презапишете?"
-        )
-        )
-    {
-        return std::string();
-    }
+    if (!check_file.exists()) return filepath.toStdString();
 
-    return filepath.toStdString();
+    auto answer = ModalDialogBuilder::YesNoCancelDailog(
+        "Този документ вече съществува. Искате ли  да го презапишете? "
+        "Ако изберете 'Не', документът ще бъде записан в нов файл."
+    );
+
+    if (answer == DialogAnswer::Cancel) return std::string();
+
+    if (answer == DialogAnswer::Yes) return filepath.toStdString();
+
+    //creating new name with (num) suffix
+
+    int counter = 0;
+
+    auto newFilepath = filepath;
+
+   qsizetype insertPosition = filepath.lastIndexOf(".");
+
+    while (QFileInfo().exists(newFilepath)) {
+
+        counter++;
+
+        newFilepath = filepath;
+
+        newFilepath.insert(insertPosition, "_"+QString::number(counter));
+    }
+        
+    return newFilepath.toStdString();
 
 }   
 
@@ -49,7 +67,7 @@ std::string getPath(const Patient& p, const Date& date, const std::string& docTy
 
 	dirStr[DirType::PRACTICE] = User::practice().rziCode + "-" + User::practice().name;
 	dirStr[DirType::DOCTOR] = User::doctor().LPK + "-" + User::doctor().getFullName(false);
-	dirStr[DirType::PATIENTLF] = FreeFn::toUpper(p.LastName) + " " + p.FirstName + "-" + p.id.substr(0,6);
+	dirStr[DirType::PATIENTLF] = FreeFn::toUpper(p.LastName) + " " + p.FirstName + "_" + p.id.substr(0,6);
 	dirStr[DirType::PATIENTFL] = p.FirstName + " " + p.LastName + " " + p.id.substr(0, 6);
 	dirStr[DirType::YEARMONTH] = date.to8601().substr(0, 7);
 	dirStr[DirType::DOCTYPE] = docTypeStr;
@@ -77,7 +95,7 @@ std::string FilePaths::get(const AmbList& amb, const Patient& patient)
 {
     if (amb.nrn.empty()) return {};
 
-    auto filename = amb.nrn + "-AMB-" + patient.id.substr(0,6) + ".pdf";
+    auto filename = amb.nrn + "_AMB_" + patient.id.substr(0,6) + ".pdf";
 
     return getPath(patient, amb.date, "Амбулаторни листове", filename);
 }
@@ -86,7 +104,7 @@ std::string FilePaths::get(const Prescription& prescr, const Patient& patient)
 {
     if (prescr.NRN.empty()) return {};
 
-    auto filename = prescr.NRN + "-PRESCR-" + patient.id.substr(0, 6) + ".pdf";
+    auto filename = prescr.NRN + "_PRESCR_" + patient.id.substr(0, 6) + ".pdf";
 
     return getPath(patient, prescr.date, "Рецепти", filename);
 }
@@ -124,7 +142,7 @@ std::string FilePaths::get(DeclarationType declType, const Patient& patient)
 
     auto filename = 
         Date::currentDate().to8601() + 
-        "-" + declStrShort[declType] + 
+        "_" + declStrShort[declType] + "_" + 
         patient.id.substr(0,6) + 
         ".pdf";
 

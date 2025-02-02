@@ -121,7 +121,7 @@ void ModalDialogBuilder::openDialog(FiscalReceiptPresenter& p)
 
 #include "View/Widgets/SaveDialog.h"
 
-DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
+DialogAnswer ModalDialogBuilder::YesNoCancelDailog(const std::string& title)
 {
 	SaveDialog s(QString::fromStdString(title));
 	int answer = s.exec();

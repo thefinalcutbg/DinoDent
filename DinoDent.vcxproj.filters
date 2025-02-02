@@ -495,7 +495,7 @@
     <ClCompile Include="src\View\ModalDialogBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\Print.cpp">
+    <ClCompile Include="src\Printer\PrintOther.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Theme.cpp">
@@ -1000,6 +1000,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Printer\FilePaths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintAmb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintInvoice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintPrescription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintConsent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintHIRBNoDeclaration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintGDPR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintDentureDeclaration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\PrintReferral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1830,6 +1854,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\GlobalSettingsData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Printer\PrintPrv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #include "Model/Settings.h"
 #include "Model/DynamicNum.h"
 #include "Model/UserStructs.h"
-#include "Model/GlobalSettingsData.h";
+#include "Model/GlobalSettingsData.h"
 
 struct PlainTable;
 class ProcedureListView;

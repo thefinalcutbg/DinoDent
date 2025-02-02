@@ -5,7 +5,7 @@ SaveDialog::SaveDialog(QString title, QWidget *parent)
 {
 	setWindowTitle("DinoDent");
 
-	setText("Желаете ли да запазите промените по " + title + "?");
+	setText(title);
 	setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 	setButtonText(QMessageBox::Yes, "Да");
 	setButtonText(QMessageBox::No, "Не");

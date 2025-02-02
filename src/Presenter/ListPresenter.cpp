@@ -1145,56 +1145,54 @@ void ListPresenter::createPrescription()
 
 void ListPresenter::printDeclarations()
 {
-    static std::vector<std::string> printOptions{
+    //choose declaration
+    int declarationType = ModalDialogBuilder::openButtonDialog(
+        {
         "Декларация за тотални протези",
         "Декларация за валидна здравна книжка",
         "Информирано съгласие",
         "Декларация за GDPR"
-    };
+        }, "Изберете декларация"
+    );
 
-    
+    if (declarationType == -1) return;
 
-    std::vector<std::string> declaratorType{
-        "За осигурено лице",
-        "За родител/настойник"
-    };
-
-    int result = ModalDialogBuilder::openButtonDialog(printOptions, "Изберете декларация");
-
-    bool sign = false;
-
-    if(true) //insert pen tablet check here
-    {
-        std::vector<std::string> printOrSign{
-            "Принтиране",
-            "Подписване с пен таблет"
-        };
-
-        sign = ModalDialogBuilder::openButtonDialog(printOrSign, "Изберете формат");
-
-    }
+    //choose signing, if enabled
+    bool pdfSign = false;
     std::string filepath;
 
+    if(User::signatureTablet().isPDFconfigured())
+    {
 
-    if (sign) {
-        /*
-        filepath = GlobalSettings::getDocDir(
-        {
-            "Пациенти",
-            patient->getDirName()
-        },
-        Date::currentDate().to8601() + "-DENTURE-" + User::doctor().LPK + ".pdf"
+        int dResult = ModalDialogBuilder::openButtonDialog({
+            "Подписване с пен таблет",
+            "Принтиране"
+            } , 
+            "Изберете формат"
         );
 
-        if (filepath.empty()) return;
-        */
+        if (dResult == -1) {
+            return;
+        }
+        else if(dResult == 0) {
+
+            pdfSign = true;
+
+            filepath = FilePaths::get(static_cast<FilePaths::DeclarationType>(declarationType), *patient);
+
+            if (filepath.empty()) return;
+        }
     }
 
-    switch (result)
-    {
-    case 0:
-    {
+    //executing
 
+    bool success = false;
+
+    switch (static_cast<FilePaths::DeclarationType>(declarationType))
+    {
+    case FilePaths::DeclarationType::Denture:
+    {
+        /*
         int decl_result =
             ModalDialogBuilder::openButtonDialog(
                 declaratorType,
@@ -1208,12 +1206,13 @@ void ListPresenter::printDeclarations()
         Print::printDentureDeclaration(*patient, type, &m_ambList, filepath);
 
         return;
+        */
     }
 
     case 1:
     {
         {
-
+            /*
             int decl_result = ModalDialogBuilder::openButtonDialog(
                 declaratorType,
                 printOptions[1]
@@ -1226,20 +1225,19 @@ void ListPresenter::printDeclarations()
             Print::printHirbNoDeclaration(*patient, type);
 
             return;
+            */
         }
     }
 
-    case 2:
-    {
-        //auto filename = patient->firstLastName();
-        //filename += ".pdf";
-        Print::consent(*patient);
-        return;
-    }
+    case FilePaths::DeclarationType::Consent: success = Print::consent(*patient, filepath); break;
+    
     case 3: Print::gdpr(*patient); return;
     default: return;
     }
 
+    if (success && pdfSign) {
+        User::signatureTablet().signPdf(filepath);
+    }
 
 }
 

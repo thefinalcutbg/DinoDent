@@ -44,6 +44,8 @@ void DbUpdates::update26(UpdateDialog& d) {
 		d.increment();
 	}
 
-	GlobalSettings::setPkcs11PathList(GlobalSettings::getDefaultPkcs11Paths());
+	auto settings = GlobalSettings::getSettings();
+	settings.pkcs11_list = (GlobalSettings::getDefaultPkcs11Paths());
+	GlobalSettings::setSettings(settings);
 
 }

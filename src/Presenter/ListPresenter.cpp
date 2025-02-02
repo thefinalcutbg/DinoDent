@@ -15,11 +15,12 @@
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Presenter/FiscalReceiptPresenter.h"
 #include "Model/FreeFunctions.h"
-#include "Model/DirTree.h"
-
-#include "View/ModalDialogBuilder.h"
-#include "View/Printer.h"
 #include "View/Graphics/PaintHint.h"
+#include "View/ModalDialogBuilder.h"
+
+#include "Printer/Print.h"
+#include "Printer/FilePaths.h"
+
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -294,15 +295,19 @@ void ListPresenter::print()
 void ListPresenter::pdfPrint()
 {
     if (m_ambList.nrn.empty()) {
-        ModalDialogBuilder::showMessage("Първо изпратете амбулаторният лист към НЗИС");
+        ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
         return;
     }
     
-    auto filepath = DirTree::get(m_ambList, *patient);
+    auto filepath = FilePaths::get(m_ambList, *patient);
     
     if (filepath.empty()) return;
 
-    Print::ambList(m_ambList, *patient, filepath);
+    if(!Print::ambList(m_ambList, *patient, filepath)) return;
+
+    if (!User::signatureTablet().isPDFconfigured()) return;
+    
+    User::signatureTablet().signPdf(filepath);
 }
 
 void ListPresenter::setDataToView()

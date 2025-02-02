@@ -2,6 +2,7 @@
 
 #include <string>
 #include "UserStructs.h"
+#include "Printer/SignatureTablet.h"
 
 struct Issuer;
 
@@ -13,6 +14,7 @@ namespace User
 	const Practice& practice();
 	const Settings& settings();
 	const Doctor& doctor();
+	SignatureTablet& signatureTablet();
 	void setCurrentDoctor(const Doctor& doctor);
 	void setCurrentPractice(const Practice& practice);
 	void resetUser();

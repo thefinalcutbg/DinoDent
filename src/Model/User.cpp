@@ -36,6 +36,13 @@ const Doctor& User::doctor()
     return s_doctor;
 }
 
+SignatureTablet& User::signatureTablet()
+{
+   static SignatureTablet s_tablet;
+
+   return s_tablet;
+}
+
 
 void User::setCurrentDoctor(const Doctor& doctor)
 {

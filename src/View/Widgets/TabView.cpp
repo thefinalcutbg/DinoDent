@@ -7,6 +7,7 @@
 #include "View/CommonIcon.h"
 #include "View/Widgets/DinoDent.h"
 #include "View/Widgets/GlobalWidgets.h"
+#include "Model/User.h"
 
 TabView::TabView(QWidget *parent)
 	: QWidget(parent)
@@ -214,7 +215,7 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
-    GlobalWidgets::mainWindow->disableButtons(false, false, false);
+    GlobalWidgets::mainWindow->disableButtons(false, false, false, User::signatureTablet().isPDFconfigured());
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);

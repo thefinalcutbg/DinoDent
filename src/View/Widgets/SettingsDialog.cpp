@@ -8,7 +8,7 @@
 #include <QtGlobal>
 #include <QInputDialog>
 #include "Model/User.h"
-#include "Model/SignatureTablet.h"
+
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -63,7 +63,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	connect(ui.tabletCombo, &QComboBox::currentIndexChanged, this, [&](int idx) {
 
-		ui.signSoftEdit->setText(SignatureTablet(idx).defaultPDFSignerLocation().c_str());
+		ui.signSoftEdit->setText(SignatureTablet::defaultPDFSignerLocation(idx).c_str());
 		ui.signSoftEdit->setDisabled(!idx);
 		ui.signSoftButton->setDisabled(!idx);
 	});
@@ -98,7 +98,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		int result = ModalDialogBuilder::openButtonDialog(s_dirStr, "Добавяне на поддиректория", "Избере поддиректория:");
 		if (result < 0) return;
 
-		dir_structure.push_back(static_cast<TabletSettings::DirType>(result));
+		dir_structure.push_back(static_cast<DirType>(result));
 
 		refreshDirStructureUI();
 	});
@@ -383,32 +383,30 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 	ui.requestsCheck->setChecked(data.show_requests);
 	ui.repliesCheck->setChecked(data.show_replies);
 	ui.devBranch->setChecked(data.dev_branch);
-	ui.tabletCombo->setCurrentIndex(data.tablet_settings.model);
+	ui.tabletCombo->setCurrentIndex(data.signer_model);
 
-	if (data.tablet_settings.model) {
-		ui.signSoftEdit->setText(data.tablet_settings.signer_filepath.c_str());
+	if (data.signer_model) {
+		ui.signSoftEdit->setText(data.signer_filepath.c_str());
 	}
 
-	ui.dirEdit->setText(data.tablet_settings.pdfDir.c_str());
+	ui.dirEdit->setText(data.pdfDir.c_str());
 
-	dir_structure = data.tablet_settings.subdirStructure;
+	dir_structure = data.subdirStructure;
 
 	refreshDirStructureUI();
 }
 
-ISettingsDialog::GlobalSettingsData SettingsDialog::getGlobalSettings() {
+GlobalSettingsData SettingsDialog::getGlobalSettings() {
 
 	GlobalSettingsData data{
 		.pkcs11_list = {},
 		.dev_branch = ui.devBranch->isChecked(),
 		.show_requests = ui.requestsCheck->isChecked(),
 		.show_replies = ui.repliesCheck->isChecked(),
-		.tablet_settings = TabletSettings{
-			.model = ui.tabletCombo->currentIndex(),
-			.signer_filepath = ui.signSoftEdit->text().toStdString(),
-			.pdfDir = ui.dirEdit->text().toStdString(),
-			.subdirStructure = dir_structure
-		}
+		.signer_model = ui.tabletCombo->currentIndex(),
+		.signer_filepath = ui.signSoftEdit->text().toStdString(),
+		.pdfDir = ui.dirEdit->text().toStdString(),
+		.subdirStructure = dir_structure
 	};
 
 	for (int i = 0; i < ui.pkcs11list->count(); i++)

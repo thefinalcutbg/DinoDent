@@ -6,7 +6,7 @@
 #include "Model/FreeFunctions.h"
 
 #include "View/ModalDialogBuilder.h"
-#include "View/Printer.h"
+#include "Printer/Print.h"
 
 std::string FiscalReportPresenter::getFilename()
 {

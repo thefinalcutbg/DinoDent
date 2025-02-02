@@ -1,7 +1,7 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
-#include "View/Printer.h"
+#include "Printer/Print.h"
 #include "Model/User.h"
 
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :

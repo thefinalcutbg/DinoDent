@@ -3,10 +3,10 @@
 #include "Database/DbPrescription.h"
 #include "Model/FreeFunctions.h"
 #include "Model/User.h"
-#include "View/Printer.h"
+#include "Printer/Print.h"
 #include "View/Widgets/MedicationTemplateDialog.h"
 #include "GlobalSettings.h"
-#include "Model/DirTree.h"
+#include "Printer/FilePaths.h"
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 
@@ -299,7 +299,7 @@ void PrescriptionPresenter::pdfPrint()
 		return;
 	}
 
-	auto filepath = DirTree::get(m_prescription, *patient);
+	auto filepath = FilePaths::get(m_prescription, *patient);
 
 	if (filepath.empty()) return;
 

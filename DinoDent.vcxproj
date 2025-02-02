@@ -226,8 +226,8 @@
     <ClCompile Include="src\Database\DbNotification.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
-    <ClCompile Include="src\Model\DirTree.cpp" />
-    <ClCompile Include="src\Model\SignatureTablet.cpp" />
+    <ClCompile Include="src\Printer\FilePaths.cpp" />
+    <ClCompile Include="src\Printer\SignatureTablet.cpp" />
     <ClCompile Include="src\Network\GetHSM.cpp" />
     <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
@@ -448,7 +448,7 @@
     <ClCompile Include="src\View\TableModels\ReportFilesModel.cpp" />
     <ClCompile Include="src\View\TableModels\SpecialtyTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\StatisticTableModel.cpp" />
-    <ClCompile Include="src\View\Printer.cpp" />
+    <ClCompile Include="src\Printer\Print.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureInput.cpp" />
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp" />
     <ClCompile Include="src\View\SubWidgets\PatientTileInfo.cpp" />
@@ -558,9 +558,9 @@
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
     <ClInclude Include="src\Model\Dental\Notification.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
-    <ClInclude Include="src\Model\DirTree.h" />
-    <ClInclude Include="src\Model\TabletSettings.h" />
-    <ClInclude Include="src\Model\SignatureTablet.h" />
+    <ClInclude Include="src\Model\GlobalSettingsData.h" />
+    <ClInclude Include="src\Printer\FilePaths.h" />
+    <ClInclude Include="src\Printer\SignatureTablet.h" />
     <ClInclude Include="src\Model\TabType.h" />
     <ClInclude Include="src\Network\Calendar\CalendarJsonParser.h" />
     <QtMoc Include="src\View\uiComponents\CalendarTable.h" />
@@ -835,7 +835,7 @@
     <QtMoc Include="src\View\TableModels\ReportFilesModel.h" />
     <QtMoc Include="src\View\TableModels\StatisticTableModel.h" />
     <QtMoc Include="src\View\TableModels\SpecialtyTableModel.h" />
-    <ClInclude Include="src\View\Printer.h" />
+    <ClInclude Include="src\Printer\Print.h" />
     <QtMoc Include="src\View\SubWidgets\PatientTileInfo.h" />
     <QtMoc Include="src\View\SubWidgets\ReferralTile.h" />
     <ClInclude Include="src\View\Theme.h" />

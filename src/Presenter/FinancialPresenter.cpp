@@ -2,12 +2,13 @@
 
 #include "Model/xml.h"
 #include "Database/DbInvoice.h"
-#include "View/Printer.h"
+
 #include "Model/User.h"
 #include "Presenter/RecipientPresenter.h"
 #include <TinyXML/tinyxml.h>
 #include "GlobalSettings.h"
-#include "Model/DirTree.h"
+#include "Printer/FilePaths.h"
+#include "Printer/Print.h"
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 {
@@ -333,7 +334,7 @@ void FinancialPresenter::pdfPrint()
 {
     if (!save()) return;
 
-    auto filepath = DirTree::get(m_invoice);
+    auto filepath = FilePaths::get(m_invoice);
     
     if (filepath.empty()) return;
 

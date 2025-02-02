@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1007</width>
+    <width>1260</width>
     <height>351</height>
    </rect>
   </property>
@@ -424,7 +424,7 @@
          <string>Запази като PDF и подпиши с пен таблет</string>
         </property>
         <property name="text">
-         <string>PdfSign</string>
+         <string>PDF</string>
         </property>
        </widget>
       </item>

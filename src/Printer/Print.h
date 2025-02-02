@@ -11,9 +11,11 @@ struct Prescription;
 
 namespace Print
 {
+	//if the filepath is provided, the file is saved as PDF
+
 	enum DeclaratorType { Insured, Custody, Empty };
 
-	void ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename = {});;
+	bool ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename = {});;
 	void invoice(const Invoice& inv, const std::string& pdfFilename = {});
 	void consent(const Patient& patient, const std::string& pdfFilename = {});
 	void consent();

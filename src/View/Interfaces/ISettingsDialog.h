@@ -3,7 +3,7 @@
 #include "Model/Settings.h"
 #include "Model/DynamicNum.h"
 #include "Model/UserStructs.h"
-#include "Model/TabletSettings.h";
+#include "Model/GlobalSettingsData.h";
 
 struct PlainTable;
 class ProcedureListView;
@@ -14,13 +14,6 @@ class ISettingsDialog
 {
 public:
 
-	struct GlobalSettingsData {
-		std::vector<std::string> pkcs11_list;
-		bool dev_branch;
-		bool show_requests;
-		bool show_replies;
-		TabletSettings tablet_settings;
-	};
 
 	virtual void focusTab(SettingsTab tab) = 0;
 	virtual void disableTab(SettingsTab tab) = 0;

@@ -9,10 +9,11 @@
 #include "GlobalSettings.h"
 #include "Presenter/DoctorDialogPresenter.h"
 #include "Model/PlainTable.h"
-#include "View/Printer.h"
+#include "Printer/Print.h"
 #include "View/SubWidgets/ProcedureListView.h"
 #include "Model/Patient.h"
 #include "Network/GetHSM.h" 
+#include "Printer/FilePaths.h"
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode)),
@@ -30,15 +31,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 
 	view->setSettings(practice.settings);
 
-	ISettingsDialog::GlobalSettingsData data{
-		.pkcs11_list = GlobalSettings::pkcs11PathList(),
-		.dev_branch = GlobalSettings::getDevBranch(),
-		.show_requests = GlobalSettings::showRequestsEnabled(),
-		.show_replies = GlobalSettings::showRepliesEnabled(),
-		.tablet_settings = GlobalSettings::getTabletSettings()
-	};
-
-	view->setGlobalSettings(data);
+	view->setGlobalSettings(GlobalSettings::getSettings());
 	view->setDoctor(doctor);
 	view->setPractice(practice);
 	view->setDoctorList(m_doctorsList);
@@ -230,11 +223,11 @@ bool SettingsMainPresenter::applyChanges()
 
 	auto globalData = view->getGlobalSettings();
 
-	GlobalSettings::setPkcs11PathList(globalData.pkcs11_list);
 	PKCS11::setDriverPaths(globalData.pkcs11_list);
-	GlobalSettings::setDebug(globalData.show_requests, globalData.show_replies);
-	GlobalSettings::setDevBranch(globalData.dev_branch);
-	GlobalSettings::setTabletSettings(globalData.tablet_settings);
+	User::signatureTablet() = SignatureTablet(globalData.signer_model, globalData.signer_filepath);
+	FilePaths::setSettings(globalData.pdfDir, globalData.subdirStructure);
+
+	GlobalSettings::setSettings(globalData);
 
 	if (User::hasNhifContract() != nhif_contract_temp) {
 

@@ -9,7 +9,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
 #include "Model/User.h"
-#include "View/Printer.h"
+#include "Printer/Printer.h"
 
 void ReportPresenter::updateProgressBar()
 {

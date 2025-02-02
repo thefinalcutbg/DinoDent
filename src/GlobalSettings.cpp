@@ -64,19 +64,6 @@ std::string GlobalSettings::getDbBackupFilepath()
         ;
 }
 
-bool GlobalSettings::getDevBranch()
-{
-    return getSettingsAsJson()["dev_branch"].asBool();
-}
-
-void GlobalSettings::setDevBranch(bool dev)
-{
-    Json::Value settings = getSettingsAsJson();
-
-    settings["dev_branch"] = dev;
-
-    rewriteCfg(settings);
-}
 
 void GlobalSettings::createCfgIfNotExists()
 {
@@ -110,12 +97,12 @@ void GlobalSettings::createCfgIfNotExists()
         settings["dev_branch"] = false;
     }
 
-    if (!settings.isMember("tablet")) {
-        settings["tablet"]["model"] = 0;
-        settings["tablet"]["signer_path"] = "";
-        settings["tablet"]["pdf_dir"] = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).path().toStdString();
-        settings["tablet"]["dir_tree"].append(TabletSettings::PRACTICE);
-        settings["tablet"]["dir_tree"].append(TabletSettings::PATIENTLF);
+    if (!settings.isMember("signer_model")) {
+        settings["signer_model"] = 0;
+        settings["signer_path"] = "";
+        settings["pdf_dir"] = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).path().toStdString();
+        settings["dir_tree"].append(DirType::PRACTICE);
+        settings["dir_tree"].append(DirType::PATIENTLF);
     }
 
     rewriteCfg(settings);
@@ -201,45 +188,8 @@ std::string GlobalSettings::telemetryId()
     return getSettingsAsJson()["telemetry_id"].asString();
 }
 
-static std::vector<std::string> s_pkcs11Paths;
-
-const std::vector<std::string>& GlobalSettings::pkcs11PathList()
-{
-    if (s_pkcs11Paths.size()) return s_pkcs11Paths;
-
-    Json::Value settings = getSettingsAsJson();
-
-    for (auto& path : settings["pkcs11_path"]) {
-        s_pkcs11Paths.push_back(path.asString());
-    }
-    
-    return s_pkcs11Paths;
-
-}
-
-void GlobalSettings::setPkcs11PathList(const std::vector<std::string> list)
-{
-
-    Json::Value settings = getSettingsAsJson();
-
-    settings["pkcs11_path"].clear();
-
-    for (auto& m : list) { settings["pkcs11_path"].append(m); }
-
-    rewriteCfg(settings);
-
-    s_pkcs11Paths = list;
-}
-
-
 bool s_showRequests{ false };
 bool s_showReplies{ false };
-
-void GlobalSettings::setDebug(bool showRequests, bool showReplies)
-{
-    s_showRequests = showRequests;
-    s_showReplies = showReplies;
-}
 
 bool GlobalSettings::showRequestsEnabled()
 {
@@ -251,39 +201,55 @@ bool GlobalSettings::showRepliesEnabled()
     return s_showReplies;
 }
 
-TabletSettings GlobalSettings::getTabletSettings()
+bool GlobalSettings::devBranch()
 {
-    Json::Value tablet = getSettingsAsJson()["tablet"];
+    return getSettingsAsJson()["dev_branch"].asBool();
+}
 
-    TabletSettings result;
+void GlobalSettings::setSettings(const GlobalSettingsData& data)
+{
+    s_showRequests = data.show_requests;
+    s_showReplies = data.show_replies;
 
-    result.model = tablet["model"].asInt();
-    result.signer_filepath = tablet["signer_path"].asString();
-    result.pdfDir = tablet["pdf_dir"].asString();
+    Json::Value settings = getSettingsAsJson();
 
-    for (auto& v : tablet["dir_tree"]) {
-        result.subdirStructure.push_back(static_cast<TabletSettings::DirType>(v.asInt()));
+    settings["pkcs11_path"].clear();
+    for (auto& m : data.pkcs11_list) { settings["pkcs11_path"].append(m); }
+
+    settings["dev_branch"] = data.dev_branch;
+    settings["signer_model"] = data.signer_model;
+    settings["signer_path"] = data.signer_filepath;
+    settings["pdf_dir"] = data.pdfDir;
+
+    settings["dir_tree"].clear();
+    for (auto& v : data.subdirStructure) { settings["dir_tree"].append(v); }
+
+    rewriteCfg(settings);
+
+}
+
+GlobalSettingsData GlobalSettings::getSettings()
+{
+    Json::Value settings = getSettingsAsJson();
+
+    GlobalSettingsData result;
+
+    for (auto& v : settings["pkcs11_path"]) {
+        result.pkcs11_list.push_back(v.asString());
     }
+
+    result.dev_branch = settings["dev_branch"].asBool();
+
+    result.signer_model = settings["signer_model"].asInt();
+    result.signer_filepath = settings["signer_path"].asString();
+    result.pdfDir = settings["pdf_dir"].asString();
+
+    for (auto& v : settings["dir_tree"]) {
+        result.subdirStructure.push_back(static_cast<DirType>(v.asInt()));
+    }
+
+    result.show_replies = s_showReplies;
+    result.show_requests = s_showRequests;
 
     return result;
 }
-
-void GlobalSettings::setTabletSettings(const TabletSettings& tabletSettings)
-{
-    auto settings = getSettingsAsJson();
-
-    settings["tablet"]["model"] = tabletSettings.model;
-    settings["tablet"]["signer_path"] = tabletSettings.signer_filepath;
-    settings["tablet"]["pdf_dir"] = tabletSettings.pdfDir;
-
-    Json::Value dirTree;
-
-    for (auto& v : tabletSettings.subdirStructure) {
-        dirTree.append(v);
-    }
-
-    settings["tablet"]["dir_tree"] = dirTree;
-
-    rewriteCfg(settings);
-}
-

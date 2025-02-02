@@ -38,7 +38,7 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	SpecialtyTableModel his_specialtyModel;
 	PlainTableModel sql_table_model;
 
-	std::vector<TabletSettings::DirType> dir_structure;
+	std::vector<DirType> dir_structure;
 
 	static inline const std::vector<std::string> s_dirStr = {
 		"Практика",

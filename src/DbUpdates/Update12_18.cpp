@@ -69,7 +69,9 @@ void DbUpdates::update17()
 		db.execute(query);
 	}
 
-	GlobalSettings::setPkcs11PathList(GlobalSettings::getDefaultPkcs11Paths());
+	auto settings = GlobalSettings::getSettings();
+	settings.pkcs11_list = (GlobalSettings::getDefaultPkcs11Paths());
+	GlobalSettings::setSettings(settings);
 }
 
 void DbUpdates::update18()
@@ -77,5 +79,8 @@ void DbUpdates::update18()
 	if (Db::version() != 17) return;
 
 	Db::crudQuery("PRAGMA user_version=18");
-	GlobalSettings::setPkcs11PathList(GlobalSettings::getDefaultPkcs11Paths());
+
+	auto settings = GlobalSettings::getSettings();
+	settings.pkcs11_list = (GlobalSettings::getDefaultPkcs11Paths());
+	GlobalSettings::setSettings(settings);
 }

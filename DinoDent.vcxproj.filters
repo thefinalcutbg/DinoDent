@@ -495,7 +495,7 @@
     <ClCompile Include="src\View\ModalDialogBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Printer.cpp">
+    <ClCompile Include="src\Printer\Print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Theme.cpp">
@@ -996,10 +996,10 @@
     <ClCompile Include="src\View\Widgets\NotesTemplateDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\DirTree.cpp">
+    <ClCompile Include="src\Printer\SignatureTablet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\SignatureTablet.cpp">
+    <ClCompile Include="src\Printer\FilePaths.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1403,7 +1403,7 @@
     <ClInclude Include="src\View\ModalDialogBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Printer.h">
+    <ClInclude Include="src\Printer\Print.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Theme.h">
@@ -1823,13 +1823,13 @@
     <ClInclude Include="src\Model\Dental\Notification.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\DirTree.h">
+    <ClInclude Include="src\Printer\SignatureTablet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\TabletSettings.h">
+    <ClInclude Include="src\Printer\FilePaths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\SignatureTablet.h">
+    <ClInclude Include="src\Model\GlobalSettingsData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

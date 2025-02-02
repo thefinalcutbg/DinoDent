@@ -48,7 +48,7 @@ bool UpdateService::restartForUpdate()
     return false;
 #endif
 
-    if (GlobalSettings::getDevBranch()) {
+    if (GlobalSettings::devBranch()) {
         branch.append("_dev");
     }
 

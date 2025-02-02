@@ -1,4 +1,4 @@
-#include "DirTree.h"
+#include "FilePaths.h"
 
 #include <QDir>
 #include <QStandardPaths>
@@ -8,15 +8,14 @@
 #include "Model/Prescription/Prescription.h"
 #include "Model/Financial/Invoice.h"
 
-#include "Model/TabletSettings.h"
-#include "GlobalSettings.h"
 #include "View/ModalDialogBuilder.h"
+
+std::vector<DirType> subdir_structure;
+std::string s_dirLocation;
 
 std::string getPath(const std::string& subdir, const std::string& filename)
 {
-    auto settings = GlobalSettings::getTabletSettings();
-
-    QDir result(settings.pdfDir.c_str());
+    QDir result(s_dirLocation.c_str());
 
     bool pathExists = result.mkpath(subdir.c_str());
 
@@ -48,18 +47,17 @@ std::string getPath(const Patient& p, const Date& date, const std::string& docTy
 
 	std::array<std::string, 6> dirStr;
 
-	dirStr[TabletSettings::DirType::PRACTICE] = User::practice().rziCode + "-" + User::practice().name;
-	dirStr[TabletSettings::DirType::DOCTOR] = User::doctor().LPK + "-" + User::doctor().getFullName(false);
-	dirStr[TabletSettings::DirType::PATIENTLF] = FreeFn::toUpper(p.LastName) + " " + p.FirstName + "-" + p.id.substr(0,6);
-	dirStr[TabletSettings::DirType::PATIENTFL] = p.FirstName + " " + p.LastName + " " + p.id.substr(0, 6);
-	dirStr[TabletSettings::DirType::YEARMONTH] = date.to8601().substr(0, 7);
-	dirStr[TabletSettings::DirType::DOCTYPE] = docTypeStr;
+	dirStr[DirType::PRACTICE] = User::practice().rziCode + "-" + User::practice().name;
+	dirStr[DirType::DOCTOR] = User::doctor().LPK + "-" + User::doctor().getFullName(false);
+	dirStr[DirType::PATIENTLF] = FreeFn::toUpper(p.LastName) + " " + p.FirstName + "-" + p.id.substr(0,6);
+	dirStr[DirType::PATIENTFL] = p.FirstName + " " + p.LastName + " " + p.id.substr(0, 6);
+	dirStr[DirType::YEARMONTH] = date.to8601().substr(0, 7);
+	dirStr[DirType::DOCTYPE] = docTypeStr;
 
-    auto settings = GlobalSettings::getTabletSettings();
 
     std::string subdir;
 
-    for (auto& dir : settings.subdirStructure) {
+    for (auto& dir : subdir_structure) {
         subdir += dirStr[dir].c_str();
         subdir += "/";
     }
@@ -69,7 +67,13 @@ std::string getPath(const Patient& p, const Date& date, const std::string& docTy
   
 }
 
-std::string DirTree::get(const AmbList& amb, const Patient& patient)
+void FilePaths::setSettings(const std::string& dir, const std::vector<DirType> subdirStructure)
+{
+    s_dirLocation = dir;
+    subdir_structure = subdirStructure;
+}
+
+std::string FilePaths::get(const AmbList& amb, const Patient& patient)
 {
     if (amb.nrn.empty()) return {};
 
@@ -78,7 +82,7 @@ std::string DirTree::get(const AmbList& amb, const Patient& patient)
     return getPath(patient, amb.date, "Амбулаторни листове", filename);
 }
 
-std::string DirTree::get(const Prescription& prescr, const Patient& patient)
+std::string FilePaths::get(const Prescription& prescr, const Patient& patient)
 {
     if (prescr.NRN.empty()) return {};
 
@@ -87,10 +91,8 @@ std::string DirTree::get(const Prescription& prescr, const Patient& patient)
     return getPath(patient, prescr.date, "Рецепти", filename);
 }
 
-std::string DirTree::get(const Invoice& invoice)
+std::string FilePaths::get(const Invoice& invoice)
 {
-    auto settings = GlobalSettings::getTabletSettings();
-
     std::string subdir = "ФАКТУРИ- ";
     subdir += User::practice().bulstat.c_str();
     subdir += "/";
@@ -104,7 +106,7 @@ std::string DirTree::get(const Invoice& invoice)
 
 }
 
-std::string DirTree::get(DeclarationType declType, const Patient& patient)
+std::string FilePaths::get(DeclarationType declType, const Patient& patient)
 {
     const std::string declStr[] = {
         "Декларации за тотални протези НЗОК",

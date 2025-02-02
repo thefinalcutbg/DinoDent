@@ -181,11 +181,25 @@ bool DinoDent::initialized()
     return m_loggedIn;
 }
 
-void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled)
+void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled, bool signingAllowed)
 {
     ui.printButton->setDisabled(printDisabled);
     ui.saveButton->setDisabled(saveDisabled);
     ui.pdfButton->setDisabled(pdfDisabled);
+
+    ui.pdfButton->setIcon(signingAllowed ?
+        QIcon(":/icons/icon_sign.png")
+        :
+        QIcon(":/icons/icon_pdf.png")
+    );
+
+    ui.pdfButton->setToolTip(signingAllowed ?
+        "Подписване с пен таблет"
+        :
+        "Запази текущия документ като PDF"
+    );
+
+
 }
 
 void DinoDent::setIrcIcon(bool glow)

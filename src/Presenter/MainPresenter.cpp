@@ -18,16 +18,17 @@
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MonthNotifPresenter.h"
 #include "Presenter/ReportFilesPresenter.h"
-#include "Presenter/MonthNotifPresenter.h"
 #include "Presenter/LoginPresenter.h"
 #include "Presenter/StatisticDialogPresenter.h"
 #include "Presenter/RecipientPresenter.h"
 #include "Presenter/NewDocPresenter.h"
 #include "Presenter/CalendarPresenter.h"
 
-#include "View/Printer.h"
 #include "View/Widgets/SplashScreen.h"
 #include "View/Widgets/NotificationListDialog.h"
+
+#include "Printer/SignatureTablet.h"
+#include "Printer/FilePaths.h"
 
 MainPresenter MainPresenter::s_singleton;
 
@@ -35,7 +36,12 @@ void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
-    PKCS11::setDriverPaths(GlobalSettings::pkcs11PathList());
+    auto glob_set = GlobalSettings::getSettings();
+
+    PKCS11::setDriverPaths(glob_set.pkcs11_list);
+
+    User::signatureTablet() = SignatureTablet(glob_set.signer_model, glob_set.signer_filepath);
+    FilePaths::setSettings(glob_set.pdfDir, glob_set.subdirStructure);
 
     firstTimeLogic();
 

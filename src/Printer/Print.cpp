@@ -1,4 +1,4 @@
-#include "Printer.h"
+#include "Print.h"
 
 #include <QtGlobal>
 #include <QProcess>
@@ -31,21 +31,13 @@
 #include "Model/Prescription/Prescription.h"
 #include "GlobalSettings.h"
 
-void printLogic(LimeReport::ReportEngine& report, const std::string& filepath) 
+bool printLogic(LimeReport::ReportEngine& report, const std::string& filepath) 
 {
     if (filepath.empty()) {
-        report.printReport();
-        return;
+        return report.printReport();
     }
 
-    report.printToPDF(filepath.c_str());
-
-    QString signerPath = GlobalSettings::getTabletSettings().signer_filepath.c_str();
-
-    if (!QFileInfo::exists(signerPath)) { return; }
-
-    QProcess p;
-    p.startDetached(signerPath, QStringList{ filepath.c_str() });
+    return report.printToPDF(filepath.c_str());
 }
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
@@ -71,7 +63,7 @@ void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, co
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
 }
 
-void Print::ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename)
+bool Print::ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename)
 {
 
     //used as coordinates for the x-es in the checkboxes
@@ -93,7 +85,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
         }
 
         if (dialog.exec() == QDialog::Rejected) {
-            return;
+            return false;
         }
 
         auto selectedIndexes = dialog.selectedProcedures();
@@ -317,7 +309,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
 
     QApplication::restoreOverrideCursor();
 
-    printLogic(report, pdfFilename);
+    return printLogic(report, pdfFilename);
 }
 
 void Print::invoice(const Invoice& inv, const std::string& pdfFilename)

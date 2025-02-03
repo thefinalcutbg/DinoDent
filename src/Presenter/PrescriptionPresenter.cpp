@@ -303,6 +303,12 @@ void PrescriptionPresenter::pdfPrint()
 
 	if (filepath.empty()) return;
 
-	Print::prescription(m_prescription, *patient, filepath);
+	if(!Print::prescription(m_prescription, *patient, filepath)) return;
+
+	if (ModalDialogBuilder::askDialog(
+		"Файлът е запазен успешно. Желаете ли да отворите директорията?"
+	)) {
+		ModalDialogBuilder::openExplorer(filepath);
+	}
 	
 }

@@ -1,7 +1,7 @@
 #include "PrintPrv.h"
 
 
-void Print::prescription(const Prescription& prescr, const Patient& patient, const std::string& filename)
+bool Print::prescription(const Prescription& prescr, const Patient& patient, const std::string& filename)
 {
     auto report = LimeReport::ReportEngine();
 
@@ -76,10 +76,9 @@ void Print::prescription(const Prescription& prescr, const Patient& patient, con
 
     if (filename.size()) {
 
-        report.printToPDF(filename.c_str());
-        return;
+        return report.printToPDF(filename.c_str());
     }
 
-    report.printReport();
+    return report.printReport();
 
 }

@@ -83,9 +83,9 @@ std::string ProcedureContainer::nhifDentureStr() const
         if (p.code.nhifCode() == 833) lower = true;
     }
 
-    if (upper && lower) return "<b>горна и долна</b>";
-    if (upper) return "<b>горна</b>";
-    if (lower) return "<b>долна</b>";
+    if (upper && lower) return "горна и долна";
+    if (upper) return "горна";
+    if (lower) return "долна";
     
     return "горна и/или долна";
 }
@@ -108,7 +108,7 @@ std::string ProcedureContainer::nhifDentureDate() const
 
     if (date.isDefault()) return "";
 
-    return "<b>" + date.toBgStandard() + std::string("</b>");
+    return date.toBgStandard();
 }
 
 bool ProcedureContainer::hasDentalExam() const

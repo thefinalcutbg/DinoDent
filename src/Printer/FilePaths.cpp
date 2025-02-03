@@ -33,7 +33,7 @@ std::string getPath(const std::string& subdir, const std::string& filename)
 
     auto answer = ModalDialogBuilder::YesNoCancelDailog(
         "Този документ вече съществува. Искате ли  да го презапишете? "
-        "Ако изберете 'Не', документът ще бъде записан в нов файл."
+        "Ако изберете 'Не', документът ще бъде записан като нов файл."
     );
 
     if (answer == DialogAnswer::Cancel) return std::string();
@@ -65,9 +65,9 @@ std::string getPath(const Patient& p, const Date& date, const std::string& docTy
 
 	std::array<std::string, 6> dirStr;
 
-	dirStr[DirType::PRACTICE] = User::practice().rziCode + "-" + User::practice().name;
-	dirStr[DirType::DOCTOR] = User::doctor().LPK + "-" + User::doctor().getFullName(false);
-	dirStr[DirType::PATIENTLF] = FreeFn::toUpper(p.LastName) + " " + p.FirstName + "_" + p.id.substr(0,6);
+	dirStr[DirType::PRACTICE] = User::practice().rziCode;
+	dirStr[DirType::DOCTOR] = User::doctor().LPK;
+	dirStr[DirType::PATIENTLF] = FreeFn::toUpper(p.LastName) + " " + p.FirstName + " " + p.id.substr(0,6);
 	dirStr[DirType::PATIENTFL] = p.FirstName + " " + p.LastName + " " + p.id.substr(0, 6);
 	dirStr[DirType::YEARMONTH] = date.to8601().substr(0, 7);
 	dirStr[DirType::DOCTYPE] = docTypeStr;
@@ -98,7 +98,7 @@ std::string FilePaths::get(const AmbList& amb, const Patient& patient)
     auto filename = amb.nrn + "_AMB_" + patient.id.substr(0,6) + ".pdf";
 
     return getPath(patient, amb.date, "Амбулаторни листове", filename);
-}
+} 
 
 std::string FilePaths::get(const Prescription& prescr, const Patient& patient)
 {
@@ -111,14 +111,15 @@ std::string FilePaths::get(const Prescription& prescr, const Patient& patient)
 
 std::string FilePaths::get(const Invoice& invoice)
 {
-    std::string subdir = "ФАКТУРИ- ";
-    subdir += User::practice().bulstat.c_str();
+    std::string subdir = User::practice().bulstat.c_str();
+    subdir += "-";
+    subdir += "Фактури";
     subdir += "/";
     subdir += invoice.date.to8601().substr(0, 7);
 
     auto filename = FreeFn::leadZeroes(invoice.number, 10);
     filename += "-"; 
-    filename + invoice.recipient.name;
+    filename += invoice.recipient.name;
 
     return getPath(subdir, filename);
 

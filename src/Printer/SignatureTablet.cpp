@@ -39,7 +39,14 @@ SignatureTablet::Manufacturer SignatureTablet::getHisManifacturer() const
 
 bool SignatureTablet::signPdf(const std::string& filepath) const
 {
-	if (!QFileInfo::exists(signer_filepath.c_str())) { return false; }
+	if (!isPDFconfigured()) return false;
+
+	if (!QFileInfo::exists(signer_filepath.c_str())) {
+		ModalDialogBuilder::showError(
+			"Софтуерът за подписване на PDF файлове не бе намерен"
+		);
+		return false; 
+	}
 
 	QProcess p;
 

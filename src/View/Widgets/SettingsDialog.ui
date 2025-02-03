@@ -419,6 +419,16 @@
         </layout>
        </item>
        <item>
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Софтуер за подписване на PDF файлове с &lt;b&gt;Wacom&lt;/b&gt; - &lt;a href=&quot;https://cdn.wacom.com/signpro/sign_pro_pdf_app.zip&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Софтуер за подписване  на PDF файлове с &lt;b&gt;Evolis/Signotec&lt;/b&gt; - &lt;a href=&quot;https://en.signotec.com/download-signosign2-en&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_32">
          <property name="text">
           <string>Директория за съхранение на PDF файловете:</string>
@@ -452,7 +462,7 @@
        <item>
         <widget class="QLabel" name="label_33">
          <property name="text">
-          <string>Организация на поддиректориите за различните документи:</string>
+          <string>Организация на поддиректориите:</string>
          </property>
         </widget>
        </item>

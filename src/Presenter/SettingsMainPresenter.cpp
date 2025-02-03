@@ -286,6 +286,7 @@ void SettingsMainPresenter::printEmptyDocs()
 			"Декларация за тотални протези",
 			"Декларация за валидна здравна книжка",
 			"Информирано съгласие",
+			"Декларация GDPR"
 	};
 
 	int result = ModalDialogBuilder::openButtonDialog(printOptions, "Печат на празни бланки");
@@ -293,9 +294,10 @@ void SettingsMainPresenter::printEmptyDocs()
 	switch (result)
 	{
 		case 0: Print::ambList(); break;
-		case 1: Print::printDentureDeclaration(Patient(), Print::DeclaratorType::Empty); break;
-		case 2: Print::printHirbNoDeclaration(Patient(), Print::DeclaratorType::Empty); break;
+		case 1: Print::printDentureDeclaration(nullptr); break;
+		case 2: Print::printHirbNoDeclaration(nullptr); break;
 		case 3: Print::consent(); break;
+		case 4: Print::gdpr(); break;
 	}
 
 }

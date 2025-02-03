@@ -1,7 +1,7 @@
 #include "PrintPrv.h"
 
 
-void Print::gdpr(const Patient& patient, const std::string& pdfFilename)
+bool Print::gdpr(const Patient& patient, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -23,5 +23,32 @@ void Print::gdpr(const Patient& patient, const std::string& pdfFilename)
 
     QApplication::restoreOverrideCursor();
 
-    printLogic(report, pdfFilename);
+    return printLogic(report, pdfFilename);
+}
+
+void Print::gdpr()
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    auto& practice = User::practice();
+
+    report.loadFromFile(":/reports/report_gdpr.lrxml");
+
+    QString dots = "........................................";
+
+    report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address.getString()));
+    report.dataManager()->setReportVariable("declarator", "Долуподписаният/та");
+    report.dataManager()->setReportVariable("type", "ЕГН/ЛНЧ:");
+    report.dataManager()->setReportVariable("name", dots);
+    report.dataManager()->setReportVariable("id", dots);
+    report.dataManager()->setReportVariable("address", dots);
+    report.dataManager()->setReportVariable("acquainted", "Запознат/та");
+    report.dataManager()->setReportVariable("date", ".................");
+
+    QApplication::restoreOverrideCursor();
+
+    report.printReport();
 }

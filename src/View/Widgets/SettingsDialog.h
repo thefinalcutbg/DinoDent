@@ -41,8 +41,8 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	std::vector<DirType> dir_structure;
 
 	static inline const std::vector<std::string> s_dirStr = {
-		"Практика",
-		"Лекар",
+		"Номер на практика",
+		"УИН на лекар",
 		"Пациент (ФАМИЛИЯ, Име)",
 		"Пациент (Име, Фамилия)",
 		"Година-Месец",

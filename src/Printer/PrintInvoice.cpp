@@ -1,14 +1,14 @@
 #include "PrintPrv.h"
 
 
-void Print::invoice(const Invoice& inv, const std::string& pdfFilename)
+bool Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 {
     InvoicePrintDialog d;
     d.exec();
 
     auto result = d.result();
 
-    if (result == InvoicePrintDialog::Canceled) return;
+    if (result == InvoicePrintDialog::Canceled) return false;
 
     bool original = result == InvoicePrintDialog::Original ? true : false;
 
@@ -94,5 +94,5 @@ void Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 
     QApplication::restoreOverrideCursor();
 
-    report.printToPDF(pdfFilename.c_str());
+    return report.printToPDF(pdfFilename.c_str());
 }

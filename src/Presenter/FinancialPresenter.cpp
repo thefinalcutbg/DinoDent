@@ -338,7 +338,13 @@ void FinancialPresenter::pdfPrint()
     
     if (filepath.empty()) return;
 
-    Print::invoice(m_invoice, filepath);
+    if(!Print::invoice(m_invoice, filepath)) return;
+
+    if (ModalDialogBuilder::askDialog(
+        "Файлът е запазен успешно. Желаете ли да отворите директорията?"
+    )) {
+        ModalDialogBuilder::openExplorer(filepath);
+    }
 
 }
 

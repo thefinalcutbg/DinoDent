@@ -23,7 +23,7 @@ bool Print::consent(const Patient& patient, const std::string& pdfFilename)
 
     if (declaratorType > 0) {
 
-        PatientDialogPresenter p("Данни за декларатор");
+        PatientDialogPresenter p("Въведете декларатор");
         auto declaratorResult = p.open();
 
         if (!declaratorResult) return false;

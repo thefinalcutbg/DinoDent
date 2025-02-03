@@ -17,17 +17,23 @@ namespace Print
 	enum DeclaratorType { Insured, Custody, Empty };
 
 	bool ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename = {});;
-	void invoice(const Invoice& inv, const std::string& pdfFilename = {});
-	void prescription(const Prescription& prescr, const Patient& patient, const std::string& filename = {});
-
 	bool consent(const Patient& p, const std::string& pdfFilename = {});
-	void consent();
+	bool invoice(const Invoice& inv, const std::string& pdfFilename = {});
+	bool prescription(const Prescription& prescr, const Patient& patient, const std::string& filename = {});
+	
+	//declarations:
+	bool printDentureDeclaration(const Patient* patient, const AmbList* amblist = nullptr, const std::string& pdfFilename = {});
+	bool printHirbNoDeclaration(const Patient* patient, const std::string& pdfFilename = {});
+	bool gdpr(const Patient& patient, const std::string& pdfFilename = {});
 
-	void gdpr(const Patient& patient, const std::string& pdfFilename = {});
-	void ambList();
-	void printDentureDeclaration(const Patient& patient, DeclaratorType type, const AmbList* amblist = nullptr, const std::string& pdfFilename = {});
-	void printHirbNoDeclaration(const Patient& patient, DeclaratorType type, const std::string& pdfFilename = {});
 	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
+
+	//empty stuff
+	void consent();
+	void gdpr();
+	void ambList();
+
+
 	void saveFsicalReportToPDF(const FiscalReport& report);
 	void saveNhifSpecReport(const NhifSpecReport& report);
 		

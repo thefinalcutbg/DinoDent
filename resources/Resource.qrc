@@ -84,14 +84,12 @@
         <file>report_consent.lrxml</file>
         <file>report_gdpr.lrxml</file>
         <file>report_mdd4.lrxml</file>
-        <file>report_dentureCustody.lrxml</file>
-        <file>report_dentureInsured.lrxml</file>
         <file>report_mh119.lrxml</file>
-        <file>report_nhifCustody.lrxml</file>
-        <file>report_nhifInsured.lrxml</file>
         <file>report_fiscalDescr.lrxml</file>
         <file>report_nhifSpec.lrxml</file>
         <file>report_prescr.lrxml</file>
+        <file>report_hirbno.lrxml</file>
+        <file>report_denture.lrxml</file>
     </qresource>
     <qresource prefix="/fonts"/>
     <qresource prefix="/json">

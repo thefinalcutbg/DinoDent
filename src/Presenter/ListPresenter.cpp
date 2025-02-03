@@ -305,9 +305,14 @@ void ListPresenter::pdfPrint()
 
     if(!Print::ambList(m_ambList, *patient, filepath)) return;
 
-    if (!User::signatureTablet().isPDFconfigured()) return;
+    if (User::signatureTablet().signPdf(filepath)) return;
+
+    if (ModalDialogBuilder::askDialog(
+        "Файлът е запазен успешно. Желаете ли да отворите директорията?"
+    )) {
+        ModalDialogBuilder::openExplorer(filepath);
+    }
     
-    User::signatureTablet().signPdf(filepath);
 }
 
 void ListPresenter::setDataToView()
@@ -1190,49 +1195,15 @@ void ListPresenter::printDeclarations()
 
     switch (static_cast<FilePaths::DeclarationType>(declarationType))
     {
-    case FilePaths::DeclarationType::Denture:
-    {
-        /*
-        int decl_result =
-            ModalDialogBuilder::openButtonDialog(
-                declaratorType,
-                printOptions[0]
-                );
-
-        if(decl_result == -1) return;
-
-        Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
-
-        Print::printDentureDeclaration(*patient, type, &m_ambList, filepath);
-
-        return;
-        */
-    }
-
-    case 1:
-    {
-        {
-            /*
-            int decl_result = ModalDialogBuilder::openButtonDialog(
-                declaratorType,
-                printOptions[1]
-                );
-
-            if (decl_result == -1) return;
-
-            Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
-
-            Print::printHirbNoDeclaration(*patient, type);
-
-            return;
-            */
-        }
-    }
-
-    case FilePaths::DeclarationType::Consent: success = Print::consent(*patient, filepath); break;
-    
-    case 3: Print::gdpr(*patient); return;
-    default: return;
+        case FilePaths::DeclarationType::Denture: 
+            success = Print::printDentureDeclaration(patient.get(), &m_ambList, filepath); break;
+        case FilePaths::DeclarationType::HIRBNo: 
+            success = Print::printHirbNoDeclaration(patient.get(), filepath); break;
+        case FilePaths::DeclarationType::Consent: 
+            success = Print::consent(*patient, filepath); break;
+        case FilePaths::DeclarationType::GDPR: 
+            success = Print::gdpr(*patient); break;
+        default: return;
     }
 
     if (success && pdfSign) {

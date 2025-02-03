@@ -495,7 +495,7 @@
     <ClCompile Include="src\View\ModalDialogBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintOther.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintOther.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Theme.cpp">
@@ -1002,28 +1002,28 @@
     <ClCompile Include="src\Printer\FilePaths.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintAmb.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintInvoice.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintInvoice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintPrescription.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintPrescription.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintConsent.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintConsent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintHIRBNoDeclaration.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintHIRBNoDeclaration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintGDPR.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintGDPR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintDentureDeclaration.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintDentureDeclaration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Printer\PrintReferral.cpp">
+    <ClCompile Include="src\Printer\Implementation\PrintReferral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1856,7 +1856,7 @@
     <ClInclude Include="src\Model\GlobalSettingsData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Printer\PrintPrv.h">
+    <ClInclude Include="src\Printer\Implementation\PrintPrv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,7 +14,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-
+	
 #ifndef Q_OS_WIN
 	ui.winPkcsLabel->hide();
 #else
@@ -23,6 +23,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 #ifdef Q_OS_MACOS
 	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
+
 #endif
 
 	setWindowTitle("Настройки");
@@ -72,7 +73,11 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 			
 		QString fileName = QFileDialog::getOpenFileName(this, "Изберете програма за подписване на PDF",
 			ui.signSoftEdit->text(), //default path here
+#ifdef Q_OS_MACOS
+			"Application (*.app)"
+#else
 			"Application (*.exe)"
+#endif
 		);
 
 		if (fileName.isEmpty()) return;
@@ -251,7 +256,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	});
 
     connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx){
-        if(idx == 3) presenter.practiceTabFocused();
+        if(idx == static_cast<int>(SettingsTab::Practice)) presenter.practiceTabFocused();
     });
 
 	connect(ui.devBranch, &QCheckBox::clicked, this, [&](bool checked) {

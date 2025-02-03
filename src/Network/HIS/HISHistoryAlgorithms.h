@@ -5,6 +5,7 @@
 #include "Model/Dental/HisSnapshot.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Patient.h"
+#include "Model/Dental/HISDental.h"
 
 class TiXmlDocument;
 
@@ -15,4 +16,6 @@ namespace HISHistoryAlgorithms
 
 	//expects element with array of nhis:tooth elements:
 	ToothContainer getToothStatus(const TiXmlElement& node);
+	HISToothContainer getHisToothContainer(const TiXmlElement& node);
+	
 };

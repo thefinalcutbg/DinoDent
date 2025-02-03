@@ -139,14 +139,12 @@ void deserializeStatusCode(Tooth& tooth, Ranges&, const std::string& code);
 
 ToothContainer HISHistoryAlgorithms::getToothStatus(const TiXmlElement& node)
 {
-	ToothContainer teeth;
+	return getHisToothContainer(node).getToothContainer();
+}
 
-	struct ToothCondition {
-		ToothIndex idx;
-		std::vector<std::string> conditions;
-	};
-
-	std::vector<ToothCondition> conditionList;
+HISToothContainer HISHistoryAlgorithms::getHisToothContainer(const TiXmlElement& node)
+{
+	HISToothContainer result;
 
 	//iterrating teeth
 	for (
@@ -156,7 +154,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(const TiXmlElement& node)
 		)
 	{
 
-		ToothCondition tooth;
+		HISTooth tooth;
 
 		//getting tooth index
 		tooth.idx = ToothUtils::getToothFromHisNum(
@@ -175,35 +173,10 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(const TiXmlElement& node)
 
 		}
 
-		conditionList.push_back(tooth);
+		result.push_back(tooth);
 	}
 
-		
-	Ranges ranges;
-
-	for (auto& [toothIdx, conditions] : conditionList)
-	{
-		teeth[toothIdx.index].setStatus(Dental::HasSupernumeral, toothIdx.supernumeral);
-
-		auto& tooth = teeth.at(toothIdx);
-
-		tooth.setStatus(Dental::Temporary, toothIdx.temp);
-
-		for (auto& code : conditions)
-		{
-			deserializeStatusCode(tooth, ranges, code);
-		}
-	}
-
-	ranges.sortRanges();
-
-	teeth.setStatus(ranges.splints, Dental::StatusType::General, Dental::Splint, true);
-	teeth.setStatus(ranges.bridges, Dental::StatusType::General, Dental::Bridge, true);
-
-	//in case extraction is not set on pontics:
-	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, true);
-
-	return teeth;
+	return result;
 }
 
 
@@ -384,86 +357,6 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 	return result;
 }
 
-
-/*
-ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
-{
-
-	TiXmlHandle docHandle(&doc);
-
-	auto contents = docHandle.
-		FirstChild(). //message
-		Child(1);	  //contents
-
-
-	//getting most recent status
-
-	ToothContainer teeth;
-
-	Ranges ranges;
-
-	auto status = contents.Child(0);
-
-	//0-31 normal; 32-63 supernumeral
-	bool statusSet[64] = {false};
-
-	//parsing the status
-	for (int i = 0; status.Child(i).ToElement() != nullptr; i++) //tooth
-	{
-		
-		auto [index, isTemp, isDsn] = ToothUtils::getToothFromNhifNum(status.Child(i).Child(0).ToElement()->Attribute("value")); //toothIndex
-
-		if (status.Child(i).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
-		{
-			isDsn = true;
-			teeth[index].setStatus(Dental::HasSupernumeral, true);	
-		}
-
-		auto &tooth = isDsn ? teeth[index].dsn.tooth() : teeth[index];
-
-		//filtering out the temporary-permanent duplication
-		{
-			int statusSetIdx = isDsn ? index + 32 : index;
-
-			if (statusSet[statusSetIdx]) {
-				tooth.removeStatus();
-				ranges.removeIdx(index);
-			}
-			else {
-				statusSet[statusSetIdx] = true;
-			}
-		}
-
-		int conditionArrayIdx = isDsn ? 3 : 2;
-
-		tooth.temporary.set(isTemp);
-
-		while (status.Child(i).Child(conditionArrayIdx).ToElement())
-		{
-			auto code = status						//dentalStatus
-				.Child(i)							//tooth
-				.Child(conditionArrayIdx)			//condition
-				.FirstChildElement()				//code
-				.ToElement()->Attribute("value");	//value
-	
-			deserializeStatusCode(tooth, ranges, code);
-
-			conditionArrayIdx++;
-		}
-
-	}
-
-	teeth.setStatus(ranges.splints, Dental::GeneralStatus, Dental::Splint, true);
-	teeth.setStatus(ranges.bridges, Dental::GeneralStatus, Dental::Bridge, true);
-
-	//in case extraction is not set on pontics:
-	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, false);
-
-	return teeth;
-
-}
-*/
-
 using namespace Dental;
 
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
@@ -509,3 +402,83 @@ void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 
 	if(lambdaMap.count(code)) lambdaMap[code](tooth, r);
 }
+
+
+/*
+ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
+{
+
+	TiXmlHandle docHandle(&doc);
+
+	auto contents = docHandle.
+		FirstChild(). //message
+		Child(1);	  //contents
+
+
+	//getting most recent status
+
+	ToothContainer teeth;
+
+	Ranges ranges;
+
+	auto status = contents.Child(0);
+
+	//0-31 normal; 32-63 supernumeral
+	bool statusSet[64] = {false};
+
+	//parsing the status
+	for (int i = 0; status.Child(i).ToElement() != nullptr; i++) //tooth
+	{
+
+		auto [index, isTemp, isDsn] = ToothUtils::getToothFromNhifNum(status.Child(i).Child(0).ToElement()->Attribute("value")); //toothIndex
+
+		if (status.Child(i).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
+		{
+			isDsn = true;
+			teeth[index].setStatus(Dental::HasSupernumeral, true);
+		}
+
+		auto &tooth = isDsn ? teeth[index].dsn.tooth() : teeth[index];
+
+		//filtering out the temporary-permanent duplication
+		{
+			int statusSetIdx = isDsn ? index + 32 : index;
+
+			if (statusSet[statusSetIdx]) {
+				tooth.removeStatus();
+				ranges.removeIdx(index);
+			}
+			else {
+				statusSet[statusSetIdx] = true;
+			}
+		}
+
+		int conditionArrayIdx = isDsn ? 3 : 2;
+
+		tooth.temporary.set(isTemp);
+
+		while (status.Child(i).Child(conditionArrayIdx).ToElement())
+		{
+			auto code = status						//dentalStatus
+				.Child(i)							//tooth
+				.Child(conditionArrayIdx)			//condition
+				.FirstChildElement()				//code
+				.ToElement()->Attribute("value");	//value
+
+			deserializeStatusCode(tooth, ranges, code);
+
+			conditionArrayIdx++;
+		}
+
+	}
+
+	teeth.setStatus(ranges.splints, Dental::GeneralStatus, Dental::Splint, true);
+	teeth.setStatus(ranges.bridges, Dental::GeneralStatus, Dental::Bridge, true);
+
+	//in case extraction is not set on pontics:
+	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, false);
+
+	return teeth;
+
+}
+*/

@@ -226,6 +226,7 @@
     <ClCompile Include="src\Database\DbNotification.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
+    <ClCompile Include="src\Model\Dental\HISDental.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintConsent.cpp" />
@@ -564,6 +565,7 @@
     <ClInclude Include="src\Database\DbNotification.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
+    <ClInclude Include="src\Model\Dental\HISDental.h" />
     <ClInclude Include="src\Model\Dental\Notification.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />

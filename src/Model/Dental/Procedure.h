@@ -2,10 +2,13 @@
 #include <string>
 #include <array>
 #include <variant>
+#include <optional>
+
 #include "Model/Date.h"
 #include "ProcedureCode.h"
 #include "Diagnosis.h"
 #include "ToothIndex.h"
+#include "HISDental.h"
 
 class ToothContainer;
 class Tooth;
@@ -52,7 +55,6 @@ typedef std::variant<
 
 enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4, None = 7, University = 9};
 
-
 struct Procedure
 {
     enum DatabaseSource { Local, PIS, HIS };
@@ -90,6 +92,7 @@ struct Procedure
     std::vector<int> getArrayIndexes() const;
     std::string getToothString() const;
 
-    void applyProcedureOLD(ToothContainer& teeth) const;
+    //for procedures fetched from his
+    std::optional<HISToothContainer> HIS_fetched_result;
 };
 

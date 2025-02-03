@@ -572,19 +572,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 		if (diagnosisXml) {
 
-			auto diagStr = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
-
-			//ICD start with letter
-			if (std::isdigit(diagStr[0])) {
-
-				p.diagnosis = Diagnosis(std::stoi(diagStr), true);
-
-			}
-			else {
-				p.diagnosis.icd = diagStr;
-			}
-
-			
+			p.diagnosis.icd = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
 
 			auto note = procXml->FirstChildElement("nhis:diagnosis")->FirstChildElement("nhis:note");
 
@@ -593,122 +581,15 @@ void EDental::Fetch::parseReply(const std::string& reply)
 			}
 		}
 
-		//SOME REALLY TEDIOUS DATA PARSING COUPLED WITH THE PROGRAM LOGIC:
+		HISToothContainer affectedTeeth = HISHistoryAlgorithms::getHisToothContainer(*procXml);
 
-		auto getToothIdx = [&](const TiXmlElement* procedure)->ToothIndex {
-
-			auto toothXml = procedure->FirstChildElement("nhis:tooth");
-
-			return ToothUtils::getToothFromHisNum(
-				toothXml->FirstChildElement()->FirstAttribute()->ValueStr(),
-				toothXml->FirstChildElement("nhis:supernumeralIndex") // the element exists only if tooth is dsn
-			);
-		};
-
-		switch (p.code.type()) {
-
-			case ProcedureType::FullExam:
-				if (p.code.type() == ProcedureType::FullExam) {
-
-					list.teeth = HISHistoryAlgorithms::getToothStatus(*procXml);
-				}
-				break;
-
-				case ProcedureType::Anesthesia:
-				{
-					auto durationXml = procXml->FirstChildElement("nhis:duration");
-
-					if (durationXml) {
-                        p.param = AnesthesiaMinutes{durationXml->FirstAttribute()->IntValue()};
-					}
-				}
-				break;
-
-			case ProcedureType::Endodontic:
-			case ProcedureType::Crown:
-			case ProcedureType::Extraction:
-			case ProcedureType::Implant:
-			case ProcedureType::RemoveCrownOrBridge:
-			case ProcedureType::RemovePost:
-				p.affectedTeeth = getToothIdx(procXml);
-				break;
-
-			case ProcedureType::Restoration:
-			{
-
-				auto toothXml = procXml->FirstChildElement("nhis:tooth");
-
-				p.affectedTeeth = getToothIdx(procXml);
-
-				RestorationData data;
-
-				//getting conditions
-				for (
-					auto conditionXml = toothXml->FirstChildElement("nhis:condition");
-					conditionXml != nullptr;
-					conditionXml = conditionXml->NextSiblingElement("nhis:condition")
-					)
-				{
-					auto status = conditionXml->FirstChildElement()->FirstAttribute()->ValueStr();
-
-					static const std::map<std::string, int> surfaceMap{
-						{ "O" , 0 },
-						{ "Oo", 0 },
-						{ "Om", 1 },
-						{ "Od", 2 },
-						{ "Ob", 3 },
-						{ "Ol", 4 },
-						{ "Oc", 5 }
-					};
-
-					if (status == "Rp") {
-						data.post = true;
-					}
-					else if (surfaceMap.count(status)) {
-						data.surfaces[surfaceMap.at(status)] = true;
-					}
-
-				}
-
-				p.param = data;
-			}
-			break;
-
-			case ProcedureType::Bridge:
-			case ProcedureType::Denture:
-			case ProcedureType::Splint:
-			{
-				int begin = 31;
-				int end = 0;
-
-
-				for (
-					auto toothXml = procXml->FirstChildElement("nhis:tooth");
-					toothXml != nullptr;
-					toothXml = toothXml->NextSiblingElement("nhis:tooth")
-					)
-				{
-
-					//getting tooth index
-					auto idx = ToothUtils::getToothFromHisNum(
-						toothXml->FirstChildElement()->FirstAttribute()->ValueStr(),
-						toothXml->FirstChildElement("nhis:supernumeralIndex") // exists only if tooth is dsn
-					);
-
-					begin = std::min(begin, idx.index);
-					end = std::max(end, idx.index);
-
-					if (begin > end) std::swap(begin, end);
-
-                    p.affectedTeeth = ConstructionRange{begin, end};
-				}
-
-				break;
-			}
-				
+		if (p.code.type() == ProcedureType::FullExam) {
+			list.teeth = affectedTeeth.getToothContainer();
+		}
+		else {
+			p.HIS_fetched_result = affectedTeeth;
 		}
 	}
-
 	//patient parsing:
 
 	auto patientXml = docHandle.

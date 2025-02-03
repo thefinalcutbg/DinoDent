@@ -77,6 +77,8 @@ struct Procedure
 
     DatabaseSource db_source{ Local };
 
+    //for procedures fetched from his
+    std::optional<HISProcedureResult> HIS_fetched_result;
 
     std::vector<const Tooth*> applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account
@@ -92,7 +94,6 @@ struct Procedure
     std::vector<int> getArrayIndexes() const;
     std::string getToothString() const;
 
-    //for procedures fetched from his
-    std::optional<HISToothContainer> HIS_fetched_result;
+
 };
 

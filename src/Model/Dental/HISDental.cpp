@@ -34,7 +34,7 @@ struct Ranges {
 
 void deserializeStatus(Tooth& tooth, Ranges& ranges, const std::string& code);
 
-ToothContainer HISToothContainer::getToothContainer() const
+ToothContainer HISProcedureResult::getToothContainer() const
 {
     ToothContainer result;
 
@@ -65,14 +65,14 @@ ToothContainer HISToothContainer::getToothContainer() const
     return result;
 }
 
-std::string HISToothContainer::getToothString() const
+std::string HISProcedureResult::getToothString() const
 {
     if (size() == 1) return this->at(0).idx.getNhifNumenclature();
 
     return "";
 }
 
-std::vector<const Tooth*> HISToothContainer::applyProcedure(ToothContainer& teeth) const
+std::vector<const Tooth*> HISProcedureResult::applyProcedure(ToothContainer& teeth) const
 {
     teeth.copyFromHis(getToothContainer());
 
@@ -85,7 +85,7 @@ std::vector<const Tooth*> HISToothContainer::applyProcedure(ToothContainer& teet
     return result;
 }
 
-std::vector<int> HISToothContainer::getArrayIndexes() const
+std::vector<int> HISProcedureResult::getArrayIndexes() const
 {
     std::vector<int> result;
 

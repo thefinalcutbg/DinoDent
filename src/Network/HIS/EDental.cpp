@@ -581,7 +581,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 			}
 		}
 
-		HISToothContainer affectedTeeth = HISHistoryAlgorithms::getHisToothContainer(*procXml);
+		HISProcedureResult affectedTeeth = HISHistoryAlgorithms::getHisToothContainer(*procXml);
 
 		if (p.code.type() == ProcedureType::FullExam) {
 			list.teeth = affectedTeeth.getToothContainer();

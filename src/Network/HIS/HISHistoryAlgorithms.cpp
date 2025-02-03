@@ -142,9 +142,9 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(const TiXmlElement& node)
 	return getHisToothContainer(node).getToothContainer();
 }
 
-HISToothContainer HISHistoryAlgorithms::getHisToothContainer(const TiXmlElement& node)
+HISProcedureResult HISHistoryAlgorithms::getHisToothContainer(const TiXmlElement& node)
 {
-	HISToothContainer result;
+	HISProcedureResult result;
 
 	//iterrating teeth
 	for (

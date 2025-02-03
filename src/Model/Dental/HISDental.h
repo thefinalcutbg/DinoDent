@@ -10,7 +10,7 @@ struct HISTooth {
 	std::vector<std::string> conditions;
 };
 
-struct HISToothContainer : public std::vector<HISTooth>{
+struct HISProcedureResult : public std::vector<HISTooth>{
 
 	ToothContainer getToothContainer() const;
 	std::string getToothString() const;

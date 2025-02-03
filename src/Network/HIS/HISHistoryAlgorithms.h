@@ -16,6 +16,6 @@ namespace HISHistoryAlgorithms
 
 	//expects element with array of nhis:tooth elements:
 	ToothContainer getToothStatus(const TiXmlElement& node);
-	HISToothContainer getHisToothContainer(const TiXmlElement& node);
+	HISProcedureResult getHisToothContainer(const TiXmlElement& node);
 	
 };

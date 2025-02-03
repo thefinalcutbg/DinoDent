@@ -159,6 +159,28 @@ std::string Parser::write(const ToothContainer& status)
 
 }
 
+std::string Parser::write(const HISProcedureResult& hisResult)
+{
+	Json::Value resultJson;
+
+	for (auto& entity : hisResult) {
+
+		Json::Value tooth;
+
+		tooth["idx"] = entity.idx.index;
+		tooth["temp"] = entity.idx.temp;
+		tooth["dsn"] = entity.idx.supernumeral;
+
+		for (auto& status : entity.conditions) {
+			tooth["status"].append(status);
+		}
+
+		resultJson.append(tooth);
+	}
+
+	return Json::FastWriter().write(resultJson);
+}
+
 
 void Parser::parse(const std::string& jsonString, ToothContainer& status)
 {
@@ -442,6 +464,30 @@ std::vector<Dosage> Parser::parseDosage(const std::string& str)
 
 	}
 
+
+	return result;
+}
+
+HISProcedureResult Parser::parseHISResult(const std::string& hisResultStr)
+{
+	Json::Value resultJson;
+	Json::Reader reader;
+
+	reader.parse(hisResultStr, resultJson);
+
+	HISProcedureResult result;
+
+	for (auto& toothJson : resultJson) {
+		result.emplace_back();
+
+		result.back().idx.index = toothJson["idx"].asInt();
+		result.back().idx.temp = toothJson["temp"].asBool();
+		result.back().idx.supernumeral= toothJson["dsn"].asBool();
+
+		for (auto& condition : toothJson["status"]) {
+			result.back().conditions.push_back(condition.asString());
+		}
+	}
 
 	return result;
 }

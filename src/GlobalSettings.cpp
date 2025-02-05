@@ -102,6 +102,7 @@ void GlobalSettings::createCfgIfNotExists()
         settings["signer_path"] = "";
         settings["pdf_dir"] = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).path().toStdString();
         settings["dir_tree"].append(DirType::PRACTICE);
+        settings["dir_tree"].append(DirType::DOCTOR);
         settings["dir_tree"].append(DirType::YEARMONTH);
         settings["dir_tree"].append(DirType::DOCTYPE);
     }

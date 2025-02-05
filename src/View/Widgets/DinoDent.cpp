@@ -9,6 +9,7 @@
 #include <QShortcut>
 #include <QStatusBar>
 #include <QTimer>
+#include <QDesktopServices>
 
 #include "Presenter/MainPresenter.h"
 
@@ -21,6 +22,7 @@
 #include "View/Widgets/SplashScreen.h"
 #include "ChatDialog.h"
 #include "View/Widgets/NotificationListDialog.h"
+
 #include "Model/User.h"
 
 #include "Database/DbNotification.h"
@@ -93,9 +95,11 @@ DinoDent::DinoDent(QWidget* parent)
     ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
     ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
     ui.pdfButton->setIcon(QIcon(":/icons/icon_pdf.png"));
+    ui.donateButton->setIcon(QIcon(":/icons/icon_donate.png"));
     ui.notifButton->setMonochrome(true);
     ui.mircButton->setMonochrome(true);
     
+    connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://dinodent.bg/donate/", QUrl::TolerantMode)); });
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
     connect(ui.browserButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });

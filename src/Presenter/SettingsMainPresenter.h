@@ -3,6 +3,7 @@
 #include "View/Interfaces/ISettingsDialog.h"
 #include "Network/HIS/UpdateMedications.h"
 #include "Presenter/ProcedureListPresenter.h"
+#include "Network/HIS/EDental.h"
 
 class SettingsMainPresenter
 {
@@ -11,6 +12,7 @@ class SettingsMainPresenter
 	int m_currentIndex{ -1 };
 
 	UpdateMedications med_update;
+	EDental::Fetch his_fetch_service;
 
 	ISettingsDialog* view{nullptr};
 
@@ -19,6 +21,7 @@ class SettingsMainPresenter
 	bool nhif_contract_temp = false;
 
 	void setUpdateLabels();
+	static void importToDb(const AmbList& amb, const Patient& p);
 
 public:
 
@@ -36,5 +39,6 @@ public:
 	void printEmptyDocs();
     void practiceTabFocused(); //need to refresh the doctor list
 	void priceUpdated(const std::string& code, double price);
+	void hisImport();
 
 };

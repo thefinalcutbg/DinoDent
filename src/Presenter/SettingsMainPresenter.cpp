@@ -14,6 +14,8 @@
 #include "Model/Patient.h"
 #include "Network/GetHSM.h" 
 #include "Printer/FilePaths.h"
+#include "Database/DbPatient.h"
+#include "Database/DbAmbList.h"
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode)),
@@ -315,4 +317,63 @@ void SettingsMainPresenter::priceUpdated(const std::string& code, double price)
 
 	view->getPriceListView()->refresh();
 
+}
+
+void SettingsMainPresenter::hisImport()
+{
+
+	auto nrn = ModalDialogBuilder::inputDialog(
+		"Въведете НРН:",
+		"Зареждане на амбулаторен лист от НЗИС"
+	);
+
+	if (!nrn.size()) return;
+
+	his_fetch_service.sendRequest(nrn, importToDb);
+}
+
+
+void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
+{
+
+	Patient patient = p;
+
+	patient.rowid = DbPatient::getPatientRowid(p.id, p.type);
+
+	if (patient.rowid
+		&& ModalDialogBuilder::askDialog(
+			"Този пациент вече съществува в локалната база данни. Желаете ли презапишете данните му?"
+		)
+	){
+		DbPatient::update(patient);
+	} 
+	else {
+		patient.rowid = DbPatient::insert(patient);
+	}
+
+	AmbList ambSheet = amb;
+
+	ambSheet.LPK = User::doctor().LPK;
+
+	ambSheet.rowid = DbAmbList::getRowidByNRN(ambSheet.nrn);
+	ambSheet.patient_rowid = patient.rowid;
+
+	bool success = false;
+
+	if (ambSheet.rowid &&
+		ModalDialogBuilder::askDialog(
+			"Този амбулаторен лист вече съществува в базата данни. Желаете ли да го презапишете?"
+		)
+	){
+		DbAmbList::update(ambSheet);
+		success = true;
+	}
+	else {
+		success = DbAmbList::insert(ambSheet, ambSheet.patient_rowid);
+	}
+
+	if (!success) return;
+
+	ModalDialogBuilder::showMessage("Импортирането на амбулаторен лист на " + patient.firstLastName() + " приключи успешно.");
+	
 }

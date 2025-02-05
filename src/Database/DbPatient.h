@@ -15,7 +15,7 @@ namespace DbPatient
 
     long long insert(const Patient& patient);
     bool update(const Patient& patient);
-    Patient get(std::string patientID, int type);
+    Patient get(const std::string& patientID, int type);
     Patient get(long long rowid);
 
     bool updateMedStatus(long long patientRowId, const MedicalStatuses& s);
@@ -32,7 +32,7 @@ namespace DbPatient
     Date getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk);
 
     long long getPatientRowid(const std::string& firstName, const std::string& birth);
-
+    long long getPatientRowid(const std::string& id, int type);
     std::vector<PatientRecord> getPatientList();
 
     TeethNotes getToothNotes(long long patientRowId);

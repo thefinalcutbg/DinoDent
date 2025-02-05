@@ -487,14 +487,6 @@ void EDental::GetDentalHistory::parseReply(const std::string& reply)
 		return;
 	}
 
-	auto errors = getErrors(reply);
-
-	if (errors.size()) {
-		ModalDialogBuilder::showError(errors);
-		m_callback = nullptr;
-		return;
-	}
-
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -518,6 +510,15 @@ bool EDental::Fetch::sendRequest(const std::string& nrn, decltype(m_callback) ca
 void EDental::Fetch::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
+
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		ModalDialogBuilder::showError(errors);
 		m_callback = nullptr;
 		return;
 	}
@@ -589,6 +590,8 @@ void EDental::Fetch::parseReply(const std::string& reply)
 		else {
 			p.HIS_fetched_result = affectedTeeth;
 		}
+
+		list.procedures.addProcedure(p);
 	}
 	//patient parsing:
 
@@ -596,7 +599,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 		FirstChild().				//message
 		Child(1).					//contents
 		Child(1).					//results
-		FirstChildElement("subject").ToElement();	//subject
+		FirstChildElement("nhis:subject").ToElement();	//subject
 
 	patient.type = static_cast<Patient::Type>(getInt(patientXml, "identifierType"));
 	patient.id = (getString(patientXml, "identifier"));

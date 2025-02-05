@@ -30,5 +30,7 @@ namespace DbAmbList
     bool hasAutoStatus(const std::string& nrn);
 
     bool setAutoStatus(const std::string& nrn, bool autoStatus);
+
+    long long getRowidByNRN(const std::string& nrn);
 };
 

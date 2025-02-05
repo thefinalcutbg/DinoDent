@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
+    <width>771</width>
     <height>514</height>
    </rect>
   </property>
@@ -156,23 +156,16 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Номенклатура НСЦРЛП:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="updateMedButton">
            <property name="text">
-            <string>Изтегли</string>
+            <string>Актуализиране на списъка с медикаменти от НСЦРЛП</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Последен ъпдейт:</string>
+            <string>Последна актуализация:</string>
            </property>
           </widget>
          </item>
@@ -212,7 +205,7 @@
         </spacer>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_37">
+        <layout class="QHBoxLayout" name="horizontalLayout_42">
          <property name="topMargin">
           <number>0</number>
          </property>
@@ -224,7 +217,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_29">
+          <spacer name="horizontalSpacer_35">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -235,6 +228,13 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="hisImport">
+           <property name="text">
+            <string>Импортиране на амбулаторен лист от НЗИС</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -361,7 +361,7 @@
          <item>
           <widget class="QLabel" name="label_30">
            <property name="text">
-            <string>Модел таблет:</string>
+            <string>Модел графичен таблет:</string>
            </property>
           </widget>
          </item>

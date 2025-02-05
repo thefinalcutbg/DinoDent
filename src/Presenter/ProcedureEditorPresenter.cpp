@@ -15,6 +15,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	m_code = p.code;
 	m_tooth_index = p.getToothIndex();
 	m_hisIndex = p.his_index;
+	his_fetch_result = p.HIS_fetched_result;
 
 	//parameters which are set to view
 	result->code = p.code;
@@ -52,6 +53,18 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
     inputView->setCommonData(data, result->financingSource == FinancingSource::NHIF);
 	
+	view->procedureInput()->dateEdit()->validateInput();
+
+	if (!m_code.isLegacy()) {
+		view->procedureInput()->disablePost();
+	}
+
+	if (his_fetch_result) {
+		inputView->setParameterData();
+		result.reset();
+		return;
+	}
+
 	switch (result->getScope()) {
 
 		case ProcedureScope::AllOrNone:
@@ -88,12 +101,6 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		}
 
 
-	}
-
-	view->procedureInput()->dateEdit()->validateInput();
-
-	if (!m_code.isLegacy()) {
-		view->procedureInput()->disablePost();
 	}
 
 	result.reset();
@@ -136,6 +143,12 @@ void ProcedureEditorPresenter::okPressed()
 	result->diagnosis = data.diagnosis;
 	result->financingSource = data.financingSource;
 	result->LPK = User::doctor().LPK;
+
+	if (his_fetch_result) {
+		result->HIS_fetched_result = his_fetch_result;
+		view->closeDialog();
+		return;
+	}
 
 	//range
 	if (std::holds_alternative<ConstructionRange>(data.parameters)) {

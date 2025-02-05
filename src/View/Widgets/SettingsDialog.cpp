@@ -32,7 +32,9 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	ui.addSubdir->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.removeSubdir->setIcon(QIcon(":/icons/icon_remove.png"));
-
+	ui.printEmptyDocs->setIcon(CommonIcon::getPixmap(CommonIcon::PRINT));
+	ui.hisImport->setIcon(CommonIcon::getPixmap(CommonIcon::HIS));
+	ui.updateMedButton->setIcon(CommonIcon::getPixmap(CommonIcon::PRESCR));
 	ui.sqlTable->setModel(&sql_table_model);
 	ui.sqlTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
@@ -302,6 +304,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	});
 
 	connect(ui.printEmptyDocs, &QPushButton::clicked, this, [&] { presenter.printEmptyDocs(); });
+
+	connect(ui.hisImport, &QPushButton::clicked, this, [&] { presenter.hisImport(); });
 
 	connect(ui.priceListView, &ProcedureListView::codeDoubleClicked, this, [&](const std::string& code, bool nhif, double price) {
 		/*

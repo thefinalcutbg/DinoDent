@@ -88,13 +88,16 @@ bool DbPatient::update(const Patient& patient)
 
 }
 
-Patient DbPatient::get(std::string patientID, int type)
+Patient DbPatient::get(const std::string& patientID, int type)
 {
     std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid "
-        "FROM patient WHERE id = '" + patientID + "' "
-        "AND type = " + std::to_string(type);
+        "FROM patient WHERE id = ? "
+        "AND type = ?";
 
     Db db(query);
+
+    db.bind(1, patientID);
+    db.bind(2, type);
 
     Patient patient;
 
@@ -368,6 +371,24 @@ long long DbPatient::getPatientRowid(const std::string& firstName, const std::st
     db.bind(2, birth);
 
     while(db.hasRows()){
+        return db.asRowId(0);
+    }
+
+    return 0;
+}
+
+long long DbPatient::getPatientRowid(const std::string& id, int type)
+{
+    Db db;
+
+    db.newStatement("SELECT rowid "
+        "FROM patient WHERE id = ? AND type = ?"
+    );
+
+    db.bind(1, id);
+    db.bind(2, type);
+
+    while (db.hasRows()) {
         return db.asRowId(0);
     }
 

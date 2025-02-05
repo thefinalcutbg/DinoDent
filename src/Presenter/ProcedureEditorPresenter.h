@@ -19,6 +19,7 @@ class ProcedureEditorPresenter
 	ProcedureCode m_code;
 	ToothIndex m_tooth_index;
 	int m_hisIndex;
+	std::optional<HISProcedureResult> his_fetch_result;
 
 public:
 	ProcedureEditorPresenter(const Procedure& m, const Date& patientBirth);

@@ -3,6 +3,7 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/User.h"
 #include "Database.h"
+#include "Model/Parser.h"
 
 std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& db, bool nhifOnly, bool removed)
 {
@@ -31,7 +32,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.post, "					//17
 								"procedure.from_tooth_index, "		//18
 								"procedure.to_tooth_index, "		//19
-								"procedure.minutes "				//20
+								"procedure.minutes, "				//20
+								"procedure.status "					//21
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 						"WHERE amblist.rowid=? "
 						"AND procedure.removed=? "
@@ -56,6 +58,13 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
+
+		auto his_status = db.asString(21);
+
+		if (his_status.size()) {
+			p.HIS_fetched_result = Parser::parseHISResult(his_status);
+			continue;
+		}
 
 		auto scope = p.code.getScope();
 
@@ -152,8 +161,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.newStatement(
 			"INSERT INTO procedure "
 			"(date, code, financing_source, at_tooth_index, temporary, supernumeral, amblist_rowid, icd, diagnosis_description, notes, his_index, removed, "
-			"surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes) "
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			"surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes, status) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date.to8601());
 		db.bind(2, p.code.code());
@@ -166,46 +175,6 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(5, tooth.temp);
 		db.bind(6, tooth.supernumeral);
 
-		switch (p.getScope())
-		{
-			case ProcedureScope::SingleTooth:
-			{
-				if (std::holds_alternative<RestorationData>(p.param)) {
-
-					auto& [surfaces, post] = std::get<RestorationData>(p.param);
-
-					for (int i = 0; i < 6; i++) {
-						db.bind(13 + i, surfaces[i]);
-					}
-
-					db.bind(19, post);
-				}
-
-			}
-				break;
-
-			case ProcedureScope::Range:
-			{
-				auto& [from, to] = std::get<ConstructionRange>(p.affectedTeeth);
-
-				db.bind(4, -1);
-				db.bind(20, from);
-				db.bind(21, to);
-
-				break;
-			}
-			case ProcedureScope::AllOrNone:
-
-				db.bind(4, -1);
-
-				if (p.code.type() == ProcedureType::Anesthesia) {
-					db.bind(22, std::get<AnesthesiaMinutes>(p.param).minutes);
-				}
-
-				break;
-
-		}
-
 
 		db.bind(7, amblist_rowid);
 		db.bind(8, p.diagnosis.icd.code());
@@ -214,8 +183,53 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(11, p.his_index);
 		db.bind(12, toInsert[i].removed);
 
+		if (p.HIS_fetched_result) {
+			db.bind(23, Parser::write(*p.HIS_fetched_result));
+			db.execute();
+			continue;
+		}
+
+		switch (p.getScope())
+		{
+		case ProcedureScope::SingleTooth:
+		{
+			if (std::holds_alternative<RestorationData>(p.param)) {
+
+				auto& [surfaces, post] = std::get<RestorationData>(p.param);
+
+				for (int i = 0; i < 6; i++) {
+					db.bind(13 + i, surfaces[i]);
+				}
+
+				db.bind(19, post);
+			}
+
+		}
+		break;
+
+		case ProcedureScope::Range:
+		{
+			auto& [from, to] = std::get<ConstructionRange>(p.affectedTeeth);
+
+			db.bind(4, -1);
+			db.bind(20, from);
+			db.bind(21, to);
+
+			break;
+		}
+		case ProcedureScope::AllOrNone:
+
+			db.bind(4, -1);
+
+			if (p.code.type() == ProcedureType::Anesthesia) {
+				db.bind(22, std::get<AnesthesiaMinutes>(p.param).minutes);
+			}
+
+			break;
+
+		}
+
 		db.execute();
-		
 	}
 
 }
@@ -328,7 +342,8 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		"procedure.post, "					//17
 		"procedure.from_tooth_index, "		//18
 		"procedure.to_tooth_index, "		//19
-		"procedure.minutes "				//20
+		"procedure.minutes, "				//20
+		"procedure.status "					//21
 		"FROM procedure "				
 		"LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
@@ -361,6 +376,13 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
+
+		auto his_fetched_status = db.asString(21);
+		if (his_fetched_status.size()) {
+			p.HIS_fetched_result = Parser::parseHISResult(his_fetched_status);
+			continue;
+		}
+
 		auto scope = p.code.getScope();
 
 		if (scope == ProcedureScope::SingleTooth || scope == ProcedureScope::Ambi) {

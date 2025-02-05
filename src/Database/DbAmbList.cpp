@@ -9,7 +9,7 @@
 #include "Model/FreeFunctions.h"
 #include "Database/DbReferral.h"
 #include "Database/DbMedicalNotice.h"
-
+#include <qdebug.h>
 
 long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
@@ -17,7 +17,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     Db db("INSERT INTO amblist "
         "(date, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-
+   
     bool sheetIsNhif = sheet.isNhifSheet();
 
     db.bind(1, sheet.date);
@@ -44,7 +44,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     DbReferral::saveReferrals(sheet.referrals, rowID, db);
 
     DbMedicalNotice::save(sheet.medical_notices, rowID, db);
-
+    qDebug() << 47;
     return rowID;
 
 }
@@ -456,4 +456,21 @@ bool DbAmbList::setAutoStatus(const std::string& nrn, bool autoStatus)
     db.bind(2, nrn);
 
     return db.execute();
+}
+
+long long DbAmbList::getRowidByNRN(const std::string& nrn)
+{
+    Db db;
+
+    db.newStatement(
+        "SELECT rowid FROM amblist WHERE nrn=?"
+    );
+
+    db.bind(1, nrn);
+
+    while (db.hasRows()) {
+        return db.asRowId(0);
+    }
+
+    return 0;
 }

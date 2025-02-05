@@ -94,5 +94,5 @@ bool Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 
     QApplication::restoreOverrideCursor();
 
-    return printLogic(report, pdfFilename.c_str());
+    return PrintPrv::printLogic(report, pdfFilename.c_str());
 }

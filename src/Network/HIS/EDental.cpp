@@ -130,7 +130,6 @@ void EDental::Open::parseReply(const std::string& reply)
 
 }
 
-
 bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patient, bool removeAutoStatus, decltype(m_callback) callback)
 {
 	m_callback = callback;
@@ -546,7 +545,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 	//basic properties
 	list.nrn = getString(ambXml, "nrnDental");
 	list.lrn = getString(ambXml, "lrn");
-	list.date = getString(ambXml, "treatmentStart");
+	list.date = FreeFn::UTCToLocal(getString(ambXml, "treatmentStart"));
 	list.nhifData.isUnfavourable = getBool(ambXml, "adverseConditions");
 	list.his_updated = true;
 
@@ -593,6 +592,11 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 		list.procedures.addProcedure(p);
 	}
+
+	//if (list.date.at(list.date.size() - 1) == 'Z') {
+	//	list.date.pop_back();
+	//}
+
 	//patient parsing:
 
 	auto patientXml = docHandle.

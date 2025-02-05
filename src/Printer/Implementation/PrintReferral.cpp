@@ -26,7 +26,7 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
 
         report.loadFromFile(":/reports/report_mdd4.lrxml");
 
-        fillCommonData(report, patient, doctor, practice);
+        PrintPrv::fillCommonData(report, patient, doctor, practice);
 
         if (patient.type == Patient::LNCH) {
             report.dataManager()->setReportVariable("type", "X");
@@ -57,7 +57,7 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
 
         refCommonFill();
 
-        fillCommonData(report, patient, User::doctor(), User::practice());
+        PrintPrv::fillCommonData(report, patient, User::doctor(), User::practice());
 
         auto data = std::get<MH119Data>(ref.data);
 

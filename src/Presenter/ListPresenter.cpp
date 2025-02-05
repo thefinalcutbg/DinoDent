@@ -40,7 +40,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
         m_ambList.nhifData.isUnfavourable = true;
     }
     m_ambList.lrn = FreeFn::getUuid();
-
+    
 }
 
 void ListPresenter::statusChanged()

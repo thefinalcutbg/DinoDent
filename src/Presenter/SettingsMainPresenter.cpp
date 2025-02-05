@@ -340,13 +340,14 @@ void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
 
 	patient.rowid = DbPatient::getPatientRowid(p.id, p.type);
 
-	if (patient.rowid
-		&& ModalDialogBuilder::askDialog(
+	if (patient.rowid) {
+
+		if (ModalDialogBuilder::askDialog(
 			"Този пациент вече съществува в локалната база данни. Желаете ли презапишете данните му?"
-		)
-	){
-		DbPatient::update(patient);
-	} 
+		)) {
+			DbPatient::update(patient);
+		}
+	}
 	else {
 		patient.rowid = DbPatient::insert(patient);
 	}

@@ -12,6 +12,7 @@ namespace FreeFn {
     std::string getUuid();
     std::string getTimeStampLocal();
     std::string getTimeStampUTC();
+    std::string UTCToLocal(const std::string& timeStamp);
     std::string LocalToUTC(const std::string& timeStamp);
     std::string escapeXml(const std::string& data);
     std::string toUpper(const std::string& src);

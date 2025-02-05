@@ -86,6 +86,6 @@ bool Print::printDentureDeclaration(const Patient* patient, const AmbList* ambli
 
     QApplication::restoreOverrideCursor();
 
-    return printLogic(report, pdfFilename);
+    return PrintPrv::printLogic(report, pdfFilename);
 
 }

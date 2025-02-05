@@ -235,6 +235,7 @@
     <ClCompile Include="src\Printer\Implementation\PrintInvoice.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintHIRBNoDeclaration.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPrescription.cpp" />
+    <ClCompile Include="src\Printer\Implementation\PrintPrv.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintReferral.cpp" />
     <ClCompile Include="src\Printer\SignatureTablet.cpp" />
     <ClCompile Include="src\Network\GetHSM.cpp" />

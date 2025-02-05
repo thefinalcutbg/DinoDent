@@ -1026,6 +1026,12 @@
     <ClCompile Include="src\Printer\Implementation\PrintReferral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Dental\HISDental.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\Implementation\PrintPrv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1857,6 +1863,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Printer\Implementation\PrintPrv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Dental\HISDental.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

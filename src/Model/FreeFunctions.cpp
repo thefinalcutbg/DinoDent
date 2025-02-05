@@ -82,11 +82,17 @@ std::string FreeFn::getTimeStampUTC()
     return QDateTime::currentDateTimeUtc().toString(Qt::ISODate).toStdString();
 }
 
+std::string FreeFn::UTCToLocal(const std::string& timeStamp)
+{
+    QDateTime datetime = QDateTime::fromString(timeStamp.c_str(), "yyyy-MM-ddTHH:mm:ssZ");
+    datetime.setTimeSpec(Qt::TimeSpec::UTC);
+    return datetime.toLocalTime().toString(Qt::ISODate).toStdString();
+}
+
 std::string FreeFn::LocalToUTC(const std::string& timeStamp)
 {
     QDateTime datetime = QDateTime::fromString(timeStamp.c_str(), "yyyy-MM-ddTHH:mm:ss");
     datetime.setTimeSpec(Qt::TimeSpec::LocalTime);
-
     return datetime.toUTC().toString(Qt::ISODate).toStdString();
 }
 

@@ -91,6 +91,7 @@
         <file>report_prescr.lrxml</file>
         <file>report_hirbno.lrxml</file>
         <file>report_denture.lrxml</file>
+        <file>report_ambnhif.lrxml</file>
     </qresource>
     <qresource prefix="/fonts"/>
     <qresource prefix="/json">

@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -232,7 +232,7 @@
          <item>
           <widget class="QPushButton" name="hisImport">
            <property name="text">
-            <string>Импортиране на амбулаторен лист от НЗИС</string>
+            <string>Зареждане на амбулаторен лист от НЗИС</string>
            </property>
           </widget>
          </item>

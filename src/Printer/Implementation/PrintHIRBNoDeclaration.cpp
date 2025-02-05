@@ -17,7 +17,7 @@ bool Print::printHirbNoDeclaration(const Patient* patient, const std::string& pd
             "<br>(подчертава се съответното качество)"
         );
 
-        return printLogic(report, "");
+        return PrintPrv::printLogic(report, "");
     }
 
     //chose declarator type:
@@ -68,6 +68,6 @@ bool Print::printHirbNoDeclaration(const Patient* patient, const std::string& pd
 
     QApplication::restoreOverrideCursor();
 
-    return printLogic(report, pdfFilename);
+    return PrintPrv::printLogic(report, pdfFilename);
 
 }

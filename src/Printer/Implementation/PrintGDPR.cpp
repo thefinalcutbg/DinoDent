@@ -23,7 +23,7 @@ bool Print::gdpr(const Patient& patient, const std::string& pdfFilename)
 
     QApplication::restoreOverrideCursor();
 
-    return printLogic(report, pdfFilename);
+    return PrintPrv::printLogic(report, pdfFilename);
 }
 
 void Print::gdpr()

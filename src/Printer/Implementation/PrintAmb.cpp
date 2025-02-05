@@ -1,5 +1,7 @@
 #include "PrintPrv.h"
 
+#include "View/TableModels/ProcedureTableModel.h"
+
 bool Print::ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename)
 {
 
@@ -9,12 +11,14 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
     constexpr QChar tempSymbol{ 0x25EF };
 
     std::vector<Procedure> selectedProcedures;
+    bool printReferrals = false;
 
     if (amb.procedures.size() || amb.referrals.size())
     {
         ProcedurePrintSelectDialog dialog(amb.procedures.list(), amb.referrals);
 
         for (auto& p : amb.procedures) {
+
             if (p.isNhif()) {
                 dialog.selectFinancingSource(FinancingSource::NHIF);
                 break;
@@ -31,12 +35,28 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
             selectedProcedures.push_back(amb.procedures.at(idx));
         }
 
+        printReferrals = dialog.printReferrals();
+
     }
+
+    bool hasNhifProcedures =
+        std::find_if(selectedProcedures.begin(), selectedProcedures.end(),
+            [&](const Procedure& p) { return p.financingSource == FinancingSource::NHIF; }
+        ) != selectedProcedures.end();
+
+    bool printNhif = printReferrals || selectedProcedures.empty() || hasNhifProcedures;
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
-    report.loadFromFile(":/reports/report_amb.lrxml");
+
+    report.loadFromFile(
+        printNhif ?
+        ":/reports/report_ambnhif.lrxml"
+        :
+        ":/reports/report_amb.lrxml"
+    
+    );
 
     auto& practice = User::practice();
     auto& doctor = User::doctor();
@@ -58,10 +78,9 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
         report.dataManager()->setReportVariable("unfav", "x");
     }
 
-    fillCommonData(report, patient, doctor, practice);
+    PrintPrv::fillCommonData(report, patient, doctor, practice);
 
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(amb.nrn));
-
 
     report.dataManager()->setReportVariable("allergies", patient.getAllergiesStr().c_str());
 
@@ -105,6 +124,21 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
         report.dataManager()->setReportVariable("dsnS" + idx, dsn.printStatus.c_str());
     }
 
+    //this is where NHIF and NON-NHIF sheets diverge
+
+    if (!printNhif) {
+
+        ProcedureTableModel pModel;
+
+        pModel.setProcedures(selectedProcedures);
+
+        report.dataManager()->addModel("procedures", &pModel, false);
+
+        QApplication::restoreOverrideCursor();
+        
+        return PrintPrv::printLogic(report, pdfFilename);
+    }
+
     //procedures
     for (size_t i = 0; i < 6 && i < selectedProcedures.size(); i++)
     {
@@ -126,9 +160,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
         {
             report.dataManager()->setReportVariable("pMin" + idx, std::get<AnesthesiaMinutes>(p.param).minutes);
         }
-
     }
-
 
     //dental technician code
 
@@ -141,94 +173,10 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
 
     //referrals
 
-    const Referral* form3{ nullptr },
-        * form3a{ nullptr },
-        * mdd4_1{ nullptr },
-        * mdd4_2{ nullptr },
-        * mh119{ nullptr };
-
-    for (auto& ref : amb.referrals)
-    {
-        switch (ref.type)
-        {
-        case ReferralType::Form3: form3 = &ref; break;
-        case ReferralType::Form3A: form3a = &ref; break;
-        case ReferralType::MH119: mh119 = &ref; break;
-        case ReferralType::MDD4: mdd4_1 ? mdd4_2 = &ref : mdd4_1 = &ref; break;
-        }
+    if (printReferrals) {
+        PrintPrv::fillOutReferrals(amb, report);
     }
 
-    if (mdd4_1)
-    {
-        auto& ref = *mdd4_1;
-        auto& mddData = std::get<MDD4Data>(ref.data);
-
-        report.dataManager()->setReportVariable("mdd4Num1", ref.nrn.c_str());
-        report.dataManager()->setReportVariable("mdd4Date1", ref.date.toBgStandard().c_str());
-        report.dataManager()->setReportVariable("mdd4Ksmp1", mddData.getKSMP().c_str());
-        report.dataManager()->setReportVariable("mdd4Nhif1", mddData.getCode().c_str());
-    }
-
-    if (mdd4_2)
-    {
-        auto& ref = *mdd4_2;
-        auto& mddData = std::get<MDD4Data>(ref.data);
-
-        report.dataManager()->setReportVariable("mdd4Num2", ref.nrn.c_str());
-        report.dataManager()->setReportVariable("mdd4Date2", ref.date.toBgStandard().c_str());
-        report.dataManager()->setReportVariable("mdd4Ksmp2", mddData.getKSMP().c_str());
-        report.dataManager()->setReportVariable("mdd4Nhif2", mddData.getCode().c_str());
-    }
-
-
-    if (mh119)
-    {
-        auto& ref = *mh119;
-
-        switch (std::get<MH119Data>(ref.data).specCode)
-        {
-        case MH119Data::Pediatric:
-            report.dataManager()->setReportVariable("mh119SpecCode1", 61);
-            report.dataManager()->setReportVariable("mh119Date1", ref.date.toBgStandard().c_str());
-            break;
-        case MH119Data::Surgery:
-            report.dataManager()->setReportVariable("mh119SpecCode2", 62);
-            report.dataManager()->setReportVariable("mh119SpecCode3", 68);
-            report.dataManager()->setReportVariable("mh119Date2", ref.date.toBgStandard().c_str());
-            break;
-        }
-    }
-
-    if (form3)
-    {
-
-        report.dataManager()->setReportVariable("ref3x", "X");
-
-        auto& ref = *form3;
-
-        auto& refData = std::get<R3Data>(ref.data);
-
-        report.dataManager()->setReportVariable("refNum", ref.nrn.c_str());
-        report.dataManager()->setReportVariable("refDate", ref.date.toBgStandard().c_str());
-        report.dataManager()->setReportVariable("refSpecCode", refData.specialty);
-        report.dataManager()->setReportVariable("refMkb", ref.diagnosis.main.code().c_str());
-    }
-
-    if (form3a)
-    {
-        report.dataManager()->setReportVariable("ref3Ax", "X");
-
-        auto& ref = *form3a;
-
-        auto& refData = std::get<R3AData>(ref.data);
-
-        report.dataManager()->setReportVariable("refNum", ref.nrn.c_str());
-        report.dataManager()->setReportVariable("refDate", ref.date.toBgStandard().c_str());
-        report.dataManager()->setReportVariable("refSpecCode", refData.nhifSpecialty);
-        report.dataManager()->setReportVariable("refMkb", ref.diagnosis.main.code().c_str());
-        report.dataManager()->setReportVariable("refKSMP", refData.ksmp);
-        report.dataManager()->setReportVariable("refHSA", refData.highlySpecializedActivity);
-    }
 
     //setting denture declaration
 
@@ -246,7 +194,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
 
     QApplication::restoreOverrideCursor();
 
-    return printLogic(report, pdfFilename);
+    return PrintPrv::printLogic(report, pdfFilename);
 }
 
 void Print::ambList()
@@ -258,7 +206,7 @@ void Print::ambList()
     auto& doctor = User::doctor();
     auto& practice = User::practice();
 
-    report.loadFromFile(":/reports/report_amb.lrxml");
+    report.loadFromFile(":/reports/report_ambnhif.lrxml");
 
     report.dataManager()->setReportVariable("type", QString{ "" });
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));

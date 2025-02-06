@@ -183,7 +183,14 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 
 void PatientTile::setData(const Patient& patient, int age)
 {
-	name = elide(QString::fromStdString(patient.fullName()), 35);
+	name = patient.fullName().c_str();
+	if (name.size() > 32) {
+		name = patient.firstLastName().c_str();
+	}
+
+	if (name.size() > 32) {
+		name = elide(QString::fromStdString(patient.fullName()), 30);
+	}
 
 	switch (patient.type)
 	{

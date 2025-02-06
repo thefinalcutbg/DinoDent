@@ -142,7 +142,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
         report.dataManager()->addModel("procedures", &pModel, false);
 
         QApplication::restoreOverrideCursor();
-        
+
         return PrintPrv::printLogic(report, pdfFilename);
     }
 
@@ -200,7 +200,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
     report.dataManager()->setReportVariable("denture", dentureStr.c_str());
 
     QApplication::restoreOverrideCursor();
-
+    report.designReport();
     return PrintPrv::printLogic(report, pdfFilename);
 }
 
@@ -232,7 +232,7 @@ void Print::ambList()
     report.dataManager()->setReportVariable("denture", dentureStr.c_str());
 
     QApplication::restoreOverrideCursor();
-
+   
     report.printReport();
 
 }

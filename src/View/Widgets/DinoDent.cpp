@@ -79,6 +79,10 @@ DinoDent::DinoDent(QWidget* parent)
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newPrescriptionPressed(); });
 
+    QShortcut(QKeySequence(Qt::CTRL | Qt::Key_T), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().pdfPressed(); });
+
     //setting buttons
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
@@ -198,9 +202,9 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDis
     );
 
     ui.pdfButton->setToolTip(signingAllowed ?
-        "Подписване с графичен таблет"
+        "Подписване с графичен таблет (Ctrl+T)"
         :
-        "Запази текущия документ като PDF"
+        "Запази текущия документ като PDF (Ctrl+T)"
     );
 
 

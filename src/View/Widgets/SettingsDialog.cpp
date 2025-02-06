@@ -14,7 +14,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	
+
 #ifndef Q_OS_WIN
 	ui.winPkcsLabel->hide();
 #else
@@ -41,6 +41,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.sqlTable->hide();
 	ui.sqlButton->hide();
 	ui.sqlEdit->hide();
+
+	ui.tabletErrorLabel->setStyleSheet("color: red;");
 
 	constexpr int specIdxSize = 5;
 
@@ -69,6 +71,16 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.signSoftEdit->setText(SignatureTablet::defaultPDFSignerLocation(idx).c_str());
 		//ui.signSoftEdit->setDisabled(!idx);
 		//ui.signSoftButton->setDisabled(!idx);
+		});
+
+	connect(ui.signSoftEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
+		
+		if (text.isEmpty() || QFileInfo::exists(text)) {
+			ui.tabletErrorLabel->clear();
+			return;
+		}
+
+		ui.tabletErrorLabel->setText("Посоченият файл не съществува!");
 	});
 
 	connect(ui.signSoftButton, &QPushButton::clicked, this, [&] {

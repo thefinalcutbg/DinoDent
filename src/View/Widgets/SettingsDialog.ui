@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -419,19 +419,19 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="tabletErrorLabel">
+        <widget class="QLabel" name="label_34">
          <property name="text">
-          <string/>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Софтуер за подписване на PDF файлове с &lt;span style=&quot; font-weight:700;&quot;&gt;Wacom&lt;/span&gt; - &lt;a href=&quot;https://cdn.wacom.com/signpro/sign_pro_pdf_app.zip&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Софтуер за подписване на PDF файлове с &lt;span style=&quot; font-weight:700;&quot;&gt;Evolis/Signotec&lt;/span&gt; - &lt;a href=&quot;https://en.signotec.com/download-signosign2-en&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_34">
+        <widget class="QLabel" name="tabletErrorLabel">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Софтуер за подписване на PDF файлове с &lt;span style=&quot; font-weight:700;&quot;&gt;Wacom&lt;/span&gt; - &lt;a href=&quot;https://cdn.wacom.com/signpro/sign_pro_pdf_app.zip&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Софтуер за подписване на PDF файлове с &lt;span style=&quot; font-weight:700;&quot;&gt;Evolis/Signotec&lt;/span&gt; - &lt;a href=&quot;https://en.signotec.com/download-signosign2-en&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="openExternalLinks">
-          <bool>true</bool>
+          <string/>
          </property>
         </widget>
        </item>

@@ -232,7 +232,7 @@ void Print::ambList()
     report.dataManager()->setReportVariable("denture", dentureStr.c_str());
 
     QApplication::restoreOverrideCursor();
-   
+    
     report.printReport();
 
 }

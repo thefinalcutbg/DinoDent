@@ -23,11 +23,12 @@ public:
 
 
 	void selectFinancingSource(FinancingSource source);
-	
+	void selectAll();
 	ProcedureSelectModel(const std::vector<Procedure>& p, QObject* parent = nullptr);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
-	std::vector<int> selectedRows();
+	
+std::vector<int> selectedRows();
 	~ProcedureSelectModel();
 
 	//void removeSelectedRow();

@@ -299,6 +299,8 @@ void ListPresenter::pdfPrint()
         return;
     }
     
+    if (!save()) return;
+
     auto filepath = FilePaths::get(m_ambList, *patient);
     
     if (filepath.empty()) return;

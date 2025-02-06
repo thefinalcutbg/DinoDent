@@ -4,6 +4,7 @@
 #include <QStandardPaths>
 #include <QFileInfo>
 #include <QProcess>
+#include <QtVersion>
 
 #include "Model/User.h"
 #include "Model/Dental/AmbList.h"
@@ -55,6 +56,10 @@ bool SignatureTablet::signPdf(const std::string& filepath) const
 
 std::string SignatureTablet::defaultPDFSignerLocation(int modelIdx)
 {
+
+#ifndef Q_OS_WIN:
+	return std::string();
+#endif
 	//WACOM
 	if (modelIdx >  10) return "C:/Program Files/Wacom sign pro PDF/Sign Pro PDF.exe";
 

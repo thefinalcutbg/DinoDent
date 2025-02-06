@@ -198,7 +198,7 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDis
     );
 
     ui.pdfButton->setToolTip(signingAllowed ?
-        "Подписване с пен таблет"
+        "Подписване с графичен таблет"
         :
         "Запази текущия документ като PDF"
     );

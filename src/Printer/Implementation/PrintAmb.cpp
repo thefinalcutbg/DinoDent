@@ -46,6 +46,13 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
 
     bool printNhif = printReferrals || selectedProcedures.empty() || hasNhifProcedures;
 
+    if (printNhif && selectedProcedures.size() > 6) {
+        printNhif = !ModalDialogBuilder::askDialog(
+            "Избрали сте повече от 6 процедури. "
+            "Желаете ли да бъде принтиран амбулаторен лист с повече позиции за процедурите? "
+        );  
+    }
+
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
@@ -174,7 +181,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
     //referrals
 
     if (printReferrals) {
-        PrintPrv::fillOutReferrals(amb, report);
+        PrintPrv::fillOutReferrals(report, amb);
     }
 
 

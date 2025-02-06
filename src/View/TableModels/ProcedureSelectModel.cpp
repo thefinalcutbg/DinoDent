@@ -16,6 +16,21 @@ void ProcedureSelectModel::selectFinancingSource(FinancingSource source)
     emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
 }
 
+void ProcedureSelectModel::selectAll()
+{
+    beginResetModel();
+
+    for (int i = 0; i < m_selectedRows.size(); i++)
+    {
+        m_selectedRows[i] = true;
+    }
+
+    endResetModel();
+
+    emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
+
+}
+
 ProcedureSelectModel::ProcedureSelectModel(const std::vector<Procedure>& procedures, QObject* parent) : QAbstractTableModel(parent)
 {
     this->m_procedures.reserve(procedures.size());

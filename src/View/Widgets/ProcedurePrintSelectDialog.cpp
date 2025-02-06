@@ -57,7 +57,7 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
     connect(ui.patientButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::Patient); });
     connect(ui.nhifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::NHIF); });
 	connect(ui.phifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::PHIF); });
-
+	connect(ui.allButton, &QPushButton::clicked, this, [&] { model.selectAll(); });
 	if (referrals.empty()) ui.referralCheck->setHidden(true);
 
 }

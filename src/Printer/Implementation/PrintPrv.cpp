@@ -32,7 +32,7 @@ void PrintPrv::fillCommonData(LimeReport::ReportEngine& report, const Patient& p
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
 }
 
-void PrintPrv::fillOutReferrals(const AmbList& amb, LimeReport::ReportEngine& report)
+void PrintPrv::fillOutReferrals(LimeReport::ReportEngine& report, const AmbList& amb)
 {
     const Referral* form3{ nullptr },
         * form3a{ nullptr },

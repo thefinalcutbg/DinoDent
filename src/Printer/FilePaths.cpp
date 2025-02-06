@@ -33,7 +33,7 @@ std::string getPath(const std::string& subdir, const std::string& filename)
 
     auto answer = ModalDialogBuilder::YesNoCancelDailog(
         "Този документ вече съществува. Искате ли  да го презапишете? "
-        "Ако изберете 'Не', документът ще бъде записан като нов файл."
+        "Ако изберете 'Не', ще бъде генериран нов PDF файл."
     );
 
     if (answer == DialogAnswer::Cancel) return std::string();

@@ -38,5 +38,5 @@ namespace PrintPrv {
 
     bool printLogic(LimeReport::ReportEngine& report, const std::string& filepath);
     void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice);
-    void fillOutReferrals(const AmbList& amb, LimeReport::ReportEngine& report);
+    void fillOutReferrals(LimeReport::ReportEngine& report, const AmbList& amb);
 }

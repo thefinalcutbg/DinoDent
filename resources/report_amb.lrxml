@@ -521,7 +521,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp3</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="957" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="956" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -566,7 +566,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp4</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1030" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1029" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -611,7 +611,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp5</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1101" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1100" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -656,7 +656,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp6</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1172" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1171" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -701,7 +701,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp7</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1244" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1243" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -746,7 +746,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp8</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1319" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1318" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -791,7 +791,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp9</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1390" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1389" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -836,7 +836,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp10</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1462" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1461" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -881,7 +881,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp11</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1534" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1533" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -926,7 +926,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp12</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1607" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1606" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -971,7 +971,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp19</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1605" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1604" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1016,7 +1016,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp20</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1532" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1531" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1061,7 +1061,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp21</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1462" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1461" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1106,7 +1106,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp22</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1390" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1389" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1151,7 +1151,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp23</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1317" y="1306"/>
+                  <geometry Type="QRect" height="84" width="69" x="1316" y="1306"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1196,7 +1196,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp24</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1246" y="1306"/>
+                  <geometry Type="QRect" height="84" width="69" x="1245" y="1306"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1241,7 +1241,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp25</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1173" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1172" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1286,7 +1286,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp26</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1099" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1098" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1331,7 +1331,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp27</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1028" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1027" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1376,7 +1376,7 @@ THIS.geometry.y=$V{typeY};
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp28</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="957" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="956" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>

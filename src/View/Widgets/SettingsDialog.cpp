@@ -57,7 +57,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.specialtyCombo->addItem(specialty);
 	}
 
-	ui.tabletCombo->addItem("Изберете");
+	ui.tabletCombo->addItem("Не е посочен");
 
 	for (int i = 1; i < SignatureTablet::s_models.size(); i++)
 	{
@@ -67,8 +67,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	connect(ui.tabletCombo, &QComboBox::currentIndexChanged, this, [&](int idx) {
 
 		ui.signSoftEdit->setText(SignatureTablet::defaultPDFSignerLocation(idx).c_str());
-		ui.signSoftEdit->setDisabled(!idx);
-		ui.signSoftButton->setDisabled(!idx);
+		//ui.signSoftEdit->setDisabled(!idx);
+		//ui.signSoftButton->setDisabled(!idx);
 	});
 
 	connect(ui.signSoftButton, &QPushButton::clicked, this, [&] {

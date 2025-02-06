@@ -79,7 +79,7 @@ DinoDent::DinoDent(QWidget* parent)
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newPrescriptionPressed(); });
 
-    QShortcut(QKeySequence(Qt::CTRL | Qt::Key_T), this);
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_T), this);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().pdfPressed(); });
 

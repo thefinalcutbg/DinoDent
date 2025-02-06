@@ -6,9 +6,9 @@
 
 #include "ui_PatientTileInfo.h"
 
-class PatientInfoPresenter;
+struct PatientInfoPresenter;
 
-class PatientTileInfo : public QWidget, public IPatientTileInfo
+struct PatientTileInfo : public QWidget, public IPatientTileInfo
 {
 	Q_OBJECT
 

@@ -200,7 +200,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
     report.dataManager()->setReportVariable("denture", dentureStr.c_str());
 
     QApplication::restoreOverrideCursor();
-    report.designReport();
+
     return PrintPrv::printLogic(report, pdfFilename);
 }
 

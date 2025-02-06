@@ -13,7 +13,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 			
 			if (!result.isValid()) return;
 
-			m_status_list.push_back(MedicalStatus{.diagnosis = result});
+            m_status_list.push_back(MedicalStatus{result});
 
 			ui.statusList->addItem(result.name().c_str());
 		}

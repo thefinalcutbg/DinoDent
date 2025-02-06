@@ -6,7 +6,7 @@ struct AmbList;
 struct Prescription;
 struct Patient;
 struct Invoice;
-struct Date;
+class Date;
 
 class SignatureTablet
 {

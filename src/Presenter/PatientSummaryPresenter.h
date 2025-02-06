@@ -8,7 +8,7 @@
 struct Patient;
 class TabPresenter;
 
-class PatientSummaryPresenter : public TabInstance
+struct PatientSummaryPresenter : public TabInstance
 {
 
 	IPatientSummaryView* view;

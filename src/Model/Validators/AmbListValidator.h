@@ -5,7 +5,7 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/Patient.h"
 
-class AmbListValidator
+struct AmbListValidator
 {
 	std::string _error;
 	

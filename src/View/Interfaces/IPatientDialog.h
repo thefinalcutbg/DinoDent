@@ -1,6 +1,6 @@
 #pragma once
 
-class Patient;
+struct Patient;
 class Validator;
 enum class Insured;
 

@@ -82,6 +82,7 @@ HEADERS += \
     src/Model/Dental/Dental.h \
     src/Model/Dental/DentalStatistics.h \
     src/Model/Dental/Diagnosis.h \
+    src/Model/Dental/HISDental.h \
     src/Model/Dental/HisSnapshot.h \
     src/Model/Dental/MonthNotifRow.h \
     src/Model/Dental/NhifMaps.h \
@@ -116,6 +117,7 @@ HEADERS += \
     src/Model/Financial/Recipient.h \
     src/Model/Foreigner.h \
     src/Model/FreeFunctions.h \
+    src/Model/GlobalSettingsData.h \
     src/Model/Hospitalization.h \
     src/Model/ICD10.h \
     src/Model/InsuranceStatus.h \
@@ -241,6 +243,10 @@ HEADERS += \
     src/Presenter/TabInstance.h \
     src/Presenter/TabPresenter.h \
     src/Presenter/UnusedPackagePresenter.h \
+    src/Printer/FilePaths.h \
+    src/Printer/Implementation/PrintPrv.h \
+    src/Printer/Print.h \
+    src/Printer/SignatureTablet.h \
     src/Resources.h \
     src/Tests/CrudTest.h \
     src/Version.h \
@@ -306,7 +312,6 @@ HEADERS += \
     src/View/Interfaces/ISurfacePanel.h \
     src/View/Interfaces/ITabView.h \
     src/View/ModalDialogBuilder.h \
-    src/View/Printer.h \
     src/View/SubWidgets/ContextMenu.h \
     src/View/SubWidgets/ControlPanel.h \
     src/View/SubWidgets/DsnMenu.h \
@@ -367,6 +372,7 @@ HEADERS += \
     src/View/Widgets/MonthNotifView.h \
     src/View/Widgets/MultilineDialog.h \
     src/View/Widgets/NewDocDialog.h \
+    src/View/Widgets/NotesTemplateDialog.h \
     src/View/Widgets/NotificationDialog.h \
     src/View/Widgets/NotificationListDialog.h \
     src/View/Widgets/PatientFormDialog.h \
@@ -476,6 +482,7 @@ SOURCES += \
     src/Model/Country.cpp \
     src/Model/Date.cpp \
     src/Model/Dental/Diagnosis.cpp \
+    src/Model/Dental/HISDental.cpp \
     src/Model/Dental/NhifProcedures.cpp \
     src/Model/Dental/NhifSheetData.cpp \
     src/Model/Dental/NhifSpecReport.cpp \
@@ -606,6 +613,18 @@ SOURCES += \
     src/Presenter/TabInstance.cpp \
     src/Presenter/TabPresenter.cpp \
     src/Presenter/UnusedPackagePresenter.cpp \
+    src/Printer/FilePaths.cpp \
+    src/Printer/Implementation/PrintAmb.cpp \
+    src/Printer/Implementation/PrintConsent.cpp \
+    src/Printer/Implementation/PrintDentureDeclaration.cpp \
+    src/Printer/Implementation/PrintGDPR.cpp \
+    src/Printer/Implementation/PrintHIRBNoDeclaration.cpp \
+    src/Printer/Implementation/PrintInvoice.cpp \
+    src/Printer/Implementation/PrintOther.cpp \
+    src/Printer/Implementation/PrintPrescription.cpp \
+    src/Printer/Implementation/PrintPrv.cpp \
+    src/Printer/Implementation/PrintReferral.cpp \
+    src/Printer/SignatureTablet.cpp \
     src/Resources.cpp \
     src/Tests/CrudTest.cpp \
     src/View/CommonIcon.cpp \
@@ -633,7 +652,6 @@ SOURCES += \
     src/View/Interfaces/AbstractUIElement.cpp \
     src/View/Interfaces/ITabView.cpp \
     src/View/ModalDialogBuilder.cpp \
-    src/View/Printer.cpp \
     src/View/SubWidgets/ContextMenu.cpp \
     src/View/SubWidgets/ControlPanel.cpp \
     src/View/SubWidgets/DsnMenu.cpp \
@@ -693,6 +711,7 @@ SOURCES += \
     src/View/Widgets/MonthNotifView.cpp \
     src/View/Widgets/MultilineDialog.cpp \
     src/View/Widgets/NewDocDialog.cpp \
+    src/View/Widgets/NotesTemplateDialog.cpp \
     src/View/Widgets/NotificationDialog.cpp \
     src/View/Widgets/NotificationListDialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
@@ -802,6 +821,7 @@ FORMS += \
     src/View/Widgets/MonthNotifView.ui \
     src/View/Widgets/MultilineDialog.ui \
     src/View/Widgets/NewDocDialog.ui \
+    src/View/Widgets/NotesTemplateDialog.ui \
     src/View/Widgets/NotificationDialog.ui \
     src/View/Widgets/NotificationListDialog.ui \
     src/View/Widgets/PatientFormDialog.ui \

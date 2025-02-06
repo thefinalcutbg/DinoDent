@@ -4,7 +4,7 @@
 #include "View/Interfaces/IPatientDialog.h"
 #include "Network/PIS/GetHirbnoService.h"
 
-class PatientDialogPresenter
+struct PatientDialogPresenter
 {
 	std::optional<Patient> m_patient;
 

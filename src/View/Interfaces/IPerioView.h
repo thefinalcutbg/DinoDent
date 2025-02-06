@@ -5,7 +5,7 @@ class IPatientTileInfo;
 
 class PerioToothData;
 class PerioStatistic;
-class Patient;
+struct Patient;
 
 class Date;
 struct PerioStatus;

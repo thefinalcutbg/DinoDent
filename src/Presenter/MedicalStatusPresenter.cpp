@@ -77,7 +77,7 @@ void MedicalStatusPresenter::loadICDFromNHIS()
 			std::vector<MedicalStatus> toInsert;
 
 			for (auto& icd : current) {
-				toInsert.push_back(MedicalStatus{ .diagnosis = icd });
+                toInsert.push_back(MedicalStatus{ icd });
 			}
 
             MedicalStatuses::insertUnique(toInsert, list);
@@ -91,7 +91,7 @@ void MedicalStatusPresenter::loadICDFromNHIS()
 			toInsert.clear();
 
 			for (auto& icd : past) {
-				toInsert.push_back(MedicalStatus{ .diagnosis = icd });
+                toInsert.push_back(MedicalStatus{ icd });
 			}
 
             MedicalStatuses::insertUnique(toInsert, list);

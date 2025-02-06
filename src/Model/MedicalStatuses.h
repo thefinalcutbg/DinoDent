@@ -6,6 +6,10 @@ struct MedicalStatus {
 	ICD10 diagnosis;
 	std::string nrn;
 
+    MedicalStatus() {};
+
+    MedicalStatus(const ICD10& diag, const std::string& nrn = "") : diagnosis(diag), nrn(nrn) {}
+
 	bool operator ==(const MedicalStatus& other) {
 
 		return diagnosis.code() == other.diagnosis.code()

@@ -22,7 +22,7 @@ std::string Test::crudTest()
 
 	success = DbDoctor::insertDoctor(
 		Doctor{
-			.rowID{0},
+            .rowID{0},
 			.LPK{"22"},
 			.fname{"test"},
 			.mname{"test"},
@@ -140,7 +140,7 @@ std::string Test::crudTest()
 
 	if (patient.FirstName != "test1") return "Error updating patient";
 
-	patient.medStats.condition.push_back(MedicalStatus{ .diagnosis = ICD10("A00") });
+    patient.medStats.condition.push_back(ICD10("A00"));
 
 	DbPatient::updateMedStatus(patient.rowid, patient.medStats);
 

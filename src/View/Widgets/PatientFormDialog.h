@@ -16,7 +16,7 @@
 #include "Model/Patient.h"
 
 
-class PatientFormDialog : public QDialog, public IPatientDialog
+struct PatientFormDialog : public QDialog, public IPatientDialog
 {
 
     QRegularExpressionValidator* phoneValidator;

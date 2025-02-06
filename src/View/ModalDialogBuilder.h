@@ -10,7 +10,7 @@
 #include "Model/Allergy.h"
 
 class ProcedureDialogPresenter;
-class PatientDialogPresenter;
+struct PatientDialogPresenter;
 class ProcedureEditorPresenter;
 class AllergiesDialogPresenter;
 class BrowserPresenter;

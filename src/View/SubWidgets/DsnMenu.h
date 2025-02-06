@@ -3,14 +3,12 @@
 #include <QIcon>
 #include <QMenu>
 
-#include <type_traits>
-
 #include "Presenter/InputEnums.h"
 #include "Model/Dental/Dental.h"
 #include "Presenter/CheckModel.h"
 
 class ListPresenter;
-class CheckModel;
+struct CheckModel;
 
 class DsnMenu : public QMenu
 {

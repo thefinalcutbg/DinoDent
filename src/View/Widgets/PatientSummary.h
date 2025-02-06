@@ -7,7 +7,7 @@
 #include "View/Graphics/TeethBuccalScene.h"
 #include "View/Graphics/TeethLingualScene.h"
 
-class PatientSummary final : public QWidget, public IPatientSummaryView
+struct PatientSummary final : public QWidget, public IPatientSummaryView
 {
 	Q_OBJECT
 

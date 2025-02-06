@@ -34,7 +34,7 @@ public:
 
 #include "View/uiComponents/IconButton.h"
 
-class PatientTile : public TileButton
+struct PatientTile : public TileButton
 {
 
 public:

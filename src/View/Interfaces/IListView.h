@@ -5,8 +5,8 @@
 #include "View/Interfaces/IPatientTileInfo.h"
 #include "Model/Referrals/Referral.h"
 
-class CheckModel;
-class AmbList;
+struct CheckModel;
+struct AmbList;
 struct ToothPaintHint;
 class ISurfacePanel;
 class ListPresenter;

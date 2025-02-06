@@ -8,7 +8,7 @@
 #include "Network/HIS/EHospitalization.h"
 #include "View/Interfaces/IPatientTileInfo.h"
 
-class PatientInfoPresenter
+struct PatientInfoPresenter
 {
 	std::shared_ptr<Patient> patient;
 	IPatientTileInfo* view;

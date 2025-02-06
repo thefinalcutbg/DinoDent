@@ -4,7 +4,7 @@
 #include "TabInstance.h"
 #include "Model/CalendarStructs.h"
 
-class AmbList;
+struct AmbList;
 struct Patient;
 struct RowInstance;
 struct Recipient;

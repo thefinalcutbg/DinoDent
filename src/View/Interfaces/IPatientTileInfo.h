@@ -1,7 +1,7 @@
 #pragma once
 
 struct Patient;
-class PatientInfoPresenter;
+struct PatientInfoPresenter;
 class IPatientTileInfo
 {
 public:

@@ -42,7 +42,7 @@ public:
 
 	int selectedRow();
 	Q_INVOKABLE int selectedRow() const;
-	void dropEvent(QDropEvent* e);
+    void dropEvent(QDropEvent* e) override;
 
 	void setAmbListLayout();
 	void setProcedureHistoryLayout();

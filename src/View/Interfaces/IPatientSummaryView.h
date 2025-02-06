@@ -7,7 +7,7 @@
 #include "View/Graphics/PaintHint.h"
 
 
-class PatientSummaryPresenter;
+struct PatientSummaryPresenter;
 struct PerioWithDisabled;
 struct Patient;
 class PerioStatistic;

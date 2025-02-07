@@ -6,8 +6,6 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
 {
 
     //used as coordinates for the x-es in the checkboxes
-    struct coords { int x{ 0 }; int y{ 0 }; };
-    constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
     constexpr QChar tempSymbol{ 0x25EF };
 
     std::vector<Procedure> selectedProcedures;
@@ -71,9 +69,7 @@ bool Print::ambList(const AmbList& amb, const Patient& patient, const std::strin
 
     if (patient.type < 5 && patient.type > 0)
     {
-        report.dataManager()->setReportVariable("type", QString{ "x" });
-        report.dataManager()->setReportVariable("typeX", typeCoords[patient.type].x);
-        report.dataManager()->setReportVariable("typeY", typeCoords[patient.type].y);
+        report.dataManager()->setReportVariable("type" + QString::number(patient.type), "x");
     }
 
     if (
@@ -215,7 +211,6 @@ void Print::ambList()
 
     report.loadFromFile(":/reports/report_ambnhif.lrxml");
 
-    report.dataManager()->setReportVariable("type", QString{ "" });
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
     report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));

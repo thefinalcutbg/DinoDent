@@ -57,7 +57,7 @@ bool SignatureTablet::signPdf(const std::string& filepath) const
 std::string SignatureTablet::defaultPDFSignerLocation(int modelIdx)
 {
 
-#ifndef Q_OS_WIN:
+#ifndef Q_OS_WIN
 	return std::string();
 #endif
 	//WACOM

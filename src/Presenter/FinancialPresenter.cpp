@@ -263,7 +263,7 @@ void FinancialPresenter::editRecipient()
 
 void FinancialPresenter::editIssuer()
 {
-    ModalDialogBuilder::openSettingsDialog(4);
+    ModalDialogBuilder::openSettingsDialog(SettingsTab::Company);
     view->setInvoice(m_invoice);
 }
 

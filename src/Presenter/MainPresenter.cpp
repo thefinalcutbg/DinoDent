@@ -188,7 +188,7 @@ void MainPresenter::statisticPressed()
 
 void MainPresenter::settingsPressed()
 {
-    ModalDialogBuilder::openSettingsDialog();
+    ModalDialogBuilder::openSettingsDialog(SettingsTab::General);
 
     view->setUserLabel(
         User::doctor().getFullName(),
@@ -253,7 +253,7 @@ void MainPresenter::logOut()
 
 void MainPresenter::userSettingsPressed()
 {
-    ModalDialogBuilder::openSettingsDialog(2);
+    ModalDialogBuilder::openSettingsDialog(SettingsTab::Doctor);
 
     view->setUserLabel(
         User::doctor().getFullName(),

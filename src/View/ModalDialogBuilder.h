@@ -8,6 +8,7 @@
 #include "Model/Dental/HisSnapshot.h"
 #include "Model/MedicalNotice.h"
 #include "Model/Allergy.h"
+#include "View/Interfaces/ISettingsDialog.h"
 
 class ProcedureDialogPresenter;
 struct PatientDialogPresenter;
@@ -75,7 +76,7 @@ namespace ModalDialogBuilder
 	std::optional<MedicalNotice> openDialog(const MedicalNotice& notice); //use default constructed for new notice
 	void showSnapshots(const std::vector<HisSnapshot>& snapshots);
 
-	void openSettingsDialog(int tabFocus = 0);
+	void openSettingsDialog(SettingsTab setingsTab = SettingsTab::General);
 	void pisDialog(MonthNotifPresenter* presenter);
 	
 	ICD10 icdDialog(const ICD10& icd = {});

@@ -81,7 +81,17 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
 		if (result.isEmpty()) return;
 
-		ui.notesEdit->setPlainText(result);
+		auto currentText = ui.notesEdit->toPlainText();
+
+		if (currentText.isEmpty()) {
+			currentText = result;
+		}
+		else {
+			currentText.push_back("; ");
+			currentText.push_back(result);
+		}
+
+		ui.notesEdit->setPlainText(currentText);
 
 		ui.notesEdit->setFocus();
 

@@ -1227,7 +1227,7 @@ void ListPresenter::printDeclarations()
         case FilePaths::DeclarationType::Consent: 
             success = Print::consent(*patient, filepath); break;
         case FilePaths::DeclarationType::GDPR: 
-            success = Print::gdpr(*patient); break;
+            success = Print::gdpr(*patient, filepath); break;
         default: return;
     }
 

@@ -1152,17 +1152,40 @@ void ListPresenter::createPrescription()
 
 void ListPresenter::printDeclarations()
 {
-    //choose declaration
-    int declarationType = ModalDialogBuilder::openButtonDialog(
-        {
-        "Декларация за тотални протези",
-        "Декларация за валидна здравна книжка",
+
+    std::vector<std::string> optionName = {
         "Информирано съгласие",
         "Декларация за GDPR"
-        }, "Изберете декларация"
-    );
+    };
 
-    if (declarationType == -1) return;
+    std::vector<FilePaths::DeclarationType> optionValue = {
+        FilePaths::Consent,
+        FilePaths::GDPR
+    };
+
+    if (User::hasNhifContract()) {
+
+        optionName = {
+            "Информирано съгласие",
+            "Декларация за тотални протези",
+            "Декларация за валидна здравна книжка",
+            "Декларация за GDPR"
+        };
+    
+        optionValue = {
+            FilePaths::Consent,
+            FilePaths::Denture,
+            FilePaths::HIRBNo,
+            FilePaths::GDPR
+        };
+    }
+
+    //choose declaration
+    int result = ModalDialogBuilder::openButtonDialog(optionName, "Изберете декларация");
+
+    if (result == -1) return;
+
+    auto declarationType = optionValue[result];
 
     //choose signing, if enabled
     bool pdfSign = false;
@@ -1185,7 +1208,7 @@ void ListPresenter::printDeclarations()
 
             pdfSign = true;
 
-            filepath = FilePaths::get(static_cast<FilePaths::DeclarationType>(declarationType), *patient);
+            filepath = FilePaths::get(declarationType, *patient);
 
             if (filepath.empty()) return;
         }
@@ -1195,7 +1218,7 @@ void ListPresenter::printDeclarations()
 
     bool success = false;
 
-    switch (static_cast<FilePaths::DeclarationType>(declarationType))
+    switch(declarationType)
     {
         case FilePaths::DeclarationType::Denture: 
             success = Print::printDentureDeclaration(patient.get(), &m_ambList, filepath); break;

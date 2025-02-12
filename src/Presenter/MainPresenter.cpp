@@ -171,7 +171,7 @@ void MainPresenter::showBrowser()
 void MainPresenter::pisDialog()
 {
     if (!User::hasNhifContract()) {
-        ModalDialogBuilder::showMessage("Моля, попълнете данните на договора с НЗОК от настройки!");
+        ModalDialogBuilder::showMessage("За да достъпите тази функционалност, попълнете данните на договора с НЗОК от настройки!");
         return;
     }
 

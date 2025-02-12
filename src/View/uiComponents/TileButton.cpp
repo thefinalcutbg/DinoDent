@@ -4,6 +4,7 @@
 #include <QApplication>
 #include "View/Graphics/Zodiac.h"
 #include "Model/FreeFunctions.h"
+#include "Model/User.h"
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 {
@@ -158,7 +159,14 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(nraButton->x() + iconSize + 5, 27, name);
+
+	int nameXPos = 20;
+
+	if (!nraButton->isHidden()) {
+		nameXPos = nraButton->x() + iconSize + 5;
+	}
+
+	painter->drawText(nameXPos, 27, name);
 
 	painter->setRenderHint(QPainter::Antialiasing);
 
@@ -183,6 +191,9 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 
 void PatientTile::setData(const Patient& patient, int age)
 {
+
+	nraButton->setHidden(!User::hasNhifContract());
+
 	name = patient.fullName().c_str();
 	if (name.size() > 32) {
 		name = patient.firstLastName().c_str();
@@ -248,7 +259,6 @@ void PatientTile::setData(const Patient& patient, int age)
 
 	notesButton->setMonochrome(patient.patientNotes.empty());
 
-
 	birthday = patient.birth.isSameDayInTheYear();
 
 	zodiac = Zodiac::getPixmap(patient.birth.day, patient.birth.month);
@@ -308,6 +318,9 @@ void MedStatusTile::setData(const Patient& patient)
     allergies = elide(patient.getAllergiesStr().c_str(), 30);
     currentDiseases = elide(listToString(patient.medStats.condition, "Не съобщава").c_str(), 30);
     pastDiseases = elide(listToString(patient.medStats.history, "Не съобщава").c_str(), 30);
+
+	nhifButton->setHidden(!User::hasNhifContract());
+	hospitalizedButton->setHidden(!User::hasNhifContract());
 
 	update();
 }

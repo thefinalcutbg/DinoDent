@@ -1,5 +1,6 @@
 ﻿#include "PatientFormDialog.h"
 #include "Model/Country.h"
+#include "Model/User.h"
 
 PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     : QDialog(parent),
@@ -10,6 +11,8 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle("Нов документ");
+
+    ui.hirbnoButton->setHidden(!User::hasNhifContract());
 
     numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 

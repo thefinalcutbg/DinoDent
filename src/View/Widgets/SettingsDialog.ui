@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -75,6 +75,13 @@
              <widget class="QCheckBox" name="patientList">
               <property name="text">
                <string>Показвай списъка с пациенти при създаване на нов медицински документ</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="monthlySheets">
+              <property name="text">
+               <string>Генериране на амбулаторните листове на месечна основа</string>
               </property>
              </widget>
             </item>

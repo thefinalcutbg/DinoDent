@@ -18,7 +18,7 @@ class SettingsMainPresenter
 
 	ProcedureListPresenter procedure_list;
 
-	bool nhif_contract_temp = false;
+	bool monthlySheets = false;
 
 	void setUpdateLabels();
 	static void importToDb(const AmbList& amb, const Patient& p);

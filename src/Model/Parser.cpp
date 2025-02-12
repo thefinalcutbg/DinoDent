@@ -345,6 +345,7 @@ std::string Parser::write(const Settings& settings)
 	json["autoStatus"] = settings.autoStatus;
 	json["patientList"] = settings.showPatientList;
 	json["autoDiagnosis"] = settings.autoDiagnosis;
+	json["preferMonthlySheets"] = settings.preferMonthlySheets;
 	json["timeout"] = settings.timeout;
 
 	Json::FastWriter writer;
@@ -373,6 +374,7 @@ Settings Parser::parseSettings(const std::string& settingsString)
 			: 
 			true,
 		.showPatientList = json["patientList"].asBool(),
+		.preferMonthlySheets = json["preferMonthlySheets"].asBool(),
 		.timeout = json["timeout"].asInt()
 	};
 }

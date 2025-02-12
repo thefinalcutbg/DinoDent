@@ -16,7 +16,7 @@ public:
 
 
 	virtual void focusTab(SettingsTab tab) = 0;
-	virtual void disableTab(SettingsTab tab) = 0;
+	virtual void setAdminPriv(bool admin) = 0;
 	virtual void closeDialog() = 0;
 
 	virtual bool allFieldsAreValid() = 0;

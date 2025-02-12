@@ -19,7 +19,7 @@
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode)),
-	nhif_contract_temp(User::hasNhifContract())
+	monthlySheets(User::practice().generateMonthlySheets())
 {
 
 }
@@ -40,13 +40,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 
 	setUpdateLabels();
 	
-	if (!User::isAdmin()) {
-		view->disableTab(SettingsTab::Practice);
-		view->disableTab(SettingsTab::Company);
-		view->disableTab(SettingsTab::NhifContract);
-		view->disableTab(SettingsTab::CodeList);
-		view->disableTab(SettingsTab::SQL);
-	}
+	view->setAdminPriv(User::isAdmin());
 
 	view->getPriceListView()->setPresenter(&procedure_list);
 }
@@ -231,16 +225,15 @@ bool SettingsMainPresenter::applyChanges()
 
 	GlobalSettings::setSettings(globalData);
 
-	if (User::hasNhifContract() != nhif_contract_temp) {
+	//if nhif contract has just been changed show monthly/dayly amb sheeet message
+	if (monthlySheets != practice.generateMonthlySheets()) {
 
-		std::string message = User::hasNhifContract() ?
-			"За текущия лекар е отбелязан договор с НЗОК. Амбулаторните листове ще бъдат генерирани на месечна основа."
+		auto message = practice.generateMonthlySheets() ? 
+			"Амбулаторните листове ще бъдат генерирани на месечна основа."
 			:
-			"Текущият лекар няма договор с НЗОК. Амбулаторните листове ще бъдат генерирани на дневна основа."
-			;
-
+			"Амбулаторните листове ще бъдат генерирани на дневна основа.";
+		
 		ModalDialogBuilder::showMessage(message);
-
 	}
 
 	return true;

@@ -341,11 +341,15 @@ void SettingsDialog::focusTab(SettingsTab tab)
 	ui.tabWidget->setCurrentIndex(static_cast<int>(tab));
 }
 
-void SettingsDialog::disableTab(SettingsTab tab)
+void SettingsDialog::setAdminPriv(bool admin)
 {
-	ui.tabWidget->setTabEnabled(static_cast<int>(tab), false);
+		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::Practice), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::Company), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::NhifContract), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::CodeList), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::SQL), admin);
+		ui.monthlySheets->setDisabled(!admin);
 }
-
 
 void SettingsDialog::setSettings(const Settings& settings)
 {
@@ -359,6 +363,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.weekendCheck->setChecked(settings.nhifWeekendCheck);
 	ui.patientList->setChecked(settings.showPatientList);
 	ui.autoDiagnosis->setChecked(settings.autoDiagnosis);
+	ui.monthlySheets->setChecked(settings.preferMonthlySheets);
 }
 
 Settings SettingsDialog::getSettings()
@@ -373,6 +378,7 @@ Settings SettingsDialog::getSettings()
 		.autoStatus = ui.autoStatus->isChecked(),
 		.autoDiagnosis = ui.autoDiagnosis->isChecked(),
 		.showPatientList = ui.patientList->isChecked(),
+		.preferMonthlySheets = ui.monthlySheets->isChecked(),
 		.timeout = ui.timeoutSpin->value()
 	};
 }
@@ -445,6 +451,8 @@ void SettingsDialog::disableNhifValidators(bool disabled)
 
 	ui.contractEdit->validateInput();
 	ui.practiceNameEdit->validateInput();
+
+	ui.monthlySheets->setHidden(!disabled);
 }
 
 void SettingsDialog::legalEntityChanged(bool selfInsured)

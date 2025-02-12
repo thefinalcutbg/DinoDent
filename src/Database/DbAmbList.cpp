@@ -97,7 +97,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         "rzi = '" + User::practice().rziCode + "' AND "
     );
 
-    query += User::hasNhifContract() ?
+    query += User::practice().generateMonthlySheets() ?
         "strftime('%Y-%m',amblist.date) = strftime('%Y-%m',date('now'))"
         :
         "date(amblist.date) = date('now')"

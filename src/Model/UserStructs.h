@@ -110,6 +110,10 @@ struct Practice
 
 	std::optional<NhifContract> nhif_contract;
 
+	bool generateMonthlySheets() const {
+		return nhif_contract.has_value() || settings.preferMonthlySheets;
+	}
+
 	bool hasNraAccess() const {
 		return 
 			nhif_contract.has_value() &&

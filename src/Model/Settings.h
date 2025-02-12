@@ -12,5 +12,6 @@ struct Settings //only practice-specific settings
 	bool autoStatus{ false };
 	bool autoDiagnosis{ true };
 	bool showPatientList{ false };
+	bool preferMonthlySheets{ false };
 	int timeout{ 15 }; //in seconds!
 };

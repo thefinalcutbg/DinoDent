@@ -59,7 +59,7 @@ public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 
     void focusTab(SettingsTab tab) override;
-    void disableTab(SettingsTab tab) override;
+    void setAdminPriv(bool admin) override;
 	void closeDialog() final { this->close(); };
 
 	void setSettings(const Settings& settings) final;

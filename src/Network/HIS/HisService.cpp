@@ -107,6 +107,12 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 
 	int patientType = p.type == Patient::EU ? 5 : p.type;
 
+	std::string nationality = "BG";
+
+	if (p.foreigner) {
+		nationality = p.foreigner->country.getCode();
+	}
+
 	std::string subject =
 	"<nhis:subject>"
 		+ bind("identifierType", patientType)
@@ -114,6 +120,7 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 		+ bind("nhifInsuranceNumber", p.HIRBNo)
 		+ bind("birthDate", p.birth.to8601())
 		+ bind("gender", p.sex + 1)
+		+ bind("nationality", nationality)
 		+"<nhis:name>"
 			+ bind("given", p.FirstName, true)
 			+ bind("middle", p.MiddleName, true)

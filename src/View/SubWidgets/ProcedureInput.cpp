@@ -96,7 +96,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 		ui.notesEdit->setFocus();
 
 		auto cursor = ui.notesEdit->textCursor();
-		cursor.setPosition(result.size());
+		cursor.setPosition(currentText.size());
 
 		ui.notesEdit->setTextCursor(cursor);
 

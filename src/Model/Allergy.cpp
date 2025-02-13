@@ -70,7 +70,7 @@ std::string Allergy::getNumText(NumenclatureType num_type) const
 
 	static const std::string typeStr[] = { "Алергия","Непоносимост" };
 	static const std::string categoryStr[] = { "Храна", "Медикамент", "Околна среда", "Биологичен материал" };
-	static const std::string criticalStr[] = { "Висок риск", "Нисък риск", "Неопределен риск" };
+	static const std::string criticalStr[] = { "Нисък риск", "Висок риск", "Неопределен риск" };
 	static const std::string clinicalStr[] = {
 		"Активен",
 		"Активен (повторно проявяване)",

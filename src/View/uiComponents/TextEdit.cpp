@@ -5,6 +5,7 @@ TextEdit::TextEdit(QWidget *parent)
 	: QPlainTextEdit(parent)
 {
     connect(this, &QPlainTextEdit::textChanged, this, [&] { AbstractUIElement::validateInput(); });
+	setTabChangesFocus(true);
 }
 
 TextEdit::~TextEdit()
@@ -80,7 +81,7 @@ void TextEdit::keyPressEvent(QKeyEvent* event)
 			QPlainTextEdit::keyPressEvent(event);
 		}
 	}
-	else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Tab)
+	else if (event->key() == Qt::Key_Return)
 	{
 		if (event->modifiers() & Qt::ShiftModifier) return;
 	}

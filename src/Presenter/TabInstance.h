@@ -12,6 +12,7 @@ struct TabName {
 	std::string footer;
 	CommonIcon::Type header_icon{ CommonIcon::NOICON };
 	CommonIcon::Type footer_icon{ CommonIcon::NOICON };
+	std::string indicatorColor;
 	std::string toString() const { return header + " - " + footer; };
 };
 

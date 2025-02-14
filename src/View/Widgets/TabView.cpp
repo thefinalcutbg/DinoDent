@@ -137,10 +137,7 @@ void TabView::newTab(int tabId, const TabName& tabName)
 
     tab->setMinimumWidth(200);
 
-    tab->setHeaderIcon(CommonIcon::getPixmap(tabName.header_icon));
-    tab->setFooterIcon(CommonIcon::getPixmap(tabName.footer_icon));
-
-    tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
+    tab->setData(tabName);
 
     {
         QSignalBlocker blocker(ui.tabBar);
@@ -185,11 +182,8 @@ void TabView::changeTabName(const TabName& tabName, int tabId)
     auto tab = static_cast<TabTitle*>
         (ui.tabBar->tabButton(tabIndex, QTabBar::ButtonPosition::RightSide));
 
-    tab->setHeaderIcon(CommonIcon::getPixmap(tabName.header_icon));
-    tab->setFooterIcon(CommonIcon::getPixmap(tabName.footer_icon));
+    tab->setData(tabName);
 
-    tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
-    
     //re-setting the tab into the tabbar, to change the layout
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, nullptr);
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, tab);

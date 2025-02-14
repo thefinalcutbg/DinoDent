@@ -35,6 +35,11 @@ QPixmap PixmapLabel::scaledPixmap() const
     return scaled;
 }
 
+bool PixmapLabel::pixmapIsNull() const
+{
+    return pix.isNull();
+}
+
 void PixmapLabel::resizeEvent(QResizeEvent*)
 {
     if (!pix.isNull())

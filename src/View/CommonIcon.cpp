@@ -1,5 +1,8 @@
 #include "CommonIcon.h"
+
 #include <QPixmap>
+#include <QPainter>
+
 #include <vector>
 
 std::vector<QPixmap> s_pixmaps;
@@ -27,4 +30,20 @@ const QPixmap& CommonIcon::getPixmap(CommonIcon::Type t)
     }
 
     return s_pixmaps[t];
+}
+
+QPixmap CommonIcon::getIndicator(const QColor& color)
+{
+    if (!color.isValid()) return QPixmap();
+
+    QPixmap px(64, 64);
+
+    px.fill(Qt::transparent);
+
+    QPainter painter(&px);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(Qt::PenStyle::NoPen);
+    painter.setBrush(color);
+    painter.drawEllipse(QRect(10, 10, 44, 44));
+    return px;
 }

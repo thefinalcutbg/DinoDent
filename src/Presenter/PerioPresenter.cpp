@@ -334,13 +334,17 @@ void PerioPresenter::prepareSwitch()
 
 TabName PerioPresenter::getTabName()
 {
-    if (isNew()) {
-        return { "Нов пародонтален статус", patient->firstLastName() };
+    return isNew() ? 
+    TabName{ 
+        .header = "Нов пародонтален статус", 
+        .footer = patient->firstLastName(), 
+        .indicatorColor = patient->colorNameRgb 
     }
-
-    return { 
-        "Пародонтaлен статус " + m_perioStatus.date.toBgStandard(),
-        patient->firstLastName() 
+    :
+    TabName{
+        .header = "Пародонтaлен статус " + m_perioStatus.date.toBgStandard(),
+        .footer = patient->firstLastName() ,
+        .indicatorColor = patient->colorNameRgb
     };
 }
 

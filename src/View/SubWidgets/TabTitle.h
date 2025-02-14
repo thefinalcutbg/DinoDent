@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_TabTitle.h"
+#include "Presenter/TabInstance.h"
 
 class TabView;
 
@@ -14,11 +15,9 @@ class TabTitle : public QWidget
 public:
 	TabTitle(TabView* tabView, int tabId);
 	const int tabId;
-	void setText(const QString& header, const QString& footer);
+	void setData(const TabName& name);
 	void setCurrentAppearence(bool current);
 	void mouseReleaseEvent(QMouseEvent* event) override;
-	void setFooterIcon(const QPixmap& px);
-	void setHeaderIcon(const QPixmap& px);
 	int getTabId() const { return m_id; };
 	~TabTitle();
 

@@ -17,7 +17,6 @@ const std::vector<QColor>& getAvailableColors() {
 
     static std::vector<QColor> colors{
         QColor(),
-        QColorConstants::Svg::forestgreen,
         QColorConstants::Svg::lightseagreen,
         QColorConstants::Svg::dodgerblue,
         QColorConstants::Svg::darkblue,

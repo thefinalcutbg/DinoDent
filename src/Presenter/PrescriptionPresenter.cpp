@@ -283,6 +283,8 @@ TabName PrescriptionPresenter::getTabName()
 
 	result.footer = patient->firstLastName();
 
+	result.indicatorColor = patient->colorNameRgb;
+
 	if (m_prescription.NRN.size()) {
 		result.header_icon = CommonIcon::HIS;
 	}

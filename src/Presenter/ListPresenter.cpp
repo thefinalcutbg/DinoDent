@@ -239,6 +239,8 @@ TabName ListPresenter::getTabName()
     n.footer += " ";
     n.footer += patient->LastName;
 
+    n.indicatorColor = patient->colorNameRgb;
+
     if (m_ambList.isNhifSheet()) {
         n.footer_icon = CommonIcon::NHIF;
     }

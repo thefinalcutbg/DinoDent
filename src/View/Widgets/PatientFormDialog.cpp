@@ -236,6 +236,8 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.HIRBNoEdit->QLineEdit::setText(QString::fromStdString(patient.HIRBNo));
     ui.phoneEdit->QLineEdit::setText(QString::fromStdString(patient.phone));
 
+    ui.colorPicker->setColor(QColor(patient.colorNameRgb.c_str()));
+
     if (!patient.foreigner) return;
     
     ui.countryCombo->setCurrentIndex(patient.foreigner->country.getIndex());
@@ -249,6 +251,8 @@ void PatientFormDialog::setPatient(const Patient& patient)
         :
         ui.otherRadio->setChecked(true)
     ;
+
+
 }
 
 Patient PatientFormDialog::getPatient()
@@ -267,6 +271,10 @@ Patient PatientFormDialog::getPatient()
             std::optional<Foreigner>{}
     ;
 
+    auto color = ui.colorPicker->color();
+
+    auto colorName = color.isValid() ? color.name().toStdString() : std::string();
+
     return Patient
     {
         .rowid = 0,
@@ -281,7 +289,8 @@ Patient PatientFormDialog::getPatient()
         .address = ui.addressEdit->text().toStdString(),
         .HIRBNo = ui.HIRBNoEdit->text().toStdString(),
         .phone = ui.phoneEdit->text().toStdString(),
-        .foreigner = f
+        .foreigner = f,
+        .colorNameRgb = colorName
     };
 }
 

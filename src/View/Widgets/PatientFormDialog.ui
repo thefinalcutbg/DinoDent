@@ -162,12 +162,12 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>1</hour>
+        <hour>19</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
         <month>12</month>
-        <day>27</day>
+        <day>26</day>
        </datetime>
       </property>
       <property name="minimumDate">
@@ -394,7 +394,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>23</hour>
+         <hour>17</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -657,6 +657,25 @@
        <number>50</number>
       </property>
      </widget>
+     <widget class="ColorPicker" name="colorPicker">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>10</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Избор на цвят</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="popupMode">
+       <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+      </property>
+     </widget>
     </widget>
    </item>
    <item>
@@ -714,6 +733,11 @@
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header>View/uiComponents/ComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QToolButton</extends>
+   <header>View/uiComponents/ColorPicker.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

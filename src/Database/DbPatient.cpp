@@ -7,8 +7,8 @@ long long DbPatient::insert(const Patient& patient)
     Db db(
         "INSERT INTO patient "
         "(type, id, birth, sex, fname, mname, lname, "
-        "ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid, foreign_city) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        "ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid, foreign_city, color) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, patient.type);
@@ -31,6 +31,8 @@ long long DbPatient::insert(const Patient& patient)
         db.bind(15, patient.foreigner->date_valid.to8601());
         db.bind(16, patient.foreigner->city);
     }
+
+    db.bind(17, patient.colorNameRgb);
 
     if (db.execute()) return db.lastInsertedRowID();
 
@@ -57,7 +59,8 @@ bool DbPatient::update(const Patient& patient)
         "institution_num=?,"
         "ehic_num=?,"
         "date_valid=?, "
-        "foreign_city=? "
+        "foreign_city=?, "
+        "color=? "
         "WHERE rowid=?"
     );
 
@@ -82,7 +85,9 @@ bool DbPatient::update(const Patient& patient)
         db.bind(15, patient.foreigner->city);
     }
     
-    db.bind(16, patient.rowid);
+    db.bind(16, patient.colorNameRgb);
+
+    db.bind(17, patient.rowid);
 
     return db.execute();
 
@@ -90,7 +95,7 @@ bool DbPatient::update(const Patient& patient)
 
 Patient DbPatient::get(const std::string& patientID, int type)
 {
-    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid "
+    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid, color "
         "FROM patient WHERE id = ? "
         "AND type = ?";
 
@@ -132,6 +137,8 @@ Patient DbPatient::get(const std::string& patientID, int type)
                 .date_valid = db.asString(16)
             };
         }
+
+        patient.colorNameRgb = db.asString(17);
     }
 
     //ensured birth and sex are valid
@@ -149,7 +156,7 @@ Patient DbPatient::get(const std::string& patientID, int type)
 
 Patient DbPatient::get(long long rowid)
 {
-    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid "
+    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid, color "
         "FROM patient WHERE rowid = " + std::to_string(rowid)
     );
 
@@ -180,6 +187,8 @@ Patient DbPatient::get(long long rowid)
                 .date_valid = db.asString(16)
             };
         }
+
+        patient.colorNameRgb = db.asString(17);
     }
 
     patient.teethNotes = getToothNotes(patient.rowid);
@@ -302,7 +311,7 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
 std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
 {
     std::string query =
-        "SELECT patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone, patient.birth "
+        "SELECT patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone, patient.birth, patient.color "
         "FROM patient LEFT JOIN amblist ON patient.rowid = amblist.patient_rowid "
         "WHERE date(amblist.date)>=? "
         "AND amblist.rzi = ? "
@@ -328,7 +337,7 @@ std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std
         p.LastName = db.asString(4);
         p.phone = db.asString(5);
         p.birth = db.asString(6);
-
+        p.colorNameRgb = db.asString(7);
         result.push(p);
     }
 
@@ -337,15 +346,16 @@ std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std
 
 Date DbPatient::getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk)
 {
-    std::string query =
-R"(SELECT procedure.date FROM procedure 
-LEFT JOIN amblist ON amblist.rowid = procedure.amblist_rowid 
-LEFT JOIN patient ON amblist.patient_rowid = patient.rowid
-WHERE patient.rowid = ?
-AND amblist.rzi = ?
-AND amblist.lpk = ?
-ORDER BY procedure.date DESC
-LIMIT 1)";
+    std::string query = R"(
+        SELECT procedure.date FROM procedure 
+        LEFT JOIN amblist ON amblist.rowid = procedure.amblist_rowid 
+        LEFT JOIN patient ON amblist.patient_rowid = patient.rowid
+        WHERE patient.rowid = ?
+        AND amblist.rzi = ?
+        AND amblist.lpk = ?
+        ORDER BY procedure.date DESC
+        LIMIT 1
+    )";
 
     Db db(query);
 
@@ -399,7 +409,7 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
 {
     std::vector<PatientRecord> result;
 
-    Db db("SELECT fname, lname, phone, birth FROM patient");
+    Db db("SELECT fname, lname, phone, birth, color FROM patient");
 
     while (db.hasRows())
     {
@@ -415,6 +425,8 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
         }
 
         r.birth = db.asString(3);     
+
+        r.color = db.asString(4);
 
         result.push_back(r);
     }

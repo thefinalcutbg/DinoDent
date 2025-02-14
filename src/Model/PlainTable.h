@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "View/CommonIcon.h"
+#include <QColor>
 
 struct PlainCell {
 
@@ -37,6 +38,8 @@ struct PlainColumn {
 struct PlainTable {
 
 	std::vector<PlainColumn> data;
+	std::unordered_map<int, QColor> indicator_row_map;
+	int indicator_column = -1;
 
 	PlainColumn& operator [] (int index) { return data[index]; };
 	const PlainColumn& operator []  (int index) const { return data[index]; };
@@ -55,6 +58,7 @@ struct PlainTable {
 	void addColumn(const PlainColumn& p) { data.push_back(p); }
 	void addCell(int column, const PlainCell& c) { data[column].rows.push_back(c); }
 	void addEmptyRow();
+	void setIndicatorToLastRow(const std::string& colorName);
 
 	PlainTable() {};
 

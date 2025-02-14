@@ -981,10 +981,10 @@
     <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\notificationdialog.cpp">
+    <ClCompile Include="src\View\Widgets\NotificationDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\notificationlistdialog.cpp">
+    <ClCompile Include="src\View\Widgets\NotificationListDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbNotification.cpp">
@@ -1030,6 +1030,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Printer\Implementation\PrintPrv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\ColorPicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2218,16 +2221,19 @@
     <QtMoc Include="src\View\Widgets\MedicationTemplateDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\notificationdialog.h">
+    <QtMoc Include="src\View\Widgets\NotificationDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\notificationlistdialog.h">
+    <QtMoc Include="src\View\Widgets\NotificationListDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\TableModels\NotificationTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\NotesTemplateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\ColorPicker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -2436,10 +2442,10 @@
     <QtUic Include="src\View\Widgets\MedicationTemplateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\notificationlistdialog.ui">
+    <QtUic Include="src\View\Widgets\NotificationListDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\notificationdialog.ui">
+    <QtUic Include="src\View\Widgets\NotificationDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\NotesTemplateDialog.ui">

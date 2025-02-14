@@ -242,16 +242,17 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 	);
 
 	auto row = PackageRowData{
-		patient.rowid,
-		patient.firstLastName(),
-		patient.getAge(),
-		patient.phone,
-		lastVisit.isDefault() ? "" : lastVisit.to8601(),
-		exam.isDefault() ? "" : exam.to8601(),
-		procedure_counter,
-		max_procedures,
-		upperDenture.isDefault() ? "" : upperDenture.to8601(),
-		lowerDenture.isDefault() ? "" : lowerDenture.to8601()
+		.rowid = patient.rowid,
+		.patientName =patient.firstLastName(),
+		.age = patient.getAge(),
+		.patientPhone = patient.phone,
+		.lastVisit = lastVisit.isDefault() ? "" : lastVisit.to8601(),
+		.exam = exam.isDefault() ? "" : exam.to8601(),
+		.procedure_count= procedure_counter,
+		.procedure_max = max_procedures,
+		.lowerDenture = lowerDenture.isDefault() ? "" : lowerDenture.to8601(),
+		.upperDenture = upperDenture.isDefault() ? "" : upperDenture.to8601(),
+		.color_indicator = patient.colorNameRgb
 	};
 
 	s_data.push_back(row);

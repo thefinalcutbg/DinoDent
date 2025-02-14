@@ -59,4 +59,5 @@ void DbUpdater::updateDb()
 	commonUpdate(27);
     commonUpdate(28);
 	commonUpdate(29);
+	commonUpdate(30);
 }

@@ -20,7 +20,7 @@ struct PackageRowData {
 	std::string lowerDenture;
 	std::string upperDenture;
 	static inline constexpr int columnCount = 9;
-
+	std::string color_indicator;
 };
 
 class UnusedPackagePresenter

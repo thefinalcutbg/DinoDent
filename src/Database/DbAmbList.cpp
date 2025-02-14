@@ -44,7 +44,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     DbReferral::saveReferrals(sheet.referrals, rowID, db);
 
     DbMedicalNotice::save(sheet.medical_notices, rowID, db);
-    qDebug() << 47;
+
     return rowID;
 
 }

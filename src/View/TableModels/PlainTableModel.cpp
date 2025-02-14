@@ -1,6 +1,22 @@
 #include "PlainTableModel.h"
 
 #include <QIcon>
+#include <QFont>
+#include <QPainter>
+
+QIcon getIndicator(const QColor& color) {
+
+    QPixmap px(64, 64);
+
+    px.fill(Qt::transparent);
+
+    QPainter painter(&px);
+
+    painter.setPen(Qt::PenStyle::NoPen);
+    painter.setBrush(color);
+    painter.drawEllipse(QRect(10,10,44,44));
+    return QIcon(px);
+}
 
 int PlainTableModel::rowCount(const QModelIndex&) const
 {
@@ -44,6 +60,11 @@ QVariant PlainTableModel::data(const QModelIndex& index, int role) const
     switch (role)
     {
     case Qt::DecorationRole: 
+
+        if (m_data.indicator_column == column && m_data.indicator_row_map.count(row)) {
+            return getIndicator(m_data.indicator_row_map.at(row));
+        }
+
         return QIcon(CommonIcon::getPixmap(m_data[column].rows[row].icon));
 
     case Qt::DisplayRole:
@@ -56,6 +77,7 @@ QVariant PlainTableModel::data(const QModelIndex& index, int role) const
         case PlainColumn::Center: return int(Qt::AlignCenter | Qt::AlignVCenter);
         case PlainColumn::Right: return int(Qt::AlignRight | Qt::AlignVCenter);
         }
+        return QVariant();
     }
 
     return QVariant();

@@ -15,10 +15,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
     tableView.addColumn({"Име на пациент",250});
+    tableView.indicator_column = 2;
     tableView.addColumn({"Телефон",120});
 
     std::string query =
-        "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday FROM patient ORDER BY bday DESC, id ASC";
+        "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, color FROM patient ORDER BY bday DESC, id ASC";
 
     for (Db db(query);db.hasRows();)
     {
@@ -33,16 +34,17 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
            .data = db.asString(2) + " " +
            db.asString(3) + " " +
            db.asString(4),
-           .icon = db.asBool(6) ? 
+           .icon = db.asBool(6) ?
                 CommonIcon::BDAY
                 :
                 CommonIcon::NOICON
        });
 
        tableView.addCell(2, { 
-           .data = db.asString(5) 
+           .data = db.asString(5)
        });
 
+       tableView.setIndicatorToLastRow(db.asString(7));
     }
 
     return std::make_pair(rows, tableView);
@@ -58,6 +60,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     tableView.addColumn({"НРН",135,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
     tableView.addColumn({"Име на пациент",240});
+    tableView.indicator_column = 4;
     tableView.addColumn({"Телефон",120});
 
 
@@ -72,7 +75,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         "amblist.date, "
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
-        "amblist.his_updated "
+        "amblist.his_updated, "
+        "patient.color "
         "FROM amblist "
         "JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
@@ -136,7 +140,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         });
 
         //Phone
-        tableView.addCell(4, { .data = db.asString(11) });
+        tableView.addCell(4, { .data = db.asString(11)
+        });
+
+        //Color
+        tableView.setIndicatorToLastRow(db.asString(14));
     }
         
     return std::make_pair(rows, tableView);
@@ -151,11 +159,12 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
     tableView.addColumn({"Дата",120,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
     tableView.addColumn({"Име на пациент",250,});
+    tableView.indicator_column = 3;
     tableView.addColumn({"Телефон",120,});
 
     std::string query =
         "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
-        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday "
+        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, patient.color "
         "FROM periostatus INNER JOIN patient ON periostatus.patient_rowid = patient.rowid "
 
         "WHERE "
@@ -189,6 +198,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
         });
 
         tableView.addCell(3, { .data = db.asString(7) });
+
+        tableView.setIndicatorToLastRow(db.asString(9));
     }
 
     return std::make_pair(rows, tableView);
@@ -261,6 +272,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     tableView.addColumn({"НРН", 135, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН", 120, PlainColumn::Center});
     tableView.addColumn({"Име на пациент", 240});
+    tableView.indicator_column = 4;
     tableView.addColumn({"Телефон", 120});
 
 
@@ -275,7 +287,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
         "patient.mname, "
         "patient.lname, "
         "patient.phone, "
-        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday "
+        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
+        "patient.color "
         "FROM prescription INNER JOIN patient ON prescription.patient_rowid = patient.rowid "
         "WHERE "
         "prescription.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
@@ -321,7 +334,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
            });
 
        //PHONE
-       tableView.addCell(4, { .data = db.asString(8) });
+       tableView.addCell(4, { .data = db.asString(8)
+           });
+
+       //COLOR
+       tableView.setIndicatorToLastRow(db.asString(10));
     }
 
     return std::make_pair(rows, tableView);

@@ -1,6 +1,8 @@
 ﻿#include "UnusedPackageView.h"
 
 #include <QFileDialog>
+#include <QPainter>
+
 #include "View/GlobalFunctions.h"
 
 UnusedPackageView::UnusedPackageView(QWidget *parent)
@@ -61,9 +63,29 @@ void UnusedPackageView::addRow(const PackageRowData& row)
 		new QTableWidgetItem(QString::number(row.rowid))
 	);
 
-	ui.tableWidget->setItem(rowIdx, 1,
-		new QTableWidgetItem(row.patientName.c_str())
-	);
+	item = new QTableWidgetItem(row.patientName.c_str());
+
+	//indicator
+	auto indicator_color = QColor(row.color_indicator.c_str());
+
+	if(indicator_color.isValid()){
+		QPixmap px(64, 64);
+
+		px.fill(Qt::transparent);
+
+		QPainter painter(&px);
+
+		painter.setPen(Qt::PenStyle::NoPen);	
+
+		painter.setBrush(indicator_color);
+		painter.drawEllipse(QRect(10, 10, 44, 44));
+		item->setIcon(QIcon(px));
+	}
+	else {
+		item->setIcon(QIcon());
+	}
+
+	ui.tableWidget->setItem(rowIdx, 1, item);
 
 	QString age = row.age < 10 ? 
 		" " + QString::number(row.age)

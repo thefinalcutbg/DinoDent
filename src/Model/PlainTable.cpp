@@ -1,11 +1,24 @@
 ﻿#include "PlainTable.h"
 #include "FreeFunctions.h"
-
+#include <QDebug>
 void PlainTable::addEmptyRow()
 {
     for (auto& column : data) {
         column.rows.push_back(PlainCell{""});
     }
+}
+
+void PlainTable::setIndicatorToLastRow(const std::string& colorName)
+{
+    if (data.empty()) return;
+
+    if (data[0].rows.empty()) return;
+
+    QColor color(colorName.c_str());
+
+    if (!color.isValid()) return;
+
+    indicator_row_map[data[0].rows.size() - 1] = color;
 }
 
 PlainTable::PlainTable(const std::vector<Procedure>& pList)

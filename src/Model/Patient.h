@@ -45,6 +45,8 @@ struct Patient
 	TeethNotes teethNotes;
 	std::string patientNotes;
 
+	std::string colorNameRgb;
+
 	std::optional<std::vector<Procedure>> PISHistory;
 	std::optional<std::vector<Procedure>> HISHistory;
 	std::optional<InsuranceStatus> insuranceStatus;

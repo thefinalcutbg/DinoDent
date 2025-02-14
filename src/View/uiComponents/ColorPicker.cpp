@@ -40,8 +40,8 @@ ColorPicker::ColorPicker(QWidget* widget) :QPushButton(widget)
     //setPopupMode(QToolButton::ToolButtonPopupMode::InstantPopup);
 
     QMenu* contextMenu = new QMenu(this);
-
-
+    
+    
     for (auto& color : getAvailableColors()) {
 
         QAction* a = new QAction();
@@ -55,12 +55,15 @@ ColorPicker::ColorPicker(QWidget* widget) :QPushButton(widget)
         contextMenu->addAction(a);
     }
 
-    setMenu(contextMenu);
+    connect(this, &QPushButton::clicked, this, [=, this] {
+        contextMenu->move(this->mapToGlobal(rect().bottomLeft()));
+        contextMenu->show();
+    });
+
 #ifdef Q_OS_WIN
     contextMenu->setMaximumWidth(30);
 #endif
- //   setArrowType(Qt::ArrowType::NoArrow);
-    setStyleSheet("QPushButton::menu-indicator{image:none;}");
+
 }
 
 QIcon ColorPicker::createIcon(const QColor& c, const QRect& rect)

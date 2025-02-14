@@ -31,13 +31,13 @@ const std::vector<QColor>& getAvailableColors() {
     return colors;
 }
 
-ColorPicker::ColorPicker(QWidget* widget) :QToolButton(widget)
+ColorPicker::ColorPicker(QWidget* widget) :QPushButton(widget)
 {
-    setToolButtonStyle(Qt::ToolButtonIconOnly);
+    //setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     setColor(selected_color);
 
-    setPopupMode(QToolButton::ToolButtonPopupMode::InstantPopup);
+    //setPopupMode(QToolButton::ToolButtonPopupMode::InstantPopup);
 
     QMenu* contextMenu = new QMenu(this);
 
@@ -50,16 +50,17 @@ ColorPicker::ColorPicker(QWidget* widget) :QToolButton(widget)
 
         a->setIconVisibleInMenu(true);
 
-        connect(a, &QAction::triggered, this, [=] { setColor(color); });
+        connect(a, &QAction::triggered, this, [=, this] { setColor(color); });
 
         contextMenu->addAction(a);
     }
 
     setMenu(contextMenu);
-
+#ifdef Q_OS_WIN
     contextMenu->setMaximumWidth(30);
-
-    setArrowType(Qt::ArrowType::NoArrow);
+#endif
+ //   setArrowType(Qt::ArrowType::NoArrow);
+    setStyleSheet("QPushButton::menu-indicator{image:none;}");
 }
 
 QIcon ColorPicker::createIcon(const QColor& c, const QRect& rect)

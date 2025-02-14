@@ -411,6 +411,7 @@ HEADERS += \
     src/View/uiComponents/BigPushButton.h \
     src/View/uiComponents/CalendarTable.h \
     src/View/uiComponents/CalendarWidget.h \
+    src/View/uiComponents/ColorPicker.h \
     src/View/uiComponents/ComboBox.h \
     src/View/uiComponents/CustomButton.h \
     src/View/uiComponents/CustomDateTimeEdit.h \
@@ -748,6 +749,7 @@ SOURCES += \
     src/View/uiComponents/BigPushButton.cpp \
     src/View/uiComponents/CalendarTable.cpp \
     src/View/uiComponents/CalendarWidget.cpp \
+    src/View/uiComponents/ColorPicker.cpp \
     src/View/uiComponents/ComboBox.cpp \
     src/View/uiComponents/CustomButton.cpp \
     src/View/uiComponents/CustomDateTimeEdit.cpp \

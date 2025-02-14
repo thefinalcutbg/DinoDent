@@ -47,10 +47,7 @@
       </size>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <widget class="QPushButton" name="hirbnoButton">
       <property name="geometry">
@@ -155,14 +152,14 @@
        </rect>
       </property>
       <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+       <enum>QAbstractSpinBox::UpDownArrows</enum>
       </property>
       <property name="showGroupSeparator" stdset="0">
        <bool>false</bool>
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>19</hour>
+        <hour>17</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -387,14 +384,14 @@
         </rect>
        </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+        <enum>QAbstractSpinBox::UpDownArrows</enum>
        </property>
        <property name="showGroupSeparator" stdset="0">
         <bool>false</bool>
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>17</hour>
+         <hour>15</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -663,7 +660,7 @@
         <x>230</x>
         <y>10</y>
         <width>31</width>
-        <height>31</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -672,8 +669,8 @@
       <property name="text">
        <string/>
       </property>
-      <property name="popupMode">
-       <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+      <property name="autoDefault">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -700,6 +697,9 @@
       <widget class="QPushButton" name="okButton">
        <property name="text">
         <string>OK</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -736,7 +736,7 @@
   </customwidget>
   <customwidget>
    <class>ColorPicker</class>
-   <extends>QToolButton</extends>
+   <extends>QPushButton</extends>
    <header>View/uiComponents/ColorPicker.h</header>
   </customwidget>
  </customwidgets>

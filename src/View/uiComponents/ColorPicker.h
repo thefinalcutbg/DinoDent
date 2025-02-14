@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QToolButton>
+#include <QPushButton>
 
-class ColorPicker : public QToolButton
+class ColorPicker : public QPushButton
 {
     Q_OBJECT
 

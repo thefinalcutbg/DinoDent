@@ -19,7 +19,6 @@ const std::vector<QColor>& getAvailableColors() {
         QColor(),
         QColorConstants::Svg::lightseagreen,
         QColorConstants::Svg::dodgerblue,
-        QColorConstants::Svg::darkblue,
         QColorConstants::Svg::mediumpurple,
         QColorConstants::Svg::crimson,
         QColorConstants::Svg::hotpink,

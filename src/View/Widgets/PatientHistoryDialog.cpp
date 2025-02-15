@@ -1,4 +1,4 @@
-#include "PatientHistoryDialog.h"
+﻿#include "PatientHistoryDialog.h"
 #include "Presenter/PatientHistoryPresenter.h"
 #include "View/GlobalFunctions.h"
 #include <set>
@@ -8,6 +8,9 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	: presenter(p), QDialog(parent)
 {
 	ui.setupUi(this);
+
+	setWindowTitle("Онлайн пациентско досие");
+	setWindowIcon(QIcon(":/icons/icon_history.png"));
 
 	ui.procedureTable->setModel(&procedure_model);
 	ui.docView->setModel(&doc_model);
@@ -23,7 +26,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 
 	ui.refreshProcedures->setIcon(CommonIcon::getPixmap(CommonIcon::REFRESH));
 	ui.refreshStatus->setIcon(CommonIcon::getPixmap(CommonIcon::REFRESH));
-
+	ui.refreshHospi->setIcon(CommonIcon::getPixmap(CommonIcon::REFRESH));
 	//init procedure table
 	ui.procedureTable->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
 
@@ -100,6 +103,8 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 
 	});
 
+	connect(ui.docView, &QTableView::doubleClicked, this, [&] { ui.openDocButton->click(); });
+
 	connect(ui.applyPISProcedures, &QPushButton::clicked, this, [&] {
 		presenter.applyPISprocedures();
 	});
@@ -115,37 +120,38 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 
 	connect(ui.pisProcRadio, &QRadioButton::clicked, this, [&] {
 		ui.applyPISProcedures->show();
-		ui.refreshProcedures->show();
+		ui.refreshProcedures->setDisabled(false);
 		ui.procedureTable->setColumnHidden(7, true); 
 		presenter.procedureSourceChanged(Procedure::DatabaseSource::PIS); 
 	});
 
 	connect(ui.hisProcRadio, &QRadioButton::clicked, this, [&]{
 		ui.applyPISProcedures->hide();
-		ui.refreshProcedures->show();
+		ui.refreshProcedures->setDisabled(false);
 		ui.procedureTable->setColumnHidden(7, true); 
 		presenter.procedureSourceChanged(Procedure::DatabaseSource::HIS); 
 	});
 	connect(ui.localProcRadio, &QRadioButton::clicked, this, [&]{
 		ui.applyPISProcedures->hide();
-		ui.refreshProcedures->hide();
+		ui.refreshProcedures->setDisabled(true);
 		ui.procedureTable->setColumnHidden(7, false); 
 		presenter.procedureSourceChanged(Procedure::DatabaseSource::Local); 
 	});
 
 	connect(ui.hisStatRadio, &QRadioButton::clicked, this, [&] { 
 		ui.snapshotViewer->setSnapshots({});
-		ui.refreshStatus->show();
+		ui.refreshStatus->setDisabled(false);
 		presenter.statusSourceChanged(Procedure::DatabaseSource::HIS); 
 	});
 	connect(ui.localStatRadio, &QRadioButton::clicked, this, [&] { 
 		ui.snapshotViewer->setSnapshots({});
-		ui.refreshStatus->show();
+		ui.refreshStatus->setDisabled(true);
 		presenter.statusSourceChanged(Procedure::DatabaseSource::Local); 
 	});
 
 	connect(ui.refreshProcedures, &QPushButton::clicked, this, [&] { presenter.procedureRefreshRequested(getProcedureSrc()); });
 	connect(ui.refreshStatus, &QPushButton::clicked, this, [&] { if (!ui.hisStatRadio->isChecked()) return; presenter.statusRefreshRequested(); });
+	connect(ui.refreshHospi, &QPushButton::clicked, this, [&] { if (!ui.hisStatRadio->isChecked()) return; presenter.hospitalizationRequested(); });
 
 	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx) { tabChanged(idx);});
 }
@@ -220,7 +226,7 @@ void PatientHistoryDialog::open(bool nhif)
 		ui.pisProcRadio->hide();
 	}
 
-	emit ui.tabWidget->currentChanged(nhif ? 0 : 2);
+	emit ui.tabWidget->currentChanged(nhif ? 0 : 1);
 
 	exec();
 }

@@ -227,6 +227,8 @@
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\HISDental.cpp" />
+    <ClCompile Include="src\Model\Dental\HisSnapshot.cpp" />
+    <ClCompile Include="src\Presenter\PatientHistoryPresenter.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintConsent.cpp" />
@@ -321,7 +323,6 @@
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
     <ClCompile Include="src\Presenter\NewDocPresenter.cpp" />
     <ClCompile Include="src\Presenter\PisImportPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
     <ClCompile Include="src\Presenter\PracticeManagerPresenter.cpp" />
     <ClCompile Include="src\Presenter\PrescriptionPresenter.cpp" />
@@ -515,6 +516,7 @@
     <ClCompile Include="src\View\Widgets\NotesTemplateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NotificationDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NotificationListDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\PatientHistoryDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PisImportView.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
@@ -540,7 +542,6 @@
     <ClCompile Include="src\View\Widgets\PrescriptionView.cpp" />
     <ClCompile Include="src\View\Widgets\PinPromptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PisDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\ProcedureHistoryDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureEditDialog.cpp" />
@@ -571,6 +572,7 @@
     <ClInclude Include="src\Model\Dental\Notification.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />
+    <ClInclude Include="src\Presenter\PatientHistoryPresenter.h" />
     <ClInclude Include="src\Printer\FilePaths.h" />
     <ClInclude Include="src\Printer\Implementation\PrintPrv.h" />
     <ClInclude Include="src\Printer\SignatureTablet.h" />
@@ -669,7 +671,6 @@
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
     <ClInclude Include="src\Presenter\NewDocPresenter.h" />
     <ClInclude Include="src\Presenter\PisImportPresenter.h" />
-    <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h" />
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />
     <ClInclude Include="src\Presenter\PracticeManagerPresenter.h" />
     <ClInclude Include="src\Presenter\PrescriptionPresenter.h" />
@@ -895,6 +896,7 @@
     <QtMoc Include="src\View\Widgets\NotificationDialog.h" />
     <QtMoc Include="src\View\Widgets\NotificationListDialog.h" />
     <QtMoc Include="src\View\Widgets\NotesTemplateDialog.h" />
+    <QtMoc Include="src\View\Widgets\PatientHistoryDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -912,7 +914,6 @@
     <QtMoc Include="src\View\Widgets\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h" />
-    <QtMoc Include="src\View\Widgets\ProcedureHistoryDialog.h" />
     <QtMoc Include="src\View\Widgets\PinPromptDialog.h" />
     <QtMoc Include="src\View\Widgets\PerioView.h" />
     <QtMoc Include="src\View\Widgets\PerioStatusView.h" />
@@ -991,6 +992,7 @@
     <QtUic Include="src\View\Widgets\NotesTemplateDialog.ui" />
     <QtUic Include="src\View\Widgets\NotificationDialog.ui" />
     <QtUic Include="src\View\Widgets\NotificationListDialog.ui" />
+    <QtUic Include="src\View\Widgets\PatientHistoryDialog.ui" />
     <QtUic Include="src\View\Widgets\PisImportView.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />
@@ -1015,7 +1017,6 @@
     <QtUic Include="src\View\Widgets\PrescriptionView.ui" />
     <QtUic Include="src\View\Widgets\PinPromptDialog.ui" />
     <QtUic Include="src\View\Widgets\PisDialog.ui" />
-    <QtUic Include="src\View\Widgets\ProcedureHistoryDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeListDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedureDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedureEditDialog.ui" />

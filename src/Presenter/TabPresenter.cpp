@@ -268,7 +268,7 @@ bool TabPresenter::newListAlreadyOpened(const Patient& patient)
 
         auto listPresenter = static_cast<ListPresenter*>(tabInstance);
 
-        auto ambSheetDate = listPresenter->m_ambList.getDate();
+        auto ambSheetDate = listPresenter->m_amblist.getDate();
 
         if (listPresenter->patient->id == patient.id &&
             ambSheetDate.month == Date::currentMonth() &&

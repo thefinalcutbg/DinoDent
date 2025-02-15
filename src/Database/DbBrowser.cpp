@@ -16,7 +16,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
     tableView.addColumn({"Име на пациент",250});
     tableView.indicator_column = 2;
-    tableView.addColumn({"Телефон",120});
+    tableView.addColumn({"Телефон",120,PlainColumn::Center});
 
     std::string query =
         "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, color FROM patient ORDER BY bday DESC, id ASC";
@@ -61,7 +61,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
     tableView.addColumn({"Име на пациент",240});
     tableView.indicator_column = 4;
-    tableView.addColumn({"Телефон",120});
+    tableView.addColumn({"Телефон",120,PlainColumn::Center});
 
 
     rows.reserve(50);
@@ -160,7 +160,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
     tableView.addColumn({"Име на пациент",250,});
     tableView.indicator_column = 3;
-    tableView.addColumn({"Телефон",120,});
+    tableView.addColumn({"Телефон",120,PlainColumn::Center });
 
     std::string query =
         "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
@@ -221,7 +221,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
     tableView.addColumn({"Документ №", 110, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ЕИК", 100, PlainColumn::Center});
     tableView.addColumn({"Име на получател", 250 });
-    tableView.addColumn({"Телефон", 100 });
+    tableView.addColumn({"Телефон", 100, PlainColumn::Center});
 
     std::string query =
         "SELECT rowid, num, month_notif > 0, "
@@ -273,7 +273,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     tableView.addColumn({"ЕГН/ЛНЧ/ССН", 120, PlainColumn::Center});
     tableView.addColumn({"Име на пациент", 240});
     tableView.indicator_column = 4;
-    tableView.addColumn({"Телефон", 120});
+    tableView.addColumn({"Телефон", 120, PlainColumn::Center});
 
 
     std::string query =

@@ -30,9 +30,22 @@ void SnapshotViewer::setSnapshots(const std::vector<HisSnapshot>& snapshots)
 {
 	m_snapshots = snapshots;
 
+    if (snapshots.empty()) {
+
+        displaySnapshotToView(HisSnapshot());
+        ui.statusSlider->blockSignals(true);
+        ui.statusSlider->setRange(0, 0);
+        ui.statusSlider->setValue(0);
+        ui.statusSlider->blockSignals(false);
+
+        return;
+    }
+
 	ui.statusSlider->setRange(0, m_snapshots.size()-1);
     ui.statusSlider->setValue(m_snapshots.size()-1);
-    
+
+
+
     if (m_snapshots.size() == 1) {
         emit ui.statusSlider->valueChanged(0);
     }
@@ -71,7 +84,11 @@ void SnapshotViewer::displaySnapshotToView(const HisSnapshot& s)
     ui.prevButton->setDisabled(false);
     ui.statusSlider->setDisabled(false);
 
-    ui.dateLabel->setText(QString("<b>Дата:</b> ") + s.date.toBgStandard().c_str());
+    
+
+    ui.dateLabel->setText(
+        s.date.isDefault() ? "" :
+        QString("<b>Дата:</b> ") + s.date.toBgStandard().c_str());
 
     ui.procedureLabel->setText(
         s.procedure_name.empty() ? "" : 
@@ -94,12 +111,17 @@ void SnapshotViewer::displaySnapshotToView(const HisSnapshot& s)
         default: ui.financingLabel->clear();
     }
 
+    if (s.date.isDefault()) {
+        ui.financingLabel->clear();
+    }
+
     if (s.procedure_note.size()) {
         ui.notesLabel->setText(QString("<b>Бележки:</b> ") + s.procedure_note.c_str());
     }
     else {
         ui.notesLabel->clear();
     }
+
 }
 
 SnapshotViewer::~SnapshotViewer()

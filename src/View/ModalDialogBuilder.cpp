@@ -103,14 +103,6 @@ void ModalDialogBuilder::openDialog(StatisticDialogPresenter& p)
 	d.exec();
 }
 
-#include "View/Widgets/ProcedureHistoryDialog.h"
-
-void ModalDialogBuilder::openDialog(ProcedureHistoryPresenter& p)
-{
-	ProcedureHistoryDialog d(p);
-	d.exec();
-}
-
 #include "View/Widgets/FiscalReceiptDialog.h"
 
 void ModalDialogBuilder::openDialog(FiscalReceiptPresenter& p)

@@ -17,6 +17,7 @@ BrowserDialog::BrowserDialog()
 	ui.setupUi(this);
 
 	ui.preView->horizontalHeader()->setStretchLastSection(true);
+	ui.tableView->horizontalHeader()->setStretchLastSection(false);
 
 	idFilter.setSourceModel(&table_model);
 	nameFilter.setSourceModel(&idFilter);
@@ -185,9 +186,12 @@ void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, 
 			:
 			ui.tableView->showColumn(i);
 
+		ui.tableView->horizontalHeader()->setSectionResizeMode(i, QHeaderView::ResizeMode::Interactive);
 		ui.tableView->setColumnWidth(i, t[i].width);
-		
+
 	}
+
+	ui.tableView->horizontalHeader()->setSectionResizeMode(nameColumn, QHeaderView::ResizeMode::Stretch);
 
 	setCountLabel();
 

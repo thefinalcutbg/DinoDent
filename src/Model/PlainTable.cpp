@@ -24,10 +24,13 @@ void PlainTable::setIndicatorToLastRow(const std::string& colorName)
 PlainTable::PlainTable(const std::vector<Procedure>& pList)
 {
     addColumn({"Дата",100,PlainColumn::Right });
-    addColumn({"Диагноза", 200 });
+    addColumn({"Диагноза", 180 });
     addColumn({"Зъб", 70, PlainColumn::Center });
-    addColumn({"Процедура", 300 });
-    addColumn({"Код", 50, PlainColumn::Center });
+    addColumn({"Процедура", 280 });
+    addColumn({"КСМП", 90, PlainColumn::Center });
+    addColumn({"НЗОК", 40, PlainColumn::Center });
+
+    bool hasNhif = false;
 
     for (auto& p : pList) {
 
@@ -53,7 +56,18 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
             .data = p.code.ACHICode().c_str(),
             .icon = icon
             });
+
+        bool isNhif = p.financingSource == FinancingSource::NHIF;
+
+        addCell(5, PlainCell{
+            .data = isNhif ? std::to_string(p.code.nhifCode()) : "",});
+
+        if (isNhif) {
+            hasNhif = true;
+        }
     }
+
+    if (!hasNhif) data.pop_back();
 }
 
 PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)

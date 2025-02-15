@@ -64,7 +64,7 @@ class ListPresenter : public TabInstance
 
 public:
 
-    AmbList m_ambList;
+    AmbList m_amblist;
 
     ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
 

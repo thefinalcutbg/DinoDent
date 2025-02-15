@@ -37,7 +37,7 @@ public:
 
 	void refreshPatientTabNames(long long patientRowId);
 
-	void open(const RowInstance& row, bool setFocus = false);
+	bool open(const RowInstance& row, bool setFocus = false);
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
 	void openPerscription(const Patient& patient);

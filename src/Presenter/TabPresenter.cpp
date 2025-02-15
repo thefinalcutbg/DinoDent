@@ -203,8 +203,10 @@ void TabPresenter::openCalendar()
 }
 
 
-void TabPresenter::open(const RowInstance& row, bool setFocus)
+bool TabPresenter::open(const RowInstance& row, bool setFocus)
 {
+    if (!row.premissionToOpen) return false;
+
     //checking if tab is already opened
     for (auto& [index, tab] : m_tabs)
     {
@@ -216,7 +218,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
         {
             view->focusTab(index);
 
-            return;
+            return true;
         }
     }
 
@@ -227,7 +229,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     switch (row.type)
     {
         case TabType::AmbList:
-            if (!row.rowID && newListAlreadyOpened(patient)) return;
+            if (!row.rowID && newListAlreadyOpened(patient)) return true;
             newTab = new ListPresenter(view, getPatient_ptr(patient), row.rowID);
             break;
 
@@ -256,6 +258,8 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     }
 
     createNewTab(newTab, setFocus);
+
+    return true;
 }
 
 bool TabPresenter::newListAlreadyOpened(const Patient& patient)

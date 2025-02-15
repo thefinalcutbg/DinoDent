@@ -352,15 +352,16 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
     table.addColumn({"Дата",120,PlainColumn::Right});
     table.addColumn({"Документ",180});
-    table.addColumn({"Номер/НРН"});
+    table.addColumn({"Номер/НРН", 150, PlainColumn::Center});
+    table.addColumn({"Издаден от", 100, PlainColumn::Center });
 
     Db db;
 
     db.newStatement(
-        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif, his_updated FROM amblist WHERE patient_rowid=? AND lpk=? AND rzi=?"
-        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif, 1 AS his_updated FROM prescription WHERE patient_rowid=? AND lpk=? AND rzi =?"
-        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif, 1 AS his_updated FROM periostatus WHERE patient_rowid=? AND lpk=? AND rzi=?"
-        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif, 1 AS his_updated FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? AND practice_rzi=?"
+        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif, his_updated, lpk as author, (lpk = ? AND rzi = ?) as from_me FROM amblist WHERE patient_rowid=? "
+        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me FROM prescription WHERE patient_rowid=? "
+        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me  FROM periostatus WHERE patient_rowid=? "
+        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif, 1 AS his_updated, practice_rzi as author,  (practice_rzi = ?) as from_me FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? "
         "ORDER BY date DESC"
     );
 
@@ -368,13 +369,13 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
     auto lpk = User::doctor().LPK;
 
     for (int i = 1; i < 10; i+=3) {
-        db.bind(i, patientRowid);
-        db.bind(i+1, lpk);
-        db.bind(i+2, rzi);
+        db.bind(i, lpk);
+        db.bind(i+1, rzi);
+        db.bind(i+2, patientRowid);
     }
-
-    db.bind(10, patientRowid);
-    db.bind(11, rzi);
+    db.bind(10, rzi);
+    db.bind(11, patientRowid);
+    
 
     while (db.hasRows())
     {
@@ -432,10 +433,14 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         rowidData.back().rowID = rowid;
         //financial
         rowidData.back().patientRowId = type == 4 ? 0 : patientRowid;
+        rowidData.back().premissionToOpen = db.asBool(8);
 
         table.addCell(0, { .data = date, .icon = nhif ? CommonIcon::NHIF : CommonIcon::NOICON });
         table.addCell(1, { .data = docTypeString, .icon = docTypeIcon });
         table.addCell(2, { .data = nrn, .icon = his_icon});
+        table.addCell(3, { .data = User::getNameFromLPKorRHIF(db.asString(7)) });
+       
+        
     }
 
     return std::make_pair(rowidData, table);

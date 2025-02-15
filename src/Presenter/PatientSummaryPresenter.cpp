@@ -98,7 +98,7 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
     view->setDocumentLabel(
         frame->getFrameName(),
         frame->date.toBgStandard(true),
-        User::getNameFromLPK(frame->LPK)
+        User::getNameFromLPKorRHIF(frame->LPK)
     );
 
     patient_presenter.setDate(frame->date);

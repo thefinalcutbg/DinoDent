@@ -43,7 +43,7 @@ void ReportFilesService::processPISReply(const std::string& reply)
 				getTextNullCheck(row.Child(0).ToElement()),							//upload date
 				getTextNullCheck(row.Child(1).ToElement()),							//file description
 				periodFormat(getTextNullCheck(row.Child(2).ToElement())),			//doc date	    
-				User::getNameFromLPK(getTextNullCheck(row.Child(3).ToElement())),	//lpk
+				User::getNameFromLPKorRHIF(getTextNullCheck(row.Child(3).ToElement())),	//lpk
 				getTextNullCheck(row.Child(4).ToElement()),							//status
 				getTextNullCheck(row.Child(5).ToElement())							//errors
 			}

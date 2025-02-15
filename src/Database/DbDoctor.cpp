@@ -176,16 +176,25 @@ std::tuple<bool, int> DbDoctor::getAdminAndSpecialty(const std::string& lpk, con
     return { false, 0 };
 }
 
-std::unordered_map<std::string, std::string> DbDoctor::getDoctorNames()
+std::unordered_map<std::string, std::string> DbDoctor::getPracticeAndDoctorNames()
 {
     std::unordered_map <std::string, std::string> doctorNames;
 
     std::string query = "SELECT lpk, fname, lname FROM doctor";
 
-    for (Db db(query); db.hasRows();)
+    Db db(query);
+
+    while (db.hasRows())
     {
         doctorNames[db.asString(0)] = doctorPrefix + db.asString(1)+ " " + db.asString(2);
     }
+
+    db.newStatement("SELECT rzi, name FROM practice"); 
+    
+    while (db.hasRows())
+    {
+        doctorNames[db.asString(0)] = db.asString(1);
+    };
 
     return doctorNames;
 }

@@ -198,8 +198,17 @@ void PatientHistoryPresenter::hospitalizationRequested()
 
 void PatientHistoryPresenter::openDocuments(const std::vector<int>& selectedDocIdx)
 {
+	bool someNotOpened = false;
+
 	for (auto idx: selectedDocIdx) {
-		TabPresenter::get().open(documents[idx], false);
+		if (!TabPresenter::get().open(documents[idx], false)) {
+			someNotOpened = true;
+		};
+	}
+
+	if (someNotOpened) {
+		ModalDialogBuilder::showMessage("Документът не може да бъде отворен, тъй като не е издаден от този потребител");
+		return;
 	}
 
 	view.close();

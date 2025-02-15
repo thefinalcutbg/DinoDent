@@ -221,6 +221,7 @@ void BrowserPresenter::openCurrentSelection()
 
     std::size_t counter{ 0 };
 
+
 	for (auto& row : m_selectedInstances) {
 
 		bool isLastTab = ++counter == m_selectedInstances.size();
@@ -294,11 +295,20 @@ void BrowserPresenter::openPatientDocuments(const std::set<int>& selectedIndexes
 
 	int counter = 0;
 
+	bool someNotOpened = false;
+
 	for (auto row : selectedIndexes) {
 
 		bool isLastTab = ++counter == m_selectedInstances.size();
 
-		TabPresenter::get().open(patientDocRowid[row], isLastTab);
+		if (!TabPresenter::get().open(patientDocRowid[row], isLastTab)) {
+			someNotOpened = true;
+		}
+	}
+
+	if (someNotOpened) {
+		ModalDialogBuilder::showMessage("Документът не може да бъде отворен, тъй като не е издаден от този потребител");
+		return;
 	}
 
 	if (view) view->close();

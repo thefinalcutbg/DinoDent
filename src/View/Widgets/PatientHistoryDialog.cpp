@@ -219,7 +219,7 @@ void PatientHistoryDialog::open(bool nhif)
 		QSignalBlocker b1(ui.tabWidget);
 		QSignalBlocker b2(ui.hisProcRadio);
 
-		ui.tabWidget->setCurrentIndex(2);
+		ui.tabWidget->setCurrentIndex(1);
 
 		ui.hisProcRadio->click();
 

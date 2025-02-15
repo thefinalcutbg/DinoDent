@@ -11,7 +11,7 @@ std::unordered_map<std::string, std::string> s_names;
 
 void User::initialize()
 {
-    s_names = DbDoctor::getDoctorNames();
+    s_names = DbDoctor::getPracticeAndDoctorNames();
 }
 
 
@@ -76,7 +76,7 @@ void User::refereshPracticeDoctor()
    s_doctor.specialty = static_cast<NhifSpecialty>(std::get<1>(DbDoctor::getAdminAndSpecialty(s_doctor.LPK, s_practice.rziCode)));
 }
 
-std::string User::getNameFromLPK(const std::string& LPK)
+std::string User::getNameFromLPKorRHIF(const std::string& LPK)
 {
     if (s_names.count(LPK)) return s_names[LPK];
 

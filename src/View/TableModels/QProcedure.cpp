@@ -11,7 +11,7 @@ QProcedure::QProcedure(const Procedure& p) :
     nhifCode(p.financingSource == FinancingSource::NHIF ? QString::number(p.code.nhifCode()) : "" ),
     ACHICode(QString::fromStdString(p.code.ACHICode())),
     fsource(p.financingSource),
-	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK))),
+	doctor(QString::fromStdString(User::getNameFromLPKorRHIF(p.LPK))),
 	notes(QString::fromStdString(p.notes)),
 	db_source(p.db_source)
 {

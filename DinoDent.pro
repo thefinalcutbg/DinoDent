@@ -222,6 +222,7 @@ HEADERS += \
     src/Presenter/NewDocPresenter.h \
     src/Presenter/NotificationListPresenter.h \
     src/Presenter/PatientDialogPresenter.h \
+    src/Presenter/PatientHistoryPresenter.h \
     src/Presenter/PatientInfoPresenter.h \
     src/Presenter/PatientSummaryPresenter.h \
     src/Presenter/PerioPresenter.h \
@@ -231,7 +232,6 @@ HEADERS += \
     src/Presenter/ProcedureCreator.h \
     src/Presenter/ProcedureDialogPresenter.h \
     src/Presenter/ProcedureEditorPresenter.h \
-    src/Presenter/ProcedureHistoryPresenter.h \
     src/Presenter/ProcedureListPresenter.h \
     src/Presenter/RecipientPresenter.h \
     src/Presenter/ReferralPresenter.h \
@@ -376,6 +376,7 @@ HEADERS += \
     src/View/Widgets/NotificationDialog.h \
     src/View/Widgets/NotificationListDialog.h \
     src/View/Widgets/PatientFormDialog.h \
+    src/View/Widgets/PatientHistoryDialog.h \
     src/View/Widgets/PatientSummary.h \
     src/View/Widgets/PerioStatusView.h \
     src/View/Widgets/PerioView.h \
@@ -388,7 +389,6 @@ HEADERS += \
     src/View/Widgets/PrescriptionView.h \
     src/View/Widgets/ProcedureDialog.h \
     src/View/Widgets/ProcedureEditDialog.h \
-    src/View/Widgets/ProcedureHistoryDialog.h \
     src/View/Widgets/ProcedurePrintSelectDialog.h \
     src/View/Widgets/RecipientEditView.h \
     src/View/Widgets/ReferralDialog.h \
@@ -484,6 +484,7 @@ SOURCES += \
     src/Model/Date.cpp \
     src/Model/Dental/Diagnosis.cpp \
     src/Model/Dental/HISDental.cpp \
+    src/Model/Dental/HisSnapshot.cpp \
     src/Model/Dental/NhifProcedures.cpp \
     src/Model/Dental/NhifSheetData.cpp \
     src/Model/Dental/NhifSpecReport.cpp \
@@ -593,6 +594,7 @@ SOURCES += \
     src/Presenter/MonthNotifPresenter.cpp \
     src/Presenter/NewDocPresenter.cpp \
     src/Presenter/PatientDialogPresenter.cpp \
+    src/Presenter/PatientHistoryPresenter.cpp \
     src/Presenter/PatientInfoPresenter.cpp \
     src/Presenter/PatientSummaryPresenter.cpp \
     src/Presenter/PerioPresenter.cpp \
@@ -602,7 +604,6 @@ SOURCES += \
     src/Presenter/ProcedureCreator.cpp \
     src/Presenter/ProcedureDialogPresenter.cpp \
     src/Presenter/ProcedureEditorPresenter.cpp \
-    src/Presenter/ProcedureHistoryPresenter.cpp \
     src/Presenter/ProcedureListPresenter.cpp \
     src/Presenter/RecipientPresenter.cpp \
     src/Presenter/ReferralPresenter.cpp \
@@ -716,6 +717,7 @@ SOURCES += \
     src/View/Widgets/NotificationDialog.cpp \
     src/View/Widgets/NotificationListDialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
+    src/View/Widgets/PatientHistoryDialog.cpp \
     src/View/Widgets/PatientSummary.cpp \
     src/View/Widgets/PerioStatusView.cpp \
     src/View/Widgets/PerioView.cpp \
@@ -728,7 +730,6 @@ SOURCES += \
     src/View/Widgets/PrescriptionView.cpp \
     src/View/Widgets/ProcedureDialog.cpp \
     src/View/Widgets/ProcedureEditDialog.cpp \
-    src/View/Widgets/ProcedureHistoryDialog.cpp \
     src/View/Widgets/ProcedurePrintSelectDialog.cpp \
     src/View/Widgets/RecipientEditView.cpp \
     src/View/Widgets/ReferralDialog.cpp \
@@ -827,6 +828,7 @@ FORMS += \
     src/View/Widgets/NotificationDialog.ui \
     src/View/Widgets/NotificationListDialog.ui \
     src/View/Widgets/PatientFormDialog.ui \
+    src/View/Widgets/PatientHistoryDialog.ui \
     src/View/Widgets/PatientSummary.ui \
     src/View/Widgets/PerioStatusView.ui \
     src/View/Widgets/PerioView.ui \
@@ -839,7 +841,6 @@ FORMS += \
     src/View/Widgets/PrescriptionView.ui \
     src/View/Widgets/ProcedureDialog.ui \
     src/View/Widgets/ProcedureEditDialog.ui \
-    src/View/Widgets/ProcedureHistoryDialog.ui \
     src/View/Widgets/ProcedurePrintSelectDialog.ui \
     src/View/Widgets/RecipientEditView.ui \
     src/View/Widgets/ReferralDialog.ui \

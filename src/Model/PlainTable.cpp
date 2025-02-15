@@ -27,7 +27,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
     addColumn({"Диагноза", 180 });
     addColumn({"Зъб", 70, PlainColumn::Center });
     addColumn({"Процедура", 280 });
-    addColumn({"КСМП", 90, PlainColumn::Center });
+    addColumn({"КСМП", 100, PlainColumn::Center });
     addColumn({"НЗОК", 40, PlainColumn::Center });
 
     bool hasNhif = false;

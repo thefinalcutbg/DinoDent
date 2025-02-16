@@ -147,6 +147,8 @@ void MedicalStatusPresenter::addAllergy()
 	DbPatient::updateAllergies(patient.rowid, patient.allergies);
 
 	view->setAllergies(patient.allergies);
+
+	sendAllergyToHis(patient.allergies.size() - 1);
 }
 
 void MedicalStatusPresenter::removeAllergy(int idx)
@@ -155,18 +157,20 @@ void MedicalStatusPresenter::removeAllergy(int idx)
 
 	if (idx < 0 || idx >= patient.allergies.size()) return;
 
-	if (!patient.allergies[idx].nrn.empty()) {
+	auto& allergy = patient.allergies[idx];
 
-		bool answer = ModalDialogBuilder::askDialog(
-			"Алергията ще бъде изтрита само от локалната база данни. "
-			"Ако искате да я изтриете от НЗИС, редактирайте верификационния ѝ статус на \"Погрешно въведен\" и я изпратете отново\n"
-			"Желаете ли да продължите?"
-		);
+	if (!allergy.nrn.empty()) {
 
-		if (!answer) return;
+		allergy.verificationStatus = Allergy::VerificationStatus::EnteredInError;
+
+		allergy.edited = true;
+
+		sendAllergyToHis(idx);
+		
 	}
-
-	patient.allergies.erase(patient.allergies.begin() + idx);
+	else {
+		patient.allergies.erase(patient.allergies.begin() + idx);
+	}
 
 	DbPatient::updateAllergies(patient.rowid, patient.allergies);
 
@@ -195,6 +199,8 @@ void MedicalStatusPresenter::editAllergy(int idx)
 	DbPatient::updateAllergies(patient.rowid, patient.allergies);
 
 	view->setAllergies(patient.allergies);
+
+	sendAllergyToHis(idx);
 }
 
 void MedicalStatusPresenter::sendAllergyToHis(int idx)
@@ -219,10 +225,17 @@ void MedicalStatusPresenter::sendAllergyToHis(int idx)
 		edit_service.sendRequest(patient.allergies[idx],
             [=, this](const std::string& nrn)
 			{
-				for (auto& a : patient.allergies) {
+				for (int i = 0; i < patient.allergies.size(); i++) {
 					
+					auto& a = patient.allergies[i];
+
 					if (a.nrn == nrn) {
+						
 						a.edited = false;
+						
+						if (a.verificationStatus == Allergy::VerificationStatus::EnteredInError) {
+							patient.allergies.erase(patient.allergies.begin() + i);
+						}
 
 						DbPatient::updateAllergies(patient.rowid, patient.allergies);
 						view->setAllergies(patient.allergies);

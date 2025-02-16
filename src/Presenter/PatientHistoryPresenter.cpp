@@ -44,6 +44,8 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 		if (frame.type == TimeFrameType::InitialAmb) {
 			local_snapshots.emplace_back(frame.teeth, frame.date);
+			local_snapshots.back().procedure_name = "Амбулаторен лист " + frame.number + " (изходен статус)";
+			local_snapshots.back().financing = static_cast<FinancingSource>(99);
 			continue;
 		}
 

@@ -72,6 +72,10 @@ void Tooth::copyFromHIS(const Tooth& other)
 	m_caries_surface = other.m_caries_surface;
 	m_resto_surface = other.m_resto_surface;
 	m_degree = other.m_degree;
+
+	if (other.m_lpkMap.size()) {
+		m_lpkMap = other.m_lpkMap;
+	}
 }
 
 

@@ -11,6 +11,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 
 	setWindowTitle("Онлайн пациентско досие");
 	setWindowIcon(QIcon(":/icons/icon_history.png"));
+	setWindowFlag(Qt::WindowMaximizeButtonHint);
 
 	ui.procedureTable->setModel(&procedure_model);
 	ui.docView->setModel(&doc_model);

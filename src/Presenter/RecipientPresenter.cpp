@@ -67,8 +67,7 @@ void RecipientPresenter::setRecipientEditView(RecipientEditView* view)
 
 void RecipientPresenter::okPressed()
 {
-	LineEdit* validatableElements[2] = {
-		view->lineEdit(RecipientEditView::ID),
+	LineEdit* validatableElements[1] = {
 		view->lineEdit(RecipientEditView::Name)
 	};
 

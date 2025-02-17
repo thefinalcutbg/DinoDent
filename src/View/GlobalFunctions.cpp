@@ -5,6 +5,7 @@
 #include <QTableView>
 #include <QHeaderView>
 
+
 QString roundDouble(double number)
 {
 	double intPart;
@@ -19,6 +20,8 @@ QString formatDoubleWithDecimal(const double& price) //adding the dot in case of
 {
 	return QString::number(price, 'f', 2);
 }
+
+
 
 void setTableViewDefaults(QTableView* view)
 {

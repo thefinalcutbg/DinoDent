@@ -9,9 +9,13 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Онлайн пациентско досие");
+	setWindowTitle("Пациентско досие");
 	setWindowIcon(QIcon(":/icons/icon_history.png"));
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
+
+	ui.pisProcRadio->click();
+	ui.hisStatRadio->click();
+	ui.tabWidget->setCurrentIndex(0);
 
 	ui.procedureTable->setModel(&procedure_model);
 	ui.docView->setModel(&doc_model);
@@ -46,6 +50,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	setTableViewDefaults(ui.hospiTable);
 	setTableViewDefaults(ui.docDetailsView);
 	setTableViewDefaults(ui.docView);
+
 	ui.docView->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
 
 	//hospitalization
@@ -204,30 +209,47 @@ void PatientHistoryDialog::setHospitalizations(const std::vector<Hospitalization
 	hospi_model.setRows(h);
 }
 
-void PatientHistoryDialog::open(bool nhif)
+void PatientHistoryDialog::hideNhif(bool hidden)
 {
-	if (nhif) {
+	ui.pisProcRadio->setHidden(hidden);
+}
 
-		QSignalBlocker b1(ui.tabWidget);
-		QSignalBlocker b2(ui.pisProcRadio);
+void PatientHistoryDialog::open(Procedure::DatabaseSource src)
+{
+	switch (src)
+	{
+		case Procedure::PIS:
+		{
+			QSignalBlocker b1(ui.tabWidget);
 
-		ui.tabWidget->setCurrentIndex(0);
+			ui.tabWidget->setCurrentIndex(0);
+		}
 
-		ui.pisProcRadio->click();
-	}
-	else {
+		emit ui.pisProcRadio->clicked();
 
-		QSignalBlocker b1(ui.tabWidget);
-		QSignalBlocker b2(ui.hisProcRadio);
+		break;
 
+		case Procedure::HIS:
+		{
+			QSignalBlocker b2(ui.hisProcRadio);
+			ui.hisProcRadio->click();
+		}
+		
 		ui.tabWidget->setCurrentIndex(1);
 
-		ui.hisProcRadio->click();
+		break;
 
-		ui.pisProcRadio->hide();
+		case Procedure::Local:
+
+		ui.applyPISProcedures->hide();
+		ui.applyToStatus->hide();
+
+		ui.localProcRadio->click();
+		ui.localStatRadio->click();
+		ui.tabWidget->setCurrentIndex(1);
+
+		break;
 	}
-
-	emit ui.tabWidget->currentChanged(nhif ? 0 : 1);
 
 	exec();
 }

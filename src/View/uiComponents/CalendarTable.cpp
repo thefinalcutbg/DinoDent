@@ -279,6 +279,11 @@ void CalendarTable::menuRequested(int column, int row)
             action->setIcon(QIcon(":/icons/icon_invoice.png"));
             subMenu->addAction(action);
 
+            action = (new QAction("Пациентско досие", subMenu));
+            connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::PatientSummary); });
+            action->setIcon(QIcon(":/icons/icon_history.png"));
+            subMenu->addAction(action);
+
             context_menu->addMenu(subMenu);
         }
 

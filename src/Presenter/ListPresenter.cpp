@@ -591,7 +591,7 @@ void ListPresenter::historyRequested()
 
     PatientHistoryPresenter pr(*patient);
 
-    auto result = pr.getResult();
+    auto result = pr.openDialog();
 
     if (std::holds_alternative<std::monostate>(result)) {
         return;

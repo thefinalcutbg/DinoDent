@@ -6,6 +6,7 @@
 #include "ListPresenter.h"
 #include "PerioPresenter.h"
 #include "PatientSummaryPresenter.h"
+#include "PatientHistoryPresenter.h"
 #include "PrescriptionPresenter.h"
 #include "CalendarPresenter.h"
 #include "FinancialPresenter.h"
@@ -222,9 +223,15 @@ bool TabPresenter::open(const RowInstance& row, bool setFocus)
         }
     }
 
-    TabInstance* newTab{nullptr};
-
     Patient patient = DbPatient::get(row.patientRowId);
+
+    if (row.type == TabType::PatientSummary) {
+        PatientHistoryPresenter p(patient);
+        p.openDialog(true);
+        return true;
+    }
+
+    TabInstance* newTab{nullptr};
 
     switch (row.type)
     {

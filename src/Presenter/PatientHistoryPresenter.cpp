@@ -233,10 +233,25 @@ void PatientHistoryPresenter::applyStatus(const ToothContainer& selectedStatus)
 	view.close();
 }
 
-decltype(PatientHistoryPresenter::result) PatientHistoryPresenter::getResult()
+decltype(PatientHistoryPresenter::result) PatientHistoryPresenter::openDialog(bool openWithLocal)
 {
-	view.open(User::hasNhifContract());
+	bool hasNhifContract = User::hasNhifContract();
 
+	view.hideNhif(!hasNhifContract);
+
+	if (openWithLocal) {
+		view.open(Procedure::Local);
+		
+	}
+	else {
+		view.open(
+			hasNhifContract ?
+			Procedure::PIS
+			:
+			Procedure::HIS
+		);
+	}
+	
 	return result;
 }
 

@@ -33,7 +33,8 @@ public:
 	void setDocuments(const PlainTable& docList, const std::vector<PlainTable>& contents);
 	void setSnapshots(const std::vector<HisSnapshot>& snapshots, Procedure::DatabaseSource source);
 	void setHospitalizations(const std::vector<Hospitalization>& h);
-	void open(bool nhif);
+	void hideNhif(bool hidden);
+	void open(Procedure::DatabaseSource src);
 	~PatientHistoryDialog();
 
 private:

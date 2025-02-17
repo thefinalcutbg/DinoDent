@@ -99,7 +99,7 @@ bool AmbListValidator::ambListIsValid()
 
     if (result.has_value()) {
 
-        auto [date, minutes] = *result;
+        auto &[date, minutes] = *result;
 
         _error = "За дата " + date.toBgStandard()
             + " дневният лимит по НЗОК е надвишен с "

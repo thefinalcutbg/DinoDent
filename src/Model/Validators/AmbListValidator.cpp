@@ -76,16 +76,6 @@ bool AmbListValidator::ambListIsValid()
         return false;
     }
 
-    if (
-        User::practice().isUnfavourable() &&
-        ambList.nhifData.isUnfavourable &&
-        !patient.city.isUnfav()
-        ) {
-        _error = 
-            "Населеното място на пациента не фигурира в списъка на места с неблагоприятни условия";
-            return false;
-    }
-
     for (auto& ref : ambList.referrals)
     {
         if (ref.type != ReferralType::MH119 && !ref.isSentToHIS()) {
@@ -124,6 +114,16 @@ bool AmbListValidator::ambListIsValid()
     }
 
     if(isNhifInWeekend()) return false;
+
+    if (
+        User::practice().isUnfavourable() &&
+        ambList.nhifData.isUnfavourable &&
+        !patient.city.isUnfav()
+        ) {
+        _error =
+            "Населеното място на пациента не фигурира в списъка на места с неблагоприятни условия";
+        return false;
+    }
 
     _error = "";
     return true;

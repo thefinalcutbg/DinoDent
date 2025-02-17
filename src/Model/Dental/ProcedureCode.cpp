@@ -253,7 +253,7 @@ bool ProcedureCode::isNhifOnly() const
 {
     auto nhif_code = nhifCode();
 
-    return nhif_code && nhif_code != 834 && nhif_code != 835;
+    return nhif_code && (nhif_code < 832 && nhif_code > 835);
 }
 
 const std::string& ProcedureCode::name() const

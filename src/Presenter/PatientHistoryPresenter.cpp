@@ -202,8 +202,15 @@ void PatientHistoryPresenter::openDocuments(const std::vector<int>& selectedDocI
 {
 	bool someNotOpened = false;
 
-	for (auto idx: selectedDocIdx) {
-		if (!TabPresenter::get().open(documents[idx], false)) {
+	for (int i = 0; i < selectedDocIdx.size(); i++) {
+
+		auto idx = selectedDocIdx[i];
+
+		if (!TabPresenter::get().open(
+			documents[idx], 
+			i == selectedDocIdx.size()-1)
+			)
+		{
 			someNotOpened = true;
 		};
 	}

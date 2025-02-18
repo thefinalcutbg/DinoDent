@@ -20,4 +20,4 @@ CREATE TABLE favourite_code (code TEXT NOT NULL, lpk  TEXT NOT NULL REFERENCES d
 CREATE TABLE notification (rowid INTEGER PRIMARY KEY, date TEXT, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, lpk TEXT REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, description TEXT);
 CREATE TABLE medical_status (patient_rowid INTEGER NOT NULL, icd TEXT NOT NULL, type INTEGER NOT NULL, nrn VARCHAR(12), FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE);
 CREATE TABLE note_template (rowid INTEGER PRIMARY KEY, text TEXT NOT NULL);
-PRAGMA user_version = 29;
+PRAGMA user_version = 30;

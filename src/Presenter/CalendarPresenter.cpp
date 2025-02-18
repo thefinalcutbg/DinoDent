@@ -209,6 +209,11 @@ void CalendarPresenter::calendarIndexChanged(int idx)
 
 void CalendarPresenter::nextWeekRequested()
 {
+    if (clipboard_event.id.size()) {
+        //if the event is being moved, the current cache should be removed
+        m_cache.erase(getCacheKey());
+    }
+
     shownWeek.first = shownWeek.first.addDays(7);
     shownWeek.second = shownWeek.second.addDays(7);
 
@@ -217,6 +222,11 @@ void CalendarPresenter::nextWeekRequested()
 
 void CalendarPresenter::prevWeekRequested()
 {
+    if (clipboard_event.id.size()) {
+        //if the event is being moved, the current cache should be removed
+        m_cache.erase(getCacheKey());
+    }
+
     shownWeek.first = shownWeek.first.addDays(-7);
     shownWeek.second = shownWeek.second.addDays(-7);
 
@@ -392,6 +402,7 @@ std::pair<QDate, QDate> CalendarPresenter::getTodaysWeek()
 
 void CalendarPresenter::requestEvents(bool searchCache)
 {
+
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
 
     auto key = getCacheKey();

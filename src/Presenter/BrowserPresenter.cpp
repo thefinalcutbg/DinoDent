@@ -113,13 +113,14 @@ void BrowserPresenter::refreshPreview()
 
 	switch (ui_state.model_type)
 	{
-		case TabType::AmbList: view->setPreview(DbProcedure::getProcedures(rowid)); break;
+		case TabType::AmbList: 
+			view->setPreview({ DbProcedure::getProcedures(rowid), false }); break;
 		case TabType::Financial: view->setPreview(DbInvoice::getInvoice(rowid).businessOperations); break;
 		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
 		case TabType::PerioStatus: view->setPreview(PlainTable{}); break;
 		case TabType::PatientSummary: 
 			if (ui_state.showProcedures) {
-				view->setPreview(DbProcedure::getPatientProcedures(rowid));
+				view->setPreview({ DbProcedure::getPatientProcedures(rowid), false });
 				return;
 			}
 

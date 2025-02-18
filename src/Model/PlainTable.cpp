@@ -21,7 +21,7 @@ void PlainTable::setIndicatorToLastRow(const std::string& colorName)
     indicator_row_map[data[0].rows.size() - 1] = color;
 }
 
-PlainTable::PlainTable(const std::vector<Procedure>& pList)
+PlainTable::PlainTable(const std::vector<Procedure>& pList, bool keepNotes)
 {
     addColumn({"Дата",100,PlainColumn::Right });
     addColumn({"Диагноза", 180 });
@@ -29,6 +29,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
     addColumn({"Процедура", 280 });
     addColumn({"КСМП", 100, PlainColumn::Center });
     addColumn({"НЗОК", 40, PlainColumn::Center });
+    addColumn({ "Бележки", 100, PlainColumn::Left });
 
     bool hasNhif = false;
 
@@ -62,12 +63,22 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
         addCell(5, PlainCell{
             .data = isNhif ? std::to_string(p.code.nhifCode()) : "",});
 
+        addCell(6, PlainCell{ .data = p.notes });
+
         if (isNhif) {
             hasNhif = true;
         }
     }
 
-    if (!hasNhif) data.pop_back();
+    //removing nhif
+    if (!hasNhif) {
+        data[data.size() - 2] = data[data.size() - 1];
+        data.pop_back();
+    }
+
+    if (!keepNotes) {
+        data.pop_back();
+    }
 }
 
 PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)

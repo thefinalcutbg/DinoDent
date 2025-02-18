@@ -62,7 +62,7 @@ struct PlainTable {
 
 	PlainTable() {};
 
-	PlainTable(const std::vector<Procedure>& pList);
+	PlainTable(const std::vector<Procedure>& pList, bool keepNotes = true);
 	PlainTable(const std::vector<BusinessOperation>& bList);
 	PlainTable(const std::vector<Medication>& mList);
 

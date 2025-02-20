@@ -216,7 +216,8 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 				postProcedure.code = ProcedureCode("97594-01");
 			}
 			postProcedure.param = std::monostate{};
-			
+			postProcedure.notes = std::string();
+
 			result.push_back(postProcedure);
 		}
 

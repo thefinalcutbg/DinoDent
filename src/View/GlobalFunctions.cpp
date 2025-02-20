@@ -30,7 +30,7 @@ void setTableViewDefaults(QTableView* view)
 	view->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	view->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	view->horizontalHeader()->setStretchLastSection(true);
-	view->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
+	//view->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 }

@@ -182,7 +182,9 @@ void BrowserPresenter::openNewDocument(TabType type)
 		TabPresenter::get().open(row, i == m_selectedInstances.size() - 1);
 	}
 
-	view->close();
+	if (type != TabType::PatientSummary) {
+		view->close();
+	}
 }
 
 

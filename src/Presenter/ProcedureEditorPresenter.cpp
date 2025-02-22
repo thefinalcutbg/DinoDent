@@ -70,7 +70,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		case ProcedureScope::AllOrNone:
 		{
 			std::holds_alternative<AnesthesiaMinutes>(result->param) ?
-				inputView->setParameterData(std::get<AnesthesiaMinutes>(result->param).minutes)
+				inputView->setParameterData(std::get<AnesthesiaMinutes>(result->param))
 				:
 				inputView->setParameterData();
 		}

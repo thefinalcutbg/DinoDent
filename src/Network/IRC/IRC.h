@@ -2,6 +2,7 @@
 #include <string>
 #include <QTcpSocket>
 #include "Nickname.h"
+#include <QTimer>
 
 class IRC : public QObject {
 

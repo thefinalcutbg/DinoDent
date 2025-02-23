@@ -242,6 +242,11 @@ void PatientHistoryPresenter::applyStatus(const ToothContainer& selectedStatus)
 
 decltype(PatientHistoryPresenter::result) PatientHistoryPresenter::openDialog(bool openWithLocal)
 {
+	view.setWindowTitle(
+		view.windowTitle() + " - " +
+		patient.fullName().c_str()
+	);
+	
 	bool hasNhifContract = User::hasNhifContract();
 
 	view.hideNhif(!hasNhifContract);

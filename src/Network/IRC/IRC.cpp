@@ -8,6 +8,8 @@
 
 IRC::IRC(QObject* parent) : QObject(parent)
 {
+	timeout_timer = new QTimer(this);
+
     connect(&m_socket, &QTcpSocket::connected, this, [&] {
 		
 		sendMsg(QString("USER na 0 0 na"));
@@ -21,23 +23,42 @@ IRC::IRC(QObject* parent) : QObject(parent)
 		
 		QByteArray line;
 
+		timeout_timer->start(130000);
+
 		while (true) {
 
 			line = m_socket.readLine();
 
-			if (line.isEmpty()) return;
+			if (line.isEmpty()) break;
 
 			handleMsg(line);
 		}
     });
 
+	connect(timeout_timer, &QTimer::timeout, this, [&] { 
+		
+		emit disconnected();
 
-	QTimer* timer = new QTimer(this);
-	connect(timer, &QTimer::timeout, this, [&] { 
-		sendMsg("PING :" + server); 
+		connectToServ();
 	});
-	timer->start(60000);
 }
+
+void IRC::connectToServ()
+{
+
+	if (!m_nick.isValid()) return;
+
+	if (dont_reconnect) return;
+	//trying to reconnect every 30 seconds
+	timeout_timer->start(30000);
+
+	QHostInfo hostInfo = QHostInfo::fromName(server);
+
+	if (hostInfo.addresses().empty()) return;
+
+	m_socket.connectToHost(hostInfo.addresses().at(0), 9000);
+}
+
 
 void IRC::setNames(const std::string& fname, const std::string& lname)
 {
@@ -61,6 +82,8 @@ void IRC::disconnect()
 {
 	m_socket.close();
 
+	timeout_timer->stop();
+
 	dont_reconnect = true;
 }
 
@@ -76,9 +99,6 @@ void IRC::sendMessage(const QString& msg)
 
 	emit msgRecieved(m_nick, msg);
 }
-
-
-
 
 void IRC::handlePrivateMessage(const QString& msg)
 {
@@ -140,22 +160,20 @@ void IRC::handleMsg(const QByteArray& line)
 		sendMsg("PONG :" + server);
 		return;
 	}
-
-	static QByteArray msg;
 	
-	//msg starts with : and ends with \n
+	//msg_buffer starts with : and ends with \n
 	if (line.startsWith(':') && line.endsWith('\n')) {
-		msg = line;
+		msg_buffer = line;
 	}
 	else if (line.startsWith(':')) {
-		msg = line;
+		msg_buffer = line;
 		return;
 	}
 	else if (line.endsWith('\n')) {
-		msg += line;
+		msg_buffer += line;
 	}
 	else {
-		msg += line;
+		msg_buffer += line;
 		return;
 	}
 
@@ -164,9 +182,9 @@ void IRC::handleMsg(const QByteArray& line)
 	QString command;
 
 	//parsing command
-	for (int i = 0; i < msg.size(); i++) {
+	for (int i = 0; i < msg_buffer.size(); i++) {
 
-		if (msg[i] == ' ') {
+		if (msg_buffer[i] == ' ') {
 
 			if (!cmdBegin) {
 				cmdBegin = true;
@@ -181,13 +199,13 @@ void IRC::handleMsg(const QByteArray& line)
 			continue;
 		}
 
-		command += msg[i];
+		command += msg_buffer[i];
 	}
 
 	//handling chat messages:
 
 	if (command == "PRIVMSG") {
-		handlePrivateMessage(msg);
+		handlePrivateMessage(msg_buffer);
 		return;
 	}
 
@@ -208,7 +226,7 @@ void IRC::handleMsg(const QByteArray& line)
 
     //handling user list
     if (command == "353") {
-		handleUserList(msg);
+		handleUserList(msg_buffer);
         return;
     }
 
@@ -221,17 +239,17 @@ void IRC::handleMsg(const QByteArray& line)
 
 	if (command == "JOIN") {
 
-		auto nick = getUserName(msg);
+		auto nick = getUserName(msg_buffer);
 
 		if (nick == m_nick.nickname()) return;
-		m_userList.push_back(getUserName(msg));
+		m_userList.push_back(getUserName(msg_buffer));
 		emit userListChanged(m_userList);
 		return;
 	}
 
 	if (command == "PART" || command == "QUIT") {
 		
-		auto userName = getUserName(msg);
+		auto userName = getUserName(msg_buffer);
 
 		for (int i = 0; i < m_userList.size(); i++) {
 			if (userName == m_userList[i].nickname())
@@ -247,12 +265,12 @@ void IRC::handleMsg(const QByteArray& line)
 
 	if (command == "332" || command == "TOPIC") {
 
-		handleTopic(msg);
+		handleTopic(msg_buffer);
 		return;
 	}
 
 	if (command == "NICK") {
-		handleNickchange(msg);
+		handleNickchange(msg_buffer);
 		emit userListChanged(m_userList);
 	};
 }
@@ -334,19 +352,6 @@ void IRC::handleNickchange(const QString& msg)
 
 	m_userList.push_back(newNick);
 	
-}
-
-void IRC::connectToServ()
-{
-	if (!m_nick.isValid()) return;
-
-	if (dont_reconnect) return;
-
-	QHostInfo hostInfo = QHostInfo::fromName(server);
-
-	if (hostInfo.addresses().empty()) return;
-
-	m_socket.connectToHost(hostInfo.addresses().at(0), 9000);
 }
 
 QString IRC::getUserName(const QString& msg)

@@ -105,6 +105,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 	connect(&IRCInterface::getClient(), &IRC::disconnected, this, [&] {
 		ui.countLabel->setText("Няма връзка със сървъра");
+		ui.usrList->clear();
 	});
 
     connect(&IRCInterface::getClient(), &IRC::msgRecieved, this, [&](const Nickname& nick, const QString& msg) {

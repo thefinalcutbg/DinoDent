@@ -14,6 +14,10 @@ class IRC : public QObject {
     
     Nickname m_nick;
 
+    QByteArray msg_buffer;
+
+    QTimer* timeout_timer;
+
     bool dont_reconnect = true;
 
     int currentUsers = 0;

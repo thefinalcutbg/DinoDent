@@ -8,7 +8,7 @@ class IRC : public QObject {
     Q_OBJECT
 
     static inline const QString channel = "#DinoDent";
-    static inline const QString server = "irc.bgirc.com";
+    static inline const QString server = "hub.bgirc.com";
 
     QTcpSocket m_socket;
     

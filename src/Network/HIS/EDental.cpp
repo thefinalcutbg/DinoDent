@@ -620,9 +620,9 @@ void EDental::Fetch::parseReply(const std::string& reply)
 	patient.HIRBNo = getString(patientXml, "nhifInsuranceNumber");
 	patient.birth = getString(patientXml, "birthDate");
 	patient.sex = static_cast<Patient::Sex>(getInt(patientXml, "gender") - 1);
-	patient.FirstName = getString(patientXml->FirstChildElement("nhis:name"), "given");
-	patient.MiddleName = getString(patientXml->FirstChildElement("nhis:name"), "middle");
-	patient.LastName = getString(patientXml->FirstChildElement("nhis:name"), "family");
+	patient.FirstName = getFormattedStrName(patientXml->FirstChildElement("nhis:name"), "given");
+	patient.MiddleName = getFormattedStrName(patientXml->FirstChildElement("nhis:name"), "middle");
+	patient.LastName = getFormattedStrName(patientXml->FirstChildElement("nhis:name"), "family");
 	patient.city = getInt(patientXml->FirstChildElement("nhis:address"), "ekatte");
 	patient.address = getString(patientXml->FirstChildElement("nhis:address"), "line");
 	patient.phone = getString(patientXml, "phone");

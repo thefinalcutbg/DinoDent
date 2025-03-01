@@ -441,6 +441,22 @@ std::string HisService::getString(TiXmlElement* parent, const std::string& tag)
 	return element->FirstAttribute()->ValueStr();
 }
 
+std::string HisService::getFormattedStrName(TiXmlElement* parent, const std::string& tag)
+{
+	auto toFormat = QString::fromStdString(getString(parent, tag));
+
+	for (size_t i = 0; i < toFormat.size(); i++)
+	{
+		if(!i) continue;
+
+		if (toFormat[i - 1].isLetter()) {
+			toFormat[i] = toFormat[i].toLower();
+		}
+	}
+
+	return toFormat.toStdString();
+}
+
 int HisService::getInt(TiXmlElement* parent, const std::string& tag)
 {
 	auto element = parent->FirstChildElement(std::string{"nhis:"} + tag);

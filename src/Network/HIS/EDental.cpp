@@ -593,11 +593,14 @@ void EDental::Fetch::parseReply(const std::string& reply)
 		list.procedures.addProcedure(p);
 	}
 
-	//if (list.date.at(list.date.size() - 1) == 'Z') {
-	//	list.date.pop_back();
-	//}
-
-	//patient parsing:
+	list.LPK = getString(
+		docHandle.
+		FirstChild().				//message
+		Child(1).					//contents
+		Child(1).					//results
+		FirstChildElement("nhis:performer").ToElement(),
+		"pmi"
+	);
 
 	auto patientXml = docHandle.
 		FirstChild().				//message

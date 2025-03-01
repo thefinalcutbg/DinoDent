@@ -347,8 +347,6 @@ void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
 
 	AmbList ambSheet = amb;
 
-	ambSheet.LPK = User::doctor().LPK;
-
 	ambSheet.rowid = DbAmbList::getRowidByNRN(ambSheet.nrn);
 	ambSheet.patient_rowid = patient.rowid;
 

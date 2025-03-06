@@ -260,10 +260,10 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Temporary] = { Post, Implant };
 	result[Restoration] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[Caries] = { Healthy, Root, Implant, Missing, Impacted, Denture };
-	result[Pulpitis] = { Healthy, ApicalLesion, Missing, Impacted, RootCanal, Post, Impacted };
-	result[ApicalLesion] = { Healthy, Pulpitis, Missing, Impacted, Implant };
+	result[Pulpitis] = { Healthy, ApicalLesion, Missing, Impacted, RootCanal, Post, Impacted, Denture };
+	result[ApicalLesion] = { Healthy, Pulpitis, Missing, Impacted, Implant, Denture };
 	result[Missing] = { Healthy, Restoration, Caries, Implant, Pulpitis, RootCanal, Fracture, Root, ApicalLesion, Periodontitis, Crown, Post, Mobility, Denture, Calculus, Impacted };
-	result[RootCanal] = { Healthy, Pulpitis, Missing, Impacted, Implant };
+	result[RootCanal] = { Healthy, Pulpitis, Missing, Impacted, Implant, Denture };
 	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Impacted, Denture };
 	result[Root] = { Healthy, Caries, Restoration, Crown, Missing, Implant, Calculus };
 	result[Implant] = { Healthy, Temporary, Missing, Restoration, Caries, Pulpitis, RootCanal, Fracture, Root, Post, Mobility, Impacted, Calculus };
@@ -275,7 +275,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Splint] = { Healthy, Crown, Bridge, Denture };
 	result[HasSupernumeral] = { };
 	result[Impacted] = { Healthy, Restoration, Caries, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
-	result[Denture] = { Healthy, Restoration, Caries, Missing, Crown, Bridge, Splint, Post, Calculus }; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
+	result[Denture] = { Healthy, Restoration, Caries, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Periodontitis}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
 	result[Calculus] = { Healthy, Root, Missing, Implant, Impacted, Denture };
 		return result;
 

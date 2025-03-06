@@ -16,7 +16,14 @@ namespace Print
 
 	enum DeclaratorType { Insured, Custody, Empty };
 
-	bool ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename = {});;
+	bool ambList(
+		const AmbList& amb, 
+		const Patient& patient, 
+		bool printNhif,
+		const std::vector<Procedure>& selectedProcedures,
+		bool printReferrals,
+		const std::string& pdfFilename = {}
+	);
 	bool consent(const Patient& p, const std::string& pdfFilename = {});
 	bool invoice(const Invoice& inv, const std::string& pdfFilename = {});
 	bool prescription(const Prescription& prescr, const Patient& patient, const std::string& filename = {});

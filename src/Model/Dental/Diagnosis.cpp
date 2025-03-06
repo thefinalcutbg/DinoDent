@@ -58,7 +58,9 @@ std::string Diagnosis::getDiagnosisText() const
 
 std::string Diagnosis::getDiagnosisTextNhif() const
 {
-    if(icd.isValid()) return icd.code();
+	if (icd.isValid()) {
+		return icd.code() + " - " + icd.name();
+	}
 
     return "Без диагноза";
 }

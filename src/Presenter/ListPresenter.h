@@ -59,6 +59,8 @@ class ListPresenter : public TabInstance
     void setHisButtonToView();
     void makeEdited() override;
 
+    void printPrv(bool toPdf);
+
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();
 

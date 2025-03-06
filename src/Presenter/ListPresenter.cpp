@@ -17,10 +17,9 @@
 #include "Model/FreeFunctions.h"
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
-
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
-
+#include "View/Widgets/ProcedurePrintSelectDialog.h"
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -105,6 +104,82 @@ void ListPresenter::makeEdited()
 
     TabInstance::makeEdited();
 
+
+}
+
+void ListPresenter::printPrv(bool toPdf)
+{
+
+    if(toPdf && m_amblist.nrn.empty()) {
+        ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
+        return;
+    }
+
+    if (!save()) return;
+
+    std::vector<Procedure> selectedProcedures;
+    bool printReferrals = false;
+
+    if (m_amblist.procedures.size() || m_amblist.referrals.size())
+    {
+        ProcedurePrintSelectDialog dialog(m_amblist.procedures.list(), m_amblist.referrals);
+
+        for (auto& p : m_amblist.procedures) {
+
+            if (p.isNhif()) {
+                dialog.selectFinancingSource(FinancingSource::NHIF);
+                break;
+            }
+        }
+
+        if (dialog.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        auto selectedIndexes = dialog.selectedProcedures();
+
+        for (auto idx : selectedIndexes) {
+            selectedProcedures.push_back(m_amblist.procedures.at(idx));
+        }
+
+        printReferrals = dialog.printReferrals();
+
+    }
+
+    bool hasNhifProcedures =
+        std::find_if(selectedProcedures.begin(), selectedProcedures.end(),
+            [&](const Procedure& p) { return p.financingSource == FinancingSource::NHIF; }
+        ) != selectedProcedures.end();
+
+    bool printNhif = printReferrals || selectedProcedures.empty() || hasNhifProcedures;
+
+    if (printNhif && selectedProcedures.size() > 6) {
+        printNhif = !ModalDialogBuilder::askDialog(
+            "Избрали сте повече от 6 процедури. "
+            "Желаете ли да бъде принтиран амбулаторен лист с повече позиции за процедурите? "
+        );
+    }
+
+    std::string filepath;
+
+    //get dir
+    if (toPdf) {
+        filepath = FilePaths::get(m_amblist, *patient, printNhif);
+        if (filepath.empty()) return;
+    }
+
+
+    bool success = Print::ambList(m_amblist, *patient, printNhif, selectedProcedures, printReferrals, filepath);
+
+    if (!toPdf) return;
+
+    if (User::signatureTablet().signPdf(filepath)) return;
+
+    if (ModalDialogBuilder::askDialog(
+        "Файлът е запазен успешно. Желаете ли да отворите директорията?"
+    )) {
+        ModalDialogBuilder::openExplorer(filepath);
+    }
 
 }
 
@@ -289,34 +364,12 @@ bool ListPresenter::isNew()
 
 void ListPresenter::print()
 {
-    if (!save()) return;
-
-    Print::ambList(m_amblist, *patient);
+    printPrv(false);
 }
 
 void ListPresenter::pdfPrint()
 {
-    if (m_amblist.nrn.empty()) {
-        ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
-        return;
-    }
-    
-    if (!save()) return;
-
-    auto filepath = FilePaths::get(m_amblist, *patient);
-    
-    if (filepath.empty()) return;
-
-    if(!Print::ambList(m_amblist, *patient, filepath)) return;
-
-    if (User::signatureTablet().signPdf(filepath)) return;
-
-    if (ModalDialogBuilder::askDialog(
-        "Файлът е запазен успешно. Желаете ли да отворите директорията?"
-    )) {
-        ModalDialogBuilder::openExplorer(filepath);
-    }
-    
+    printPrv(true);
 }
 
 void ListPresenter::setDataToView()

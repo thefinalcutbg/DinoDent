@@ -2,55 +2,20 @@
 
 #include "View/TableModels/ProcedureTableModel.h"
 
-bool Print::ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename)
+bool Print::ambList(
+    const AmbList& amb,
+    const Patient& patient,
+    bool printNhif,
+    const std::vector<Procedure>& selectedProcedures,
+    bool printReferrals,
+    const std::string& pdfFilename
+)
 {
 
     //used as coordinates for the x-es in the checkboxes
     constexpr QChar tempSymbol{ 0x25EF };
 
-    std::vector<Procedure> selectedProcedures;
-    bool printReferrals = false;
-
-    if (amb.procedures.size() || amb.referrals.size())
-    {
-        ProcedurePrintSelectDialog dialog(amb.procedures.list(), amb.referrals);
-
-        for (auto& p : amb.procedures) {
-
-            if (p.isNhif()) {
-                dialog.selectFinancingSource(FinancingSource::NHIF);
-                break;
-            }
-        }
-
-        if (dialog.exec() == QDialog::Rejected) {
-            return false;
-        }
-
-        auto selectedIndexes = dialog.selectedProcedures();
-
-        for (auto idx : selectedIndexes) {
-            selectedProcedures.push_back(amb.procedures.at(idx));
-        }
-
-        printReferrals = dialog.printReferrals();
-
-    }
-
-    bool hasNhifProcedures =
-        std::find_if(selectedProcedures.begin(), selectedProcedures.end(),
-            [&](const Procedure& p) { return p.financingSource == FinancingSource::NHIF; }
-        ) != selectedProcedures.end();
-
-    bool printNhif = printReferrals || selectedProcedures.empty() || hasNhifProcedures;
-
-    if (printNhif && selectedProcedures.size() > 6) {
-        printNhif = !ModalDialogBuilder::askDialog(
-            "Избрали сте повече от 6 процедури. "
-            "Желаете ли да бъде принтиран амбулаторен лист с повече позиции за процедурите? "
-        );  
-    }
-
+   
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();

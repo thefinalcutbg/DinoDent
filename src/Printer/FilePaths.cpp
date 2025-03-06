@@ -91,11 +91,13 @@ void FilePaths::setSettings(const std::string& dir, const std::vector<DirType> s
     subdir_structure = subdirStructure;
 }
 
-std::string FilePaths::get(const AmbList& amb, const Patient& patient)
+std::string FilePaths::get(const AmbList& amb, const Patient& patient, bool nhifForm)
 {
     if (amb.nrn.empty()) return {};
 
-    auto filename = amb.nrn + "_AMB_" + patient.id.substr(0,6) + ".pdf";
+    std::string docType = nhifForm ? "_AMB_NHIF_" : "_AMB_";
+ 
+    std::string filename = amb.nrn + docType + patient.id.substr(0,6) + ".pdf";
 
     return getPath(patient, amb.date, "Амбулаторни листове", filename);
 } 

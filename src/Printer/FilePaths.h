@@ -14,7 +14,7 @@ namespace FilePaths {
 
 	enum DeclarationType{ Denture, HIRBNo, Consent, GDPR };
 
-	std::string get(const AmbList& amb, const Patient& patient);
+	std::string get(const AmbList& amb, const Patient& patient, bool nhifForm);
 	std::string get(const Prescription& prescr, const Patient& patient);
 	std::string get(const Invoice& invoice);
 	std::string get(DeclarationType declType, const Patient& patient);

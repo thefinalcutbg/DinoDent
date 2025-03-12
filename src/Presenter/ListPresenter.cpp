@@ -478,7 +478,7 @@ void ListPresenter::setAmbDateTime(const std::string& datetime)
 {
     m_amblist.date = datetime;
 
-    if (!User::hasNhifContract()) {
+    if (!User::practice().generateMonthlySheets()) {
 
         auto pDate = Date(datetime);
 

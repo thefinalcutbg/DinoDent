@@ -162,6 +162,35 @@ std::string Ekatte::ekatte() const
     return FreeFn::leadZeroes(ekatteIdx, 5);
 }
 
+std::string Ekatte::getAddressWithStreet(const std::string& street) const
+{
+    if (!str) return std::string();
+
+    std::string result = isCity ?
+        "гр. " + *str
+        :
+        "с. " + *str;
+
+    result += *str;
+
+    if (street.empty()) {
+        return result;
+    }
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        if (result[i] == ',')
+        {
+            result = result.substr(0, i);
+            break;
+        }
+    }
+
+    result.append(", " + street);
+
+    return result;
+}
+
 bool Ekatte::isValid() const
 {
     return ekatteIdx && s_idxToData.count(ekatteIdx);

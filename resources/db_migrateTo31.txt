@@ -1,0 +1,2 @@
+ALTER TABLE practice ADD COLUMN street_address TEXT;
+PRAGMA user_version = 31;

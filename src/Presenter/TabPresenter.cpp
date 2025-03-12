@@ -144,6 +144,11 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     try {
         auto presenter = new FinancialPresenter(view, monthNotif);
 
+        if (!presenter->m_invoice.rowId) {
+            createNewTab(presenter);
+            return;
+        }
+
         auto monthNotifNum = presenter->m_invoice.nhifData->fin_document_month_no;
 
         //checking if the month notif is already opened

@@ -98,6 +98,7 @@ struct Practice
 	std::string bulstat; //issuer
 	std::string firm_address; //issuer
 	Ekatte practice_address;
+	std::string street_address; //заради тъпата НЗОК
 	bool hasVat{ false }; //issuer
 	std::string pass;
 	int legal_entity{ 0 }; //issuer
@@ -109,6 +110,10 @@ struct Practice
 	Settings settings;
 
 	std::optional<NhifContract> nhif_contract;
+
+	std::string addresssByActivity() const {
+		return practice_address.getAddressWithStreet(street_address);
+	}
 
 	bool generateMonthlySheets() const {
 		return nhif_contract.has_value() || settings.preferMonthlySheets;

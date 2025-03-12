@@ -26,6 +26,7 @@ public:
 	std::string getHealthRegion() const;
 	std::string getString(bool prefix = true) const;
 	std::string ekatte() const;
+	std::string getAddressWithStreet(const std::string& street) const;
 	bool isValid() const;
 	bool isUnfav() const;
 	int getIdxAsInt() const { return ekatteIdx; }

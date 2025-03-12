@@ -47,7 +47,7 @@ Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
 
     },
     address_by_contract{ practice.firm_address },
-    address_by_activity{ practice.practice_address.getString() },
+    address_by_activity{ practice.addresssByActivity() },
 
     grounds_for_not_charging_VAT{
 

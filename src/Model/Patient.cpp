@@ -54,22 +54,7 @@ std::string Patient::firstLastName() const
 
 std::string Patient::getFullAddress() const
 {
-	std::string cityStr = city.getString();
-
-	if (address.empty()) return cityStr;
-
-	for (int i = 0; i < cityStr.size(); i++)
-	{
-		if (cityStr[i] == ',')
-		{
-			cityStr = cityStr.substr(0, i);
-			break;
-		}
-	}
-
-	cityStr.append(", " + address);
-
-	return cityStr;
+	return city.getAddressWithStreet(address);
 }
 
 std::string Patient::getAllergiesStr() const

@@ -11,7 +11,6 @@ public:
         std::string name;
         std::string rzi;
         std::string address;
-        std::string lpk;
     };
 
     virtual std::optional<Data> getData() = 0;

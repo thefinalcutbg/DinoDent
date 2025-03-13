@@ -19,28 +19,25 @@ PracticeDialog::PracticeDialog(QWidget *parent)
     ui.rziEdit->setInputValidator(&rzi_validator);
     ui.activityAddressEdit->setInputValidator(&city_validator);
     ui.activityAddressEdit->setCompletions(Ekatte::cityNameToIdx());
-    ui.lpkEdit->setInputValidator(&lpk_validator);
 
     ui.practiceNameEdit->setErrorLabel(ui.errorLabel);
     ui.rziEdit->setErrorLabel(ui.errorLabel);
     ui.activityAddressEdit->setErrorLabel(ui.errorLabel);
-    ui.lpkEdit->setErrorLabel(ui.errorLabel);
 
     connect(ui.okButton, &QPushButton::clicked, this, [&] {
 
-        LineEdit* fields[4]{
+        LineEdit* fields[]{
             ui.practiceNameEdit,
             ui.rziEdit,
-            ui.activityAddressEdit,
-            ui.lpkEdit
+            ui.activityAddressEdit
         };
 
-        for(int i = 0; i < 4; i++)
+        for(auto field : fields)
         {
-            fields[i]->validateInput();
+            field->validateInput();
 
-            if(!fields[i]->isValid()) {
-                fields[i]->set_focus();
+            if(!field->isValid()) {
+                field->set_focus();
                 return;
             }
         }
@@ -49,7 +46,6 @@ PracticeDialog::PracticeDialog(QWidget *parent)
             .name = ui.practiceNameEdit->getText(),
             .rzi = ui.rziEdit->getText(),
             .address = ui.activityAddressEdit->getText(),
-            .lpk = ui.lpkEdit->getText()
         };
 
         close();

@@ -6,6 +6,7 @@
 #include "Database/Database.h"
 #include "Database/DbDoctor.h"
 #include "DbUpdates/Updater.h"
+#include "Presenter/DoctorDialogPresenter.h"
 
 PracticeManagerPresenter::PracticeManagerPresenter() :
 	practices{DbPractice::getPracticeList()}
@@ -27,46 +28,39 @@ void PracticeManagerPresenter::setView(IPracticeSelectorView* view)
 void PracticeManagerPresenter::addClicked()
 {
 
-    PracticeDialog d;
-    d.exec();
+    PracticeDialog practiceDialog;
+	practiceDialog.exec();
 
-    auto result = d.getData();
+    auto p_result = practiceDialog.getData();
 
-    if(!result.has_value()) return;
+    if(!p_result.has_value()) return;
 
-    if(DbPractice::practiceExists(result->rzi)){
+    if(DbPractice::practiceExists(p_result->rzi)){
         ModalDialogBuilder::showMessage("Практика с такъв РЗИ номер вече съществува");
         return;
     }
 
-    Practice p;
-    p.name = result->name;
-    p.practice_address = result->address;
-    p.firm_address = result->address;
-    p.legal_entity = 2;
-    p.rziCode = result->rzi;
-    p.bulstat = "000000000";
+	DoctorDialogPresenter doctorDialog;
 
-    DbPractice::insertPractice(p);
+	auto d_result = doctorDialog.open();
 
-    if(!DbDoctor::suchDoctorExists(result->lpk)){
+	if (!d_result.has_value()) return;
 
-        Doctor d;
-        d.fname = "Иван";
-        d.mname = "Иванов";
-        d.lname = "Иванов";
-        d.LPK = result->lpk;
-        d.hisSpecialty = 2081;
-        d.phone = "";
-        DbDoctor::insertDoctor(d);
-    }
+	Practice p;
+	p.name = p_result->name;
+	p.practice_address = p_result->address;
+	p.firm_address = p_result->address;
+	p.legal_entity = 2;
+	p.rziCode = p_result->rzi;
+	p.bulstat = "000000000";
 
     PracticeDoctor pd;
-    pd.lpk = result->lpk;
+    pd.lpk = d_result->LPK;
     pd.admin = true;
 
-    DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
+	DbPractice::insertPractice(p);
 
+    DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
 
 	practices = DbPractice::getPracticeList();
     setView(view);

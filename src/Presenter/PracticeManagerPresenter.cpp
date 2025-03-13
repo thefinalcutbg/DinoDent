@@ -40,6 +40,8 @@ void PracticeManagerPresenter::addClicked()
         return;
     }
 
+	ModalDialogBuilder::showMessage("Въведете администратор на практиката");
+
 	DoctorDialogPresenter doctorDialog;
 
 	auto d_result = doctorDialog.open();

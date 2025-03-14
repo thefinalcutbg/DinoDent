@@ -48,6 +48,10 @@ void LoginView::setDoctorList(const std::vector<std::string>& doctorList)
 		ui.doctorCombo->addItem(d.c_str());
 	}
 
+	if (!ui.doctorCombo->count()) {
+		return;
+	}
+
 	ui.doctorCombo->setCurrentIndex(0);
 	emit ui.doctorCombo->currentIndexChanged(0);
 }

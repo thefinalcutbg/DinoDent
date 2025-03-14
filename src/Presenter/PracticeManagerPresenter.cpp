@@ -109,9 +109,9 @@ void PracticeManagerPresenter::dbChangePath()
 {
 	auto pathResult = GlobalSettings::setDbPath();
 
-	if (pathResult.empty()) return;
-
-	Db::setFilePath(pathResult);
+	if (pathResult.size()) {
+		Db::setFilePath(pathResult);
+	}
 
 	Db::createIfNotExist();
 

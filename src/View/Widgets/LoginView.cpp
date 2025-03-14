@@ -25,6 +25,8 @@ LoginView::LoginView(LoginPresenter& p, QWidget *parent)
     connect(ui.practiceButton, &QPushButton::clicked, this, [&] {presenter.practiceListPressed();});
     connect(ui.okButton, &QPushButton::clicked, this, [&]{
 
+			if (!ui.doctorCombo->count()) return;
+
                 presenter.okPressed(
 						ui.passEdit->text().toStdString(),
 						ui.rememberCheck->isChecked()

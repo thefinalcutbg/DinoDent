@@ -209,20 +209,30 @@ bool ListPresenter::isValid()
     for (auto& p : m_amblist.procedures)
     {
 
-        bool isFullExam = p.code.type() == ProcedureType::FullExam;
+        switch (p.code.type()) {
 
-        if (!isFullExam) {
-            nonExamProcedureFound = true;
+            case ProcedureType::FullExam:
+
+                if (nonExamProcedureFound) {
+
+                    ModalDialogBuilder::showError(
+                        "С оглед на правилната хронология на пациентското досие в НЗИС, "
+                        "процедурата отразяваща зъбния статус трябва да бъде винаги първа по ред. "
+                        "Преместете я (при необходимост - редактирайте датата ѝ)."
+                    );
+
+                    return false;
+                }
+
+                break;
+
+            case ProcedureType::General:
+            case ProcedureType::ToothNonSpecific:
+                continue;
+
+            default: nonExamProcedureFound = true;
         }
 
-        if (nonExamProcedureFound && isFullExam)
-        {
-            ModalDialogBuilder::showError(
-                "С оглед на правилната хронология на пациентското досие в НЗИС, обстойният преглед трябва да бъде винаги първа по ред процедура. Преместете го (при необходимост - редактирайте датата му)."
-            );
-
-            return false;
-        }
     }
 
 

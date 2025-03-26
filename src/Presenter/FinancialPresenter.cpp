@@ -329,7 +329,7 @@ void FinancialPresenter::print()
     if (save())
     Print::invoice(m_invoice);
 }
-#include <QDebug>
+
 void FinancialPresenter::pdfPrint()
 {
     if (!save()) return;
@@ -343,8 +343,7 @@ void FinancialPresenter::pdfPrint()
     if (ModalDialogBuilder::askDialog(
         "Файлът е запазен успешно. Желаете ли да отворите директорията?"
     )) {
-        ModalDialogBuilder::openExplorer(filepath + ".pdf");
-        qDebug() << filepath;
+        ModalDialogBuilder::openExplorer(filepath);
     }
 
 }

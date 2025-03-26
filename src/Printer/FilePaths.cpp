@@ -122,7 +122,7 @@ std::string FilePaths::get(const Invoice& invoice)
     auto filename = FreeFn::leadZeroes(invoice.number, 10);
     filename += "-"; 
     filename += invoice.recipient.name;
-
+    filename += ".pdf";
     return getPath(subdir, filename);
 
 }

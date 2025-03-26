@@ -69,7 +69,7 @@ ReportView::ReportView(QWidget* parent)
 	Date finalReportDate = Date::currentDate();
 	finalReportDate.day = 0;
 
-	const int workdays = 5; //accourding to NHIF contract
+	const int workdays = 5; //according to NHIF contract
 	int counter = 0;
 
 	while (counter != workdays) {

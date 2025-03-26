@@ -66,8 +66,29 @@ ReportView::ReportView(QWidget* parent)
 
 	presenter.setView(this);
 
-	ui.monthCombo->setCurrentIndex(Date::currentMonth() - 1); // index 0 == january;
-	ui.yearSpin->setValue(Date::currentYear());
+	Date finalReportDate = Date::currentDate();
+	finalReportDate.day = 0;
+
+	const int workdays = 5; //accourding to NHIF contract
+	int counter = 0;
+
+	while (counter != workdays) {
+
+		finalReportDate.day++;
+
+		if (finalReportDate.isWeekend()) continue;
+		
+		counter++;
+	}
+
+	QDate reportDate = QDate::currentDate();
+
+	if (reportDate.day() <= finalReportDate.day) {
+		reportDate = reportDate.addMonths(-1);
+	}
+ 
+	ui.monthCombo->setCurrentIndex(reportDate.month()-1); // index 0 == january;
+	ui.yearSpin->setValue(reportDate.year());
 }
 
 ReportView::~ReportView()

@@ -12,6 +12,8 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
+    a.setApplicationName("DinoDent");
+    a.setWindowIcon(QIcon(":/icons/icon_app.png"));
 
     GlobalSettings::createCfgIfNotExists();
 
@@ -53,9 +55,6 @@ int main(int argc, char *argv[])
 #include "View/Widgets/SplashScreen.h"
 #
 bool initFunction() {
-
-    QApplication::setApplicationName("DinoDent");
-    QApplication::setWindowIcon(QIcon(":/icons/icon_app.png"));
 
 #ifdef Q_OS_WIN
     QApplication::setStyle("windowsvista");     //"windows11", "windowsvista", "Windows", "Fusion"

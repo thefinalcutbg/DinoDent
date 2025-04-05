@@ -70,7 +70,6 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 	ui.lNameEdit->set_Text(doctor.lname);
 	ui.phoneEdit->set_Text(doctor.phone);
 	ui.passEdit->set_Text(doctor.pass);
-	ui.severalRHIFcheck->setChecked(doctor.severalRHIF);
 
 	if (doctor.pass.empty()) ui.passEdit->setEchoMode(QLineEdit::Normal);
 
@@ -94,7 +93,6 @@ Doctor DoctorSettingsDialog::getDoctor()
 	doctor.phone = ui.phoneEdit->getText();
 	doctor.hisSpecialty = ui.specialtyButton->text().toStdString();
 	doctor.pass = ui.passEdit->getText();
-	doctor.severalRHIF = ui.severalRHIFcheck->isChecked();
 
 	return doctor;
 }
@@ -107,8 +105,6 @@ void DoctorSettingsDialog::setToReadOnly()
 	}
 
 	ui.specialtyButton->setDisabled(true);
-
-	ui.severalRHIFcheck->setDisabled(true);
 
 	ui.passEdit->setEchoMode(QLineEdit::EchoMode::Password);
 }

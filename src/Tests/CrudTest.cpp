@@ -30,7 +30,6 @@ std::string Test::crudTest()
 			.specialty{ NhifSpecialty::None },
 			.pass{"test"},
 			.phone{"test"},
-			.severalRHIF{ false },
 			.hisSpecialty{2081}
 		}
 	);

@@ -419,9 +419,9 @@ std::string XML::getInvoice(const Invoice& invoice)
 
     addElementWithText(issuerXml, "address_by_contract", issuer.address_by_contract);
 
-    if (User::doctor().severalRHIF) {
-        addElementWithText(issuerXml, "address_by_activity", issuer.address_by_activity);
-    }
+
+    addElementWithText(issuerXml, "address_by_activity", issuer.address_by_activity);
+
 
     auto vat = issuer.vat();
 

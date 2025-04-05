@@ -547,7 +547,6 @@ void SettingsDialog::setDoctor(const Doctor& doctor)
 	ui.lNameEdit->set_Text(doctor.lname);
 	ui.phoneEdit->set_Text(doctor.phone);
 	ui.doctorPassEdit->set_Text(doctor.pass);
-	ui.severalRHIFcheck->setChecked(doctor.severalRHIF);
 
 	ui.doctorPassEdit->setEchoMode(doctor.pass.empty() ? 
 		QLineEdit::Normal
@@ -640,7 +639,6 @@ Doctor SettingsDialog::getDoctor()
 	doctor.phone = ui.phoneEdit->getText();
 	doctor.hisSpecialty = ui.specialtyButton->text().toStdString();
 	doctor.pass = ui.doctorPassEdit->getText();
-	doctor.severalRHIF = ui.severalRHIFcheck->isChecked();
 
 	return doctor;
 }

@@ -186,7 +186,7 @@ std::string Ekatte::getAddressWithStreet(const std::string& street) const
         }
     }
 
-    result.append(", " + street);
+    result.append(" " + street);
 
     return result;
 }

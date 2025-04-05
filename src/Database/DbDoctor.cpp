@@ -6,7 +6,7 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk, const std::str
     std::optional<Doctor> result;
 
     std::string query =
-        "SELECT fname, mname, lname, phone, several_rhif, his_specialty, pass FROM doctor "
+        "SELECT fname, mname, lname, phone, his_specialty, pass FROM doctor "
         "WHERE lpk = ? "
         "AND (pass = ? OR pass = '')";
 
@@ -25,9 +25,8 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk, const std::str
         doctor.mname = db.asString(1);
         doctor.lname = db.asString(2);
         doctor.phone = db.asString(3);
-        doctor.severalRHIF = db.asInt(4);
-        doctor.hisSpecialty = db.asInt(5);
-        doctor.pass = db.asString(6);
+        doctor.hisSpecialty = db.asInt(4);
+        doctor.pass = db.asString(5);
 
         result = doctor;
     }
@@ -40,7 +39,7 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk)
     std::optional<Doctor> result;
 
     std::string query =
-        "SELECT fname, mname, lname, phone, several_rhif, pass, his_specialty FROM doctor "
+        "SELECT fname, mname, lname, phone, pass, his_specialty FROM doctor "
         "WHERE lpk = '" + lpk + "'";
 
     for (Db db(query); db.hasRows();)
@@ -52,9 +51,8 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk)
         doctor.mname = db.asString(1);
         doctor.lname = db.asString(2);
         doctor.phone = db.asString(3);
-        doctor.severalRHIF = db.asInt(4);
-        doctor.pass = db.asString(5);
-        doctor.hisSpecialty = db.asInt(6);
+        doctor.pass = db.asString(4);
+        doctor.hisSpecialty = db.asInt(5);
 
 
         result = doctor;
@@ -101,7 +99,6 @@ bool DbDoctor::updateDoctor(const Doctor& doctor, const std::string& currentLPK)
        "lname=?,"
        "pass=?,"
        "phone=?,"
-       "several_rhif=?,"
        "his_specialty=? "
        "WHERE lpk=?"
    );
@@ -111,9 +108,8 @@ bool DbDoctor::updateDoctor(const Doctor& doctor, const std::string& currentLPK)
    db.bind(3, doctor.lname);
    db.bind(4, doctor.pass);
    db.bind(5, doctor.phone);
-   db.bind(6, doctor.severalRHIF);
-   db.bind(7, doctor.hisSpecialty.getIdx());
-   db.bind(8, currentLPK);
+   db.bind(6, doctor.hisSpecialty.getIdx());
+   db.bind(7, currentLPK);
 
    if(!db.execute()) return false;
 
@@ -132,8 +128,8 @@ bool DbDoctor::updateDoctor(const Doctor& doctor, const std::string& currentLPK)
 bool DbDoctor::insertDoctor(const Doctor& doctor)
 {
     Db db(
-        "INSERT INTO doctor (lpk, fname, mname, lname, pass, phone, several_rhif, auto_login, his_specialty ) "
-        "VALUES(?,?,?,?,?,?,?,?,?)"
+        "INSERT INTO doctor (lpk, fname, mname, lname, pass, phone, auto_login, his_specialty ) "
+        "VALUES(?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, doctor.LPK);
@@ -142,9 +138,8 @@ bool DbDoctor::insertDoctor(const Doctor& doctor)
     db.bind(4, doctor.lname);
     db.bind(5, doctor.pass);
     db.bind(6, doctor.phone);
-    db.bind(7, doctor.severalRHIF);
-    db.bind(8, false);
-    db.bind(9, doctor.hisSpecialty.getIdx());
+    db.bind(7, false);
+    db.bind(8, doctor.hisSpecialty.getIdx());
 
     return db.execute();
 }

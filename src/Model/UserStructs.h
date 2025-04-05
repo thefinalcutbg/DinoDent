@@ -38,7 +38,6 @@ struct Doctor
 	NhifSpecialty specialty{ NhifSpecialty::None };
 	std::string pass;
 	std::string phone;
-	bool severalRHIF{ false };
 	Specialty hisSpecialty;
 
 	std::string getFullName(bool prefix = true) const

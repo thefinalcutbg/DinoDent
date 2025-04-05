@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -804,13 +804,6 @@
           </layout>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="severalRHIFcheck">
-         <property name="text">
-          <string>Отчитане към няколко РЗОК</string>
-         </property>
-        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer_5">

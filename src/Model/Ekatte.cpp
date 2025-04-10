@@ -167,9 +167,9 @@ std::string Ekatte::getAddressWithStreet(const std::string& street) const
     if (!str) return std::string();
 
     std::string result = isCity ?
-        "гр. " + *str
+        "гр. "
         :
-        "с. " + *str;
+        "с. ";
 
     result += *str;
 
@@ -186,7 +186,7 @@ std::string Ekatte::getAddressWithStreet(const std::string& street) const
         }
     }
 
-    result.append(" " + street);
+    result.append(", " + street);
 
     return result;
 }

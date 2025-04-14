@@ -83,8 +83,8 @@ void GetMonthNotifListService::processPISReply(const std::string& reply)
 				Date(row.Child(1).ToElement()->GetText()),	//date
 				getNotifType(getTextNullCheck(row.Child(2).ToElement())),						//type
 				getTextNullCheck(row.Child(3).ToElement()),								//rzi
-				getTextNullCheck(row.Child(4).ToElement()),								//uin
-				(row.Child(5).ToElement()->GetText() != nullptr)					//claimed
+				getTextNullCheck(row.Child(4).ToElement())								//uin
+			//	(row.Child(5).ToElement()->GetText() != nullptr)					//claimed
 			}
 		);
 

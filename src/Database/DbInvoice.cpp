@@ -105,6 +105,23 @@ long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
      return 0;
 }
 
+std::set<int> DbInvoice::getClaimedNotifNumbers()
+{
+    auto query = "SELECT month_notif FROM financial "
+    "WEHERE practice_rzi = '" + User::practice().rziCode + "' ";
+
+
+    std::set<int> result;
+
+    Db db(query);
+
+    while (db.hasRows()) {
+        result.insert(db.asInt(0));
+    }
+
+    return result;
+}
+
 bool DbInvoice::invoiceAlreadyExists(long long number, long long rowid)
 {
     std::string query{

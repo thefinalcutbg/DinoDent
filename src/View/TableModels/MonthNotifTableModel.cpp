@@ -95,7 +95,7 @@ QVariant MonthNotifTableModel::data(const QModelIndex& index, int role) const
     case Qt::DecorationRole:
         switch (column)
         {
-        case 4:
+        case 1:
             if (rows[row].claimed)
                 return QIcon(":/icons/icon_apply.png");
             break;
@@ -112,6 +112,7 @@ QVariant MonthNotifTableModel::data(const QModelIndex& index, int role) const
             case 3: return rows[row].uin;
             default: return QVariant();
         }
+        break;
     case Qt::TextAlignmentRole:
        
         if (column == 1) return int(Qt::AlignLeft);

@@ -2,6 +2,7 @@
 #include <unordered_set>
 #include "Model/Financial/Invoice.h"
 #include <tuple>
+#include <set>
 
 struct NzokFinancialDetails {
 	long long rowId;
@@ -17,6 +18,7 @@ namespace DbInvoice
 	void updateInvoice(const Invoice& invoice);
 	//returns rowid of existing invoice for this monthly notification:
 	long long invoiceAlreadyExists(int monthNotifNumber);
+	std::set<int> getClaimedNotifNumbers();
 	bool invoiceAlreadyExists(long long number, long long rowid);
 	std::optional<Date> getMainDocDate(long long invoiceNumber, const std::string& recipientId);
 	std::optional<MainDocument> getMainDocument(const std::string& recipient_id, long long currentRowid);

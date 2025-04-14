@@ -224,7 +224,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
     tableView.addColumn({"Телефон", 100, PlainColumn::Center});
 
     std::string query =
-        "SELECT rowid, num, month_notif > 0, "
+        "SELECT rowid, num, claimed_hash IS NOT NULL, "
         "date, "
         "recipient_id, recipient_name, recipient_phone "
         "FROM financial "

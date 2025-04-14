@@ -10,16 +10,16 @@
 #include "Printer/FilePaths.h"
 #include "Printer/Print.h"
 
-Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
+Invoice getInvoiceFromMonthNotif(const std::string& xmlstring, const std::string& claimedHash)
 {
     TiXmlDocument doc;
 
     doc.Parse(xmlstring.data(), 0, TIXML_ENCODING_UTF8);
 
-    Invoice i(doc, User::practice(), User::doctor());
+    Invoice i(doc, claimedHash, User::practice(), User::doctor());
     i.date = Date::currentDate();
     i.number = DbInvoice::getNewInvoiceNumber();
-    auto existingRowid = DbInvoice::invoiceAlreadyExists(i.nhifData->fin_document_month_no);
+    auto existingRowid = DbInvoice::invoiceAlreadyExists(claimedHash);
 
     if (!existingRowid) {
         return i;
@@ -32,10 +32,10 @@ Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
     return loadFromDb ? DbInvoice::getInvoice(existingRowid) : i;    
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotif) :
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotif, const std::string& claimedHash) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
-    m_invoice(getInvoiceFromMonthNotif(monthNotif))
+    m_invoice(getInvoiceFromMonthNotif(monthNotif, claimedHash))
 {
     this->view = tabView->financialView();
 

@@ -3,6 +3,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
 #include "View/Interfaces/IMonthNotifView.h"
+#include "Database/DbInvoice.h"
 
 MonthNotifPresenter::MonthNotifPresenter(){}
 
@@ -10,7 +11,15 @@ MonthNotifPresenter::MonthNotifPresenter(){}
 void MonthNotifPresenter::setView(IMonthNotifView* view)
 {
     this->view = view;
-    if (m_notifRows.size()) view->setMonthNotifRows(m_notifRows);
+    if (m_notifRows.empty()) return;
+    
+    auto claimedNotifs = DbInvoice::getClaimedHashes();
+
+    for (auto& n : m_notifRows) {
+        n.is_claimed = claimedNotifs.count(n.claimedHash);
+    }
+    
+    view->setMonthNotifRows(m_notifRows);
     
 }
 
@@ -25,7 +34,7 @@ void MonthNotifPresenter::loadFromXml()
 
     if (!fileData.has_value()) return;
 
-    TabPresenter::get().openInvoice(fileData.value());
+    TabPresenter::get().openInvoice(fileData.value(), "default");
 
     return;
 }
@@ -48,7 +57,7 @@ void MonthNotifPresenter::okPressed(int currentIdx)
             if(result.empty()) {
                 return;
             }
-            TabPresenter::get().openInvoice(result);
+            TabPresenter::get().openInvoice(result, m_notifRows[currentIdx].claimedHash);
             view->closeParentDialog();
         });
 
@@ -66,8 +75,11 @@ void MonthNotifPresenter::setNotifRows(const std::optional<std::vector<MonthNoti
         return;
     }
 
+    auto claimedNotifs = DbInvoice::getClaimedHashes();
+
+    for (auto& n : m_notifRows) {
+        n.is_claimed = claimedNotifs.count(n.claimedHash);
+    }
+
     view->setMonthNotifRows(m_notifRows);
-
-
-
 }

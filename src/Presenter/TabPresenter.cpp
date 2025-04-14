@@ -11,6 +11,7 @@
 #include "CalendarPresenter.h"
 #include "FinancialPresenter.h"
 #include <TinyXML/tinyxml.h>
+#include "Database/DbInvoice.h"
 
 TabPresenter TabPresenter::s_singleton;
 
@@ -138,29 +139,23 @@ void TabPresenter::openPerscription(const Patient& patient)
     createNewTab(new PrescriptionPresenter(view, getPatient_ptr(patient)));
 }
 
-void TabPresenter::openInvoice(const std::string& monthNotif)
+void TabPresenter::openInvoice(const std::string& monthNotif, const std::string& claimedHash)
 {
 
     try {
-        auto presenter = new FinancialPresenter(view, monthNotif);
+        auto presenter = new FinancialPresenter(view, monthNotif, claimedHash);
 
         if (!presenter->m_invoice.rowId) {
             createNewTab(presenter);
             return;
         }
 
-        auto monthNotifNum = presenter->m_invoice.nhifData->fin_document_month_no;
-
         //checking if the month notif is already opened
         for (auto& [index, tabInstance] : m_tabs)
         {
             if (tabInstance->type != TabType::Financial) continue;
 
-            auto finPresenter = static_cast<FinancialPresenter*>(tabInstance);
-
-            if (finPresenter->m_invoice.nhifData.has_value() &&
-                finPresenter->m_invoice.nhifData->fin_document_month_no == monthNotifNum) {
-
+            if (tabInstance->rowID() == presenter->rowID()) {
                 view->focusTab(index);
                 delete presenter;
                 return;

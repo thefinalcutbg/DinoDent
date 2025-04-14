@@ -16,4 +16,5 @@ struct NhifInvoiceData {
 	const Date date_to;
 
 	std::string monthNotifData; //the whole monthly notification data
+	std::string claimedHash;
 };

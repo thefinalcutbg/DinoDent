@@ -12,7 +12,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
     if(invoice.nhifData.has_value()){
 
         db.newStatement(
-            "INSERT INTO financial (practice_rzi, num, type, date, month_notif, recipient_id, data) "
+            "INSERT INTO financial (practice_rzi, num, type, date, claimed_hash, recipient_id, data) "
             "VALUES (?,?,?,?,?,?,?)"
         );
 
@@ -20,14 +20,14 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         db.bind(2, invoice.number);
         db.bind(3, static_cast<int>(invoice.type));
         db.bind(4, invoice.date.to8601());
-        db.bind(5, invoice.nhifData->fin_document_month_no);
+        db.bind(5, invoice.nhifData->claimedHash);
         db.bind(6, invoice.recipient.identifier);
         db.bind(7, invoice.nhifData->monthNotifData);
     }
     else
     {
         db.newStatement(
-            "INSERT INTO financial (practice_rzi, num, type, date, month_notif, data,"
+            "INSERT INTO financial (practice_rzi, num, type, date, claimed_hash, data,"
             " recipient_id, recipient_name, recipient_address, recipient_phone, recipient_vat) "
             "VALUES (?,?,?,?,?,?,?,?,?,?, ?)"
         );
@@ -36,7 +36,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         db.bind(2, invoice.number);
         db.bind(3, static_cast<int>(invoice.type));
         db.bind(4, invoice.date.to8601());
-        db.bind(5, "0");
+        db.bindNull(5);
         db.bind(6, Parser::write(invoice));
         db.bind(7, invoice.recipient.identifier);
         db.bind(8, invoice.recipient.name);
@@ -87,16 +87,19 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
     db.execute();
 }
 
-long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
+long long DbInvoice::invoiceAlreadyExists(const std::string& claimedHash)
 {
 
      std::string query =
          "SELECT rowid FROM financial "
-         "WHERE month_notif = " + std::to_string(monthNotifNumber) + " "
-         "AND practice_rzi = '" + User::practice().rziCode + "' "
+         "WHERE claimed_hash = ? " 
+         "AND practice_rzi = ? "
          "ORDER BY num DESC LIMIT 1";
 
      Db db(query);
+
+     db.bind(1, claimedHash);
+     db.bind(2, User::practice().rziCode);
 
      while (db.hasRows()) {
          return db.asRowId(0);
@@ -121,6 +124,22 @@ bool DbInvoice::invoiceAlreadyExists(long long number, long long rowid)
 
     return false;
 
+}
+
+std::set<std::string> DbInvoice::getClaimedHashes()
+{
+    std::string query{
+    "SELECT claimed_hash FROM financial WHERE "
+    "practice_rzi = '" + User::practice().rziCode + "' " };
+
+    std::set<std::string> result;
+
+    for (Db db(query); db.hasRows();)
+    {
+        result.insert(db.asString(0));
+    }
+
+    return result;;
 }
 
 std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std::string& recipient_id)
@@ -192,7 +211,7 @@ std::optional<Recipient> DbInvoice::getRecipient(const std::string& bulstat)
 
 Invoice DbInvoice::getInvoice(long long rowId)
 {
-    std::string query = "SELECT num, type, date, month_notif, data, "
+    std::string query = "SELECT num, type, date, claimed_hash, data, "
         "recipient_id, recipient_name, recipient_phone, recipient_address, recipient_vat "
         "FROM financial "
         "WHERE rowid = " + std::to_string(rowId);
@@ -206,16 +225,16 @@ Invoice DbInvoice::getInvoice(long long rowId)
         Date invDate = db.asString(2);
 
 
-        int monthNotif = db.asInt(3);
+        std::string claimedHash = db.asString(3);
 
 
-        //if it's from monthly notification, parse the xml data and return the result:
-        if (monthNotif) {
+        //Parse the xml data and return the result:
+        if (claimedHash.size()) {
 
             TiXmlDocument doc;
             doc.Parse(db.asString(4).c_str(), 0, TIXML_ENCODING_UTF8);
 
-            Invoice result(doc, User::practice(), User::doctor());
+            Invoice result(doc, claimedHash, User::practice(), User::doctor());
 
             result.rowId = rowId;
             result.number = invNumber;

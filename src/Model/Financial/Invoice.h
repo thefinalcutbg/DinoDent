@@ -22,7 +22,7 @@ struct Invoice
 {
 	Invoice() {};
 	Invoice(const Recipient& r);
-	Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor);
+	Invoice(const TiXmlDocument& monthNotif, const std::string& claimedHash, const Practice& practice, const Doctor& doctor);
 	Invoice(const Patient& p);
 
 	std::optional<MainDocument> mainDocument() const;

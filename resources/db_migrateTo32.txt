@@ -1,0 +1,6 @@
+ALTER TABLE doctor DROP COLUMN several_rhif;
+ALTER TABLE financial ADD COLUMN claimed_hash TEXT;
+UPDATE financial SET claimed_hash='default' WHERE month_notif>0;
+ALTER TABLE financial DROP COLUMN month_notif;
+
+PRAGMA user_version = 32;

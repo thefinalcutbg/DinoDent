@@ -29,7 +29,7 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 }
 
 
-Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
+Invoice::Invoice(const TiXmlDocument& monthNotif, const std::string& claimedHash, const Practice& practice, const Doctor& doctor)
     :
     type{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
 
@@ -47,6 +47,8 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
             }
     }
 {
+
+	nhifData->claimedHash = claimedHash;
 
 	for (
 		const TiXmlElement* business_operation = monthNotif.RootElement()->FirstChildElement("Monthly_Notification_Details");

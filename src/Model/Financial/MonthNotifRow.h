@@ -10,6 +10,7 @@ struct MonthNotifRow {
 	FinancialDocType type;
 	std::string rziCode;
 	std::string uin;
-	bool claimed;
+	std::string claimedHash;
+	bool is_claimed{ false };
 
 };

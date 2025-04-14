@@ -21,7 +21,7 @@ void MonthNotifTableModel::setRows(const std::vector<MonthNotifRow>& rows)
                 r.type,
                 r.rziCode.data(),
                 r.uin.data(),
-                r.claimed
+                r.is_claimed           
             }
         );
     }
@@ -95,7 +95,7 @@ QVariant MonthNotifTableModel::data(const QModelIndex& index, int role) const
     case Qt::DecorationRole:
         switch (column)
         {
-        case 99:
+        case 1:
             if (rows[row].claimed)
                 return QIcon(":/icons/icon_apply.png");
             break;

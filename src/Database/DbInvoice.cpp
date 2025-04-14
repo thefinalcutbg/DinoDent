@@ -207,32 +207,28 @@ std::optional<Recipient> DbInvoice::getRecipient(const std::string& bulstat)
     return result;
 }
 
-
-
 Invoice DbInvoice::getInvoice(long long rowId)
 {
     std::string query = "SELECT num, type, date, claimed_hash, data, "
-        "recipient_id, recipient_name, recipient_phone, recipient_address, recipient_vat "
+        "recipient_id, recipient_name, recipient_phone, recipient_address, recipient_vat, claimed_hash IS NOT NULL AS isNhif "
         "FROM financial "
         "WHERE rowid = " + std::to_string(rowId);
 
     Db db(query);
 
     while (db.hasRows()) {
-        
+
         long long invNumber = db.asLongLong(0);
         FinancialDocType type = static_cast<FinancialDocType>(db.asInt(1));
         Date invDate = db.asString(2);
 
-
-        std::string claimedHash = db.asString(3);
-
-
-        //Parse the xml data and return the result:
-        if (claimedHash.size()) {
+        //if NHIF parse the xml data and return the result:
+        if (db.asBool(10)) {
 
             TiXmlDocument doc;
             doc.Parse(db.asString(4).c_str(), 0, TIXML_ENCODING_UTF8);
+
+            std::string claimedHash = db.asString(3);
 
             Invoice result(doc, claimedHash, User::practice(), User::doctor());
 

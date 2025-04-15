@@ -262,6 +262,11 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Calendar); });
 		action->setIcon(QIcon(":/icons/icon_calendar.png"));
 		main_menu->addAction(action);
+
+		action = (new QAction("Пациентско досие", main_menu));
+		connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::PatientSummary); });
+		action->setIcon(QIcon(":/icons/icon_history.png"));
+		main_menu->addAction(action);
 	}
 
 	action = (new QAction("Копирай текста", main_menu));

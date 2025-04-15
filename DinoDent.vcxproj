@@ -517,6 +517,7 @@
     <ClCompile Include="src\View\Widgets\NotificationDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NotificationListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PatientHistoryDialog.cpp" />
+    <ClCompile Include="src\View\SubWidgets\PerioSummary.cpp" />
     <ClCompile Include="src\View\Widgets\PisImportView.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
@@ -897,6 +898,7 @@
     <QtMoc Include="src\View\Widgets\NotificationListDialog.h" />
     <QtMoc Include="src\View\Widgets\NotesTemplateDialog.h" />
     <QtMoc Include="src\View\Widgets\PatientHistoryDialog.h" />
+    <QtMoc Include="src\View\SubWidgets\PerioSummary.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -993,6 +995,7 @@
     <QtUic Include="src\View\Widgets\NotificationDialog.ui" />
     <QtUic Include="src\View\Widgets\NotificationListDialog.ui" />
     <QtUic Include="src\View\Widgets\PatientHistoryDialog.ui" />
+    <QtUic Include="src\View\SubWidgets\PerioSummary.ui" />
     <QtUic Include="src\View\Widgets\PisImportView.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />

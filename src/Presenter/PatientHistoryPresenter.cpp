@@ -38,14 +38,28 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 	//init shapshots:
 
-	for (auto& frame : DbPatientSummary::getFrames(patient.rowid)) {
+	ToothContainer* lastToothStatus = nullptr;
+	
+	std::vector<PerioSnapshot> perioSnapshots;
 
-		if (frame.type == TimeFrameType::Perio) continue;
+	for (auto& frame : DbPatientSummary::getFrames(patient.rowid)) {
+		
+		if (frame.type == TimeFrameType::Perio) {
+
+			perioSnapshots.push_back(PerioSnapshot{
+				.perioStatus = frame.perioData,
+				.toothStatus = lastToothStatus ? *lastToothStatus : ToothContainer(),
+				.perioStatistic = PerioStatistic(frame.perioData, patient.getAge(frame.perioData.date))
+			});
+
+			continue;
+		}
 
 		if (frame.type == TimeFrameType::InitialAmb) {
 			local_snapshots.emplace_back(frame.teeth, frame.date);
 			local_snapshots.back().procedure_name = "Амбулаторен лист " + frame.number + " (изходен статус)";
 			local_snapshots.back().financing = static_cast<FinancingSource>(99);
+			lastToothStatus = &local_snapshots.back().teeth;
 			continue;
 		}
 
@@ -56,11 +70,13 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 			if (local_snapshots.back().affected_teeth.empty()) {
 				local_snapshots.pop_back(); //because it changes nothing
+				lastToothStatus = &local_snapshots.back().teeth;
 			}
 
 		}
 	}
 
+	view.setPerioSnapshots(perioSnapshots);
 }
 
 void PatientHistoryPresenter::procedureSourceChanged(Procedure::DatabaseSource source)

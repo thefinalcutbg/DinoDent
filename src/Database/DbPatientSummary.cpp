@@ -4,7 +4,7 @@
 #include "Model/Dental/PerioStatus.h"
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
-
+#include <qdebug.h>
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
     std::vector<TimeFrame> initialFrames;
@@ -79,8 +79,13 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         perioFrame.type = TimeFrameType::Perio;
         perioFrame.date = db.asString(2);
         perioFrame.LPK = db.asString(1);
+        perioFrame.perioData.date = perioFrame.date;
         Parser::parse(db.asString(3), perioFrame.perioData);
-        
+
+        if (result.empty()) {
+            result.push_back(perioFrame);
+            continue;
+        }
 
         for (size_t i = 0; i < result.size(); i++)
         {

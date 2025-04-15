@@ -17,6 +17,8 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	ui.hisStatRadio->click();
 	ui.tabWidget->setCurrentIndex(0);
 
+	ui.perioTab->hide();
+
 	ui.procedureTable->setModel(&procedure_model);
 	ui.docView->setModel(&doc_model);
 	ui.docDetailsView->setModel(&doc_details_model);
@@ -204,6 +206,15 @@ void PatientHistoryDialog::setSnapshots(const std::vector<HisSnapshot>& snapshot
 	ui.snapshotViewer->setSnapshots(snapshots);
 }
 
+void PatientHistoryDialog::setPerioSnapshots(const std::vector<PerioSnapshot>& snapshots)
+{
+	if (snapshots.empty()) {
+		ui.tabWidget->tabBar()->removeTab(PERIO_TAB_INDEX);
+		return;
+	}
+	ui.perioTab->setSnapshots(snapshots);
+}
+
 void PatientHistoryDialog::setHospitalizations(const std::vector<Hospitalization>& h)
 {
 	hospi_model.setRows(h);
@@ -268,6 +279,7 @@ void PatientHistoryDialog::tabChanged(int idx)
 		break;
 	case 3:
 		presenter.hospitalizationRequested();
+		break;
 	}
 }
 

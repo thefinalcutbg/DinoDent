@@ -1038,6 +1038,9 @@
     <ClCompile Include="src\Model\Dental\HisSnapshot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\SubWidgets\PerioSummary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -2239,6 +2242,9 @@
     <QtMoc Include="src\View\Widgets\PatientHistoryDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SubWidgets\PerioSummary.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2452,6 +2458,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PatientHistoryDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SubWidgets\PerioSummary.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

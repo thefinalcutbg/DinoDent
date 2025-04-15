@@ -5,15 +5,19 @@
 #include "Model/Dental/HisSnapshot.h"
 #include "Model/PlainTable.h"
 #include "Model/Dental/Procedure.h"
+#include "Model/Dental/PerioStatistic.h"
 #include "View/TableModels/PlainTableModel.h"
 #include "View/TableModels/ProcedureTableModel.h"
 #include "View/TableModels/HospitalizationTableModel.h"
 
 class PatientHistoryPresenter;
 
+
 class PatientHistoryDialog : public QDialog
 {
 	Q_OBJECT
+
+	static constexpr int PERIO_TAB_INDEX = 4;
 
 	PatientHistoryPresenter& presenter;
 
@@ -32,6 +36,7 @@ public:
 	void setProcedures(const std::vector<Procedure> procedures, Procedure::DatabaseSource source);
 	void setDocuments(const PlainTable& docList, const std::vector<PlainTable>& contents);
 	void setSnapshots(const std::vector<HisSnapshot>& snapshots, Procedure::DatabaseSource source);
+	void setPerioSnapshots(const std::vector<PerioSnapshot>& snapshots);
 	void setHospitalizations(const std::vector<Hospitalization>& h);
 	void hideNhif(bool hidden);
 	void open(Procedure::DatabaseSource src);

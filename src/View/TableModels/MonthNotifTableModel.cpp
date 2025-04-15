@@ -95,7 +95,7 @@ QVariant MonthNotifTableModel::data(const QModelIndex& index, int role) const
     case Qt::DecorationRole:
         switch (column)
         {
-        case 1:
+        case 0:
             if (rows[row].claimed)
                 return QIcon(":/icons/icon_apply.png");
             break;

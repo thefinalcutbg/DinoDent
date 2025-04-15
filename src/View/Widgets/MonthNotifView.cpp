@@ -20,7 +20,7 @@ MonthNotifView::MonthNotifView(QWidget *parent)
 
     ui.tableView->verticalHeader()->hide();
 
-    ui.tableView->setColumnWidth(0, 100);
+    ui.tableView->setColumnWidth(0, 120);
     ui.tableView->setColumnWidth(1, 200);
     ui.tableView->setColumnWidth(2, 100);
     ui.tableView->setColumnWidth(3, 100);

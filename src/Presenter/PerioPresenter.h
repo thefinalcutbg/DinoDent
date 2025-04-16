@@ -30,8 +30,7 @@ public:
 	PerioStatus m_perioStatus;
 	ToothContainer m_toothStatus;
 
-	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient);
-	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId);
+	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId = 0);
 	void toothButtonClicked(int tooth);
 
 	void pdChanged(int index, int value);

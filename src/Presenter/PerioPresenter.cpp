@@ -7,57 +7,29 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPerio.h"
 
-PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
-    TabInstance(view, TabType::PerioStatus, patient),
-    view(view->perioView()),
-    patient_info(view->perioView()->patientTile(), patient),
-    m_perioStatus(DbPerio::getPerioStatus(patient->rowid, Date::currentDate())),
-    m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate()))
-{
-
-    if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
-    {
-
-                            m_perioStatus.rowid = 0; //clearing the id, because it's new measurment
-
-                            auto getPrevious = ModalDialogBuilder::askDialog
-                            ("Открито е предишно пародонтално измерване. "
-                                "Желаете ли да заредите старите резултати?");
-
-                            if(!getPrevious)
-                                m_perioStatus = PerioStatus();
-
-                            m_perioStatus.date = Date::currentDate();
-    }
-
-
-    for (auto& tooth : m_toothStatus)
-    {
-
-        if (
-            tooth[Dental::Missing] ||
-            tooth[Dental::Denture] ||
-            tooth[Dental::Impacted] ||
-            tooth[Dental::Implant]
-            )
-            m_perioStatus.disabled[tooth.index()] = true;
-
-
-        if (tooth[Dental::Mobility])
-            m_perioStatus.mobility[tooth.index()] = 
-                                 static_cast<int>(tooth.m_degree) + 1;
-    }
-
-
-}
-
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId) :
     TabInstance(view, TabType::PerioStatus, patient),
     view(view->perioView()),
     patient_info(view->perioView()->patientTile(), patient),
-    m_perioStatus(DbPerio::getPerioStatus(rowId)),
+    m_perioStatus(rowId ? DbPerio::getPerioStatus(rowId) : DbPerio::getPerioStatus(patient->rowid, Date::currentDate())),
     m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date))
 {
+
+    if (m_perioStatus.date != Date::currentDate() && !rowId) //if its not todays measurment and it is new document
+    {
+
+        m_perioStatus.rowid = 0; //clearing the id, because it's new measurment
+
+        auto getPrevious = ModalDialogBuilder::askDialog
+        ("Открито е предишно пародонтално измерване. "
+            "Желаете ли да заредите старите резултати?");
+
+        if (!getPrevious)
+            m_perioStatus = PerioStatus();
+
+        m_perioStatus.date = Date::currentDate();
+    }
+
 
     for (auto& tooth : m_toothStatus)
     {

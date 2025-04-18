@@ -319,6 +319,7 @@ HEADERS += \
     src/View/SubWidgets/MedicalStatusWidget.h \
     src/View/SubWidgets/PatientTileInfo.h \
     src/View/SubWidgets/PerioStatisticView.h \
+    src/View/SubWidgets/PerioSummary.h \
     src/View/SubWidgets/ProcedureInput.h \
     src/View/SubWidgets/ProcedureListView.h \
     src/View/SubWidgets/ReferralTile.h \
@@ -661,6 +662,7 @@ SOURCES += \
     src/View/SubWidgets/MedicalStatusWidget.cpp \
     src/View/SubWidgets/PatientTileInfo.cpp \
     src/View/SubWidgets/PerioStatisticView.cpp \
+    src/View/SubWidgets/PerioSummary.cpp \
     src/View/SubWidgets/ProcedureInput.cpp \
     src/View/SubWidgets/ProcedureListView.cpp \
     src/View/SubWidgets/ReferralTile.cpp \
@@ -789,6 +791,7 @@ FORMS += \
     src/View/SubWidgets/MedicalStatusWidget.ui \
     src/View/SubWidgets/PatientTileInfo.ui \
     src/View/SubWidgets/PerioStatisticView.ui \
+    src/View/SubWidgets/PerioSummary.ui \
     src/View/SubWidgets/ProcedureInput.ui \
     src/View/SubWidgets/ProcedureListView.ui \
     src/View/SubWidgets/ReferralTile.ui \

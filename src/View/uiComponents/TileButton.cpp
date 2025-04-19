@@ -92,7 +92,7 @@ bool TileButton::eventFilter(QObject*, QEvent* e)
         if(mouseEvent->button() == Qt::RightButton)
         {
             QApplication::restoreOverrideCursor();
-            emit customContextMenuRequested(mouseEvent->pos());
+            emit customContextMenuRequested(mapToGlobal(mouseEvent->pos()));
         }
         else
         {

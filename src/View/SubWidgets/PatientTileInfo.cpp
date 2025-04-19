@@ -16,7 +16,12 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     QAction* action;
 
     action = (new QAction("Редактирай", context_menu));
-    connect(action, &QAction::triggered, this, [=, this] { ui.patientTile->click(); });
+    connect(action, &QAction::triggered, this, [=, this] {
+        context_menu_overPatient ?
+        ui.patientTile->click()
+        :
+        ui.medStatTile->click();
+    });
     action->setIcon(QIcon(":/icons/icon_edit.png"));
     context_menu->addAction(action);
 
@@ -90,8 +95,14 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
         if (presenter) presenter->notificationClicked();
     });
 
-    connect(ui.patientTile, &TileButton::customContextMenuRequested, this, [=, this](QPoint point){
-         context_menu->popup(mapToGlobal(point));
+    connect(ui.patientTile, &TileButton::customContextMenuRequested, this, [&](QPoint point){
+        context_menu_overPatient = true;
+         context_menu->popup(point);
+    });
+
+    connect(ui.medStatTile, &TileButton::customContextMenuRequested, this, [&](QPoint point){
+        context_menu_overPatient = false;
+        context_menu->popup(point);
     });
 }
 

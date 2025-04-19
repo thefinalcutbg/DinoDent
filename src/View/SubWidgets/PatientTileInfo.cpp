@@ -1,10 +1,58 @@
 #include "PatientTileInfo.h"
+
+#include <QMenu>
+
 #include "Presenter/PatientInfoPresenter.h"
+#include "View/Theme.h"
 
 PatientTileInfo::PatientTileInfo(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+    //init context menu
+    context_menu = new QMenu(this);
+
+    QAction* action;
+
+    action = (new QAction("Редактирай", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { ui.patientTile->click(); });
+    action->setIcon(QIcon(":/icons/icon_edit.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Нов амбулаторен лист", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::AmbList); });
+    action->setIcon(QIcon(":/icons/icon_sheet.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Ново пародонтално измерване", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::PerioStatus); });
+    action->setIcon(QIcon(":/icons/icon_periosheet.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Нова рецепта", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::Prescription); });
+    action->setIcon(QIcon(":/icons/icon_prescr.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Нова фактура", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::Financial); });
+    action->setIcon(QIcon(":/icons/icon_invoice.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Запази посещение", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::Calendar); });
+    action->setIcon(QIcon(":/icons/icon_calendar.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Пациентско досие", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::PatientSummary); });
+    action->setIcon(QIcon(":/icons/icon_history.png"));
+    context_menu->addAction(action);
+
+    context_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
+
+    //connect signalsh
 
     connect(ui.patientTile->nraButton, &QPushButton::clicked, this, [=, this] {
 		if (presenter) presenter->nraClicked(true);
@@ -40,6 +88,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 
     connect (ui.patientTile->notificationButton, &QPushButton::clicked, this, [=, this]{
         if (presenter) presenter->notificationClicked();
+    });
+
+    connect(ui.patientTile, &TileButton::customContextMenuRequested, this, [=, this](QPoint point){
+         context_menu->popup(mapToGlobal(point));
     });
 }
 

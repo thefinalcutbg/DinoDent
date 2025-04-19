@@ -232,6 +232,15 @@ void PatientInfoPresenter::notificationClicked()
     DbNotification::insert(result.value());
 }
 
+void PatientInfoPresenter::openDocument(TabType type)
+{
+    RowInstance doc(type);
+    doc.rowID = 0,
+    doc.patientRowId = patient->rowid,
+
+    TabPresenter::get().open(doc, true);
+}
+
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
 {
     if (!status_result) {

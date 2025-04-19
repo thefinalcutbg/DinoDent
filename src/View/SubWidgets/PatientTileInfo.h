@@ -13,6 +13,7 @@ struct PatientTileInfo : public QWidget, public IPatientTileInfo
 	Q_OBJECT
 
 	PatientInfoPresenter* presenter{ nullptr };
+    QMenu* context_menu;
 
 public:
 	PatientTileInfo(QWidget *parent = nullptr);

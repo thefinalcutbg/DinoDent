@@ -11,6 +11,7 @@
 
 class TileButton : public QAbstractButton
 {
+    Q_OBJECT
 
     void paintEvent(QPaintEvent* e) override;
     bool eventFilter(QObject* obj, QEvent* e) override;
@@ -29,13 +30,15 @@ protected:
 
 public:
     TileButton(QWidget* parent = 0);
-    void reverse() { m_reveresed = !m_reveresed; };
+    void reverse() { m_reveresed = !m_reveresed; update(); };
+
 };
 
 #include "View/uiComponents/IconButton.h"
 
 struct PatientTile : public TileButton
 {
+    Q_OBJECT
 
 public:
     IconButton* nraButton;
@@ -69,7 +72,8 @@ private:
 
 class MedStatusTile : public TileButton
 {
-    
+    Q_OBJECT
+
     static inline const QString 
         allergiesLabel{ "Алергии:" }, 
         currentDLabel{ "Настоящи заболявания:" },

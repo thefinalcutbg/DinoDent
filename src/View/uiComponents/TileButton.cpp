@@ -1,5 +1,6 @@
 ﻿#include "TileButton.h"
 #include <QPainterPath>
+#include <QMouseEvent>
 #include "View/Theme.h"
 #include <QApplication>
 #include "View/Graphics/Zodiac.h"
@@ -77,12 +78,26 @@ bool TileButton::eventFilter(QObject*, QEvent* e)
 
 	if (e->type() == QEvent::MouseButtonPress)
 	{
-		clicked = true;
+        if(static_cast<QMouseEvent*>(e)->button() == Qt::LeftButton)
+        {
+            clicked = true;
+            update();
+        }
 	}
 
 	if (e->type() == QEvent::MouseButtonRelease)
-	{
-		clicked = false;
+    {
+        auto mouseEvent = static_cast<QMouseEvent*>(e);
+
+        if(mouseEvent->button() == Qt::RightButton)
+        {
+            emit customContextMenuRequested(mouseEvent->pos());
+        }
+        else
+        {
+            clicked = false;
+            update();
+        }
 	}
 
 	return false;

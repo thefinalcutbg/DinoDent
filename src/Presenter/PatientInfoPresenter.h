@@ -7,6 +7,7 @@
 #include "Network/HIS/EAllergy.h"
 #include "Network/HIS/EHospitalization.h"
 #include "View/Interfaces/IPatientTileInfo.h"
+#include "Model/TabType.h"
 
 struct PatientInfoPresenter
 {
@@ -39,6 +40,7 @@ public:
 	void checkHospitalization();
 	void setCurrent(bool current);
     void notificationClicked();
+    void openDocument(TabType type);
 
 
 };

@@ -48,13 +48,10 @@ int ToothContainer::getMissingTeethCount(bool countWisdom) const
 {
 	int missingTeeth{ 0 };
 
-	constexpr int wisdomTeethIdx[4]{ 0, 15, 16, 31 };
-
 	for (const auto& t : teeth)
 	{
-		for (auto& i : wisdomTeethIdx)
-			if (!countWisdom && t.isWisdom())
-				continue;
+        if (!countWisdom && t.isWisdom())
+            continue;
 
 		if (t[Missing] || t[Implant])
 			missingTeeth++;

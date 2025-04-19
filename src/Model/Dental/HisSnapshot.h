@@ -6,7 +6,7 @@
 #include "Model/Dental/ToothContainer.h"
 #include "Model/Dental/Procedure.h"
 
-class Procedure;
+struct Procedure;
 
 struct HisSnapshot {
 

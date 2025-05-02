@@ -34,7 +34,8 @@ std::vector<Calendar> CalendarJsonParser::parseCalendarList(const std::string& r
 		result.emplace_back(Calendar{
 			.summary = item["summary"].asString(),
 			.id = item["id"].asString(),
-			.etag = item["etag"].asString()
+            .etag = item["etag"].asString(),
+            .timeZone = item["timeZone"].asString()
 		});
 	}
 
@@ -111,7 +112,7 @@ std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string&
 
 
 
-std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event)
+std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event, const std::string& timeZone)
 {
 	Json::Value json;
 
@@ -122,14 +123,14 @@ std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event)
 	Json::Value start;
 
 	start["dateTime"] = event.start.toString(Qt::DateFormat::ISODate).toStdString();
-	start["timeZone"] = "Europe/Sofia";
+    start["timeZone"] = "Europe/Sofia";
 
 	json["start"] = start;
 
 	Json::Value end;
 
 	end["dateTime"] = event.end.toString(Qt::DateFormat::ISODate).toStdString();
-	end["timeZone"] = "Europe/Sofia";
+    end["timeZone"] = "Europe/Sofia";
 
 	json["end"] = end;
 

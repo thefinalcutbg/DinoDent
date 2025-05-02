@@ -459,7 +459,7 @@ void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
 
         Google::query(
             "https://www.googleapis.com/calendar/v3/calendars/calendarId/events/eventId",
-            parameters, "PUT", CalendarJsonParser::writeEventQuery(event).data(), QueryType::UploadEvent
+            parameters, "PUT", CalendarJsonParser::writeEventQuery(event, m_calendars[currentCalendar].timeZone).data(), QueryType::UploadEvent
         );
 
         return;
@@ -471,7 +471,7 @@ void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
 
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events",
-        parameters, "POST", CalendarJsonParser::writeEventQuery(event).data(), QueryType::UploadEvent
+        parameters, "POST", CalendarJsonParser::writeEventQuery(event, m_calendars[currentCalendar].timeZone).data(), QueryType::UploadEvent
     );
 }
 

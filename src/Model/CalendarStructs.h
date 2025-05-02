@@ -9,6 +9,7 @@ struct Calendar
 	std::string summary;
 	std::string id;
 	std::string etag;
+    std::string timeZone;
 };
 
 struct CalendarEvent

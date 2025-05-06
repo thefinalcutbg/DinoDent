@@ -11,8 +11,6 @@
 
 class TileButton : public QAbstractButton
 {
-    Q_OBJECT
-
     void paintEvent(QPaintEvent* e) override;
     bool eventFilter(QObject* obj, QEvent* e) override;
     
@@ -38,7 +36,6 @@ public:
 
 struct PatientTile : public TileButton
 {
-    Q_OBJECT
 
 public:
     IconButton* nraButton;
@@ -72,7 +69,6 @@ private:
 
 class MedStatusTile : public TileButton
 {
-    Q_OBJECT
 
     static inline const QString 
         allergiesLabel{ "Алергии:" }, 

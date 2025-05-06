@@ -6,8 +6,6 @@ struct Issuer;
 
 class RecipientTileButton : public TileButton
 {
-    Q_OBJECT
-
 	QString name;
 	QString id;
 	QString address;
@@ -23,8 +21,6 @@ public:
 
 class IssuerTileButton : public TileButton
 {
-    Q_OBJECT
-
 	QString name;
 	QString id;
 	QString address;

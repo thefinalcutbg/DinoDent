@@ -17,7 +17,7 @@ namespace EPrescription {
 
 	public:
 		Issue() :
-			HisService("P001", "/v3/eprescription/doctor/issue") {}
+			HisService("P001", "/v4/eprescription/doctor/issue") {}
 
 		bool sendRequest(
 			const Prescription& perscr, 
@@ -37,7 +37,7 @@ namespace EPrescription {
 
 	public:
 		Cancel() :
-			HisService("P007", "/v3/eprescription/doctor/cancel") {}
+			HisService("P007", "/v4/eprescription/doctor/cancel") {}
 
 		bool sendRequest(const std::string& nrn, std::function<void(bool)> callback);
 	};
@@ -51,7 +51,7 @@ namespace EPrescription {
 
 	public:
 		FetchDispense() :
-			HisService("P013", "/v3/eprescription/pharmacy/fetchdispense") {}
+			HisService("P013", "/v4/eprescription/pharmacy/fetchdispense") {}
 
 		bool sendRequest(const std::string& nrn, std::function<void(const std::string& response)> callback);
 	};
@@ -65,7 +65,7 @@ namespace EPrescription {
 
 	public:
 		eRxFetch() :
-			HisService("P003", "/v3/eprescription/pharmacy/fetch") {}
+			HisService("P003", "/v4/eprescription/pharmacy/fetch") {}
 
 		bool sendRequest(
 			const std::string& nrn,
@@ -74,6 +74,4 @@ namespace EPrescription {
 			decltype(m_callback) callback
 		);
 	};
-
-
 }

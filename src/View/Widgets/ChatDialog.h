@@ -24,6 +24,8 @@ class ChatDialog : public QDialog
 public:
 	ChatDialog(DinoDent *parent);
 	
+	void openAndConnect();
+
 	~ChatDialog();
 
 private:

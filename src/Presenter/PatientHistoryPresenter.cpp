@@ -216,6 +216,8 @@ void PatientHistoryPresenter::hospitalizationRequested()
 
 void PatientHistoryPresenter::openDocuments(const std::vector<int>& selectedDocIdx)
 {
+	if (selectedDocIdx.empty()) return;
+
 	bool someNotOpened = false;
 
 	for (int i = 0; i < selectedDocIdx.size(); i++) {

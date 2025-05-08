@@ -131,8 +131,8 @@ DinoDent::DinoDent(QWidget* parent)
         }
 
         setIrcIcon(false);
-
-        m_chatDialog->exec();
+        
+        m_chatDialog->openAndConnect();
         
     });
 

@@ -44,7 +44,7 @@ public:
     void setInvisible(bool invisible);
     void sendMessage(const QString& msg);
     void disconnect();
-
+    void forceConnect();
 
 signals:
     void userListChanged(const std::vector<Nickname> usrList);

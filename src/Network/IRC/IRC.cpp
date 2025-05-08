@@ -87,6 +87,12 @@ void IRC::disconnect()
 	dont_reconnect = true;
 }
 
+void IRC::forceConnect()
+{
+	dont_reconnect = false;
+	connectToServ();
+}
+
 void IRC::sendMessage(const QString& msg)
 {
 	if (msg.isEmpty()) return;

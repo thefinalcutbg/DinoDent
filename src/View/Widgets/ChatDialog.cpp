@@ -143,6 +143,15 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	ui.lineEdit->setFocus();
 }
 
+void ChatDialog::openAndConnect()
+{
+	if (!ui.usrList->count()) {
+		IRCInterface::getClient().forceConnect();
+	}
+
+	exec();
+}
+
 void ChatDialog::appendText(const QString& text)
 {
 	ui.textEdit->append(text);

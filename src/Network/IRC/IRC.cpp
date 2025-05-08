@@ -89,8 +89,12 @@ void IRC::disconnect()
 
 void IRC::forceConnect()
 {
+	m_socket.close();
+	
 	dont_reconnect = false;
+
 	connectToServ();
+
 }
 
 void IRC::sendMessage(const QString& msg)

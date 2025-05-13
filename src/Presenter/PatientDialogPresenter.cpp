@@ -3,10 +3,38 @@
 #include "Database/DbPatient.h"
 #include "Printer/Print.h"
 #include "Model/User.h"
+#include <QString>
+#include <QRegExp>
+#include <QDebug>
 
-PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :
+PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::string patientData) :
 	view(nullptr), dialogTitle(dialogTitle)
-{}
+{
+	if (patientData.empty()) return;
+
+	QString tempData = patientData.c_str();
+
+	m_patient.emplace();
+
+	m_patient->rowid = -1;
+
+	QRegExp digitsOnly("\\d*");
+
+	for (QString& word : tempData.split(" ")) {
+	
+		if (digitsOnly.exactMatch(word)) {
+			m_patient->phone = word.toStdString();
+		}
+		else if (m_patient->FirstName.empty()) {
+			m_patient->FirstName = word.toStdString();
+
+		}
+		else if (m_patient->LastName.empty()) {
+			m_patient->LastName = word.toStdString();
+		}
+	
+	}
+}
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	m_patient(patient),
@@ -40,9 +68,9 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	view->setTitle(dialogTitle);
 
 	if (!m_patient.has_value()) return;
-
+	
 	view->setPatient(*m_patient);
-	view->setEditMode(true);
+	view->setEditMode(m_patient->id.size());
 	m_patient.reset();
 
 }

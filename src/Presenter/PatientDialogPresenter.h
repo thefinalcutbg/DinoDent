@@ -27,7 +27,7 @@ struct PatientDialogPresenter
 	Patient getPatientFromView(); //sets the data not present in view
 
 public:
-	PatientDialogPresenter(std::string dialogTitle = "Нов пациент");
+	PatientDialogPresenter(std::string dialogTitle = "Нов пациент", std::string patientData = "");
 	PatientDialogPresenter(const Patient& patient);
 	std::optional<Patient> open();
 

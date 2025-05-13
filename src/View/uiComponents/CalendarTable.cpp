@@ -251,8 +251,8 @@ void CalendarTable::menuRequested(int column, int row)
 
         QMenu* subMenu;
 
-        bool isPatientSpecific = m_data.hasPatient(row, column);
-
+        bool isPatientSpecific = true;//m_data.hasPatient(row, column);
+      
         //initializing patient specific menu
         if (isPatientSpecific) {
 

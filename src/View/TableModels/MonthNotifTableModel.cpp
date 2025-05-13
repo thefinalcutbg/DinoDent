@@ -97,7 +97,7 @@ QVariant MonthNotifTableModel::data(const QModelIndex& index, int role) const
         {
         case 0:
             if (rows[row].claimed)
-                return QIcon(":/icons/icon_invoice.png");
+                return QIcon(":/icons/icon_apply.png");
             break;
         default:
             return QVariant();

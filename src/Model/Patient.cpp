@@ -3,7 +3,10 @@
 
 Patient::Sex Patient::getSexFromEgn(const std::string& egn)
 {
-	return Sex(stoi(egn.substr(8, 1)) % 2 != 0);
+	return egn.size() < 9 ? 
+		Patient::Sex::Male
+		:
+		Sex(stoi(egn.substr(8, 1)) % 2 != 0);
 }
 
 

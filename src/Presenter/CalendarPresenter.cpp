@@ -8,6 +8,7 @@
 #include "Network/Calendar/CalendarJsonParser.h"
 #include "View/Widgets/CalendarEventDialog.h"
 #include "Presenter/TabPresenter.h"
+#include "Presenter/PatientDialogPresenter.h"
 #include "Model/TableRows.h"
 
 CalendarPresenter::CalendarPresenter(ITabView* tabView) :
@@ -299,11 +300,18 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
     }
 
     RowInstance tab(type);
+
     tab.patientRowId = DbPatient::getPatientRowid(event->patientFname, event->patientBirth);
 
     if (!tab.patientRowId) {
-        ModalDialogBuilder::showMessage("Не е открит такъв пациент в базата данни");
-        return;
+        
+        PatientDialogPresenter d("Нов пациент", event->summary);
+
+        auto result = d.open();
+
+        if (!result) return;
+
+        tab.patientRowId = result->rowid;
     }
 
     TabPresenter::get().open(tab, true);

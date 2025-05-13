@@ -218,7 +218,10 @@ void PatientFormDialog::setPatient(const Patient& patient)
 
     if (!patient.rowid && patient.type != Patient::EGN) return;
 
+    ui.idLineEdit->blockSignals(true);
     ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));
+    ui.idLineEdit->blockSignals(false);
+
     ui.sexCombo->setCurrentIndex(patient.sex);
 
     auto& date = patient.birth;

@@ -4,8 +4,8 @@
 #include "Printer/Print.h"
 #include "Model/User.h"
 #include <QString>
-#include <QRegExp>
-#include <QDebug>
+#include <QRegularExpression>
+
 
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::string patientData) :
 	view(nullptr), dialogTitle(dialogTitle)
@@ -18,11 +18,11 @@ PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::str
 
 	m_patient->rowid = -1;
 
-	QRegExp digitsOnly("\\d*");
+	QRegularExpression digitsOnly("^\\p{Nd}+$");
 
 	for (QString& word : tempData.split(" ")) {
 	
-		if (digitsOnly.exactMatch(word)) {
+		if (digitsOnly.match(word).hasMatch()) {
 			m_patient->phone = word.toStdString();
 		}
 		else if (m_patient->FirstName.empty()) {

@@ -26,11 +26,15 @@ PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::str
 			m_patient->phone = word.toStdString();
 		}
 		else if (m_patient->FirstName.empty()) {
-			m_patient->FirstName = word.toStdString();
+			auto name = word.toLower();
+			name[0] = name[0].toUpper();
+			m_patient->FirstName = name.toStdString();
 
 		}
 		else if (m_patient->LastName.empty()) {
-			m_patient->LastName = word.toStdString();
+			auto name = word.toLower();
+			name[0] = name[0].toUpper();
+			m_patient->LastName = name.toStdString();
 		}
 	
 	}

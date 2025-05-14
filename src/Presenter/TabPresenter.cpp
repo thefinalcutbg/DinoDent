@@ -314,7 +314,9 @@ bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
         for (const auto& [index, tab] : m_tabs)
         {       
             //the financial tabs patient ptr is always null
-            if (tab->type != TabType::Financial &&
+            if (
+                tab->type != TabType::Financial && 
+                tab->type != TabType::Calendar &&
                 tab->patient.get()->rowid == rowID
                 )
             {

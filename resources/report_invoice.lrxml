@@ -6,7 +6,7 @@
       <item ClassName="LimeReport::PageDesignIntf" Type="Object">
         <objectName Type="QString">page1</objectName>
         <itemIndexMethod Type="enumAndFlags" Value="0"/>
-        <sceneRect Type="QRect" height="2899" width="2259" x="-50" y="-50"/>
+        <sceneRect Type="QRect" height="3075" width="2200" x="-50" y="-50"/>
         <bspTreeDepth Type="int" Value="5"/>
         <font Type="QFont" family="MS Shell Dlg 2" italic="0" pointSize="8" underline="0" weight="50"/>
         <stickyFocus Type="bool" Value="0"/>
@@ -14,11 +14,11 @@
         <focusOnTouch Type="bool" Value="1"/>
         <pageItem ClassName="PageItem" Type="Object">
           <objectName Type="QString">Reportpage1</objectName>
-          <geometry Type="QRect" height="2794" width="2159" x="0" y="0"/>
+          <geometry Type="QRect" height="2970" width="2100" x="0" y="0"/>
           <children Type="Collection">
             <item ClassName="Data" Type="Object">
               <objectName Type="QString">Operations</objectName>
-              <geometry Type="QRect" height="174" width="2059" x="50" y="967"/>
+              <geometry Type="QRect" height="174" width="2000" x="50" y="967"/>
               <children Type="Collection">
                 <item ClassName="HLayout" Type="Object">
                   <objectName Type="QString">HorizontalLayout2</objectName>
@@ -31,12 +31,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout2</parentName>
-                      <borderLineSize Type="qreal" Value="2"/>
+                      <borderLineSize Type="int" Value="2"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -78,12 +76,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout2</parentName>
-                      <borderLineSize Type="qreal" Value="2"/>
+                      <borderLineSize Type="int" Value="2"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -125,12 +121,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout2</parentName>
-                      <borderLineSize Type="qreal" Value="2"/>
+                      <borderLineSize Type="int" Value="2"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -172,12 +166,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout2</parentName>
-                      <borderLineSize Type="qreal" Value="2"/>
+                      <borderLineSize Type="int" Value="2"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -219,12 +211,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout2</parentName>
-                      <borderLineSize Type="qreal" Value="2"/>
+                      <borderLineSize Type="int" Value="2"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -266,12 +256,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout2</parentName>
-                      <borderLineSize Type="qreal" Value="2"/>
+                      <borderLineSize Type="int" Value="2"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -310,12 +298,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">Operations</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -327,12 +313,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage1</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="1"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <autoHeight Type="bool" Value="1"/>
               <bandIndex Type="int" Value="3"/>
               <keepBottomSpace Type="bool" Value="0"/>
@@ -358,7 +342,7 @@
             </item>
             <item ClassName="DataHeader" Type="Object">
               <objectName Type="QString">DataHeaderBand48</objectName>
-              <geometry Type="QRect" height="130" width="2059" x="50" y="837"/>
+              <geometry Type="QRect" height="130" width="2000" x="50" y="837"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem53</objectName>
@@ -367,12 +351,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
                   <parentName Type="QString">DataHeaderBand48</parentName>
-                  <borderLineSize Type="qreal" Value="3"/>
+                  <borderLineSize Type="int" Value="3"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -414,12 +396,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
                   <parentName Type="QString">DataHeaderBand48</parentName>
-                  <borderLineSize Type="qreal" Value="3"/>
+                  <borderLineSize Type="int" Value="3"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -461,12 +441,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
                   <parentName Type="QString">DataHeaderBand48</parentName>
-                  <borderLineSize Type="qreal" Value="3"/>
+                  <borderLineSize Type="int" Value="3"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -508,12 +486,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
                   <parentName Type="QString">DataHeaderBand48</parentName>
-                  <borderLineSize Type="qreal" Value="3"/>
+                  <borderLineSize Type="int" Value="3"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -555,12 +531,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
                   <parentName Type="QString">DataHeaderBand48</parentName>
-                  <borderLineSize Type="qreal" Value="3"/>
+                  <borderLineSize Type="int" Value="3"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -602,12 +576,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
                   <parentName Type="QString">DataHeaderBand48</parentName>
-                  <borderLineSize Type="qreal" Value="3"/>
+                  <borderLineSize Type="int" Value="3"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -646,12 +618,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage1</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="1"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <autoHeight Type="bool" Value="1"/>
               <bandIndex Type="int" Value="2"/>
               <keepBottomSpace Type="bool" Value="0"/>
@@ -671,7 +641,7 @@
             </item>
             <item ClassName="ReportHeader" Type="Object">
               <objectName Type="QString">ReportHeader48</objectName>
-              <geometry Type="QRect" height="787" width="2059" x="50" y="50"/>
+              <geometry Type="QRect" height="787" width="2000" x="50" y="50"/>
               <children Type="Collection">
                 <item ClassName="ShapeItem" Type="Object">
                   <objectName Type="QString">ShapeItem8</objectName>
@@ -680,12 +650,10 @@
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -705,12 +673,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -752,12 +718,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -799,12 +763,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -846,12 +808,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -893,12 +853,10 @@
                   <zOrder Type="qreal" Value="-0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -922,12 +880,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">HorizontalLayout56</parentName>
-                      <borderLineSize Type="qreal" Value="0"/>
+                      <borderLineSize Type="int" Value="0"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -969,12 +925,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">HorizontalLayout56</parentName>
-                      <borderLineSize Type="qreal" Value="0"/>
+                      <borderLineSize Type="int" Value="0"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1013,12 +967,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1041,12 +993,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout54</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1088,12 +1038,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout54</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="1"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1132,12 +1080,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout28</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1156,12 +1102,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout57</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1203,12 +1147,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout57</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1247,12 +1189,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout28</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1271,12 +1211,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout59</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1318,12 +1256,10 @@
                           <zOrder Type="qreal" Value="-0.9"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout59</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1362,12 +1298,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout28</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1386,12 +1320,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout61</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1433,12 +1365,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout61</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1477,12 +1407,10 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout28</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1494,12 +1422,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1521,12 +1447,10 @@
                           <zOrder Type="qreal" Value="-2"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout3</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="1"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1568,12 +1492,10 @@
                           <zOrder Type="qreal" Value="-2"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout3</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1612,12 +1534,10 @@
                       <zOrder Type="qreal" Value="-5"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout34</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1636,12 +1556,10 @@
                           <zOrder Type="qreal" Value="-2"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout13</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="1"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1683,12 +1601,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout13</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1727,12 +1643,10 @@
                       <zOrder Type="qreal" Value="-5"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout34</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1751,12 +1665,10 @@
                           <zOrder Type="qreal" Value="-2"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout17</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="1"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1798,12 +1710,10 @@
                           <zOrder Type="qreal" Value="-3"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout17</parentName>
-                          <borderLineSize Type="qreal" Value="0"/>
+                          <borderLineSize Type="int" Value="0"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="1"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1842,12 +1752,10 @@
                       <zOrder Type="qreal" Value="-4"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout34</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="1"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1866,12 +1774,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout19</parentName>
-                          <borderLineSize Type="qreal" Value="1"/>
+                          <borderLineSize Type="int" Value="1"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="1"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="0"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1913,12 +1819,10 @@
                           <zOrder Type="qreal" Value="-1"/>
                           <borders Type="enumAndFlags" Value="0"/>
                           <parentName Type="QString">HorizontalLayout19</parentName>
-                          <borderLineSize Type="qreal" Value="1"/>
+                          <borderLineSize Type="int" Value="1"/>
                           <isVisible Type="bool" Value="1"/>
-                          <shadow Type="bool" Value="0"/>
                           <borderColor Type="QColor" Value="#000000"/>
                           <geometryLocked Type="bool" Value="0"/>
-                          <borderStyle Type="enumAndFlags" Value="1"/>
                           <itemLocation Type="enumAndFlags" Value="0"/>
                           <stretchToMaxHeight Type="bool" Value="0"/>
                           <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1957,12 +1861,10 @@
                       <zOrder Type="qreal" Value="-3"/>
                       <borders Type="enumAndFlags" Value="0"/>
                       <parentName Type="QString">VerticalLayout34</parentName>
-                      <borderLineSize Type="qreal" Value="1"/>
+                      <borderLineSize Type="int" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
-                      <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
                       <geometryLocked Type="bool" Value="0"/>
-                      <borderStyle Type="enumAndFlags" Value="1"/>
                       <itemLocation Type="enumAndFlags" Value="0"/>
                       <stretchToMaxHeight Type="bool" Value="0"/>
                       <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1974,12 +1876,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">ReportHeader48</parentName>
-                  <borderLineSize Type="qreal" Value="1"/>
+                  <borderLineSize Type="int" Value="1"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -1990,12 +1890,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage1</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="1"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <autoHeight Type="bool" Value="1"/>
               <bandIndex Type="int" Value="1"/>
               <keepBottomSpace Type="bool" Value="0"/>
@@ -2012,7 +1910,7 @@
             </item>
             <item ClassName="DataFooter" Type="Object">
               <objectName Type="QString">DataFooterBand1</objectName>
-              <geometry Type="QRect" height="1511" width="2059" x="50" y="1141"/>
+              <geometry Type="QRect" height="1511" width="2000" x="50" y="1141"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem21</objectName>
@@ -2021,12 +1919,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2068,12 +1964,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2115,12 +2009,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2162,12 +2054,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2209,12 +2099,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2256,12 +2144,10 @@
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2303,12 +2189,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2350,12 +2234,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2397,12 +2279,10 @@
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2444,12 +2324,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2491,12 +2369,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2538,12 +2414,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2585,12 +2459,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2632,12 +2504,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2679,12 +2549,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2726,12 +2594,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2773,12 +2639,10 @@
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2820,12 +2684,10 @@
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2867,12 +2729,10 @@
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2914,12 +2774,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -2961,12 +2819,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -3008,12 +2864,10 @@
                   <zOrder Type="qreal" Value="-2"/>
                   <borders Type="enumAndFlags" Value="0"/>
                   <parentName Type="QString">DataFooterBand1</parentName>
-                  <borderLineSize Type="qreal" Value="0"/>
+                  <borderLineSize Type="int" Value="0"/>
                   <isVisible Type="bool" Value="1"/>
-                  <shadow Type="bool" Value="0"/>
                   <borderColor Type="QColor" Value="#000000"/>
                   <geometryLocked Type="bool" Value="0"/>
-                  <borderStyle Type="enumAndFlags" Value="1"/>
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
@@ -3052,12 +2906,10 @@
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage1</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <autoHeight Type="bool" Value="1"/>
               <bandIndex Type="int" Value="4"/>
               <keepBottomSpace Type="bool" Value="0"/>
@@ -3076,17 +2928,15 @@
             </item>
             <item ClassName="PageFooter" Type="Object">
               <objectName Type="QString">PageFooter7</objectName>
-              <geometry Type="QRect" height="100" width="2059" x="50" y="2652"/>
+              <geometry Type="QRect" height="100" width="2000" x="50" y="2652"/>
               <children Type="Collection"/>
               <zOrder Type="qreal" Value="0"/>
               <borders Type="enumAndFlags" Value="0"/>
               <parentName Type="QString">Reportpage1</parentName>
-              <borderLineSize Type="qreal" Value="1"/>
+              <borderLineSize Type="int" Value="1"/>
               <isVisible Type="bool" Value="1"/>
-              <shadow Type="bool" Value="0"/>
               <borderColor Type="QColor" Value="#000000"/>
               <geometryLocked Type="bool" Value="0"/>
-              <borderStyle Type="enumAndFlags" Value="1"/>
               <autoHeight Type="bool" Value="0"/>
               <bandIndex Type="int" Value="5"/>
               <keepBottomSpace Type="bool" Value="0"/>
@@ -3106,18 +2956,16 @@
           <zOrder Type="qreal" Value="0"/>
           <borders Type="enumAndFlags" Value="15"/>
           <parentName Type="QString"></parentName>
-          <borderLineSize Type="qreal" Value="1"/>
+          <borderLineSize Type="int" Value="1"/>
           <isVisible Type="bool" Value="1"/>
-          <shadow Type="bool" Value="0"/>
           <borderColor Type="QColor" Value="#000000"/>
           <geometryLocked Type="bool" Value="1"/>
-          <borderStyle Type="enumAndFlags" Value="1"/>
           <topMargin Type="int" Value="5"/>
           <bottomMargin Type="int" Value="5"/>
           <rightMargin Type="int" Value="5"/>
           <leftMargin Type="int" Value="5"/>
           <pageOrientation Type="enumAndFlags" Value="0"/>
-          <pageSize Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="7"/>
           <gridStep Type="int" Value="1"/>
           <fullPage Type="bool" Value="0"/>
           <oldPrintMode Type="bool" Value="0"/>

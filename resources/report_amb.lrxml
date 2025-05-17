@@ -6,7 +6,7 @@
       <item ClassName="LimeReport::PageDesignIntf" Type="Object">
         <objectName Type="QString">page1</objectName>
         <itemIndexMethod Type="enumAndFlags" Value="0"/>
-        <sceneRect Type="QRect" height="2899" width="2259" x="-50" y="-50"/>
+        <sceneRect Type="QRect" height="3075" width="2200" x="-50" y="-50"/>
         <bspTreeDepth Type="int" Value="5"/>
         <font Type="QFont" family="MS Shell Dlg 2" italic="0" pointSize="8" underline="0" weight="50"/>
         <stickyFocus Type="bool" Value="0"/>
@@ -14,15 +14,15 @@
         <focusOnTouch Type="bool" Value="1"/>
         <pageItem ClassName="PageItem" Type="Object">
           <objectName Type="QString">Reportpage1</objectName>
-          <geometry Type="QRect" height="2794" width="2159" x="0" y="0"/>
+          <geometry Type="QRect" height="2970" width="2100" x="0" y="0"/>
           <children Type="Collection">
             <item ClassName="ReportHeader" Type="Object">
               <objectName Type="QString">Header</objectName>
-              <geometry Type="QRect" height="1479" width="2059" x="50" y="50"/>
+              <geometry Type="QRect" height="1479" width="2000" x="50" y="50"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">Name</objectName>
-                  <geometry Type="QRect" height="50" width="1177" x="53" y="345"/>
+                  <geometry Type="QRect" height="50" width="1177" x="41" y="345"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -67,7 +67,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">City</objectName>
-                  <geometry Type="QRect" height="50" width="977" x="246" y="422"/>
+                  <geometry Type="QRect" height="50" width="977" x="234" y="422"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -112,7 +112,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">Address</objectName>
-                  <geometry Type="QRect" height="50" width="1146" x="54" y="477"/>
+                  <geometry Type="QRect" height="50" width="1146" x="42" y="477"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -157,7 +157,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">ID</objectName>
-                  <geometry Type="QRect" height="70" width="1090" x="312" y="33"/>
+                  <geometry Type="QRect" height="70" width="1090" x="300" y="33"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -202,7 +202,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">RHIF</objectName>
-                  <geometry Type="QRect" height="70" width="150" x="959" y="37"/>
+                  <geometry Type="QRect" height="70" width="150" x="947" y="37"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -247,7 +247,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">HealthRegion</objectName>
-                  <geometry Type="QRect" height="70" width="150" x="1107" y="37"/>
+                  <geometry Type="QRect" height="70" width="150" x="1095" y="37"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -292,7 +292,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">Type</objectName>
-                  <geometry Type="QRect" height="50" width="90" x="68" y="243"/>
+                  <geometry Type="QRect" height="50" width="90" x="56" y="243"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -337,7 +337,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">AmbNum</objectName>
-                  <geometry Type="QRect" height="70" width="807" x="513" y="597"/>
+                  <geometry Type="QRect" height="70" width="807" x="501" y="597"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -382,7 +382,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">Allergies</objectName>
-                  <geometry Type="QRect" height="72" width="1950" x="30" y="680"/>
+                  <geometry Type="QRect" height="72" width="1950" x="18" y="680"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -427,7 +427,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">PastDiseases</objectName>
-                  <geometry Type="QRect" height="98" width="970" x="30" y="770"/>
+                  <geometry Type="QRect" height="98" width="970" x="18" y="770"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -472,7 +472,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">CurrentDiseases</objectName>
-                  <geometry Type="QRect" height="96" width="960" x="1010" y="770"/>
+                  <geometry Type="QRect" height="96" width="960" x="998" y="770"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -517,7 +517,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp3</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="956" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="944" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -562,7 +562,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp4</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1029" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1017" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -607,7 +607,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp5</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1100" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1088" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -652,7 +652,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp6</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1171" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1159" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -697,7 +697,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp7</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1243" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1231" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -742,7 +742,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp8</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1318" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1306" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -787,7 +787,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp9</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1389" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1377" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -832,7 +832,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp10</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1461" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1449" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -877,7 +877,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp11</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1533" y="946"/>
+                  <geometry Type="QRect" height="84" width="69" x="1521" y="946"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -922,7 +922,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp12</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1606" y="945"/>
+                  <geometry Type="QRect" height="84" width="69" x="1594" y="945"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -967,7 +967,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp19</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1604" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1592" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1012,7 +1012,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp20</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1531" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1519" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1057,7 +1057,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp21</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1461" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1449" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1102,7 +1102,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp22</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1389" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1377" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1147,7 +1147,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp23</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1316" y="1306"/>
+                  <geometry Type="QRect" height="84" width="69" x="1304" y="1306"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1192,7 +1192,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp24</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1245" y="1306"/>
+                  <geometry Type="QRect" height="84" width="69" x="1233" y="1306"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1237,7 +1237,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp25</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1172" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1160" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1282,7 +1282,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp26</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1098" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1086" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1327,7 +1327,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp27</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="1027" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="1015" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1372,7 +1372,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">temp28</objectName>
-                  <geometry Type="QRect" height="84" width="69" x="956" y="1305"/>
+                  <geometry Type="QRect" height="84" width="69" x="944" y="1305"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1417,7 +1417,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem1</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="742" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="730" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1462,7 +1462,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem2</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="814" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="802" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1507,7 +1507,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem3</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="886" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="874" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1552,7 +1552,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem4</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="958" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="946" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1597,7 +1597,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem5</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1029" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="1017" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1642,7 +1642,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem6</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1100" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="1088" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1687,7 +1687,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem7</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1172" y="1087"/>
+                  <geometry Type="QRect" height="65" width="69" x="1160" y="1087"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1732,7 +1732,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem9</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1750" y="1088"/>
+                  <geometry Type="QRect" height="65" width="69" x="1738" y="1088"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1777,7 +1777,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem10</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1535" y="1088"/>
+                  <geometry Type="QRect" height="65" width="69" x="1523" y="1088"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1822,7 +1822,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem12</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1605" y="1088"/>
+                  <geometry Type="QRect" height="65" width="69" x="1593" y="1088"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1867,7 +1867,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem13</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1316" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="1304" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1912,7 +1912,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem14</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1462" y="1087"/>
+                  <geometry Type="QRect" height="65" width="69" x="1450" y="1087"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -1957,7 +1957,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem15</objectName>
-                  <geometry Type="QRect" height="62" width="63" x="1395" y="1090"/>
+                  <geometry Type="QRect" height="62" width="63" x="1383" y="1090"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2002,7 +2002,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem16</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1678" y="1088"/>
+                  <geometry Type="QRect" height="65" width="69" x="1666" y="1088"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2047,7 +2047,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem18</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1390" y="1159"/>
+                  <geometry Type="QRect" height="65" width="69" x="1378" y="1159"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2092,7 +2092,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem19</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1098" y="1156"/>
+                  <geometry Type="QRect" height="65" width="69" x="1086" y="1156"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2137,7 +2137,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem20</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1822" y="1159"/>
+                  <geometry Type="QRect" height="65" width="69" x="1810" y="1159"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2182,7 +2182,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem21</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="881" y="1157"/>
+                  <geometry Type="QRect" height="65" width="69" x="869" y="1157"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2227,7 +2227,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem22</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="954" y="1157"/>
+                  <geometry Type="QRect" height="65" width="69" x="942" y="1157"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2272,7 +2272,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem23</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1243" y="1156"/>
+                  <geometry Type="QRect" height="65" width="69" x="1231" y="1156"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2317,7 +2317,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem24</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1533" y="1157"/>
+                  <geometry Type="QRect" height="65" width="69" x="1521" y="1157"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2362,7 +2362,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem25</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1751" y="1158"/>
+                  <geometry Type="QRect" height="65" width="69" x="1739" y="1158"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2407,7 +2407,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem26</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="810" y="1156"/>
+                  <geometry Type="QRect" height="65" width="69" x="798" y="1156"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2452,7 +2452,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem27</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1679" y="1160"/>
+                  <geometry Type="QRect" height="65" width="69" x="1667" y="1160"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2497,7 +2497,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem28</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1318" y="1158"/>
+                  <geometry Type="QRect" height="65" width="69" x="1306" y="1158"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2542,7 +2542,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem29</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="739" y="1157"/>
+                  <geometry Type="QRect" height="65" width="69" x="727" y="1157"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2587,7 +2587,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem30</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1026" y="1156"/>
+                  <geometry Type="QRect" height="65" width="69" x="1014" y="1156"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2632,7 +2632,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem31</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1606" y="1157"/>
+                  <geometry Type="QRect" height="65" width="69" x="1594" y="1157"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2677,7 +2677,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem32</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1462" y="1159"/>
+                  <geometry Type="QRect" height="65" width="69" x="1450" y="1159"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2722,7 +2722,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem34</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1171" y="1156"/>
+                  <geometry Type="QRect" height="65" width="69" x="1159" y="1156"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2767,7 +2767,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem8</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1246" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="1234" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2812,7 +2812,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem17</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1822" y="1088"/>
+                  <geometry Type="QRect" height="65" width="69" x="1810" y="1088"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2857,7 +2857,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">Birth</objectName>
-                  <geometry Type="QRect" height="50" width="328" x="693" y="230"/>
+                  <geometry Type="QRect" height="50" width="328" x="681" y="230"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2902,7 +2902,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem39</objectName>
-                  <geometry Type="QRect" height="70" width="609" x="1417" y="202"/>
+                  <geometry Type="QRect" height="70" width="609" x="1405" y="202"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2947,7 +2947,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem40</objectName>
-                  <geometry Type="QRect" height="50" width="704" x="1274" y="418"/>
+                  <geometry Type="QRect" height="50" width="704" x="1262" y="418"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -2992,7 +2992,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem41</objectName>
-                  <geometry Type="QRect" height="70" width="669" x="1353" y="93"/>
+                  <geometry Type="QRect" height="70" width="669" x="1341" y="93"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3037,7 +3037,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem95</objectName>
-                  <geometry Type="QRect" height="70" width="1250" x="72" y="147"/>
+                  <geometry Type="QRect" height="70" width="1250" x="60" y="147"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3082,7 +3082,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem98</objectName>
-                  <geometry Type="QRect" height="70" width="162" x="1101" y="239"/>
+                  <geometry Type="QRect" height="70" width="162" x="1089" y="239"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3127,7 +3127,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem99</objectName>
-                  <geometry Type="QRect" height="65" width="205" x="695" y="1024"/>
+                  <geometry Type="QRect" height="65" width="205" x="683" y="1024"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3172,7 +3172,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem100</objectName>
-                  <geometry Type="QRect" height="65" width="205" x="1923" y="1025"/>
+                  <geometry Type="QRect" height="65" width="205" x="1911" y="1025"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3217,7 +3217,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem101</objectName>
-                  <geometry Type="QRect" height="65" width="205" x="1923" y="1223"/>
+                  <geometry Type="QRect" height="65" width="205" x="1911" y="1223"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3262,7 +3262,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem102</objectName>
-                  <geometry Type="QRect" height="65" width="205" x="699" y="1223"/>
+                  <geometry Type="QRect" height="65" width="205" x="687" y="1223"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3307,7 +3307,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem103</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="668" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="656" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3352,7 +3352,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem104</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1894" y="1089"/>
+                  <geometry Type="QRect" height="65" width="69" x="1882" y="1089"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3397,7 +3397,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem105</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="1892" y="1158"/>
+                  <geometry Type="QRect" height="65" width="69" x="1880" y="1158"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3442,7 +3442,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem106</objectName>
-                  <geometry Type="QRect" height="65" width="69" x="669" y="1158"/>
+                  <geometry Type="QRect" height="65" width="69" x="657" y="1158"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3487,7 +3487,7 @@
                 </item>
                 <item ClassName="ImageItem" Type="Object">
                   <objectName Type="QString">ImageItem2</objectName>
-                  <geometry Type="QRect" height="1604" width="2070" x="-30" y="-104"/>
+                  <geometry Type="QRect" height="1604" width="2070" x="-42" y="-104"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="-0.1"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3515,7 +3515,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem11</objectName>
-                  <geometry Type="QRect" height="50" width="150" x="21" y="1430"/>
+                  <geometry Type="QRect" height="50" width="150" x="9" y="1430"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
@@ -3560,7 +3560,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem51</objectName>
-                  <geometry Type="QRect" height="50" width="150" x="1430" y="1430"/>
+                  <geometry Type="QRect" height="50" width="150" x="1418" y="1430"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="15"/>
@@ -3605,7 +3605,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem33</objectName>
-                  <geometry Type="QRect" height="50" width="119" x="671" y="1430"/>
+                  <geometry Type="QRect" height="50" width="119" x="659" y="1430"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="15"/>
@@ -3650,7 +3650,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem52</objectName>
-                  <geometry Type="QRect" height="50" width="640" x="790" y="1430"/>
+                  <geometry Type="QRect" height="50" width="640" x="778" y="1430"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
@@ -3695,7 +3695,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem49</objectName>
-                  <geometry Type="QRect" height="50" width="500" x="171" y="1430"/>
+                  <geometry Type="QRect" height="50" width="500" x="159" y="1430"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="15"/>
@@ -3740,7 +3740,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem37</objectName>
-                  <geometry Type="QRect" height="50" width="449" x="1580" y="1430"/>
+                  <geometry Type="QRect" height="50" width="449" x="1568" y="1430"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0.1"/>
                   <borders Type="enumAndFlags" Value="15"/>
@@ -3785,7 +3785,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem38</objectName>
-                  <geometry Type="QRect" height="40" width="200" x="246" y="243"/>
+                  <geometry Type="QRect" height="40" width="200" x="234" y="243"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3830,7 +3830,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem42</objectName>
-                  <geometry Type="QRect" height="40" width="200" x="246" y="288"/>
+                  <geometry Type="QRect" height="40" width="200" x="234" y="288"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3875,7 +3875,7 @@
                 </item>
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem43</objectName>
-                  <geometry Type="QRect" height="40" width="200" x="68" y="288"/>
+                  <geometry Type="QRect" height="40" width="200" x="56" y="288"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -3942,11 +3942,11 @@
             </item>
             <item ClassName="Data" Type="Object">
               <objectName Type="QString">Procedures</objectName>
-              <geometry Type="QRect" height="100" width="2059" x="50" y="1529"/>
+              <geometry Type="QRect" height="100" width="2000" x="50" y="1529"/>
               <children Type="Collection">
                 <item ClassName="HLayout" Type="Object">
                   <objectName Type="QString">HorizontalLayout37</objectName>
-                  <geometry Type="QRect" height="50" width="2008" x="21" y="0"/>
+                  <geometry Type="QRect" height="50" width="2008" x="9" y="0"/>
                   <children Type="Collection">
                     <item ClassName="TextItem" Type="Object">
                       <objectName Type="QString">TextItem63</objectName>
@@ -4266,7 +4266,7 @@
             </item>
             <item ClassName="ReportFooter" Type="Object">
               <objectName Type="QString">ReportFooter1</objectName>
-              <geometry Type="QRect" height="280" width="2059" x="50" y="1629"/>
+              <geometry Type="QRect" height="280" width="2000" x="50" y="1629"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem47</objectName>
@@ -4528,7 +4528,7 @@
           <rightMargin Type="int" Value="5"/>
           <leftMargin Type="int" Value="5"/>
           <pageOrientation Type="enumAndFlags" Value="0"/>
-          <pageSize Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="7"/>
           <gridStep Type="int" Value="1"/>
           <fullPage Type="bool" Value="1"/>
           <oldPrintMode Type="bool" Value="0"/>

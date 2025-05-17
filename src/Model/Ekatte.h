@@ -32,5 +32,13 @@ public:
 	int getIdxAsInt() const { return ekatteIdx; }
 	const std::string& getRegionCode() const;
 	static const std::unordered_map<std::string, int>& cityNameToIdx();
+
+	bool operator==(const Ekatte& rhs) const {
+		return ekatteIdx == rhs.ekatteIdx;
+	}
+
+	bool operator!=(const Ekatte& rhs) const {
+		return !(*this == rhs);
+	}
 };
 

@@ -115,14 +115,20 @@ bool AmbListValidator::ambListIsValid()
 
     if(isNhifInWeekend()) return false;
 
-    if (
-        User::practice().isUnfavourable() &&
-        ambList.nhifData.isUnfavourable &&
-        !patient.city.isUnfav()
-        ) {
-        _error =
-            "Населеното място на пациента не фигурира в списъка на места с неблагоприятни условия";
-        return false;
+    if (User::practice().isUnfavourable() && ambList.nhifData.isUnfavourable) {
+
+        if (!patient.city.isUnfav())
+        {
+            _error =
+                "Адресът на пациента не фигурира в списъка на места с неблагоприятни условия";
+            return false;
+        }
+
+        if (User::practice().practice_address != patient.city) {
+            _error =
+                "Адресът на пациента не съвпада с адреса на практиката по дейност";
+            return false;
+        }
     }
 
     _error = "";
@@ -240,6 +246,17 @@ bool AmbListValidator::isValidAccordingToDb()
                 + " вече съществуват данни за екстракция!";
             return false;
         }
+
+        if (!currentYear.count(101) &&
+            m_procedures.size() &&
+            std::find_if(
+                m_procedures.begin(), m_procedures.end(),
+                [](const Procedure& p) { return p.code.nhifCode() == 101; }) == m_procedures.end()
+            ) {
+
+            _error = "За тази година не е пуснатa процедура с код 101 по НЗОК. В случай, че друг лекар е отчел процедурата в рамките на текущия месец игнорирайте тази грешка.";
+            return false;
+        };
 
     }
 

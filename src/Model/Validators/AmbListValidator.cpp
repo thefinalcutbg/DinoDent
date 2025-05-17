@@ -64,7 +64,7 @@ bool AmbListValidator::ambListIsValid()
 
         if (tooth.supernumeral && !ambList.teeth[tooth.index][Dental::HasSupernumeral])
         {
-            _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
+            _error = "Съществува процедура на свръхброен зъб, който не е добавен в статуса";
             return false;
         }
     }
@@ -202,7 +202,7 @@ bool AmbListValidator::isValidAccordingToDb()
     }
 
     PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate)); //creating a package counter
-
+    
     for (auto& t : currentYear) //loading the procedures from the current year
         for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
 
@@ -210,6 +210,11 @@ bool AmbListValidator::isValidAccordingToDb()
     {
         auto& procedure = m_procedures[i];
         
+        //additional pregnant exam code
+        if (procedure.code.ACHICode() == "97017-01") {
+            packageCounter.setPregnantProperty();
+        }
+
         packageCounter.insertCode(procedure.code.nhifCode());
 
         if (!packageCounter.validate(patient.isAdult(procedure.date))) //validating max allowed per year
@@ -247,14 +252,15 @@ bool AmbListValidator::isValidAccordingToDb()
             return false;
         }
 
-        if (!currentYear.count(101) &&
+        if (patient.PISHistory.has_value() &&
+            !currentYear.count(101) &&
             m_procedures.size() &&
             std::find_if(
                 m_procedures.begin(), m_procedures.end(),
                 [](const Procedure& p) { return p.code.nhifCode() == 101; }) == m_procedures.end()
             ) {
 
-            _error = "За тази година не е пуснатa процедура с код 101 по НЗОК. В случай, че друг лекар е отчел процедурата в рамките на текущия месец игнорирайте тази грешка.";
+            _error = "За текущата година не е открита процедура с код 101 по НЗОК";
             return false;
         };
 

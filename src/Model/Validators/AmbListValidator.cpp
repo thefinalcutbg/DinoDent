@@ -260,7 +260,7 @@ bool AmbListValidator::isValidAccordingToDb()
                 [](const Procedure& p) { return p.code.nhifCode() == 101; }) == m_procedures.end()
             ) {
 
-            _error = "За текущата година не е открита процедура с код 101 по НЗОК";
+            _error = "В ПИС не е открита процедура с код 101 по НЗОК за текущата година!";
             return false;
         };
 

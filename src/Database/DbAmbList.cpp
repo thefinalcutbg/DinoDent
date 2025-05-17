@@ -121,33 +121,54 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     if (ambList.isNew())
     {
+        //getting the last recorded status
+
         db.newStatement(
-            
-            "SELECT rowid, nrn, status FROM amblist WHERE "
+            "SELECT rowid, nrn, status, date FROM amblist WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
             "ORDER BY date DESC LIMIT 1"
-
-            );
+        );
 
         long long oldId = 0;
         std::string basedOnNrn;
+        Date amblistDate;
 
         while(db.hasRows()){
             
             oldId = db.asRowId(0);
             basedOnNrn = db.asString(1);
             status = db.asString(2);
+            amblistDate = db.asString(3);
         }
 
         if (!oldId) return ambList; //no data is found for this patient
 
         Parser::parse(status, ambList.teeth);
 
-        auto procedures = DbProcedure::getProcedures(oldId, db);
+        //getting all procedures after the last recorded status and applying them
 
-        for (auto& p : procedures)
-        {
-            p.applyProcedure(ambList.teeth);
+        db.newStatement(
+            "SELECT amblist.rowid FROM procedure "
+            "LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+            "WHERE procedure.date >= ? AND patient_rowid = ? "
+            "GROUP BY amblist.rowid ORDER BY procedure.date ASC"
+        );
+
+        db.bind(1, amblistDate.to8601());
+        db.bind(2, patientRowId);
+
+        std::vector<long long> amblistRowidProcedures;
+
+
+        while (db.hasRows()) {
+            amblistRowidProcedures.push_back(db.asLongLong(0));
+        }
+
+        for (auto& rowid : amblistRowidProcedures) {
+            for (auto& p : DbProcedure::getProcedures(rowid, db))
+            {
+                p.applyProcedure(ambList.teeth);
+            }
         }
 
         ambList.basedOn = basedOnNrn;

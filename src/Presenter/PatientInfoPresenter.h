@@ -9,6 +9,8 @@
 #include "View/Interfaces/IPatientTileInfo.h"
 #include "Model/TabType.h"
 
+class TabInstance;
+
 struct PatientInfoPresenter
 {
 	std::shared_ptr<Patient> patient;
@@ -27,6 +29,8 @@ struct PatientInfoPresenter
 
 	bool m_isCurrent{ false };
 
+	TabInstance* m_parent{ nullptr };
+
 public:
 	PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p);
 	void setDate(const Date& date);
@@ -41,6 +45,6 @@ public:
 	void setCurrent(bool current);
     void notificationClicked();
     void openDocument(TabType type);
-
+	void setParent(TabInstance* p) { m_parent = p; }
 
 };

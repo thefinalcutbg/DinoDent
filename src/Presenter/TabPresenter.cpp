@@ -110,13 +110,12 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 
 void TabPresenter::refreshPatientTabNames(long long patientRowId)
 {
-    for (auto tab : m_tabs) {
+    for (auto& tab : m_tabs) {
 
         if (tab.second->patient == nullptr ||
             tab.second->patient->rowid != patientRowId) {
             continue;
         }
-
         view->changeTabName(tab.second->getTabName(), tab.first);
     }
 }

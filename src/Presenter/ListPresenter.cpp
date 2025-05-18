@@ -28,6 +28,8 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     view(tabView->listView()),
     m_amblist(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid))
 {
+    patient_info.setParent(this);
+
     surf_presenter.setStatusControl(this);
 
     if (m_amblist.rowid) return;

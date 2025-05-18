@@ -29,10 +29,7 @@ class TabInstance
 
 protected:
 
-
 	bool edited{ false };
-
-	virtual void makeEdited();
 
 	void refreshTabName();
 
@@ -40,8 +37,12 @@ protected:
 
 	virtual void prepareDerivedForSwitch() {};
 
+	virtual void makeEdited();
 
 public:
+
+	virtual void patientDataChanged() {};
+
 	const TabType type;
 
 	std::shared_ptr<Patient> patient;

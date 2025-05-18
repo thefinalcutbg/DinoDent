@@ -134,6 +134,10 @@ void PatientInfoPresenter::patientTileClicked()
     TabPresenter::get().refreshPatientTabNames(patient->rowid);
 
     view->setPatient(*patient, patientAge);
+
+    if (m_parent) {
+        m_parent->patientDataChanged();
+    }
 }
 
 void PatientInfoPresenter::medStatTileClicked()
@@ -149,6 +153,10 @@ void PatientInfoPresenter::medStatTileClicked()
     p.openDialog();
 
     view->setPatient(*patient, patientAge);
+
+    if (m_parent) {
+        m_parent->patientDataChanged();
+    }
 }
 
 void PatientInfoPresenter::appointmentClicked()

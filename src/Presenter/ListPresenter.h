@@ -63,6 +63,8 @@ class ListPresenter : public TabInstance
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();
+    //when changing the patient data from the current list
+    void patientDataChanged() override { makeEdited(); };
 
 public:
 

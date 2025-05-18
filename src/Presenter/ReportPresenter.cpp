@@ -24,12 +24,8 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 	bool isValid = v.ambListIsValid();
 
-	if (!isValid) {
-
-		m_hasErrors = true;
-
-		view->appendSheet(list.rowid, list.getNumber(), v.getErrorMsg());
-	}
+	std::string amblistName = list.nrn.size() ?
+		list.nrn : " на " + patient.firstLastName();
 
 	if (list.nrn.empty()) {
 
@@ -37,7 +33,14 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.rowid, " на " + patient.firstLastName(), " не е изпратен към НЗИС");
+		view->appendSheet(list.rowid, " на " + amblistName, " не е изпратен към НЗИС");
+	}
+
+	if (!isValid) {
+
+		m_hasErrors = true;
+
+		view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
 	}
 
 	if (list.nrn.size() && !list.his_updated) {
@@ -46,7 +49,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.rowid, list.getNumber(), " Корекциите не са отразени в НЗИС");
+		view->appendSheet(list.rowid, amblistName, " Корекциите не са отразени в НЗИС");
 	}
 
 	if (nraCheck && patient.insuranceStatus.has_value() && !patient.foreigner) {

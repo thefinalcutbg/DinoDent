@@ -520,14 +520,15 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
                 !t[Dental::ApicalLesion] &&
                 !t[Dental::Root] &&
                 !t[Dental::Mobility]  &&
-                !t[Dental::Temporary]
+                !t[Dental::Temporary] &&
+                !t[Dental::Caries]
                  )
             };
 
         if (statusMissing)
         {
             _error = "За процедура " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
-                "Валидните статуси включват периодонтит, корен, фрактура, пулпит, пародонтит, подвижност, имплант, свръхброен или временен зъб.";
+                "Валидните статуси включват периодонтит, корен, фрактура, пулпит, пародонтит, подвижност, имплант, кариес, свръхброен или временен зъб.";
             return false;
         }
         break;

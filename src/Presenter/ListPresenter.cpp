@@ -17,9 +17,9 @@
 #include "Model/FreeFunctions.h"
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/ProcedurePrintSelectDialog.h"
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
-#include "View/Widgets/ProcedurePrintSelectDialog.h"
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -35,11 +35,11 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     if (m_amblist.rowid) return;
 
     //the list is NEW:
-    if (patient->city.isUnfav() && 
-        User::practice().isUnfavourable()
-    ) {
-        m_amblist.nhifData.isUnfavourable = true;
-    }
+
+    m_amblist.nhifData.isUnfavourable =
+        User::practice().isUnfavourable() &&
+        patient->city.isUnfav();
+
     m_amblist.lrn = FreeFn::getUuid();
     
 }
@@ -105,8 +105,6 @@ void ListPresenter::makeEdited()
     }
 
     TabInstance::makeEdited();
-
-
 }
 
 void ListPresenter::printPrv(bool toPdf)
@@ -185,23 +183,27 @@ void ListPresenter::printPrv(bool toPdf)
 
 }
 
-
 void ListPresenter::dynamicNhifConversion()
 {
     if (User::hasNhifContract()) {
 
-        bool practiceIsUnfav =
-            User::practice().nhif_contract &&
-            User::practice().nhif_contract->unfavourable
-            ;
-
-        view->setNhifData(m_amblist.nhifData, practiceIsUnfav);
+        view->setNhifData(m_amblist.nhifData, User::practice().isUnfavourable());
     }
     else
     {
         view->hideNhifSheetData();
     }
 
+}
+
+void ListPresenter::patientDataChanged()
+{
+    if (User::practice().isUnfavourable() && patient->city.isUnfav()){
+        m_amblist.nhifData.isUnfavourable = true;
+    }
+
+    setDataToView();
+    makeEdited();
 }
 
 bool ListPresenter::isValid()

@@ -22,7 +22,7 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
             m_procedures.push_back(p);
     }
 }
-#include <QDebug>
+
 bool AmbListValidator::ambListIsValid()
 {
     if (!ambList.isNhifSheet()) return true;
@@ -96,19 +96,20 @@ bool AmbListValidator::ambListIsValid()
     }
 
     if (User::practice().isUnfavourable() && ambList.nhifData.isUnfavourable) {
-        qDebug() << QString::fromStdString(patient.city.getString());
+        
         if (!patient.city.isUnfav())
         {
             _error =
                 "Адресът на пациента не фигурира в списъка на места с неблагоприятни условия";
             return false;
         }
-
+        /*
         if (User::practice().practice_address != patient.city) {
             _error =
                 "Адресът на пациента не съответства с адреса по дейност на практиката по направление Неблагоприятни условия";
             return false;
         }
+        */
     }
 
     auto result = exceededDailyLimit();

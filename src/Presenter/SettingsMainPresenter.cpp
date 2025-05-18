@@ -205,6 +205,19 @@ bool SettingsMainPresenter::applyChanges()
 		return false;
 	}
 
+	if (
+		practice.nhif_contract.has_value() &&
+		practice.nhif_contract->unfavourable &&
+		!practice.practice_address.isUnfav() &&
+		!ModalDialogBuilder::askDialog(
+			"Адресът по дейност не е открит в списъка с неблагоприятни условия. "
+			"Желаете ли да продължите въпреки това?"
+		)
+	){
+		return false;
+	}
+	
+
 	practice.settings = view->getSettings();
 
 	DbPractice::updatePractice(practice, User::practice().rziCode);

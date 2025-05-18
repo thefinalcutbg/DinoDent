@@ -58,13 +58,12 @@ class ListPresenter : public TabInstance
     void statusChanged();
     void setHisButtonToView();
     void makeEdited() override;
-
     void printPrv(bool toPdf);
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();
     //when changing the patient data from the current list
-    void patientDataChanged() override { makeEdited(); };
+    void patientDataChanged() override;
 
 public:
 

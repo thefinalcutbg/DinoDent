@@ -78,7 +78,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 	view.setPerioSnapshots(perioSnapshots);
 }
-#include <QDebug>
+
 void PatientHistoryPresenter::procedureSourceChanged(Procedure::DatabaseSource source)
 {
 	switch (source)

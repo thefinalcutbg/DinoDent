@@ -300,6 +300,7 @@ void BrowserDialog::calculateUiState()
 {
 	bool patientSection = ui.tabBar->currentIndex() == 0;
 
+	ui.detailsCombo->setHidden(!patientSection);
     ui.openDocButton->setHidden(!patientSection);
 	ui.fromLabel->setHidden(patientSection);
 	ui.toLabel->setHidden(patientSection);

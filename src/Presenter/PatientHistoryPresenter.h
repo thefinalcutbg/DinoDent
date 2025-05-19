@@ -21,6 +21,7 @@ class PatientHistoryPresenter {
 
 	std::optional<std::vector<HisSnapshot>> his_snapshots;
 	std::vector<HisSnapshot> local_snapshots;
+	std::optional<std::vector<Procedure>> HISHistory; //HIS changes dinamically so no need to cache it
 
 	PatientHistoryDialog view;
 

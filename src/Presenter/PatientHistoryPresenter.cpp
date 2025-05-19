@@ -78,7 +78,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 	view.setPerioSnapshots(perioSnapshots);
 }
-
+#include <QDebug>
 void PatientHistoryPresenter::procedureSourceChanged(Procedure::DatabaseSource source)
 {
 	switch (source)
@@ -93,12 +93,12 @@ void PatientHistoryPresenter::procedureSourceChanged(Procedure::DatabaseSource s
 			break;
 
 		case Procedure::HIS:
-			if (!patient.HISHistory) {
+			if (!HISHistory) {
 				procedureRefreshRequested(source);
 				break;
 			}
 
-			view.setProcedures(patient.HISHistory.value(), source);
+			view.setProcedures(HISHistory.value(), source);
 			break;
 
 		case Procedure::Local:
@@ -141,7 +141,8 @@ void PatientHistoryPresenter::procedureRefreshRequested(Procedure::DatabaseSourc
 					}
 
 					patient.HISHistory = his_data;
-					view.setProcedures(patient.HISHistory.value(), source);
+					HISHistory = his_data;
+					view.setProcedures(his_data.value(), source);
 
 				}
 			);

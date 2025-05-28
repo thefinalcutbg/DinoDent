@@ -96,7 +96,9 @@ void NewDocDialog::setTable(const PlainTable& t)
 	phoneFilter.setFilterKeyColumn(3);
 
 	ui->tableView->selectRow(0);
-
+	ui->tableView->horizontalHeader()->setStretchLastSection(false);
+	ui->tableView->setColumnWidth(3, 150);
+	ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeMode::Stretch);
 }
 
 bool NewDocDialog::eventFilter(QObject* obj, QEvent* e)

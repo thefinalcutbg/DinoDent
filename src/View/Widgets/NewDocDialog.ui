@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>763</width>
+    <width>726</width>
     <height>400</height>
    </rect>
   </property>
@@ -57,7 +57,7 @@
      <item>
       <widget class="QLineEdit" name="nameSearchEdit">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -75,9 +75,15 @@
      </item>
      <item>
       <widget class="QLineEdit" name="phoneSearchEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>100</width>
+         <width>165</width>
          <height>0</height>
         </size>
        </property>
@@ -112,7 +118,7 @@
       </size>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
      </property>
     </widget>
    </item>
@@ -131,7 +137,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

@@ -70,7 +70,7 @@ void PerioSummary::paintEvent(QPaintEvent* e)
 void PerioSummary::displaySnapshotToView(int index)
 {
     auto& perio = m_snapshots[index].perioStatus;
-
+    
     buccalScene->setMeasurments(perio.pd, perio.cal);
     lingualScene->setMeasurments(perio.pd, perio.cal);
    

@@ -38,7 +38,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 	//init shapshots:
 
-	ToothContainer* lastToothStatus = nullptr;
+	ToothContainer lastToothStatus;
 	
 	std::vector<PerioSnapshot> perioSnapshots;
 
@@ -48,7 +48,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 			perioSnapshots.push_back(PerioSnapshot{
 				.perioStatus = frame.perioData,
-				.toothStatus = lastToothStatus ? *lastToothStatus : ToothContainer(),
+				.toothStatus = lastToothStatus,
 				.perioStatistic = PerioStatistic(frame.perioData, patient.getAge(frame.perioData.date))
 			});
 
@@ -59,7 +59,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 			local_snapshots.emplace_back(frame.teeth, frame.date);
 			local_snapshots.back().procedure_name = "Амбулаторен лист " + frame.number + " (изходен статус)";
 			local_snapshots.back().financing = static_cast<FinancingSource>(99);
-			lastToothStatus = &local_snapshots.back().teeth;
+			lastToothStatus = local_snapshots.back().teeth;
 			continue;
 		}
 
@@ -70,7 +70,7 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 
 			if (local_snapshots.back().affected_teeth.empty()) {
 				local_snapshots.pop_back(); //because it changes nothing
-				lastToothStatus = &local_snapshots.back().teeth;
+				lastToothStatus = local_snapshots.back().teeth;
 			}
 
 		}

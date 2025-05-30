@@ -22,7 +22,7 @@ public:
 	auto begin() const { return teeth.begin(); }
 	auto end() const { return teeth.end(); };
 
-	constexpr size_t size() const { return Dental::teethCount; }
+	size_t size() const { return teeth.size(); }
 
 	std::vector<const Tooth*> getSelectedTeethPtr(std::vector<int> selectedIndexes) const;
 	std::vector<const Tooth*> getSelectedDsnPtr(std::vector<int> selectedIndexes) const;

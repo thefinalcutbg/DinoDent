@@ -77,7 +77,6 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
-	ui.tableView->setShowGrid(false);
 	ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 

@@ -5,7 +5,7 @@
 #include <QCursor>
 
 #include "Presenter/DetailedStatusPresenter.h"
-
+#include <QRadioButton>
 
 DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(presenter)
 {
@@ -18,9 +18,9 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
 	ui.hisCheck->setIcon(QIcon(":/icons/icon_his.png"));
 
-    connect(ui.localCheck, &QCheckBox::stateChanged, this, [=, this]{ sendTableStatesToPresenter(); });
-    connect(ui.hisCheck, &QCheckBox::stateChanged, this, [=, this] { sendTableStatesToPresenter(); });
-    connect(ui.pisCheck, &QCheckBox::stateChanged, this, [=, this] { sendTableStatesToPresenter(); });
+    connect(ui.localCheck, &QRadioButton::clicked, this, [=, this]{ sendTableStatesToPresenter(); });
+    connect(ui.hisCheck, &QRadioButton::clicked, this, [=, this] { sendTableStatesToPresenter(); });
+    connect(ui.pisCheck, &QRadioButton::clicked, this, [=, this] { sendTableStatesToPresenter(); });
 	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int index) { if (index == 1) ui.notesEdit->setFocus();});
     connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed(); close(); });
     connect(ui.cancelButton, &QPushButton::clicked, this, [=, this] { close(); });
@@ -28,6 +28,8 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
     presenter.setView(this);
 
 	ui.notesEdit->setFocus();
+
+	sendTableStatesToPresenter();
 
 }
 

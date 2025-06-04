@@ -101,6 +101,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		
 		}
 
+		ui.usrList->sortItems();
 	});
 
 	connect(&IRCInterface::getClient(), &IRC::disconnected, this, [&] {

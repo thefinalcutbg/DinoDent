@@ -420,7 +420,7 @@ void ListPresenter::setDataToView()
     {
         bool querySent = true; //prevents multiple PKCS11 prompts
 
-        if (User::settings().getPisHistoryAuto && User::hasNhifContract()) {
+        if (User::settings().getPisHistoryAuto && User::hasNhifContract() && !patient->PISHistory) {
 
             auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
 
@@ -439,7 +439,7 @@ void ListPresenter::setDataToView()
             return;
         }
 
-        if (User::settings().getHisHistoryAuto) {
+        if (User::settings().getHisHistoryAuto && !patient->HISHistory) {
             
             auto callback = [&](const std::optional<std::vector<Procedure>>& result, const std::vector<HisSnapshot>& snapshots) {
 

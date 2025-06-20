@@ -1041,6 +1041,9 @@
     <ClCompile Include="src\View\SubWidgets\PerioSummary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\PatientSigner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1875,6 +1878,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PatientHistoryPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\PatientSigner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

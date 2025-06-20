@@ -45,7 +45,14 @@ bool EDental::Open::sendRequest(
 		+ HisService::performer(isNhif)
 	;		
 
-	return HisService::sendRequestToHis(contents);
+	std::string patientSignature;
+
+	if (User::signatureTablet().getHisIdx())
+	{
+		patientSignature = HisService::generatePatientSignature(contents, patient);
+	}
+
+	return HisService::sendRequestToHis(contents, patientSignature);
 }
 
 std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate)
@@ -167,7 +174,14 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		+ HisService::performer(isNhif)
 		;
 
-	return HisService::sendRequestToHis(contents);
+	std::string patientSignature;
+
+	if (User::signatureTablet().getHisIdx())
+	{
+		patientSignature = HisService::generatePatientSignature(contents, patient);
+	}
+
+	return HisService::sendRequestToHis(contents, patientSignature);
 }
 
 std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate, bool autoStatusRemove)

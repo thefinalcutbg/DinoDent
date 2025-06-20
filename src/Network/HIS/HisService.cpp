@@ -13,17 +13,19 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/ToothUtils.h"
+#include "Network/PatientSigner.h"
+#include "Presenter/PatientDialogPresenter.h"
 
-bool HisService::sendRequestToHis(const std::string& query)
+bool HisService::sendRequestToHis(const std::string& contents, const std::string& patientSignature)
 {
 	if (awaiting_reply) return false;
 
 	if (HisToken::getToken().empty()) {
-		return HisToken::requestToken(this, query, !show_dialogs);
+		return HisToken::requestToken(this, contents, !show_dialogs);
 	}
 
-	auto signedMsg = signMessage(buildMessage(query));
-//	ModalDialogBuilder::showMultilineDialog(signedMsg);
+	auto signedMsg = signMessage(buildMessage(contents, patientSignature));
+
 	if (signedMsg.empty()) return false;
 
 	awaiting_reply = true;
@@ -39,9 +41,9 @@ bool HisService::sendRequestToHis(const std::string& query)
 	
 }
 
-bool HisService::sendRequestToHisNoAuth(const std::string& query)
+bool HisService::sendRequestToHisNoAuth(const std::string& contents)
 {
-	NetworkManager::sendRequestToHisNoAuth(this, buildMessage(query), hisUrl + servicePath);
+	NetworkManager::sendRequestToHisNoAuth(this, buildMessage(contents), hisUrl + servicePath);
 	return true;
 }
 
@@ -54,7 +56,7 @@ std::string HisService::signMessage(const std::string& message)
 	return Signer::signEnveloped(message, hsm->takePrivateKey(), hsm->x509ptr(), true);
 }
 
-std::string HisService::buildMessage(const std::string& query)
+std::string HisService::buildMessage(const std::string& contents, const std::string& patientSig)
 {
 
 	constexpr const char* softwareName = "DinoDent";
@@ -82,8 +84,9 @@ std::string HisService::buildMessage(const std::string& query)
 			"</nhis:header>"
 		
 			"<nhis:contents>"
-				+query+
+				+contents+
 			"</nhis:contents>"
+				+patientSig +
 	"</nhis:message>"
 	
 	;
@@ -362,6 +365,45 @@ std::string HisService::openTag(const std::string& tag)
 std::string HisService::closeTag(const std::string tag)
 {
 	return "</nhis:" + tag + ">";
+}
+
+std::string HisService::generatePatientSignature(const std::string& contents, const Patient& patient)
+{
+	if (contents.empty()) return std::string{};
+
+	std::string result =
+		"<nhis:patientSignature>"
+		"<nhis:device>"
+		+ bind("manufacturer", User::signatureTablet().getHisManifacturer())
+		+ bind("model", User::signatureTablet().getHisIdx())
+		+ "</nhis:device>"
+		;
+
+	bool patientIsAdult = patient.isAdult();
+
+	result += bind("isPatientSigner", patientIsAdult);
+
+	//some logic if it's not adult
+	if (!patientIsAdult) {
+
+		auto parent = PatientDialogPresenter("Родител/Настойник").open();
+
+		if (!parent) return std::string{};
+
+		result += openTag("signer");
+		result += bind("identifierType", parent->type);
+		result += bind("identifier", parent->id);
+
+		result += openTag("name");
+		result += bind("given", parent->FirstName, true);
+		result += bind("family", parent->LastName, true);
+		result += closeTag("name");
+	}
+
+	result += bind("signatureObject", PatientSigner::sign(contents));
+	result += closeTag("patientSignature");
+
+	return result;
 }
 
 std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)

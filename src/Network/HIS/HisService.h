@@ -12,15 +12,15 @@ struct Procedure;
 
 class TiXmlElement;
 
-constexpr const char* hisUrl = "https://api.his.bg/";
-//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+//constexpr const char* hisUrl = "https://api.his.bg";
+constexpr const char* hisUrl = "https://ptest-api.his.bg";
 
 class HisService : protected AbstractReplyHandler
 {
 
 private:
 
-	std::string buildMessage(const std::string& query);
+	std::string buildMessage(const std::string& contents, const std::string& patientSig = "");
 	std::string signMessage(const std::string& message);
 
 	const std::string messageType;
@@ -49,7 +49,7 @@ protected:
 	std::string bind(const std::string& name, const char* value, bool isUserInput = false);
 	std::string openTag(const std::string& tag);
 	std::string closeTag(const std::string tag);
-
+	std::string generatePatientSignature(const std::string& contents, const Patient& patient);
 //	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
 
 	std::string getErrors(const std::string& reply);
@@ -60,7 +60,7 @@ protected:
 		servicePath{ servPath }
 	{}
 public:
-	bool sendRequestToHis(const std::string& contents);
+	bool sendRequestToHis(const std::string& contents, const std::string& patientSignature = "");
 	bool sendRequestToHisNoAuth(const std::string& contents);
 
 };

@@ -118,7 +118,7 @@
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereportd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereportd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;STPadLib.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Debug;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -135,7 +135,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Release;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;STPadLib.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
@@ -228,7 +228,9 @@
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\HISDental.cpp" />
     <ClCompile Include="src\Model\Dental\HisSnapshot.cpp" />
-    <ClCompile Include="src\Network\PatientSigner.cpp" />
+    <ClCompile Include="src\Network\PatientSigner.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="src\Presenter\PatientHistoryPresenter.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />

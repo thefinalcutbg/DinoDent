@@ -9,7 +9,7 @@
 #include "Model/MedicalNotice.h"
 #include "Model/Allergy.h"
 #include "View/Interfaces/ISettingsDialog.h"
-
+class QPixmap;
 class ProcedureDialogPresenter;
 struct PatientDialogPresenter;
 class ProcedureEditorPresenter;
@@ -46,7 +46,6 @@ namespace ModalDialogBuilder
     void openDialog(PracticeManagerPresenter& p);
     void openDialog(ReferralPresenter& p);
 	void openDialog(StatisticDialogPresenter& p);
-	void openDialog(ProcedureHistoryPresenter& p);
 	void openDialog(FiscalReceiptPresenter& p);
 
 	void openBrowserDialog();
@@ -78,7 +77,7 @@ namespace ModalDialogBuilder
 
 	void openSettingsDialog(SettingsTab setingsTab = SettingsTab::General);
 	void pisDialog(MonthNotifPresenter* presenter);
-	
+	void displayPixmap(const QPixmap& px);
 	ICD10 icdDialog(const ICD10& icd = {});
 };
 

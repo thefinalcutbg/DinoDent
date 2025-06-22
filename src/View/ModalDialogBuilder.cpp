@@ -447,6 +447,23 @@ void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 	d.exec();
 }
 
+void ModalDialogBuilder::displayPixmap(const QPixmap& px)
+{
+	auto dlg = new QDialog;
+
+	auto label = new QLabel(dlg);
+	label->setPixmap(px);
+	label->setScaledContents(true);
+	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+	auto lay = new QVBoxLayout(dlg);
+	lay->addWidget(label);
+	lay->setContentsMargins(0, 0, 0, 0);
+
+	dlg->resize(px.size());
+	dlg->exec();
+}
+
 #include "View/Widgets/InputDialog.h"
 
 std::string ModalDialogBuilder::inputDialog(

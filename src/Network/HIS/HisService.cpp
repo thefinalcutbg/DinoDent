@@ -367,9 +367,11 @@ std::string HisService::closeTag(const std::string tag)
 	return "</nhis:" + tag + ">";
 }
 
-std::string HisService::generatePatientSignature(const std::string& contents, const Patient& patient)
+std::string HisService::generatePatientSignature(const std::string& dentalTreatment, const Patient& patient)
 {
-	if (contents.empty()) return std::string{};
+	if (dentalTreatment.empty()) return std::string{};
+
+	if (!User::signatureTablet().getHisIdx()) return std::string{};
 
 	std::string result =
 		"<nhis:patientSignature>"
@@ -400,7 +402,23 @@ std::string HisService::generatePatientSignature(const std::string& contents, co
 		result += closeTag("name");
 	}
 
-	result += bind("signatureObject", PatientSigner::sign(contents));
+	PatientSignature signature;
+
+	//wacom
+	if (User::signatureTablet().getHisManifacturer() == SignatureTablet::WACOM) {
+		signature = PatientSigner::signWithWacom(dentalTreatment, patient.firstLastName(), "Амбулаторен лист");
+	}
+	//signotec, evolis
+	else {
+		signature = PatientSigner::signWithSignotec(dentalTreatment);
+	}
+
+	if (signature.signatureObject.empty()) return std::string{};
+
+	result += bind("signatureObject", signature.signatureObject);
+	result += bind("signatureCertificate", signature.signatureCertificate);
+	result += bind("signature", signature.signature);
+
 	result += closeTag("patientSignature");
 
 	return result;

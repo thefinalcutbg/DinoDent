@@ -209,7 +209,7 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
-    GlobalWidgets::mainWindow->disableButtons(false, false, false, User::signatureTablet().isPDFconfigured());
+    GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);

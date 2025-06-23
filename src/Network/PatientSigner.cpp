@@ -1,4 +1,8 @@
 ﻿#include "PatientSigner.h"
+
+#include <QtVersion>
+
+#ifdef Q_OS_WIN
 #include "crypto.h"
 #include <QAxWidget>
 #include <QAxObject>
@@ -10,8 +14,10 @@
 #include <QVBoxLayout>
 #include <QCryptographicHash>
 #include <QApplication>
-#include <QtVersion>
-
+#include <windows.h>
+#include <chrono>
+#include <thread>
+#include "signoTec/STPadLib.h"
 
 PatientSignature PatientSigner::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
 
@@ -24,9 +30,21 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
     QAxObject dyn("Florentis.DynamicCapture");
     dyn.setProperty("Licence", licence);
 
+    //CANONICALIZATION - NOT WORKING?
+    /*
+    std::string canonicalized = Crypto::addNamespacesToRoot(what, { {"nhis", "https://www.his.bg" } });
+
+    canonicalized = Crypto::canonicalizeXML(canonicalized);
+
+    ModalDialogBuilder::showMultilineDialog(canonicalized);
+    */
+    //SETTING HASH
+
     QAxObject hash("Florentis.Hash");
     hash.setProperty("Type", 4);
-    hash.dynamicCall("Add(Data)", what.data());
+    hash.dynamicCall("Add(Data)", QString(what.data()));
+
+    //CAPTURING SIGNATURE
 
     QVariant resultVariant = dyn.dynamicCall("Capture(SigCtl, Who, Why, What, Key)",
         ctl.asVariant(),
@@ -39,6 +57,8 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
     {
         if (result != 0) return {};
     }
+
+    //GETTING BITMAP
 
     auto sigObject = ctl.querySubObject("Signature");
 
@@ -55,6 +75,8 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
     auto bitmap = sigObject->dynamicCall(
         "RenderBitmap(outputFilename, dimensionX, dimensionY, mimeType, inkWidth, nkColor, backgroundColor, paddingX, paddingY, flags) ", args).toByteArray();
 
+	//GETTING SIGNATURE
+
     return PatientSignature{
         .signatureObject = sigObject->property("SigText").toString().toStdString(),
         .sigImage = std::vector<unsigned char>(
@@ -64,79 +86,120 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
 
 }
 
-#ifdef Q_OS_WIN
-#include <windows.h>
-#include <chrono>
-#include <thread>
-#include "signoTec/STPadLib.h"
-
 PatientSignature PatientSigner::signWithSignotec(const std::string& what)
 {
     PatientSignature ps; 
 
-    if (STDeviceOpen(0, TRUE) < 0)         
+    long size = 0; //stores the size of the buffer
+
+    std::vector<unsigned char> buffer(size);
+
+
+    if (STDeviceOpen(0, true) < 0) {
         return ps;
+    }
 
     STSensorSetSignRect(0, 0, 0, 0);
 
-    if (STSignatureStart() < 0) goto closePad;
-    while (STSignatureGetState())
-        std::this_thread::sleep_for(std::chrono::milliseconds(25));
+    //SETTING HASH
+
+//    auto canonicalized = Crypto::addNamespacesToRoot(what, { {"nhis", "https://www.his.bg" } });
+
+//    canonicalized = Crypto::canonicalizeXML(canonicalized);
+
+    auto hashedDocument = Crypto::calculateSHA256Digest(what);
+
+    STRSASetHash(reinterpret_cast<unsigned char*>(what.data()), HASHALGO::kSha256, 0);
+
+    //CAPTURING SIGNATURE:
+
+    if (STSignatureStart() < 0) {
+        STDeviceClose(0);
+        STControlExit();
+        return ps;
+    }
+
+	int dialogResult = 1; // 0 - OK, 1 - Retry, -1 or 2 - Cancel
+    
+    while (dialogResult == 1) 
+    {
+        dialogResult = ModalDialogBuilder::openButtonDialog(
+            { "OK", "Повтори", "Отказ" }, "Подпис на пациент"
+        );
+
+        if (dialogResult == 0) break;
+
+        if (dialogResult == 2 || dialogResult == -1) {
+            STSignatureStop();
+            STDeviceClose(0);
+            STControlExit();
+            return ps;
+        }
+
+        //dialog result 1
+        STSignatureRetry();
+    }
+
     STSignatureConfirm();
 
+    //GETTING SIGNATURE
+
+    STRSASign(nullptr, &size, RSASCHEME::kPSS, HASHVALUE::kCombination, 0);
+
+    buffer = std::vector<unsigned char>(size);
+
+    STRSASign(buffer.data(), &size, RSASCHEME::kPSS, HASHVALUE::kCombination, 0);
+
+    ps.signature = Crypto::base64Encode(buffer);
+
+    //GETTING SIGN DATA
+
+    STSignatureGetSignData(nullptr, &size);
+
+    if (!size)
     {
-        LONG sz = 0;
-        STSignatureGetSignData(nullptr, &sz);
-        std::vector<unsigned char> buf(sz);
-        if (STSignatureGetSignData(buf.data(), &sz) < 0) goto closePad;
-        ps.signatureObject = (buf.data(), sz);
+        STDeviceClose(0);
+        STControlExit();
+        return ps;
     }
 
+    buffer = std::vector<unsigned char>(size);
 
- /*   {
-        LONG sz = 0;
-        const LONG kPNG = 2;
-        const LONG kTrans = 1;                      
-        STSignatureSaveAsStreamEx(kPNG, nullptr, &sz, kTrans);
-        ps.sigImage.resize(sz);
-        if (STSignatureSaveAsStreamEx(kPNG,
-            ps.sigImage.data(), &sz, kTrans) < 0)
-            goto closePad;
-    }
-    */
+    STSignatureGetSignData(buffer.data(), &size);
 
-    {
-        LONG sz = 0;
-        std::vector<unsigned char> cert(sz);
-        if (STRSASaveSigningCertAsStream(cert.data(), &sz, CERTTYPE::kCert_DER) == 0)
-            ps.signatureCertificate = (cert.data(), sz);
-    }
-/*
-    {
-        BYTE hash[32];
-        // any SHA-256 routine … 
-        // e.g. BCrypt, OpenSSL, std::crypto (C++26), …
+    ps.signatureObject = Crypto::base64Encode(buffer);
 
-        STRSASetHash(hash, kSha256, 0, 0); 
-        if (STRSASign(nullptr, &psigSize, kPkcs1_v1_5, 0) == 0)
-        {
-            LONG psigSize = 0;
-            STRSASign(nullptr, &psigSize, kPkcs1_v1_5, 0);   
-            std::vector<unsigned char> sig(psigSize);
-            if (STRSASign(sig.data(), &psigSize, kPkcs1_v1_5, 0) == 0)
-                ps.signature = base64Encode(sig.data(), psigSize);
-        }
-    }
-    */
-closePad:
+    //GETTING THE CERTIFICATE
+
+    STRSASaveSigningCertAsStream(nullptr, &size, CERTTYPE::kCert_DER);
+
+    buffer = std::vector<unsigned char>(size);
+
+    STRSASaveSigningCertAsStream(buffer.data(), &size, CERTTYPE::kCert_DER);
+
+    ps.signatureCertificate = Crypto::base64Encode(buffer);
+
+    //GETTING BITMAP
+                   
+    STSignatureSaveAsStreamEx(nullptr, &size, 300, 0, 0, kPng, 0, RGB(0, 0, 255), 0);
+
+    ps.sigImage.resize(size);
+
+    STSignatureSaveAsStreamEx(ps.sigImage.data(), &size, 300, 0, 0, kPng, 0, RGB(0, 0, 255), 0);
+
     STDeviceClose(0);
-    STControlExit();                                
-    return ps;                                       
+    STControlExit();
+
+    return ps;
 }
 
 #else
 PatientSignature PatientSigner::signWithSignotec(const std::string& what)
 {
+	return {};
+}
+
+PatientSignature PatientSigner::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
 	return {};
 }
 

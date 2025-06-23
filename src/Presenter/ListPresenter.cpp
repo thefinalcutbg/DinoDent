@@ -110,12 +110,10 @@ void ListPresenter::makeEdited()
 void ListPresenter::printPrv(bool toPdf)
 {
 
-    if(toPdf && m_amblist.nrn.empty()) {
+    if (toPdf && m_amblist.nrn.empty()) {
         ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
         return;
     }
-
-    if (!save()) return;
 
     std::vector<Procedure> selectedProcedures;
     bool printReferrals = false;
@@ -173,13 +171,24 @@ void ListPresenter::printPrv(bool toPdf)
 
     if (!toPdf) return;
 
-    if (User::signatureTablet().signPdf(filepath)) return;
+    if (!User::signatureTablet().isPDFconfigured()) {
+        
+        if (ModalDialogBuilder::askDialog(
+            "Файлът е запазен успешно. Желаете ли да отворите директорията?"
+        ))
+        {
+            ModalDialogBuilder::openExplorer(filepath);   
+        }
 
-    if (ModalDialogBuilder::askDialog(
-        "Файлът е запазен успешно. Желаете ли да отворите директорията?"
-    )) {
-        ModalDialogBuilder::openExplorer(filepath);
+        return;
     }
+
+    if (ModalDialogBuilder::askDialog("Файлът е запазен успешно. Желаете ли да го подпишете с графологичен таблет?")){
+        
+        User::signatureTablet().signPdf(filepath);
+        
+        return;
+	}
 
 }
 

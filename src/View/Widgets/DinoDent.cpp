@@ -189,25 +189,11 @@ bool DinoDent::initialized()
     return m_loggedIn;
 }
 
-void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled, bool signingAllowed)
+void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled)
 {
     ui.printButton->setDisabled(printDisabled);
     ui.saveButton->setDisabled(saveDisabled);
     ui.pdfButton->setDisabled(pdfDisabled);
-
-    ui.pdfButton->setIcon(signingAllowed ?
-        QIcon(":/icons/icon_sign.png")
-        :
-        QIcon(":/icons/icon_pdf.png")
-    );
-
-    ui.pdfButton->setToolTip(signingAllowed ?
-        "Подписване с графичен таблет (Ctrl+T)"
-        :
-        "Запази текущия документ като PDF (Ctrl+T)"
-    );
-
-
 }
 
 void DinoDent::setIrcIcon(bool glow)

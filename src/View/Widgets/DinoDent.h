@@ -24,7 +24,7 @@ public:
     void setUserLabel(const std::string& doctorName, const std::string& practiceName) override;
     void exitProgram() override;
     bool initialized();
-    void disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled, bool signAllowed = false);
+    void disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled);
     void setIrcIcon(bool glow);
     void setNotificationIcon(int activeNotifCount) override;
 

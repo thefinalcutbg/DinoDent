@@ -118,6 +118,24 @@ std::string Crypto::calculateSHA256Digest(const std::string& canonicalizedXML) {
     return digest;
 }
 
+std::vector<unsigned char> Crypto::calculateSHA256Digest(const char* buf, int size)
+{
+    // Buffer to hold the hash value
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+
+    // Calculate the SHA-256 hash
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, buf, size);
+    SHA256_Final(hash, &sha256);
+
+    std::vector<unsigned char> vec;
+
+	vec.assign(hash, hash + SHA256_DIGEST_LENGTH);
+
+    return vec;
+}
+
 std::string Crypto::calculateSignature(const std::string& signedInfo, evp_pkey_st* pkey)
 {
      if (!pkey) {

@@ -388,11 +388,12 @@ std::string HisService::generatePatientSignature(const std::string& dentalTreatm
 	//some logic if it's not adult
 	if (!patientIsAdult) {
 
-		auto parent = PatientDialogPresenter("Родител/Настойник").open();
+		auto parent = PatientDialogPresenter("Въведете данните на родител/настойник").open();
 
 		if (!parent) return std::string{};
 
 		result += openTag("signer");
+
 		result += bind("identifierType", parent->type);
 		result += bind("identifier", parent->id);
 
@@ -400,6 +401,8 @@ std::string HisService::generatePatientSignature(const std::string& dentalTreatm
 		result += bind("given", parent->FirstName, true);
 		result += bind("family", parent->LastName, true);
 		result += closeTag("name");
+
+		result += closeTag("signer");
 	}
 
 	PatientSignature signature;

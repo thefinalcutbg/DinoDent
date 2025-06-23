@@ -26,6 +26,8 @@ namespace Crypto
     // Function to calculate the SHA-256 digest
     std::string calculateSHA256Digest(const std::string& canonicalizedXML);
 
+    std::vector<unsigned char> calculateSHA256Digest(const char* buf, int size);
+
     //digests, calculates signature and returns it as base64
     std::string calculateSignature(const std::string& canonicalizedXml, evp_pkey_st* prv_handle);
 

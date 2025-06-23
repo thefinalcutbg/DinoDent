@@ -29,15 +29,7 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
 
     QAxObject dyn("Florentis.DynamicCapture");
     dyn.setProperty("Licence", licence);
-
-    //CANONICALIZATION - NOT WORKING?
-    /*
-    std::string canonicalized = Crypto::addNamespacesToRoot(what, { {"nhis", "https://www.his.bg" } });
-
-    canonicalized = Crypto::canonicalizeXML(canonicalized);
-
-    ModalDialogBuilder::showMultilineDialog(canonicalized);
-    */
+    
     //SETTING HASH
 
     QAxObject hash("Florentis.Hash");
@@ -90,10 +82,9 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what)
 {
     PatientSignature ps; 
 
-    long size = 0; //stores the size of the buffer
+    long size = 0;
 
     std::vector<unsigned char> buffer(size);
-
 
     if (STDeviceOpen(0, true) < 0) {
         return ps;
@@ -103,13 +94,9 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what)
 
     //SETTING HASH
 
-//    auto canonicalized = Crypto::addNamespacesToRoot(what, { {"nhis", "https://www.his.bg" } });
+	auto hash1 = Crypto::calculateSHA256Digest(what);
 
-//    canonicalized = Crypto::canonicalizeXML(canonicalized);
-
-    auto hashedDocument = Crypto::calculateSHA256Digest(what);
-
-    STRSASetHash(reinterpret_cast<unsigned char*>(what.data()), HASHALGO::kSha256, 0);
+    STRSASetHash((unsigned char*)hash1.data(), HASHALGO::kSha256, 0);
 
     //CAPTURING SIGNATURE:
 
@@ -124,7 +111,7 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what)
     while (dialogResult == 1) 
     {
         dialogResult = ModalDialogBuilder::openButtonDialog(
-            { "OK", "Повтори", "Отказ" }, "Подпис на пациент"
+			{ "OK", "Повтори", "Отказ" }, "Подписване с пен таблет", "Натиснете ОК за да потвърдите подписа от пен таблета"
         );
 
         if (dialogResult == 0) break;
@@ -154,7 +141,7 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what)
 
     //GETTING SIGN DATA
 
-    STSignatureGetSignData(nullptr, &size);
+    STRSAGetSignData(nullptr, &size, 0);
 
     if (!size)
     {
@@ -165,7 +152,7 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what)
 
     buffer = std::vector<unsigned char>(size);
 
-    STSignatureGetSignData(buffer.data(), &size);
+    STRSAGetSignData(buffer.data(), &size, 0);
 
     ps.signatureObject = Crypto::base64Encode(buffer);
 

@@ -15,5 +15,5 @@ struct PatientSignature {
 namespace PatientSigner {
 	
 	PatientSignature signWithWacom(const std::string& what, const std::string& who, const std::string& why);
-	PatientSignature signWithSignotec(const std::string& what);
+	PatientSignature signWithSignotec(const std::string& what, const std::string& who);
 }

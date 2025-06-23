@@ -14,9 +14,10 @@
 #include <QVBoxLayout>
 #include <QCryptographicHash>
 #include <QApplication>
+
 #include <windows.h>
-#include <chrono>
-#include <thread>
+#include <codecvt>      // header is deprecated in C++17 but remains usable
+#include <locale>
 #include "signoTec/STPadLib.h"
 
 PatientSignature PatientSigner::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
@@ -78,7 +79,7 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
 
 }
 
-PatientSignature PatientSigner::signWithSignotec(const std::string& what)
+PatientSignature PatientSigner::signWithSignotec(const std::string& what, const std::string& who)
 {
     PatientSignature ps; 
 
@@ -91,6 +92,14 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what)
     }
 
     STSensorSetSignRect(0, 0, 0, 0);
+    
+    //SETTING SIGNER NAME
+
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
+
+    std::wstring name = L"Подписващ: "  + conv.from_bytes(who);
+    STDisplaySetFont(L"Arial", 35, STPAD_FONT_BOLD);
+    STDisplaySetText(10, STDisplayGetHeight()-45, kLeft, name.data());    // goes to foreground (target 0)
 
     //SETTING HASH
 

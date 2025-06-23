@@ -413,7 +413,7 @@ std::string HisService::generatePatientSignature(const std::string& dentalTreatm
 	}
 	//signotec, evolis
 	else {
-		signature = PatientSigner::signWithSignotec(dentalTreatment);
+		signature = PatientSigner::signWithSignotec(dentalTreatment, patient.firstLastName());
 	}
 
 	if (signature.signatureObject.empty()) return std::string{};

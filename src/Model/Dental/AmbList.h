@@ -40,6 +40,8 @@ struct AmbList
 	std::vector<Referral> referrals;
 	std::vector<MedicalNotice> medical_notices;
 
+	bool isSigned{ false };
+
 	bool isNhifSheet() const
 	{
 		return (referrals.size() || procedures.hasNhifProcedure());

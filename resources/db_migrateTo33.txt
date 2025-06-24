@@ -1,0 +1,3 @@
+ALTER TABLE amblist ADD COLUMN signature TEXT;
+
+PRAGMA user_version = 33;

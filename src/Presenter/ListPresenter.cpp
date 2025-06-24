@@ -344,7 +344,10 @@ TabName ListPresenter::getTabName()
     }
     
     if (m_amblist.nrn.size()) {
+
         n.header_icon = m_amblist.his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
+
+        if (m_amblist.isSigned) { n.header_icon = CommonIcon::SIGNATURE; }
     }
 
     return n;
@@ -369,6 +372,14 @@ bool ListPresenter::save()
     }
     else
     {
+		if (m_amblist.isSigned
+            && !ModalDialogBuilder::askDialog("Промяната на амбулаторния лист ще направи подписа невалиден. Сигурни ли сте, че искате да продължите?")
+        ){
+            return false;
+		}
+
+        m_amblist.isSigned = false;
+
         DbAmbList::update(m_amblist);
     }
 
@@ -425,75 +436,74 @@ void ListPresenter::setDataToView()
 
     view->setSelectedTeeth(m_selectedIndexes);
 
-    if (firstFocus)
-    {
-        bool querySent = true; //prevents multiple PKCS11 prompts
+    view->focusTeethView();
 
-        if (User::settings().getPisHistoryAuto && User::hasNhifContract() && !patient->PISHistory) {
+	if (!firstFocus){ return; }
 
-            auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
+    bool querySent = true; //prevents multiple PKCS11 prompts
 
-                if (!result) return;
+    if (User::settings().getPisHistoryAuto && User::hasNhifContract() && !patient->PISHistory) {
 
-                auto& procedures = result.value();
+        auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
 
-                patient->PISHistory = procedures;
-            };
+            if (!result) return;
 
-            querySent = dentalActService.sendRequest(*patient, false, callback);
-        }
+            auto& procedures = result.value();
 
-        if (!querySent) {
-            firstFocus = false;
-            return;
-        }
+            patient->PISHistory = procedures;
+        };
 
-        if (User::settings().getHisHistoryAuto && !patient->HISHistory) {
+        querySent = dentalActService.sendRequest(*patient, false, callback);
+    }
+
+    if (!querySent) {
+        firstFocus = false;
+        return;
+    }
+
+    if (User::settings().getHisHistoryAuto && !patient->HISHistory) {
             
-            auto callback = [&](const std::optional<std::vector<Procedure>>& result, const std::vector<HisSnapshot>& snapshots) {
+        auto callback = [&](const std::optional<std::vector<Procedure>>& result, const std::vector<HisSnapshot>& snapshots) {
 
-                if (!result) return;
+            if (!result) return;
  
-                auto& procedures = result.value();
+            auto& procedures = result.value();
 
-                patient->HISHistory = procedures;
+            patient->HISHistory = procedures;
   
-                if (!m_amblist.isNew()) return;
+            if (!m_amblist.isNew()) return;
 
-                if(snapshots.empty()) return;
+            if(snapshots.empty()) return;
 
 //              m_amblist.teeth.copyOnlyOnUnknown(snapshots.back().teeth);
 
-                auto& lastHisSnapshotDate = snapshots.back().date;
+            auto& lastHisSnapshotDate = snapshots.back().date;
 
-                auto lastDbProcedureDate = DbProcedure::getLastProcedureDate(patient->rowid);
+            auto lastDbProcedureDate = DbProcedure::getLastProcedureDate(patient->rowid);
 
-                if(m_amblist.teeth.noData() || (
-                   lastHisSnapshotDate > lastDbProcedureDate
-                   && ModalDialogBuilder::askDialog(
-                        "В НЗИС е открит по-актуален орален статус. Желаете ли да го заредите?"
-                    )
-                  )
-                ) {
-                    m_amblist.teeth.copyFromHis(snapshots.back().teeth);
-                }
+            if(m_amblist.teeth.noData() || (
+                lastHisSnapshotDate > lastDbProcedureDate
+                && ModalDialogBuilder::askDialog(
+                    "В НЗИС е открит по-актуален орален статус. Желаете ли да го заредите?"
+                )
+                )
+            ) {
+                m_amblist.teeth.copyFromHis(snapshots.back().teeth);
+            }
 
-                for (int i = 0; i < 32; i++)
-                {
-                    view->repaintTooth(ToothPaintHint{ m_amblist.teeth[i], patient->teethNotes[i] });
-                }
+            for (int i = 0; i < 32; i++)
+            {
+                view->repaintTooth(ToothPaintHint{ m_amblist.teeth[i], patient->teethNotes[i] });
+            }
 
                 
-            };
+        };
 
-            eDentalGetStatusAndProceduresService.sendRequest(*patient, false, callback);
+        eDentalGetStatusAndProceduresService.sendRequest(*patient, false, callback);
 
-        }
-
-        firstFocus = false;
     }
 
-    view->focusTeethView();
+    firstFocus = false;
 }
 
 
@@ -1342,13 +1352,14 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_amblist,
             *patient,
-            [&](auto& nrn, auto& seqIdxPair, bool error) {
+            [&](auto& nrn, auto& seqIdxPair, bool error, bool isSigned) {
 
                 if (nrn.empty()) {
                     return;
                 }
                 
                 m_amblist.nrn = nrn;
+                m_amblist.isSigned = isSigned;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
                     
@@ -1389,10 +1400,10 @@ void ListPresenter::hisButtonPressed()
             m_amblist, 
             *patient, 
             DbAmbList::hasAutoStatus(m_amblist.nrn), 
-            [&](auto& procedureIdx)
+            [&](auto& procedureIdx, bool isSigned)
             {
                 m_amblist.his_updated = true;
-
+                m_amblist.isSigned = isSigned;
                 m_amblist.procedures.clearRemovedProcedures();
 
                 for (auto& [sequence, hisIdx] : procedureIdx)
@@ -1428,7 +1439,7 @@ void ListPresenter::hisButtonPressed()
                 if (!success) return;
 
                 m_amblist.nrn.clear();
-
+                m_amblist.isSigned = false;
                 m_amblist.procedures.clearRemovedProcedures();
 
                 for (auto& p : m_amblist.procedures) p.his_index = 0;

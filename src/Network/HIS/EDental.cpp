@@ -64,6 +64,8 @@ bool EDental::Open::sendRequest(
 	contents += HisService::subject(patient)
 		+ HisService::performer(isNhif);
 
+	isSigned = patientSignature.size();
+
 	return HisService::sendRequestToHis(contents, patientSignature);
 }
 
@@ -101,7 +103,7 @@ void EDental::Open::parseReply(const std::string& reply)
 		
 		if (FreeFn::contains(errors, "Вече има подаден")) {
 			auto existingNrn = errors.substr(errors.size() - 12);
-			m_callback(existingNrn, {}, true);
+			m_callback(existingNrn, {}, true, isSigned);
 			return;
 		}
 
@@ -145,7 +147,7 @@ void EDental::Open::parseReply(const std::string& reply)
 		seqIndexPair.push_back(std::make_pair(sequence-1, index));
 	}
 
-	m_callback(nrnStr, seqIndexPair, false);
+	m_callback(nrnStr, seqIndexPair, false, isSigned);
 
 }
 
@@ -201,6 +203,8 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 
 		}
 	}
+
+	isSigned = patientSignature.size();
 
 	contents += HisService::subject(patient)
 			  + HisService::performer(isNhif)
@@ -304,7 +308,7 @@ void EDental::Augment::parseReply(const std::string& reply)
 		seqIdxPair.push_back(std::make_pair(sequence - 1, hisIdx));
 	}
 
-	m_callback(seqIdxPair);
+	m_callback(seqIdxPair, isSigned);
 }
 
 bool EDental::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> success)

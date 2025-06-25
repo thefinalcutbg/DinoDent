@@ -460,8 +460,8 @@ void ModalDialogBuilder::displayPixmap(const QPixmap& px)
 
 	auto pic = new QLabel(&dlg);
 	pic->setPixmap(px);
-	pic->setMinimumHeight(px.height() + 24); // Add some padding
-	pic->setMinimumWidth(px.width() + 24); // Add some paddin
+	pic->setMinimumHeight(px.height() + 24);
+	pic->setMinimumWidth(px.width() + 24);
 	pic->setScaledContents(true);
 	pic->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 	pic->setAlignment(Qt::AlignCenter);

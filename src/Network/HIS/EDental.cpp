@@ -21,6 +21,7 @@ bool EDental::Open::sendRequest(
 )
 {
 	m_callback = nrnCallback;
+	m_signature_bitmap.clear();
 
 	std::string contents;
 
@@ -47,7 +48,10 @@ bool EDental::Open::sendRequest(
 
 	if (User::signatureTablet().getHisIdx())
 	{
-		patientSignature = HisService::generatePatientSignature(contents, patient);
+		auto sign_pair = HisService::generatePatientSignature(contents, patient);
+
+		patientSignature = sign_pair.first;
+		m_signature_bitmap = sign_pair.second;
 
 		if (patientSignature.empty() &&
 			!ModalDialogBuilder::askDialog(
@@ -63,8 +67,6 @@ bool EDental::Open::sendRequest(
 
 	contents += HisService::subject(patient)
 		+ HisService::performer(isNhif);
-
-	isSigned = patientSignature.size();
 
 	return HisService::sendRequestToHis(contents, patientSignature);
 }
@@ -103,7 +105,7 @@ void EDental::Open::parseReply(const std::string& reply)
 		
 		if (FreeFn::contains(errors, "Вече има подаден")) {
 			auto existingNrn = errors.substr(errors.size() - 12);
-			m_callback(existingNrn, {}, true, isSigned);
+			m_callback(existingNrn, {}, true, m_signature_bitmap);
 			return;
 		}
 
@@ -147,13 +149,14 @@ void EDental::Open::parseReply(const std::string& reply)
 		seqIndexPair.push_back(std::make_pair(sequence-1, index));
 	}
 
-	m_callback(nrnStr, seqIndexPair, false, isSigned);
+	m_callback(nrnStr, seqIndexPair, false, m_signature_bitmap);
 
 }
 
 bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patient, bool removeAutoStatus, decltype(m_callback) callback)
 {
 	m_callback = callback;
+	m_signature_bitmap.clear(); 
 
 	std::string contents;
 
@@ -185,17 +188,19 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date, removeAutoStatus)
 		+ "</nhis:dentalTreatment>";
 
-	
 	std::string patientSignature;
 
 	if (User::signatureTablet().getHisIdx())
 	{
-		patientSignature = HisService::generatePatientSignature(contents, patient);
+		auto sign_pair = HisService::generatePatientSignature(contents, patient);
+
+		patientSignature = sign_pair.first;
+		m_signature_bitmap = sign_pair.second;
 
 		if (patientSignature.empty() &&
 			!ModalDialogBuilder::askDialog(
 				"Амбулаторният лист не е подписан. Желаете ли да го изпратите към НЗИС без подпис на пациента?"
-				)
+			)
 			)
 		{
 			m_callback = nullptr;
@@ -204,11 +209,8 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		}
 	}
 
-	isSigned = patientSignature.size();
-
 	contents += HisService::subject(patient)
-			  + HisService::performer(isNhif)
-			  ;
+		+ HisService::performer(isNhif);
 
 	return HisService::sendRequestToHis(contents, patientSignature);
 }
@@ -308,7 +310,7 @@ void EDental::Augment::parseReply(const std::string& reply)
 		seqIdxPair.push_back(std::make_pair(sequence - 1, hisIdx));
 	}
 
-	m_callback(seqIdxPair, isSigned);
+	m_callback(seqIdxPair, m_signature_bitmap);
 }
 
 bool EDental::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> success)

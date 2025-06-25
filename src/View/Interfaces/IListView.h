@@ -32,6 +32,7 @@ public:
 	virtual void setDateTime(const std::string& time8601) = 0;
 	virtual void hideSurfacePanel(bool hidden) = 0;
 	virtual void hideControlPanel(bool hidden) = 0;
+	virtual void setSignature(const std::vector<unsigned char>& s) = 0;
 	virtual void hideNhifSheetData() = 0;
 	virtual void setNhifData(const NhifSheetData& data, bool showUnfav) = 0;
 	virtual ISurfacePanel* surfacePanel() = 0;

@@ -76,7 +76,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
         "amblist.his_updated, "
-        "patient.color "
+        "patient.color, "
+		"amblist.sig_bitmap NOT NULL AS sig "
         "FROM amblist "
         "JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
@@ -105,11 +106,15 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         
         bool his = db.asBool(1);
         bool his_updated = db.asBool(13);
+        bool his_signed = db.asBool(15);
 
         CommonIcon::Type his_icon = CommonIcon::NOICON;
         if (his) {
             his_icon = his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
         }
+		if (his_signed) {
+			his_icon = CommonIcon::SIGNATURE;
+		}
         //Number
 
         int legacyNumber = db.asInt(4);
@@ -358,7 +363,13 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
     Db db;
 
     db.newStatement(
-        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif, his_updated, lpk as author, (lpk = ? AND rzi = ?) as from_me FROM amblist WHERE patient_rowid=? "
+        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif, "
+        "CASE " 
+        "WHEN sig_bitmap IS NOT NULL THEN 2 "
+        "WHEN his_updated = 1 THEN 1 "
+        "ELSE 0 "
+        "END AS his_updated, "
+        "lpk as author, (lpk = ? AND rzi = ?) as from_me FROM amblist WHERE patient_rowid=? "
         "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me FROM prescription WHERE patient_rowid=? "
         "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me  FROM periostatus WHERE patient_rowid=? "
         "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif, 1 AS his_updated, practice_rzi as author,  (practice_rzi = ?) as from_me FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? "
@@ -390,7 +401,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
         bool sentToHis = nrn.size();
 
-        bool his_updated = db.asBool(6);;
+        int his_updated = db.asInt(6);;
 
         if (nrn.empty() && db.asInt(3))
         {
@@ -403,7 +414,18 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         CommonIcon::Type his_icon = CommonIcon::NOICON;
 
         if (sentToHis) {
-            his_icon = his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
+
+            switch(his_updated) {
+			case 0:
+                his_icon = CommonIcon::HISGRAY;
+				break;
+			case 1:
+				his_icon = CommonIcon::HIS;
+                break;
+			case 2: 
+				his_icon = CommonIcon::SIGNATURE;
+                break;
+            }
         }
 
 

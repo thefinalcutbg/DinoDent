@@ -36,6 +36,7 @@ public:
     void setPresenter(ListPresenter* presenter) override;
 
     void setDateTime(const std::string& time8601) override;
+	void setSignature(const std::vector<unsigned char>& s) override;
     //IStatusView
     void setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel) override;
     void hideSurfacePanel(bool hidden) override;
@@ -52,6 +53,7 @@ public:
     void setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices);
     void setHisButtonText(const HisButtonProperties& prop) override;
     
+
     ~ListView();
 
 private:

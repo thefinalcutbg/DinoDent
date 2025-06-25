@@ -347,7 +347,7 @@ TabName ListPresenter::getTabName()
 
         n.header_icon = m_amblist.his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
 
-        if (m_amblist.isSigned) { n.header_icon = CommonIcon::SIGNATURE; }
+        if (m_amblist.signature_bitmap.size()) { n.header_icon = CommonIcon::SIGNATURE; }
     }
 
     return n;
@@ -372,13 +372,15 @@ bool ListPresenter::save()
     }
     else
     {
-		if (m_amblist.isSigned
+		if (m_amblist.signature_bitmap.size()
             && !ModalDialogBuilder::askDialog("Промяната на амбулаторния лист ще направи подписа невалиден. Сигурни ли сте, че искате да продължите?")
         ){
             return false;
 		}
 
-        m_amblist.isSigned = false;
+        m_amblist.signature_bitmap.clear();
+
+        view->setSignature({});
 
         DbAmbList::update(m_amblist);
     }
@@ -417,6 +419,8 @@ void ListPresenter::setDataToView()
     setHisButtonToView();
 
     view->setDateTime(m_amblist.date);
+
+	view->setSignature(m_amblist.signature_bitmap);
 
     surf_presenter.setStatusControl(this);
     surf_presenter.setView(view->surfacePanel());
@@ -1352,14 +1356,14 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_amblist,
             *patient,
-            [&](auto& nrn, auto& seqIdxPair, bool error, bool isSigned) {
+            [&](auto& nrn, auto& seqIdxPair, bool error, std::vector<unsigned char>& sig_bitmap) {
 
                 if (nrn.empty()) {
                     return;
                 }
                 
                 m_amblist.nrn = nrn;
-                m_amblist.isSigned = isSigned;
+                m_amblist.signature_bitmap = sig_bitmap;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
                     
@@ -1375,6 +1379,7 @@ void ListPresenter::hisButtonPressed()
                 if (isCurrent())
                 {
                     setHisButtonToView();
+					view->setSignature(m_amblist.signature_bitmap);
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
@@ -1400,10 +1405,10 @@ void ListPresenter::hisButtonPressed()
             m_amblist, 
             *patient, 
             DbAmbList::hasAutoStatus(m_amblist.nrn), 
-            [&](auto& procedureIdx, bool isSigned)
+			[&](auto& procedureIdx, std::vector<unsigned char>& sig_bitmap)
             {
                 m_amblist.his_updated = true;
-                m_amblist.isSigned = isSigned;
+                m_amblist.signature_bitmap = sig_bitmap;
                 m_amblist.procedures.clearRemovedProcedures();
 
                 for (auto& [sequence, hisIdx] : procedureIdx)
@@ -1420,6 +1425,7 @@ void ListPresenter::hisButtonPressed()
                 if (isCurrent())
                 {
                     setHisButtonToView();
+                    view->setSignature(m_amblist.signature_bitmap);
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
@@ -1439,10 +1445,12 @@ void ListPresenter::hisButtonPressed()
                 if (!success) return;
 
                 m_amblist.nrn.clear();
-                m_amblist.isSigned = false;
+                m_amblist.signature_bitmap.clear();
                 m_amblist.procedures.clearRemovedProcedures();
-
-                for (auto& p : m_amblist.procedures) p.his_index = 0;
+                
+                for (auto& p : m_amblist.procedures) {
+                    p.his_index = 0;
+                }
 
                 m_amblist.referrals.clear();
                 m_amblist.medical_notices.clear();

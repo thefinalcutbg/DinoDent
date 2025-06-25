@@ -446,22 +446,42 @@ void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 	d.monthNotifView()->setPresenter(presenter);
 	d.exec();
 }
+#include "View/uiComponents/PixmapLabel.h"
 
 void ModalDialogBuilder::displayPixmap(const QPixmap& px)
 {
-	auto dlg = new QDialog;
+	QDialog dlg;
+	dlg.setWindowTitle("Преглед на подпис");
 
-	auto label = new QLabel(dlg);
-	label->setPixmap(px);
-	label->setScaledContents(true);
-	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	dlg.setAutoFillBackground(true);
+	QPalette pal = dlg.palette();
+	pal.setColor(QPalette::Window, Qt::white);
+	dlg.setPalette(pal);
 
-	auto lay = new QVBoxLayout(dlg);
-	lay->addWidget(label);
-	lay->setContentsMargins(0, 0, 0, 0);
+	auto pic = new QLabel(&dlg);
+	pic->setPixmap(px);
+	pic->setMinimumHeight(px.height() + 24); // Add some padding
+	pic->setMinimumWidth(px.width() + 24); // Add some paddin
+	pic->setScaledContents(true);
+	pic->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	pic->setAlignment(Qt::AlignCenter);
 
-	dlg->resize(px.size());
-	dlg->exec();
+	auto footer = new QLabel("Изображението е илюстративно.\n"
+		"Истинският подпис е изпратен към НЗИС\n"
+		"под формата на Base64 кодиран хеш.",
+		&dlg);
+	footer->setWordWrap(true);
+	footer->setAlignment(Qt::AlignCenter);
+	footer->setStyleSheet("color:#555;");
+
+
+	auto layout = new QVBoxLayout(&dlg);
+	layout->addWidget(pic, 1);
+	layout->addWidget(footer, 0);
+	layout->setContentsMargins(12, 12, 12, 12);
+	layout->setSpacing(8);
+
+	dlg.exec();
 }
 
 #include "View/Widgets/InputDialog.h"

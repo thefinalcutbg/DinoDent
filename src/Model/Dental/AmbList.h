@@ -40,7 +40,7 @@ struct AmbList
 	std::vector<Referral> referrals;
 	std::vector<MedicalNotice> medical_notices;
 
-	bool isSigned{ false };
+	std::vector<unsigned char> signature_bitmap;
 
 	bool isNhifSheet() const
 	{

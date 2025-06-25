@@ -2,6 +2,7 @@
 #include "Network/AbstractReplyHandler.h"
 
 #include <string_view>
+#include <vector>
 
 class ProcedureContainer;
 class ToothContainer;
@@ -12,8 +13,8 @@ struct Procedure;
 
 class TiXmlElement;
 
-//constexpr const char* hisUrl = "https://api.his.bg";
-constexpr const char* hisUrl = "https://ptest-api.his.bg";
+constexpr const char* hisUrl = "https://api.his.bg";
+//constexpr const char* hisUrl = "https://ptest-api.his.bg";
 
 class HisService : protected AbstractReplyHandler
 {
@@ -49,7 +50,8 @@ protected:
 	std::string bind(const std::string& name, const char* value, bool isUserInput = false);
 	std::string openTag(const std::string& tag);
 	std::string closeTag(const std::string tag);
-	std::string generatePatientSignature(const std::string& contents, const Patient& patient);
+	//returns the xml block and the signature bitmap
+	std::pair<std::string, std::vector<unsigned char>> generatePatientSignature(const std::string& contents, const Patient& patient);
 //	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
 
 	std::string getErrors(const std::string& reply);

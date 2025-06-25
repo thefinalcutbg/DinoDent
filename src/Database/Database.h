@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 struct sqlite3;
 struct sqlite3_stmt;
@@ -44,6 +45,7 @@ public:
     bool asBool(int column);
     double asDouble(int column);
     std::string asString(int column);
+    std::vector<unsigned char> asBlob(int column);
     void newStatement(const std::string& query);
     bool execute(const std::string& query);
     int columnCount() const;
@@ -59,6 +61,7 @@ public:
     void bind(int index, int value);
     void bind(int index, double value);
     void bind(int index, long long value);
+    void bind(int index, const std::vector<unsigned char>& blob);
     void bindNull(int index);
     //executes already prepared statement with bindings
     bool execute();

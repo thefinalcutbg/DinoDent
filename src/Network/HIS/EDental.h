@@ -9,11 +9,11 @@ namespace EDental {
 
 	class Open : private HisService
 	{
-		std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool error, bool isSigned)> m_callback;
+		std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool error, std::vector<unsigned char>& signature_bitmap)> m_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
 
-		bool isSigned = false;
+		std::vector<unsigned char> m_signature_bitmap;
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -32,11 +32,11 @@ namespace EDental {
 
 	class Augment : private HisService
 	{
-		std::function<void(const std::vector<std::pair<int, int>>& seqIdxPair, bool isSigned)> m_callback;
+		std::function<void(const std::vector<std::pair<int, int>>& seqIdxPair, std::vector<unsigned char>& signature_bitmap)> m_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate, bool autoStatusRemove);
 
-		bool isSigned = false;
+		std::vector<unsigned char> m_signature_bitmap;
 
 	protected:
 		void parseReply(const std::string& reply) override;

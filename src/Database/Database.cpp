@@ -81,6 +81,22 @@ std::string Db::asString(int column) {
     return reinterpret_cast<const char*>(sqlite3_column_text(stmt, column)); 
 }
 
+std::vector<unsigned char> Db::asBlob(int column)
+{
+    std::vector<unsigned char> result;
+
+    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return result;
+
+    auto ptr =  sqlite3_column_blob(stmt, column);
+
+	result.assign(
+		reinterpret_cast<const unsigned char*>(ptr),
+		reinterpret_cast<const unsigned char*>(ptr) + sqlite3_column_bytes(stmt, column)
+	);
+
+    return result;
+}
+
 
 void Db::newStatement(const std::string& query)
 { 
@@ -193,6 +209,16 @@ void Db::bind(int index, long long value)
 
     successful_bindings +=
         sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
+}
+
+void Db::bind(int index, const std::vector<unsigned char>& blob)
+{
+    if (stmt == nullptr) return;
+
+    total_bindings++;
+
+    successful_bindings +=
+        sqlite3_bind_blob(stmt, index, blob.data(), blob.size(), SQLITE_STATIC) == SQLITE_OK;
 }
 
 void Db::bindNull(int index)

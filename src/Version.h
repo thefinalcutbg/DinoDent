@@ -3,7 +3,7 @@
 
 struct Version {
 
-    static constexpr unsigned dbVersion() { return 32; }
+    static constexpr unsigned dbVersion() { return 33; }
 
 	static constexpr Version current() {
 		

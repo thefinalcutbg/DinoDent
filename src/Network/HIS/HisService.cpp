@@ -367,13 +367,13 @@ std::string HisService::closeTag(const std::string tag)
 	return "</nhis:" + tag + ">";
 }
 
-std::string HisService::generatePatientSignature(const std::string& dentalTreatment, const Patient& patient)
+std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSignature(const std::string& dentalTreatment, const Patient& patient)
 {
-	if (dentalTreatment.empty()) return std::string{};
+	if (dentalTreatment.empty()) return {};
 
-	if (!User::signatureTablet().getHisIdx()) return std::string{};
+	if (!User::signatureTablet().getHisIdx()) return {};
 
-	std::string result =
+	std::string xmlBlock =
 		"<nhis:patientSignature>"
 		"<nhis:device>"
 		+ bind("manufacturer", User::signatureTablet().getHisManifacturer())
@@ -383,26 +383,26 @@ std::string HisService::generatePatientSignature(const std::string& dentalTreatm
 
 	bool patientIsAdult = patient.isAdult();
 
-	result += bind("isPatientSigner", patientIsAdult);
+	xmlBlock += bind("isPatientSigner", patientIsAdult);
 
 	//some logic if it's not adult
 	if (!patientIsAdult) {
 
 		auto parent = PatientDialogPresenter("Въведете данните на родител/настойник").open();
 
-		if (!parent) return std::string{};
+		if (!parent) return {};
 
-		result += openTag("signer");
+		xmlBlock += openTag("signer");
 
-		result += bind("identifierType", parent->type);
-		result += bind("identifier", parent->id);
+		xmlBlock += bind("identifierType", parent->type);
+		xmlBlock += bind("identifier", parent->id);
 
-		result += openTag("name");
-		result += bind("given", parent->FirstName, true);
-		result += bind("family", parent->LastName, true);
-		result += closeTag("name");
+		xmlBlock += openTag("name");
+		xmlBlock += bind("given", parent->FirstName, true);
+		xmlBlock += bind("family", parent->LastName, true);
+		xmlBlock += closeTag("name");
 
-		result += closeTag("signer");
+		xmlBlock += closeTag("signer");
 	}
 
 	PatientSignature signature;
@@ -416,15 +416,15 @@ std::string HisService::generatePatientSignature(const std::string& dentalTreatm
 		signature = PatientSigner::signWithSignotec(dentalTreatment, patient.firstLastName());
 	}
 
-	if (signature.signatureObject.empty()) return std::string{};
+	if (signature.signatureObject.empty()) return {};
 
-	result += bind("signatureObject", signature.signatureObject);
-	result += bind("signatureCertificate", signature.signatureCertificate);
-	result += bind("signature", signature.signature);
+	xmlBlock += bind("signatureObject", signature.signatureObject);
+	xmlBlock += bind("signatureCertificate", signature.signatureCertificate);
+	xmlBlock += bind("signature", signature.signature);
 
-	result += closeTag("patientSignature");
+	xmlBlock += closeTag("patientSignature");
 
-	return result;
+	return { xmlBlock, signature.bitmap };
 }
 
 std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)

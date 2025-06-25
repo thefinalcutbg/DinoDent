@@ -8,7 +8,7 @@ struct PatientSignature {
 	std::string signatureObject;
 	std::string signatureCertificate;
 	std::string signature;
-	std::vector<unsigned char> sigImage;
+	std::vector<unsigned char> bitmap;
 
 };
 

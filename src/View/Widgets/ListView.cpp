@@ -7,6 +7,7 @@
 #include "View/SubWidgets/ReferralTile.h"
 #include "View/SubWidgets/MedicalNoticeTile.h"
 #include "Model/User.h"
+#include <QIcon>
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
@@ -86,6 +87,7 @@ ListView::ListView(QWidget* parent)
 
 	ui.procedureTable->setMinimumWidth(ui.teethView->width() + ui.controlPanel->width());
 
+	connect(ui.sigButton, &QPushButton::clicked, this, [=, this] { ModalDialogBuilder::displayPixmap(ui.sigButton->icon().pixmap(300,300)); });
     connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
     connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
@@ -226,6 +228,24 @@ void ListView::setDateTime(const std::string& time8601)
 {
 	QSignalBlocker b(ui.dateTimeEdit);
 	ui.dateTimeEdit->setDateTime(QDateTime::fromString(time8601.c_str(), Qt::ISODate));
+}
+
+void ListView::setSignature(const std::vector<unsigned char>& s)
+{
+	if (s.empty()) {
+		ui.sigButton->setIcon(QIcon());
+		ui.sigButton->setBackgroundColor(Theme::background);
+		ui.sigButton->setDisabled(true);
+		return;
+	}
+
+	QPixmap sigPx = QPixmap::fromImage(QImage::fromData(s.data(), static_cast<int>(s.size())));
+
+	ui.sigButton->setEnabled(true);
+	ui.sigButton->setIcon(QIcon(sigPx));
+	ui.sigButton->setBackgroundColor(Qt::white);
+	ui.sigButton->setHoverColor(Theme::inactiveTabBG);
+	ui.sigButton->show();
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel)

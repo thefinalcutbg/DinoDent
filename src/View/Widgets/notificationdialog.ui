@@ -32,6 +32,15 @@
      </item>
      <item>
       <widget class="QComboBox" name="durationTypeCombo">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
        <property name="sizeAdjustPolicy">
         <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
        </property>

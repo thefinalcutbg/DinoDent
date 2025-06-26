@@ -129,3 +129,16 @@ bool FreeFn::contains(const std::string& parent, const std::string& child)
 {
     return QString(parent.c_str()).contains(child.c_str());
 }
+
+std::string FreeFn::getPatientName(const std::string& fname, const std::string& mname, const std::string& lname)
+{
+	std::string name = fname + " ";
+	
+	if (!mname.empty()) {
+		name += mname + " ";
+	}
+
+    name += lname;
+
+	return name;
+}

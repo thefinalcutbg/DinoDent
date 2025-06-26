@@ -17,5 +17,6 @@ namespace FreeFn {
     std::string escapeXml(const std::string& data);
     std::string toUpper(const std::string& src);
     bool contains(const std::string& parent, const std::string& child);
+    std::string getPatientName(const std::string& fname, const std::string& mname, const std::string& lname);
 
 };

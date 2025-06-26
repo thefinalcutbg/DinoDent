@@ -5,6 +5,7 @@
 #include "DbProcedure.h"
 #include "DbProcedure.h"
 #include "DbPrescription.h"
+#include "Model/FreeFunctions.h"
 
 std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 {
@@ -31,9 +32,9 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
        tableView.addCell(0, { .data = db.asString(1) });
 
        tableView.addCell(1, { 
-           .data = db.asString(2) + " " +
-           db.asString(3) + " " +
-           db.asString(4),
+           .data = FreeFn::getPatientName(db.asString(2),
+           db.asString(3),
+           db.asString(4)),
            .icon = db.asBool(6) ?
                 CommonIcon::BDAY
                 :
@@ -135,9 +136,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
 
         //Name
         tableView.addCell(3, {
-             .data = db.asString(8) + " " +
-                     db.asString(9) + " " +
-                     db.asString(10),
+             .data = FreeFn::getPatientName(db.asString(8), db.asString(9), db.asString(10)),
              .icon = db.asBool(12) ?
                     CommonIcon::BDAY
                     :
@@ -193,9 +192,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
         tableView.addCell(1, { .data = db.asString(3) });
 
         tableView.addCell(2, {
-             .data = db.asString(4) + " " +
-                     db.asString(5) + " " +
-                     db.asString(6),
+             .data = FreeFn::getPatientName(db.asString(4), db.asString(5), db.asString(6)),
              .icon = db.asBool(8) ?
                     CommonIcon::BDAY
                     :
@@ -328,10 +325,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
        tableView.addCell(2, { .data = db.asString(4) });
 
        //NAME
-       tableView.addCell(3, {
-            .data = db.asString(5) + " " +
-                    db.asString(6) + " " +
-                    db.asString(7),
+       tableView.addCell(3, { 
+           .data = FreeFn::getPatientName(db.asString(5), db.asString(6), db.asString(7)),
             .icon = db.asBool(9) ?
                    CommonIcon::BDAY
                    :

@@ -23,7 +23,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 #ifdef Q_OS_MACOS
 	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
-
+//  ui.tabWidget->widget(2)->setDisabled(true);
 #endif
 
 	setWindowTitle("Настройки");

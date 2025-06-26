@@ -197,6 +197,7 @@ HEADERS += \
     src/Network/PIS/ReportFilesService.h \
     src/Network/PIS/SendFileService.h \
     src/Network/PKCS11.h \
+    src/Network/PatientSigner.h \
     src/Network/Telemetry.h \
     src/Network/UpdateService/UpdateService.h \
     src/Network/XmlSigner.h \
@@ -572,6 +573,7 @@ SOURCES += \
     src/Network/PIS/ReportFilesService.cpp \
     src/Network/PIS/SendFileService.cpp \
     src/Network/PKCS11.cpp \
+    src/Network/PatientSigner.cpp \
     src/Network/Telemetry.cpp \
     src/Network/UpdateService/UpdateService.cpp \
     src/Network/XmlSigner.cpp \

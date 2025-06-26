@@ -199,7 +199,7 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what, const 
 }
 
 #else
-PatientSignature PatientSigner::signWithSignotec(const std::string& what)
+PatientSignature PatientSigner::signWithSignotec(const std::string& what, const std::string& who)
 {
 	return {};
 }

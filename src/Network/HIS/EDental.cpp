@@ -53,7 +53,7 @@ bool EDental::Open::sendRequest(
 		patientSignature = sign_pair.first;
 		m_signature_bitmap = sign_pair.second;
 
-		if (patientSignature.empty() &&
+        if (patientSignature.empty() &&
 			!ModalDialogBuilder::askDialog(
 				"Амбулаторният лист не е подписан. Желаете ли да го изпратите към НЗИС без подпис на пациента?"
 			)
@@ -188,26 +188,22 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date, removeAutoStatus)
 		+ "</nhis:dentalTreatment>";
 
-	std::string patientSignature;
+    auto sign_pair = HisService::generatePatientSignature(contents, patient);
 
-	if (User::signatureTablet().getHisIdx())
-	{
-		auto sign_pair = HisService::generatePatientSignature(contents, patient);
+    std::string patientSignature = sign_pair.first;
+    m_signature_bitmap = sign_pair.second;
 
-		patientSignature = sign_pair.first;
-		m_signature_bitmap = sign_pair.second;
-
-		if (patientSignature.empty() &&
-			!ModalDialogBuilder::askDialog(
-				"Амбулаторният лист не е подписан. Желаете ли да го изпратите към НЗИС без подпис на пациента?"
-			)
-			)
-		{
-			m_callback = nullptr;
-			return false;
-
-		}
-	}
+    if(
+        patientSignature.empty() &&
+        (ambSheet.signature_bitmap.size() || User::signatureTablet().getHisIdx()) &&
+        !ModalDialogBuilder::askDialog(
+                "Амбулаторният лист не е подписан. Желаете ли да го изпратите към НЗИС без подпис на пациента?"
+             ))
+    {
+            m_callback = nullptr;
+            m_signature_bitmap.clear();
+            return false;
+    }
 
 	contents += HisService::subject(patient)
 		+ HisService::performer(isNhif);

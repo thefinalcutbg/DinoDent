@@ -76,11 +76,12 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	connect(ui.signSoftEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 		
 		if (text.isEmpty() || QFileInfo::exists(text)) {
-			ui.tabletErrorLabel->clear();
+			ui.signSoftEdit->setStyleSheet("");
 			return;
 		}
 
-		ui.tabletErrorLabel->setText("Посоченият файл не съществува!");
+		ui.signSoftEdit->setStyleSheet("QLineEdit { color: crimson; }");
+
 	});
 
 	connect(ui.signSoftButton, &QPushButton::clicked, this, [&] {

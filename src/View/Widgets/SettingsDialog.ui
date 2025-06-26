@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>754</width>
+    <width>820</width>
     <height>500</height>
    </rect>
   </property>
@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -360,7 +360,7 @@
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Таблет</string>
+       <string>Пен таблет</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_26">
        <item>
@@ -368,7 +368,7 @@
          <item>
           <widget class="QLabel" name="label_30">
            <property name="text">
-            <string>Модел графичен таблет:</string>
+            <string>Модел таблет за подпис:</string>
            </property>
           </widget>
          </item>
@@ -395,9 +395,16 @@
         </layout>
        </item>
        <item>
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_31">
          <property name="text">
-          <string>Път към софтуера за PDF подписване:</string>
+          <string>Път към софтуера за PDF подписване (само за декларации и информирани съгласия):</string>
          </property>
         </widget>
        </item>

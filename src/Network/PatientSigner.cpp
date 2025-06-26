@@ -59,7 +59,7 @@ PatientSignature PatientSigner::signWithWacom(const std::string& what, const std
 
     QVariantList args;
     args << ""
-        << 100 << 100
+        << 250 << 250
         << QString("image/png")
         << 0.5
         << QColor(0, 0, 255)
@@ -179,11 +179,11 @@ PatientSignature PatientSigner::signWithSignotec(const std::string& what, const 
 
     //GETTING BITMAP
                    
-    STSignatureSaveAsStreamEx(nullptr, &size, 100, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
+    STSignatureSaveAsStreamEx(nullptr, &size, 125, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
 
     ps.bitmap.resize(size);
 
-    STSignatureSaveAsStreamEx(ps.bitmap.data(), &size, 100, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
+    STSignatureSaveAsStreamEx(ps.bitmap.data(), &size, 125, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
 
     STDeviceClose(0);
     STControlExit();

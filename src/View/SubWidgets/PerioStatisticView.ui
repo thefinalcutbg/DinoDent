@@ -77,7 +77,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>Липсващи зъби</string>
+                <string>Липсващи зъби:</string>
                </property>
                <property name="wordWrap">
                 <bool>false</bool>
@@ -190,7 +190,7 @@
              <item>
               <widget class="QLabel" name="label_8">
                <property name="text">
-                <string>Средна дълбочина</string>
+                <string>Средна дълбочина:</string>
                </property>
               </widget>
              </item>
@@ -324,7 +324,7 @@
              <item>
               <widget class="QLabel" name="label_14">
                <property name="text">
-                <string>Средна загуба</string>
+                <string>Средна загуба:</string>
                </property>
               </widget>
              </item>

@@ -63,6 +63,11 @@ void PerioSummary::setSnapshots(const std::vector<PerioSnapshot>& snapshots)
 
 void PerioSummary::paintEvent(QPaintEvent* e)
 {
+    if (ui.perioRadio->isChecked()) {
+        QWidget::paintEvent(e);
+        return;
+    }
+
     QPainter p(this);
     p.fillRect(rect(), Qt::white);
 }

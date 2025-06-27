@@ -23,7 +23,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 #ifdef Q_OS_MACOS
 	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
-	ui.tabletCombo->setCurrentIndex(0);
+	ui.tabletCombo->setDisabled(true);
 	ui.signSoftButton->setDisabled(true);
 #endif
 	

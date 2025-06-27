@@ -31,6 +31,35 @@ void PerioStatisticView::paintEvent(QPaintEvent*)
 	painter.end();
 }
 
+QString getComparisonStr(double value, double prevValue, const char* suffix, bool lowerIsBetter = true)
+{
+	if (value == prevValue) {
+		return roundDouble(value) + suffix;
+	}
+	auto difference = value - prevValue;
+	QString result;
+	result += roundDouble(value) + suffix;
+	if (lowerIsBetter == difference < 0) {
+		result += "<b><span style = \"color:" + Theme::colorToString(Theme::fontTurquoise) + " ;\">";
+	}
+	else {
+		result += "<b><span style = \"color:red;\">";
+	}
+	if (difference > 0) {
+		result += " (+";
+	}
+	else {
+		result += " (";
+	}
+	result += roundDouble(difference) + suffix + ")</span></b>";
+	return result;
+}
+
+QString getComparisonStr(const PerioStatistic& stat, const PerioStatistic* const prev, double PerioStatistic::* statMember, const char* suffix, bool lowerIsBetter)
+{
+	return getComparisonStr(stat.*statMember, prev->*statMember, suffix, lowerIsBetter); 
+}
+
 PerioStatisticView::PerioStatisticView(QWidget *parent)
 	: QWidget(parent)
 {
@@ -42,46 +71,49 @@ PerioStatisticView::PerioStatisticView(QWidget *parent)
 	ui.hexGraphicsView->scene()->addItem(hexagonGraphicsItem);
 	ui.hexGraphicsView->setStyleSheet("background: transparent");
 
-	setStyleSheet("QLabel { color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
+	setStyleSheet("QLabel { color:" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 }
 
-void PerioStatisticView::setPerioStatistic(const PerioStatistic& stat)
+void PerioStatisticView::setPerioStatistic(const PerioStatistic& stat, const PerioStatistic* const prev)
 {
 	hexagonGraphicsItem->setRiskValue(stat.riskHexagon, static_cast<int>(stat.risk));
 
-	ui.FMBS->setText(roundDouble(stat.BI) + " %");
-	ui.FMPS->setText(roundDouble(stat.HI) + " %");
-	ui.BOP->setText(roundDouble(stat.BOP) + " %");
-	ui.boneLoss->setText(roundDouble(stat.boneIdx));
+	auto statPrev = prev ? *prev : stat;
+
+	ui.FMBS->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::BI, "%", true));
+	ui.FMPS->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::HI, "%", false));
+	ui.BOP->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::BOP, "%", true));
+	ui.boneLoss->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::boneIdx, "%", true));
+
 	ui.missingTeeth->setText(QString::number(stat.missingTeeth));
 
-	ui.pdAvg->setText(roundDouble(stat.pdAverage) + " mm");
+	ui.missingTeeth->setText(getComparisonStr(stat.missingTeeth, statPrev.missingTeeth, "", true));
 
-	ui.pd3->setText(QString::number(stat.pdHistogramCount[0]) + " (" +
-					roundDouble(stat.pdHistogramPercentage[0]) + "%)");
+	ui.pdAvg->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::pdAverage, "mm", true));
 
-	ui.pd45->setText(QString::number(stat.pdHistogramCount[1]) + " (" +
-					roundDouble(stat.pdHistogramPercentage[1]) + "%)");
+	ui.pd3->setText(QString::number(stat.pdHistogramCount[0]) + " / " +
+		getComparisonStr(stat.pdHistogramPercentage[0], statPrev.pdHistogramPercentage[0], "%", false));
 
-	ui.pd67->setText(QString::number(stat.pdHistogramCount[2]) + " (" +
-					roundDouble(stat.pdHistogramPercentage[2]) + "%)");
+	ui.pd45->setText(QString::number(stat.pdHistogramCount[1]) + " / " +
+		getComparisonStr(stat.pdHistogramPercentage[1], statPrev.pdHistogramPercentage[1], "%", true));
 
-	ui.pd7up->setText(QString::number(stat.pdHistogramCount[3]) + " (" +
-					roundDouble(stat.pdHistogramPercentage[3]) + "%)");
+	ui.pd67->setText(QString::number(stat.pdHistogramCount[2]) + " / " +
+		getComparisonStr(stat.pdHistogramPercentage[2], statPrev.pdHistogramPercentage[2], "%", true));
 
+	ui.pd7up->setText(QString::number(stat.pdHistogramCount[3]) + " / " +
+		getComparisonStr(stat.pdHistogramPercentage[3], statPrev.pdHistogramPercentage[3], "%", true));
 
-	ui.calAvg->setText(roundDouble(stat.calAverage) + "mm");
-	ui.calDist->setText(roundDouble(stat.calDistribution) + "%");
+	ui.calAvg->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::calAverage, "mm", true));
+	ui.calDist->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::calDistribution, "%", true));
 
-	ui.cal12->setText(QString::number(stat.calHistogramCount[0]) + " (" +
-		roundDouble(stat.calHistogramCount[0]) + "%)");
+	ui.cal12->setText(QString::number(stat.calHistogramCount[0]) + " / " +
+		getComparisonStr(stat.calHistogramPercentage[0], statPrev.calHistogramPercentage[0], "%", false));
 
-	ui.cal34->setText(QString::number(stat.calHistogramCount[1]) + " (" +
-		roundDouble(stat.calHistogramCount[1]) + "%)");
+	ui.cal34->setText(QString::number(stat.calHistogramCount[1]) + " / " +
+		getComparisonStr(stat.calHistogramPercentage[1], statPrev.calHistogramPercentage[1], "%", true));
 
-	ui.cal5up->setText(QString::number(stat.calHistogramCount[2]) + " (" +
-		roundDouble(stat.calHistogramCount[2]) + "%)");
-
+	ui.cal5up->setText(QString::number(stat.calHistogramCount[2]) + " / " +
+		getComparisonStr(stat.calHistogramPercentage[2], statPrev.calHistogramPercentage[2],  "%", true));
 
 	QString diagnosis = perioStage[static_cast<int>(stat.stage)].data();
 

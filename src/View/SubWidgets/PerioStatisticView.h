@@ -16,7 +16,7 @@ class PerioStatisticView : public QWidget
 
 public:
 	PerioStatisticView(QWidget *parent = nullptr);
-	void setPerioStatistic(const PerioStatistic& stat);
+	void setPerioStatistic(const PerioStatistic& stat, const PerioStatistic* const prev = nullptr);
 	~PerioStatisticView();
 
 private:

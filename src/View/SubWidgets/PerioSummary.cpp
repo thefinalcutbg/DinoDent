@@ -83,5 +83,5 @@ void PerioSummary::displaySnapshotToView(int index)
         lingualScene->display(t);
     }
 
-    ui.perioStatisticView->setPerioStatistic(m_snapshots[index].perioStatistic);
+    ui.perioStatisticView->setPerioStatistic(m_snapshots[index].perioStatistic, index ? &m_snapshots[index-1].perioStatistic : nullptr);
 }

@@ -25,7 +25,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
 	ui.tabletCombo->setDisabled(true);
 	ui.signSoftButton->setDisabled(true);
-	label34->setText("Интеграцияте с таблетите за подписване не е налична в MacOS"
+	ui.label34->setText("Интеграцияте с таблетите за подписване не е налична в MacOS"
 #endif
 	
 	setWindowTitle("Настройки");

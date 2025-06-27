@@ -23,9 +23,19 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 #ifdef Q_OS_MACOS
 	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
-	ui.tabletCombo->setDisabled(true);
-	ui.signSoftButton->setDisabled(true);
-	ui.label34->setText("Интеграцияте с таблетите за подписване не е налична в MacOS"
+    //disable tablet settings
+    ui.tabletCombo->hide();
+    ui.signSoftButton->hide();
+    ui.signSoftEdit->hide();
+    ui.label_30->setOpenExternalLinks(true);
+    ui.label_30->setText(
+        "Интеграцията с таблетите за подписване не е налична "
+        "поради липса на предоставени драйвъри за macOS :(<br><br>Можете да помогнете, като направите запитване директно към производителите:<br><br> "
+        "<a href=\"https://support.wacom.com/hc/en-us/requests/new\">Поддръжка на таблети Wacom</a><br><br>"
+        "<a href=\"https://support.signotec.com/en/support/tickets/new\">Поддръжка на таблети Signotec/Evolis</a>"
+        );
+    ui.label_34->hide();
+    ui.label_31->hide();
 #endif
 	
 	setWindowTitle("Настройки");

@@ -23,9 +23,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 #ifdef Q_OS_MACOS
 	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
-//  ui.tabWidget->widget(2)->setDisabled(true);
+	ui.tabletCombo->setCurrentIndex(0);
+	ui.signSoftButton->setDisabled(true);
 #endif
-
+	
 	setWindowTitle("Настройки");
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
@@ -416,6 +417,11 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 	if (data.signer_model) {
 		ui.signSoftEdit->setText(data.signer_filepath.c_str());
 	}
+
+#ifdef Q_OS_MACOS
+	ui.tabletCombo->setCurrentIndex(0);
+	ui.signSoftEdit->clear();
+#endif
 
 	ui.dirEdit->setText(data.pdfDir.c_str());
 

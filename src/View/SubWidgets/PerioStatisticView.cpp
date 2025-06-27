@@ -55,9 +55,9 @@ QString getComparisonStr(double value, double prevValue, const char* suffix, boo
 	return result;
 }
 
-QString getComparisonStr(const PerioStatistic& stat, const PerioStatistic* const prev, double PerioStatistic::* statMember, const char* suffix, bool lowerIsBetter)
+QString getComparisonStr(const PerioStatistic& stat, const PerioStatistic& prev, double PerioStatistic::* statMember, const char* suffix, bool lowerIsBetter)
 {
-	return getComparisonStr(stat.*statMember, prev->*statMember, suffix, lowerIsBetter); 
+	return getComparisonStr(stat.*statMember, prev.*statMember, suffix, lowerIsBetter); 
 }
 
 PerioStatisticView::PerioStatisticView(QWidget *parent)
@@ -80,16 +80,16 @@ void PerioStatisticView::setPerioStatistic(const PerioStatistic& stat, const Per
 
 	auto statPrev = prev ? *prev : stat;
 
-	ui.FMBS->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::BI, "%", true));
-	ui.FMPS->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::HI, "%", false));
-	ui.BOP->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::BOP, "%", true));
-	ui.boneLoss->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::boneIdx, "%", true));
+	ui.FMBS->setText(getComparisonStr(stat, statPrev, &PerioStatistic::BI, "%", true));
+	ui.FMPS->setText(getComparisonStr(stat, statPrev, &PerioStatistic::HI, "%", false));
+	ui.BOP->setText(getComparisonStr(stat, statPrev, &PerioStatistic::BOP, "%", true));
+	ui.boneLoss->setText(getComparisonStr(stat, statPrev, &PerioStatistic::boneIdx, "%", true));
 
 	ui.missingTeeth->setText(QString::number(stat.missingTeeth));
 
 	ui.missingTeeth->setText(getComparisonStr(stat.missingTeeth, statPrev.missingTeeth, "", true));
 
-	ui.pdAvg->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::pdAverage, "mm", true));
+	ui.pdAvg->setText(getComparisonStr(stat, statPrev, &PerioStatistic::pdAverage, "mm", true));
 
 	ui.pd3->setText(QString::number(stat.pdHistogramCount[0]) + " / " +
 		getComparisonStr(stat.pdHistogramPercentage[0], statPrev.pdHistogramPercentage[0], "%", false));
@@ -103,8 +103,8 @@ void PerioStatisticView::setPerioStatistic(const PerioStatistic& stat, const Per
 	ui.pd7up->setText(QString::number(stat.pdHistogramCount[3]) + " / " +
 		getComparisonStr(stat.pdHistogramPercentage[3], statPrev.pdHistogramPercentage[3], "%", true));
 
-	ui.calAvg->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::calAverage, "mm", true));
-	ui.calDist->setText(getComparisonStr(stat, &statPrev, &PerioStatistic::calDistribution, "%", true));
+	ui.calAvg->setText(getComparisonStr(stat, statPrev, &PerioStatistic::calAverage, "mm", true));
+	ui.calDist->setText(getComparisonStr(stat, statPrev, &PerioStatistic::calDistribution, "%", true));
 
 	ui.cal12->setText(QString::number(stat.calHistogramCount[0]) + " / " +
 		getComparisonStr(stat.calHistogramPercentage[0], statPrev.calHistogramPercentage[0], "%", false));

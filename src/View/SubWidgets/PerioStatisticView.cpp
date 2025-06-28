@@ -83,7 +83,7 @@ void PerioStatisticView::setPerioStatistic(const PerioStatistic& stat, const Per
 	ui.FMBS->setText(getComparisonStr(stat, statPrev, &PerioStatistic::BI, "%", true));
 	ui.FMPS->setText(getComparisonStr(stat, statPrev, &PerioStatistic::HI, "%", false));
 	ui.BOP->setText(getComparisonStr(stat, statPrev, &PerioStatistic::BOP, "%", true));
-	ui.boneLoss->setText(getComparisonStr(stat, statPrev, &PerioStatistic::boneIdx, "%", true));
+	ui.boneLoss->setText(getComparisonStr(stat, statPrev, &PerioStatistic::boneIdx, "", true));
 
 	ui.missingTeeth->setText(QString::number(stat.missingTeeth));
 

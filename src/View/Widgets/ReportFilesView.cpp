@@ -38,6 +38,15 @@ ReportFilesView::ReportFilesView(QWidget *parent)
 		});
 
 	presenter.setView(this);
+
+}
+
+void ReportFilesView::hasBeenShown()
+{
+	if (ui.tableView->model()->rowCount() == 0 && m_first_show) {
+		ui.loadPISbutton->click();
+		m_first_show = false;
+	}
 }
 
 void ReportFilesView::setFiles(const std::vector<ReportFile>&fileRows)

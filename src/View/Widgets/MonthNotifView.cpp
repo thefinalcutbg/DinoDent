@@ -52,6 +52,14 @@ void MonthNotifView::setPresenter(MonthNotifPresenter* presenter)
     presenter->setView(this);
 }
 
+void MonthNotifView::hasBeenShown()
+{
+	if (ui.tableView->model()->rowCount() == 0 && first_show) {
+		ui.loadPISbutton->click();
+		first_show = false;
+	}
+}
+
 MonthNotifView::~MonthNotifView()
 {}
 

@@ -18,10 +18,12 @@ class MonthNotifView final: public QWidget, public IMonthNotifView
 
 	int m_idx{ -1 };
 
+	bool first_show{ true };
+
 public:
 	MonthNotifView(QWidget *parent = nullptr);
 	void setPresenter(MonthNotifPresenter* presenter);
-
+	void hasBeenShown();
 	// Inherited via IMonthNotifView
 	void setMonthNotifRows(const std::vector<MonthNotifRow> rows) override;
 	void closeParentDialog() override;

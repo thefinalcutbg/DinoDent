@@ -12,12 +12,12 @@ class ReportFilesView : public QWidget, public IReportFilesView
 	Q_OBJECT
 
 	ReportFilesModel model;
-
+	bool m_first_show = true;
 	ReportFilesPresenter presenter;
 
 public:
 	ReportFilesView(QWidget *parent = nullptr);
-	
+	void hasBeenShown();
 	~ReportFilesView();
 
 private:

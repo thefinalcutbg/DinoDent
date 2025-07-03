@@ -18,6 +18,15 @@ PisDialog::PisDialog(QWidget *parent)
 	ui.tabWidget->tabBar()->setTabIcon(4, QIcon(":/icons/icon_db.png"));
 	ui.tabWidget->tabBar()->setTabIcon(5, QIcon(":/icons/icon_nhif.png"));
 
+	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [=](int index) {
+
+		if (index == 1) {
+			ui.monthNotifView->hasBeenShown();
+		}
+		else if (index == 2) {
+			ui.filesView->hasBeenShown();
+		}
+	});
 }
 
 PisDialog::~PisDialog()

@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <widget class="QPushButton" name="hirbnoButton">
       <property name="geometry">
@@ -152,14 +152,14 @@
        </rect>
       </property>
       <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::UpDownArrows</enum>
+       <enum>QAbstractSpinBox::ButtonSymbols::UpDownArrows</enum>
       </property>
       <property name="showGroupSeparator" stdset="0">
        <bool>false</bool>
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>17</hour>
+        <hour>15</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -348,14 +348,14 @@
         <x>370</x>
         <y>46</y>
         <width>311</width>
-        <height>211</height>
+        <height>221</height>
        </rect>
       </property>
       <widget class="QLabel" name="label_10">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>30</y>
+         <y>10</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -368,7 +368,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>30</y>
+         <y>10</y>
          <width>171</width>
          <height>22</height>
         </rect>
@@ -378,20 +378,20 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>150</y>
+         <y>160</y>
          <width>101</width>
          <height>22</height>
         </rect>
        </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::UpDownArrows</enum>
+        <enum>QAbstractSpinBox::ButtonSymbols::UpDownArrows</enum>
        </property>
        <property name="showGroupSeparator" stdset="0">
         <bool>false</bool>
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>15</hour>
+         <hour>13</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -418,7 +418,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>150</y>
+         <y>160</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -431,7 +431,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>120</y>
+         <y>130</y>
          <width>101</width>
          <height>21</height>
         </rect>
@@ -444,7 +444,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>120</y>
+         <y>130</y>
          <width>61</width>
          <height>20</height>
         </rect>
@@ -460,7 +460,7 @@
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>120</y>
+         <y>130</y>
          <width>61</width>
          <height>20</height>
         </rect>
@@ -476,7 +476,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>90</y>
+         <y>100</y>
          <width>171</width>
          <height>21</height>
         </rect>
@@ -486,7 +486,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>90</y>
+         <y>100</y>
          <width>101</width>
          <height>21</height>
         </rect>
@@ -502,7 +502,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>180</y>
+         <y>190</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -518,7 +518,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>180</y>
+         <y>190</y>
          <width>171</width>
          <height>21</height>
         </rect>
@@ -528,7 +528,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>60</y>
+         <y>40</y>
          <width>171</width>
          <height>20</height>
         </rect>
@@ -550,13 +550,26 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>60</y>
+         <y>40</y>
          <width>71</width>
          <height>21</height>
         </rect>
        </property>
        <property name="text">
         <string>Град:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>281</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Данни за НЗОК:</string>
        </property>
       </widget>
      </widget>
@@ -589,7 +602,7 @@
       </item>
       <item>
        <property name="text">
-        <string>ЕС</string>
+        <string>Друг</string>
        </property>
       </item>
      </widget>

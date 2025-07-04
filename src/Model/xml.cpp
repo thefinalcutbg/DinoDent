@@ -54,7 +54,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         TiXmlElement* dentalCareService = new TiXmlElement("dentalCareService");
 
         dentalCareService->SetAttribute("personType", patient.type);
-        dentalCareService->SetAttribute("personIdentifier", patient.type != Patient::EU ? patient.id : "0000000000");
+        dentalCareService->SetAttribute("personIdentifier", patient.id);
 
         dentalCareService->SetAttribute("RHIFCode", patient.city.getRhif());
         dentalCareService->SetAttribute("healthRegionCode", patient.city.getHealthRegion());

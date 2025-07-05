@@ -159,7 +159,7 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>9</hour>
+        <hour>7</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -522,7 +522,7 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>7</hour>
+          <hour>5</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
@@ -602,7 +602,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Друго</string>
+        <string>Друг</string>
        </property>
       </item>
      </widget>

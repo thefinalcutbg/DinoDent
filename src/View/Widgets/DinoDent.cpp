@@ -27,12 +27,37 @@
 
 #include "Database/DbNotification.h"
 
+#ifdef Q_OS_WIN
+#include <QWindow>
+#include <windows.h>
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+#endif
+
 DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 
     setWindowState(Qt::WindowMaximized);
+
+#ifdef Q_OS_WIN
+
+    auto& tbClr = Theme::mainBackgroundColor;
+    auto tbTxt = QColor(Qt::black);
+
+    const COLORREF rgb = RGB(tbClr.red(), tbClr.green(), tbClr.blue());
+
+    const DWORD dwmCaptionAttr = 35;
+    const DWORD dwmTextAttr = 36;
+
+	auto hwnd = reinterpret_cast<HWND>(windowHandle()->winId());
+
+//    DwmSetWindowAttribute(hwnd, dwmCaptionAttr, &rgb, sizeof(rgb));
+
+    const COLORREF white = RGB(tbTxt.red(), tbTxt.green(), tbTxt.blue());
+//    DwmSetWindowAttribute(hwnd, dwmTextAttr, &white, sizeof(white));
+#endif
 
     m_chatDialog = new ChatDialog(this);
 

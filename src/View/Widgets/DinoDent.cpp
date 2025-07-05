@@ -42,7 +42,7 @@ DinoDent::DinoDent(QWidget* parent)
     setWindowState(Qt::WindowMaximized);
 
 #ifdef Q_OS_WIN
-
+/*
     auto& tbClr = Theme::mainBackgroundColor;
     auto tbTxt = QColor(Qt::black);
 
@@ -53,10 +53,11 @@ DinoDent::DinoDent(QWidget* parent)
 
 	auto hwnd = reinterpret_cast<HWND>(windowHandle()->winId());
 
-//    DwmSetWindowAttribute(hwnd, dwmCaptionAttr, &rgb, sizeof(rgb));
+    DwmSetWindowAttribute(hwnd, dwmCaptionAttr, &rgb, sizeof(rgb));
 
     const COLORREF white = RGB(tbTxt.red(), tbTxt.green(), tbTxt.blue());
-//    DwmSetWindowAttribute(hwnd, dwmTextAttr, &white, sizeof(white));
+    DwmSetWindowAttribute(hwnd, dwmTextAttr, &white, sizeof(white));
+ */
 #endif
 
     m_chatDialog = new ChatDialog(this);

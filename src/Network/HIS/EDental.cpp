@@ -205,9 +205,6 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
             return false;
     }
 
-	contents += HisService::subject(patient)
-		+ HisService::performer(isNhif);
-
 	return HisService::sendRequestToHis(contents, patientSignature);
 }
 

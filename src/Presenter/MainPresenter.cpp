@@ -279,7 +279,7 @@ void MainPresenter::firstTimeLogic()
     p.practice_address = 68134;
     p.firm_address = "гр. София";
     p.legal_entity = 2;
-    p.rziCode = "2200000000";
+    p.rziCode = "0000000000";
     p.bulstat = "000000000";
             
     Doctor d;

@@ -295,12 +295,12 @@
        <item>
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>13</width>
-           <height>20</height>
+           <width>20</width>
+           <height>13</height>
           </size>
          </property>
         </spacer>

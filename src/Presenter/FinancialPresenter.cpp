@@ -179,10 +179,6 @@ void FinancialPresenter::sendToPis()
         !ModalDialogBuilder::askDialog("Желаете ли да изпратите финансовият документ към ПИС?")
     ) return;
 
-    if (User::practice().legal_entity != 0) {
-        ModalDialogBuilder::showMessage("Уверете се, че ползвате фирмения си електронен подпис");
-    }
-
     file_handler.sendInvoice(
         m_invoice,
         User::practice().rziCode

@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <string>
+#include <vector>
 
 struct AmbList;
 struct Prescription;
@@ -8,10 +9,22 @@ struct Patient;
 struct Invoice;
 class Date;
 
+struct PatientSignature {
+
+	std::string signatureObject;
+	std::string signatureCertificate;
+	std::string signature;
+	std::vector<unsigned char> bitmap;
+
+};
+
 class SignatureTablet
 {
 	int m_modelIdx = 0;
 	std::string signer_filepath;
+
+	PatientSignature signWithSignotec(const std::string& what, const std::string& who);
+	PatientSignature signWithWacom(const std::string& what, const std::string& who, const std::string& why);
 
 public:
 
@@ -48,5 +61,8 @@ public:
 	int getHisIdx() const { return m_modelIdx; }
 
 	bool signPdf(const std::string& filepath) const;
+	PatientSignature getPatientSignature(const std::string& what, const std::string& who, const std::string& why);
+
+	
 
 };

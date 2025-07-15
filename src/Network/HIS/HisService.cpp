@@ -13,7 +13,6 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/ToothUtils.h"
-#include "Network/PatientSigner.h"
 #include "Presenter/PatientDialogPresenter.h"
 
 bool HisService::sendRequestToHis(const std::string& contents, const std::string& patientSignature)
@@ -405,16 +404,7 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 		xmlBlock += closeTag("signer");
 	}
 
-	PatientSignature signature;
-
-	//wacom
-	if (User::signatureTablet().getHisManifacturer() == SignatureTablet::WACOM) {
-		signature = PatientSigner::signWithWacom(dentalTreatment, patient.firstLastName(), "Амбулаторен лист");
-	}
-	//signotec, evolis
-	else {
-		signature = PatientSigner::signWithSignotec(dentalTreatment, patient.firstLastName());
-	}
+	PatientSignature signature = User::signatureTablet().getPatientSignature(dentalTreatment, patient.firstLastName(), "Амбулаторен лист");
 
 	if (signature.signatureObject.empty()) return {};
 

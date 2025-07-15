@@ -113,7 +113,6 @@ bool initFunction() {
 }
 
 #include "Tests/CrudTest.h"
-#include "Network/PatientSigner.h"
 void testFn()
 {
     ModalDialogBuilder::showMessage(Test::crudTest());

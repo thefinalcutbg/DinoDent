@@ -27,20 +27,20 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 	std::string amblistName = list.nrn.size() ?
 		list.nrn : " на " + patient.firstLastName();
 
+	if (!isValid) {
+
+		m_hasErrors = true;
+
+		view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
+	}
+
 	if (list.nrn.empty()) {
 
 		isValid = false;
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.rowid, " на " + amblistName, " не е изпратен към НЗИС");
-	}
-
-	if (!isValid) {
-
-		m_hasErrors = true;
-
-		view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
+		view->appendSheet(list.rowid, amblistName, " не е изпратен към НЗИС");
 	}
 
 	if (list.nrn.size() && !list.his_updated) {

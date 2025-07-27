@@ -7,30 +7,23 @@ DbTelemetry::Data DbTelemetry::getData(const std::string practiceRzi, const std:
 
     Db db;
 
-    db.newStatement("SELECT COUNT(*) FROM amblist WHERE amblist.rzi=? AND amblist.lpk=?");
-    db.bind(1, practiceRzi);
-    db.bind(2, doctorLpk);
+    auto dbGetFn = [&](const std::string query) {
+        db.newStatement(query);
 
-    while (db.hasRows()) {
-        result.ambCount = db.asInt(0);
-    }
+        db.bind(1, practiceRzi);
+        db.bind(2, doctorLpk);
 
-    db.newStatement("SELECT COUNT(*) FROM periostatus WHERE periostatus.rzi=? AND periostatus.lpk=?");
-    db.bind(1, practiceRzi);
-    db.bind(2, doctorLpk);
+        while (db.hasRows()) {
+            return db.asInt(0);
+        }
 
-    while (db.hasRows()) {
-        result.perioCount = db.asInt(0);
-    }
+        return 0;
+      };
 
-    db.newStatement("SELECT COUNT(*) FROM prescription WHERE prescription.rzi=? AND prescription.lpk=?");
-
-    db.bind(1, practiceRzi);
-    db.bind(2, doctorLpk);
-
-    while (db.hasRows()) {
-        result.prescrCount = db.asInt(0);
-    }
+    result.ambCount = dbGetFn("SELECT COUNT(*) FROM amblist WHERE amblist.rzi=? AND amblist.lpk=?");
+    result.perioCount = dbGetFn("SELECT COUNT(*) FROM periostatus WHERE periostatus.rzi=? AND periostatus.lpk=?");
+    result.prescrCount = dbGetFn("SELECT COUNT(*) FROM prescription WHERE prescription.rzi=? AND prescription.lpk=?");
+    result.noticeCount = dbGetFn("SELECT COUNT(*) FROM medical_notice LEFT JOIN amblist ON medical_notice.amblist_rowid = amblist.rowid WHERE amblist.rzi=? AND amblist.lpk=?");
 
     db.newStatement("SELECT COUNT(*) FROM financial WHERE financial.practice_rzi=?");
     db.bind(1, practiceRzi);

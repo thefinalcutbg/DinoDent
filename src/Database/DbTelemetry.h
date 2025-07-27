@@ -8,7 +8,8 @@ namespace DbTelemetry
 			perioCount{ 0 },
 			prescrCount{ 0 },
 			invoiceCount{ 0 },
-			patientCount{ 0 }
+			patientCount{ 0 },
+			noticeCount{ 0 }
 		;
 		
 	};

@@ -29,6 +29,7 @@ void Telemetry::sendData()
 	telemetry["prescr_count"] = dbData.prescrCount;
 	telemetry["inv_count"] = dbData.invoiceCount;
 	telemetry["patient_count"] = dbData.patientCount;
+	telemetry["notice_count"] = dbData.noticeCount;
 
 	int os = -1;
 

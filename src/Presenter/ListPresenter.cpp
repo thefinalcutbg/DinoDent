@@ -207,11 +207,14 @@ void ListPresenter::dynamicNhifConversion()
 
 void ListPresenter::patientDataChanged()
 {
-    if (User::practice().isUnfavourable() && patient->city.isUnfav()){
-        m_amblist.nhifData.isUnfavourable = true;
-    }
+    if (!User::practice().isUnfavourable()) { return; }
+        
+    if (patient->city.isUnfav() == m_amblist.nhifData.isUnfavourable) { return; }
+    
+    m_amblist.nhifData.isUnfavourable = !m_amblist.nhifData.isUnfavourable;
 
-    setDataToView();
+    //marking the list as edited only if the unfavourable condition has been changed
+    view->setNhifData(m_amblist.nhifData, true);
     makeEdited();
 }
 

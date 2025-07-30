@@ -26,7 +26,7 @@ std::vector<Notification> DbNotification::get(const std::string& lpk)
         "SELECT notification.date, notification.rowid, notification.patient_rowid, notification.description, "
         "patient.fname, patient.lname, patient.phone "
         "FROM notification JOIN patient on notification.patient_rowid = patient.rowid "
-        "WHERE lpk=? ORDER BY notification.date DESC"
+        "WHERE lpk=? ORDER BY notification.date ASC"
     );
 
     db.bind(1, lpk);

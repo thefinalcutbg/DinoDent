@@ -11,7 +11,6 @@
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
-#include "Model/FreeFunctions.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Presenter/PatientDialogPresenter.h"
 

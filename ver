@@ -1,7 +1,7 @@
 {
 	"win64": {
 		"ver": "2.6.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.6.0/DinoDentSetup.exe",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/2.6.0/DinoDentSetup.exe",
 		"changeLog": [
 			"- Добавена възможност за изпращане на генерирания с пен таблет подпис на пациента към НЗИС",
 			"- В пациентското досие се визуализират разликите между параметрите на текущото спрямо предходното пародонтално измерване (по идея на д-р Иван Желязков)",
@@ -11,7 +11,7 @@
 	},
 	"macos": {
 		"ver": "2.6.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.6.0/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/2.6.0/dinodent-macos.dmg",
 		"changeLog": [
 			"- Добавена възможност за изпращане на генерирания с пен таблет подпис на пациента към НЗИС",
 			"- В пациентското досие се визуализират разликите между параметрите на текущото спрямо предходното пародонтално измерване (по идея на д-р Иван Желязков)",
@@ -21,7 +21,7 @@
 	},
 	"win64_dev": {
 		"ver": "2.6.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.6.0/DinoDentSetup.exe",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/2.6.0/DinoDentSetup.exe",
 		"changeLog": [
 			"- Добавена възможност за изпращане на генерирания с пен таблет подпис на пациента към НЗИС",
 			"- В пациентското досие се визуализират разликите между параметрите на текущото спрямо предходното пародонтално измерване (по идея на д-р Иван Желязков)",
@@ -31,7 +31,7 @@
 	},
 	"macos_dev": {
 		"ver": "2.6.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.6.0/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/2.6.0/dinodent-macos.dmg",
 		"changeLog": [
 			"- Добавена възможност за изпращане на генерирания с пен таблет подпис на пациента към НЗИС",
 			"- В пациентското досие се визуализират разликите между параметрите на текущото спрямо предходното пародонтално измерване (по идея на д-р Иван Желязков)",

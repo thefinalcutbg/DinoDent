@@ -269,12 +269,12 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
 }
 
 #else
-PatientSignature PatientSigner::signWithSignotec(const std::string& what, const std::string& who)
+PatientSignature SignatureTablet::signWithSignotec(const std::string& what, const std::string& who)
 {
     return {};
 }
 
-PatientSignature PatientSigner::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
+PatientSignature SignatureTablet::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
     return {};
 }
 

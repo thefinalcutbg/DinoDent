@@ -16,7 +16,7 @@ typedef std::array<std::string, 32>TeethNotes;
 
 struct Patient
 {
-	enum Type { EGN = 1, LNCH = 2, SSN = 3, EU = 4 };
+	enum Type { EGN = 1, LNCH = 2, SSN = 3, EU = 4 }; //nhif identifier types
 
 	enum Sex { Male = 0, Female = 1 };
 
@@ -61,5 +61,6 @@ struct Patient
 	std::string getMedStatusStr() const;
 	std::string getDirName() const;
 	bool canBePregnant(const Date& = Date::currentDate()) const;
+	int getHisIdentifierType() const { return type == EU ? 5 : type; } ; //NHIS identifier type
 	~Patient();
 };

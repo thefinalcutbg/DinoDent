@@ -371,7 +371,7 @@ bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(
 	m_callback = callback;
 
 	std::string contents =
-		bind("identifierType", patient.type) +
+		bind("identifierType", patient.getHisIdentifierType()) +
 		bind("identifier", patient.id) +
 		bind("fromDate", Date().to8601()) +
 		bind("toDate", Date::currentDate().to8601()) +
@@ -446,7 +446,7 @@ bool EDental::GetProcedures::sendRequest(const Patient& patient, bool showDialog
 	m_callback = callback;
 
 	std::string contents =
-		bind("identifierType", patient.type) +
+		bind("identifierType", patient.getHisIdentifierType()) +
 		bind("identifier", patient.id) +
 		bind("fromDate", "2008-01-01") +
 		bind("toDate", Date::currentDate().to8601()) +
@@ -491,7 +491,7 @@ bool EDental::GetStatusAndProcedures::sendRequest(const Patient& patient,bool sh
 	m_callback = callback;
 
 	std::string contents =
-		bind("identifierType", patient.type) +
+		bind("identifierType", patient.getHisIdentifierType()) +
 		bind("identifier", patient.id) +
 		bind("fromDate", "2008-01-01") +
 		bind("toDate", Date::currentDate().to8601()) +
@@ -507,7 +507,7 @@ bool EDental::GetDentalHistory::sendRequest(const Patient& patient, decltype(m_c
 	m_callback = callback;
 
 	std::string contents =
-		bind("identifierType", patient.type) +
+		bind("identifierType", patient.getHisIdentifierType()) +
 		bind("identifier", patient.id) +
 		bind("fromDate", Date().to8601()) +
 		bind("toDate", Date::currentDate().to8601()) +
@@ -649,8 +649,10 @@ void EDental::Fetch::parseReply(const std::string& reply)
 	patient.type = static_cast<Patient::Type>(getInt(patientXml, "identifierType"));
 	patient.id = (getString(patientXml, "identifier"));
 
-	//no foriegner parsing
-	if (patient.type > Patient::LNCH) {
+	if (patient.type == 5) { patient.type = Patient::EU; }
+
+	//non supported id types
+	if (patient.type > 5 || patient.type == 4) {
 		m_callback = nullptr;
 		return;
 	}

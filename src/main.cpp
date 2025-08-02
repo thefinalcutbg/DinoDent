@@ -53,8 +53,18 @@ int main(int argc, char *argv[])
 #include "View/Graphics/SpriteSheets.h"
 #include "View/Graphics/Zodiac.h"
 #include "View/Widgets/SplashScreen.h"
-#
+#include "Network/HIS/HisService.h"
+
 bool initFunction() {
+
+    auto args = QApplication::arguments();
+
+    if (args.count() > 1 && args.at(1) == "-histest") {
+
+        HisService::hisUrl = "https://ptest-api.his.bg";
+		ModalDialogBuilder::showMessage("Програмата ще работи с тестовата версия на НЗИС API.\n"
+			"Не използвайте реални данни!");
+    }
 
 #ifdef Q_OS_WIN
     QApplication::setStyle("windowsvista");     //"windows11", "windowsvista", "Windows", "Fusion"

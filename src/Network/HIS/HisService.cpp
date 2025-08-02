@@ -19,7 +19,7 @@ bool HisService::sendRequestToHis(const std::string& contents, const std::string
 	if (awaiting_reply) return false;
 
 	if (HisToken::getToken().empty()) {
-		return HisToken::requestToken(this, contents, !show_dialogs);
+		return HisToken::requestToken(this, contents, patientSignature, !show_dialogs);
 	}
 
 	auto signedMsg = signMessage(buildMessage(contents, patientSignature));

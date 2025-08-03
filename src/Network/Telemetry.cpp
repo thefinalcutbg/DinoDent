@@ -8,6 +8,7 @@
 #include "GlobalSettings.h"
 #include "Model/FreeFunctions.h"
 #include "Database/DbTelemetry.h"
+#include "Database/DbDoctor.h"
 #include <QtGlobal>
 
 void Telemetry::sendData()
@@ -30,6 +31,8 @@ void Telemetry::sendData()
 	telemetry["inv_count"] = dbData.invoiceCount;
 	telemetry["patient_count"] = dbData.patientCount;
 	telemetry["notice_count"] = dbData.noticeCount;
+	telemetry["has_tablet"] = User::signatureTablet().getHisIdx() > 0;
+	telemetry["has_calendar"] = !DbDoctor::calendarRefreshToken(User::doctor().LPK).empty();
 
 	int os = -1;
 
@@ -48,5 +51,4 @@ void Telemetry::sendData()
 	telemetry["os"] = os;
 
 	NetworkManager::sendTelemetry(Json::FastWriter().write(telemetry));
-
 }

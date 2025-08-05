@@ -8,7 +8,7 @@
 #include <QtGlobal>
 #include <QInputDialog>
 #include "Model/User.h"
-
+#include "View/Widgets/UnfavourableDialog.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -176,6 +176,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	connect(ui.nhifGroup, &QGroupBox::toggled, this, [&](bool clicked) { disableNhifValidators(!clicked); });
 	ui.practiceNameNhif->setErrorLabel(ui.errorLabel);
 	ui.contractEdit->setErrorLabel(ui.errorLabel);
+
+    connect(ui.unfavButton, &QPushButton::clicked, this, [&]{ UnfavourableDialog().exec(); });
 
 	//doctor validators
 	ui.lpkEdit->setInputValidator(&lpk_validator);
@@ -547,7 +549,6 @@ void SettingsDialog::setPractice(const Practice& practice)
 		ui.contractDateEdit->set_Date(practice.nhif_contract.value().date);
 		ui.practiceNameNhif->setText(QString::fromStdString(practice.nhif_contract.value().name_short));
 		ui.nraPass->setText(practice.nhif_contract->nra_pass.data());
-		ui.unfavCheck->setChecked(practice.nhif_contract->unfavourable);
 		ui.nssiPass->setText(practice.nhif_contract->nssi_pass.c_str());
 		ui.iamnEdit->setText(practice.nhif_contract->dentalTechnicianCode.c_str());
 	}
@@ -637,7 +638,6 @@ Practice SettingsDialog::getPractice()
 		c.date = ui.contractDateEdit->getDate();
 		c.contract_no = ui.contractEdit->getText();
 		c.name_short = ui.practiceNameNhif->getText();
-		c.unfavourable = ui.unfavCheck->isChecked();
 		c.dentalTechnicianCode = ui.iamnEdit->getText();
 		c.nra_pass = ui.nraPass->getText();
 		c.nssi_pass = ui.nssiPass->getText();

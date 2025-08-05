@@ -403,6 +403,7 @@ HEADERS += \
     src/View/Widgets/TabView.h \
     src/View/Widgets/TableViewDialog.h \
     src/View/Widgets/ToothUi.h \
+    src/View/Widgets/UnfavourableDialog.h \
     src/View/Widgets/UnusedPackageView.h \
     src/View/Widgets/UpdateDialog.h \
     src/View/Widgets/UpdateDownloader.h \
@@ -743,6 +744,7 @@ SOURCES += \
     src/View/Widgets/StatisticDialogView.cpp \
     src/View/Widgets/TabView.cpp \
     src/View/Widgets/TableViewDialog.cpp \
+    src/View/Widgets/UnfavourableDialog.cpp \
     src/View/Widgets/UnusedPackageView.cpp \
     src/View/Widgets/UpdateDialog.cpp \
     src/View/Widgets/UpdateDownloader.cpp \
@@ -853,6 +855,7 @@ FORMS += \
     src/View/Widgets/StatisticDialogView.ui \
     src/View/Widgets/TabView.ui \
     src/View/Widgets/TableViewDialog.ui \
+    src/View/Widgets/UnfavourableDialog.ui \
     src/View/Widgets/UnusedPackageView.ui \
     src/View/Widgets/UpdateDialog.ui \
     src/View/Widgets/UpdateDownloader.ui \

@@ -16,7 +16,7 @@ namespace User
 	const Doctor& doctor();
 	SignatureTablet& signatureTablet();
 	void setCurrentDoctor(const Doctor& doctor);
-	void setCurrentPractice(const Practice& practice);
+    void setCurrentPractice(const Practice& practice);
 	void resetUser();
     bool isCurrentUser(const std::string& LPK);
 	bool isAdmin();

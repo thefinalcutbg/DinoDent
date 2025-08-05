@@ -41,7 +41,6 @@ const std::array<std::string, 29> regionCode{
 
 std::unordered_map<int, EkatteData> s_idxToData;
 std::unordered_map<std::string, int> s_stringToIdx;
-std::unordered_set<int> s_nhifUnfav;
 std::unordered_map<int, int> s_hr_to_ekatte;
 
 void Ekatte::initialize()
@@ -73,9 +72,6 @@ void Ekatte::initialize()
         
         s_stringToIdx[value["string"].asString()] = value["ekatte"].asInt();
 
-        if (value["unfav"].asBool()) { 
-            s_nhifUnfav.insert(value["ekatte"].asInt()); 
-        }
     }
 
     cities.clear();
@@ -194,11 +190,6 @@ std::string Ekatte::getAddressWithStreet(const std::string& street) const
 bool Ekatte::isValid() const
 {
     return ekatteIdx && s_idxToData.count(ekatteIdx);
-}
-
-bool Ekatte::isUnfav() const
-{
-    return s_nhifUnfav.count(ekatteIdx);
 }
 
 const std::string& Ekatte::getRegionCode() const

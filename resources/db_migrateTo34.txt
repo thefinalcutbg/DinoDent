@@ -1,0 +1,7 @@
+CREATE TABLE unfavourable_condition (ekatte  NOT NULL, rzi REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL);
+BEGIN;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_unfav_ekatte_rzi ON unfavourable_condition (ekatte, rzi);
+INSERT OR IGNORE INTO unfavourable_condition (ekatte, rzi) SELECT DISTINCT p.ekatte, a.rzi FROM   amblist AS a JOIN   patient AS p ON p.rowid = a.patient_rowid WHERE  a.nhif_unfav > 0;
+COMMIT;
+DROP INDEX IF EXISTS idx_unfav_ekatte_rzi;
+PRAGMA user_version=34

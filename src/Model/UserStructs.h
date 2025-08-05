@@ -66,7 +66,6 @@ struct NhifContract
 	std::string contract_no;
 	Date date;
 	std::string name_short;
-	bool unfavourable{ false };
 	std::string nra_pass;
 	std::string nssi_pass;
 	std::string dentalTechnicianCode; //Dental Technician Code
@@ -131,9 +130,9 @@ struct Practice
 	}
 
 	bool isUnfavourable() const {
-		return 
-			nhif_contract && 
-			nhif_contract->unfavourable;
+        return
+            nhif_contract &&
+               Ekatte::s_unfavList.size();
 	}
 
 };

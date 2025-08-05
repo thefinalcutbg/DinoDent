@@ -287,7 +287,6 @@ std::string Parser::write(const std::optional<NhifContract>& contract)
 	json["date"] = c.date.to8601();
 	json["nra"] = c.nra_pass;
 	json["nssi"] = c.nssi_pass;
-	json["unfav"] = c.unfavourable;
 	json["dentalTechnicianCode"] = c.dentalTechnicianCode;
 
 	Json::FastWriter writer;
@@ -631,7 +630,6 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 	contract.contract_no = json["contract_no"].asString();
 	contract.nra_pass = json["nra"].asString();
 	contract.nssi_pass = json["nssi"].asString();
-	contract.unfavourable = json["unfav"].asBool();
 	contract.dentalTechnicianCode = json["dentalTechnicianCode"].asString();
 
 	return contract;

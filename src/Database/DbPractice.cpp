@@ -248,3 +248,39 @@ bool DbPractice::noPractices()
 
     return true;
 }
+
+std::set<int> DbPractice::getUnfavEkatte(const std::string &rziCode)
+{
+    std::string query = "SELECT ekatte FROM unfavourable_condition WHERE rzi=?";
+
+    Db db(query);
+
+    db.bind(1, rziCode);
+
+    std::set<int> result;
+
+    while(db.hasRows()){
+        result.insert(db.asInt(0));
+    }
+
+    return result;
+
+}
+
+void DbPractice::setUnfavEkatte(const std::set<int> &unfavEkatte, const std::string &rziCode)
+{
+    Db db;
+
+    db.newStatement("DELETE FROM unfavourable_condition WHERE rzi=?");
+
+    db.bind(1, rziCode);
+
+    db.execute();
+
+    for(auto ekatte : unfavEkatte){
+        db.newStatement("INSERT INTO unfavourable_condition (ekatte, rzi) VALUES(?,?)");
+        db.bind(1, ekatte);
+        db.bind(2, rziCode);
+        db.execute();
+    }
+}

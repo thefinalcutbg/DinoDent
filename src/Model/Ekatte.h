@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <set>
 
 struct EkatteData;
 
@@ -15,6 +16,8 @@ class Ekatte
 	Ekatte(int idx, const EkatteData& data);
 
 public:
+    static inline std::set<int> s_unfavList;
+
 	static void initialize();
 	static bool isValidStr(const std::string& cityName);
 
@@ -28,11 +31,10 @@ public:
 	std::string ekatte() const;
 	std::string getAddressWithStreet(const std::string& street) const;
 	bool isValid() const;
-	bool isUnfav() const;
+    bool isUnfav() const { return s_unfavList.count(ekatteIdx); }
 	int getIdxAsInt() const { return ekatteIdx; }
 	const std::string& getRegionCode() const;
 	static const std::unordered_map<std::string, int>& cityNameToIdx();
-
 	bool operator==(const Ekatte& rhs) const {
 		return ekatteIdx == rhs.ekatteIdx;
 	}

@@ -3,6 +3,7 @@
 #include "Database/DbDoctor.h"
 #include <unordered_map>
 #include "Model/Validators/LpkValidator.h"
+#include "Database/DbPractice.h"
 
 static Practice s_practice;
 static Doctor s_doctor;
@@ -52,6 +53,8 @@ void User::setCurrentDoctor(const Doctor& doctor)
 void User::setCurrentPractice(const Practice& practice)
 {
     s_practice = practice;
+
+    Ekatte::s_unfavList = DbPractice::getUnfavEkatte(practice.rziCode);
 }
 
 void User::resetUser()

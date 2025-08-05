@@ -41,6 +41,7 @@ struct AmbList
 	std::vector<MedicalNotice> medical_notices;
 
 	std::vector<unsigned char> signature_bitmap;
+    std::string signature_data;
 
 	bool isNhifSheet() const
 	{

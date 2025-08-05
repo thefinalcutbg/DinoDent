@@ -87,7 +87,7 @@ ListView::ListView(QWidget* parent)
 
 	ui.procedureTable->setMinimumWidth(ui.teethView->width() + ui.controlPanel->width());
 
-	connect(ui.sigButton, &QPushButton::clicked, this, [=, this] { ModalDialogBuilder::displayPixmap(ui.sigButton->icon().pixmap(300,300)); });
+    connect(ui.sigButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->showSignature(); });
     connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
     connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});

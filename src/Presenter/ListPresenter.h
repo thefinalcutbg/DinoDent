@@ -65,6 +65,7 @@ class ListPresenter : public TabInstance
     //when changing the patient data from the current list
     void patientDataChanged() override;
 
+    void setSignature(const std::vector<unsigned char> sig_bitmap, const std::string sig_data);
 public:
 
     AmbList m_amblist;
@@ -100,6 +101,7 @@ public:
     void moveProcedure(int from, int to);
 
     void showAppliedStatus();
+    void showSignature();
 
     void addMedicalNotice();
     void editMedicalNotice(int index);

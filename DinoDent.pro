@@ -398,6 +398,7 @@ HEADERS += \
     src/View/Widgets/ReportView.h \
     src/View/Widgets/SaveDialog.h \
     src/View/Widgets/SettingsDialog.h \
+    src/View/Widgets/SignatureViewDialog.h \
     src/View/Widgets/SplashScreen.h \
     src/View/Widgets/StatisticDialogView.h \
     src/View/Widgets/TabView.h \
@@ -740,6 +741,7 @@ SOURCES += \
     src/View/Widgets/ReportView.cpp \
     src/View/Widgets/SaveDialog.cpp \
     src/View/Widgets/SettingsDialog.cpp \
+    src/View/Widgets/SignatureViewDialog.cpp \
     src/View/Widgets/SplashScreen.cpp \
     src/View/Widgets/StatisticDialogView.cpp \
     src/View/Widgets/TabView.cpp \
@@ -852,6 +854,7 @@ FORMS += \
     src/View/Widgets/ReportFilesView.ui \
     src/View/Widgets/ReportView.ui \
     src/View/Widgets/SettingsDialog.ui \
+    src/View/Widgets/SignatureViewDialog.ui \
     src/View/Widgets/StatisticDialogView.ui \
     src/View/Widgets/TabView.ui \
     src/View/Widgets/TableViewDialog.ui \

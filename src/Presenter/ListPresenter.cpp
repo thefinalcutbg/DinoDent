@@ -20,6 +20,7 @@
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
+#include "View/Widgets/SignatureViewDialog.h"
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -93,15 +94,18 @@ void ListPresenter::setHisButtonToView()
 
         return;
     }
-
-
 }
 
 void ListPresenter::makeEdited()
 {
     if (m_amblist.nrn.size()) {
         m_amblist.his_updated = false;
-        if (isCurrent()) setHisButtonToView();
+        m_amblist.signature_bitmap = {};
+        m_amblist.signature_data.clear();
+        if (isCurrent()){
+            view->setSignature({});
+            setHisButtonToView();
+        }
     }
 
     TabInstance::makeEdited();
@@ -216,6 +220,19 @@ void ListPresenter::patientDataChanged()
     //marking the list as edited only if the unfavourable condition has been changed
     view->setNhifData(m_amblist.nhifData, true);
     makeEdited();
+}
+
+void ListPresenter::setSignature(const std::vector<unsigned char> sig_bitmap, const std::string sig_data)
+{
+    m_amblist.signature_bitmap = sig_bitmap;
+    m_amblist.signature_data = sig_data;
+
+    DbAmbList::update(m_amblist);
+
+    if(!isCurrent()){ return; }
+
+    view->setSignature(sig_bitmap);
+
 }
 
 bool ListPresenter::isValid()
@@ -881,6 +898,11 @@ void ListPresenter::showAppliedStatus()
 
 }
 
+void ListPresenter::showSignature()
+{
+    SignatureViewDialog(m_amblist.signature_bitmap, m_amblist.signature_data).exec();
+}
+
 
 void ListPresenter::addMedicalNotice()
 {
@@ -1359,14 +1381,13 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_amblist,
             *patient,
-            [&](auto& nrn, auto& seqIdxPair, bool error, std::vector<unsigned char>& sig_bitmap) {
+            [&](auto& nrn, auto& seqIdxPair, bool error) {
 
                 if (nrn.empty()) {
                     return;
                 }
                 
                 m_amblist.nrn = nrn;
-                m_amblist.signature_bitmap = sig_bitmap;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
                     
@@ -1379,13 +1400,6 @@ void ListPresenter::hisButtonPressed()
 
                 refreshTabName();
 
-                if (isCurrent())
-                {
-                    setHisButtonToView();
-					view->setSignature(m_amblist.signature_bitmap);
-                    view->setProcedures(m_amblist.procedures.list());
-                }
-
                 if (error) {
                     //replace with auto-fetch when implemented
                     ModalDialogBuilder::showError("Амбулаторният лист не е синхронизиран с НЗИС! Моля анулирайте и го изпратете отново.");
@@ -1393,7 +1407,8 @@ void ListPresenter::hisButtonPressed()
                 else {
                     ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
                 }
-            }
+            },
+            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
         );
 
         return;
@@ -1407,11 +1422,10 @@ void ListPresenter::hisButtonPressed()
         eDentalAugmentService.sendRequest(
             m_amblist, 
             *patient, 
-            DbAmbList::hasAutoStatus(m_amblist.nrn), 
-			[&](auto& procedureIdx, std::vector<unsigned char>& sig_bitmap)
+            DbAmbList::hasAutoStatus(m_amblist.nrn),
+            [&](auto& procedureIdx)
             {
                 m_amblist.his_updated = true;
-                m_amblist.signature_bitmap = sig_bitmap;
                 m_amblist.procedures.clearRemovedProcedures();
 
                 for (auto& [sequence, hisIdx] : procedureIdx)
@@ -1428,13 +1442,13 @@ void ListPresenter::hisButtonPressed()
                 if (isCurrent())
                 {
                     setHisButtonToView();
-                    view->setSignature(m_amblist.signature_bitmap);
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
                 DbAmbList::setAutoStatus(m_amblist.nrn, false);
                 ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
-            }
+            },
+            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
         );
 
         return;
@@ -1449,6 +1463,7 @@ void ListPresenter::hisButtonPressed()
 
                 m_amblist.nrn.clear();
                 m_amblist.signature_bitmap.clear();
+                m_amblist.signature_data.clear();
                 m_amblist.procedures.clearRemovedProcedures();
                 
                 for (auto& p : m_amblist.procedures) {

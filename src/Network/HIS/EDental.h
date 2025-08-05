@@ -9,11 +9,11 @@ namespace EDental {
 
 	class Open : private HisService
 	{
-		std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool error, std::vector<unsigned char>& signature_bitmap)> m_callback;
+        std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool error)> m_callback;
+
+        std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> m_sig_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
-
-		std::vector<unsigned char> m_signature_bitmap;
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -25,18 +25,17 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
-			decltype(m_callback) nrnCallback
+            decltype(m_callback) nrnCallback,
+            std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback
 		);
 
 	};
 
 	class Augment : private HisService
 	{
-		std::function<void(const std::vector<std::pair<int, int>>& seqIdxPair, std::vector<unsigned char>& signature_bitmap)> m_callback;
+        std::function<void(const std::vector<std::pair<int, int>>& seqIdxPair)> m_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate, bool autoStatusRemove);
-
-		std::vector<unsigned char> m_signature_bitmap;
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -49,7 +48,8 @@ namespace EDental {
 			const AmbList& ambSheet,
 			const Patient& patient,
 			bool autoStatus, //legacy stuff
-			decltype(m_callback) callback
+            decltype(m_callback) callback,
+            std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback
 		);
 	};
 

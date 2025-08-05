@@ -10,7 +10,7 @@ namespace HisToken
 		and will be executed IF the token is recieved.
 
 	*/
-	bool requestToken(HisService* requester, const std::string& query, bool silent = false);
+	bool requestToken(HisService* requester, const std::string& query, const std::string& patientSignature, bool silent = false);
 	
 	//returns empty string if no token or token expired
 	const std::string& getToken();

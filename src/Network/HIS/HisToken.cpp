@@ -11,7 +11,7 @@ namespace sToken {
 
 	HisService* current_service{ nullptr };
 	std::string query_temp;
-
+	std::string patient_signature;
 	std::string token{};
 	unsigned long long ms_expire{ 0 };
 	QElapsedTimer timer;
@@ -59,12 +59,13 @@ void HisToken::nullifyToken()
 	sToken::token.clear();
 }
 
-bool HisToken::requestToken(HisService* requester, const std::string& query, bool silent)
+bool HisToken::requestToken(HisService* requester, const std::string& query, const std::string& patientSignature, bool silent)
 {
 	if (sToken::current_service) return false;
 
 	sToken::current_service = requester;
 	sToken::query_temp = query;
+	sToken::patient_signature = patientSignature;
 	sToken::silent = silent;
 
 	NetworkManager::requestChallenge();
@@ -133,7 +134,7 @@ void HisToken::setAuthRepy(const std::string& reply)
 		sToken::timer.start();
 	}
 
-	sToken::current_service->sendRequestToHis(sToken::query_temp);
+	sToken::current_service->sendRequestToHis(sToken::query_temp, sToken::patient_signature);
 
 	sToken::current_service = nullptr;
 }

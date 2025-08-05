@@ -13,14 +13,8 @@ struct Procedure;
 
 class TiXmlElement;
 
-constexpr const char* hisUrl = "https://api.his.bg";
-//constexpr const char* hisUrl = "https://ptest-api.his.bg";
-
 class HisService : protected AbstractReplyHandler
 {
-
-private:
-
 	std::string buildMessage(const std::string& contents, const std::string& patientSig = "");
 	std::string signMessage(const std::string& message);
 
@@ -62,6 +56,8 @@ protected:
 		servicePath{ servPath }
 	{}
 public:
+	static inline std::string hisUrl = "https://api.his.bg";
+
 	bool sendRequestToHis(const std::string& contents, const std::string& patientSignature = "");
 	bool sendRequestToHisNoAuth(const std::string& contents);
 

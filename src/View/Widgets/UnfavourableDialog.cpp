@@ -41,7 +41,8 @@ UnfavourableDialog::UnfavourableDialog(QWidget *parent)
         PlainTableModel m;
         m.setTableData(t);
 
-        TableViewDialog d(m, 1, "ЕКАТТЕ");
+        TableViewDialog d(m, 1);
+        d.setWindowTitle("Добавяне на населено място");
         d.exec();
         auto cityStr = d.getResult();
 

@@ -21,10 +21,10 @@ SignatureViewDialog::SignatureViewDialog(const std::vector<unsigned char>& bitma
         return;
     }
 
-    ui->signatureLabel->setMinimumHeight(px.height() + 24);
-    ui->signatureLabel->setMinimumWidth(px.width() + 24);
+    ui->signatureLabel->setMinimumHeight(px.height()/2);
+    ui->signatureLabel->setMinimumWidth(px.width()/2);
     ui->signatureLabel->setScaledContents(true);
-    ui->signatureLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    ui->signatureLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->signatureLabel->setAlignment(Qt::AlignCenter);
     ui->signatureLabel->setStyleSheet("background-color:white");
     ui->signatureLabel->setPixmap(px);

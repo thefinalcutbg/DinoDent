@@ -98,14 +98,17 @@ void ListPresenter::setHisButtonToView()
 
 void ListPresenter::makeEdited()
 {
+    m_amblist.signature_bitmap = {};
+    m_amblist.signature_data.clear();
+    view->setSignature({});
+
     if (m_amblist.nrn.size()) {
         m_amblist.his_updated = false;
-        m_amblist.signature_bitmap = {};
-        m_amblist.signature_data.clear();
-        if (isCurrent()){
-            view->setSignature({});
+
+        if (isCurrent()) {
             setHisButtonToView();
         }
+
     }
 
     TabInstance::makeEdited();
@@ -228,6 +231,8 @@ void ListPresenter::setSignature(const std::vector<unsigned char> sig_bitmap, co
     m_amblist.signature_data = sig_data;
 
     DbAmbList::update(m_amblist);
+
+    refreshTabName();
 
     if(!isCurrent()){ return; }
 
@@ -362,12 +367,17 @@ TabName ListPresenter::getTabName()
     if (m_amblist.isNhifSheet()) {
         n.footer_icon = CommonIcon::NHIF;
     }
-    
+
+    if (m_amblist.nrn.empty() && m_amblist.signature_data.size()) {
+        n.header_icon = CommonIcon::SIGNATURE;
+    }
+
     if (m_amblist.nrn.size()) {
+        n.header_icon = m_amblist.signature_data.size() ? CommonIcon::SIGNATURE : CommonIcon::HIS;
 
-        n.header_icon = m_amblist.his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
-
-        if (m_amblist.signature_bitmap.size()) { n.header_icon = CommonIcon::SIGNATURE; }
+        if (!m_amblist.his_updated) {
+            n.header_icon = CommonIcon::HISGRAY;
+        }
     }
 
     return n;
@@ -1399,6 +1409,12 @@ void ListPresenter::hisButtonPressed()
                 DbAmbList::update(m_amblist);
 
                 refreshTabName();
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                    view->setProcedures(m_amblist.procedures.list());
+                }
 
                 if (error) {
                     //replace with auto-fetch when implemented

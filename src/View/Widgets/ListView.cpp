@@ -19,7 +19,7 @@ ListView::ListView(QWidget* parent)
 	teethViewScene->setContextMenu(contextMenu);
 
     ui.nrnButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
+	ui.sigButton->setOutlineColor(Theme::mainBackgroundColor);
 	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));
 	ui.specCombo->installEventFilter(new MouseWheelGuard(ui.specCombo));
 
@@ -232,10 +232,10 @@ void ListView::setDateTime(const std::string& time8601)
 
 void ListView::setSignature(const std::vector<unsigned char>& s)
 {
+	ui.sigButton->setHidden(s.empty());
+
 	if (s.empty()) {
 		ui.sigButton->setIcon(QIcon());
-		ui.sigButton->setBackgroundColor(Theme::background);
-		ui.sigButton->setDisabled(true);
 		return;
 	}
 

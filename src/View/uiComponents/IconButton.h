@@ -10,6 +10,7 @@ class IconButton : public QPushButton
 	bool m_clicked{ false };
 	QColor hoverColor;
 	QColor backgroundColor;
+	QColor outlineColor;
 	bool m_monochrome{ false };
 
 	void paintEvent(QPaintEvent* event) override;
@@ -21,7 +22,9 @@ public:
 	void setHoverColor(const QColor& color);
 	void setBackgroundColor(const QColor& color);
 	void setMonochrome(bool monochrome);
-
+	void setOutlineColor(const QColor& color) {
+		outlineColor = color; update();
+	}
 
 //signals:
 	//void hover();

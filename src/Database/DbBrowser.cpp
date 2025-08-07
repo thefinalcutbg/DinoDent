@@ -110,12 +110,21 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         bool his_signed = db.asBool(15);
 
         CommonIcon::Type his_icon = CommonIcon::NOICON;
-        if (his) {
-            his_icon = his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
+
+        if (his_signed) {
+            his_icon = CommonIcon::SIGNATURE;
         }
-		if (his_signed) {
-			his_icon = CommonIcon::SIGNATURE;
-		}
+        
+        if (his) {
+
+            if (!his_updated) {
+                his_icon = CommonIcon::HISGRAY;
+            }
+            else {
+                his_icon = his_signed ? CommonIcon::SIGNATURE : CommonIcon::HIS;
+            }
+        }
+
         //Number
 
         int legacyNumber = db.asInt(4);
@@ -360,9 +369,9 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
     db.newStatement(
         "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif, "
         "CASE " 
-        "WHEN sig_bitmap IS NOT NULL THEN 2 "
-        "WHEN his_updated = 1 THEN 1 "
-        "ELSE 0 "
+        "WHEN sig_bitmap IS NOT NULL AND his_updated = 1 THEN 2 "
+        "WHEN his_updated = 0 THEN 0 "
+        "ELSE 1 "
         "END AS his_updated, "
         "lpk as author, (lpk = ? AND rzi = ?) as from_me FROM amblist WHERE patient_rowid=? "
         "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me FROM prescription WHERE patient_rowid=? "
@@ -409,20 +418,12 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         CommonIcon::Type his_icon = CommonIcon::NOICON;
 
         if (sentToHis) {
-
-            switch(his_updated) {
-			case 0:
-                his_icon = CommonIcon::HISGRAY;
-				break;
-			case 1:
-				his_icon = CommonIcon::HIS;
-                break;
-			case 2: 
-				his_icon = CommonIcon::SIGNATURE;
-                break;
-            }
+            his_icon = his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
         }
 
+        if (his_updated == 2) {
+            his_icon = CommonIcon::SIGNATURE;
+        }
 
         switch (type) {
             case 1: 

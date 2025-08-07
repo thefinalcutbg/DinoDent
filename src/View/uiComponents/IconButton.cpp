@@ -50,6 +50,14 @@ void IconButton::paintEvent(QPaintEvent*)
 
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect, Qt::AlignCenter, iconMode);
+
+	if (outlineColor.isValid()) {
+		QPen pen(outlineColor);
+		pen.setCosmetic(true);
+		pen.setWidth(1);
+		painter.setPen(pen);
+		painter.drawEllipse(rect());
+	}
 	
 }
 

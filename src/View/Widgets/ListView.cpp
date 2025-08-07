@@ -19,7 +19,7 @@ ListView::ListView(QWidget* parent)
 	teethViewScene->setContextMenu(contextMenu);
 
     ui.nrnButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-	ui.sigButton->setOutlineColor(Theme::mainBackgroundColor);
+
 	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));
 	ui.specCombo->installEventFilter(new MouseWheelGuard(ui.specCombo));
 
@@ -232,10 +232,13 @@ void ListView::setDateTime(const std::string& time8601)
 
 void ListView::setSignature(const std::vector<unsigned char>& s)
 {
-	ui.sigButton->setHidden(s.empty());
-
 	if (s.empty()) {
 		ui.sigButton->setIcon(QIcon());
+		ui.sigButton->setBackgroundColor(Theme::background);
+		ui.sigButton->setHoverColor(Theme::background);
+		ui.sigButton->setOutlineColor(Theme::background);
+		ui.sigButton->setDisabled(true);
+		ui.sigButton->setToolTip("");
 		return;
 	}
 
@@ -244,8 +247,10 @@ void ListView::setSignature(const std::vector<unsigned char>& s)
 	ui.sigButton->setEnabled(true);
 	ui.sigButton->setIcon(QIcon(sigPx));
 	ui.sigButton->setBackgroundColor(Qt::white);
-	ui.sigButton->setHoverColor(Theme::inactiveTabBG);
-	ui.sigButton->show();
+	ui.sigButton->setOutlineColor(Theme::mainBackgroundColor);
+	ui.sigButton->setHoverColor(Theme::background);
+	ui.sigButton->setToolTip("Преглед на подпис");
+
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel)

@@ -27,7 +27,6 @@ void IconButton::paintEvent(QPaintEvent*)
 	QPainter painter(this);
 
 	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
 	QPainterPath path;
 	path.addEllipse(rect());
@@ -48,8 +47,11 @@ void IconButton::paintEvent(QPaintEvent*)
 		iconMode = QIcon::Mode::Disabled;
 	}
 
-	if (!icon().isNull())
+	if (!icon().isNull()) {
+		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 		icon().paint(&painter, iconRect, Qt::AlignCenter, iconMode);
+		painter.setRenderHint(QPainter::Antialiasing, true);
+	}
 
 	if (outlineColor.isValid()) {
 		QPen pen(outlineColor);

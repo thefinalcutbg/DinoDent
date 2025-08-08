@@ -368,12 +368,12 @@ TabName ListPresenter::getTabName()
         n.footer_icon = CommonIcon::NHIF;
     }
 
-    if (m_amblist.nrn.empty() && m_amblist.signature_data.size()) {
+    if (m_amblist.nrn.empty() && m_amblist.signature_bitmap.size()) {
         n.header_icon = CommonIcon::SIGNATURE;
     }
 
     if (m_amblist.nrn.size()) {
-        n.header_icon = m_amblist.signature_data.size() ? CommonIcon::SIGNATURE : CommonIcon::HIS;
+        n.header_icon = m_amblist.signature_bitmap.size() ? CommonIcon::SIGNATURE : CommonIcon::HIS;
 
         if (!m_amblist.his_updated) {
             n.header_icon = CommonIcon::HISGRAY;

@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -1488,7 +1488,7 @@
           <bool>true</bool>
          </property>
          <property name="textInteractionFlags">
-          <set>Qt::TextInteractionFlag::NoTextInteraction</set>
+          <set>Qt::TextInteractionFlag::LinksAccessibleByMouse</set>
          </property>
         </widget>
        </item>

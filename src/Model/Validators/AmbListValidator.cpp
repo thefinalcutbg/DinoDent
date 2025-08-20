@@ -202,7 +202,7 @@ bool AmbListValidator::isValidAccordingToDb()
         if (p.isExtraction()) extractedTeeth.insert(p.tooth_idx);
     }
 
-    PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate)); //creating a package counter
+    PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate));
     
     for (auto& t : currentYear) //loading the procedures from the current year
         for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
@@ -216,9 +216,11 @@ bool AmbListValidator::isValidAccordingToDb()
             packageCounter.setPregnantProperty();
         }
 
-        packageCounter.insertCode(procedure.code.nhifCode());
 
-        if (!packageCounter.validate(patient.isAdult(procedure.date))) //validating max allowed per year
+        if (!packageCounter.insertAndValidate(
+                procedure.code.nhifCode(),
+                patient.isAdult(procedure.date))
+            ) //validating max allowed per year
         {
             _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code.nhifCode()) + "!";
             return false;

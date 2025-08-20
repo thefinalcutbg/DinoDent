@@ -13,7 +13,7 @@ ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
-	
+
 	teethViewScene = new TeethViewScene(ui.teethView);
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);

@@ -25,7 +25,6 @@ protected:
 TableView::TableView(QWidget* parent)
     : QTableView(parent), header(Qt::Orientation::Horizontal)
 {
-    
     setHorizontalHeader(&header);
     installEventFilter(this);
     setItemDelegate(new NoFocusDelegate);
@@ -259,7 +258,7 @@ void TableView::paintEvent(QPaintEvent* e)
     painter.translate(0, h);
     painter.rotate(-90);
 
-    QPen borderPen(Theme::border);
+    QPen borderPen(hasFocus() ? Theme::mainBackgroundColor : Theme::border);
     borderPen.setCosmetic(true);
     borderPen.setWidth(2);
 
@@ -268,7 +267,7 @@ void TableView::paintEvent(QPaintEvent* e)
 
     painter.resetTransform();
 
-    QPen pen(Theme::fontTurquoise);
+    QPen pen(hasFocus() ? Theme::fontTurquoise : Theme::mainBackgroundColor);
     pen.setCosmetic(true);
     pen.setWidth(1);
     painter.setPen(pen);
@@ -371,7 +370,7 @@ void TableViewHeader::paintEvent(QPaintEvent*)
     
     painter.fillPath(path, Theme::sectionBackground);
 
-    QPen borderPen(Theme::border);
+    QPen borderPen(Theme::mainBackgroundColor);
     borderPen.setWidth(2);
     borderPen.setCosmetic(true);
 

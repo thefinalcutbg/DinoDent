@@ -7,8 +7,6 @@ class TableViewHeader : public QHeaderView
 {
 	void paintEvent(QPaintEvent* e) override;
 
-	
-
 public:
 	TableViewHeader(Qt::Orientation orientation, QWidget* parent = nullptr)
 		:
@@ -25,13 +23,8 @@ class TableView : public QTableView
 	void keyPressEvent(QKeyEvent* event) override;
 
 	void paintEvent(QPaintEvent* e) override;
-	 
+
 	TableViewHeader header;
-
-
-    void focusOutEvent(QFocusEvent*) override {
-		//setCurrentIndex(QModelIndex());
-	}
 
 	QMenu* menu{ nullptr };
 

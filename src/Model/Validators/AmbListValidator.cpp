@@ -239,7 +239,7 @@ bool AmbListValidator::isValidAccordingToDb()
             if (procedure.date < minimumDate)
             {
                 std::string toothStr = procedure.getToothIndex().isValid() ?
-                   " на зъб " + procedure.getToothString() : " ";
+                   " на зъб " + procedure.getToothString() : "";
 
                 _error = "В базата данни съществува вече процедура с код " + std::to_string(p.code) + toothStr +
                     " от преди по-малко от " + std::to_string(yearLimit) + " г.";

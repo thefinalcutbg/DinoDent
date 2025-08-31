@@ -151,12 +151,12 @@ void ListPresenter::printPrv(bool toPdf)
 
     }
 
-    bool hasNhifProcedures =
+    bool nhifProceduresOnly =
         std::find_if(selectedProcedures.begin(), selectedProcedures.end(),
-            [&](const Procedure& p) { return p.financingSource == FinancingSource::NHIF; }
-        ) != selectedProcedures.end();
+            [&](const Procedure& p) { return p.financingSource != FinancingSource::NHIF; }
+        ) == selectedProcedures.end();
 
-    bool printNhif = printReferrals || selectedProcedures.empty() || hasNhifProcedures;
+    bool printNhif = printReferrals || selectedProcedures.empty() || nhifProceduresOnly;
 
     if (printNhif && selectedProcedures.size() > 6) {
         printNhif = !ModalDialogBuilder::askDialog(

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>716</width>
-    <height>344</height>
+    <height>343</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -159,12 +159,12 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>1</hour>
+        <hour>21</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
         <month>12</month>
-        <day>26</day>
+        <day>25</day>
        </datetime>
       </property>
       <property name="minimumDate">
@@ -290,12 +290,12 @@
        <rect>
         <x>100</x>
         <y>16</y>
-        <width>91</width>
+        <width>131</width>
         <height>20</height>
        </rect>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -522,7 +522,7 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>23</hour>
+          <hour>19</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>

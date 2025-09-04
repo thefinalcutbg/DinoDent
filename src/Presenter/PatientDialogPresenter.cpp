@@ -18,7 +18,7 @@ PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::str
 
 	m_patient->rowid = -1;
 
-	QRegularExpression digitsOnly("^\\p{Nd}+$");
+	QRegularExpression digitsOnly("[0-9-+]+");
 
 	for (QString& word : tempData.split(" ")) {
 	

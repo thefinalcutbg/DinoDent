@@ -132,6 +132,9 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         ui.idLineEdit->setInputValidator(&egn_validator);
         ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
+        ui.fNameEdit->setInputValidator(&name_validator);
+        ui.mNameEdit->setInputValidator(&cyrillic_validator);
+        ui.lNameEdit->setInputValidator(&name_validator);
         resetFields();
         break;
 
@@ -139,6 +142,9 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         ui.idLineEdit->setInputValidator(&ln4_validator);
         ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
+        ui.fNameEdit->setInputValidator(&name_validator);
+        ui.mNameEdit->setInputValidator(&cyrillic_validator);
+        ui.lNameEdit->setInputValidator(&name_validator);
         resetFields();
         break;
 
@@ -146,6 +152,9 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         ui.idLineEdit->setInputValidator(&ssn_validator);
         ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
+        ui.fNameEdit->setInputValidator(&notEmpty_validator);
+        ui.mNameEdit->setInputValidator(nullptr);
+        ui.lNameEdit->setInputValidator(&notEmpty_validator);
         resetFields();
         break;
 
@@ -153,6 +162,9 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         ui.idLineEdit->setInputValidator(&notEmpty_validator);
         ui.foreignCityEdit->setInputValidator(&notEmpty_validator);
         ui.idLineEdit->validateInput();
+        ui.fNameEdit->setInputValidator(&notEmpty_validator);
+        ui.mNameEdit->setInputValidator(nullptr);
+        ui.lNameEdit->setInputValidator(&notEmpty_validator);
         resetFields();
         break;
 

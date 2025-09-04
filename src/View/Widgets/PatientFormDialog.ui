@@ -52,7 +52,7 @@
      <widget class="QPushButton" name="hirbnoButton">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>240</x>
         <y>190</y>
         <width>31</width>
         <height>32</height>
@@ -159,7 +159,7 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>3</hour>
+        <hour>1</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -216,7 +216,7 @@
        <rect>
         <x>100</x>
         <y>106</y>
-        <width>161</width>
+        <width>171</width>
         <height>20</height>
        </rect>
       </property>
@@ -248,7 +248,7 @@
        <rect>
         <x>100</x>
         <y>226</y>
-        <width>161</width>
+        <width>171</width>
         <height>20</height>
        </rect>
       </property>
@@ -312,7 +312,7 @@
        <rect>
         <x>100</x>
         <y>46</y>
-        <width>161</width>
+        <width>171</width>
         <height>20</height>
        </rect>
       </property>
@@ -522,12 +522,12 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>1</hour>
+          <hour>23</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
           <month>12</month>
-          <day>26</day>
+          <day>25</day>
          </datetime>
         </property>
         <property name="minimumDate">
@@ -624,7 +624,7 @@
        <rect>
         <x>100</x>
         <y>196</y>
-        <width>121</width>
+        <width>131</width>
         <height>20</height>
        </rect>
       </property>
@@ -653,7 +653,7 @@
        <rect>
         <x>100</x>
         <y>76</y>
-        <width>161</width>
+        <width>171</width>
         <height>20</height>
        </rect>
       </property>
@@ -670,7 +670,7 @@
      <widget class="ColorPicker" name="colorPicker">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>240</x>
         <y>10</y>
         <width>31</width>
         <height>32</height>

@@ -383,12 +383,20 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 
 	xmlBlock += bind("isPatientSigner", patientIsAdult);
 
+	auto whoIsSigner = patient.firstLastName();
+
+	auto why = std::string("Амбулаторен лист");
+
 	//some logic if it's not adult
 	if (!patientIsAdult) {
 
 		auto parent = PatientDialogPresenter("Въведете данните на родител/настойник").open();
 
 		if (!parent) return {};
+
+		whoIsSigner = parent->firstLastName();
+
+		why += " на " + patient.firstLastName();
 
 		xmlBlock += openTag("signer");
 
@@ -403,7 +411,7 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 		xmlBlock += closeTag("signer");
 	}
 
-	PatientSignature signature = User::signatureTablet().getPatientSignature(dentalTreatment, patient.firstLastName(), "Амбулаторен лист");
+	PatientSignature signature = User::signatureTablet().getPatientSignature(dentalTreatment, whoIsSigner, why);
 
 	if (signature.signatureObject.empty()) return {};
 

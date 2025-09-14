@@ -17,8 +17,10 @@ class DsnMenu : public QMenu
     ListPresenter* presenter{ nullptr };
 
     std::array<QAction*, Dental::StatusCount> menuAction{ nullptr };
-    std::array<QAction*, Dental::SurfaceCount>surfObt{ nullptr };
+    std::array<QAction*, Dental::SurfaceCount> surfObt{ nullptr };
+    std::array<QAction*, Dental::SurfaceCount> surfDefObt{ nullptr };
     std::array<QAction*, Dental::SurfaceCount> surfCar{ nullptr };
+    std::array<QAction*, Dental::SurfaceCount> surfNonCar{ nullptr };
     std::array<QAction*, Dental::MobilityCount> mobilityDegree{ nullptr };
 
 

@@ -100,7 +100,7 @@ std::string Parser::write(const ToothContainer& status)
 		{
 			toothJson["C"] = Json::arrayValue;
 
-			auto arr = t.getCariesBoolStatus();
+			auto arr = t.getSurfaceBoolStatus(Caries);
 
 			for (int i = 0; i < SurfaceCount; i++)
 			{
@@ -115,7 +115,7 @@ std::string Parser::write(const ToothContainer& status)
 		{
 			toothJson["O"] = Json::arrayValue;
 
-			auto arr = t.getRestorationBoolStatus();
+			auto arr = t.getSurfaceBoolStatus(Restoration);
 
 			for (int i = 0; i < SurfaceCount; i++)
 			{

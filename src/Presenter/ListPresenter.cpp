@@ -659,6 +659,8 @@ void ListPresenter::setToothStatus(Dental::StatusType t, int code, bool supernum
         case Dental::StatusType::General: state = checkModel.generalStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Restoration: state = checkModel.restorationStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Caries: state = checkModel.cariesStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::DefectiveRestoration: state = checkModel.defRestoStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::NonCariesLesion: state = checkModel.nonCariesStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Mobility: state = checkModel.mobilityStatus[code] != CheckState::checked; break;
     }
 

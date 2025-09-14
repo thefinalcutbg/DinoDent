@@ -30,19 +30,27 @@ DsnMenu::DsnMenu()
     addAction(menuAction[Dental::Healthy]);
     addAction(menuAction[Dental::Temporary]);
 
-    QMenu* ObturMenu = addMenu("&Възстановяване");
-    QMenu* CariesMenu = addMenu("&Патология на ТЗТ");
+    QMenu* obturMenu = addMenu("&Възстановяване");
+    QMenu* defObturMenu = addMenu("&Дефектно възстановяване");
+    QMenu* cariesMenu = addMenu("&Кариес");
+    QMenu* nonCariesMenu = addMenu("&Некариозна лезия");
     QMenu* MobilityMenu = addMenu("&Подвижност");
 
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
     for (int i = 0; i < SurfaceCount; i++)
     {
-        surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i, true); });
+        surfObt[i] = obturMenu->addAction(surfName[i]);
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i); });
 
-        surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i, true); });
+        surfDefObt[i] = defObturMenu->addAction(surfName[i]);
+        connect(surfDefObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::DefectiveRestoration, i); });
+
+        surfCar[i] = cariesMenu->addAction(surfName[i]);
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i); });
+
+        surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
+        connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i); });
     }
 
     for (int i = 0; i < MobilityCount; i++)
@@ -57,6 +65,8 @@ DsnMenu::DsnMenu()
    
     addAction(menuAction[Dental::Pulpitis]);
     addAction(menuAction[Dental::ApicalLesion]);
+    addAction(menuAction[Dental::Necrosis]);
+    addAction(menuAction[Dental::Resorption]);
     addAction(menuAction[Dental::RootCanal]);
     addAction(menuAction[Dental::Post]);
     addAction(menuAction[Dental::Missing]);

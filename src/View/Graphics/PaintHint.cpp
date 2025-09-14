@@ -83,14 +83,14 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
         surfaces[i].outline = tooth.hasSecondaryCaries(i);
 
-        if (tooth.hasRestoration(i))
+        if (tooth.hasStatus(Dental::Restoration, i))
         {
             if (R_U_Mine(tooth, i))
                 surfaces[i].color = SurfaceColor::green;
             else
                 surfaces[i].color = SurfaceColor::blue;
         }
-        else if (tooth.hasCaries(i))
+        else if (tooth.hasStatus(Dental::Caries, i))
             surfaces[i].color = SurfaceColor::red;
     }
 

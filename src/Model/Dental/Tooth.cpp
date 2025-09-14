@@ -134,27 +134,12 @@ bool Tooth::hasStatus(int code) const
 
 bool Tooth::hasStatus(int code, int surface) const
 {
-	if (code != Restoration && code != Caries) return false;
-
-	return code == Restoration ? 
-		hasRestoration(surface) 
-		: 
-		hasCaries(surface);
-}
-
-bool Tooth::hasRestoration(int surface) const
-{
-	return m_data[Restoration] && m_resto_surface[surface];
-}
-
-bool Tooth::hasCaries(int surface) const
-{
-	return m_data[Caries] && m_caries_surface[surface];
+	return getSurfaceBoolStatus(code)[surface];
 }
 
 bool Tooth::hasSecondaryCaries(int surface) const
 {
-	return hasRestoration(surface) && hasCaries(surface);
+	return hasStatus(Restoration, surface) && hasStatus(Caries, surface);
 }
 
 bool Tooth::isWisdom() const
@@ -210,15 +195,20 @@ bool Tooth::canHaveACrown() const
 		;
 }
 
-SurfaceStatus Tooth::getRestorationBoolStatus() const
+const SurfaceStatus& Tooth::getSurfaceBoolStatus(int code) const
 {
-	return m_data[Restoration] ? m_resto_surface : std::array<bool, Dental::SurfaceCount>{0};
-}
+	std::map<Status, const SurfaceStatus*> surfaceCodeMap = {
+		{Restoration, &m_resto_surface},
+		{Caries, &m_caries_surface},
+		{NonCariesLesion, &m_non_caries},
+		{DefectiveRestoration, &m_defect_surface}
+	};
 
-SurfaceStatus Tooth::getCariesBoolStatus() const
-{
-	return m_data[Caries] ? m_caries_surface : std::array<bool, Dental::SurfaceCount>{0};
+	static std::array<bool, 6> dummy = { false };
 
+	if (!surfaceCodeMap.count(static_cast<Status>(code))) return dummy;
+
+	return m_data[code] ? *surfaceCodeMap[static_cast<Status>(code)] : dummy;
 }
 
 std::array<bool, Dental::MobilityCount> Tooth::getMobilityBoolStatus() const
@@ -244,7 +234,6 @@ std::string Tooth::getLPK(int code) const
 }
 
 
-
 Tooth::IncompatibleCodes Tooth::incompatInit()
 {
 	IncompatibleCodes result = {};
@@ -259,14 +248,18 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 
 	result[Temporary] = { Post, Implant };
 	result[Restoration] = { Healthy, Root, Implant, Missing, Impacted, Denture };
+	result[DefectiveRestoration] = { Healthy, Root, Implant, Missing, Impacted, Denture };
+	result[NonCariesLesion] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[Caries] = { Healthy, Root, Implant, Missing, Impacted, Denture };
-	result[Pulpitis] = { Healthy, ApicalLesion, Missing, Impacted, RootCanal, Post, Impacted, Denture };
+	result[NonCariesLesion] = { Healthy, Root, Implant, Missing, Impacted, Denture };
+	result[Necrosis] = { Healthy, Pulpitis, Missing, Impacted, RootCanal, Post, Impacted, Denture };
+	result[Pulpitis] = { Healthy, ApicalLesion, Necrosis, Missing, Impacted, RootCanal, Post, Impacted, Denture };
 	result[ApicalLesion] = { Healthy, Pulpitis, Missing, Impacted, Implant, Denture };
-	result[Missing] = { Healthy, Restoration, Caries, Implant, Pulpitis, RootCanal, Fracture, Root, ApicalLesion, Periodontitis, Crown, Post, Mobility, Denture, Calculus, Impacted };
-	result[RootCanal] = { Healthy, Pulpitis, Missing, Impacted, Implant, Denture };
-	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Impacted, Denture };
-	result[Root] = { Healthy, Caries, Restoration, Crown, Missing, Implant, Calculus };
-	result[Implant] = { Healthy, Temporary, Missing, Restoration, Caries, Pulpitis, RootCanal, Fracture, Root, Post, Mobility, Impacted, Calculus };
+	result[Missing] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Implant, Pulpitis, Necrosis, RootCanal, Fracture, Root, ApicalLesion, Periodontitis, Crown, Post, Mobility, Denture, Calculus, Impacted };
+	result[RootCanal] = { Healthy, Pulpitis, Necrosis, Missing, Impacted, Implant, Denture };
+	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Necrosis, Impacted, Denture };
+	result[Root] = { Healthy, Caries, NonCariesLesion,  Restoration, DefectiveRestoration, Crown, Missing, Implant, Calculus };
+	result[Implant] = { Healthy, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Fracture, Root, Post, Mobility, Impacted, Calculus };
 	result[Fracture] = { Healthy, Missing, Implant, Impacted };
 	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
 	result[Mobility] = { Healthy, Missing, Impacted };
@@ -274,8 +267,8 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Bridge] = { Healthy, Crown, Splint, Denture };
 	result[Splint] = { Healthy, Crown, Bridge, Denture };
 	result[HasSupernumeral] = { };
-	result[Impacted] = { Healthy, Restoration, Caries, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
-	result[Denture] = { Healthy, Restoration, Caries, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Periodontitis}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
+	result[Impacted] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
+	result[Denture] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Necrosis, Periodontitis}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
 	result[Calculus] = { Healthy, Root, Missing, Implant, Impacted, Denture };
 		return result;
 
@@ -371,6 +364,14 @@ void Tooth::setStatus(Status code, bool present) {
 		if (hasNoSurfacesSet(m_caries_surface)) m_caries_surface[getDefaultSurface()] = true;
 		break;
 
+	case NonCariesLesion:
+		if (hasNoSurfacesSet(m_non_caries)) m_non_caries[Cervical] = true;
+		break;
+
+	case DefectiveRestoration:
+		if (hasNoSurfacesSet(m_defect_surface)) m_defect_surface[getDefaultSurface()] = true;
+		break;
+
 	case Denture:
 		if (!m_data[Root]) {
 			m_data[RootCanal] = false;
@@ -398,9 +399,19 @@ void Tooth::setStatus(Status code, bool present) {
 
 void Tooth::setSurface(Dental::Status code, int surface, bool present)
 {
-	if (code != Restoration && code != Caries) return;
 
-	auto& arr = code == Restoration ? m_resto_surface : m_caries_surface;
+	std::map<Status, SurfaceStatus*> surfaceCodeMap = {
+		{Restoration, &m_resto_surface},
+		{Caries, &m_caries_surface},
+		{NonCariesLesion, &m_non_caries},
+		{DefectiveRestoration, &m_defect_surface}
+	};
+
+	if (!surfaceCodeMap.contains(code)) return;
+
+	auto& arr = *surfaceCodeMap[code];
+
+	//insert some incompatible logic here
 
 	if (present) {
 
@@ -446,6 +457,10 @@ void Tooth::setStatus(Dental::StatusType type, int code, bool present)
 		setSurface(Restoration, (Surface)code, present); break;
 	case StatusType::Caries:
 		setSurface(Caries, (Surface)code, present); break;
+	case StatusType::DefectiveRestoration:
+		setSurface(DefectiveRestoration, (Surface)code, present); break;
+	case StatusType::NonCariesLesion:
+		setSurface(NonCariesLesion, (Surface)code, present); break;
 	case StatusType::Mobility:
 		setMobility((MobilityDegree)code, present); break;
 	}
@@ -484,6 +499,7 @@ std::vector<std::string> Tooth::getNhifStatus() const
 
 	statusLegend[Temporary] = "T";
 	statusLegend[Restoration] = "O";
+	statusLegend[DefectiveRestoration] = "O";
 	statusLegend[Caries] = "C";
 	statusLegend[Pulpitis] = "P";
 	statusLegend[ApicalLesion] = "G";
@@ -520,16 +536,19 @@ std::vector<std::string> Tooth::getHISStatus() const
 {
 	std::vector<std::string> statuses;
 
-	static constexpr std::array<const char*, 6> cariesNum{ "Co", "Cm", "Cd", "Cb", "Cl", "Cc" };
-	static constexpr std::array<const char*, 6> restorationNum{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
+	static std::array<std::string, 6> surfNum{ "o", "m", "d", "b", "l", "c" };
 	static constexpr std::array<const char*, 3> mobilityNum{ "M1", "M2", "M3" };
 	std::array<const char*, StatusCount> status;
 
 	status[Healthy] = "H";
 	status[Temporary] = "";
-	status[Restoration] = "";
-	status[Caries] = "";
+	status[Restoration] = "O";
+	status[Necrosis] = "N";
+	status[Resorption] = "Res";
+	status[Caries] = "C";
 	status[Pulpitis] = "P";
+	status[DefectiveRestoration] = "DR";
+	status[NonCariesLesion] = "NC";
 	status[ApicalLesion] = "G";
 	status[Root] = "R";
 	status[Missing] = "E";
@@ -555,15 +574,18 @@ std::vector<std::string> Tooth::getHISStatus() const
 	//HIS requires supernumeral to be property of the supernumeral tooth
 	boolStatus[HasSupernumeral] = isSupernumeral();
 
-	for (int i = 0; i < SurfaceCount; i++) {
+	//adding surfaces
+	for (int i = Restoration; i <= NonCariesLesion; i++) {
 
-		if (hasCaries((Surface)i)) statuses.push_back(cariesNum[i]);
-		if (hasRestoration((Surface)i)) statuses.push_back(restorationNum[i]);
-
+		for (int y = 0; y < SurfaceCount; y++) {
+			if (hasStatus(i, y)) statuses.push_back(status[i] + surfNum[y]);
+		}
 	}
 
 	for (int i = 0; i < StatusCount; i++) {
-		if (i == Caries || i == Restoration || i == Temporary) {
+
+		//skipping since already added
+		if (i >= Temporary && i <= NonCariesLesion) {
 			continue;
 		}
 
@@ -623,7 +645,7 @@ std::string Tooth::getToothInfo() const
 
 			result.append(":");
 
-			auto surfaces = getRestorationBoolStatus();
+			auto surfaces = getSurfaceBoolStatus(Restoration);
 
 			for (int y = 0; y < SurfaceCount; y++)
 			{
@@ -637,7 +659,7 @@ std::string Tooth::getToothInfo() const
 
 			result.append(":");
 
-			auto surfaces = getCariesBoolStatus();
+			auto surfaces = getSurfaceBoolStatus(Caries);
 
 			for (int y = 0; y < SurfaceCount; y++)
 			{

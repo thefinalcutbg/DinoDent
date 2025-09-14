@@ -11,7 +11,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 
 	StatusButton* pathologies[]
 	{
-		ui.Caries, ui.Pulpitis, ui.Missing, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
+		ui.Caries, ui.NonCaries, ui.Resorption, ui.Necrosis, ui.Pulpitis, ui.Missing, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
 	};
 
 	for (auto& p : pathologies) p->pathology = true;
@@ -32,6 +32,8 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.ApicalLesion, Dental::ApicalLesion);
 	lambdaConnect(ui.Bridge, Dental::Bridge);
 	lambdaConnect(ui.Caries, Dental::Caries);
+	lambdaConnect(ui.NonCaries, Dental::NonCariesLesion);
+	lambdaConnect(ui.DefResto, Dental::DefectiveRestoration);
 	lambdaConnect(ui.Crown, Dental::Crown);
 	lambdaConnect(ui.Dsn, Dental::HasSupernumeral);
 	lambdaConnect(ui.RootCanal, Dental::RootCanal);
@@ -45,6 +47,8 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Periodontitis, Dental::Periodontitis);
 	lambdaConnect(ui.post, Dental::Post);
 	lambdaConnect(ui.Pulpitis, Dental::Pulpitis);
+	lambdaConnect(ui.Necrosis, Dental::Necrosis);
+	lambdaConnect(ui.Resorption, Dental::Resorption);
 	lambdaConnect(ui.Root, Dental::Root);
 	lambdaConnect(ui.Temporary, Dental::Temporary);
 	lambdaConnect(ui.falseTooth, Dental::Denture);
@@ -90,6 +94,8 @@ void ControlPanel::hideCommonButtons(bool hidden)
 {
 	ui.Restoration->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
+	ui.NonCaries->setHidden(hidden);
+	ui.DefResto->setHidden(hidden);
 }
 
 void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
@@ -119,6 +125,10 @@ void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
 	setCheck(ui.Temporary, Dental::Temporary);
 	setCheck(ui.falseTooth, Dental::Denture);
 	setCheck(ui.Calculus, Dental::Calculus);
+	setCheck(ui.DefResto, Dental::DefectiveRestoration);
+	setCheck(ui.NonCaries, Dental::NonCariesLesion);
+	setCheck(ui.Resorption, Dental::Resorption);
+	setCheck(ui.Necrosis, Dental::Necrosis);
 
 	ui.unknown->setCheckState(checkModel.no_data ? CheckState::checked : CheckState::unchecked);
 

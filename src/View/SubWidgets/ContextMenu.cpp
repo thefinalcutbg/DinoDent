@@ -44,7 +44,9 @@ ContextMenu::ContextMenu()
 
     
     QMenu* obturMenu = statusMenu->addMenu("&Възстановяване");
-    QMenu* cariesMenu = statusMenu->addMenu("&Патология на ТЗТ");
+    QMenu* defObturMenu = statusMenu->addMenu("&Дефектно възстановяване");
+    QMenu* cariesMenu = statusMenu->addMenu("&Кариес");
+    QMenu* nonCariesMenu = statusMenu->addMenu("&Некариозна лезия");
 
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
@@ -53,8 +55,14 @@ ContextMenu::ContextMenu()
         surfObt[i] = obturMenu->addAction(surfName[i]);
         connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i); });
 
+        surfDefObt[i] = defObturMenu->addAction(surfName[i]);
+        connect(surfDefObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::DefectiveRestoration, i); });
+
         surfCar[i] = cariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i); });
+
+        surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
+        connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i); });
     }
 
 
@@ -71,7 +79,9 @@ ContextMenu::ContextMenu()
     auto endoMenu = statusMenu->addMenu("Ендодонтия");
 
     endoMenu->addAction(menuAction[Dental::Pulpitis]);
+    endoMenu->addAction(menuAction[Dental::Necrosis]);
     endoMenu->addAction(menuAction[Dental::ApicalLesion]);
+    endoMenu->addAction(menuAction[Dental::Resorption]);
     endoMenu->addAction(menuAction[Dental::RootCanal]);
     endoMenu->addAction(menuAction[Dental::Post]);
 

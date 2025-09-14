@@ -372,7 +372,7 @@ RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 
 	for (int i = 0; i < 6; i++)
 	{
-		surfaces[i] = tooth.hasCaries(i);
+		surfaces[i] = tooth.hasStatus(Caries, i);
 	}
 
 	if (tooth[Root])
@@ -405,7 +405,7 @@ RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			if (tooth.hasRestoration(i))
+			if (tooth.hasStatus(Restoration, i))
 				surfaces[i] = true;
 		}
 	}

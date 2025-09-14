@@ -44,16 +44,16 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ляв бутон: добави статус&lt;br/&gt;Десен бутон: прехмахни статус&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
+    <enum>QFrame::Shape::NoFrame</enum>
    </property>
   </widget>
   <widget class="QFrame" name="frame1">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>170</x>
      <y>10</y>
-     <width>159</width>
-     <height>102</height>
+     <width>175</width>
+     <height>132</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -64,34 +64,37 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>159</width>
-     <height>102</height>
+     <width>175</width>
+     <height>132</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>159</width>
-     <height>102</height>
+     <width>175</width>
+     <height>132</height>
     </size>
    </property>
    <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
+    <enum>QFrame::Shape::NoFrame</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
+    <enum>QFrame::Shadow::Plain</enum>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>3</number>
+    </property>
     <property name="leftMargin">
      <number>9</number>
     </property>
     <property name="topMargin">
-     <number>9</number>
+     <number>3</number>
     </property>
     <property name="rightMargin">
      <number>9</number>
     </property>
     <property name="bottomMargin">
-     <number>9</number>
+     <number>3</number>
     </property>
     <item>
      <widget class="QLabel" name="sideBox">
@@ -122,7 +125,7 @@
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -169,7 +172,57 @@
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>Патология на ТЗТ</string>
+       <string>Кариес</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="StatusButton" name="sideObturation_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>27</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Дефектно възстановяване</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="StatusButton" name="sideCaries_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>27</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Некариозна лезия</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -196,7 +249,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -215,7 +268,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignHCenter|Qt::AlignTop</set>
+    <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>

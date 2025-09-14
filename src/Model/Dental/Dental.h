@@ -12,14 +12,18 @@ namespace Dental
 	enum Quadrant { First, Second, Third, Fourth };
 	enum BridgePos { Begin, Middle, End };
 	enum MobilityDegree { I, II, III, MobilityCount };
-	enum class StatusType { General, Restoration, Caries, Mobility };
+	enum class StatusType { General, Restoration, Caries, NonCariesLesion, DefectiveRestoration, Mobility };
 
 	enum Status {
 		Healthy,
 		Temporary,
 		Restoration,
 		Caries,
+		DefectiveRestoration,
+		NonCariesLesion,
 		Pulpitis,
+		Necrosis,
+		Resorption,
 		ApicalLesion,
 		RootCanal,
 		Post,
@@ -41,7 +45,7 @@ namespace Dental
 
 	constexpr std::string_view statusNames[StatusCount]
 	{
-		"Интактен зъб", "Временен зъб", "Възстановяване", "Патология на ТЗТ (кариес или др.)",  "Пулпит", "Периодонтит",
+		"Интактен зъб", "Временен зъб", "Възстановяване", "Кариес", "Дефектно възстановяване", "Некариозна лезия",  "Пулпит", "Некроза", "Резорбция", "Периодонтит",
 		"Ендодонтско лечение", "Радикуларен щифт", "Корен","Фрактура", "Екстракция",
 		"Пародонтит", "Подвижност",
 		"Корона", "Мост/Блок корони", "Фибровлакно", "Имплант", "Свръхброен зъб", "Ретениран зъб", "Протеза", "Зъбен камък"

@@ -80,8 +80,8 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	view->setSideButtonsClicked(
-		tooth.hasRestoration(static_cast<int>(surface)),
-		tooth.hasCaries(static_cast<int>(surface))
+		tooth.hasStatus(Dental::Restoration, static_cast<int>(surface)),
+		tooth.hasStatus(Dental::Caries, static_cast<int>(surface))
 	);
 
 	std::array<std::string, 6> stateLabel;
@@ -93,18 +93,18 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 		auto surface = matrix.getSurface(currentIndex, static_cast<ButtonPos>(i));
 		surfaceName[i] = unorderedSurfaces[static_cast<int>(surface)];
 
-		if (tooth.hasRestoration(surface) && tooth.hasCaries(surface))
+		if (tooth.hasStatus(Dental::Restoration, surface) && tooth.hasStatus(Dental::Caries, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::secondary);
 			stateLabel[i] = "Дефектно възстановяване";
 		}
-		else if (tooth.hasRestoration(surface))
+		else if (tooth.hasStatus(Dental::Restoration, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::restoration);
 			stateLabel[i] = "Възстановяване";
 		}
 
-		else if (tooth.hasCaries(surface))
+		else if (tooth.hasStatus(Dental::Caries, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
 			stateLabel[i] = "Патология на ТЗТ (кариес или др.)";

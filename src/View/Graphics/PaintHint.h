@@ -38,6 +38,7 @@ struct ToothPaintHint
 	ProsthoHint prostho{ 0 };
 	BridgeTerminal bridgePos{ 0 };
 
+	bool resorption{ false };
 	bool calculus{ false };
 	bool lesion{ false };
 	bool perio{ false };

@@ -253,15 +253,7 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
 
     if (tooth.lesion)
     {
-        if (tooth.tooth != ToothTextureHint::impl && tooth.tooth != ToothTextureHint::impl_m)
-        {
             painter.drawPixmap(0, 0, *texturePack.lesion);
-
-        }
-        else
-        {
-            painter.drawPixmap(coords.implantPos, *texturePack.lesionImplant);
-        }
     }
 
     //drawing the perio:
@@ -281,7 +273,14 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
 
     if (tooth.calculus)
     {
-        painter.drawPixmap(coords.crownRect, *texturePack.calculus);
+        if (tooth.tooth != ToothTextureHint::impl && tooth.tooth != ToothTextureHint::impl_m)
+        {
+            painter.drawPixmap(coords.crownRect, *texturePack.calculus);
+        }
+        else
+        {
+            painter.drawPixmap(coords.implantPos, *texturePack.calculusImplant);
+        }
     }
 
     //drawing the tooth:
@@ -325,21 +324,34 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
     }
 
 
+    QPixmap endo(coords.toothRect.width(), coords.toothRect.height()); 
+    endo.fill(Qt::transparent);
+
+    if (tooth.resorption) {
+        endo = *texturePack.resorption;
+    }
+
+    if (tooth.endo != EndoHint::none) {
+        QPainter canalPainter(&endo);
+        canalPainter.drawPixmap(endo.rect(), *texturePack.endo);
+    }
+    
     switch (tooth.endo) //drawing the endo
     {
     case EndoHint::none:
+        painter.drawPixmap(0, 0, textureFormat(endo, Qt::red, 0.3));
         break;
     case EndoHint::red:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::red, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(endo, Qt::red, 0.3));
         break;
     case EndoHint::blue:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::blue, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(endo, Qt::blue, 0.3));
         break;
     case EndoHint::green:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::green, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(endo, Qt::green, 0.3));
         break;
     case EndoHint::darkred:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::darkRed, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(endo, Qt::darkRed, 0.3));
         break;
     }
 

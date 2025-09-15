@@ -225,7 +225,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Мост/Блок корони</string>
+         <string>Мост / Блок корони</string>
         </property>
        </widget>
       </item>
@@ -349,7 +349,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Шиниране/Адх.мост</string>
+         <string>Шиниране / Адх. мост</string>
         </property>
        </widget>
       </item>
@@ -707,7 +707,7 @@
          <string/>
         </property>
         <property name="text">
-         <string>Корен</string>
+         <string>Корен / Разрушен зъб</string>
         </property>
        </widget>
       </item>

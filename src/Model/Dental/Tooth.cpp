@@ -265,7 +265,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[RootCanal] = { Healthy, Pulpitis, Necrosis, Missing, Impacted, Implant, Denture };
 	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Necrosis, Impacted, Denture };
 	result[Root] = { Healthy, Caries, NonCariesLesion,  Restoration, DefectiveRestoration, Crown, Missing, Implant, Calculus };
-	result[Implant] = { Healthy, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Fracture, Root, Post, Mobility, Impacted };
+	result[Implant] = { Healthy, ApicalLesion, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Fracture, Root, Post, Mobility, Impacted };
 	result[Fracture] = { Healthy, Missing, Implant, Impacted };
 	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
 	result[Mobility] = { Healthy, Missing, Impacted };
@@ -363,6 +363,11 @@ void Tooth::setStatus(Status code, bool present) {
 		setStatus(RootCanal, true); break;
 	case ApicalLesion:
 		if (!m_data[RootCanal]) {
+			setStatus(Necrosis, true);
+		}
+		break;
+	case Resorption:
+		if (!m_data[RootCanal] && !m_data[Pulpitis]) {
 			setStatus(Necrosis, true);
 		}
 		break;

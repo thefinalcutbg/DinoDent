@@ -39,6 +39,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
         return;
     }
 
+    resorption = tooth[Resorption];
     calculus = tooth[Calculus];
     frac = tooth[Fracture];
     perio = tooth[Periodontitis];

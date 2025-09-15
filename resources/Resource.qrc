@@ -79,6 +79,7 @@
         <file>tooth_false.png</file>
         <file>tooth_calculus.png</file>
         <file>tooth_stripes.png</file>
+        <file>tooth_resorption.png</file>
     </qresource>
     <qresource prefix="/reports">
         <file>report_amb.lrxml</file>

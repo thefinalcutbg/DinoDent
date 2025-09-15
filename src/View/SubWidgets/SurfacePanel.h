@@ -40,7 +40,7 @@ public:
 
 	// Inherited via ISurface Panel
 	void setPresenter(SurfacePanelPresenter* presenter) override;
-	void paintTooth(const ToothPaintHint& tooth) override;
+	void paintTooth(const ToothPaintHint& tooth, bool hasNotes) override;
 	void hidePanel(bool hidden) override;
     void setLabels(std::array<std::string, 6>& SurfaceNames) override;
     void setStatuses(std::array<std::string, 6>& StatusNames) override;

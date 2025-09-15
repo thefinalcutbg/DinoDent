@@ -37,14 +37,11 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 void DetailedStatus::setNotes(const std::string& notes)
 {
 	ui.notesEdit->setText(notes.c_str());
-	
-	if (notes.size()) {
-		ui.tabWidget->setCurrentIndex(1);
-	}
-	else
-	{
-		ui.tabWidget->setCurrentIndex(0);
-	}
+}
+
+void DetailedStatus::focusNotes(bool focus)
+{
+	ui.tabWidget->setCurrentIndex(focus ? 1 : 0);
 }
 
 

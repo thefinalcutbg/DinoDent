@@ -15,7 +15,7 @@ public:
 
 	virtual void setHistoryData(const std::vector<Procedure>& history) = 0;
 	virtual void setNotes(const std::string& notes) = 0;
-
+	virtual void focusNotes(bool focus) = 0;
 	virtual std::string getNotes() = 0;
 
 

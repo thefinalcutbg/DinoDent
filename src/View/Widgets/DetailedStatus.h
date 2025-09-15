@@ -26,7 +26,7 @@ public:
     DetailedStatus(DetailedStatusPresenter& presenter);
 
 	void setNotes(const std::string& notes) override;
-
+	void focusNotes(bool focus) override;
 	std::string getNotes() override;
 
 

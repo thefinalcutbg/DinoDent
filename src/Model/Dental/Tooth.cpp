@@ -265,7 +265,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[RootCanal] = { Healthy, Pulpitis, Necrosis, Missing, Impacted, Implant, Denture };
 	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Necrosis, Impacted, Denture };
 	result[Root] = { Healthy, Caries, NonCariesLesion,  Restoration, DefectiveRestoration, Crown, Missing, Implant, Calculus };
-	result[Implant] = { Healthy, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Fracture, Root, Post, Mobility, Impacted, Calculus };
+	result[Implant] = { Healthy, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Fracture, Root, Post, Mobility, Impacted };
 	result[Fracture] = { Healthy, Missing, Implant, Impacted };
 	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
 	result[Mobility] = { Healthy, Missing, Impacted };
@@ -275,7 +275,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[HasSupernumeral] = { };
 	result[Impacted] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
 	result[Denture] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Necrosis, Periodontitis}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
-	result[Calculus] = { Healthy, Root, Missing, Implant, Impacted, Denture };
+	result[Calculus] = { Healthy, Root, Missing, Impacted, Denture };
 		return result;
 
 }
@@ -406,7 +406,7 @@ void Tooth::setStatus(Status code, bool present) {
 
 
 }
-#include <QDebug>
+
 void Tooth::setSurface(Dental::Status code, int surface, bool present)
 {
 

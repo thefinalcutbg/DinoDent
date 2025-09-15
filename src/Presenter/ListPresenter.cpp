@@ -60,7 +60,7 @@ void ListPresenter::statusChanged()
     }
 
     if (m_selectedIndexes.size() == 1)
-        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]]);
+        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
 
     makeEdited();
 }
@@ -690,7 +690,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->setCheckModel(m_checkModel, m_dsnCheckModel);
 
     if(m_selectedIndexes.size() == 1){
-        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]]);
+        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
         view->hideSurfacePanel(false);
     }
     else {

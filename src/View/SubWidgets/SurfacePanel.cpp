@@ -11,6 +11,8 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	ui.notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
+
 	scene = new QGraphicsScene;
 	ui.surfaceView->setScene(scene);
 	scene->setBackgroundBrush(Qt::white);
@@ -30,6 +32,10 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	scene->addItem(polygon_border);
 
 	connect(ui.sideButton, &QPushButton::clicked, [this] { presenter->buttonClicked(ButtonPos::side, SurfaceClick::leftClick); });
+	connect(ui.notesButton, &QPushButton::clicked, [this] { presenter->notesClicked(); });
+
+
+	
 }
 
 void SurfacePanel::drawFocused(bool focused)
@@ -50,9 +56,10 @@ void SurfacePanel::setPresenter(SurfacePanelPresenter* presenter)
 	presenter->setView(this);
 }
 
-void SurfacePanel::paintTooth(const ToothPaintHint& tooth)
+void SurfacePanel::paintTooth(const ToothPaintHint& tooth, bool hasNotes)
 {
 	toothGraphic->setPixmap(ToothPainter::getOcclusal(tooth));
+	ui.notesButton->setMonochrome(!hasNotes);
 }
 
 void SurfacePanel::hidePanel(bool hidden)

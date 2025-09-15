@@ -9,6 +9,11 @@ SurfacePanelPresenter::SurfacePanelPresenter() : view(nullptr), statusControl(nu
 {
 }
 
+void SurfacePanelPresenter::notesClicked()
+{
+	statusControl->openDetails();
+}
+
 void SurfacePanelPresenter::setView(ISurfacePanel* view)
 {
 	this->view = view;
@@ -84,11 +89,11 @@ void SurfacePanelPresenter::sideButtonClicked(Dental::StatusType stat)
 	statusControl->setToothStatus(stat, (matrix.getSurface(currentIndex, ButtonPos::side)));
 }
 
-void SurfacePanelPresenter::setTooth(const Tooth& tooth)
+void SurfacePanelPresenter::setTooth(const Tooth& tooth, bool hasNotes)
 {
 	currentIndex = tooth.index();
 
-	view->paintTooth(ToothPaintHint(tooth));
+	view->paintTooth(ToothPaintHint(tooth), hasNotes);
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	std::array<std::string, 6> stateLabel;

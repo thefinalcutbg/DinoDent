@@ -25,9 +25,10 @@ class SurfacePanelPresenter
 public:
 		SurfacePanelPresenter();
 
+		void notesClicked();
 		void setView(ISurfacePanel* view);
 		void setStatusControl(ListPresenter* status_presenter);
-		void setTooth(const Tooth& tooth);
+		void setTooth(const Tooth& tooth, bool hasNotes);
 		void buttonClicked(ButtonPos position, SurfaceClick click);
 		void sideButtonClicked(Dental::StatusType stat);
 

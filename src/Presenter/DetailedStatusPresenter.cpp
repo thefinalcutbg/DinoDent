@@ -21,6 +21,8 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 	view->setHistoryData(m_procedures);
 	
 	view->setNotes(m_notes);
+
+	view->focusNotes(m_notes.size() || m_procedures.empty());
 }
 
 

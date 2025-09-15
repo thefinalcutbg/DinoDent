@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m, unknown};
-enum class SurfaceColor {none, red, blue, green};
+enum class SurfaceColor {none, red, blue, green, orange};
 enum class EndoHint {none, red, darkred, blue, green};
 enum class PostHint {none, blue, green};
 enum class ProsthoHint {none, crown, crown_green, bridge, bridge_green, splint, splint_green, denture, denture_green};
@@ -12,7 +12,8 @@ enum class BridgeTerminal{Distal, Center, Medial};
 struct SurfaceHint
 {
 	SurfaceColor color { SurfaceColor::none };
-	bool outline{ false };
+	SurfaceColor outline{ SurfaceColor::none };
+	SurfaceColor stripes{ SurfaceColor::none };
 };
 
 class Tooth;

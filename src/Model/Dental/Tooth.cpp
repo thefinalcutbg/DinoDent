@@ -21,6 +21,8 @@ Tooth::Tooth(const Tooth& other) : m_index(other.m_index)
 	m_data = other.m_data;
 	m_caries_surface = other.m_caries_surface;
 	m_resto_surface = other.m_resto_surface;
+	m_defect_surface = other.m_defect_surface;
+	m_non_caries = other.m_non_caries;
 	m_degree = other.m_degree;
 	position = other.position;
 	m_lpkMap = other.m_lpkMap;
@@ -44,6 +46,8 @@ Tooth& Tooth::operator=(const Tooth& other)
 	m_data = other.m_data;
 	m_caries_surface = other.m_caries_surface;
 	m_resto_surface = other.m_resto_surface;
+	m_defect_surface = other.m_defect_surface;
+	m_non_caries = other.m_non_caries;
 	m_degree = other.m_degree;
 	position = other.position;
 	m_lpkMap = other.m_lpkMap;
@@ -71,6 +75,8 @@ void Tooth::copyFromHIS(const Tooth& other)
 	m_data = other.m_data;
 	m_caries_surface = other.m_caries_surface;
 	m_resto_surface = other.m_resto_surface;
+	m_defect_surface = other.m_defect_surface;
+	m_non_caries = other.m_non_caries;
 	m_degree = other.m_degree;
 
 	if (other.m_lpkMap.size()) {
@@ -355,7 +361,11 @@ void Tooth::setStatus(Status code, bool present) {
 	{
 	case Post:
 		setStatus(RootCanal, true); break;
-
+	case ApicalLesion:
+		if (!m_data[RootCanal]) {
+			setStatus(Necrosis, true);
+		}
+		break;
 	case Restoration:
 		if (hasNoSurfacesSet(m_resto_surface)) m_resto_surface[getDefaultSurface()] = true;
 		break;
@@ -396,7 +406,7 @@ void Tooth::setStatus(Status code, bool present) {
 
 
 }
-
+#include <QDebug>
 void Tooth::setSurface(Dental::Status code, int surface, bool present)
 {
 
@@ -407,13 +417,22 @@ void Tooth::setSurface(Dental::Status code, int surface, bool present)
 		{DefectiveRestoration, &m_defect_surface}
 	};
 
+	static std::map<Status, std::vector<Status>> incompatSurfaceStatus = {
+		{Restoration,			{DefectiveRestoration, NonCariesLesion}},
+		{Caries,				{DefectiveRestoration, NonCariesLesion}},
+		{DefectiveRestoration,	{Caries, Restoration, NonCariesLesion}},
+		{NonCariesLesion,		{Restoration, Caries, DefectiveRestoration}}
+	};
+
 	if (!surfaceCodeMap.contains(code)) return;
 
 	auto& arr = *surfaceCodeMap[code];
 
-	//insert some incompatible logic here
-
 	if (present) {
+
+		for (auto incompatCode : incompatSurfaceStatus[code]) {
+			setSurface(incompatCode, surface, false);
+		}
 
 		//reseting the array
 		if (!m_data[code]) {
@@ -423,6 +442,7 @@ void Tooth::setSurface(Dental::Status code, int surface, bool present)
 		arr[surface] = present;
 
 		setStatus(code, true);
+
 		return;
 	}
 
@@ -431,8 +451,9 @@ void Tooth::setSurface(Dental::Status code, int surface, bool present)
 	for (auto s : arr) {
 		if (s) return;
 	}
-
+	
 	setStatus(code, false);
+
 }
 
 void Tooth::setMobility(MobilityDegree degree, bool present)

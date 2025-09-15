@@ -79,11 +79,10 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     for (int i = 0; i < surfaces.size(); i++)
     {
-        surfaces[i] = SurfaceHint{ SurfaceColor::none, false };
+        surfaces[i] = SurfaceHint{ SurfaceColor::none, SurfaceColor::none };
 
-        surfaces[i].outline = tooth.hasSecondaryCaries(i);
-
-        if (tooth.hasStatus(Dental::Restoration, i))
+        //the inside of the area
+        if (tooth.hasStatus(Dental::Restoration, i) || tooth.hasStatus(Dental::DefectiveRestoration, i))
         {
             if (R_U_Mine(tooth, i))
                 surfaces[i].color = SurfaceColor::green;
@@ -91,7 +90,21 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
                 surfaces[i].color = SurfaceColor::blue;
         }
         else if (tooth.hasStatus(Dental::Caries, i))
+        {
             surfaces[i].color = SurfaceColor::red;
+        }
+        else if (tooth.hasStatus(Dental::NonCariesLesion, i))
+        {
+            surfaces[i].color = SurfaceColor::orange;
+        }
+
+        //the outline
+        if (tooth.hasSecondaryCaries(i)) {
+            surfaces[i].outline = SurfaceColor::red;
+        }
+        else if (tooth.hasStatus(Dental::DefectiveRestoration, i)) {
+            surfaces[i].stripes = SurfaceColor::red;
+        }
     }
 
     //endo hint
@@ -105,7 +118,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     }
     else if (tooth[Pulpitis])
         endo = EndoHint::red;
-    else if (tooth[ApicalLesion] && !tooth[Implant])
+    else if (tooth[Necrosis])
         endo = EndoHint::darkred;
 
     //prosthodontic hint

@@ -19,7 +19,8 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	//ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
 
 	ui.sideCaries->pathology = true;
-	
+	ui.sideNonCaries->pathology = true;
+
 	scene->addItem(toothGraphic);
 
 	for (int i = 0; i < 5; i++) {
@@ -31,9 +32,17 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 
 	scene->addItem(polygon_border);
 
+	auto buttonOrder = {
+		std::make_pair(Dental::StatusType::Restoration, ui.sideObturation),
+		std::make_pair(Dental::StatusType::Caries, ui.sideCaries),
+		std::make_pair(Dental::StatusType::DefectiveRestoration, ui.sideDefect),
+		std::make_pair(Dental::StatusType::NonCariesLesion, ui.sideNonCaries)
+	};
 
-    connect(ui.sideObturation, &QPushButton::clicked, this, [=, this] { presenter->sideRestorationClicked();  });
-    connect(ui.sideCaries, &QPushButton::clicked, this, [=, this] { presenter->sideCariesClicked(); });
+	for (auto& s : buttonOrder) {
+		connect(s.second, &QPushButton::clicked, this, [=, this] { presenter->sideButtonClicked(s.first);  });
+	}
+
 }
 
 void SurfacePanel::drawFocused(bool focused)
@@ -81,10 +90,12 @@ void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)
 	}
 }
 
-void SurfacePanel::setSideButtonsClicked(bool restoration, bool caries)
+void SurfacePanel::setSideButtonsClicked(bool restoration, bool caries, bool defectRes, bool nonCaries)
 {
 	ui.sideObturation->setChecked(restoration);
 	ui.sideCaries->setChecked(caries);
+	ui.sideDefect->setChecked(defectRes);
+	ui.sideNonCaries->setChecked(nonCaries);
 }
 
 void SurfacePanel::buttonHovered(ButtonPos position, Hover hoverState)

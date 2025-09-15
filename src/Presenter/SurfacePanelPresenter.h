@@ -4,11 +4,12 @@
 
 #include "InputEnums.h"
 #include "ButtonSurfaceMatrix.h"
+#include "Model/Dental/Dental.h"
 
 class Tooth;
 
 enum class SurfaceClick {rightClick, leftClick};
-enum class SurfaceState { none, restoration, caries, secondary };
+enum class SurfaceState { none, restoration, caries, secondary, defective, nonCaries };
 
 class ListPresenter;
 
@@ -28,8 +29,7 @@ public:
 		void setStatusControl(ListPresenter* status_presenter);
 		void setTooth(const Tooth& tooth);
 		void buttonClicked(ButtonPos position, SurfaceClick click);
-		void sideCariesClicked();
-		void sideRestorationClicked();
+		void sideButtonClicked(Dental::StatusType stat);
 
 };
 

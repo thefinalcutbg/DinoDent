@@ -28,25 +28,6 @@ inline QPixmap textureFormat(const QPixmap& px, double opacity)
 }
 
 
-inline QPixmap textureOutline(const QPixmap& src, QColor)
-{
-    QPixmap outline_px(src);
-
-    QPainter painter(&outline_px);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-
-    QGraphicsPixmapItem temp_pixmap_item(outline_px);
-    auto path = temp_pixmap_item.shape();
-
-    QPen pen(Qt::red, 15, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-
-    painter.setPen(pen);
-    painter.drawPath(path);
-
-    return outline_px;
-}
-
 QPixmap getBridgeTexture(const ToothPaintHint& tooth)
 {
     //auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
@@ -143,7 +124,41 @@ inline QPixmap getDenture(const ToothPaintHint& tooth) {
     return denture;
 }
 
-inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
+QPixmap textureOutline(const QPixmap& src, QColor color)
+{
+    QPixmap outline_px(src);
+
+    QPainter painter(&outline_px);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+
+    QGraphicsPixmapItem temp_pixmap_item(outline_px);
+    auto path = temp_pixmap_item.shape();
+
+    QPen pen(color, 15, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+
+    painter.setPen(pen);
+    painter.drawPath(path);
+
+    return outline_px;
+}
+
+QPixmap textureStripe(const QPixmap& src)
+{
+    QPixmap outline_px(src);
+
+    static QPixmap stripes = QPixmap(":/tooth/tooth_stripes.png");
+
+    QPainter painter(&outline_px);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+
+    painter.drawPixmap(outline_px.rect(), stripes);
+
+    return outline_px;
+}
+
+QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
 {
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
@@ -152,43 +167,32 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     surface.fill(Qt::transparent);
     QPainter surfPainter(&surface);
 
-    QPixmap outlinedSurface(coords.toothRect.width(), coords.toothRect.height());
-    outlinedSurface.fill(Qt::transparent);
-    QPainter outlinePainter(&outlinedSurface);
+    std::map<SurfaceColor, QColor> colorToQColorMap = {
+        {SurfaceColor::none, QColor()},
+        {SurfaceColor::blue, Qt::blue},
+        {SurfaceColor::green, Qt::green},
+        {SurfaceColor::red, Qt::red},
+        {SurfaceColor::orange, QColor(247, 148, 26)}
+    };
+
+    std::map<SurfaceColor, std::vector<int>> outlineColorSurfaceMap; //stores the different outlines
+    std::map<SurfaceColor, std::vector<int>> stripeColorSurfaceMap; //stores the different stripes
 
     for (size_t i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
     {
-        if (!tooth.surfaces[i].outline)
+        if (tooth.surfaces[i].color != SurfaceColor::none)
         {
-            switch (tooth.surfaces[i].color)
-            {
-            case SurfaceColor::blue:
-                surfPainter.drawPixmap(coords.surfPos[i], textureFormat(*texturePack.surfaces[i], Qt::blue, 1));
-                break;
-            case SurfaceColor::red:
-                surfPainter.drawPixmap(coords.surfPos[i], textureFormat(*texturePack.surfaces[i], Qt::red, 1));
-                break;
-            case SurfaceColor::green:
-                surfPainter.drawPixmap(coords.surfPos[i], textureFormat(*texturePack.surfaces[i], Qt::green, 1));
-                break;
-            default:
-                break;
-            }
-        }
-        else
-        {
-            switch (tooth.surfaces[i].color)
-            {
-            case SurfaceColor::blue:
+            auto& qtColor = colorToQColorMap[tooth.surfaces[i].color];
 
-                outlinePainter.drawPixmap(coords.surfPos[i], textureFormat(*texturePack.surfaces[i], Qt::blue, 1));
-                break;
-            case SurfaceColor::green:
-                outlinePainter.drawPixmap(coords.surfPos[i], textureFormat(*texturePack.surfaces[i], Qt::green, 1));
-                break;
-            default:
-                break;
-            }
+            surfPainter.drawPixmap(coords.surfPos[i], textureFormat(*texturePack.surfaces[i], qtColor, 1));
+        }
+
+        if (tooth.surfaces[i].outline != SurfaceColor::none) {
+            outlineColorSurfaceMap[tooth.surfaces[i].outline].push_back(i);
+        }
+
+        if (tooth.surfaces[i].stripes != SurfaceColor::none) {
+            stripeColorSurfaceMap[tooth.surfaces[i].stripes].push_back(i);
         }
     }
 
@@ -196,10 +200,42 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     endResult.fill(Qt::transparent);
     QPainter endResultPainter(&endResult);
     endResultPainter.drawPixmap(0, 0, surface);
-    endResultPainter.drawPixmap(0, 0, textureOutline(outlinedSurface, Qt::red));
+
+    //drawing the stripes
+    for (auto& [color, surfaceList] : stripeColorSurfaceMap) {
+
+        QPixmap stripedSurface(coords.toothRect.width(), coords.toothRect.height());
+        stripedSurface.fill(Qt::transparent);
+        QPainter stripePainter(&stripedSurface);
+
+        for (auto surface : surfaceList) {
+
+            auto& stripeColor = colorToQColorMap[tooth.surfaces[surface].stripes];
+
+            stripePainter.drawPixmap(coords.surfPos[surface], textureFormat(*texturePack.surfaces[surface], stripeColor, 1));
+        }
+
+        endResultPainter.drawPixmap(0, 0, textureStripe(stripedSurface));
+    }
+
+    //drawing the outlines
+    for (auto& [color, surfaceList] : outlineColorSurfaceMap) {
+
+        QPixmap outlinedSurface(coords.toothRect.width(), coords.toothRect.height());
+        outlinedSurface.fill(Qt::transparent);
+        QPainter outlinePainter(&outlinedSurface);
+
+        for (auto surface : surfaceList) {
+
+            auto& insideColor = colorToQColorMap[tooth.surfaces[surface].color];
+
+            outlinePainter.drawPixmap(coords.surfPos[surface], textureFormat(*texturePack.surfaces[surface], insideColor, 1));
+        }
+
+        endResultPainter.drawPixmap(0, 0, textureOutline(outlinedSurface, colorToQColorMap[color]));
+    }
 
     return endResult;
-
 }
 
 inline QPixmap getTooth(const ToothPaintHint& tooth) {

@@ -89,6 +89,8 @@ std::string Parser::write(const ToothContainer& status)
 
 		if (t[Healthy]) toothJson["H"] = 1;
 		if (t[Pulpitis]) toothJson["P"] = 1;
+		if (t[Necrosis]) toothJson["N"] = 1;
+		if (t[Resorption]) toothJson["Res"] = 1;
 		if (t[ApicalLesion]) toothJson["G"] = 1;
 		if (t[Calculus]) toothJson["T"] = 1;
 		if (t[Fracture]) toothJson["F"] = 1;
@@ -96,11 +98,12 @@ std::string Parser::write(const ToothContainer& status)
 		if (t[Impacted]) toothJson["Re"] = 1;
 		if (t[Periodontitis]) toothJson["Pa"] = 1;
 		if (t[Mobility]) toothJson["M"] = static_cast<int>(t.m_degree);
+
 		if (t[Caries])
 		{
 			toothJson["C"] = Json::arrayValue;
 
-			auto arr = t.getSurfaceBoolStatus(Caries);
+			auto& arr = t.getSurfaceBoolStatus(Caries);
 
 			for (int i = 0; i < SurfaceCount; i++)
 			{
@@ -111,11 +114,27 @@ std::string Parser::write(const ToothContainer& status)
 			}
 		}
 
+		if (t[NonCariesLesion])
+		{
+			
+			toothJson["NC"] = Json::arrayValue;
+
+			auto& arr = t.getSurfaceBoolStatus(NonCariesLesion);
+
+			for (int i = 0; i < SurfaceCount; i++)
+			{
+				if (!arr[i]) continue;
+				Json::Value nonCariesLesion;
+				nonCariesLesion["Surf"] = i;
+				toothJson["NC"].append(nonCariesLesion);
+			}
+		}
+
 		if (t[Restoration])
 		{
 			toothJson["O"] = Json::arrayValue;
 
-			auto arr = t.getSurfaceBoolStatus(Restoration);
+			auto& arr = t.getSurfaceBoolStatus(Restoration);
 
 			for (int i = 0; i < SurfaceCount; i++)
 			{
@@ -125,6 +144,24 @@ std::string Parser::write(const ToothContainer& status)
 				restorationJson["Surf"] = i;
 				restorationJson["LPK"] = t.getLPK(i);
 				toothJson["O"].append(restorationJson);
+			}
+		}
+
+		if (t[DefectiveRestoration])
+		{
+
+			toothJson["DR"] = Json::arrayValue;
+
+			auto& arr = t.getSurfaceBoolStatus(DefectiveRestoration);
+
+			for (int i = 0; i < SurfaceCount; i++)
+			{
+				if (!arr[i]) continue;
+
+				Json::Value defRestJson;
+				defRestJson["Surf"] = i;
+				defRestJson["LPK"] = t.getLPK(i);
+				toothJson["DR"].append(defRestJson);
 			}
 		}
 
@@ -180,8 +217,7 @@ std::string Parser::write(const HISProcedureResult& hisResult)
 
 	return Json::FastWriter().write(resultJson);
 }
-
-
+#include <QDebug>
 void Parser::parse(const std::string& jsonString, ToothContainer& status)
 {
 	Json::Value statusJson;
@@ -198,6 +234,8 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.setStatus(Root, jsonTooth.isMember("R"));
 		tooth.setStatus(Periodontitis, jsonTooth.isMember("Pa"));
 		tooth.setStatus(Impacted, jsonTooth.isMember("Re"));
+		tooth.setStatus(Necrosis, jsonTooth.isMember("N"));
+		tooth.setStatus(Resorption, jsonTooth.isMember("Res"));
 
 		tooth.setStatus(Mobility, jsonTooth.isMember("M"));
 
@@ -213,12 +251,30 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 			}
 		}
 
+		if (jsonTooth.isMember("NC"))
+		{
+			for (auto& c : jsonTooth["NC"])
+			{
+				tooth.setSurface(Dental::NonCariesLesion, c["Surf"].asInt(), true);
+			}
+		}
+
 		if (jsonTooth.isMember("O"))
 		{
 			for (auto& o : jsonTooth["O"])
 			{
 				auto surface = o["Surf"].asInt();
-				tooth.setSurface(Dental::Restoration, surface);
+				tooth.setSurface(Dental::Restoration, surface, true);
+				tooth.setLPK(surface, o["LPK"].asString());
+			}
+		}
+
+		if (jsonTooth.isMember("DR"))
+		{
+			for (auto& o : jsonTooth["DR"])
+			{
+				auto surface = o["Surf"].asInt();
+				tooth.setSurface(Dental::DefectiveRestoration, surface, true);
 				tooth.setLPK(surface, o["LPK"].asString());
 			}
 		}
@@ -249,6 +305,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 
 		constructionParser(jsonTooth, tooth, "B", Bridge);
 		constructionParser(jsonTooth, tooth, "S", Splint);
+
 	};
 
 	if(!reader.parse(jsonString, statusJson)) return;

@@ -213,6 +213,7 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 				if (!data.surfaces[i]) continue;
 
 				changes.push_back({ StatusType::Caries, i, false });
+				changes.push_back({ StatusType::NonCariesLesion, i, false });
 				changes.push_back({ StatusType::Restoration, i, true, Restoration });
 			}
 
@@ -230,7 +231,8 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 				if (!data.surfaces[i]) continue;
 
 				changes.push_back({ StatusType::Restoration, i, false });
-				changes.push_back({ StatusType::Caries, i, true });
+				changes.push_back({ StatusType::DefectiveRestoration, i, false });
+				changes.push_back({ StatusType::NonCariesLesion, i, true });
 			}
 
 			if (data.post) {

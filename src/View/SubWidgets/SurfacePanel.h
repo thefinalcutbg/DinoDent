@@ -42,9 +42,8 @@ public:
 	void setPresenter(SurfacePanelPresenter* presenter) override;
 	void paintTooth(const ToothPaintHint& tooth) override;
 	void hidePanel(bool hidden) override;
-    void setLabels(std::array<std::string, 6> SurfaceNames) override;
-    void setStatuses(std::array<std::string, 6> StatusNames) override;
-    void setSideButtonsClicked(bool restoration, bool caries, bool defectRes, bool nonCaries) override;
+    void setLabels(std::array<std::string, 6>& SurfaceNames) override;
+    void setStatuses(std::array<std::string, 6>& StatusNames) override;
 	// Inherited via PolygonObserver
     virtual void buttonHovered(ButtonPos position, Hover hoverState) override;
     virtual void buttonClicked(ButtonPos position, MouseClick click) override;

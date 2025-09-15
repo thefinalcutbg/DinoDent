@@ -91,13 +91,6 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 	view->paintTooth(ToothPaintHint(tooth));
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
-	view->setSideButtonsClicked(
-		tooth.hasStatus(Dental::Restoration, surface),
-		tooth.hasStatus(Dental::Caries, surface),
-		tooth.hasStatus(Dental::DefectiveRestoration, surface),
-		tooth.hasStatus(Dental::NonCariesLesion, surface)
-	);
-
 	std::array<std::string, 6> stateLabel;
 	std::array<std::string, 6> surfaceName;
 	auto unorderedSurfaces = ToothUtils::getSurfaceNames(currentIndex);

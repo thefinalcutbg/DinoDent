@@ -13,7 +13,6 @@ public:
 	virtual void setPresenter(SurfacePanelPresenter* presenter) = 0;
 	virtual void paintTooth(const ToothPaintHint& tooth) = 0;
 	virtual void hidePanel(bool hidden) = 0;
-	virtual void setLabels(std::array<std::string, 6> SurfaceNames) = 0;
-	virtual void setStatuses(std::array<std::string, 6> StatusNames) = 0;
-	virtual void setSideButtonsClicked(bool restoration, bool caries, bool defectRes, bool nonCaries) = 0;
+	virtual void setLabels(std::array<std::string, 6>& SurfaceNames) = 0;
+	virtual void setStatuses(std::array<std::string, 6>& StatusNames) = 0;
 };

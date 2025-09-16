@@ -321,7 +321,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_M: presenter->setToothStatus(StatusType::General, Impacted); break;
       case Qt::Key_S: presenter->setToothStatus(StatusType::General, Splint); break;
       case Qt::Key_J: presenter->setToothStatus(StatusType::General, HasSupernumeral); break;
-      case Qt::Key_Z: presenter->setToothStatus(StatusType::General, HasSupernumeral); break;
+      case Qt::Key_Z: presenter->setToothStatus(StatusType::General, Resorption); break;
       case Qt::Key_X: presenter->setToothStatus(StatusType::General, Denture); break;
       case Qt::Key_H: presenter->setToothStatus(StatusType::General, Healthy); break;
       case Qt::Key_V: presenter->setToothStatus(StatusType::General, Calculus); break;

@@ -12,7 +12,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowFlags(Qt::Window);
-	setWindowTitle("Детайли");
+	setWindowTitle("Бележки и извършени процедури");
 
 	ui.localCheck->setIcon(QIcon(":/icons/icon_db.png"));
 	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));

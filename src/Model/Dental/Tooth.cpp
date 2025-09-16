@@ -265,8 +265,8 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[RootCanal] = { Healthy, Pulpitis, Necrosis, Missing, Impacted, Implant, Denture };
 	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Necrosis, Impacted, Denture };
 	result[Root] = { Healthy, Caries, NonCariesLesion,  Restoration, DefectiveRestoration, Crown, Missing, Implant, Calculus };
-	result[Implant] = { Healthy, ApicalLesion, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Fracture, Root, Post, Mobility, Impacted };
-	result[Fracture] = { Healthy, Missing, Implant, Impacted };
+	result[Implant] = { Healthy, ApicalLesion, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Root, Post, Mobility, Impacted };
+	result[Fracture] = { Healthy, Missing, Impacted };
 	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
 	result[Mobility] = { Healthy, Missing, Impacted };
 	result[Crown] = { Healthy, Bridge, Missing, Root, Splint, Impacted, Denture };

@@ -27,9 +27,9 @@ bool EDental::Open::sendRequest(
 	contents +=
 		"<nhis:dentalTreatment>"
 		+ bind("lrn", ambSheet.lrn)
-		//+ bind("basedOn", ambSheet.basedOn) //needs closing functionality
+			+ bind("basedOn", ambSheet.basedOn) //needs closing functionality
 			+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
-			//+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
+			+ bind("treatmentEnd", FreeFn::LocalToUTC(FreeFn::getTimeStampLocal()))
 			+ bind("adverseConditions", adverseConditions)
 			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 			+ HisService::getMedicalStatus(patient)
@@ -181,8 +181,9 @@ bool EDental::Augment::sendRequest(
 	contents +=
 		"<nhis:dentalTreatment>"
 		+ bind("nrnDental", ambSheet.nrn)
-		//+ bind("basedOn", ambSheet.basedOn)
+		+ bind("basedOn", ambSheet.basedOn) //needs closing functionality
 		+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
+		+ bind("treatmentEnd", FreeFn::LocalToUTC(FreeFn::getTimeStampLocal()))
 		+ bind("adverseConditions", adverseConditions)
 		+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 		+ HisService::getMedicalStatus(patient)

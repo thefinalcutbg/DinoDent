@@ -771,14 +771,18 @@ void ListPresenter::openDetails(int toothIdx)
     patient->teethNotes[toothIdx] = d.getNote();
 
     view->setNotes(patient->teethNotes);
-  
+    surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
     view->repaintTooth(ToothPaintHint(m_amblist.teeth[toothIdx], patient->teethNotes[toothIdx]));
 
 }
 
 void ListPresenter::openDetails()
 {
-    if (m_selectedIndexes.size() == 1) openDetails(m_selectedIndexes[0]);
+    if (m_selectedIndexes.size() != 1) {
+        return;
+    }
+    
+    openDetails(m_selectedIndexes[0]);
 }
 
 void ListPresenter::refreshProcedureView()

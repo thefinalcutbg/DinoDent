@@ -117,6 +117,9 @@
      <height>27</height>
     </size>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ляв бутон: добави статус&lt;br/&gt;Десен бутон: прехмахни статус&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="styleSheet">
     <string/>
    </property>

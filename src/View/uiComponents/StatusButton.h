@@ -22,5 +22,7 @@ public:
 	bool pathology{ false };
 	void setCheckState(const CheckState& checkState);
 
+signals:
+	void rightClicked();
 };
 

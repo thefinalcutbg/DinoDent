@@ -105,5 +105,9 @@ void StatusButton::mousePressEvent(QMouseEvent* e)
 		return;
 	}
 
+	if (e->button() == Qt::RightButton) {
+		emit rightClicked();
+	}
+
 	QPushButton::mousePressEvent(e);
 }

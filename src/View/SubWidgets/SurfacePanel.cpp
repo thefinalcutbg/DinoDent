@@ -32,6 +32,7 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	scene->addItem(polygon_border);
 
 	connect(ui.sideButton, &QPushButton::clicked, [this] { presenter->buttonClicked(ButtonPos::side, SurfaceClick::leftClick); });
+	connect(ui.sideButton, &StatusButton::rightClicked, [this] { presenter->buttonClicked(ButtonPos::side, SurfaceClick::rightClick); });
 	connect(ui.notesButton, &QPushButton::clicked, [this] { presenter->notesClicked(); });
 
 

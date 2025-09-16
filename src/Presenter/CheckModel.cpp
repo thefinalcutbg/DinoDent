@@ -46,8 +46,8 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 		furtherIterations(generalStatus, selectedTeeth[i]->getBoolStatus());
 		furtherIterations(cariesStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::Caries));
 		furtherIterations(restorationStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::Restoration));
-		furtherIterations(defRestoStatus, selectedTeeth[0]->getSurfaceBoolStatus(Dental::DefectiveRestoration));
-		furtherIterations(nonCariesStatus, selectedTeeth[0]->getSurfaceBoolStatus(Dental::NonCariesLesion));
+		furtherIterations(defRestoStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::DefectiveRestoration));
+		furtherIterations(nonCariesStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::NonCariesLesion));
 		furtherIterations(mobilityStatus, selectedTeeth[i]->getMobilityBoolStatus());
 	}
 

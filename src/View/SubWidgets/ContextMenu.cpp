@@ -127,6 +127,8 @@ void ContextMenu::setModel(const CheckModel& checkModel, const CheckModel& dsnMo
     this->setModel(checkModel.restorationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
+    this->setModel(checkModel.nonCariesStatus, surfNonCar);
+    this->setModel(checkModel.defRestoStatus, surfDefObt);
 
     dsn_menu->setModel(dsnModel);
 }

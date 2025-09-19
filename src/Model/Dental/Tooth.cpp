@@ -372,19 +372,19 @@ void Tooth::setStatus(Status code, bool present) {
 		}
 		break;
 	case Restoration:
-		if (hasNoSurfacesSet(m_resto_surface)) m_resto_surface[getDefaultSurface()] = true;
+		if (hasNoSurfacesSet(m_resto_surface)) setSurface(Restoration, getDefaultSurface());
 		break;
 
 	case Caries:
-		if (hasNoSurfacesSet(m_caries_surface)) m_caries_surface[getDefaultSurface()] = true;
+		if (hasNoSurfacesSet(m_caries_surface)) setSurface(Caries, getDefaultSurface());
 		break;
 
 	case NonCariesLesion:
-		if (hasNoSurfacesSet(m_non_caries)) m_non_caries[Cervical] = true;
+		if (hasNoSurfacesSet(m_non_caries)) setSurface(NonCariesLesion, Surface::Cervical);
 		break;
 
 	case DefectiveRestoration:
-		if (hasNoSurfacesSet(m_defect_surface)) m_defect_surface[getDefaultSurface()] = true;
+		if (hasNoSurfacesSet(m_defect_surface)) setSurface(DefectiveRestoration, getDefaultSurface());
 		break;
 
 	case Denture:

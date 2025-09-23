@@ -715,7 +715,7 @@ std::string Tooth::getToothInfo() const
 
 	result.append("<br><br><b>Кодове: </b>");
 
-	for (auto& num : getHISStatus())
+	for (auto& num : numenclature)
 	{
 		result.append(num);
 		result.append(", ");

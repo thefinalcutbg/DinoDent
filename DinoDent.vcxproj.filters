@@ -1856,9 +1856,6 @@
     <ClInclude Include="src\Network\HIS\EClinicalCondition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\NotificationListPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Database\DbNotification.h">
       <Filter>Header Files</Filter>
     </ClInclude>

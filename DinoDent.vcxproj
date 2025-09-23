@@ -587,7 +587,6 @@
     <ClInclude Include="src\Network\Calendar\Google.h" />
     <ClInclude Include="src\Network\GetHSM.h" />
     <ClInclude Include="src\Network\HIS\EClinicalCondition.h" />
-    <ClInclude Include="src\Presenter\NotificationListPresenter.h" />
     <ClInclude Include="src\View\Graphics\CalendarViewData.h" />
     <QtMoc Include="src\View\Widgets\CalendarView.h" />
     <ClInclude Include="src\Database\DbMedicalNotice.h" />

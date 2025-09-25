@@ -22,7 +22,37 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 	
 	view->setNotes(m_notes);
 
-	view->focusNotes(m_notes.size() || m_procedures.empty());
+	bool focusNotes = m_notes.size() || m_procedures.empty();
+
+	view->focusNotes(focusNotes);
+
+	if (focusNotes) return;
+
+
+	for (auto& p : m_procedures)
+	{
+		if (p.db_source == Procedure::DatabaseSource::PIS){
+			tableOptionChanged(false, false, true);
+			return;
+		}
+	}
+
+	for (auto& p : m_procedures)
+	{
+		if (p.db_source == Procedure::DatabaseSource::HIS){
+			tableOptionChanged(false, true, false);
+		return;
+		}
+	}
+
+	for (auto& p : m_procedures)
+	{
+		if (p.db_source == Procedure::DatabaseSource::Local) {
+			tableOptionChanged(true, false, false);
+			return;
+		}
+	}
+
 }
 
 

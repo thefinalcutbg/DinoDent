@@ -127,7 +127,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	connect(ui.addSubdir, &QPushButton::clicked, this, [&] {
 
-		int result = ModalDialogBuilder::openButtonDialog(s_dirStr, "Добавяне на поддиректория", "Избере поддиректория:");
+		int result = ModalDialogBuilder::openButtonDialog(s_dirStr, "Добавяне на поддиректория", "Изберете поддиректория:");
 		if (result < 0) return;
 
 		dir_structure.push_back(static_cast<DirType>(result));

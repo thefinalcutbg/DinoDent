@@ -1,0 +1,2 @@
+ALTER TABLE amblist ADD COLUMN treatment_end TEXT;
+PRAGMA user_version=35;

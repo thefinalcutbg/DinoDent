@@ -22,6 +22,7 @@ struct AmbList
 	long long patient_rowid{ 0 };
 	
 	std::string date{ FreeFn::getTimeStampLocal() };
+	std::string treatment_end;
 	std::string lrn;
 	std::string nrn;
 	std::string basedOn;

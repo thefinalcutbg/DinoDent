@@ -37,6 +37,8 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
 
     //the list is NEW:
 
+    m_amblist.treatment_end = FreeFn::getTimeStampUTC();
+
     m_amblist.nhifData.isUnfavourable =
         User::practice().isUnfavourable() &&
         patient->city.isUnfav();
@@ -101,6 +103,8 @@ void ListPresenter::makeEdited()
     m_amblist.signature_bitmap = {};
     m_amblist.signature_data.clear();
     view->setSignature({});
+
+    m_amblist.treatment_end = FreeFn::getTimeStampUTC();
 
     if (m_amblist.nrn.size()) {
         m_amblist.his_updated = false;
@@ -1386,7 +1390,6 @@ void ListPresenter::hisButtonPressed()
 
         makeEdited();
         view->setProcedures(m_amblist.procedures.list());
-        
     }
 
     //HIS Open
@@ -1470,7 +1473,12 @@ void ListPresenter::hisButtonPressed()
                 DbAmbList::setAutoStatus(m_amblist.nrn, false);
                 ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
             },
-            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
+            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) { 
+
+                setSignature(sig_bitmap, sig_data);
+                DbAmbList::update(m_amblist); 
+                edited = false; 
+            }
         );
 
         return;

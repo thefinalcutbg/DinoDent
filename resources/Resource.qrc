@@ -162,6 +162,7 @@
         <file>db_migrateTo32.txt</file>
         <file>db_migrateTo33.txt</file>
         <file>db_migrateTo34.txt</file>
+        <file>db_migrateTo35.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

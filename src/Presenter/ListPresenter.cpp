@@ -1392,6 +1392,10 @@ void ListPresenter::hisButtonPressed()
         view->setProcedures(m_amblist.procedures.list());
     }
 
+    if (m_amblist.treatment_end.empty()) {
+        m_amblist.treatment_end = FreeFn::getTimeStampUTC();
+    }
+
     //HIS Open
     if (m_amblist.nrn.empty()) {
 

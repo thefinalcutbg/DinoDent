@@ -214,7 +214,7 @@ const SurfaceStatus& Tooth::getSurfaceBoolStatus(int code) const
 
 	if (!surfaceCodeMap.count(static_cast<Status>(code))) return dummy;
 
-	return m_data[code] ? *surfaceCodeMap[static_cast<Status>(code)] : dummy;
+	return *surfaceCodeMap[static_cast<Status>(code)];
 }
 
 std::array<bool, Dental::MobilityCount> Tooth::getMobilityBoolStatus() const
@@ -414,7 +414,6 @@ void Tooth::setStatus(Status code, bool present) {
 
 void Tooth::setSurface(Dental::Status code, int surface, bool present)
 {
-
 	std::map<Status, SurfaceStatus*> surfaceCodeMap = {
 		{Restoration, &m_resto_surface},
 		{Caries, &m_caries_surface},

@@ -244,7 +244,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	std::array<std::string, Status::StatusCount> icdSimple{};
 
 	icdSimple[Caries] = "K02.1";
-	icdSimple[NonCariesLesion] = tooth->hasStatus(NonCariesLesion, 0) ? "K03.2" : "K03.1";
+	icdSimple[NonCariesLesion] = tooth && tooth->hasStatus(NonCariesLesion, 0) ? "K03.2" : "K03.1";
 	icdSimple[Pulpitis] = "K04.0";
 	icdSimple[ApicalLesion] = "K04.5";
 	icdSimple[Necrosis] = "K04.1";

@@ -214,7 +214,7 @@ const SurfaceStatus& Tooth::getSurfaceBoolStatus(int code) const
 
 	if (!surfaceCodeMap.count(static_cast<Status>(code))) return dummy;
 
-	return *surfaceCodeMap[static_cast<Status>(code)];
+	return m_data[code] ? *surfaceCodeMap[static_cast<Status>(code)] : dummy;
 }
 
 std::array<bool, Dental::MobilityCount> Tooth::getMobilityBoolStatus() const

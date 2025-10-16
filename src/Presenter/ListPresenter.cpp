@@ -1404,7 +1404,7 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_amblist,
             *patient,
-            [&](auto& nrn, auto& seqIdxPair, bool error) {
+            [&](auto& nrn, auto& seqIdxPair, bool outOfSync) {
 
                 if (nrn.empty()) {
                     return;
@@ -1417,7 +1417,7 @@ void ListPresenter::hisButtonPressed()
                     m_amblist.procedures[sequence].his_index = hisIdx;
                 }
 
-                m_amblist.his_updated = true;
+                m_amblist.his_updated = !outOfSync;
 
                 DbAmbList::update(m_amblist);
 
@@ -1429,9 +1429,10 @@ void ListPresenter::hisButtonPressed()
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
-                if (error) {
-                    //replace with auto-fetch when implemented
-                    ModalDialogBuilder::showError("Амбулаторният лист не е синхронизиран с НЗИС! Моля анулирайте и го изпратете отново.");
+                if (outOfSync) {
+                    hisButtonPressed();
+                    return;
+
                 }
                 else {
                     ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");

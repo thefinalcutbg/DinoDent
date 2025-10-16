@@ -1430,7 +1430,7 @@ void ListPresenter::hisButtonPressed()
                 }
 
                 if (outOfSync) {
-                    hisButtonPressed();
+                    ModalDialogBuilder::showMessage("Амбулаторният лист е десинхронизиран спрямо НЗИС. Изпратете го за корекция.");
                     return;
 
                 }

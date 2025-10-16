@@ -260,6 +260,11 @@ void DinoDent::setNotificationIcon(int activeNotifCount)
     }
 }
 
+void DinoDent::openIrc()
+{
+    ui.mircButton->click();
+}
+
 DinoDent::~DinoDent()
 {
     Theme::cleanUpFusionStyle();

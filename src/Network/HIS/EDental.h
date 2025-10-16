@@ -9,7 +9,7 @@ namespace EDental {
 
 	class Open : private HisService
 	{
-        std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool error)> m_callback;
+        std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool outOfSync)> m_callback;
 
         std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> m_sig_callback;
 

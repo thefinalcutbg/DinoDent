@@ -944,7 +944,12 @@ void ListPresenter::showAppliedStatus()
 
 void ListPresenter::showSignature()
 {
-    SignatureViewDialog(m_amblist.signature_bitmap, m_amblist.signature_data).exec();
+    SignatureViewDialog d(m_amblist.signature_bitmap, m_amblist.signature_data);
+    d.exec();
+
+    if(d.removeSignature()){
+        setSignature({}, "");
+	}
 }
 
 

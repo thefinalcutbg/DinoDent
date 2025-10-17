@@ -203,6 +203,30 @@ void ListPresenter::printPrv(bool toPdf)
 
 }
 
+void ListPresenter::fetchListProcedures(const std::string& nrn)
+{
+    eDentalFetchService.sendRequest(nrn,
+        [&](const AmbList& result, const Patient& patient) {
+                
+		    	m_amblist.nrn = result.nrn;
+                m_amblist.procedures = result.procedures;
+				m_amblist.his_updated = true;
+                
+				DbAmbList::update(m_amblist);
+
+                refreshTabName();
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                    view->setProcedures(m_amblist.procedures.list());
+                }
+
+                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+        }
+	);
+}
+
 void ListPresenter::dynamicNhifConversion()
 {
     if (User::hasNhifContract()) {
@@ -1409,7 +1433,12 @@ void ListPresenter::hisButtonPressed()
                 if (nrn.empty()) {
                     return;
                 }
-                
+
+                if (outOfSync) {
+                    fetchListProcedures(nrn);
+                    return;
+                }
+
                 m_amblist.nrn = nrn;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
@@ -1429,14 +1458,8 @@ void ListPresenter::hisButtonPressed()
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
-                if (outOfSync) {
-                    ModalDialogBuilder::showMessage("Амбулаторният лист е десинхронизиран спрямо НЗИС. Изпратете го за корекция.");
-                    return;
+                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
 
-                }
-                else {
-                    ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
-                }
             },
             [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
         );

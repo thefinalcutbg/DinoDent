@@ -42,6 +42,7 @@ class ListPresenter : public TabInstance
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::Augment eDentalAugmentService;
+	EDental::Fetch eDentalFetchService;
     EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
@@ -59,6 +60,7 @@ class ListPresenter : public TabInstance
     void setHisButtonToView();
     void makeEdited() override;
     void printPrv(bool toPdf);
+    void fetchListProcedures(const std::string& nrn);
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();

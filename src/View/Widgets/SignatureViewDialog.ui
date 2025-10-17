@@ -100,7 +100,7 @@
      <item>
       <widget class="QPushButton" name="removeSig">
        <property name="text">
-        <string>Изтрий подписа</string>
+        <string>Премахни</string>
        </property>
       </widget>
      </item>

@@ -33,7 +33,7 @@ SignatureViewDialog::SignatureViewDialog(const std::vector<unsigned char>& bitma
     connect(ui->removeSig, &QPushButton::clicked, [&]() {
 
         if(!ModalDialogBuilder::askDialog(
-            "Сигурни ли сте, че искате да изтриете този подпис?")
+            "Сигурни ли сте, че искате да премахнете този подпис?")
         ) 
         {
             return;

@@ -197,7 +197,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 	auto dbProcedures = DbProcedure::getNhifSummary(
 		patient.rowid,
 		0,
-		maxDate,
+		maxDate.tomorrow(),
 		Date(31, 12, m_year)
 	);
 

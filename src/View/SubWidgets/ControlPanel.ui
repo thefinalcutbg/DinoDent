@@ -483,12 +483,18 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
-          <verstretch>27</verstretch>
+          <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
           <width>161</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
           <height>27</height>
          </size>
         </property>
@@ -814,7 +820,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Дефектно възстановяване</string>
+    <string>Дефектно възстaнов.</string>
    </property>
   </widget>
   <widget class="StatusButton" name="NonCaries">

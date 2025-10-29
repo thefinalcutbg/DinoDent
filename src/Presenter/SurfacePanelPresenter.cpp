@@ -127,7 +127,7 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth, bool hasNotes)
 		else if (tooth.hasStatus(Dental::DefectiveRestoration, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::defective);
-			stateLabel[i] = "Дефектно възстановяване";
+            stateLabel[i] = "Дефектно възстанов.";
 		}
 		else if (tooth.hasStatus(Dental::NonCariesLesion, surface))
 		{

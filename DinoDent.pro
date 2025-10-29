@@ -199,7 +199,6 @@ HEADERS += \
     src/Network/PKCS11.h \
     src/Network/Telemetry.h \
     src/Network/UpdateService/UpdateService.h \
-    src/Network/XmlSigner.h \
     src/Network/crypto.h \
     src/Network/signer.h \
     src/Presenter/BrowserPresenter.h \
@@ -220,11 +219,9 @@ HEADERS += \
     src/Presenter/MedicationPresenter.h \
     src/Presenter/MonthNotifPresenter.h \
     src/Presenter/NewDocPresenter.h \
-    src/Presenter/NotificationListPresenter.h \
     src/Presenter/PatientDialogPresenter.h \
     src/Presenter/PatientHistoryPresenter.h \
     src/Presenter/PatientInfoPresenter.h \
-    src/Presenter/PatientSummaryPresenter.h \
     src/Presenter/PerioPresenter.h \
     src/Presenter/PisImportPresenter.h \
     src/Presenter/PracticeManagerPresenter.h \
@@ -279,38 +276,6 @@ HEADERS += \
     src/View/Interfaces/AbstractSpinBox.h \
     src/View/Interfaces/AbstractSurfaceSelector.h \
     src/View/Interfaces/AbstractUIElement.h \
-    src/View/Interfaces/IAllergiesDialog.h \
-    src/View/Interfaces/IBrowserDialog.h \
-    src/View/Interfaces/IDetailedStatusView.h \
-    src/View/Interfaces/IDoctorSettingsDialog.h \
-    src/View/Interfaces/IDosageDialog.h \
-    src/View/Interfaces/IFinancialView.h \
-    src/View/Interfaces/IFiscalReceiptDialog.h \
-    src/View/Interfaces/IFiscalReportView.h \
-    src/View/Interfaces/IImplantView.h \
-    src/View/Interfaces/IListView.h \
-    src/View/Interfaces/ILoginView.h \
-    src/View/Interfaces/IMainView.h \
-    src/View/Interfaces/IMedicationDialog.h \
-    src/View/Interfaces/IMonthNotifView.h \
-    src/View/Interfaces/IObturationView.h \
-    src/View/Interfaces/IPatientDialog.h \
-    src/View/Interfaces/IPatientSummaryView.h \
-    src/View/Interfaces/IPatientTileInfo.h \
-    src/View/Interfaces/IPerioView.h \
-    src/View/Interfaces/IPracticeDialog.h \
-    src/View/Interfaces/IPracticeDoctorSettings.h \
-    src/View/Interfaces/IPracticeSelectorView.h \
-    src/View/Interfaces/IPrescriptionView.h \
-    src/View/Interfaces/IProcedureEditDialog.h \
-    src/View/Interfaces/IProcedureInput.h \
-    src/View/Interfaces/IReferralDialog.h \
-    src/View/Interfaces/IReportFilesView.h \
-    src/View/Interfaces/IReportView.h \
-    src/View/Interfaces/ISettingsDialog.h \
-    src/View/Interfaces/IStatisticDialogView.h \
-    src/View/Interfaces/ISurfacePanel.h \
-    src/View/Interfaces/ITabView.h \
     src/View/ModalDialogBuilder.h \
     src/View/SubWidgets/ContextMenu.h \
     src/View/SubWidgets/ControlPanel.h \
@@ -329,7 +294,7 @@ HEADERS += \
     src/View/TableModels/BusinessOperationModel.h \
     src/View/TableModels/FiscalReceiptTableModel.h \
     src/View/TableModels/HospitalizationTableModel.h \
-    src/View/TableModels/MKBModel.h \
+    src/View/TableModels/ICDModel.h \
     src/View/TableModels/MedicationTableModel.h \
     src/View/TableModels/MonthNotifTableModel.h \
     src/View/TableModels/NameFilterProxyModel.h \
@@ -378,7 +343,6 @@ HEADERS += \
     src/View/Widgets/NotificationListDialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
-    src/View/Widgets/PatientSummary.h \
     src/View/Widgets/PerioStatusView.h \
     src/View/Widgets/PerioView.h \
     src/View/Widgets/PinPromptDialog.h \
@@ -576,7 +540,6 @@ SOURCES += \
     src/Network/PKCS11.cpp \
     src/Network/Telemetry.cpp \
     src/Network/UpdateService/UpdateService.cpp \
-    src/Network/XmlSigner.cpp \
     src/Network/crypto.cpp \
     src/Network/signer.cpp \
     src/Presenter/BrowserPresenter.cpp \
@@ -599,7 +562,6 @@ SOURCES += \
     src/Presenter/PatientDialogPresenter.cpp \
     src/Presenter/PatientHistoryPresenter.cpp \
     src/Presenter/PatientInfoPresenter.cpp \
-    src/Presenter/PatientSummaryPresenter.cpp \
     src/Presenter/PerioPresenter.cpp \
     src/Presenter/PisImportPresenter.cpp \
     src/Presenter/PracticeManagerPresenter.cpp \
@@ -655,7 +617,6 @@ SOURCES += \
     src/View/Interfaces/AbstractDateEdit.cpp \
     src/View/Interfaces/AbstractLineEdit.cpp \
     src/View/Interfaces/AbstractUIElement.cpp \
-    src/View/Interfaces/ITabView.cpp \
     src/View/ModalDialogBuilder.cpp \
     src/View/SubWidgets/ContextMenu.cpp \
     src/View/SubWidgets/ControlPanel.cpp \
@@ -674,7 +635,7 @@ SOURCES += \
     src/View/TableModels/BusinessOperationModel.cpp \
     src/View/TableModels/FiscalReceiptTableModel.cpp \
     src/View/TableModels/HospitalizationTableModel.cpp \
-    src/View/TableModels/MKBModel.cpp \
+    src/View/TableModels/ICDModel.cpp \
     src/View/TableModels/MedicationTableModel.cpp \
     src/View/TableModels/MonthNotifTableModel.cpp \
     src/View/TableModels/NameFilterProxyModel.cpp \
@@ -719,10 +680,8 @@ SOURCES += \
     src/View/Widgets/NewDocDialog.cpp \
     src/View/Widgets/NotesTemplateDialog.cpp \
     src/View/Widgets/NotificationDialog.cpp \
-    src/View/Widgets/NotificationListDialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientHistoryDialog.cpp \
-    src/View/Widgets/PatientSummary.cpp \
     src/View/Widgets/PerioStatusView.cpp \
     src/View/Widgets/PerioView.cpp \
     src/View/Widgets/PinPromptDialog.cpp \
@@ -752,6 +711,7 @@ SOURCES += \
     src/View/Widgets/UpdateDownloader.cpp \
     src/View/Widgets/UpdatePromptDialog.cpp \
     src/View/Widgets/WelcomeWidget.cpp \
+    src/View/Widgets/notificationlistdialog.cpp \
     src/View/uiComponents/AutoCompleteLineEdit.cpp \
     src/View/uiComponents/BigPushButton.cpp \
     src/View/uiComponents/CalendarTable.cpp \
@@ -836,7 +796,6 @@ FORMS += \
     src/View/Widgets/NotificationListDialog.ui \
     src/View/Widgets/PatientFormDialog.ui \
     src/View/Widgets/PatientHistoryDialog.ui \
-    src/View/Widgets/PatientSummary.ui \
     src/View/Widgets/PerioStatusView.ui \
     src/View/Widgets/PerioView.ui \
     src/View/Widgets/PinPromptDialog.ui \

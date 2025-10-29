@@ -359,8 +359,8 @@ void ReportPresenter::finish()
 
 
 	view->appendText(
-		"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
-		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
+		"Минути дейност: " + std::to_string(sumMinutes) + " мин.\n"
+		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + " мин.\n"
 		"Очаквана сума : " + FreeFn::formatDouble(sumPrice) + " лв."
 	);
 

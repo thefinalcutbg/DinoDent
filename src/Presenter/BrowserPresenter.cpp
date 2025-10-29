@@ -2,6 +2,7 @@
 #include "View/Interfaces/IBrowserDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
+#include "Presenter/PatientDialogPresenter.h"
 #include "Database/DbPrescription.h"
 #include "Database/DbInvoice.h"
 #include "Database/DbProcedure.h"
@@ -200,6 +201,7 @@ void BrowserPresenter::openCurrentSelection()
 				"Нова рецепта",
 				"Нова фактура",
 				"Ново пародонтално измерване",
+				"Запази посещение",
 				"Пациентско досие"
 			},
 			"Отвори"
@@ -207,11 +209,12 @@ void BrowserPresenter::openCurrentSelection()
 
 		if (result == -1) return;
 
-		static TabType arr[5]{
+		static TabType arr[] = {
 			TabType::AmbList,
 			TabType::Prescription,
 			TabType::Financial,
 			TabType::PerioStatus,
+			TabType::Calendar,
 			TabType::PatientSummary
 		};
 
@@ -315,4 +318,18 @@ void BrowserPresenter::openPatientDocuments(const std::set<int>& selectedIndexes
 	}
 
 	if (view) view->close();
+}
+
+void BrowserPresenter::editPatientData()
+{
+	if(m_selectedInstances.empty()) return;
+	
+	auto patient = DbPatient::get(m_selectedInstances[0]->patientRowId);
+
+	PatientDialogPresenter d(patient);
+	auto result = d.open();
+
+	if (result) {
+		refreshModel();
+	}
 }

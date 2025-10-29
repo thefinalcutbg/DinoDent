@@ -238,6 +238,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 
 
 	if (ui.tabBar->currentIndex() != 4) {
+
 		action = (new QAction("Нов амбулаторен лист", main_menu));
         connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::AmbList); });
 		action->setIcon(QIcon(":/icons/icon_sheet.png"));
@@ -266,6 +267,11 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		action = (new QAction("Пациентско досие", main_menu));
 		connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::PatientSummary); });
 		action->setIcon(QIcon(":/icons/icon_history.png"));
+		main_menu->addAction(action);
+
+		action = (new QAction("Редактирай данните на пациена", main_menu));
+		connect(action, &QAction::triggered, this, [=, this] { presenter.editPatientData(); });
+		action->setIcon(QIcon(":/icons/icon_edit.png"));
 		main_menu->addAction(action);
 	}
 

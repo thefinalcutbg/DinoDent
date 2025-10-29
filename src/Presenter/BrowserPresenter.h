@@ -7,7 +7,7 @@
 #include "Model/PlainTable.h"
 #include "Model/User.h"
 
-class IBrowserDialog;
+class BrowserDialog;
 
 struct BrowserUiState {
 	Date from{ 1, Date::currentMonth(), Date::currentYear() };
@@ -19,7 +19,7 @@ struct BrowserUiState {
 
 class BrowserPresenter
 {
-	IBrowserDialog* view{ nullptr };
+	BrowserDialog* view{ nullptr };
 
 	static inline BrowserUiState ui_state;
 
@@ -36,7 +36,7 @@ class BrowserPresenter
 
 public:
 
-	void setView(IBrowserDialog* view);
+	void setView(BrowserDialog* view);
 
 	void setDates(const Date& from, const Date& to);
 
@@ -48,6 +48,6 @@ public:
 	void openCurrentSelection();
 	void deleteCurrentSelection();
 	void openPatientDocuments(const std::set<int>& selectedIndexes);
-
+	void editPatientData();
 };
 

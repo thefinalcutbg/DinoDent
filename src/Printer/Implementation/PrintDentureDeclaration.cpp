@@ -31,7 +31,7 @@ bool Print::printDentureDeclaration(const Patient* patient, const AmbList* ambli
     if (declaratorType > 0) {
 
         PatientDialogPresenter p("Въведете родител/настойник/попечител");
-        auto declaratorResult = p.open();
+        auto declaratorResult = p.getPatient();
 
         if (!declaratorResult) return false;
 

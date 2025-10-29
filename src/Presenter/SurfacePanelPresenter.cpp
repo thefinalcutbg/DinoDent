@@ -1,7 +1,11 @@
 ﻿#include "SurfacePanelPresenter.h"
+
 #include "Model/Dental/ToothUtils.h"
+
 #include "Presenter/ListPresenter.h"
+
 #include "View/Graphics/PaintHint.h"
+#include "View/SubWidgets/SurfacePanel.h"
 
 using namespace Dental;
 
@@ -9,7 +13,12 @@ SurfacePanelPresenter::SurfacePanelPresenter() : view(nullptr), statusControl(nu
 {
 }
 
-void SurfacePanelPresenter::setView(ISurfacePanel* view)
+void SurfacePanelPresenter::notesClicked()
+{
+	statusControl->openDetails();
+}
+
+void SurfacePanelPresenter::setView(SurfacePanel* view)
 {
 	this->view = view;
 }
@@ -22,7 +31,7 @@ void SurfacePanelPresenter::setStatusControl(ListPresenter* s_ctrl)
 
 void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click)
 {
-	auto [surface, state] = surfaceState[static_cast<int>(position)];
+	auto& [surface, state] = surfaceState[static_cast<int>(position)];
 
 	if (click == SurfaceClick::leftClick)
 	{
@@ -40,6 +49,15 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			break;
 		case SurfaceState::secondary:
 			statusControl->setToothStatus(StatusType::Caries, surface);
+			statusControl->setToothStatus(StatusType::Restoration, surface);
+			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
+			break;
+		case SurfaceState::defective:
+			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
+			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+			break;
+		case SurfaceState::nonCaries:
+			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
 			break;
 		}
 	}
@@ -57,6 +75,12 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			statusControl->setToothStatus(StatusType::Restoration, surface);
 			statusControl->setToothStatus(StatusType::Caries, surface);
 			break;
+		case SurfaceState::defective:
+			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
+			break;
+		case SurfaceState::nonCaries:
+			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+			break;
 		case SurfaceState::none:
 			break;
 		};
@@ -64,25 +88,17 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 
 }
 
-void SurfacePanelPresenter::sideCariesClicked() {	
-statusControl->setToothStatus(StatusType::Caries, (matrix.getSurface(currentIndex, ButtonPos::side)));
+void SurfacePanelPresenter::sideButtonClicked(Dental::StatusType stat)
+{
+	statusControl->setToothStatus(stat, (matrix.getSurface(currentIndex, ButtonPos::side)));
 }
 
-void SurfacePanelPresenter::sideRestorationClicked(){
-statusControl->setToothStatus(StatusType::Restoration, (matrix.getSurface(currentIndex, ButtonPos::side)));
-}
-
-void SurfacePanelPresenter::setTooth(const Tooth& tooth)
+void SurfacePanelPresenter::setTooth(const Tooth& tooth, bool hasNotes)
 {
 	currentIndex = tooth.index();
 
-	view->paintTooth(ToothPaintHint(tooth));
+	view->paintTooth(ToothPaintHint(tooth), hasNotes);
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
-
-	view->setSideButtonsClicked(
-		tooth.hasRestoration(static_cast<int>(surface)),
-		tooth.hasCaries(static_cast<int>(surface))
-	);
 
 	std::array<std::string, 6> stateLabel;
 	std::array<std::string, 6> surfaceName;
@@ -93,21 +109,30 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 		auto surface = matrix.getSurface(currentIndex, static_cast<ButtonPos>(i));
 		surfaceName[i] = unorderedSurfaces[static_cast<int>(surface)];
 
-		if (tooth.hasRestoration(surface) && tooth.hasCaries(surface))
+		if (tooth.hasStatus(Dental::Restoration, surface) && tooth.hasStatus(Dental::Caries, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::secondary);
-			stateLabel[i] = "Дефектно възстановяване";
+			stateLabel[i] = "Вторичен кариес";
 		}
-		else if (tooth.hasRestoration(surface))
+		else if (tooth.hasStatus(Dental::Restoration, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::restoration);
 			stateLabel[i] = "Възстановяване";
 		}
-
-		else if (tooth.hasCaries(surface))
+		else if (tooth.hasStatus(Dental::Caries, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
-			stateLabel[i] = "Патология на ТЗТ (кариес или др.)";
+			stateLabel[i] = "Кариес";
+		}
+		else if (tooth.hasStatus(Dental::DefectiveRestoration, surface))
+		{
+			surfaceState[i] = std::make_tuple(surface, SurfaceState::defective);
+			stateLabel[i] = "Дефектно възстановяване";
+		}
+		else if (tooth.hasStatus(Dental::NonCariesLesion, surface))
+		{
+			surfaceState[i] = std::make_tuple(surface, SurfaceState::nonCaries);
+			stateLabel[i] = "Некариозна лезия";
 		}
 		else 
 		{

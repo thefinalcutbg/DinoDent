@@ -3,10 +3,11 @@
 #include <QWidget>
 #include "ui_FinancialView.h"
 #include "Presenter/FinancialPresenter.h"
-#include "View/Interfaces/IFinancialView.h"
 #include "View/TableModels/BusinessOperationModel.h"
 
-class FinancialView : public QWidget, public IFinancialView
+struct Invoice;
+
+class FinancialView : public QWidget
 {
 	Q_OBJECT
 
@@ -21,11 +22,11 @@ class FinancialView : public QWidget, public IFinancialView
 public:
 	FinancialView(QWidget *parent = Q_NULLPTR);
 
-	void setPresenter(FinancialPresenter* presenter) override;
-	void setInvoice(const Invoice& inv) override;
-    void setBusinessOperations(const BusinessOperations& businessOp, double amount, bool hasVat) override;
-    void setMainDocument(const std::optional<MainDocument>& mainDoc) override;
-	void setNumberSpinBox(long long num) override;
+	void setPresenter(FinancialPresenter* presenter);
+	void setInvoice(const Invoice& inv);
+    void setBusinessOperations(const BusinessOperations& businessOp, double amount, bool hasVat);
+    void setMainDocument(const std::optional<MainDocument>& mainDoc);
+	void setNumberSpinBox(long long num);
 
 	~FinancialView();
 

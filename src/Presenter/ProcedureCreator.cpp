@@ -2,6 +2,7 @@
 #include <set>
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/SubWidgets/ProcedureInput.h"
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
@@ -37,7 +38,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 	}
 
 	//setting common data
-	IProcedureInput::CommonData commonData;
+	ProcedureInput::CommonData commonData;
 
 	if (User::settings().autoDiagnosis){
 		auto & defaultICDCode = code.defaultICD10();
@@ -244,9 +245,13 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	std::array<std::string, Status::StatusCount> icdSimple{};
 
 	icdSimple[Caries] = "K02.1";
+	icdSimple[NonCariesLesion] = tooth && tooth->hasStatus(NonCariesLesion, 0) ? "K03.2" : "K03.1";
 	icdSimple[Pulpitis] = "K04.0";
 	icdSimple[ApicalLesion] = "K04.5";
+	icdSimple[Necrosis] = "K04.1";
+	icdSimple[DefectiveRestoration] = "";
 	icdSimple[Periodontitis] = "K05.4";
+	icdSimple[Resorption] = "K03.3";
 	icdSimple[Fracture] = "S02.5";
 	icdSimple[Root] = "S02.5";
 	icdSimple[Mobility] = "S03.2";
@@ -289,7 +294,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 
 	case ProcedureType::Restoration:
 		icd = "K03.7";
-		statusSearch = { Fracture, Caries, Pulpitis, ApicalLesion, Root };
+		statusSearch = { Fracture, Caries, NonCariesLesion, DefectiveRestoration, Necrosis, Pulpitis, ApicalLesion, Root };
 		break;
 	case ProcedureType::RemoveRestoration:
 		statusSearch = { Pulpitis, ApicalLesion, Fracture, Caries, Periodontitis };
@@ -304,11 +309,11 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		}
 
 		icd = "K07.3"; //assume ortho reason
-        statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
+        statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Necrosis, Resorption, Temporary, Caries };
 		break;
 
 	case ProcedureType::Endodontic:
-		statusSearch = { Pulpitis, ApicalLesion, Root, Fracture, Periodontitis, RootCanal };
+		statusSearch = { Pulpitis, ApicalLesion, Necrosis, Resorption, Root, Fracture, Periodontitis, RootCanal };
 		break;
 
 	case ProcedureType::RemovePost:
@@ -372,7 +377,7 @@ RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 
 	for (int i = 0; i < 6; i++)
 	{
-		surfaces[i] = tooth.hasCaries(i);
+		surfaces[i] = tooth.hasStatus(Caries, i) || tooth.hasStatus(DefectiveRestoration, i) || tooth.hasStatus(NonCariesLesion, i);
 	}
 
 	if (tooth[Root])
@@ -405,7 +410,7 @@ RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			if (tooth.hasRestoration(i))
+			if (tooth.hasStatus(Restoration, i))
 				surfaces[i] = true;
 		}
 	}
@@ -465,7 +470,7 @@ ConstructionRange ProcedureCreator::autoRange(const std::vector<const Tooth*> se
 }
 
 
-void ProcedureCreator::setView(IProcedureInput* view)
+void ProcedureCreator::setView(ProcedureInput* view)
 {
 	this->view = view;
 

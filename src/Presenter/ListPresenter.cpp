@@ -5,8 +5,11 @@
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
 #include "Database/DbMedicalNotice.h"
+
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
+#include "Model/FreeFunctions.h"
+
 #include "Presenter/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"
@@ -14,15 +17,18 @@
 #include "Presenter/PatientHistoryPresenter.h"
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Presenter/FiscalReceiptPresenter.h"
-#include "Model/FreeFunctions.h"
+
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
+#include "View/Widgets/SignatureViewDialog.h"
+#include "View/Widgets/ListView.h"
+#include "View/Widgets/TabView.h"
+
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
-#include "View/Widgets/SignatureViewDialog.h"
 
-ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
+ListPresenter::ListPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
     patient_info(tabView->listView()->tileInfo(), patient),
@@ -36,6 +42,8 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     if (m_amblist.rowid) return;
 
     //the list is NEW:
+
+    m_amblist.treatment_end = FreeFn::getTimeStampUTC();
 
     m_amblist.nhifData.isUnfavourable =
         User::practice().isUnfavourable() &&
@@ -60,7 +68,7 @@ void ListPresenter::statusChanged()
     }
 
     if (m_selectedIndexes.size() == 1)
-        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]]);
+        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
 
     makeEdited();
 }
@@ -70,7 +78,7 @@ void ListPresenter::setHisButtonToView()
     if (m_amblist.nrn.empty()) {
         
         view->setHisButtonText(
-            IListView::HisButtonProperties
+            ListView::HisButtonProperties
             {
                 .hideSpinBox = false,
                 .buttonText = "Изпрати към НЗИС",
@@ -83,7 +91,7 @@ void ListPresenter::setHisButtonToView()
 
     if (m_amblist.nrn.size())
     {
-        IListView::HisButtonProperties prop
+        ListView::HisButtonProperties prop
         {
             .hideSpinBox = true,
             .buttonText = m_amblist.his_updated ? m_amblist.nrn : "Изпрати за корекция",
@@ -101,6 +109,8 @@ void ListPresenter::makeEdited()
     m_amblist.signature_bitmap = {};
     m_amblist.signature_data.clear();
     view->setSignature({});
+
+    m_amblist.treatment_end = FreeFn::getTimeStampUTC();
 
     if (m_amblist.nrn.size()) {
         m_amblist.his_updated = false;
@@ -197,6 +207,30 @@ void ListPresenter::printPrv(bool toPdf)
         return;
 	}
 
+}
+
+void ListPresenter::fetchListProcedures(const std::string& nrn)
+{
+    eDentalFetchService.sendRequest(nrn,
+        [&](const AmbList& result, const Patient& patient) {
+                
+		    	m_amblist.nrn = result.nrn;
+                m_amblist.procedures = result.procedures;
+				m_amblist.his_updated = true;
+                
+				DbAmbList::update(m_amblist);
+
+                refreshTabName();
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                    view->setProcedures(m_amblist.procedures.list());
+                }
+
+                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+        }
+	);
 }
 
 void ListPresenter::dynamicNhifConversion()
@@ -659,6 +693,8 @@ void ListPresenter::setToothStatus(Dental::StatusType t, int code, bool supernum
         case Dental::StatusType::General: state = checkModel.generalStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Restoration: state = checkModel.restorationStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Caries: state = checkModel.cariesStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::DefectiveRestoration: state = checkModel.defRestoStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::NonCariesLesion: state = checkModel.nonCariesStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Mobility: state = checkModel.mobilityStatus[code] != CheckState::checked; break;
     }
 
@@ -688,7 +724,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->setCheckModel(m_checkModel, m_dsnCheckModel);
 
     if(m_selectedIndexes.size() == 1){
-        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]]);
+        surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
         view->hideSurfacePanel(false);
     }
     else {
@@ -769,14 +805,18 @@ void ListPresenter::openDetails(int toothIdx)
     patient->teethNotes[toothIdx] = d.getNote();
 
     view->setNotes(patient->teethNotes);
-  
+    surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
     view->repaintTooth(ToothPaintHint(m_amblist.teeth[toothIdx], patient->teethNotes[toothIdx]));
 
 }
 
 void ListPresenter::openDetails()
 {
-    if (m_selectedIndexes.size() == 1) openDetails(m_selectedIndexes[0]);
+    if (m_selectedIndexes.size() != 1) {
+        return;
+    }
+    
+    openDetails(m_selectedIndexes[0]);
 }
 
 void ListPresenter::refreshProcedureView()
@@ -910,7 +950,12 @@ void ListPresenter::showAppliedStatus()
 
 void ListPresenter::showSignature()
 {
-    SignatureViewDialog(m_amblist.signature_bitmap, m_amblist.signature_data).exec();
+    SignatureViewDialog d(m_amblist.signature_bitmap, m_amblist.signature_data);
+    d.exec();
+
+    if(d.removeSignature()){
+        setSignature({}, "");
+	}
 }
 
 
@@ -1380,7 +1425,10 @@ void ListPresenter::hisButtonPressed()
 
         makeEdited();
         view->setProcedures(m_amblist.procedures.list());
-        
+    }
+
+    if (m_amblist.treatment_end.empty()) {
+        m_amblist.treatment_end = FreeFn::getTimeStampUTC();
     }
 
     //HIS Open
@@ -1396,7 +1444,12 @@ void ListPresenter::hisButtonPressed()
                 if (nrn.empty()) {
                     return;
                 }
-                
+
+                if (outOfSync) {
+                    fetchListProcedures(nrn);
+                    return;
+                }
+
                 m_amblist.nrn = nrn;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
@@ -1416,13 +1469,8 @@ void ListPresenter::hisButtonPressed()
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
-                if (outOfSync) {
-                    ModalDialogBuilder::showMessage("Амбулаторният лист е десинхронизиран спрямо НЗИС. Изпратете го за корекция.");
-                    return;
-                }
-                else {
-                    ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
-                }
+                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+
             },
             [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
         );
@@ -1464,7 +1512,12 @@ void ListPresenter::hisButtonPressed()
                 DbAmbList::setAutoStatus(m_amblist.nrn, false);
                 ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
             },
-            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
+            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) { 
+
+                setSignature(sig_bitmap, sig_data);
+                DbAmbList::update(m_amblist); 
+                edited = false; 
+            }
         );
 
         return;

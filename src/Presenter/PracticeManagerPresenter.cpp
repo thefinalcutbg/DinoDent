@@ -1,11 +1,16 @@
 ﻿#include "PracticeManagerPresenter.h"
+
 #include "Database/DbPractice.h"
-#include "View/ModalDialogBuilder.h"
-#include "View/Widgets/PracticeDialog.h"
-#include "GlobalSettings.h"
 #include "Database/Database.h"
 #include "Database/DbDoctor.h"
 #include "DbUpdates/Updater.h"
+
+#include "View/ModalDialogBuilder.h"
+#include "View/Widgets/PracticeSelectorView.h"
+
+#include "View/Widgets/PracticeDialog.h"
+#include "GlobalSettings.h"
+
 #include "Presenter/DoctorDialogPresenter.h"
 
 PracticeManagerPresenter::PracticeManagerPresenter() :
@@ -13,7 +18,7 @@ PracticeManagerPresenter::PracticeManagerPresenter() :
 {
 }
 
-void PracticeManagerPresenter::setView(IPracticeSelectorView* view)
+void PracticeManagerPresenter::setView(PracticeSelectorView* view)
 {
 	this->view = view;
 	

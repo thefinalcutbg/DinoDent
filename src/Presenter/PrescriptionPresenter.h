@@ -1,12 +1,16 @@
 #pragma once
 #include "TabInstance.h"
-#include "View/Interfaces/IPrescriptionView.h"
+
 #include "Model/Prescription/Prescription.h"
 #include "Network/HIS/EPrescription.h"
 #include "Presenter/PatientInfoPresenter.h"
+
+class TabView;
+class PrescriptionView;
+
 class PrescriptionPresenter : public TabInstance
 {
-	IPrescriptionView* view;
+	PrescriptionView* view;
 
 	Prescription m_prescription;
 
@@ -25,7 +29,7 @@ class PrescriptionPresenter : public TabInstance
 	}
 
 public:
-	PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
+	PrescriptionPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
 
 	void nrnButtonClicked();
 	void checkStatus();

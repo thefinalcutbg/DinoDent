@@ -30,19 +30,27 @@ DsnMenu::DsnMenu()
     addAction(menuAction[Dental::Healthy]);
     addAction(menuAction[Dental::Temporary]);
 
-    QMenu* ObturMenu = addMenu("&Възстановяване");
-    QMenu* CariesMenu = addMenu("&Патология на ТЗТ");
+    QMenu* obturMenu = addMenu("&Възстановяване");
+    QMenu* defObturMenu = addMenu("&Дефектно възстановяване");
+    QMenu* cariesMenu = addMenu("&Кариес");
+    QMenu* nonCariesMenu = addMenu("&Некариозна лезия");
     QMenu* MobilityMenu = addMenu("&Подвижност");
 
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
     for (int i = 0; i < SurfaceCount; i++)
     {
-        surfObt[i] = ObturMenu->addAction(surfName[i]);
+        surfObt[i] = obturMenu->addAction(surfName[i]);
         connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i, true); });
 
-        surfCar[i] = CariesMenu->addAction(surfName[i]);
+        surfDefObt[i] = defObturMenu->addAction(surfName[i]);
+        connect(surfDefObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::DefectiveRestoration, i, true); });
+
+        surfCar[i] = cariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i, true); });
+
+        surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
+        connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i, true); });
     }
 
     for (int i = 0; i < MobilityCount; i++)
@@ -57,6 +65,8 @@ DsnMenu::DsnMenu()
    
     addAction(menuAction[Dental::Pulpitis]);
     addAction(menuAction[Dental::ApicalLesion]);
+    addAction(menuAction[Dental::Necrosis]);
+    addAction(menuAction[Dental::Resorption]);
     addAction(menuAction[Dental::RootCanal]);
     addAction(menuAction[Dental::Post]);
     addAction(menuAction[Dental::Missing]);
@@ -78,4 +88,6 @@ void DsnMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.restorationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
+    this->setModel(checkModel.nonCariesStatus, surfNonCar);
+    this->setModel(checkModel.defRestoStatus, surfDefObt);
 }

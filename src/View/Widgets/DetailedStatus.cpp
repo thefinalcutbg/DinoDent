@@ -3,16 +3,16 @@
 #include <QIcon>
 #include <QPainter>
 #include <QCursor>
+#include <QRadioButton>
 
 #include "Presenter/DetailedStatusPresenter.h"
-#include <QRadioButton>
 
 DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(presenter)
 {
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowFlags(Qt::Window);
-	setWindowTitle("Детайли");
+	setWindowTitle("Бележки и извършени процедури");
 
 	ui.localCheck->setIcon(QIcon(":/icons/icon_db.png"));
 	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
@@ -37,14 +37,11 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 void DetailedStatus::setNotes(const std::string& notes)
 {
 	ui.notesEdit->setText(notes.c_str());
-	
-	if (notes.size()) {
-		ui.tabWidget->setCurrentIndex(1);
-	}
-	else
-	{
-		ui.tabWidget->setCurrentIndex(0);
-	}
+}
+
+void DetailedStatus::focusNotes(bool focus)
+{
+	ui.tabWidget->setCurrentIndex(focus ? 1 : 0);
 }
 
 
@@ -78,6 +75,20 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
 	ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+	if (history.empty()) return;
+
+	//ensuring ui change, if the model is set programatically
+
+	ui.buttonGroup->blockSignals(true);
+
+		switch (history.at(0).db_source) {
+		case Procedure::HIS: ui.hisCheck->setChecked(true); break;
+		case Procedure::PIS: ui.pisCheck->setChecked(true); break;
+		case Procedure::Local: ui.localCheck->setChecked(true); break;
+	}
+
+	ui.buttonGroup->blockSignals(false);
 }
 
 void DetailedStatus::sendTableStatesToPresenter()

@@ -15,8 +15,8 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
     Db db("INSERT INTO amblist "
-        "(date, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi, sig_bitmap, sig_data) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        "(date, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi, sig_bitmap, sig_data, treatment_end) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)");
    
     bool sheetIsNhif = sheet.isNhifSheet();
 
@@ -34,6 +34,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     db.bind(12, User::practice().rziCode);
 	sheet.signature_bitmap.size() ? db.bind(13, sheet.signature_bitmap) : db.bindNull(13);
     db.bind(14, sheet.signature_data);
+    db.bind(15, sheet.treatment_end);
 
     if (!db.execute()) {
         return 0;
@@ -62,7 +63,8 @@ void DbAmbList::update(const AmbList& sheet)
         "nhif_unfav=?,"
         "status=?,"
         "sig_bitmap=?, "
-        "sig_data=? "
+        "sig_data=?, "
+        "treatment_end=? "
         "WHERE rowid=?"
     ;
     
@@ -78,7 +80,8 @@ void DbAmbList::update(const AmbList& sheet)
     db.bind(7, Parser::write(sheet.teeth));
 	sheet.signature_bitmap.size() ? db.bind(8, sheet.signature_bitmap) : db.bindNull(8);
     db.bind(9, sheet.signature_data);
-    db.bind(10, sheet.rowid);
+    db.bind(10, sheet.treatment_end);
+    db.bind(11, sheet.rowid);
 
     db.execute();
 
@@ -97,7 +100,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     Db db;
     std::string query(
     
-        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, status, date, sig_bitmap, sig_data FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, status, date, sig_bitmap, sig_data, treatment_end FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -125,6 +128,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         ambList.date = db.asString(8);
         ambList.signature_bitmap = db.asBlob(9);
         ambList.signature_data = db.asString(10);
+        ambList.treatment_end = db.asString(11);
     }
 
     if (ambList.isNew())
@@ -200,7 +204,7 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, date, sig_bitmap, sig_data FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, date, sig_bitmap, sig_data, treatment_end FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -220,6 +224,7 @@ AmbList DbAmbList::getListData(long long rowId)
         ambList.date = db.asString(10);
         ambList.signature_bitmap = db.asBlob(11);
         ambList.signature_data = db.asString(12);
+        ambList.treatment_end = db.asString(13);
     }
 
     Parser::parse(status, ambList.teeth);

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "ui_MonthNotifView.h"
-#include "View/Interfaces/IMonthNotifView.h"
+
 #include "View/TableModels/MonthNotifTableModel.h"
 
 class MonthNotifPresenter;
 
-class MonthNotifView final: public QWidget, public IMonthNotifView
+class MonthNotifView final: public QWidget
 {
 	Q_OBJECT
 
@@ -24,10 +24,11 @@ public:
 	MonthNotifView(QWidget *parent = nullptr);
 	void setPresenter(MonthNotifPresenter* presenter);
 	void hasBeenShown();
-	// Inherited via IMonthNotifView
-	void setMonthNotifRows(const std::vector<MonthNotifRow> rows) override;
-	void closeParentDialog() override;
 	void setParentDialog(QDialog* d) { parent_dialog = d; }
+
+	void setMonthNotifRows(const std::vector<MonthNotifRow> rows);
+	void closeParentDialog();
+
 	~MonthNotifView();
 
 private:

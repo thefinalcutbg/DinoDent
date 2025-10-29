@@ -3,12 +3,12 @@
 #include <QDialog>
 #include "ui_FiscalReceiptDialog.h"
 
-#include "View/Interfaces/IFiscalReceiptDialog.h"
 #include "Model/Validators/CommonValidators.h"
+#include "Model/Financial/FiscalReceipt.h"
 
 class FiscalReceiptPresenter;
 
-class FiscalReceiptDialog : public QDialog, public IFiscalReceiptDialog
+class FiscalReceiptDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -20,13 +20,12 @@ class FiscalReceiptDialog : public QDialog, public IFiscalReceiptDialog
 
 public:
     FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *parent = nullptr);
+
+	void setReceipt(const std::string& timestamp, const std::string& fiscalMemory);
+	FiscalReceipt getReceipt();
+
 	~FiscalReceiptDialog();
 
 private:
 	Ui::FiscalReceiptDialogClass ui;
-
-	// Inherited via IFiscalReceiptDialog
-    void setReceipt(const std::string& timestamp, const std::string& fiscalMemory) final;
-	FiscalReceipt getReceipt() final;
-	void closeDialog() final { close(); }
 };

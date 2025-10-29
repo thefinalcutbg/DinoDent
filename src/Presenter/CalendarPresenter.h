@@ -5,7 +5,7 @@
 #include <QDate>
 
 class CalendarView;
-
+class TabView;
 
 struct CalendarCacheKey {
 	int calendarIdx;
@@ -67,7 +67,7 @@ class CalendarPresenter : public TabInstance
 
 public:
 
-	CalendarPresenter(ITabView* view);
+	CalendarPresenter(TabView* view);
 	void newAppointment(const CalendarEvent& event);
 
 	// Inherited via TabInstance

@@ -24,7 +24,7 @@ public:
 
 	void setSelectionLabel(const std::vector<int>& selectedTeethNum);
 
-	IProcedureInput* procedureInput();
+	ProcedureInput* procedureInput();
 	ProcedureListView* procedureList();
 
 private:

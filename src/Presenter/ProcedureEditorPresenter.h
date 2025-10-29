@@ -1,17 +1,16 @@
 #pragma once
 #include <optional>
-#include "View/Interfaces/IProcedureEditDialog.h"
+
 #include "Model/Dental/Procedure.h"
 
 #include "Model/Validators/ProcedureDateValidator.h"
 
-
+class ProcedureEditDialog;
 
 class ProcedureEditorPresenter
 {
-
 	//NotEmptyValidator not_emptyValidator;
-	IProcedureEditDialog* view;
+	ProcedureEditDialog* view;
 	std::optional<Procedure> result;
 
 	ProcedureDateValidator _dateValidator;
@@ -24,7 +23,7 @@ class ProcedureEditorPresenter
 public:
 	ProcedureEditorPresenter(const Procedure& m, const Date& patientBirth);
 	std::optional<Procedure> openDialog();
-	void setView(IProcedureEditDialog* view);
+	void setView(ProcedureEditDialog* view);
 	void okPressed();
 };
 

@@ -7,7 +7,7 @@ DosagePresenter::DosagePresenter(int medicationFormUnit)
 	m_dosage.doseQuantity.setUnitFromCL010(Medication::getFormByKey(medicationFormUnit));
 }
 
-void DosagePresenter::setView(IDosageDialog* view)
+void DosagePresenter::setView(DosageDialog* view)
 {
 	this->view = view;
 
@@ -18,13 +18,15 @@ void DosagePresenter::okPressed()
 {
 	if(view->fieldsAreValid()) {
 		ok_pressed = true;
-		view->closeUi();
+		view->close();
 	}
 }
 
 std::optional<Dosage> DosagePresenter::openDialog()
 {
-    ModalDialogBuilder::openDialog(*this);
+    DosageDialog d(*this);
+
+	d.exec();
 
 	if (ok_pressed) return m_dosage;
 

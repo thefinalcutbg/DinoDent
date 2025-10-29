@@ -6,12 +6,12 @@
 #include "Model/Dental/Procedure.h"
 #include "Model/Dental/Tooth.h"
 #include "Model/Validators/CommonValidators.h"
-#include "View/Interfaces/IProcedureInput.h"
+
+class ProcedureInput;
 
 class ProcedureCreator
 {
-
-	IProcedureInput* view{ nullptr };
+	ProcedureInput* view{ nullptr };
 
 	ProcedureCode m_code;
 	std::map<ProcedureType, Diagnosis> diag_map;
@@ -28,7 +28,7 @@ class ProcedureCreator
 public:
 	ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth);
 
-	void setView(IProcedureInput* view);
+	void setView(ProcedureInput* view);
 
 	void diagnosisChanged(int idx);
 

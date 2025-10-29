@@ -48,12 +48,10 @@ struct SpriteMaster
 	QPixmap buccal{ ":/tooth/tooth_buccal.png" };
 	QPixmap lingual{ ":/tooth/tooth_lingual.png" };
 	QPixmap cervical{ ":/tooth/tooth_cervical.png" };
-
+	QPixmap resorption{ ":/tooth/tooth_resorption.png" };
 	QPixmap bridgeCon{ ":/tooth/tooth_bridgeCon.png" };
 	QPixmap bridgeSep{ ":/tooth/tooth_bridgeSep.png" };
-
 	QPixmap falseTooth{ ":/tooth/tooth_false.png" };
-
 };
 
 
@@ -77,7 +75,7 @@ void initializePack(TexturePack& tx, const SpriteMaster master, int xPos, int wi
 	tx.bridgeConnected = new QPixmap(master.bridgeCon.copy(crownRect));
 	tx.bridgeSeparated = new QPixmap(master.bridgeSep.copy(crownRect));
 	tx.falseTooth = new QPixmap(master.falseTooth.copy(crownRect));
-
+	tx.resorption = new QPixmap(master.resorption.copy(commonRect));
 	tx.surfaces[Dental::Surface::Occlusal] = new QPixmap(master.occlusal.copy(crownRect));
 	tx.surfaces[Dental::Surface::Medial] = new QPixmap(master.approximal.copy(xPos + width / 2, 0, width / 2, 440));
 	tx.surfaces[Dental::Surface::Distal] = new QPixmap(master.approximal.copy(xPos, 0, width/2, 440));
@@ -97,7 +95,7 @@ void SpriteSheets::initialize()
 
 	QPixmap commonTexture(":/tooth/tooth_common.png");
 	implant = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
-	lesionImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
+	calculusImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
 	perioImplant = new QPixmap(commonTexture.copy(QRect(240, 0, 120, 860)));
 	dentureFront = new QPixmap(commonTexture.copy(QRect(360, 0, 120, 860)));
 	dentureMolar = new QPixmap(commonTexture.copy(QRect(480, 0, 180, 860)));
@@ -112,7 +110,7 @@ void SpriteSheets::initialize()
 
 		initializePack(textures[i], masterSprites, xPos, width);
 		textures[i].implant = implant;
-		textures[i].lesionImplant = lesionImplant;
+		textures[i].calculusImplant = calculusImplant;
 		textures[i].perioImplant = perioImplant;
 		textures[i].denture = isMolar ? dentureMolar : dentureFront;
 
@@ -148,6 +146,6 @@ const SpritesheetCoords& SpriteSheets::getCoordinates(int toothIndex, bool tempo
 SpriteSheets::~SpriteSheets()
 {
 	delete implant;
-	delete lesionImplant;
+	delete calculusImplant;
 	delete perioImplant;
 }

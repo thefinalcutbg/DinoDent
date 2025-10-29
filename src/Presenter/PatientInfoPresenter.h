@@ -2,19 +2,20 @@
 #include <memory>
 
 #include "Model/Patient.h"
+#include "Model/TabType.h"
+
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
 #include "Network/HIS/EAllergy.h"
 #include "Network/HIS/EHospitalization.h"
-#include "View/Interfaces/IPatientTileInfo.h"
-#include "Model/TabType.h"
 
 class TabInstance;
+class PatientTileInfo;
 
 struct PatientInfoPresenter
 {
 	std::shared_ptr<Patient> patient;
-	IPatientTileInfo* view;
+	PatientTileInfo* view;
 
 	int patientAge{ 0 };
 
@@ -32,7 +33,7 @@ struct PatientInfoPresenter
 	TabInstance* m_parent{ nullptr };
 
 public:
-	PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p);
+	PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p);
 	void setDate(const Date& date);
 	void nraClicked(bool showDialog);
 	void diagnosisClicked();
@@ -46,5 +47,4 @@ public:
     void notificationClicked();
     void openDocument(TabType type);
 	void setParent(TabInstance* p) { m_parent = p; }
-
 };

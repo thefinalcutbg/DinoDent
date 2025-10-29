@@ -1,5 +1,7 @@
 ﻿#include "MedicationDialog.h"
+
 #include "Model/Prescription/Medication.h"
+#include "Presenter/MedicationPresenter.h"
 
 MedicationDialog::MedicationDialog(MedicationPresenter& p, QWidget* parent)
     : QDialog(parent), presenter(p)

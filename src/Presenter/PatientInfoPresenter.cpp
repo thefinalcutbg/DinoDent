@@ -3,15 +3,19 @@
 #include "Database/DbPatient.h"
 #include "Database/DbNotes.h"
 #include "Database/DbNotification.h"
+
 #include "Model/User.h"
+#include "Model/TableRows.h"
+
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MedicalStatusPresenter.h"
 #include "Presenter/TabPresenter.h"
-#include "View/ModalDialogBuilder.h"
-#include "Model/TableRows.h"
-#include "View/Widgets/NotificationDialog.h"
 
-PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
+#include "View/Widgets/NotificationDialog.h"
+#include "View/SubWidgets/PatientTileInfo.h"
+#include "View/ModalDialogBuilder.h"
+
+PatientInfoPresenter::PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), patientAge(patient->getAge(Date::currentDate()))
 {}
 
@@ -125,7 +129,7 @@ void PatientInfoPresenter::patientTileClicked()
 
     PatientDialogPresenter p{ *patient };
 
-    auto patient = p.open();
+    auto patient = p.getPatient();
 
     if (!patient.has_value()) return;
 

@@ -2,14 +2,11 @@
 #include "View/Interfaces/AbstractLineEdit.h"
 #include "Database/DbDoctor.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/DoctorSettingsDialog.h"
 
-DoctorDialogPresenter::DoctorDialogPresenter() : m_editMode(false), m_newDoctor(true)
-{
-}
+DoctorDialogPresenter::DoctorDialogPresenter(){}
 
 DoctorDialogPresenter::DoctorDialogPresenter(const Doctor& doctor) :
-    m_editMode(true),
-    m_newDoctor(false),
     view(nullptr),
     current_LPK(doctor.LPK),
     result(doctor),
@@ -20,12 +17,12 @@ void DoctorDialogPresenter::okPressed()
 {
     AbstractLineEdit* lineCheck[6]
     {
-        view->lineEdit(DoctorFields::FirstName),
-        view->lineEdit(DoctorFields::MiddleName),
-        view->lineEdit(DoctorFields::LastName),
-        view->lineEdit(DoctorFields::LPK),
-        view->lineEdit(DoctorFields::Phone),
-        view->lineEdit(DoctorFields::Password)
+        view->lineEdit(DoctorSettingsDialog::FirstName),
+        view->lineEdit(DoctorSettingsDialog::MiddleName),
+        view->lineEdit(DoctorSettingsDialog::LastName),
+        view->lineEdit(DoctorSettingsDialog::LPK),
+        view->lineEdit(DoctorSettingsDialog::Phone),
+        view->lineEdit(DoctorSettingsDialog::Password)
     };
 
     for (auto& line : lineCheck)
@@ -46,10 +43,10 @@ void DoctorDialogPresenter::okPressed()
         return;
     }
 
-    if (m_editMode){
+    if (current_LPK.size()){
         DbDoctor::updateDoctor(doctor, current_LPK);
     }
-    else if (m_newDoctor){
+    else{
         DbDoctor::insertDoctor(doctor);
         
     }
@@ -63,7 +60,7 @@ void DoctorDialogPresenter::okPressed()
 
 void DoctorDialogPresenter::validLPK(const std::string& validLPK)
 {
-    if (m_editMode) {
+    if (current_LPK.size()) {
         return;
     }
 
@@ -71,22 +68,22 @@ void DoctorDialogPresenter::validLPK(const std::string& validLPK)
 
     if (doc.has_value())
     {
-        m_newDoctor = false;
+        current_LPK = validLPK;
         view->setDoctor(doc.value());
         view->setToReadOnly();
     }
 }
 
-void DoctorDialogPresenter::setView(IDoctorSettingsDialog* view)
+void DoctorDialogPresenter::setView(DoctorSettingsDialog* view)
 {
     this->view = view;
 
-    view->lineEdit(DoctorFields::FirstName)->setInputValidator(&name_validator);
-    view->lineEdit(DoctorFields::MiddleName)->setInputValidator(&name_validator);
-    view->lineEdit(DoctorFields::LastName)->setInputValidator(&name_validator);
-    view->lineEdit(DoctorFields::LPK)->setInputValidator(&lpk_validator);
-    view->lineEdit(DoctorFields::Phone)->setInputValidator(&not_emptyValidator);
-   // view->lineEdit(DoctorFields::Password)->setInputValidator(&not_emptyValidator);
+    view->lineEdit(DoctorSettingsDialog::FirstName)->setInputValidator(&name_validator);
+    view->lineEdit(DoctorSettingsDialog::MiddleName)->setInputValidator(&name_validator);
+    view->lineEdit(DoctorSettingsDialog::LastName)->setInputValidator(&name_validator);
+    view->lineEdit(DoctorSettingsDialog::LPK)->setInputValidator(&lpk_validator);
+    view->lineEdit(DoctorSettingsDialog::Phone)->setInputValidator(&not_emptyValidator);
+   // view->lineEdit(DoctorSettingsDialog::Password)->setInputValidator(&not_emptyValidator);
     if (result.has_value()) {
         view->setDoctor(result.value());
         result.reset();
@@ -96,7 +93,9 @@ void DoctorDialogPresenter::setView(IDoctorSettingsDialog* view)
 
 std::optional<Doctor> DoctorDialogPresenter::open()
 {
-    ModalDialogBuilder::openDialog(*this);
+	DoctorSettingsDialog dialog(*this);
+
+    dialog.exec();
     
     return result;
 }

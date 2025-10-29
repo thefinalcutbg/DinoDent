@@ -133,7 +133,9 @@ void ProcedureDialogPresenter::refreshNhifList()
 
 std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
-    ModalDialogBuilder::openDialog(*this);
+	ProcedureDialog d(*this);
+	d.open();
+
 	return result;
 }
 

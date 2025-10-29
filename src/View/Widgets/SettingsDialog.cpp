@@ -127,7 +127,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	connect(ui.addSubdir, &QPushButton::clicked, this, [&] {
 
-		int result = ModalDialogBuilder::openButtonDialog(s_dirStr, "Добавяне на поддиректория", "Избере поддиректория:");
+		int result = ModalDialogBuilder::openButtonDialog(s_dirStr, "Добавяне на поддиректория", "Изберете поддиректория:");
 		if (result < 0) return;
 
 		dir_structure.push_back(static_cast<DirType>(result));
@@ -285,7 +285,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	});
 
     connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx){
-        if(idx == static_cast<int>(SettingsTab::Practice)) presenter.practiceTabFocused();
+        if(idx == static_cast<int>(Tab::Practice)) presenter.practiceTabFocused();
     });
 
 	connect(ui.devBranch, &QCheckBox::clicked, this, [&](bool checked) {
@@ -351,18 +351,18 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	
 }
 
-void SettingsDialog::focusTab(SettingsTab tab)
+void SettingsDialog::focusTab(Tab tab)
 {
 	ui.tabWidget->setCurrentIndex(static_cast<int>(tab));
 }
 
 void SettingsDialog::setAdminPriv(bool admin)
 {
-		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::Practice), admin);
-		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::Company), admin);
-		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::NhifContract), admin);
-		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::CodeList), admin);
-		ui.tabWidget->setTabEnabled(static_cast<int>(SettingsTab::SQL), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::Practice), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::Company), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::NhifContract), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::CodeList), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::SQL), admin);
 		ui.monthlySheets->setDisabled(!admin);
 }
 

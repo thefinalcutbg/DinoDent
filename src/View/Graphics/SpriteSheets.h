@@ -23,7 +23,7 @@ class SpriteSheets
 
 
 	QPixmap* implant;
-	QPixmap* lesionImplant;
+	QPixmap* calculusImplant;
 	QPixmap* perioImplant;
 	QPixmap* dentureFront;
 	QPixmap* dentureMolar;

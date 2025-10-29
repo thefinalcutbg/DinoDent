@@ -270,12 +270,12 @@ void ListView::hideControlPanel(bool hidden)
 	ui.controlPanel->setHidden(hidden);
 }
 
-ISurfacePanel* ListView::surfacePanel()
+SurfacePanel* ListView::surfacePanel()
 {
 	return ui.surfacePanel;
 }
 
-IPatientTileInfo* ListView::tileInfo()
+PatientTileInfo* ListView::tileInfo()
 {
 	return ui.patientInfoTile;
 }

@@ -1,14 +1,16 @@
 #pragma once
 
 #include <vector>
-#include "View/Interfaces/IMainView.h"
 #include "TabPresenter.h"
 #include "BrowserPresenter.h"
 #include "Network/HIS/UpdateMedications.h"
 #include "Network/HIS/EPrescription.h"
+
+class DinoDent;
+
 class MainPresenter
 {
-	IMainView* view{nullptr};
+	DinoDent* view{nullptr};
 
 	UpdateMedications med_update_service;
 	EPrescription::eRxFetch eRx_service;
@@ -22,7 +24,7 @@ public:
 
 	static MainPresenter& get() { return s_singleton; }
 
-	void setView(IMainView* view);
+	void setView(DinoDent* view);
 	void printPressed();
 	void newAmbPressed();
 	void newPerioPressed();

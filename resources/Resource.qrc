@@ -78,6 +78,8 @@
         <file>tooth_teeth.png</file>
         <file>tooth_false.png</file>
         <file>tooth_calculus.png</file>
+        <file>tooth_stripes.png</file>
+        <file>tooth_resorption.png</file>
     </qresource>
     <qresource prefix="/reports">
         <file>report_amb.lrxml</file>
@@ -160,6 +162,7 @@
         <file>db_migrateTo32.txt</file>
         <file>db_migrateTo33.txt</file>
         <file>db_migrateTo34.txt</file>
+        <file>db_migrateTo35.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

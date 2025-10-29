@@ -17,12 +17,14 @@ class Tooth
 	std::array<bool, Dental::StatusCount> m_data { false };
 	SurfaceStatus m_resto_surface = { false };
 	SurfaceStatus m_caries_surface = { false };
+	SurfaceStatus m_defect_surface = { false };
+	SurfaceStatus m_non_caries{ false }; 
 
 	std::map<int, std::string> m_lpkMap;
 
 	//if the tooth is supernumeral, this is nullptr
 	Tooth* m_supernumeral{ nullptr };
-	//if the tooth is supernumeral it has parent
+	//if the tooth is supernumeral it has parent 
 	Tooth* m_parent{ nullptr };
 
 	typedef std::array<std::vector<int>, Dental::StatusCount> IncompatibleCodes;
@@ -81,14 +83,12 @@ public:
 	bool hasStatus(int code) const;
 	bool hasStatus(int code, int surface) const;
 	
-	bool hasRestoration(int surface) const;
-	bool hasCaries(int surface) const;
 	bool hasSecondaryCaries(int surface) const;
 	bool noData() const;
 
 	const decltype(m_data)& getBoolStatus() const { return m_data; }
-	SurfaceStatus getRestorationBoolStatus() const;
-	SurfaceStatus getCariesBoolStatus() const;
+	const SurfaceStatus& getSurfaceBoolStatus(int code) const;
+
 	std::array<bool, Dental::MobilityCount> getMobilityBoolStatus() const;
 
 	//codes 0-5 for restoration surface; Others are same as the status codes.

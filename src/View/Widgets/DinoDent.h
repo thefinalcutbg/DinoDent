@@ -5,11 +5,10 @@
 
 #include "ui_DinoDent.h"
 
-#include "View/Interfaces/IMainView.h"
-
 class ChatDialog;
+class TabView;
 
-class DinoDent : public QMainWindow, public IMainView
+class DinoDent : public QMainWindow
 {
     Q_OBJECT
 
@@ -19,14 +18,19 @@ class DinoDent : public QMainWindow, public IMainView
     void closeEvent(QCloseEvent* event) override;
 
 public:
+
     DinoDent(QWidget *parent = Q_NULLPTR);
-    ITabView* tabView() override;
-    void setUserLabel(const std::string& doctorName, const std::string& practiceName) override;
-    void exitProgram() override;
+
+    TabView* tabView();
+    void setUserLabel(const std::string& doctorName, const std::string& practiceName);
+    void exitProgram();
     bool initialized();
     void disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled);
     void setIrcIcon(bool glow);
-    void setNotificationIcon(int activeNotifCount) override;
+    void setNotificationIcon(int activeNotifCount);
+    void openIrc();
+
+    bool m_loggedIn = false; //very cool public member varaible
 
     ~DinoDent();
 

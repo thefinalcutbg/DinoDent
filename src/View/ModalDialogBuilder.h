@@ -8,26 +8,23 @@
 #include "Model/Dental/HisSnapshot.h"
 #include "Model/MedicalNotice.h"
 #include "Model/Allergy.h"
-#include "View/Interfaces/ISettingsDialog.h"
+
+#include "View/Widgets/SettingsDialog.h"
+
 class QPixmap;
 class ProcedureDialogPresenter;
 struct PatientDialogPresenter;
 class ProcedureEditorPresenter;
-class AllergiesDialogPresenter;
-class BrowserPresenter;
 class DetailedStatusPresenter;
-class LoginPresenter;
-class DoctorDialogPresenter;
+
 class InvoicePresenter;
 
 class MonthNotifPresenter;
 class MedicationPresenter;
-class DosagePresenter;
 class PracticeManagerPresenter;
 class ReferralPresenter;
 class StatisticDialogPresenter;
 class ProcedureHistoryPresenter;
-class FiscalReceiptPresenter;
 
 enum class DialogAnswer { Yes, No, Cancel };
 
@@ -35,19 +32,6 @@ enum class NotificationType {NoData, Xml, PisHash };
 
 namespace ModalDialogBuilder
 {
-    void openDialog(ProcedureDialogPresenter& p);
-    void openDialog(PatientDialogPresenter& p);
-    void openDialog(ProcedureEditorPresenter& p);
-    void openDialog(DetailedStatusPresenter& p);
-    void openDialog(LoginPresenter& p);
-    void openDialog(DoctorDialogPresenter& p);
-    void openDialog(MedicationPresenter& p);
-    void openDialog(DosagePresenter& p);
-    void openDialog(PracticeManagerPresenter& p);
-    void openDialog(ReferralPresenter& p);
-	void openDialog(StatisticDialogPresenter& p);
-	void openDialog(FiscalReceiptPresenter& p);
-
 	void openBrowserDialog();
 
 	DialogAnswer YesNoCancelDailog(const std::string& text);
@@ -75,7 +59,7 @@ namespace ModalDialogBuilder
 	std::optional<MedicalNotice> openDialog(const MedicalNotice& notice); //use default constructed for new notice
 	void showSnapshots(const std::vector<HisSnapshot>& snapshots);
 
-	void openSettingsDialog(SettingsTab setingsTab = SettingsTab::General);
+	void openSettingsDialog(SettingsDialog::Tab setingsTab = SettingsDialog::Tab::General);
 	void pisDialog(MonthNotifPresenter* presenter);
 	void displayPixmap(const QPixmap& px);
 	ICD10 icdDialog(const ICD10& icd = {});

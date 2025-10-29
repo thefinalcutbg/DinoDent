@@ -1,6 +1,5 @@
 #pragma once
 
-#include "View/Interfaces/ITabView.h"
 #include "TabInstance.h"
 #include "Model/CalendarStructs.h"
 
@@ -8,6 +7,7 @@ struct AmbList;
 struct Patient;
 struct RowInstance;
 struct Recipient;
+class TabView;
 
 class TabPresenter
 {
@@ -17,7 +17,7 @@ class TabPresenter
 	int m_indexCounter{ -1 };
 	int m_currentIndex{ -1 };
 
-	ITabView* view{ nullptr };
+	TabView* view{ nullptr };
 
 	bool newListAlreadyOpened(const Patient& patient);
 
@@ -30,7 +30,7 @@ class TabPresenter
 	TabPresenter() {};
 public:
 
-	void setView(ITabView* view);
+	void setView(TabView* view);
 
 	TabInstance* currentTab();
 	void setCurrentTab(int index);

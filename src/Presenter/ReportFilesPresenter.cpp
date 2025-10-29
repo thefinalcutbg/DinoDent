@@ -1,8 +1,11 @@
 #include "ReportFilesPresenter.h"
-#include "Model/User.h"
-#include "View/ModalDialogBuilder.h"
 
-void ReportFilesPresenter::setView(IReportFilesView* view)
+#include "Model/User.h"
+
+#include "View/ModalDialogBuilder.h"
+#include "View/Widgets/ReportFilesView.h"
+
+void ReportFilesPresenter::setView(ReportFilesView* view)
 {
 	this->view = view;
 	view->setFiles(reportFiles);

@@ -6,7 +6,6 @@
 #include "View/GlobalFunctions.h"
 #include "View/uiComponents/MouseWheelGuard.h"
 
-
 FinancialView::FinancialView(QWidget *parent)
 	: QWidget(parent)
 {

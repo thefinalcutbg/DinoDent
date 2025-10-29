@@ -11,6 +11,8 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	ui.notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
+
 	scene = new QGraphicsScene;
 	ui.surfaceView->setScene(scene);
 	scene->setBackgroundBrush(Qt::white);
@@ -18,8 +20,6 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	toothGraphic = new CPTooth;
 	//ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
 
-	ui.sideCaries->pathology = true;
-	
 	scene->addItem(toothGraphic);
 
 	for (int i = 0; i < 5; i++) {
@@ -31,9 +31,12 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 
 	scene->addItem(polygon_border);
 
+	connect(ui.sideButton, &QPushButton::clicked, [this] { presenter->buttonClicked(ButtonPos::side, SurfaceClick::leftClick); });
+	connect(ui.sideButton, &StatusButton::rightClicked, [this] { presenter->buttonClicked(ButtonPos::side, SurfaceClick::rightClick); });
+	connect(ui.notesButton, &QPushButton::clicked, [this] { presenter->notesClicked(); });
 
-    connect(ui.sideObturation, &QPushButton::clicked, this, [=, this] { presenter->sideRestorationClicked();  });
-    connect(ui.sideCaries, &QPushButton::clicked, this, [=, this] { presenter->sideCariesClicked(); });
+
+	
 }
 
 void SurfacePanel::drawFocused(bool focused)
@@ -54,10 +57,10 @@ void SurfacePanel::setPresenter(SurfacePanelPresenter* presenter)
 	presenter->setView(this);
 }
 
-void SurfacePanel::paintTooth(const ToothPaintHint& tooth)
+void SurfacePanel::paintTooth(const ToothPaintHint& tooth, bool hasNotes)
 {
-	
 	toothGraphic->setPixmap(ToothPainter::getOcclusal(tooth));
+	ui.notesButton->setMonochrome(!hasNotes);
 }
 
 void SurfacePanel::hidePanel(bool hidden)
@@ -65,7 +68,7 @@ void SurfacePanel::hidePanel(bool hidden)
 	setHidden(hidden);
 }
 
-void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
+void SurfacePanel::setLabels(std::array<std::string, 6>& surfaceNames)
 {
 	for (int i = 0; i < 6; i++) {
 		labels[i] = QString::fromStdString(surfaceNames[i]);
@@ -74,17 +77,15 @@ void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
 	ui.sideBox->setText(labels[5]+":");
 }
 
-void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)
+void SurfacePanel::setStatuses(std::array<std::string, 6>& StatusNames)
 {
 	for (int i = 0; i < 6; i++) {
 		statuses[i] = QString::fromStdString(StatusNames[i]);
 	}
-}
 
-void SurfacePanel::setSideButtonsClicked(bool restoration, bool caries)
-{
-	ui.sideObturation->setChecked(restoration);
-	ui.sideCaries->setChecked(caries);
+	ui.sideButton->setText(StatusNames[5].c_str());
+	ui.sideButton->setChecked(!ui.sideButton->text().contains("Инт"));
+	ui.sideButton->pathology = ui.sideButton->text() != "Възстановяване";
 }
 
 void SurfacePanel::buttonHovered(ButtonPos position, Hover hoverState)
@@ -121,21 +122,14 @@ void SurfacePanel::paintEvent(QPaintEvent* e)
 
 	painter.setPen(QPen(m_focused ? Theme::mainBackgroundColor : Theme::border));
 
+	/*
 	painter.drawRoundedRect(
-		ui.frame1->x(),
-		ui.frame1->y(),
-		ui.frame1->width(),
-		ui.frame1->height(),
+		ui.frame->x(),
+		ui.frame->y(),
+		ui.frame->width(),
+		ui.frame->height(),
 		Theme::radius / 2,
 		Theme::radius / 2
 	);
-
-	//painter.drawRoundedRect(
-	//	ui.frame2->x(),
-	//	ui.frame2->y(),
-	//	ui.frame2->width(),
-	//	ui.frame2->height(),
-	//	Theme::radius / 2,
-	//	Theme::radius / 2
-	//);
+	*/
 }

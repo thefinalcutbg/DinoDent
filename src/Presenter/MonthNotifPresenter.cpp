@@ -2,13 +2,13 @@
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
-#include "View/Interfaces/IMonthNotifView.h"
+#include "View/Widgets/MonthNotifView.h"
 #include "Database/DbInvoice.h"
 
 MonthNotifPresenter::MonthNotifPresenter(){}
 
 
-void MonthNotifPresenter::setView(IMonthNotifView* view)
+void MonthNotifPresenter::setView(MonthNotifView* view)
 {
     this->view = view;
     if (m_notifRows.empty()) return;

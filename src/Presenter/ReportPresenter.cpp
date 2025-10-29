@@ -1,14 +1,21 @@
 ﻿#include "ReportPresenter.h"
+
+#include <fstream>
+
 #include "Database/DbAmbList.h"
 #include "Database/DbPatient.h"
+
 #include "Model/Validators/AmbListValidator.h"
+#include "Model/User.h"
 #include "Model/xml.h"
-#include <fstream>
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/NhifProcedures.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Presenter/TabPresenter.h"
-#include "Model/User.h"
+
+#include "View/Widgets/ReportView.h"
+#include "View/ModalDialogBuilder.h"
+
 #include "Printer/Print.h"
 
 void ReportPresenter::updateProgressBar()
@@ -84,8 +91,6 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 	}
 
 }
-
-
 
 void ReportPresenter::reset()
 {
@@ -359,8 +364,8 @@ void ReportPresenter::finish()
 
 
 	view->appendText(
-		"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
-		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
+		"Минути дейност: " + std::to_string(sumMinutes) + " мин.\n"
+		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + " мин.\n"
 		"Очаквана сума : " + FreeFn::formatDouble(sumPrice) + " лв."
 	);
 
@@ -378,7 +383,7 @@ void ReportPresenter::finish()
 	
 }
 
-void ReportPresenter::setView(IReportView* view)
+void ReportPresenter::setView(ReportView* view)
 {
 	this->view = view;
 }

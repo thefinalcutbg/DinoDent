@@ -189,22 +189,19 @@ void TabView::changeTabName(const TabName& tabName, int tabId)
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, tab);
 }
 
-
-#include <QScrollBar>
-
-ScrollPos TabView::getScrollPos()
+std::pair<int, int> TabView::getScrollPos()
 {
-    return ScrollPos
+    return
     {
         ui.scrollArea->verticalScrollBar()->value(),
         ui.scrollArea->horizontalScrollBar()->value()
     };
 }
 
-void TabView::setScrollPos(ScrollPos scrollPos)
+void TabView::setScrollPos(std::pair<int, int> scrollPos)
 {
-    ui.scrollArea->verticalScrollBar()->setValue(scrollPos.height);
-    ui.scrollArea->horizontalScrollBar()->setValue(scrollPos.width);
+    ui.scrollArea->verticalScrollBar()->setValue(scrollPos.first);
+    ui.scrollArea->horizontalScrollBar()->setValue(scrollPos.second);
 }
 
 void TabView::showListView()
@@ -212,7 +209,6 @@ void TabView::showListView()
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
-    m_summaryView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
@@ -223,23 +219,11 @@ void TabView::showPerioView()
     GlobalWidgets::mainWindow->disableButtons(true, false, true);
     showTabWidget(&m_perioView);
     m_listView.setPresenter(nullptr);
-    m_summaryView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
-
 }
 
-void TabView::showSummaryView()
-{
-    GlobalWidgets::mainWindow->disableButtons(true, true, true);
-    showTabWidget(&m_summaryView);
-    m_listView.setPresenter(nullptr);
-    m_perioView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
-}
 
 void TabView::showFinancialView()
 {
@@ -247,18 +231,15 @@ void TabView::showFinancialView()
     showTabWidget(&m_financialView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
-    m_summaryView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
 }
 
 void TabView::showPerscriptionView()
 {
-    
     showTabWidget(&m_prescriptionView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
-    m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
@@ -270,7 +251,6 @@ void TabView::showCalendarView()
     showTabWidget(&m_calendarView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
-    m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);    
 }
@@ -281,7 +261,6 @@ void TabView::showWelcomeScreen()
     showTabWidget(&welcomeScreen);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
-    m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
 }

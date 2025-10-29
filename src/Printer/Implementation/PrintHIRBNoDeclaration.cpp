@@ -38,7 +38,7 @@ bool Print::printHirbNoDeclaration(const Patient* patient, const std::string& pd
     if (declaratorType > 0) {
 
         PatientDialogPresenter p("Въведете родител/настойник/попечител");
-        auto declaratorResult = p.open();
+        auto declaratorResult = p.getPatient();
 
         if (!declaratorResult) return false;
 

@@ -2,11 +2,12 @@
 
 #include <vector>
 #include "Model/Financial/FiscalReceipt.h"
-#include "View/Interfaces/IFiscalReportView.h"
+
+class FiscalReportView;
 
 class FiscalReportPresenter
 {
-	IFiscalReportView* view{ nullptr };
+	FiscalReportView* view{ nullptr };
 
 	std::vector<FiscalReceipt> m_data;
 
@@ -23,6 +24,6 @@ public:
 	void generateInvoice();
 	void deleteReceipt(int idx);
 	void editReceipt(int idx);
-	void setView(IFiscalReportView* v);
+	void setView(FiscalReportView* v);
 	void dateChanged(int month, int year);
 };

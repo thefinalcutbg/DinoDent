@@ -2,15 +2,14 @@
 
 #include <QDialog>
 
-#include "View/Interfaces/IDosageDialog.h"
-
 #include "ui_DosageDialog.h"
 #include "Model/Validators/PrescriptionValidators.h"
 
 class DosagePresenter;
+struct Dosage;
 class LineEdit;
 
-class DosageDialog final: public QDialog, public IDosageDialog
+class DosageDialog final: public QDialog
 {
 	Q_OBJECT
 
@@ -23,29 +22,31 @@ class DosageDialog final: public QDialog, public IDosageDialog
 
 public:
     DosageDialog(DosagePresenter& p, QWidget* parent = nullptr);
+
+	void setBoundsList(const std::vector<std::string>& list);
+	void setPeriodList(const std::vector<std::string>& list);
+
+	void setDoseFormCompletionList(const std::vector<std::string>& list);
+	void setWhenFormCompletionList(const std::vector<std::string>& list);
+
+	void setDosageUnit(const std::string& unitName);
+
+	void setRouteList(const std::vector<std::string>& list);
+
+	void setRouteString(const std::string& route);
+
+	void setWhenTags(const std::vector<std::string>& tags, bool offsetAllowed);
+
+	void setParsed(const std::string& parsed);
+
+	void setDosage(const Dosage& d);
+
+	bool fieldsAreValid();
+
 	~DosageDialog();
 
 private:
 	Ui::DosageDialogClass ui;
 
-	void setBoundsList(const std::vector<std::string>& list) override;
-	void setPeriodList(const std::vector<std::string>& list) override;
 
-	void setDoseFormCompletionList(const std::vector<std::string>& list) override;
-	void setWhenFormCompletionList(const std::vector<std::string>& list) override;
-
-	void setDosageUnit(const std::string& unitName) override;
-
-	void setRouteList(const std::vector<std::string>& list) override;
-
-	 void setRouteString(const std::string& route) override;
-
-	 void setWhenTags(const std::vector<std::string>& tags, bool offsetAllowed) override;
-
-	 void setParsed(const std::string& parsed) override;
-
-	 void setDosage(const Dosage& d) override;
-
-	 bool fieldsAreValid() override;
-	 void closeUi() override {close();}
 };

@@ -1,13 +1,12 @@
 #pragma once
 
-
-#include "View/Interfaces/IFiscalReceiptDialog.h"
+class FiscalReceiptDialog;
 
 class FiscalReceiptPresenter
 {
 	long long amblist_rowid;
 
-	IFiscalReceiptDialog* view{ nullptr };
+	FiscalReceiptDialog* view{ nullptr };
 
 public:
 
@@ -17,6 +16,6 @@ public:
 
 	void okPressed();
 
-	void setView(IFiscalReceiptDialog* v);
+	void setView(FiscalReceiptDialog* v);
 
 };

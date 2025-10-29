@@ -1,5 +1,6 @@
 #include "SignatureViewDialog.h"
 #include "ui_SignatureViewDialog.h"
+#include "View/ModalDialogBuilder.h"
 
 SignatureViewDialog::SignatureViewDialog(const std::vector<unsigned char>& bitmap, const std::string& signature)
     : QDialog(nullptr)
@@ -28,6 +29,20 @@ SignatureViewDialog::SignatureViewDialog(const std::vector<unsigned char>& bitma
     ui->signatureLabel->setAlignment(Qt::AlignCenter);
     ui->signatureLabel->setStyleSheet("background-color:white");
     ui->signatureLabel->setPixmap(px);
+
+    connect(ui->removeSig, &QPushButton::clicked, [&]() {
+
+        if(!ModalDialogBuilder::askDialog(
+            "Сигурни ли сте, че искате да премахнете този подпис?")
+        ) 
+        {
+            return;
+		}
+
+        m_for_removal = true;
+
+        close();
+    });
 }
 
 SignatureViewDialog::~SignatureViewDialog()

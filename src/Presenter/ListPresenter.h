@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <memory>
-#include "View/Interfaces/IListView.h"
 #include "Model/Referrals/RefNum.h"
 #include "Database/DbAmbList.h"
 
@@ -21,6 +20,9 @@
 
 typedef std::vector<int> SelectedTeethIdx;
 
+class TabView;
+class ListView;
+
 class ListPresenter : public TabInstance
 {
     SurfacePanelPresenter surf_presenter;
@@ -31,7 +33,7 @@ class ListPresenter : public TabInstance
     CheckModel m_checkModel;
     CheckModel m_dsnCheckModel;
 
-    IListView* view;
+    ListView* view;
 
     bool firstFocus{ true };
 
@@ -42,6 +44,7 @@ class ListPresenter : public TabInstance
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::Augment eDentalAugmentService;
+	EDental::Fetch eDentalFetchService;
     EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
@@ -59,6 +62,7 @@ class ListPresenter : public TabInstance
     void setHisButtonToView();
     void makeEdited() override;
     void printPrv(bool toPdf);
+    void fetchListProcedures(const std::string& nrn);
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();
@@ -70,7 +74,7 @@ public:
 
     AmbList m_amblist;
 
-    ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
+    ListPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
 
     long long rowID() const override;
     bool save() override;

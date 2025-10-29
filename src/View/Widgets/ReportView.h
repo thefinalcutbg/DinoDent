@@ -3,10 +3,9 @@
 #include <QWidget>
 #include "ui_ReportView.h"
 #include "ReportDialogResult.h"
-#include "View/Interfaces/IReportView.h"
 #include "Presenter/ReportPresenter.h"
 
-class ReportView : public QWidget, public IReportView
+class ReportView : public QWidget
 {
 	Q_OBJECT
 
@@ -17,17 +16,18 @@ class ReportView : public QWidget, public IReportView
 public:
 	ReportView(QWidget *parent = Q_NULLPTR);
 
+	void appendSheet(long long sheetRowid, const std::string& sheetNumber, const std::string& description);
+	void appendText(const std::string& text);
+	void clearText();
+	void setPercent(int percent);
+	void enableReportButtons(bool enabled);
+	void showStopButton(bool yes);
+	void closeDialog();
+
 	~ReportView();
 
 private:
 	Ui::ReportViewClass ui;
 
-	// Inherited via IReportDialog
-	void appendSheet(long long sheetRowid, const std::string& sheetNumber, const std::string& description);
-	void appendText(const std::string& text) override;
-	void clearText() override;
-	void setPercent(int percent) override;
-	void enableReportButtons(bool enabled) override;
-	void showStopButton(bool yes) override;
-	void closeDialog() override;
+
 };

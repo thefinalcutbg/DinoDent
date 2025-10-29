@@ -1,30 +1,35 @@
 ﻿#include "SettingsMainPresenter.h"
+
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
 #include "Database/Database.h"
-#include "Model/User.h"
-#include "View/ModalDialogBuilder.h"
-#include "Database/DbUpdateStatus.h"
-#include "Network/NetworkManager.h"
-#include "GlobalSettings.h"
-#include "Presenter/DoctorDialogPresenter.h"
-#include "Model/PlainTable.h"
-#include "Printer/Print.h"
-#include "View/SubWidgets/ProcedureListView.h"
-#include "Model/Patient.h"
-#include "Network/GetHSM.h" 
-#include "Printer/FilePaths.h"
 #include "Database/DbPatient.h"
 #include "Database/DbAmbList.h"
+#include "Database/DbUpdateStatus.h"
+
+#include "Network/GetHSM.h" 
+#include "Network/NetworkManager.h"
+#include "GlobalSettings.h"
+
+#include "Model/User.h"
+#include "Model/PlainTable.h"
+#include "Model/Patient.h"
+
+#include "Presenter/DoctorDialogPresenter.h"
+
+#include "View/Widgets/SettingsDialog.h"
+#include "View/SubWidgets/ProcedureListView.h"
+#include "View/ModalDialogBuilder.h"
+
+#include "Printer/FilePaths.h"
+#include "Printer/Print.h"
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode)),
 	monthlySheets(User::practice().generateMonthlySheets())
-{
+{}
 
-}
-
-void SettingsMainPresenter::setView(ISettingsDialog* view)
+void SettingsMainPresenter::setView(SettingsDialog* view)
 {
 	this->view = view;
 
@@ -49,7 +54,7 @@ void SettingsMainPresenter::okPressed()
 {
 	if (applyChanges())
 	{
-		view->closeDialog();
+		view->close();
 	}
 }
 
@@ -137,7 +142,7 @@ bool SettingsMainPresenter::applyChanges()
 		DbPractice::practiceExists(practice.rziCode) //but the new rzi already exists in the db
 		)
 	{
-		view->focusTab(SettingsTab::Practice);
+		view->focusTab(SettingsDialog::Tab::Practice);
 		ModalDialogBuilder::showError("Практика с такъв РЗИ номер вече съществува");
 		return false;
 	}
@@ -149,7 +154,7 @@ bool SettingsMainPresenter::applyChanges()
 		DbDoctor::suchDoctorExists(doctor.LPK)
 		)
 	{
-		view->focusTab(SettingsTab::Doctor);
+		view->focusTab(SettingsDialog::Tab::Doctor);
 		ModalDialogBuilder::showError(
 			"Доктор с такъв УИН вече съществува. За да го добавите, "
 			"използвайте \"Добави лекар\" от раздел \"Практика\". "
@@ -182,7 +187,7 @@ bool SettingsMainPresenter::applyChanges()
 				"Практиката има договор с НЗОК, но нито един лекар в нея\n"
 				"няма код специалност по НЗОК. Да продължа ли въпреки това?");
 			if (!answer) {
-				view->focusTab(SettingsTab::Practice);
+				view->focusTab(SettingsDialog::Tab::Practice);
 				return false;
 			}
 
@@ -200,7 +205,7 @@ bool SettingsMainPresenter::applyChanges()
 	}
 
 	if (!hasAdmin) {
-		view->focusTab(SettingsTab::Practice);
+		view->focusTab(SettingsDialog::Tab::Practice);
 		ModalDialogBuilder::showError("Практиката трябва да има поне един администратор");
 		return false;
 	}

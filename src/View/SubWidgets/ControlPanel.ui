@@ -14,7 +14,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>20</y>
+     <y>8</y>
      <width>161</width>
      <height>27</height>
     </rect>
@@ -44,14 +44,14 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Патология на ТЗТ</string>
+    <string>Кариес</string>
    </property>
   </widget>
   <widget class="StatusButton" name="Restoration">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
+     <y>8</y>
      <width>161</width>
      <height>27</height>
     </rect>
@@ -88,9 +88,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
-     <width>331</width>
-     <height>351</height>
+     <y>70</y>
+     <width>336</width>
+     <height>361</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -99,6 +99,9 @@
     </property>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>3</number>
+      </property>
       <item>
        <widget class="StatusButton" name="RootCanal">
         <property name="sizePolicy">
@@ -109,7 +112,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -140,7 +143,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -171,7 +174,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -205,7 +208,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -222,7 +225,38 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Мост/Блок корони</string>
+         <string>Мост / Блок корони</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="StatusButton" name="Missing">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>161</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string/>
+        </property>
+        <property name="text">
+         <string>Липсващ зъб</string>
         </property>
        </widget>
       </item>
@@ -236,7 +270,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -267,7 +301,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -298,7 +332,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -315,7 +349,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Шиниране/Адх.мост</string>
+         <string>Шиниране / Адх. мост</string>
         </property>
        </widget>
       </item>
@@ -329,7 +363,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -357,7 +391,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -388,7 +422,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -410,6 +444,9 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>3</number>
+      </property>
       <item>
        <widget class="StatusButton" name="Pulpitis">
         <property name="sizePolicy">
@@ -420,7 +457,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -442,6 +479,28 @@
        </widget>
       </item>
       <item>
+       <widget class="StatusButton" name="Necrosis">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>27</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>161</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: N&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Некроза</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="StatusButton" name="ApicalLesion">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -451,7 +510,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -473,6 +532,34 @@
        </widget>
       </item>
       <item>
+       <widget class="StatusButton" name="Resorption">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>27</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>161</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: Z&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Резорбция</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="StatusButton" name="Fracture">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -482,7 +569,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -513,7 +600,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -541,7 +628,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -572,7 +659,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -603,7 +690,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -620,38 +707,7 @@
          <string/>
         </property>
         <property name="text">
-         <string>Корен</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="StatusButton" name="Missing">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>27</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>27</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="styleSheet">
-         <string/>
-        </property>
-        <property name="text">
-         <string>Липсващ зъб</string>
+         <string>Корен / Разрушен зъб</string>
         </property>
        </widget>
       </item>
@@ -665,7 +721,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -696,7 +752,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>161</width>
           <height>27</height>
          </size>
         </property>
@@ -707,7 +763,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: U&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: J&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Свръхброен зъб</string>
@@ -723,6 +779,80 @@
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="StatusButton" name="DefResto">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>161</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>27</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>27</height>
+    </size>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: Y&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>Дефектно възстановяване</string>
+   </property>
+  </widget>
+  <widget class="StatusButton" name="NonCaries">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>40</y>
+     <width>161</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>27</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>27</height>
+    </size>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: U&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>Некариозна лезия</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

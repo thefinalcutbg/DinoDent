@@ -1,13 +1,19 @@
 #include "PerioPresenter.h"
-#include "View/Graphics/PaintHint.h"
+
 #include <algorithm>
+
 #include "Model/Dental/PerioToothData.h"
 #include "Model/Dental/PerioStatistic.h"
 #include "Model/Parser.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Database/DbPerio.h"
 
-PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId) :
+#include "View/Widgets/TabView.h"
+#include "View/ModalDialogBuilder.h"
+
+#include "View/Graphics/PaintHint.h"
+
+PerioPresenter::PerioPresenter(TabView* view, std::shared_ptr<Patient> patient, long long rowId) :
     TabInstance(view, TabType::PerioStatus, patient),
     view(view->perioView()),
     patient_info(view->perioView()->patientTile(), patient),
@@ -171,9 +177,9 @@ void PerioPresenter::FMPSChanged(int index, bool value)
 
 }
 
-void PerioPresenter::teethViewChanged(ShowTeeth t)
+void PerioPresenter::teethViewChanged(bool showLower)
 {
-    m_teethShow = t;
+    m_showLowerTeeth = showLower;
 }
 
 void PerioPresenter::furcationChanged(int index, int a, int b, int c)
@@ -295,7 +301,7 @@ void PerioPresenter::setDataToView()
     patient_info.setCurrent(true);
 
 
-    view->setTeethView(m_teethShow);
+    view->showLowerTeeth(m_showLowerTeeth);
 
 }
 

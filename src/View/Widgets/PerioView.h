@@ -3,7 +3,6 @@
 #include <QWidget>
 #include "ui_PerioView.h"
 
-#include "View/Interfaces/IPerioView.h"
 #include "ToothUi.h"
 
 class ToothButton;
@@ -21,10 +20,11 @@ struct ChartIndex
     int index;
 };
 
-class PerioView : public QWidget, public IPerioView
+class PerioPresenter;
+
+class PerioView : public QWidget
 {
     Q_OBJECT
-
 
     PerioPresenter* presenter{ nullptr };
 
@@ -63,20 +63,21 @@ class PerioView : public QWidget, public IPerioView
     ToothUi getUIbyTooth(int idx);
 
 public:
+
     PerioView(QWidget *parent = Q_NULLPTR);
 
     void PerioGraphicClicked(int index, PerioGraphicsType type);
 
-    void disableTooth(int index) override;
-    void setToothData(const PerioToothData& data) override;
-    void setPerioStatistic(const PerioStatistic& stat) override;
-    void setPresenter(PerioPresenter* presenter) override;
-    void setToothHint(const ToothPaintHint& hint) override;
-    void setAdditional(int smoker, int boneLoss, bool systemic, bool restore) override;
-    void setTeethView(ShowTeeth t) override;
-    IPatientTileInfo* patientTile() override;
-    void setMeasurment(int index, int pd, int cal, int gm, int recession) override;
-    void setDate(const Date& date) override;
+    void disableTooth(int index);
+    void setToothData(const PerioToothData& data);
+    void setPerioStatistic(const PerioStatistic& stat);
+    void setPresenter(PerioPresenter* presenter);
+    void setToothHint(const ToothPaintHint& hint);
+    void setAdditional(int smoker, int boneLoss, bool systemic, bool restore);
+    void showLowerTeeth(bool showLower);
+    PatientTileInfo* patientTile();
+    void setMeasurment(int index, int pd, int cal, int gm, int recession);
+    void setDate(const Date& date);
     
 
 private:

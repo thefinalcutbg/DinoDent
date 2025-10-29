@@ -1,21 +1,23 @@
 ﻿#include "TabPresenter.h"
+
+#include <TinyXML/tinyxml.h>
+
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/TableRows.h"
 #include "Database/DbPatient.h"
 #include "ListPresenter.h"
 #include "PerioPresenter.h"
-#include "PatientSummaryPresenter.h"
 #include "PatientHistoryPresenter.h"
 #include "PrescriptionPresenter.h"
 #include "CalendarPresenter.h"
 #include "FinancialPresenter.h"
-#include <TinyXML/tinyxml.h>
 #include "Database/DbInvoice.h"
+#include "View/Widgets/TabView.h"
 
 TabPresenter TabPresenter::s_singleton;
 
-void TabPresenter::setView(ITabView* view)
+void TabPresenter::setView(TabView* view)
 {
     this->view = view;
 }
@@ -243,10 +245,6 @@ bool TabPresenter::open(const RowInstance& row, bool setFocus)
             newTab = new PerioPresenter(view, getPatient_ptr(patient), row.rowID);
             break;
 
-        case TabType::PatientSummary:
-            newTab = new PatientSummaryPresenter(view, getPatient_ptr(patient));
-            break;
-
         case TabType::Financial:
             newTab = row.rowID ? 
                 new FinancialPresenter(view, row.rowID)
@@ -261,6 +259,8 @@ bool TabPresenter::open(const RowInstance& row, bool setFocus)
         case TabType::Calendar:
             newTab = new CalendarPresenter(view);
             break;
+
+        default: return false;
     }
 
     createNewTab(newTab, setFocus);

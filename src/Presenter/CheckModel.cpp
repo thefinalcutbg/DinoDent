@@ -28,20 +28,26 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 	generalStatus{ CheckState::unchecked },
 	restorationStatus{ CheckState::unchecked },
 	cariesStatus{ CheckState::unchecked },
+	nonCariesStatus{ CheckState::unchecked },
+	defRestoStatus{ CheckState::unchecked },
 	mobilityStatus{ CheckState::unchecked }
 {
 	if (!selectedTeeth.size()) return;
 
 	firstIteration(generalStatus, selectedTeeth[0]->getBoolStatus());
-	firstIteration(cariesStatus, selectedTeeth[0]->getCariesBoolStatus());
-	firstIteration(restorationStatus, selectedTeeth[0]->getRestorationBoolStatus());
+	firstIteration(cariesStatus, selectedTeeth[0]->getSurfaceBoolStatus(Dental::Caries));
+	firstIteration(restorationStatus, selectedTeeth[0]->getSurfaceBoolStatus(Dental::Restoration));
+	firstIteration(defRestoStatus, selectedTeeth[0]->getSurfaceBoolStatus(Dental::DefectiveRestoration));
+	firstIteration(nonCariesStatus, selectedTeeth[0]->getSurfaceBoolStatus(Dental::NonCariesLesion));
 	firstIteration(mobilityStatus, selectedTeeth[0]->getMobilityBoolStatus());
 
     for (size_t i = 1; i < selectedTeeth.size(); i++)
 	{
 		furtherIterations(generalStatus, selectedTeeth[i]->getBoolStatus());
-		furtherIterations(cariesStatus, selectedTeeth[i]->getCariesBoolStatus());
-		furtherIterations(restorationStatus, selectedTeeth[i]->getRestorationBoolStatus());
+		furtherIterations(cariesStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::Caries));
+		furtherIterations(restorationStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::Restoration));
+		furtherIterations(defRestoStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::DefectiveRestoration));
+		furtherIterations(nonCariesStatus, selectedTeeth[i]->getSurfaceBoolStatus(Dental::NonCariesLesion));
 		furtherIterations(mobilityStatus, selectedTeeth[i]->getMobilityBoolStatus());
 	}
 
@@ -68,8 +74,10 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 CheckModel::CheckModel(const Tooth& tooth)
 {
 	firstIteration(generalStatus, tooth.getBoolStatus());
-	firstIteration(cariesStatus, tooth.getCariesBoolStatus());
-	firstIteration(restorationStatus, tooth.getRestorationBoolStatus());
+	firstIteration(cariesStatus, tooth.getSurfaceBoolStatus(Dental::Caries));
+	firstIteration(restorationStatus, tooth.getSurfaceBoolStatus(Dental::Restoration));
+	firstIteration(defRestoStatus, tooth.getSurfaceBoolStatus(Dental::DefectiveRestoration));
+	firstIteration(nonCariesStatus, tooth.getSurfaceBoolStatus(Dental::NonCariesLesion));
 	firstIteration(mobilityStatus, tooth.getMobilityBoolStatus());
 
 	for (auto& state : generalStatus)

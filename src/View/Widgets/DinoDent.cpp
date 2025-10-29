@@ -13,19 +13,19 @@
 
 #include "Presenter/MainPresenter.h"
 
-#include "GlobalWidgets.h"
-#include "Model/User.h"
 #include "View/Theme.h"
 #include "View/Widgets/GlobalWidgets.h"
 #include "View/Widgets/AboutDialog.h"
-#include "Version.h"
 #include "View/Widgets/SplashScreen.h"
-#include "ChatDialog.h"
 #include "View/Widgets/NotificationListDialog.h"
 
 #include "Model/User.h"
+#include "Model/User.h"
 
 #include "Database/DbNotification.h"
+
+#include "ChatDialog.h"
+#include "Version.h"
 
 #ifdef Q_OS_WIN
 #include <QWindow>
@@ -187,7 +187,7 @@ DinoDent::DinoDent(QWidget* parent)
 
 }
 
-ITabView* DinoDent::tabView()
+TabView* DinoDent::tabView()
 {
     return ui.tabView;
 }
@@ -258,6 +258,11 @@ void DinoDent::setNotificationIcon(int activeNotifCount)
         case 1: ui.notifButton->setToolTip("1 активно напомняне"); break;
         default: ui.notifButton->setToolTip(QString::number(activeNotifCount) + " активни напомняния");
     }
+}
+
+void DinoDent::openIrc()
+{
+    ui.mircButton->click();
 }
 
 DinoDent::~DinoDent()

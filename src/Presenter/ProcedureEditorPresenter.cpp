@@ -1,7 +1,10 @@
 ﻿#include "ProcedureEditorPresenter.h"
-#include "View/Interfaces/IProcedureInput.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Model/User.h"
+
+#include "View/SubWidgets/ProcedureInput.h"
+#include "View/Widgets/ProcedureEditDialog.h"
+#include "View/ModalDialogBuilder.h"
 
 ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Date& patientTurns18)
 	:
@@ -31,19 +34,20 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
 {
-    ModalDialogBuilder::openDialog(*this);
+	ProcedureEditDialog d(*this);
+	d.exec();
 
 	return result;
 }
 
-void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
+void ProcedureEditorPresenter::setView(ProcedureEditDialog* view)
 {
 	this->view = view;
 
 	view->procedureInput()->dateEdit()->set_Date(result->date);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
 	
-	IProcedureInput::CommonData data;
+	ProcedureInput::CommonData data;
 
 	data.diagnosis = result->diagnosis;
 	data.financingSource = result->financingSource;
@@ -62,6 +66,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	if (his_fetch_result) {
 		inputView->setParameterData();
 		result.reset();
+		ModalDialogBuilder::showMessage("Процедурата е изтеглена от НЗИС и някои нейни параметри не могат да бъдат достъпни за редактиране!");
 		return;
 	}
 
@@ -146,7 +151,7 @@ void ProcedureEditorPresenter::okPressed()
 
 	if (his_fetch_result) {
 		result->HIS_fetched_result = his_fetch_result;
-		view->closeDialog();
+		view->close();
 		return;
 	}
 
@@ -172,6 +177,6 @@ void ProcedureEditorPresenter::okPressed()
 		result->affectedTeeth = m_tooth_index;
 	}
 
-	view->closeDialog();
+	view->close();
 }
 

@@ -7,16 +7,13 @@
 
 #include "Presenter/PatientDialogPresenter.h"
 #include "ui_PatientFormDialog.h"
-#include "View/Interfaces/IPatientDialog.h"
 
 #include "Model/Validators/PatientValidators.h"
 #include "Model/Validators/DateValidator.h"
 #include "Model/Validators/NameValidator.h"
-
 #include "Model/Patient.h"
 
-
-struct PatientFormDialog : public QDialog, public IPatientDialog
+struct PatientFormDialog : public QDialog
 {
 
     QRegularExpressionValidator* phoneValidator;
@@ -54,13 +51,12 @@ public:
     PatientFormDialog(PatientDialogPresenter& p, QWidget* parent = 0);
     ~PatientFormDialog();
 
-    void setEditMode(bool editMode) override;
-    void close() override;
-    void setTitle(const std::string& title) override;
+    void setEditMode(bool editMode);
+    void setTitle(const std::string& title);
     void resetFields();
 
-    void setPatient(const Patient& patient) override;
-    Patient getPatient() override;
-    void setHirbno(const std::string& hirbno) override;
-    bool inputFieldsAreValid() override;
+    void setPatient(const Patient& patient);
+    Patient getPatient();
+    void setHirbno(const std::string& hirbno);
+    bool inputFieldsAreValid();
 };

@@ -1,5 +1,4 @@
 #pragma once
-#include "View/Interfaces/IReportView.h"
 
 #include "Model/TableRows.h"
 #include <vector>
@@ -14,9 +13,11 @@
 #include <optional>
 #include <queue>
 
+class ReportView;
+
 class ReportPresenter
 {
-	IReportView* view{ nullptr };
+	ReportView* view{ nullptr };
 
 	//stores the amblists
 	std::vector<AmbList> lists;
@@ -56,7 +57,7 @@ public:
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);
 	void generateSpecification();
-	void setView(IReportView* view);
+	void setView(ReportView* view);
 	void linkClicked(long long sheetRowid);
 };
 

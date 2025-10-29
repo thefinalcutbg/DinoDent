@@ -83,11 +83,6 @@ int LoginView::practiceUserChoice(const std::vector<std::string>& practiceList)
 	return p.exec(practiceList);
 }
 
-void LoginView::closeLogin()
-{
-	close();
-}
-
 LoginView::~LoginView()
 {
 }

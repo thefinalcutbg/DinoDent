@@ -8,6 +8,8 @@
 #include "View/ModalDialogBuilder.h"
 #include "Printer/Print.h"
 
+#include "View/Widgets/FiscalReportView.h"
+
 std::string FiscalReportPresenter::getFilename()
 {
 	std::string filename = "DENT_";
@@ -68,7 +70,7 @@ void FiscalReportPresenter::editReceipt(int idx)
 	if (idx < 0 || idx >= m_data.size()) return;
 }
 
-void FiscalReportPresenter::setView(IFiscalReportView* v)
+void FiscalReportPresenter::setView(FiscalReportView* v)
 {
 	this->view = v;
 

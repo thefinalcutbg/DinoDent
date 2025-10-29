@@ -6,7 +6,7 @@
 #include <vector>
 #include <optional>
 
-class IMonthNotifView;
+class MonthNotifView;
 
 class MonthNotifPresenter
 {
@@ -14,14 +14,14 @@ class MonthNotifPresenter
 	GetMonthNotifListService m_listHandler;
 	GetMonthNotifService m_notifHandler;
 
-	IMonthNotifView* view{ nullptr };
+	MonthNotifView* view{ nullptr };
 	
 	static inline std::vector<MonthNotifRow> m_notifRows;
 
 public:
 	MonthNotifPresenter();
 	
-	void setView(IMonthNotifView* view);
+	void setView(MonthNotifView* view);
 	void loadFromXml();
 	void loadFromPis();
 	void okPressed(int currentIdx);

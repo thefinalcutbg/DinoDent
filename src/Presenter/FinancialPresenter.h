@@ -1,15 +1,17 @@
 #pragma once
 #include "Presenter/TabInstance.h"
 #include "Model/Financial/Invoice.h"
-#include "View/Interfaces/IFinancialView.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Patient.h"
 #include "Network/PIS/SendFileService.h"
 
+class TabView;
+
+class FinancialView;
 
 class FinancialPresenter : public TabInstance
 {
-	IFinancialView* view;
+	FinancialView* view;
 
 	SendFileService file_handler;
 
@@ -18,10 +20,10 @@ public:
 
 	Invoice m_invoice;
 
-	FinancialPresenter(ITabView* tabView, const std::string& monthNotif, const std::string& claimedHash);
-	FinancialPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures = {});
-	FinancialPresenter(ITabView* tabView, long long rowId);
-	FinancialPresenter(ITabView* tabView, const Recipient& r);
+	FinancialPresenter(TabView* tabView, const std::string& monthNotif, const std::string& claimedHash);
+	FinancialPresenter(TabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures = {});
+	FinancialPresenter(TabView* tabView, long long rowId);
+	FinancialPresenter(TabView* tabView, const Recipient& r);
 
 	void addOperation();
 	void editOperation(int idx);

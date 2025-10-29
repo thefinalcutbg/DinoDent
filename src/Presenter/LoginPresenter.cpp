@@ -1,38 +1,51 @@
 #include "LoginPresenter.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Database/DbDoctor.h"
 #include "Database/DbPractice.h"
 #include "Database/Database.h"
-#include "Model/User.h"
-#include "Presenter/PracticeManagerPresenter.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Network/NetworkManager.h"
 
+#include "Model/User.h"
+
+#include "Presenter/PracticeManagerPresenter.h"
+
+#include "View/Widgets/LoginView.h"
+#include "View/Widgets/PracticeSelectorView.h"
+#include "View/ModalDialogBuilder.h"
+
 LoginPresenter::LoginPresenter() : m_users(DbDoctor::getDoctorList())
-{
- 
-}
+{}
 
 bool LoginPresenter::successful()
 {
     User::resetUser();
 
-    ModalDialogBuilder::openDialog(*this);
+    LoginView d(*this);
+
+    d.exec();
 
     return loginSuccessful;
 }
 
 void LoginPresenter::practiceListPressed()
 {
-    view->closeLogin();
+    view->close();
+
     PracticeManagerPresenter p;
-    ModalDialogBuilder::openDialog(p);
+
+	PracticeSelectorView psView(p);
+
+    psView.exec();
+
     m_users = DbDoctor::getDoctorList();
-    ModalDialogBuilder::openDialog(*this);
+
+	LoginView d(*this);
+
+    d.exec();
 }
 
-
-void LoginPresenter::setView(ILoginView* view)
+void LoginPresenter::setView(LoginView* view)
 {
     this->view = view;
 
@@ -113,5 +126,5 @@ void LoginPresenter::login(const std::string& lpk)
     loginSuccessful = true;
 
     if (view)
-        view->closeLogin();
+        view->close();
 }

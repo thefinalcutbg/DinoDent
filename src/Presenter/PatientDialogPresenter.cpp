@@ -1,5 +1,8 @@
 ﻿#include "PatientDialogPresenter.h"
+
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/PatientFormDialog.h"
+
 #include "Database/DbPatient.h"
 #include "Printer/Print.h"
 #include "Model/User.h"
@@ -59,13 +62,15 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	}
 }
 
-std::optional<Patient> PatientDialogPresenter::open()
+std::optional<Patient> PatientDialogPresenter::getPatient()
 {
-    ModalDialogBuilder::openDialog(*this);
+	PatientFormDialog d(*this);
+	d.exec();
+
     return m_patient;
 }
 
-void PatientDialogPresenter::setView(IPatientDialog* view)
+void PatientDialogPresenter::setView(PatientFormDialog* view)
 {
 	this->view = view;
 

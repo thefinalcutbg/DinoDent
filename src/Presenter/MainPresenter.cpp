@@ -26,13 +26,14 @@
 
 #include "View/Widgets/SplashScreen.h"
 #include "View/Widgets/NotificationListDialog.h"
+#include "View/Widgets/DinoDent.h"
 
 #include "Printer/SignatureTablet.h"
 #include "Printer/FilePaths.h"
 
 MainPresenter MainPresenter::s_singleton;
 
-void MainPresenter::setView(IMainView* view)
+void MainPresenter::setView(DinoDent* view)
 {
     this->view = view;
 
@@ -85,7 +86,6 @@ void MainPresenter::setView(IMainView* view)
     IRCInterface::connectAs(User::doctor().fname, User::doctor().lname);
 
 }
-
 
 void MainPresenter::printPressed()
 {
@@ -188,7 +188,7 @@ void MainPresenter::statisticPressed()
 
 void MainPresenter::settingsPressed()
 {
-    ModalDialogBuilder::openSettingsDialog(SettingsTab::General);
+    ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab::General);
 
     view->setUserLabel(
         User::doctor().getFullName(),
@@ -253,7 +253,7 @@ void MainPresenter::logOut()
 
 void MainPresenter::userSettingsPressed()
 {
-    ModalDialogBuilder::openSettingsDialog(SettingsTab::Doctor);
+    ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab::Doctor);
 
     view->setUserLabel(
         User::doctor().getFullName(),

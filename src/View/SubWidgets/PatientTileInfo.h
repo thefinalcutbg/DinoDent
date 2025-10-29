@@ -2,13 +2,11 @@
 
 #include <QWidget>
 
-#include "View/Interfaces/IPatientTileInfo.h"
-
 #include "ui_PatientTileInfo.h"
 
 struct PatientInfoPresenter;
 
-struct PatientTileInfo : public QWidget, public IPatientTileInfo
+struct PatientTileInfo : public QWidget
 {
 	Q_OBJECT
 
@@ -18,8 +16,8 @@ struct PatientTileInfo : public QWidget, public IPatientTileInfo
 
 public:
 	PatientTileInfo(QWidget *parent = nullptr);
-	void setPatient(const Patient& p, int age) override;
-	void setPresenter(PatientInfoPresenter* p) override { presenter = p; }
+	void setPatient(const Patient& p, int age);
+	void setPresenter(PatientInfoPresenter* p) { presenter = p; }
 
 	~PatientTileInfo();
 

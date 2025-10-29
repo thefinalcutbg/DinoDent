@@ -2,12 +2,12 @@
 
 #include <QWidget>
 #include "ui_FiscalReportView.h"
-#include "View/Interfaces/IFiscalReportView.h"
+
 #include "View/TableModels/FiscalReceiptTableModel.h"
 
 #include "Presenter/FiscalReportPresenter.h"
 
-class FiscalReportView : public QWidget, public IFiscalReportView
+class FiscalReportView : public QWidget
 {
 	Q_OBJECT
 
@@ -21,8 +21,7 @@ public:
 	FiscalReportView(QWidget *parent = nullptr);
 	~FiscalReportView();
 
-	void setFiscalData(const std::vector<FiscalReceipt>& data) final;
-
+	void setFiscalData(const std::vector<FiscalReceipt>& data);
 
 private:
 

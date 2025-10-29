@@ -187,12 +187,6 @@ void PatientFormDialog::setEditMode(bool editMode)
 
 }
 
-void PatientFormDialog::close()
-{
-    reject();
-}
-
-
 void PatientFormDialog::setTitle(const std::string& title)
 {
     setWindowTitle(title.c_str());

@@ -4,17 +4,19 @@
 #include "Presenter/TabInstance.h"
 #include "Presenter/PatientInfoPresenter.h"
 #include "Model/Patient.h"
-#include "View/Interfaces/IPerioView.h"
 #include "Model/Dental/PerioStatistic.h"
 #include "Model/Dental/PerioStatus.h"
 #include "Model/Dental/ToothContainer.h"
 
+class TabView;
+class PerioView;
+
 class PerioPresenter : public TabInstance
 {
 
-	IPerioView* view;
+	PerioView* view;
 
-	ShowTeeth m_teethShow{ false };
+	bool m_showLowerTeeth{ false };
 
 	void refreshMeasurment(int index);
 
@@ -30,7 +32,7 @@ public:
 	PerioStatus m_perioStatus;
 	ToothContainer m_toothStatus;
 
-	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId = 0);
+	PerioPresenter(TabView* view, std::shared_ptr<Patient> patient, long long rowId = 0);
 	void toothButtonClicked(int tooth);
 
 	void pdChanged(int index, int value);
@@ -40,7 +42,7 @@ public:
 	void attachChanged(int index, int value);
 	void FMBSChanged(int index, bool value);
 	void FMPSChanged(int index, bool value);
-	void teethViewChanged(ShowTeeth t);
+	void teethViewChanged(bool showLower);
 	void furcationChanged(int index, int a, int b, int c);
 
 	void smokeClicked(int value);

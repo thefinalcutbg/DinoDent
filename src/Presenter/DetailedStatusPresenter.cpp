@@ -4,6 +4,7 @@
 #include "Database/DbNotes.h"
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/DetailedStatus.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(int tooth_index ,long long patientRowId, const std::vector<Procedure>& toothProcedures)
     : view(nullptr),
@@ -14,7 +15,7 @@ DetailedStatusPresenter::DetailedStatusPresenter(int tooth_index ,long long pati
 	m_notes = DbNotes::getNote(patientRowId, tooth_index);
 }
 
-void DetailedStatusPresenter::setView(IDetailedStatusView* view)
+void DetailedStatusPresenter::setView(DetailedStatus* view)
 {
 	this->view = view; 
 
@@ -52,9 +53,7 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 			return;
 		}
 	}
-
 }
-
 
 void DetailedStatusPresenter::tableOptionChanged(bool local, bool his, bool pis)
 {
@@ -87,7 +86,9 @@ void DetailedStatusPresenter::okPressed()
 
 void DetailedStatusPresenter::open()
 {
-    ModalDialogBuilder::openDialog(*this);
+	DetailedStatus d(*this);
+
+	d.exec();
 }
 
 

@@ -59,7 +59,7 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 	connect(ui.templateButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addTemplate(); });
 }
 
-IPatientTileInfo* PrescriptionView::patientTile()
+PatientTileInfo* PrescriptionView::patientTile()
 {
 	return ui.patientInfoTile;
 }

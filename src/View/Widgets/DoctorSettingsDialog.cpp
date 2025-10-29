@@ -17,12 +17,12 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter& presenter, QWi
 	setWindowTitle("Лекар");
 	setWindowIcon(QIcon{ ":/icons/icon_user.png" });
 
-	lineEdits[DoctorFields::FirstName] = ui.fNameEdit;
-	lineEdits[DoctorFields::MiddleName] = ui.mNameEdit;
-	lineEdits[DoctorFields::LastName] = ui.lNameEdit;
-	lineEdits[DoctorFields::Phone] = ui.phoneEdit;
-	lineEdits[DoctorFields::LPK] = ui.lpkEdit;
-	lineEdits[DoctorFields::Password] = ui.passEdit;
+	lineEdits[FirstName] = ui.fNameEdit;
+	lineEdits[MiddleName] = ui.mNameEdit;
+	lineEdits[LastName] = ui.lNameEdit;
+	lineEdits[Phone] = ui.phoneEdit;
+	lineEdits[LPK] = ui.lpkEdit;
+	lineEdits[Password] = ui.passEdit;
 
 	auto phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
 	ui.phoneEdit->QLineEdit::setValidator(phoneValidator);

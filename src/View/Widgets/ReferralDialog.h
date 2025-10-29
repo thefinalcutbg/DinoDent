@@ -3,14 +3,14 @@
 #include <QDialog>
 #include "ui_ReferralDialog.h"
 #include "Model/Referrals/ReferralData.h"
-#include "View/Interfaces/IReferralDialog.h"
 #include "View/TableModels/MKBModel.h"
+#include "Model/Referrals/Referral.h"
 
 class DateValidator;
 class ReferralPresenter;
 
 
-class ReferralDialog : public QDialog, public IReferralDialog
+class ReferralDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -24,17 +24,27 @@ class ReferralDialog : public QDialog, public IReferralDialog
 	void setRefTypeView(ReferralType t);
 
 public:
+
+	struct CommonData {
+		Date date;
+		int number;
+		std::string mkbMain;
+		std::string mkbAdditional;
+		std::string mkbComorbMain;
+		std::string mkbComorbAdd;
+		int reason_idx;
+	};
+
     ReferralDialog(ReferralPresenter &p, QWidget *parent = nullptr);
 
 	// Inherited via IReferralDialog
-	void setTitle(const std::string& str) final;
-	void setReferral(const Referral& referral) final;
-	IReferralDialog::CommonData getCommon() final;
-	MDD4Data MDD4data() final;
-	MH119Data MH119data() final;
-	void setErrorLabel(const std::string& str) final;
-	void closeDialog()  final { close(); }
-	void setDateValidator(DateValidator *d) final;
+	void setTitle(const std::string& str);
+	void setReferral(const Referral& referral);
+	CommonData getCommon();
+	MDD4Data MDD4data();
+	MH119Data MH119data();
+	void setErrorLabel(const std::string& str);
+	void setDateValidator(DateValidator *d);
 
 	~ReferralDialog();
 

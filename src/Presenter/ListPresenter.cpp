@@ -5,8 +5,11 @@
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
 #include "Database/DbMedicalNotice.h"
+
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
+#include "Model/FreeFunctions.h"
+
 #include "Presenter/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"
@@ -14,15 +17,18 @@
 #include "Presenter/PatientHistoryPresenter.h"
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Presenter/FiscalReceiptPresenter.h"
-#include "Model/FreeFunctions.h"
+
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
+#include "View/Widgets/SignatureViewDialog.h"
+#include "View/Widgets/ListView.h"
+#include "View/Widgets/TabView.h"
+
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
-#include "View/Widgets/SignatureViewDialog.h"
 
-ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
+ListPresenter::ListPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
     patient_info(tabView->listView()->tileInfo(), patient),
@@ -72,7 +78,7 @@ void ListPresenter::setHisButtonToView()
     if (m_amblist.nrn.empty()) {
         
         view->setHisButtonText(
-            IListView::HisButtonProperties
+            ListView::HisButtonProperties
             {
                 .hideSpinBox = false,
                 .buttonText = "Изпрати към НЗИС",
@@ -85,7 +91,7 @@ void ListPresenter::setHisButtonToView()
 
     if (m_amblist.nrn.size())
     {
-        IListView::HisButtonProperties prop
+        ListView::HisButtonProperties prop
         {
             .hideSpinBox = true,
             .buttonText = m_amblist.his_updated ? m_amblist.nrn : "Изпрати за корекция",

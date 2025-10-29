@@ -1,21 +1,23 @@
 ﻿#include "StatisticDialogPresenter.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Database/DbStatistics.h"
+
 #include "Model/Dental/Procedure.h"
 
-StatisticDialogPresenter::StatisticDialogPresenter()
-{
+#include "View/ModalDialogBuilder.h"
+#include "View/Widgets/StatisticDialogView.h"
 
-}
+StatisticDialogPresenter::StatisticDialogPresenter()
+{}
 
 void StatisticDialogPresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(*this);
+	StatisticDialogView d(*this);
+	d.exec();
 }
 
 void StatisticDialogPresenter::setProcedureType(int type)
 {
-
 	auto procedureType = static_cast<ProcedureType>(type);
 
 	bool hideToothFilter = ProcedureCode::getScope(procedureType) != ProcedureScope::SingleTooth;
@@ -25,7 +27,7 @@ void StatisticDialogPresenter::setProcedureType(int type)
 	view->setProcedureFilter(ProcedureCode::getByType(procedureType));
 }
 
-void StatisticDialogPresenter::setView(IStatisticDialogView* view)
+void StatisticDialogPresenter::setView(StatisticDialogView* view)
 {
 	this->view = view;
 

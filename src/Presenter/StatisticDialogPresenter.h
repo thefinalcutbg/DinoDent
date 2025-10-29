@@ -3,19 +3,19 @@
 #include <optional>
 
 #include "Model/Dental/DentalStatistics.h"
-#include "View/Interfaces/IStatisticDialogView.h"
+
+class StatisticDialogView;
 
 class StatisticDialogPresenter
 {
-
-	IStatisticDialogView* view{nullptr};
+	StatisticDialogView* view{nullptr};
 
 public:
 	StatisticDialogPresenter();
 
 	void setProcedureType(int type);
 
-	void setView(IStatisticDialogView* view);
+	void setView(StatisticDialogView* view);
 
 	void parameterChanged();
 

@@ -2,10 +2,12 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbFiscalReceipt.h"
 #include "Model/FreeFunctions.h"
+#include "View/Widgets/FiscalReceiptDialog.h"
 
 void FiscalReceiptPresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(*this);
+	FiscalReceiptDialog d(*this);
+	d.exec();
 }
 
 void FiscalReceiptPresenter::okPressed()
@@ -24,10 +26,10 @@ void FiscalReceiptPresenter::okPressed()
 
 	DbFiscalReceipt::saveReceipt(receipt);
 
-	view->closeDialog();
+	view->close();
 }
 
-void FiscalReceiptPresenter::setView(IFiscalReceiptDialog* v)
+void FiscalReceiptPresenter::setView(FiscalReceiptDialog* v)
 {
 	this->view = v;
 

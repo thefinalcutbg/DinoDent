@@ -1,8 +1,12 @@
 ﻿#include "ReferralPresenter.h"
-#include "View/ModalDialogBuilder.h"
+
 #include "Database/DbReferral.h"
+
 #include "Model/Dental/AmbList.h"
 #include "Model/FreeFunctions.h"
+
+#include "View/ModalDialogBuilder.h"
+#include "View/Widgets/ReferralDialog.h"
 
 ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) :
     lrn(FreeFn::getUuid()),
@@ -44,7 +48,7 @@ ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) :
 	
 }
 
-void ReferralPresenter::setView(IReferralDialog* view)
+void ReferralPresenter::setView(ReferralDialog* view)
 {
 	this->view = view;
 
@@ -73,7 +77,7 @@ void ReferralPresenter::okPressed()
 	if (sentToHis) {
 		ModalDialogBuilder::showMessage("Направлението вече е изпратено в НЗИС. Промените няма да бъдат запазени");
 		m_result.reset();
-		view->closeDialog();
+		view->close();
 		return;
 	}
 
@@ -133,7 +137,7 @@ void ReferralPresenter::okPressed()
 	if (m_result->isNrnType()) {
 		m_result->number = 0;
 		m_result->lrn = lrn;
-		view->closeDialog();
+		view->close();
 		return;
 	}
 
@@ -148,13 +152,13 @@ void ReferralPresenter::okPressed()
 		return;
 	}
 
-	view->closeDialog();
+	view->close();
 }
-
 
 std::optional<Referral> ReferralPresenter::openDialog()
 {
-    ModalDialogBuilder::openDialog(*this);
+	ReferralDialog d(*this);
+	d.exec();
 
 	return m_result;
 }

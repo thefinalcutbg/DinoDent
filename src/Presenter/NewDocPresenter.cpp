@@ -18,7 +18,7 @@ void NewDocPresenter::newPatient()
 		view->close();
 	}
 
-    result = p.open();
+    result = p.getPatient();
 }
 
 void NewDocPresenter::patientSelected(long long rowid)
@@ -36,7 +36,7 @@ std::optional<Patient> NewDocPresenter::open()
 
 		PatientDialogPresenter p(title);
 
-		return p.open();
+		return p.getPatient();
 	}
 
 	auto [rows, table] = DbBrowser::getData(TabType::PatientSummary, Date(), Date());
@@ -53,7 +53,7 @@ std::optional<Patient> NewDocPresenter::open()
 
 		PatientDialogPresenter p(title);
 
-		return p.open();
+		return p.getPatient();
 	}
 
 	NewDocDialog d(*this);

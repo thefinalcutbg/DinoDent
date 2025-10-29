@@ -1,14 +1,16 @@
 ﻿#pragma once
 
 #include "Model/Patient.h"
-#include "View/Interfaces/IPatientDialog.h"
+
 #include "Network/PIS/GetHirbnoService.h"
+
+class PatientFormDialog;
 
 struct PatientDialogPresenter
 {
 	std::optional<Patient> m_patient;
 
-	IPatientDialog* view;
+	PatientFormDialog* view;
 
 	std::string dialogTitle;
 
@@ -29,14 +31,14 @@ struct PatientDialogPresenter
 public:
 	PatientDialogPresenter(std::string dialogTitle = "Нов пациент", std::string patientData = "");
 	PatientDialogPresenter(const Patient& patient);
-	std::optional<Patient> open();
+	std::optional<Patient> getPatient();
 
 	void setHirbno(const std::string& hirbno);
 	void checkHirbno();
 	void searchDbForPatient(int type, const std::string& id);
 	void accept();
 
-	void setView(IPatientDialog* view);
+	void setView(PatientFormDialog* view);
 
 };
 

@@ -1,113 +1,15 @@
 #include "ModalDialogBuilder.h"
 
-#include "View/Widgets/ProcedureDialog.h"
-
 #include <QScreen>
 #include <QWidget>
 #include <QGuiApplication>
 #include <QProcess>
-
-void ModalDialogBuilder::openDialog(ProcedureDialogPresenter& p)
-{
-	ProcedureDialog d(p);
-	d.exec();
-}
-
-#include "View/Widgets/PatientFormDialog.h"
-
-void ModalDialogBuilder::openDialog(PatientDialogPresenter& p)
-{
-	PatientFormDialog d(p);
-	d.exec();
-}
-
-#include "View/Widgets/ProcedureEditDialog.h"
-
-void ModalDialogBuilder::openDialog(ProcedureEditorPresenter& p)
-{
-	ProcedureEditDialog d(p);
-	d.exec();
-}
 
 #include "View/Widgets/BrowserDialog.h"
 
 void ModalDialogBuilder::openBrowserDialog()
 {
     BrowserDialog d;
-	d.exec();
-}
-
-#include "View/Widgets/DetailedStatus.h"
-
-void ModalDialogBuilder::openDialog(DetailedStatusPresenter& p)
-{
-	DetailedStatus d(p);
-	d.exec();
-
-}
-
-#include "View/Widgets/LoginView.h"
-
-void ModalDialogBuilder::openDialog(LoginPresenter& p)
-{
-	LoginView d(p);
-	d.exec();
-}
-
-#include "View/Widgets/DoctorSettingsDialog.h"
-
-void ModalDialogBuilder::openDialog(DoctorDialogPresenter& p)
-{
-    DoctorSettingsDialog d(p);
-	d.exec();
-}
-
-#include "View/Widgets/MedicationDialog.h"
-
-void ModalDialogBuilder::openDialog(MedicationPresenter& p)
-{
-    MedicationDialog d(p);
-	d.exec();
-}
-
-#include "View/Widgets/DosageDialog.h"
-
-void ModalDialogBuilder::openDialog(DosagePresenter& p)
-{
-    DosageDialog d(p);
-	d.exec();
-}
-
-#include "View/Widgets/PracticeSelectorView.h"
-
-void ModalDialogBuilder::openDialog(PracticeManagerPresenter& p)
-{	
-	PracticeSelectorView d(p);
-	d.exec();
-}
-
-#include "View/Widgets/ReferralDialog.h"
-
-void ModalDialogBuilder::openDialog(ReferralPresenter& p)
-{
-	ReferralDialog d(p);
-
-	d.exec();
-}
-
-#include "View/Widgets/StatisticDialogView.h"
-
-void ModalDialogBuilder::openDialog(StatisticDialogPresenter& p)
-{
-	StatisticDialogView d(p);
-	d.exec();
-}
-
-#include "View/Widgets/FiscalReceiptDialog.h"
-
-void ModalDialogBuilder::openDialog(FiscalReceiptPresenter& p)
-{
-	FiscalReceiptDialog d(p);
 	d.exec();
 }
 
@@ -257,10 +159,10 @@ void ModalDialogBuilder::showMessage(const std::string& message)
 
 #include "View/Widgets/SettingsDialog.h"
 
-void ModalDialogBuilder::openSettingsDialog(SettingsTab tab)
+void ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab setingsTab)
 {
 	SettingsDialog d;
-	d.focusTab(tab);
+	d.focusTab(setingsTab);
 	d.exec();
 }
 

@@ -2,12 +2,13 @@
 
 #include <optional>
 
-#include "View/Interfaces/IMedicationDialog.h"
 #include "Model/Prescription/Medication.h"
+
+class MedicationDialog;
 
 class MedicationPresenter
 {
-	IMedicationDialog* view{ nullptr };
+	MedicationDialog* view{ nullptr };
 
 	Medication m_medication;
 
@@ -25,7 +26,6 @@ public:
 	void dosePeriodChanged(const std::optional<DosePeriod>& p);
 	void noteChanged(const std::string& note);
 	void addAsTemplate();
-
 	void addDosage();
 	void editDosage(int idx);
 	void deleteDosage(int idx);
@@ -33,7 +33,7 @@ public:
 	void okPressed();
 
 	std::optional<Medication> openDialog();
-	void setView(IMedicationDialog* view);
+	void setView(MedicationDialog* view);
 
 };
 

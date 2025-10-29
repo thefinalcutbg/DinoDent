@@ -1,17 +1,23 @@
 ﻿#include "CalendarPresenter.h"
-#include "View/Widgets/CalendarView.h"
+
+
 #include "Database/DbDoctor.h"
 #include "Database/DbPatient.h"
+
 #include "Model/User.h"
-#include "View/Widgets/CalendarView.h"
-#include "Network/Calendar/Google.h"
-#include "Network/Calendar/CalendarJsonParser.h"
-#include "View/Widgets/CalendarEventDialog.h"
-#include "Presenter/TabPresenter.h"
-#include "Presenter/PatientDialogPresenter.h"
 #include "Model/TableRows.h"
 
-CalendarPresenter::CalendarPresenter(ITabView* tabView) :
+#include "Presenter/TabPresenter.h"
+#include "Presenter/PatientDialogPresenter.h"
+
+#include "View/Widgets/TabView.h"
+#include "View/Widgets/CalendarView.h"
+#include "View/Widgets/CalendarEventDialog.h"
+
+#include "Network/Calendar/Google.h"
+#include "Network/Calendar/CalendarJsonParser.h"
+
+CalendarPresenter::CalendarPresenter(TabView* tabView) :
     TabInstance(tabView, TabType::Calendar, nullptr),
     view(tabView->calendarView())
 {
@@ -307,7 +313,7 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
         
         PatientDialogPresenter d("Нов пациент", event->summary);
 
-        auto result = d.open();
+        auto result = d.getPatient();
 
         if (!result) return;
 

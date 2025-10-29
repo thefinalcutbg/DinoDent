@@ -4,11 +4,12 @@
 #include "Model/Validators/CommonValidators.h"
 #include "Model/Validators/PatientValidators.h"
 #include "Model/Validators/LpkValidator.h"
-#include "View/Interfaces/IDoctorSettingsDialog.h"
+
+class DoctorSettingsDialog;
 
 class DoctorDialogPresenter
 {
-	IDoctorSettingsDialog* view{nullptr};
+	DoctorSettingsDialog* view{nullptr};
 
 	std::string current_LPK;
 
@@ -30,7 +31,7 @@ public:
 
 	void validLPK(const std::string& validLPK);
 
-	void setView(IDoctorSettingsDialog* view);
+	void setView(DoctorSettingsDialog* view);
 
 	std::optional<Doctor> open();
 };

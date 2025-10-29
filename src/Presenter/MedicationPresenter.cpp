@@ -1,5 +1,8 @@
 ﻿#include "MedicationPresenter.h"
+
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/MedicationDialog.h"
+
 #include "DosagePresenter.h"
 #include "Database/DbPrescription.h"
 
@@ -85,7 +88,9 @@ std::optional<Medication> MedicationPresenter::openDialog()
 		return std::optional<Medication>();
 	}
 
-    ModalDialogBuilder::openDialog(*this);
+	MedicationDialog d(*this);
+
+	d.exec();
 
 	if (m_readOnly) return {};
 
@@ -129,10 +134,10 @@ void MedicationPresenter::okPressed()
 
 	ok_pressed = true;
 
-	view->closeUi();
+	view->close();
 }
 
-void MedicationPresenter::setView(IMedicationDialog* view)
+void MedicationPresenter::setView(MedicationDialog* view)
 {
 	this->view = view;
 

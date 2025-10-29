@@ -19,17 +19,10 @@ ProcedureEditDialog::~ProcedureEditDialog() {}
 
 
 
-IProcedureInput* ProcedureEditDialog::procedureInput()
+ProcedureInput* ProcedureEditDialog::procedureInput()
 {
 	return ui.procedureInput;
 }
-
-
-void ProcedureEditDialog::closeDialog()
-{
-	close();
-}
-
 
 void ProcedureEditDialog::paintEvent(QPaintEvent*)
 {

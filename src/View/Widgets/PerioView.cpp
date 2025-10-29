@@ -37,12 +37,12 @@ PerioView::PerioView(QWidget* parent)
     connect(ui.upperButton, &QPushButton::clicked, this,
         [=, this] {
 			ui.stackedWidget->setCurrentWidget(ui.maxilla);
-			presenter->teethViewChanged(ShowTeeth::ShowUpperTeeth); 
+			presenter->teethViewChanged(false); 
 		});
     connect(ui.lowerButton, &QPushButton::clicked, this,
         [=, this] {
 			ui.stackedWidget->setCurrentWidget(ui.mandibula); 
-			presenter->teethViewChanged(ShowTeeth::ShowLowerTeeth);
+			presenter->teethViewChanged(true);
 		});
 
 	initializeCommon();
@@ -181,20 +181,14 @@ void PerioView::setAdditional(int smoker, int boneLoss, bool systemic, bool rest
 	ui.restoreCheck->setChecked(restore);
 }
 
-void PerioView::setTeethView(ShowTeeth t)
+void PerioView::showLowerTeeth(bool showLower)
 {
-	switch (t)
-	{
-		case ShowTeeth::ShowUpperTeeth:
-			ui.upperButton->click(); 
-			break;
-		case ShowTeeth::ShowLowerTeeth:
-			ui.lowerButton->click();
-			break;
-	}
+	showLower ?
+		ui.lowerButton->click() :
+		ui.upperButton->click();
 }
 
-IPatientTileInfo* PerioView::patientTile()
+PatientTileInfo* PerioView::patientTile()
 {
 	return ui.patientInfoTile;
 }

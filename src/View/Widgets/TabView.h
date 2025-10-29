@@ -4,24 +4,21 @@
 
 #include "View/Widgets/ListView.h"
 #include "View/Widgets/PerioView.h"
-#include "View/Widgets/PatientSummary.h"
 #include "View/Widgets/FinancialView.h"
 #include "View/Widgets/PrescriptionView.h"
 #include "View/uiComponents/PixmapLabel.h"
 #include "View/Widgets/WelcomeWidget.h"
-#include "View/Interfaces/ITabView.h"
 #include "View/Widgets/CalendarView.h"
 #include "ui_TabView.h"
 
 class TabTitle;
 
-class TabView : public QWidget, public ITabView
+class TabView : public QWidget
 {
 	Q_OBJECT
 
 	PerioView m_perioView;
 	ListView m_listView;
-	PatientSummary m_summaryView;
 	FinancialView m_financialView;
 	PrescriptionView m_prescriptionView;
 	CalendarView m_calendarView;
@@ -35,38 +32,36 @@ class TabView : public QWidget, public ITabView
 
 
 public:
+
 	TabView(QWidget *parent = Q_NULLPTR);
 	~TabView();
 
 	void requestClose(int tabId);
 
-	// Inherited via ITabView
 	void removeAllTabs();
-	void newTab(int tabId, const TabName& tabName) override;
-	void focusTab(int tabId) override;
-	void removeCurrentTab() override;
+	void newTab(int tabId, const TabName& tabName);
+	void focusTab(int tabId);
+	void removeCurrentTab();
 	//void changeTabName(const TabName& tabName) override;
-	void changeTabName(const TabName& tabName, int tabId) override;
+	void changeTabName(const TabName& tabName, int tabId);
 
-	void removeTab(int tabId) override;
+	void removeTab(int tabId);
 
-	ScrollPos getScrollPos();
-	void setScrollPos(ScrollPos scrollPos);
+	std::pair<int, int> getScrollPos();
+	void setScrollPos(std::pair<int, int> scrollPos);
 
-	void showListView() override;
-    void showPerioView() override;
-	void showSummaryView() override;
-	void showFinancialView() override;
-	void showPerscriptionView() override;
-	void showWelcomeScreen() override;
-	void showCalendarView() override;
+	void showListView();
+    void showPerioView();
+	void showFinancialView();
+	void showPerscriptionView();
+	void showWelcomeScreen();
+	void showCalendarView();
 
-	IListView* listView() override { return &m_listView; }
-	IPerioView* perioView() override { return &m_perioView; }
-	IPatientSummaryView* summaryView() override { return &m_summaryView; }
-	IFinancialView* financialView() override { return &m_financialView; }
-	IPrescriptionView* prescriptionView() override { return &m_prescriptionView; }
-	CalendarView* calendarView() override { return &m_calendarView; }
+	ListView* listView() { return &m_listView; }
+	PerioView* perioView() { return &m_perioView; }
+	FinancialView* financialView() { return &m_financialView; }
+	PrescriptionView* prescriptionView() { return &m_prescriptionView; }
+	CalendarView* calendarView() { return &m_calendarView; }
 
 signals:
 	void closeRequested(int mapIndex);

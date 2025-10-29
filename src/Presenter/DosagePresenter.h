@@ -2,12 +2,12 @@
 #include <optional>
 
 #include "Model/Prescription/Dosage.h"
-#include "View/Interfaces/IDosageDialog.h"
+#include "View/Widgets/DosageDialog.h"
 #include "View/ModalDialogBuilder.h"
 class DosagePresenter
 {
 
-	IDosageDialog* view{ nullptr };
+	DosageDialog* view{ nullptr };
 
 	Dosage m_dosage;
 	bool ok_pressed{ false };
@@ -17,7 +17,7 @@ public:
 	DosagePresenter(int medicationFormUnit);
 	DosagePresenter(const Dosage& dosage) : m_dosage(dosage) {};
 	
-	void setView(IDosageDialog* view);
+	void setView(DosageDialog* view);
 
 	void additionalInstructionsChanged(const std::string& text) {
 		m_dosage.additionalInstructions = text;

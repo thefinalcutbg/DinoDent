@@ -261,7 +261,7 @@ void ProcedureInput::setParameterData(bool supernumeral, ConstructionRange range
 	emit ui.constructionTypeCombo->currentIndexChanged(preferedIndex);  //in case it is already checked
 }
 
-IProcedureInput::ResultData ProcedureInput::getResult()
+ProcedureInput::ResultData ProcedureInput::getResult()
 {
 	ResultData result;
 

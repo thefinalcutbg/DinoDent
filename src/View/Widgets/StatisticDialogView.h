@@ -2,11 +2,13 @@
 
 #include <QDialog>
 #include "ui_StatisticDialogView.h"
-#include "View/Interfaces/IStatisticDialogView.h"
+
+#include "Model/Dental/DentalStatistics.h"
+#include "Model/Dental/ProcedureCode.h"
 
 class StatisticDialogPresenter;
 
-class StatisticDialogView : public QDialog, public IStatisticDialogView
+class StatisticDialogView : public QDialog
 {
 	Q_OBJECT
 
@@ -17,15 +19,17 @@ class StatisticDialogView : public QDialog, public IStatisticDialogView
 
 public:
 	StatisticDialogView(StatisticDialogPresenter& p, QWidget *parent = nullptr);
+
+	void setProcedureFilter(const std::vector<ProcedureCode> namesFilter);
+	DentalStatistic getStatistic();
+
+	void hideToothFilter(bool hidden);
+	void setResult(int count);
+
 	~StatisticDialogView();
 
 private:
 	Ui::StatisticDialogViewClass ui;
 
-	// Inherited via IStatisticDialogView
-	void setProcedureFilter(const std::vector<ProcedureCode> namesFilter) override;
-	DentalStatistic getStatistic() override;
-	void closeDialog() override { close(); }
-    void hideToothFilter(bool hidden) override;
-	void setResult(int count) override;
+
 };

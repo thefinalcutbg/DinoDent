@@ -4,10 +4,9 @@
 #include "ui_ReportFilesView.h"
 #include "Presenter/ReportFilesPresenter.h"
 #include "View/TableModels/ReportFilesModel.h"
-#include "View/Interfaces/IReportFilesView.h"
 
 
-class ReportFilesView : public QWidget, public IReportFilesView
+class ReportFilesView : public QWidget
 {
 	Q_OBJECT
 
@@ -18,11 +17,11 @@ class ReportFilesView : public QWidget, public IReportFilesView
 public:
 	ReportFilesView(QWidget *parent = nullptr);
 	void hasBeenShown();
+	void setFiles(const std::vector<ReportFile>& fileRows);
 	~ReportFilesView();
 
 private:
 	Ui::ReportFilesViewClass ui;
 
-	// Inherited via IReportFilesView
-	virtual void setFiles(const std::vector<ReportFile>& fileRows) override;
+
 };

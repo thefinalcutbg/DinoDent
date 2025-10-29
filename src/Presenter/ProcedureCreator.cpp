@@ -2,6 +2,7 @@
 #include <set>
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/SubWidgets/ProcedureInput.h"
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
@@ -37,7 +38,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 	}
 
 	//setting common data
-	IProcedureInput::CommonData commonData;
+	ProcedureInput::CommonData commonData;
 
 	if (User::settings().autoDiagnosis){
 		auto & defaultICDCode = code.defaultICD10();
@@ -469,7 +470,7 @@ ConstructionRange ProcedureCreator::autoRange(const std::vector<const Tooth*> se
 }
 
 
-void ProcedureCreator::setView(IProcedureInput* view)
+void ProcedureCreator::setView(ProcedureInput* view)
 {
 	this->view = view;
 

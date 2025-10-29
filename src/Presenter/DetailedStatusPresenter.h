@@ -1,18 +1,17 @@
 #pragma once
-#include "View/Interfaces/IDetailedStatusView.h"
-#include "Presenter/CheckModel.h"
-#include "Model/Dental/Tooth.h"
+
 #include <optional>
+#include <vector>
+
+#include "Model/Dental/Procedure.h"
+
+class DetailedStatus;
 
 class DetailedStatusPresenter
 {
-
-	IDetailedStatusView* view{ nullptr };
+	DetailedStatus* view{ nullptr };
 
 	std::vector<Procedure> m_procedures;
-
-	CheckModel m_checkModel;
-	CheckModel m_dsnCheckModel;
 
 	long long patientRowId;
 
@@ -24,7 +23,7 @@ class DetailedStatusPresenter
 public:
 	DetailedStatusPresenter(int toothIdx, long long patientRowId, const std::vector<Procedure>& toothProcedures);
 
-	void setView(IDetailedStatusView* view);
+	void setView(DetailedStatus* view);
 	void tableOptionChanged(bool local, bool his, bool pis);
 	const std::string& getNote() const { return m_notes; }
 

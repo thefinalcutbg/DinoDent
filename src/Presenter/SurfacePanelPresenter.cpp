@@ -1,7 +1,11 @@
 ﻿#include "SurfacePanelPresenter.h"
+
 #include "Model/Dental/ToothUtils.h"
+
 #include "Presenter/ListPresenter.h"
+
 #include "View/Graphics/PaintHint.h"
+#include "View/SubWidgets/SurfacePanel.h"
 
 using namespace Dental;
 
@@ -14,7 +18,7 @@ void SurfacePanelPresenter::notesClicked()
 	statusControl->openDetails();
 }
 
-void SurfacePanelPresenter::setView(ISurfacePanel* view)
+void SurfacePanelPresenter::setView(SurfacePanel* view)
 {
 	this->view = view;
 }

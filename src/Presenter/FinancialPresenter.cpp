@@ -9,6 +9,8 @@
 #include "GlobalSettings.h"
 #include "Printer/FilePaths.h"
 #include "Printer/Print.h"
+#include "View/Widgets/FinancialView.h"
+#include "View/Widgets/TabView.h"
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring, const std::string& claimedHash)
 {
@@ -32,7 +34,7 @@ Invoice getInvoiceFromMonthNotif(const std::string& xmlstring, const std::string
     return loadFromDb ? DbInvoice::getInvoice(existingRowid) : i;    
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotif, const std::string& claimedHash) :
+FinancialPresenter::FinancialPresenter(TabView* tabView, const std::string& monthNotif, const std::string& claimedHash) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
     m_invoice(getInvoiceFromMonthNotif(monthNotif, claimedHash))
@@ -41,7 +43,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures) :
+FinancialPresenter::FinancialPresenter(TabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures) :
     TabInstance(tabView, TabType::Financial, patient),
     view(tabView->financialView()),
     m_invoice(*patient.get())
@@ -75,14 +77,14 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, std::shared_ptr<Patien
     m_invoice.number = DbInvoice::getNewInvoiceNumber();
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, long long rowId) :
+FinancialPresenter::FinancialPresenter(TabView* tabView, long long rowId) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
     m_invoice(DbInvoice::getInvoice(rowId))
 {
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const Recipient& r) :
+FinancialPresenter::FinancialPresenter(TabView* tabView, const Recipient& r) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
     m_invoice(r)
@@ -259,7 +261,7 @@ void FinancialPresenter::editRecipient()
 
 void FinancialPresenter::editIssuer()
 {
-    ModalDialogBuilder::openSettingsDialog(SettingsTab::Company);
+    ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab::Company);
     view->setInvoice(m_invoice);
 }
 

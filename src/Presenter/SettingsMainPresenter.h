@@ -1,9 +1,11 @@
 #pragma once
 
-#include "View/Interfaces/ISettingsDialog.h"
 #include "Network/HIS/UpdateMedications.h"
 #include "Presenter/ProcedureListPresenter.h"
 #include "Network/HIS/EDental.h"
+#include "Model/UserStructs.h"
+
+class SettingsDialog;
 
 class SettingsMainPresenter
 {
@@ -14,7 +16,7 @@ class SettingsMainPresenter
 	UpdateMedications med_update;
 	EDental::Fetch his_fetch_service;
 
-	ISettingsDialog* view{nullptr};
+	SettingsDialog* view{nullptr};
 
 	ProcedureListPresenter procedure_list;
 
@@ -27,7 +29,7 @@ public:
 
 	SettingsMainPresenter();
 
-	void setView(ISettingsDialog* view);
+	void setView(SettingsDialog* view);
 	void updateMedications();
 	void addDoctor();
 	void removeDoctor();

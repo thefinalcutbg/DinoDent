@@ -1,5 +1,5 @@
 ﻿#include "BrowserPresenter.h"
-#include "View/Interfaces/IBrowserDialog.h"
+#include "View/Widgets/BrowserDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
 #include "Presenter/PatientDialogPresenter.h"
@@ -12,7 +12,7 @@
 #include <map>
 
 
-void BrowserPresenter::setView(IBrowserDialog* view)
+void BrowserPresenter::setView(BrowserDialog* view)
 {
 	this->view = view;
 	
@@ -327,7 +327,7 @@ void BrowserPresenter::editPatientData()
 	auto patient = DbPatient::get(m_selectedInstances[0]->patientRowId);
 
 	PatientDialogPresenter d(patient);
-	auto result = d.open();
+	auto result = d.getPatient();
 
 	if (result) {
 		refreshModel();

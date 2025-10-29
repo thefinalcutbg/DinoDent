@@ -62,7 +62,7 @@ void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum
 	ui.statusLabel->setText(selectedTeeth);
 }
 
-IProcedureInput* ProcedureDialog::procedureInput()
+ProcedureInput* ProcedureDialog::procedureInput()
 {
 	return ui.procedureInput;
 }

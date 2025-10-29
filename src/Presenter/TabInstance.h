@@ -1,11 +1,12 @@
 #pragma once
 
-#include "View/Interfaces/ITabView.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/Patient.h"
 #include <memory>
 #include "View/CommonIcon.h"
 #include "Model/TabType.h"
+
+class TabView;
 
 struct TabName {
 	std::string header;
@@ -16,12 +17,14 @@ struct TabName {
 	std::string toString() const { return header + " - " + footer; };
 };
 
+
+
 class TabInstance
 {
 
-	ScrollPos m_scrollPos;
-	ITabView* _tabView;
-	void setScrollPosition() { _tabView->setScrollPos(m_scrollPos); }
+	std::pair<int, int> m_scrollPos;
+	TabView* _tabView;
+	void setScrollPosition();
 
 	int m_containerIdx{ -1 }; //used to change the tab name even if not current
 
@@ -47,7 +50,7 @@ public:
 
 	std::shared_ptr<Patient> patient;
 
-	TabInstance(ITabView* tabView, TabType type, std::shared_ptr<Patient> patient) : _tabView(tabView), type(type), patient(patient) {  };
+	TabInstance(TabView* tabView, TabType type, std::shared_ptr<Patient> patient) : _tabView(tabView), type(type), patient(patient) {  };
 
 	void setContainerIdx(int idx) { m_containerIdx = idx;}
 

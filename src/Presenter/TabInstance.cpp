@@ -1,4 +1,5 @@
 #include "TabInstance.h"
+#include "View/Widgets/TabView.h"
 
 void TabInstance::makeEdited()
 {
@@ -8,6 +9,11 @@ void TabInstance::makeEdited()
 	auto tabName = getTabName();
 	tabName.header = "*" + tabName.header;
 	_tabView->changeTabName(tabName, m_containerIdx);
+}
+
+void TabInstance::setScrollPosition()
+{
+	_tabView->setScrollPos(m_scrollPos);
 }
 
 void TabInstance::refreshTabName()
@@ -47,7 +53,7 @@ void TabInstance::setCurrent()
 	{
 		case TabType::AmbList: _tabView->showListView(); break;
 		case TabType::PerioStatus: _tabView->showPerioView(); break;
-		case TabType::PatientSummary: _tabView->showSummaryView(); break;
+		case TabType::PatientSummary: break;
 		case TabType::Financial:_tabView->showFinancialView(); break;
 		case TabType::Prescription:_tabView->showPerscriptionView(); break;
 		case TabType::Calendar:_tabView->showCalendarView(); break;

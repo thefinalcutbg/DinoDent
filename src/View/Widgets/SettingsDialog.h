@@ -1,13 +1,18 @@
 #pragma once
 
 #include <QDialog>
+
 #include "ui_SettingsDialog.h"
 
 #include "Presenter/SettingsMainPresenter.h"
 
-#include "View/Interfaces/ISettingsDialog.h"
 #include "View/TableModels/SpecialtyTableModel.h"
 #include "View/TableModels/PlainTableModel.h"
+
+#include "Model/Settings.h"
+#include "Model/GlobalSettingsData.h"
+#include "Model/UserStructs.h"
+#include "Model/DynamicNum.h"
 
 #include "Model/Validators/BulstatValidator.h"
 #include "Model/Validators/CommonValidators.h"
@@ -17,8 +22,7 @@
 #include "Model/Validators/RziValidaor.h"
 #include "Model/Validators/PatientValidators.h"
 
-
-class SettingsDialog : public QDialog, public ISettingsDialog
+class SettingsDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -56,38 +60,35 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 //	void paintEvent(QPaintEvent* event) override;
 
 public:
+
+	enum class Tab { General, PKCS, PenTablet, Doctor, Practice, Company, NhifContract, CodeList, SQL };
+
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 
-    void focusTab(SettingsTab tab) override;
-    void setAdminPriv(bool admin) override;
-	void closeDialog() final { this->close(); };
+    void focusTab(Tab tab);
+    void setAdminPriv(bool admin);
 
-	void setSettings(const Settings& settings) final;
-	Settings getSettings() final;
-	void setUpdateDate(DynamicNum num, const Date& date) final;
+	void setSettings(const Settings& settings);
+	Settings getSettings();
+	void setUpdateDate(DynamicNum num, const Date& date);
 
-    void setGlobalSettings(const GlobalSettingsData& data) final;
-	GlobalSettingsData getGlobalSettings() final;
+    void setGlobalSettings(const GlobalSettingsData& data);
+	GlobalSettingsData getGlobalSettings();
 
 	ProcedureListView* getPriceListView();
-	void setSqlTable(const PlainTable& table) final;
+	void setSqlTable(const PlainTable& table);
 
-
+	void setPractice(const Practice& practice);
+	void setDoctor(const Doctor& doctor);
+	void setDoctorList(const std::vector<PracticeDoctor>& doctors);
+	void setDoctorProperties(bool admin, NhifSpecialty specialty);
+	Practice getPractice();
+	Doctor getDoctor();
+	void replaceCurrentItem(const PracticeDoctor& item);
+	bool allFieldsAreValid();
 
 	~SettingsDialog();
 
 private:
 	Ui::SettingsDialog ui;
-
-	// Inherited via ISettingsDialog
-	virtual void setPractice(const Practice& practice) override;
-	virtual void setDoctor(const Doctor& doctor) override;
-	virtual void setDoctorList(const std::vector<PracticeDoctor>& doctors) override;
-	virtual void setDoctorProperties(bool admin, NhifSpecialty specialty) override;
-	virtual Practice getPractice() override;
-	virtual Doctor getDoctor() override;
-	virtual void replaceCurrentItem(const PracticeDoctor& item) override;
-
-	// Inherited via ISettingsDialog
-	virtual bool allFieldsAreValid() override;
 };

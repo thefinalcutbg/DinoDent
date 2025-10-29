@@ -7,8 +7,9 @@
 #include "View/Widgets/MedicationTemplateDialog.h"
 #include "GlobalSettings.h"
 #include "Printer/FilePaths.h"
+#include "View/Widgets/TabView.h"
 
-PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
+PrescriptionPresenter::PrescriptionPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 
 	view(tabView->prescriptionView()),
 	m_prescription(DbPrescription::get(rowId)),

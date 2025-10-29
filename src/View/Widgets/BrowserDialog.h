@@ -2,12 +2,11 @@
 
 #include <QDialog>
 #include "ui_BrowserDialog.h"
-#include "View/Interfaces/IBrowserDialog.h"
 #include "View/TableModels/PlainTableModel.h"
 #include "View/TableModels/NameFilterProxyModel.h"
 #include "Presenter/BrowserPresenter.h"
 
-class BrowserDialog : public QDialog, public IBrowserDialog
+class BrowserDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -31,11 +30,11 @@ private:
 public:
     BrowserDialog();
 
-	void setUiState(const BrowserUiState& state) override;
-
-	void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn) override;
-	void setPreview(const PlainTable& t) override;
-
+	void setUiState(const BrowserUiState& state) ;
+	void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn);
+	void setPreview(const PlainTable& t) ;
+	void focus();
+	void close();
 	~BrowserDialog();
 
 private:
@@ -43,8 +42,7 @@ private:
 
 	//shows the additional buttons and changes selectionMode
     void datesChanged();
-	void focus() override;
-	void close() override;
+
 	void contextMenuRequested(const QPoint& p);
 
 

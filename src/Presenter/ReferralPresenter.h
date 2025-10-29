@@ -3,14 +3,14 @@
 #include <optional>
 
 #include "Model/Referrals/Referral.h"
-#include "View/Interfaces/IReferralDialog.h"
 #include "Model/Validators/DateValidator.h"
 
 struct AmbList;
+class ReferralDialog;
 
 class ReferralPresenter
 {
-	IReferralDialog* view{ nullptr };
+	ReferralDialog* view{ nullptr };
 
 	std::optional<Referral> m_result;
 
@@ -32,7 +32,7 @@ public:
 
 	void okPressed();
 
-	void setView(IReferralDialog* view);
+	void setView(ReferralDialog* view);
 
 	std::optional<Referral> openDialog();
 

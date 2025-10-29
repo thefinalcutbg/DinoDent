@@ -390,7 +390,7 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 	//some logic if it's not adult
 	if (!patientIsAdult) {
 
-		auto parent = PatientDialogPresenter("Въведете данните на родител/настойник").open();
+		auto parent = PatientDialogPresenter("Въведете данните на родител/настойник").getPatient();
 
 		if (!parent) return {};
 

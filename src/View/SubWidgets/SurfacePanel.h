@@ -1,19 +1,22 @@
 #pragma once
 #include <QWidget>
 
-#include "ui_SurfacePanel.h"
+#include <array>
+#include <string>
 
+#include "ui_SurfacePanel.h"
 
 #include "View/Graphics/CPTooth.h"
 #include "View/Graphics/ControlPanelPolygon.h"
 
-#include "View/Interfaces/ISurfacePanel.h"
 #include "Presenter/InputEnums.h"
 
+struct ToothPaintHint;
+class SurfacePanelPresenter;
 
 class SurfacePanelPresenter;
 
-class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePanel
+class SurfacePanel : public QWidget, public PolygonObserver
 {
 	Q_OBJECT
 
@@ -35,18 +38,16 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 public:
 	SurfacePanel(QWidget *parent = Q_NULLPTR);
 	void drawFocused(bool focused);
+	void setPresenter(SurfacePanelPresenter* presenter);
+	void paintTooth(const ToothPaintHint& tooth, bool hasNotes);
+	void hidePanel(bool hidden);
+    void setLabels(std::array<std::string, 6>& SurfaceNames);
+    void setStatuses(std::array<std::string, 6>& StatusNames);
 	~SurfacePanel();
 
-
-	// Inherited via ISurface Panel
-	void setPresenter(SurfacePanelPresenter* presenter) override;
-	void paintTooth(const ToothPaintHint& tooth, bool hasNotes) override;
-	void hidePanel(bool hidden) override;
-    void setLabels(std::array<std::string, 6>& SurfaceNames) override;
-    void setStatuses(std::array<std::string, 6>& StatusNames) override;
 	// Inherited via PolygonObserver
-    virtual void buttonHovered(ButtonPos position, Hover hoverState) override;
-    virtual void buttonClicked(ButtonPos position, MouseClick click) override;
+    virtual void buttonHovered(ButtonPos position, Hover hoverState);
+    virtual void buttonClicked(ButtonPos position, MouseClick click);
 
 private:
 	Ui::SurfacePanel ui;

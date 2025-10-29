@@ -136,7 +136,7 @@ void ReferralDialog::setReferral(const Referral & r)
 
 }
 
-IReferralDialog::CommonData ReferralDialog::getCommon()
+ReferralDialog::CommonData ReferralDialog::getCommon()
 {
 	return CommonData{
 		.date = ui.dateEdit->getDate(),

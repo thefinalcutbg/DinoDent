@@ -7,8 +7,6 @@ ReportView::ReportView(QWidget* parent)
 {
 	ui.setupUi(this);
 
-
-
 	setWindowTitle("Генериране на отчет");
 	setWindowIcon(QIcon(":/icons/icon_reports.png"));
 

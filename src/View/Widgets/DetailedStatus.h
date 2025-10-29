@@ -2,15 +2,16 @@
 
 #include <QDialog>
 #include  <QVBoxLayout>
-#include "View/Interfaces/IDetailedStatusView.h"
+#include <QTextEdit>
+
 #include "ui_DetailedStatus.h"
 
 #include "View/TableModels/ProcedureTableModel.h"
-#include <QTextEdit>
+
 
 class DetailedStatusPresenter;
 
-class DetailedStatus final: public QDialog, public IDetailedStatusView
+class DetailedStatus final: public QDialog
 {
 	Q_OBJECT
 
@@ -25,12 +26,10 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 public:
     DetailedStatus(DetailedStatusPresenter& presenter);
 
-	void setNotes(const std::string& notes) override;
-	void focusNotes(bool focus) override;
-	std::string getNotes() override;
-
-
-	void setHistoryData(const std::vector<Procedure>& history) override;
+	void setNotes(const std::string& notes) ;
+	void focusNotes(bool focus) ;
+	std::string getNotes() ;
+	void setHistoryData(const std::vector<Procedure>& history) ;
 
 	~DetailedStatus();
 

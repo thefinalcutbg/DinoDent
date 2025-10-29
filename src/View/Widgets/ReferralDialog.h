@@ -3,7 +3,7 @@
 #include <QDialog>
 #include "ui_ReferralDialog.h"
 #include "Model/Referrals/ReferralData.h"
-#include "View/TableModels/MKBModel.h"
+#include "View/TableModels/ICDModel.h"
 #include "Model/Referrals/Referral.h"
 
 class DateValidator;
@@ -16,8 +16,8 @@ class ReferralDialog : public QDialog
 
     ReferralPresenter& presenter;
 
-	MKBModel m_mkbFull{ ICD10::getFullMKBList() };
-	MKBModel m_mkbDental{ ICD10::getDentalICDCodes() };
+	ICDModel m_mkbFull{ ICD10::getFullMKBList() };
+	ICDModel m_mkbDental{ ICD10::getDentalICDCodes() };
 
 	void paintEvent(QPaintEvent* event) final;
 

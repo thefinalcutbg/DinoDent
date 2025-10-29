@@ -5,7 +5,7 @@
 
 #include <optional>
 
-#include "View/TableModels/MKBModel.h"
+#include "View/TableModels/ICDModel.h"
 
 #include "Model/Validators/CommonValidators.h"
 #include "Model/MedicalNotice.h"
@@ -14,7 +14,7 @@ class MedicalNoticeDialog : public QDialog
 {
 	Q_OBJECT
 
-	MKBModel m_mkbDental{ ICD10::getDentalICDCodes() };
+	ICDModel m_mkbDental{ ICD10::getDentalICDCodes() };
 	NotEmptyValidator not_emptyValidator;
 
 	std::optional<MedicalNotice> m_result;

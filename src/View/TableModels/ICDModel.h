@@ -2,20 +2,19 @@
 #include <QAbstractTableModel>
 #include "Model/ICD10.h"
 
-class MKBModel : public QAbstractTableModel
+class ICDModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
-	const std::vector<ICD10>& mkbList;
+	const std::vector<ICD10>& icd_list;
 
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 public:
-	MKBModel(const std::vector<ICD10>& list) : mkbList(list) {}
-    int rowCount(const QModelIndex& = QModelIndex()) const override { return mkbList.size(); }
+	ICDModel(const std::vector<ICD10>& list) : icd_list(list) {}
+    int rowCount(const QModelIndex& = QModelIndex()) const override { return icd_list.size(); }
     int columnCount(const QModelIndex& = QModelIndex()) const override { return 2; }
 	int getRowFromCode(const std::string& code);
 };
-

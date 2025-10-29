@@ -3,7 +3,7 @@
 #include <QDialog>
 #include "ui_ICD10Dialog.h"
 #include <QSortFilterProxyModel>
-#include "View/TableModels/MKBModel.h"
+#include "View/TableModels/ICDModel.h"
 #include "Model/ICD10.h"
 
 class ICD10Dialog : public QDialog
@@ -15,8 +15,8 @@ class ICD10Dialog : public QDialog
 	static inline bool s_show_full_icd = false;
 
 	QSortFilterProxyModel m_proxyModel;
-	MKBModel s_dental_model{ ICD10::getDentalICDCodes() };
-	MKBModel s_full_model{ ICD10::getFullMKBList() };
+	ICDModel s_dental_model{ ICD10::getDentalICDCodes() };
+	ICDModel s_full_model{ ICD10::getFullMKBList() };
 
 	void initTable();
 

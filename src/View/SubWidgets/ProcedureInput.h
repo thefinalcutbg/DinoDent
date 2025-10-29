@@ -4,7 +4,7 @@
 #include "ui_ProcedureInput.h"
 #include "Model/Validators/CommonValidators.h"
 #include "Model/Dental/Procedure.h"
-#include "View/TableModels/MKBModel.h"
+#include "View/TableModels/ICDModel.h"
 
 class DateEdit;
 

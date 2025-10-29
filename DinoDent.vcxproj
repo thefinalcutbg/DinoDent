@@ -446,7 +446,7 @@
     <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\HospitalizationTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\MedicationTableModel.cpp" />
-    <ClCompile Include="src\View\TableModels\MKBModel.cpp" />
+    <ClCompile Include="src\View\TableModels\ICDModel.cpp" />
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\NameFilterProxyModel.cpp" />
     <ClCompile Include="src\View\TableModels\PlainTableModel.cpp" />
@@ -807,7 +807,7 @@
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
-    <QtMoc Include="src\View\TableModels\MKBModel.h" />
+    <QtMoc Include="src\View\TableModels\ICDModel.h" />
     <ClInclude Include="src\View\TableModels\NameFilterProxyModel.h" />
     <QtMoc Include="src\View\TableModels\NotificationTableModel.h" />
     <ClInclude Include="src\View\TableModels\QProcedure.h" />

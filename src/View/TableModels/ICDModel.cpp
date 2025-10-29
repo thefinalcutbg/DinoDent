@@ -1,6 +1,6 @@
-﻿#include "MKBModel.h"
+﻿#include "ICDModel.h"
 
-QVariant MKBModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ICDModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -16,7 +16,7 @@ QVariant MKBModel::headerData(int section, Qt::Orientation orientation, int role
     return QVariant();;
 }
 
-QVariant MKBModel::data(const QModelIndex& index, int role) const
+QVariant ICDModel::data(const QModelIndex& index, int role) const
 {
     int row = index.row();
     int column = index.column();
@@ -27,8 +27,8 @@ QVariant MKBModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-            case 0: return mkbList[row].code().c_str();
-            case 1: return mkbList[row].name().c_str();
+            case 0: return icd_list[row].code().c_str();
+            case 1: return icd_list[row].name().c_str();
             default: break;
         }
     case Qt::TextAlignmentRole:
@@ -41,11 +41,11 @@ QVariant MKBModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int MKBModel::getRowFromCode(const std::string& code)
+int ICDModel::getRowFromCode(const std::string& code)
 {
-    for (int i = 0; i < mkbList.size(); i++)
+    for (int i = 0; i < icd_list.size(); i++)
     {
-        if (code == mkbList[i].code()) {
+        if (code == icd_list[i].code()) {
             return i;
         }
     }

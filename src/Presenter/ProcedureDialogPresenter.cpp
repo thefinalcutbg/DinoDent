@@ -125,7 +125,7 @@ void ProcedureDialogPresenter::refreshNhifList()
 	}
 
 	list_presenter.setNhifProcedures(codePricePair);
-
+	q
 	view->procedureList()->refresh();
 
 }
@@ -134,7 +134,7 @@ void ProcedureDialogPresenter::refreshNhifList()
 std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
 	ProcedureDialog d(*this);
-	d.open();
+	d.exec();
 
 	return result;
 }

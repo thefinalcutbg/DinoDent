@@ -125,7 +125,7 @@ void ProcedureDialogPresenter::refreshNhifList()
 	}
 
 	list_presenter.setNhifProcedures(codePricePair);
-	q
+
 	view->procedureList()->refresh();
 
 }

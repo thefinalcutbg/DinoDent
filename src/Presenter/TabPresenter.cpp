@@ -140,11 +140,11 @@ void TabPresenter::openPerscription(const Patient& patient)
     createNewTab(new PrescriptionPresenter(view, getPatient_ptr(patient)));
 }
 
-void TabPresenter::openInvoice(const std::string& monthNotif, const std::string& claimedHash)
+void TabPresenter::openInvoice(const std::string& monthNotif, const std::string& fileHash)
 {
 
     try {
-        auto presenter = new FinancialPresenter(view, monthNotif, claimedHash);
+        auto presenter = new FinancialPresenter(view, monthNotif, fileHash);
 
         if (!presenter->m_invoice.rowId) {
             createNewTab(presenter);

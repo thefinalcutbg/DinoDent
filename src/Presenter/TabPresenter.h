@@ -41,7 +41,7 @@ public:
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
 	void openPerscription(const Patient& patient);
-	void openInvoice(const std::string& monthNotif, const std::string& claimedHash);
+    void openInvoice(const std::string& monthNotif, const std::string& fileHash);
 	void openInvoice(const Recipient& recipient);
 	void openInvoice(long long patientRowId, const std::vector<Procedure>& procedures = {});
 	void openCalendar(const CalendarEvent& event);

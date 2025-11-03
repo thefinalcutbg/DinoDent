@@ -6,19 +6,36 @@ ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(
 }
 
 
-void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
+void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows, bool separateLongNotes)
 {
     beginResetModel();
 
     this->m_procedures.clear();
     this->m_procedures.reserve(rows.size());
 
-    for (auto& p : rows)
+    for (auto& p : rows){
         this->m_procedures.emplace_back(QProcedure{p});
 
+        if(p.notes.size() > 1000 && separateLongNotes){
+            constexpr int chunk = 1000;
+
+            int total = p.notes.size();
+
+            auto fullText = m_procedures.back().notes;
+
+            m_procedures.back().notes = m_procedures.back().notes.mid(0, chunk);
+
+            int i = chunk;
+
+            while (i + chunk < total) {
+                m_procedures.emplace_back(QProcedure{fullText.mid(i, chunk)});
+                i += chunk;
+            }
+        }
+    }
     endResetModel();
 
-    emit dataChanged(index(0, 0), index(m_procedures.size(), poceduresColumnCount));
+    emit dataChanged(index(0, 0), index(m_procedures.size(), proceduresColumnCount));
 }
 
 
@@ -62,7 +79,7 @@ int ProcedureTableModel::rowCount(const QModelIndex&) const
 
 int ProcedureTableModel::columnCount(const QModelIndex&) const
 {
-    return poceduresColumnCount;
+    return proceduresColumnCount;
 }
 
 void ProcedureTableModel::filterProcedures(const std::vector<int>& selected)

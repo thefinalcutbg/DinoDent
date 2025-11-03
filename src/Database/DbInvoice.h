@@ -19,7 +19,7 @@ namespace DbInvoice
 	//returns rowid of existing invoice for this monthly notification:
 	long long invoiceAlreadyExists(const std::string& claimedHash);
 	bool invoiceAlreadyExists(long long number, long long rowid);
-	std::set<std::string> getClaimedHashes();
+    std::set<std::string> getFileHashes();
 	std::optional<Date> getMainDocDate(long long invoiceNumber, const std::string& recipientId);
 	std::optional<MainDocument> getMainDocument(const std::string& recipient_id, long long currentRowid);
 	std::optional<Recipient> getRecipient(const std::string& bulstat);

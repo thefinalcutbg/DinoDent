@@ -6,6 +6,7 @@
 struct QProcedure
 {
 	QProcedure(const Procedure& p);
+    QProcedure(const QString& notes): notes(notes) {}; //for print purposes
 	QString date;
 	QString diagnosis;
 	QString tooth{};

@@ -3,7 +3,7 @@
 #defining file paths
 APP="$PWD/../files/DinoDent.app" #the compiled bundle
 INSTALLER="$PWD/../compiled/dinodent-macos.dmg"
-QDEPLOY="$PWD/../../../Qt/6.8.0/macos/bin/macdeployqt" #macdeployqt location
+QDEPLOY="$PWD/../../../Qt/6.10.0/macos/bin/macdeployqt" #macdeployqt location
 
 #enforcing light theme:
 defaults write $APP/Contents/Info.plist NSRequiresAquaSystemAppearance -bool yes 

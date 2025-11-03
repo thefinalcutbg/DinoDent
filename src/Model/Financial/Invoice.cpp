@@ -48,7 +48,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const std::string& claimedHash
     }
 {
 
-	nhifData->claimedHash = claimedHash;
+    nhifData->fileHash = claimedHash;
 
 	for (
 		const TiXmlElement* business_operation = monthNotif.RootElement()->FirstChildElement("Monthly_Notification_Details");

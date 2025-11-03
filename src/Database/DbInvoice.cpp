@@ -20,7 +20,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         db.bind(2, invoice.number);
         db.bind(3, static_cast<int>(invoice.type));
         db.bind(4, invoice.date.to8601());
-        db.bind(5, invoice.nhifData->claimedHash);
+        db.bind(5, invoice.nhifData->fileHash);
         db.bind(6, invoice.recipient.identifier);
         db.bind(7, invoice.nhifData->monthNotifData);
     }
@@ -87,7 +87,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
     db.execute();
 }
 
-long long DbInvoice::invoiceAlreadyExists(const std::string& claimedHash)
+long long DbInvoice::invoiceAlreadyExists(const std::string& fileHash)
 {
 
      std::string query =
@@ -98,7 +98,7 @@ long long DbInvoice::invoiceAlreadyExists(const std::string& claimedHash)
 
      Db db(query);
 
-     db.bind(1, claimedHash);
+     db.bind(1, fileHash);
      db.bind(2, User::practice().rziCode);
 
      while (db.hasRows()) {
@@ -126,7 +126,7 @@ bool DbInvoice::invoiceAlreadyExists(long long number, long long rowid)
 
 }
 
-std::set<std::string> DbInvoice::getClaimedHashes()
+std::set<std::string> DbInvoice::getFileHashes()
 {
     std::string query{
     "SELECT claimed_hash FROM financial WHERE "
@@ -228,9 +228,9 @@ Invoice DbInvoice::getInvoice(long long rowId)
             TiXmlDocument doc;
             doc.Parse(db.asString(4).c_str(), 0, TIXML_ENCODING_UTF8);
 
-            std::string claimedHash = db.asString(3);
+            std::string fileHash = db.asString(3);
 
-            Invoice result(doc, claimedHash, User::practice(), User::doctor());
+            Invoice result(doc, fileHash, User::practice(), User::doctor());
 
             result.rowId = rowId;
             result.number = invNumber;

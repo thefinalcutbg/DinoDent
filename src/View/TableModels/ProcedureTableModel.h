@@ -22,13 +22,14 @@ class ProcedureTableModel : public QAbstractTableModel
 	Qt::DropActions supportedDropActions() const override;
 	bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& index) override;
 
-	static constexpr int poceduresColumnCount = 9;
+    static constexpr int proceduresColumnCount = 9;
 
 public:
 
 
 	ProcedureTableModel(QObject* parent = nullptr);
-	void setProcedures(const std::vector<Procedure>& p);
+    //separate the long notes when printing the ambulatory sheet
+    void setProcedures(const std::vector<Procedure>& p, bool separateLongNotes = false);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 	void filterProcedures(const std::vector<int>& selected);

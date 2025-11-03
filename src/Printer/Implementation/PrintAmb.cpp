@@ -98,7 +98,7 @@ bool Print::ambList(
 
         ProcedureTableModel pModel;
 
-        pModel.setProcedures(selectedProcedures);
+        pModel.setProcedures(selectedProcedures, true);
 
         report.dataManager()->addModel("procedures", &pModel, false);
 

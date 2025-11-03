@@ -83,8 +83,7 @@ void GetMonthNotifListService::processPISReply(const std::string& reply)
 				.date = Date(row.Child(1).ToElement()->GetText()),	//date
 				.type = getNotifType(getTextNullCheck(row.Child(2).ToElement())),						//type
 				.rziCode = getTextNullCheck(row.Child(3).ToElement()),								//rzi
-				.uin = getTextNullCheck(row.Child(4).ToElement()),								//uin
-				.claimedHash = getTextNullCheck(row.Child(5).ToElement())					//claimed
+                .uin = getTextNullCheck(row.Child(4).ToElement())								//uin
 			}
 		);
 

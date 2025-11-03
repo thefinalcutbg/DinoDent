@@ -1,6 +1,6 @@
 ﻿#include "ProcedureTableModel.h"
 #include <QIcon>
-
+#include <QRegularExpression>
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
@@ -16,22 +16,48 @@ void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows, bool
     for (auto& p : rows){
         this->m_procedures.emplace_back(QProcedure{p});
 
-        if(p.notes.size() > 1000 && separateLongNotes){
-            constexpr int chunk = 1000;
+        constexpr int chunk = 1000;
 
-            int total = p.notes.size();
+        if (!separateLongNotes || p.notes.size() <= chunk) continue;
 
-            auto fullText = m_procedures.back().notes;
+        //LOGIC FOR SPLITTING THE LONG NOTES WHEN PRINTING
 
-            m_procedures.back().notes = m_procedures.back().notes.mid(0, chunk);
+        QString fullText = m_procedures.back().notes;
 
-            int i = chunk;
+        const int total = fullText.size();
 
-            while (i + chunk < total) {
-                m_procedures.emplace_back(QProcedure{fullText.mid(i, chunk)});
-                i += chunk;
+        int pos = 0;
+        int boundary = fullText.lastIndexOf(QRegularExpression("\\s+"), pos + chunk);
+
+        if (boundary <= pos) boundary = pos + chunk;
+
+        m_procedures.back().notes = fullText.mid(pos, boundary - pos).trimmed();
+
+        pos = boundary;
+
+        while (pos < total && fullText.at(pos).isSpace()) ++pos;
+
+        while (pos < total) {
+
+            if (total - pos <= chunk) {
+                m_procedures.emplace_back(QProcedure{ fullText.mid(pos).trimmed() });
+                break;
             }
+
+            // Find break position
+            int nextBoundary = fullText.lastIndexOf(QRegularExpression("\\s+"), pos + chunk);
+
+            if (nextBoundary <= pos) nextBoundary = pos + chunk;
+
+            QString segment = fullText.mid(pos, nextBoundary - pos).trimmed();
+
+            m_procedures.emplace_back(QProcedure{ segment });
+
+            pos = nextBoundary;
+
+            while (pos < total && fullText.at(pos).isSpace()) ++pos;
         }
+
     }
     endResetModel();
 

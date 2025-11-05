@@ -666,32 +666,21 @@ std::string Tooth::getToothInfo() const
 			result.append("</b>");
 		}
 
-		if (i == Restoration && (*this)[Restoration]) {
+		if (i == Restoration ||
+			i == Caries ||
+			i == DefectiveRestoration ||
+			i == NonCariesLesion
+			) {
+		
+			if (!hasStatus(i)) continue;
 
-			result.append(":");
-
-			auto surfaces = getSurfaceBoolStatus(Restoration);
-
-			for (int y = 0; y < SurfaceCount; y++)
-			{
-				if (!surfaces[y]) continue;
-				result.append("<br>");
-				result.append(surfaceNames[y]);
-			}
-		}
-
-		if (i == Caries && (*this)[Caries]) {
-
-			result.append(":");
-
-			auto surfaces = getSurfaceBoolStatus(Caries);
+			auto& surfaces = getSurfaceBoolStatus(i);
 
 			for (int y = 0; y < SurfaceCount; y++)
 			{
 				if (!surfaces[y]) continue;
 				result.append("<br>");
 				result.append(surfaceNames[y]);
-
 			}
 		}
 

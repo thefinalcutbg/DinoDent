@@ -172,7 +172,7 @@ QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
         {SurfaceColor::blue, Qt::blue},
         {SurfaceColor::green, Qt::green},
         {SurfaceColor::red, Qt::red},
-        {SurfaceColor::purple, QColor(Qt::darkMagenta)}
+        {SurfaceColor::orange, QColor(247, 148, 26)}
     };
 
     std::map<SurfaceColor, std::vector<int>> outlineColorSurfaceMap; //stores the different outlines

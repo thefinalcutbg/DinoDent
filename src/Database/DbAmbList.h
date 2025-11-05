@@ -6,7 +6,6 @@
 
 namespace DbAmbList
 {
-
     //returns the id of the inserted amblist
     long long insert(const AmbList& ambList, long long patientRowId); //returns the rowId of the new instered row
     void deleteCurrentSelection(const std::string& ambID);
@@ -16,6 +15,8 @@ namespace DbAmbList
     AmbList getListData(long long ambID);
     
     int getNewNumber(Date ambDate);
+
+    std::vector<AmbList> getStatusesWithNhifExams(long long patientRowid, const Date& amblistDate);
 
     std::unordered_set<int> getExistingNumbers(int currentYear);
 

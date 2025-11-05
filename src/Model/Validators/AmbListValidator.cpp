@@ -5,6 +5,7 @@
 
 #include "AmbListValidator.h"
 #include "Database/DbProcedure.h"
+#include "Database/DbAmbList.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/PackageCounter.h"
@@ -28,8 +29,10 @@ bool AmbListValidator::ambListIsValid()
     if (!ambList.isNhifSheet()) return true;
 
     if (!noDuplicates()) return false;
-    
+
     if (!isValidAccordingToDb()) return false;
+
+    if (procedureOnExtractedTooth()) return false;
 
     auto& teeth = ambList.teeth;
 
@@ -94,6 +97,27 @@ bool AmbListValidator::ambListIsValid()
         }
 
     }
+
+    if (
+        m_procedures.size() &&
+        patient.PISHistory.has_value() &&
+
+        std::find_if(
+            patient.PISHistory->begin(), patient.PISHistory->end(),
+            [](const Procedure& p) {
+                return p.code.nhifCode() == 101 
+                    && p.date.year == Date::currentYear(); 
+            }) == patient.PISHistory->end() &&
+
+             
+        std::find_if(
+            m_procedures.begin(), m_procedures.end(),
+            [](const Procedure& p) { return p.code.nhifCode() == 101; }) == m_procedures.end()
+        ) {
+
+        _error = "В ПИС не е открита отчетена процедура с код 101 за текущата година";
+        return false;
+    };
 
     if (User::practice().isUnfavourable() && ambList.nhifData.isUnfavourable) {
         
@@ -258,18 +282,6 @@ bool AmbListValidator::isValidAccordingToDb()
             return false;
         }
 
-        if (patient.PISHistory.has_value() &&
-            !currentYear.count(101) &&
-            m_procedures.size() &&
-            std::find_if(
-                m_procedures.begin(), m_procedures.end(),
-                [](const Procedure& p) { return p.code.nhifCode() == 101; }) == m_procedures.end()
-            ) {
-
-            _error = "В ПИС не е открита отчетена процедура с код 101 за текущата година";
-            return false;
-        };
-
     }
 
     return true;
@@ -345,6 +357,32 @@ bool AmbListValidator::isNhifInWeekend()
         {
             _error = std::string(ref.getTypeAsString()) + " №" + std::to_string(ref.number) + " e издадено в почивен ден";
             return true;
+        }
+    }
+
+    return false;
+}
+
+bool AmbListValidator::procedureOnExtractedTooth()
+{
+    auto prevStatuses = DbAmbList::getStatusesWithNhifExams(patient.rowid, ambListDate);
+    
+    for (auto& p : m_procedures) {
+
+		if (!p.getToothIndex().isValid()) continue;
+
+        for (auto& list : prevStatuses) {
+
+            if (list.rowid == ambList.rowid) continue;
+
+            if (list.teeth.at(p.getToothIndex()).hasStatus(Dental::Missing))
+            {
+                _error = "Зъб " + p.getToothIndex().getNhifNumenclature() +
+                    " е вече подаден като липсващ при обстоен преглед по НЗОК в амбулаторен лист №" +
+                    list.getNumber() + " от дата " + list.getDate().toBgStandard();
+
+                return true;
+            }
         }
     }
 

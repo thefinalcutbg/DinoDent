@@ -302,6 +302,56 @@ int DbAmbList::getNewNumber(Date ambDate)
     return 1;
 }
 
+std::vector<AmbList> DbAmbList::getStatusesWithNhifExams(long long patientRowid, const Date& ambListDate)
+{
+    auto query =
+        "SELECT amblist.rowid, amblist.date, amblist.num, amblist.nrn, amblist.status FROM amblist "
+        "JOIN procedure ON amblist.rowid = procedure.amblist_rowid WHERE "
+        "amblist.patient_rowid = ? "
+        "AND amblist.lpk = ? "
+        "AND amblist.rzi = ? "
+		"AND strftime('%Y-%m-%d', amblist.date) < ? "
+        "AND ( "
+        "procedure.code = '97017-00' OR "   //101
+        "procedure.code = '97016-00' OR "   //102
+        "procedure.code = '97017-01' OR "   //103
+
+        "procedure.code = 'D-01-001' OR "   //101 - legacy
+        "procedure.code = 'D-01-002' OR "   //102 - legacy
+        "procedure.code = 'D-01-003' "      //103 - legacy
+
+        ") "
+        "AND procedure.removed = 0 "
+        "AND procedure.financing_source = ? "
+        "ORDER BY amblist.date DESC"
+   ;
+
+	Db db(query);
+
+
+	db.bind(1, patientRowid);
+	db.bind(2, User::doctor().LPK);
+	db.bind(3, User::practice().rziCode);
+	db.bind(4, ambListDate.to8601());
+	db.bind(5, static_cast<int>(FinancingSource::NHIF));
+
+	std::vector<AmbList> result;
+
+    while(db.hasRows())
+    {
+        AmbList ambList;
+        ambList.rowid = db.asRowId(0);
+        ambList.date = db.asString(1);
+        ambList.number = db.asInt(2);
+        ambList.nrn = db.asString(3);
+        Parser::parse(db.asString(4), ambList.teeth);
+
+		result.emplace_back(ambList);
+	}
+
+	return result;
+}
+
 std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 {
     std::vector<AmbList> result;

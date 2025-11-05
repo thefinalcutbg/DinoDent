@@ -21,6 +21,7 @@ struct AmbListValidator
 	bool dateIsValid();
 	bool examIsFirst();
 	bool isNhifInWeekend();
+	bool procedureOnExtractedTooth();
 	std::optional<std::pair<Date, int>> exceededDailyLimit();
 
 public:

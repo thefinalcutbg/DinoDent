@@ -26,8 +26,7 @@ class PatientHistoryPresenter {
 	PatientHistoryDialog view;
 
 	DentalActivitiesService pis_service;
-	EDental::GetProcedures his_service;
-	EDental::GetDentalHistory dental_history_service;
+	EDental::GetStatusAndProcedures his_service;
 	EHospitalization::Fetch eHospitalizationFetch;
 
 	std::variant<std::monostate, std::vector<Procedure>*, ToothContainer> result;
@@ -40,7 +39,7 @@ public:
 
 	void statusRefreshRequested();
 	void statusSourceChanged(Procedure::DatabaseSource source);
-
+	void toothHistoryRequested(int toothIdx, Procedure::DatabaseSource source);
 	void hospitalizationRequested();
 
 	void openDocuments(const std::vector<int>& selectedDocIdx);

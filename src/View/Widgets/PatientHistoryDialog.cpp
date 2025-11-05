@@ -90,6 +90,16 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 		}
 	});
 
+	connect(ui.snapshotViewer->getTeethScene(), &TeethViewScene::tooethDoubleClicked, this, 
+		
+		[&](int idx) {
+		presenter.toothHistoryRequested(
+			idx, 
+			ui.hisStatRadio->isChecked() ?
+			Procedure::HIS : Procedure::Local
+		);
+	});
+
 	connect(ui.openDocButton, &QPushButton::clicked, this, [&] {
 
 
@@ -160,7 +170,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	connect(ui.refreshProcedures, &QPushButton::clicked, this, [&] { presenter.procedureRefreshRequested(getProcedureSrc()); });
 	connect(ui.refreshStatus, &QPushButton::clicked, this, [&] { if (!ui.hisStatRadio->isChecked()) return; presenter.statusRefreshRequested(); });
 	connect(ui.refreshHospi, &QPushButton::clicked, this, [&] { if (!ui.hisStatRadio->isChecked()) return; presenter.hospitalizationRequested(); });
-
+	
 	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx) { tabChanged(idx);});
 }
 

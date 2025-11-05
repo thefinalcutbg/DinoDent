@@ -8,6 +8,8 @@ struct sqlite3_stmt;
 
 class Db
 {
+	int error_count{ 0 };
+
     sqlite3* db_connection;
     bool m_connectionOwned;
 
@@ -16,11 +18,12 @@ class Db
 
     sqlite3_stmt* stmt;
 
-    static inline bool s_showError{ false };
+    static inline bool s_showErrorDialog{ false };
     static inline std::string dbLocation{ "database.db" };
 
     void finalizeStatement();
 
+	void showDbError(const std::string& msg);
 
 public:
     static void setFilePath(const std::string& filePath);
@@ -30,7 +33,7 @@ public:
     //open new connection and execute query on the go
     static bool crudQuery(const std::string& query); 
     static bool createIfNotExist();
-    static void showErrorDialog(bool show) {s_showError = show;}
+    static void setShowErrors(bool show) { s_showErrorDialog = show;}
 
     //If connection exists, db finalizes statement in destructor, but does not break connection
     Db(Db* existingConnection = nullptr);

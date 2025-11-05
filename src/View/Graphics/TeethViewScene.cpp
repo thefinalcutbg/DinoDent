@@ -70,24 +70,24 @@ TeethViewScene::TeethViewScene(QObject *parent)
     }
 
     connect(this, &QGraphicsScene::selectionChanged, [=, this]
+    {
+        if (!presenter) { return; }
+
+        std::vector<int> selectedIndexes;
+        selectedIndexes.reserve(32);
+
+        for (QGraphicsItem* item : selectedItems())
         {
-            std::vector<int> selectedIndexes;
-            selectedIndexes.reserve(32);
+            auto selection = static_cast<SelectionBox*>(item);
+            selectedIndexes.emplace_back(selection->getIndex());
+        }
 
-            SelectionBox* selection;
+        std::sort(selectedIndexes.begin(), selectedIndexes.end());
 
-            for (QGraphicsItem* item : selectedItems())
-            {
-                selection = static_cast<SelectionBox*>(item);
-                selectedIndexes.emplace_back(selection->getIndex());
-            }
-
-            std::sort(selectedIndexes.begin(), selectedIndexes.end());
-
-            presenter->setSelectedTeeth(selectedIndexes);
-            contextMenu->setSelection(selectedIndexes.size() == 1);
+        presenter->setSelectedTeeth(selectedIndexes);
+        contextMenu->setSelection(selectedIndexes.size() == 1);
             
-        });
+    });
 
 }
 
@@ -138,6 +138,10 @@ void TeethViewScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (!presenter) {
+        QGraphicsScene::mousePressEvent(event);
+        return;
+    }
 
     //ctr bug:
     if (event->button() != Qt::LeftButton) {
@@ -169,7 +173,12 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
     if (item != NULL && item->flags().testFlag(QGraphicsItem::ItemIsSelectable))
     {
         auto* t = static_cast<SelectionBox*>(item);
-        presenter->addProcedure();
+
+        if (presenter) {
+            presenter->addProcedure();
+        }
+
+		emit tooethDoubleClicked(t->getIndex());
     }
 }
 
@@ -226,6 +235,8 @@ int TeethViewScene::keyCodeMapper(QKeyEvent *e)
 
 void TeethViewScene::keyPressEvent(QKeyEvent* event)
 {
+    if (!presenter) return;
+
     int lastSelected = 0;
     int firstSelected = 0;
     int selection_length = this->selectedItems().size();

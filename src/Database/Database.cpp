@@ -1,5 +1,4 @@
 ﻿#include "Database.h"
-#include "View/ModalDialogBuilder.h"
 #include <sqlite3.h>
 #include "Resources.h"
 
@@ -111,9 +110,8 @@ bool Db::execute(const std::string& query)
 
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
 
-    if (err && s_showError) {
-        ModalDialogBuilder::showError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
-
+    if (err){
+        showDbError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
     }
 
     finalizeStatement();
@@ -234,18 +232,13 @@ bool Db::execute()
 {
     if (stmt == nullptr) {
 
-        if (s_showError) {
-            ModalDialogBuilder::showError("Невалидна заявка към базата данни");
-        }
-
+        showDbError("Невалидна заявка към базата данни");
         return false;
     }
 
     if (total_bindings != successful_bindings)
     {
-        if (s_showError) {
-            ModalDialogBuilder::showError("Невалидна заявка към базата данни");
-        }
+        showDbError("Невалидни параметри към базата данни");
 
         finalizeStatement();
         return false;
@@ -254,8 +247,8 @@ bool Db::execute()
     auto result = sqlite3_step(stmt);
     finalizeStatement();
 
-    if (result != SQLITE_DONE && s_showError) {
-        ModalDialogBuilder::showError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(result));
+    if (result != SQLITE_DONE ) {
+        showDbError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(result));
     }
 
     return result == SQLITE_DONE;
@@ -297,23 +290,9 @@ void Db::setVersion(int version)
 
 bool Db::crudQuery(const std::string& query)
 {
-    char* err;
-    sqlite3* db;
+    Db db(query);
 
-    int i = sqlite3_open(dbLocation.c_str(), &db);
-    if (db == nullptr) {
-        return false;
-    }
-
-    sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
-
-    i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-
-    if (err && s_showError) {
-        ModalDialogBuilder::showError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
-    }
-
-    return i == SQLITE_OK;
+    return db.execute();
 }
 
 
@@ -327,6 +306,21 @@ Db::~Db()
         sqlite3_close_v2(db_connection);
     }
 }
+
+
+#include "View/ModalDialogBuilder.h"
+
+void Db::showDbError(const std::string& msg)
+{
+    if (!s_showErrorDialog) return;
+    
+    error_count++;
+
+	if (error_count > 5) return; //prevent spamming the user with error dialogs
+
+    ModalDialogBuilder::showError(msg);
+}
+
 
 #include <QFileInfo>
 #include <QDir>

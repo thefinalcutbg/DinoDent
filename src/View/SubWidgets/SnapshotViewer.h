@@ -18,6 +18,7 @@ class SnapshotViewer : public QWidget
 
 public:
 	SnapshotViewer(QWidget *parent = nullptr);
+	TeethViewScene* getTeethScene() { return teeth_scene; }
 	void setSnapshots(const std::vector<HisSnapshot>& snapshots);
 	const HisSnapshot* getCurrentSnapshot() const;
 	bool isMostRecent() const;

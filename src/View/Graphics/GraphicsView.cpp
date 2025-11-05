@@ -24,6 +24,11 @@ void GraphicsView::disableMultiSelection()
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)
 {
+	if(dragMode() != QGraphicsView::DragMode::RubberBandDrag){
+		QGraphicsView::mousePressEvent(event);
+		return;
+	}
+
 	auto previouslySelectedList = scene()->selectedItems();
 
 	QGraphicsView::mousePressEvent(event);

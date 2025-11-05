@@ -23,7 +23,7 @@ void PlainTable::setIndicatorToLastRow(const std::string& colorName)
 
 PlainTable::PlainTable(const std::vector<Procedure>& pList, bool keepNotes)
 {
-    addColumn({"Дата",100,PlainColumn::Right });
+    addColumn({"Дата",110,PlainColumn::Right });
     addColumn({"Диагноза", 180 });
     addColumn({"Зъб", 70, PlainColumn::Center });
     addColumn({"Процедура", 280 });

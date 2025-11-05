@@ -112,7 +112,7 @@ bool initFunction() {
     Specialty::initialize();
     User::initialize();
 
-    Db::showErrorDialog(true);
+    Db::setShowErrors(true);
     SplashScreen::showMessage("Обновяване на база данни");
     DbUpdater::updateDb();
 

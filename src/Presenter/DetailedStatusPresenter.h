@@ -21,6 +21,7 @@ class DetailedStatusPresenter
 	std::optional<Tooth> _result{};
 
 public:
+
 	DetailedStatusPresenter(int toothIdx, long long patientRowId, const std::vector<Procedure>& toothProcedures);
 
 	void setView(DetailedStatus* view);
@@ -29,6 +30,6 @@ public:
 
 	void okPressed();
 
-	void open();
+	void open(Procedure::DatabaseSource s = Procedure::UnknownSource);
 };
 

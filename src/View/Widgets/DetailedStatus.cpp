@@ -48,7 +48,7 @@ void DetailedStatus::focusNotes(bool focus)
 std::string DetailedStatus::getNotes(){ return ui.notesEdit->getText(); }
 
 
-void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
+void DetailedStatus::setHistoryData(const std::vector<Procedure>& history, Procedure::DatabaseSource checkboxValue)
 {
 	m_historyModel.setProcedures(history);
 	ui.tableView->setModel(&m_historyModel);
@@ -76,13 +76,11 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 	ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
 	ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-	if (history.empty()) return;
-
 	//ensuring ui change, if the model is set programatically
 
 	ui.buttonGroup->blockSignals(true);
 
-		switch (history.at(0).db_source) {
+		switch (checkboxValue) {
 		case Procedure::HIS: ui.hisCheck->setChecked(true); break;
 		case Procedure::PIS: ui.pisCheck->setChecked(true); break;
 		case Procedure::Local: ui.localCheck->setChecked(true); break;

@@ -1,12 +1,17 @@
 ﻿#include "PatientHistoryPresenter.h"
+
 #include "Database/DbProcedure.h"
 #include "Database/DbInvoice.h"
 #include "Database/DbPrescription.h"
 #include "Database/DbBrowser.h"
 #include "Database/DbPatientSummary.h"
+
 #include "View/ModalDialogBuilder.h"
+
 #include "Model/User.h"
+
 #include "Presenter/TabPresenter.h"
+#include "Presenter/DetailedStatusPresenter.h"
 
 PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 	patient(patient),
@@ -132,17 +137,17 @@ void PatientHistoryPresenter::procedureRefreshRequested(Procedure::DatabaseSourc
 		case Procedure::HIS:
 
 			his_service.sendRequest(patient, true,
-				[=](const std::optional<std::vector<Procedure>> his_data)
+				[=](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshot)
 				{
-					if (!his_data.has_value()) return;
+					if (!procedures.has_value()) return;
 
-					if (his_data->empty()) {
+					if (procedures->empty()) {
 						ModalDialogBuilder::showMessage("За този пациент не са открити данни в НЗИС");
 					}
 
-					patient.HISHistory = his_data;
-					HISHistory = his_data;
-					view.setProcedures(his_data.value(), source);
+					patient.HISHistory = procedures;
+					HISHistory = procedures;
+					view.setProcedures(procedures.value(), source);
 
 				}
 			);
@@ -177,14 +182,54 @@ void PatientHistoryPresenter::statusSourceChanged(Procedure::DatabaseSource sour
 
 			break;
 	}
+}
 
-	
+void PatientHistoryPresenter::toothHistoryRequested(int toothIdx, Procedure::DatabaseSource source)
+{
+	if (toothIdx < 1 || toothIdx > 32) return;
+
+	std::vector<Procedure> all_procedures;
+
+	for (auto& p : local_history) {
+
+		if (p.getToothIndex().index != toothIdx) continue;
+
+		all_procedures.push_back(p);
+	}
+
+	if(patient.PISHistory) {
+
+		for (auto& p : patient.PISHistory.value()) {
+
+			if (p.getToothIndex().index != toothIdx) continue;
+
+			all_procedures.push_back(p);
+		}
+	}
+
+	if(patient.HISHistory) {
+
+		for (auto& p : patient.HISHistory.value()) {
+
+			if (p.getToothIndex().index != toothIdx) continue;
+
+			all_procedures.push_back(p);
+		}
+	}
+
+	DetailedStatusPresenter d(
+		toothIdx,
+		patient.rowid,
+		all_procedures
+	);
+
+	d.open(source);
 }
 
 void PatientHistoryPresenter::statusRefreshRequested()
 {
-	dental_history_service.sendRequest(patient,
-		[&](const std::vector<HisSnapshot>& snapshots) {
+	his_service.sendRequest(patient, true,
+		[&](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshots) {
 
 			if (snapshots.empty()) {
 				ModalDialogBuilder::showMessage(
@@ -197,6 +242,10 @@ void PatientHistoryPresenter::statusRefreshRequested()
 
 			view.setSnapshots(snapshots, Procedure::HIS);
 
+			if(procedures){
+				HISHistory = procedures;
+				patient.HISHistory = procedures;
+			}
 		}
 	);
 

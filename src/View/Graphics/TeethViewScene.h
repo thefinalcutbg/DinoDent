@@ -42,4 +42,7 @@ public:
 	void setNotes(const std::array<std::string, 32>& notes);
     void drawFocused(bool focused);
     ~TeethViewScene();
+
+signals:
+	void tooethDoubleClicked(int idx);
 };

@@ -29,7 +29,7 @@ public:
 	void setNotes(const std::string& notes) ;
 	void focusNotes(bool focus) ;
 	std::string getNotes() ;
-	void setHistoryData(const std::vector<Procedure>& history) ;
+	void setHistoryData(const std::vector<Procedure>& history, Procedure::DatabaseSource checkboxValue) ;
 
 	~DetailedStatus();
 

@@ -57,7 +57,7 @@ enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4, None = 7, Universi
 
 struct Procedure
 {
-    enum DatabaseSource { Local, PIS, HIS };
+    enum DatabaseSource { Local, PIS, HIS, UnknownSource };
 
     ProcedureCode code;
 

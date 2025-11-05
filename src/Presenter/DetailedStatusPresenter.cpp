@@ -18,17 +18,12 @@ DetailedStatusPresenter::DetailedStatusPresenter(int tooth_index ,long long pati
 void DetailedStatusPresenter::setView(DetailedStatus* view)
 {
 	this->view = view; 
-
-	view->setHistoryData(m_procedures);
 	
 	view->setNotes(m_notes);
 
 	bool focusNotes = m_notes.size() || m_procedures.empty();
 
 	view->focusNotes(focusNotes);
-
-	if (focusNotes) return;
-
 
 	for (auto& p : m_procedures)
 	{
@@ -60,20 +55,23 @@ void DetailedStatusPresenter::tableOptionChanged(bool local, bool his, bool pis)
 	std::vector<Procedure> toDisplay;
 
 	toDisplay.reserve(m_procedures.size());
+	
+	auto requestedSource = 
+		local ? Procedure::DatabaseSource::Local :
+		his ? Procedure::DatabaseSource::HIS :
+		pis ? Procedure::DatabaseSource::PIS :
+		Procedure::DatabaseSource::UnknownSource;
 
 	for (auto& p : m_procedures) {
 
-		switch (p.db_source)
-		{
-			case Procedure::DatabaseSource::Local: if (!local) continue; break;
-			case Procedure::DatabaseSource::HIS: if (!his) continue; break;
-			case Procedure::DatabaseSource::PIS: if (!pis) continue; break;
+		if (p.db_source != requestedSource){
+			continue;
 		}
 
 		toDisplay.push_back(p);
 	}
 
-	view->setHistoryData(toDisplay);
+	view->setHistoryData(toDisplay, requestedSource);
 }
 
 void DetailedStatusPresenter::okPressed()
@@ -84,9 +82,20 @@ void DetailedStatusPresenter::okPressed()
 	DbNotes::saveNote(m_notes, patientRowId, m_tooth_index);
 }
 
-void DetailedStatusPresenter::open()
+void DetailedStatusPresenter::open(Procedure::DatabaseSource s)
 {
 	DetailedStatus d(*this);
+
+	if(s != Procedure::DatabaseSource::UnknownSource){
+
+		view->focusNotes(false);
+
+		tableOptionChanged(
+			s == Procedure::DatabaseSource::Local,
+			s == Procedure::DatabaseSource::HIS,
+			s == Procedure::DatabaseSource::PIS
+		);
+	}
 
 	d.exec();
 }

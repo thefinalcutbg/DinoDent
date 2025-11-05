@@ -96,7 +96,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
         }
         else if (tooth.hasStatus(Dental::NonCariesLesion, i))
         {
-            surfaces[i].color = SurfaceColor::orange;
+            surfaces[i].color = SurfaceColor::purple;
         }
 
         //the outline

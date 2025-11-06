@@ -112,6 +112,23 @@ void ListPresenter::makeEdited()
 
     m_amblist.treatment_end = FreeFn::getTimeStampUTC();
 
+    
+    if (m_amblist.procedures.size()) {
+
+        if (Date(m_amblist.treatment_end) < (m_amblist.procedures.end() - 1)->date)
+        {
+            m_amblist.treatment_end = (m_amblist.procedures.end() - 1)->date.to8601() + m_amblist.treatment_end.substr(10);
+        }
+    }
+    else {
+
+        if (Date(m_amblist.treatment_end) < m_amblist.getDate())
+        {
+            m_amblist.treatment_end = m_amblist.date;
+		}
+    }
+
+
     if (m_amblist.nrn.size()) {
         m_amblist.his_updated = false;
 

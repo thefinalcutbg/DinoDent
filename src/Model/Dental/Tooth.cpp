@@ -346,7 +346,6 @@ void Tooth::setStatus(Status code, bool present) {
 		m_data[Missing] = true;
 	}
 
-
 	for (auto c : incompat_codes[code]) {
 		m_data[c] = false;
 	}

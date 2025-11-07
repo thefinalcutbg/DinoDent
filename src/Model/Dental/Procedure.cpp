@@ -232,7 +232,6 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 
 				changes.push_back({ StatusType::Restoration, i, false });
 				changes.push_back({ StatusType::DefectiveRestoration, i, false });
-				changes.push_back({ StatusType::NonCariesLesion, i, true });
 			}
 
 			if (data.post) {
@@ -246,8 +245,18 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 			changes.push_back({ StatusType::General, Calculus, false });
 			break;
 		case ProcedureType::Extraction:
+		{
+			bool hasDenture = teeth.at(getToothIndex()).hasStatus(Denture);
+			
 			changes.push_back({ StatusType::General, Missing, true, Missing });
+			
+			if (hasDenture) //since extraction remove denture status
+			{
+				changes.push_back({ StatusType::General, Denture, true });
+			}
+
 			break;
+		}
 		case ProcedureType::Implant:
 			changes.push_back({ StatusType::General, Implant, true, Implant });
 			break;

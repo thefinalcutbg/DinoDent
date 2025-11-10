@@ -246,11 +246,9 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 			break;
 		case ProcedureType::Extraction:
 		{
-			bool hasDenture = teeth.at(getToothIndex()).hasStatus(Denture);
-			
 			changes.push_back({ StatusType::General, Missing, true, Missing });
 			
-			if (hasDenture) //since extraction remove denture status
+			if (teeth.at(getToothIndex()).hasStatus(Denture)) //since extraction remove denture status
 			{
 				changes.push_back({ StatusType::General, Denture, true });
 			}

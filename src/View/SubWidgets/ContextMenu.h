@@ -23,9 +23,11 @@ class ContextMenu : public QMenu
     QAction* addProcedure;
     QAction* details;
     std::array<QAction*, Dental::SurfaceCount> surfObt;
-    std::array<QAction*, Dental::SurfaceCount> surfDefObt;
     std::array<QAction*, Dental::SurfaceCount> surfCar;
+#ifndef DISABLE_NEW_DENTAL_STATUSES
+    std::array<QAction*, Dental::SurfaceCount> surfDefObt;
     std::array<QAction*, Dental::SurfaceCount> surfNonCar;
+#endif
     std::array<QAction*, Dental::StatusCount> menuAction;
     std::array<QAction*, Dental::MobilityCount> mobilityDegree;
     std::array<QAction*, otherInputsCount> otherActions;

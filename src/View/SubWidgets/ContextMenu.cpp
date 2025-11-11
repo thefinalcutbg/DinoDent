@@ -44,25 +44,29 @@ ContextMenu::ContextMenu()
 
     
     QMenu* obturMenu = statusMenu->addMenu("&Възстановяване");
+#ifndef DISABLE_NEW_DENTAL_STATUSES
     QMenu* defObturMenu = statusMenu->addMenu("&Дефектно възстановяване");
+#endif
     QMenu* cariesMenu = statusMenu->addMenu("&Кариес");
+#ifndef DISABLE_NEW_DENTAL_STATUSES
     QMenu* nonCariesMenu = statusMenu->addMenu("&Некариозна лезия");
-
+#endif
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
     for (int i = 0; i < SurfaceCount; i++)
     {
         surfObt[i] = obturMenu->addAction(surfName[i]);
         connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i); });
-
+#ifndef DISABLE_NEW_DENTAL_STATUSES
         surfDefObt[i] = defObturMenu->addAction(surfName[i]);
         connect(surfDefObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::DefectiveRestoration, i); });
-
+#endif
         surfCar[i] = cariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i); });
-
+#ifndef DISABLE_NEW_DENTAL_STATUSES
         surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
         connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i); });
+#endif
     }
 
 
@@ -127,13 +131,13 @@ void ContextMenu::setModel(const CheckModel& checkModel, const CheckModel& dsnMo
     this->setModel(checkModel.restorationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
+#ifndef DISABLE_NEW_DENTAL_STATUSES
     this->setModel(checkModel.nonCariesStatus, surfNonCar);
     this->setModel(checkModel.defRestoStatus, surfDefObt);
+#endif
 
     dsn_menu->setModel(dsnModel);
 }
-
-
 
 void ContextMenu::setPresenter(ListPresenter* presenter) { 
     this->presenter = presenter; 

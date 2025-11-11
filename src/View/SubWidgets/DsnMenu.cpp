@@ -31,9 +31,13 @@ DsnMenu::DsnMenu()
     addAction(menuAction[Dental::Temporary]);
 
     QMenu* obturMenu = addMenu("&Възстановяване");
+#ifndef  DISABLE_NEW_DENTAL_STATUSES
     QMenu* defObturMenu = addMenu("&Дефектно възстановяване");
+#endif
     QMenu* cariesMenu = addMenu("&Кариес");
+#ifndef  DISABLE_NEW_DENTAL_STATUSES
     QMenu* nonCariesMenu = addMenu("&Некариозна лезия");
+#endif
     QMenu* MobilityMenu = addMenu("&Подвижност");
 
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
@@ -42,15 +46,18 @@ DsnMenu::DsnMenu()
     {
         surfObt[i] = obturMenu->addAction(surfName[i]);
         connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i, true); });
-
+#ifndef  DISABLE_NEW_DENTAL_STATUSES
         surfDefObt[i] = defObturMenu->addAction(surfName[i]);
         connect(surfDefObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::DefectiveRestoration, i, true); });
+#endif
+
 
         surfCar[i] = cariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i, true); });
-
-        surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
-        connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i, true); });
+#ifndef  DISABLE_NEW_DENTAL_STATUSES
+       surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
+       connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i, true); })
+#endif
     }
 
     for (int i = 0; i < MobilityCount; i++)
@@ -88,6 +95,8 @@ void DsnMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.restorationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
-    this->setModel(checkModel.nonCariesStatus, surfNonCar);
+#ifndef DISABLE_NEW_DENTAL_STATUSES
     this->setModel(checkModel.defRestoStatus, surfDefObt);
+    this->setModel(checkModel.nonCariesStatus, surfNonCar);
+#endif
 }

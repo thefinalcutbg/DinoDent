@@ -50,6 +50,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 		case SurfaceState::secondary:
 			statusControl->setToothStatus(StatusType::Caries, surface);
 			statusControl->setToothStatus(StatusType::Restoration, surface);
+#ifndef DISABLE_NEW_DENTAL_STATUSES		
 			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
 			break;
 		case SurfaceState::defective:
@@ -58,6 +59,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			break;
 		case SurfaceState::nonCaries:
 			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+#endif
 			break;
 		}
 	}

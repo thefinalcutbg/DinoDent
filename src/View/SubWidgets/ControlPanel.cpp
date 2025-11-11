@@ -8,7 +8,12 @@ ControlPanel::ControlPanel(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
-
+#ifdef DISABLE_NEW_DENTAL_STATUSES
+	ui.Necrosis->hide();
+	ui.NonCaries->hide();
+	ui.DefResto->hide();
+	ui.Resorption->hide();
+#endif
 	StatusButton* pathologies[]
 	{
 		ui.Caries, ui.NonCaries, ui.Resorption, ui.Necrosis, ui.Pulpitis, ui.Missing, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
@@ -94,8 +99,10 @@ void ControlPanel::hideCommonButtons(bool hidden)
 {
 	ui.Restoration->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
+#ifndef DISABLE_NEW_DENTAL_STATUSES
 	ui.NonCaries->setHidden(hidden);
 	ui.DefResto->setHidden(hidden);
+#endif
 }
 
 void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)

@@ -794,39 +794,12 @@ void ListPresenter::openDetails(int toothIdx)
 {
     if (toothIdx < 0 || toothIdx > 31) return;
 
-    std::vector<Procedure> history = DbProcedure::getToothProcedures(patient->rowid, toothIdx);
-
-    if (patient->HISHistory) {
-        for (auto& p : patient->HISHistory.value())
-        {
-            if (p.getToothIndex().index == toothIdx) history.push_back(p);
-        }
-    }
-
-    if (patient->PISHistory)
-    {
-        for (auto& p : patient->PISHistory.value())
-        {
-            if (p.getToothIndex().index == toothIdx) history.push_back(p);
-        }
-    }
-
-    std::sort(history.begin(), history.end(), [](const Procedure& a, const Procedure& b) -> bool
-        {
-            return a.date < b.date;
-        }
-    );
-
-    DetailedStatusPresenter d(toothIdx, patient->rowid, history);
+    DetailedStatusPresenter d(toothIdx, *patient);
 
     d.open();
 
     patient->teethNotes[toothIdx] = d.getNote();
-
     view->setNotes(patient->teethNotes);
-    surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
-    view->repaintTooth(ToothPaintHint(m_amblist.teeth[toothIdx], patient->teethNotes[toothIdx]));
-
 }
 
 void ListPresenter::openDetails()

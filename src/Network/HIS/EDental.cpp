@@ -449,7 +449,11 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	m_callback(HISHistoryAlgorithms::getProcedures(doc));
+	auto procedures = getProceduresFromHis(doc.FirstChild()->FirstChildElement("nhis:contents"));
+
+	std::reverse(procedures.begin(), procedures.end());
+
+	m_callback(procedures);
 
 	m_callback = nullptr;
 
@@ -496,7 +500,11 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-    m_callback(HISHistoryAlgorithms::getProcedures(doc), HISHistoryAlgorithms::getDentalHistory(doc));
+	auto procedures = getProceduresFromHis(doc.FirstChild()->FirstChildElement("nhis:contents"));
+
+	std::reverse(procedures.begin(), procedures.end());
+
+    m_callback(procedures, HISHistoryAlgorithms::getDentalHistory(doc));
 
 	m_callback = nullptr;
 }
@@ -604,48 +612,27 @@ void EDental::Fetch::parseReply(const std::string& reply)
 	list.nhifData.isUnfavourable = getBool(ambXml, "adverseConditions");
 	list.his_updated = true;
 
-	//parsing the procedures (brace yourselves)
+	for (auto& p : getProceduresFromHis(ambXml)) {
+		list.procedures.addProcedure(p);
+	}
+
+	//getting the teeth status from full examps
 	for (
 		auto procXml = ambXml->FirstChildElement("nhis:dentalProcedure");
 		procXml != nullptr;
 		procXml = procXml->NextSiblingElement("nhis:dentalProcedure")
 		)
 	{
-
 		//entered in error
 		if (getInt(procXml, "status") == 7) continue;
 
-		Procedure p;
-
-		p.his_index = getInt(procXml, "index");
-		p.code = getString(procXml, "code");
-		p.date = getString(procXml, "datePerformed");
-		p.financingSource = static_cast<FinancingSource>(getInt(procXml, "financingSource"));
-		p.notes = getString(procXml, "note");
-
-		auto diagnosisXml = procXml->FirstChildElement("nhis:diagnosis");
-
-		if (diagnosisXml) {
-
-			p.diagnosis.icd = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
-
-			auto note = procXml->FirstChildElement("nhis:diagnosis")->FirstChildElement("nhis:note");
-
-			if (note) {
-				p.diagnosis.additional_descr = note->FirstAttribute()->ValueStr();
-			}
-		}
+		ProcedureCode code = getString(procXml, "code");
 
 		HISProcedureResult affectedTeeth = HISHistoryAlgorithms::getHisToothContainer(*procXml);
 
-		if (p.code.type() == ProcedureType::FullExam) {
+		if (code.type() == ProcedureType::FullExam) {
 			list.teeth = affectedTeeth.getToothContainer();
 		}
-		else {
-			p.HIS_fetched_result = affectedTeeth;
-		}
-
-		list.procedures.addProcedure(p);
 	}
 
 	list.LPK = getString(

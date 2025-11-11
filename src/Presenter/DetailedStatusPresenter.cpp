@@ -2,17 +2,38 @@
 
 #include "Presenter/CheckModel.h"
 #include "Database/DbNotes.h"
+#include "Database/DbProcedure.h"
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/DetailedStatus.h"
 
-DetailedStatusPresenter::DetailedStatusPresenter(int tooth_index ,long long patientRowId, const std::vector<Procedure>& toothProcedures)
+DetailedStatusPresenter::DetailedStatusPresenter(int toothIdx, const Patient& patient)
     : view(nullptr),
-    m_procedures(toothProcedures),
-    patientRowId(patientRowId),
-    m_tooth_index(tooth_index)
+	m_patient(patient),
+    m_tooth_index(toothIdx)
 {
-	m_notes = DbNotes::getNote(patientRowId, tooth_index);
+	m_notes = DbNotes::getNote(patient.rowid, toothIdx);
+
+	m_procedures = DbProcedure::getToothProcedures(patient.rowid, toothIdx);
+
+	if(patient.PISHistory) {
+		for (auto& p : patient.PISHistory.value()) {
+			if (p.affectsToothIdx(toothIdx))
+			{
+				m_procedures.push_back(p);
+			}
+		}
+	}
+
+	if(patient.HISHistory) {
+		for (auto& p : patient.HISHistory.value()) {
+			
+			if (p.affectsToothIdx(toothIdx))
+			{
+				m_procedures.push_back(p);
+			}
+		}
+	}
 }
 
 void DetailedStatusPresenter::setView(DetailedStatus* view)
@@ -79,7 +100,7 @@ void DetailedStatusPresenter::okPressed()
 	
 	m_notes = view->getNotes();
 
-	DbNotes::saveNote(m_notes, patientRowId, m_tooth_index);
+	DbNotes::saveNote(m_notes, m_patient.rowid, m_tooth_index);
 }
 
 void DetailedStatusPresenter::open(Procedure::DatabaseSource s)

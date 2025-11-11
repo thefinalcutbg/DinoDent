@@ -279,19 +279,25 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 			"procedure.supernumeral, "
 			"procedure.icd, "
 			"procedure.diagnosis_description, "
-			"procedure.notes "
+			"procedure.notes, "
+			"procedure.at_tooth_index, "
+			"procedure.from_tooth_index, "
+			"procedure.to_tooth_index "
 			"FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-		"WHERE at_tooth_index = " + std::to_string(tooth) + " "
+		"WHERE (at_tooth_index = " + std::to_string(tooth) + " "
+		"OR (from_tooth_index <= " + std::to_string(tooth) + " AND to_tooth_index >= " + std::to_string(tooth) + ")) "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
 		"AND procedure.removed = 0 "
-		"ORDER BY procedure.date ASC, procedure.code ASC, procedure.rowid ASC";
+		"ORDER BY procedure.date DESC, procedure.code ASC, procedure.rowid DESC";
 
 	std::vector<Procedure> procedures;
 
-	for (Db db(query); db.hasRows();)
-	{
+	Db db(query);
 
+	while (db.hasRows())
+	{
+		
 		procedures.emplace_back();
 		auto& p = procedures.back();
 		
@@ -311,6 +317,13 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.diagnosis.additional_descr = db.asString(7);
 		p.notes = db.asString(8);
 
+		if(db.asInt(9) != tooth)
+		{
+			p.affectedTeeth = ConstructionRange{
+				db.asInt(10),
+				db.asInt(11)
+			};
+		}
 	}
 	
 	

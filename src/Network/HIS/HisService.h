@@ -30,7 +30,7 @@ protected:
 	int getInt(TiXmlElement* parent, const std::string& tag);
 	double getDouble(TiXmlElement* parent, const std::string& tag);
 	std::string getFormattedStrName(TiXmlElement* parent, const std::string& tag); //formats str to titlecase
-
+	std::vector<Procedure> getProceduresFromHis(TiXmlElement* doc);
 	std::string subject(const Patient& p, bool isPregnant = false, bool isBreastfeeding = false);
 	std::string requester(bool includeNhifCode = false);
 	std::string performer(bool includeNhifQualification);

@@ -3,6 +3,7 @@
 #include <optional>
 #include <vector>
 
+#include "Model/Patient.h"
 #include "Model/Dental/Procedure.h"
 
 class DetailedStatus;
@@ -13,7 +14,7 @@ class DetailedStatusPresenter
 
 	std::vector<Procedure> m_procedures;
 
-	long long patientRowId;
+	const Patient& m_patient;
 
 	int m_tooth_index;
 	std::string m_notes;
@@ -22,7 +23,7 @@ class DetailedStatusPresenter
 
 public:
 
-	DetailedStatusPresenter(int toothIdx, long long patientRowId, const std::vector<Procedure>& toothProcedures);
+	DetailedStatusPresenter(int toothIdx, const Patient& patient);
 
 	void setView(DetailedStatus* view);
 	void tableOptionChanged(bool local, bool his, bool pis);

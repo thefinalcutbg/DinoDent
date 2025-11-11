@@ -11,7 +11,7 @@ class TiXmlDocument;
 
 namespace HISHistoryAlgorithms
 {
-	std::vector<Procedure> getProcedures(TiXmlDocument& doc);
+	//std::vector<Procedure> getProcedures(TiXmlDocument& doc); //deprecated
 	std::vector<HisSnapshot> getDentalHistory(TiXmlDocument& doc);
 
 	//expects element with array of nhis:tooth elements:

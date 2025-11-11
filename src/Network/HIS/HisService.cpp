@@ -13,6 +13,7 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Presenter/PatientDialogPresenter.h"
+#include "HISHistoryAlgorithms.h"
 
 bool HisService::sendRequestToHis(const std::string& contents, const std::string& patientSignature)
 {
@@ -515,6 +516,53 @@ std::string HisService::getFormattedStrName(TiXmlElement* parent, const std::str
 	}
 
 	return toFormat.toStdString();
+}
+
+std::vector<Procedure> HisService::getProceduresFromHis(TiXmlElement* e)
+{
+	std::vector<Procedure> procedures;
+
+	//parsing the procedures (brace yourselves)
+	for (
+		auto procXml = e->FirstChildElement("nhis:dentalProcedure");
+		procXml != nullptr;
+		procXml = procXml->NextSiblingElement("nhis:dentalProcedure")
+		)
+	{
+
+		//entered in error
+		if (getInt(procXml, "status") == 7) continue;
+
+		Procedure p;
+
+		p.his_index = getInt(procXml, "index");
+		p.code = getString(procXml, "code");
+		p.date = getString(procXml, "datePerformed");
+		p.financingSource = static_cast<FinancingSource>(getInt(procXml, "financingSource"));
+		p.notes = getString(procXml, "note");
+		p.db_source = Procedure::HIS;
+
+		auto diagnosisXml = procXml->FirstChildElement("nhis:diagnosis");
+
+		if (diagnosisXml) {
+
+			p.diagnosis.icd = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+
+			auto note = procXml->FirstChildElement("nhis:diagnosis")->FirstChildElement("nhis:note");
+
+			if (note) {
+				p.diagnosis.additional_descr = note->FirstAttribute()->ValueStr();
+			}
+		}
+
+		if (p.code.type() != ProcedureType::FullExam){
+			p.HIS_fetched_result = HISHistoryAlgorithms::getHisToothContainer(*procXml);
+		}
+
+		procedures.push_back(p);
+	}
+
+	return procedures;
 }
 
 int HisService::getInt(TiXmlElement* parent, const std::string& tag)

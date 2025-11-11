@@ -67,9 +67,28 @@ ToothContainer HISProcedureResult::getToothContainer() const
 
 std::string HISProcedureResult::getToothString() const
 {
+	if (size() == 0) return "";
+
     if (size() == 1) return this->at(0).idx.getNhifNumenclature();
 
-    return "";
+	int begin = 32;
+	int end = -1;
+
+    for(auto& toothIndex : *this) {
+		int idx = toothIndex.idx.index;
+
+        begin = std::min(begin, idx);
+		end = std::max(end,idx);
+	}
+
+    std::string result;
+
+	result += ToothIndex{ begin }.getNhifNumenclature();
+	result += "-";
+	result += ToothIndex{ end }.getNhifNumenclature();
+
+	return result;
+
 }
 
 std::vector<const Tooth*> HISProcedureResult::applyProcedure(ToothContainer& teeth) const

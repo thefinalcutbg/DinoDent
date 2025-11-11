@@ -4,7 +4,7 @@
 #include <functional>
 #include <set>
 #include "Model/Dental/ToothUtils.h"
-
+/*
 std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 {
 	TiXmlHandle docHandle(&doc);
@@ -104,7 +104,7 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 
 	return procedures;
 }
-
+*/
 struct Ranges {
 
 	std::vector<int> splints;

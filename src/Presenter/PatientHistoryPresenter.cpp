@@ -192,40 +192,7 @@ void PatientHistoryPresenter::toothHistoryRequested(int toothIdx, Procedure::Dat
 {
 	if (toothIdx < 1 || toothIdx > 32) return;
 
-	std::vector<Procedure> all_procedures;
-
-	for (auto& p : local_history) {
-
-		if (p.getToothIndex().index != toothIdx) continue;
-
-		all_procedures.push_back(p);
-	}
-
-	if(patient.PISHistory) {
-
-		for (auto& p : patient.PISHistory.value()) {
-
-			if (p.getToothIndex().index != toothIdx) continue;
-
-			all_procedures.push_back(p);
-		}
-	}
-
-	if(patient.HISHistory) {
-
-		for (auto& p : patient.HISHistory.value()) {
-
-			if (p.getToothIndex().index != toothIdx) continue;
-
-			all_procedures.push_back(p);
-		}
-	}
-
-	DetailedStatusPresenter d(
-		toothIdx,
-		patient.rowid,
-		all_procedures
-	);
+	DetailedStatusPresenter d(toothIdx, patient);
 
 	d.open(source);
 

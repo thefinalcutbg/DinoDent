@@ -36,6 +36,37 @@ ProcedureScope Procedure::getScope() const
 	return scope;
 }
 
+bool Procedure::affectsToothIdx(int toothIdx) const
+{
+	if (HIS_fetched_result) {
+
+		for(auto idx : HIS_fetched_result->getArrayIndexes()){
+
+			if (idx == toothIdx) return true;
+		}
+
+		return false;
+	}
+
+	auto scope = getScope();
+
+	switch (scope)
+	{
+		case ProcedureScope::SingleTooth:
+		{
+			auto& toothIdxObj = getToothIndex();
+			return toothIdxObj.index == toothIdx;
+		}
+		case ProcedureScope::Range:
+		{
+			auto& range = std::get<ConstructionRange>(affectedTeeth);
+			return toothIdx >= range.toothFrom && toothIdx <= range.toothTo;
+		}
+	}
+
+	return false;
+}
+
 std::vector<int> Procedure::getArrayIndexes() const
 {
 	if (HIS_fetched_result) {

@@ -90,7 +90,7 @@ struct Procedure
     bool isNhif() const { return financingSource == FinancingSource::NHIF; }
     bool isSentToHis() const { return his_index != 0; };
     bool isHisSupported() const { return code.achiBlock() != 0; }
-
+	bool affectsToothIdx(int toothIdx) const;
     std::vector<int> getArrayIndexes() const;
     std::string getToothString() const;
 

@@ -66,9 +66,9 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history, Proce
 	ui.tableView->hideColumn(0);
 	ui.tableView->setColumnWidth(1, 90);
 	ui.tableView->setColumnWidth(2, 150);
-	ui.tableView->setColumnWidth(3, 25);
+	ui.tableView->setColumnWidth(3, 50);
 	ui.tableView->setColumnWidth(4, 150);
-	ui.tableView->setColumnWidth(5, 49);
+	ui.tableView->setColumnWidth(5, 50);
 	ui.tableView->setColumnWidth(6, 100);
 	ui.tableView->setColumnWidth(7, 150);
 	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);

@@ -45,7 +45,7 @@ bool EDental::Open::sendRequest(
     if (User::signatureTablet().getHisIdx())
     {
         //signing for a first time
-        if(sig_data.empty()){
+        if(sig_data.empty() || !patientIsSigner){
 
             auto sign_pair = HisService::generatePatientSignature(contents, patient, patientIsSigner);
 
@@ -202,7 +202,7 @@ bool EDental::Augment::sendRequest(
     if (User::signatureTablet().getHisIdx())
     {
         //signing for a first time
-        if(sig_data.empty()){
+        if(sig_data.empty() || !patientIsSigner){
 
             auto sign_pair = HisService::generatePatientSignature(contents, patient, patientIsSigner);
 

@@ -3,7 +3,7 @@
 
 #define MyAppName "DinoDent"
 #define MyAppVersion "2.7.0"
-#define MyAppPublisher "SalveoDent"
+#define MyAppPublisher "Hristo Konstantinov"
 #define MyAppURL "https://dinodent.bg"
 #define MyAppExeName "DinoDent.exe"
 

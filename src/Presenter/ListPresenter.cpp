@@ -1518,7 +1518,7 @@ void ListPresenter::sendToHis(bool patientIsSigner)
     }
 
     //HIS Update
-    if (!m_amblist.his_updated)
+    if (!m_amblist.his_updated || !patientIsSigner)
     {
         if (!isValid()) return;
 

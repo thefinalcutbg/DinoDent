@@ -12,7 +12,7 @@
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Dental/ToothUtils.h"
-#include "Presenter/PatientDialogPresenter.h"
+#include "Presenter/NewDocPresenter.h"
 #include "HISHistoryAlgorithms.h"
 
 bool HisService::sendRequestToHis(const std::string& contents, const std::string& patientSignature)
@@ -366,7 +366,7 @@ std::string HisService::closeTag(const std::string tag)
 	return "</nhis:" + tag + ">";
 }
 
-std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSignature(const std::string& dentalTreatment, const Patient& patient)
+std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSignature(const std::string& dentalTreatment, const Patient& patient, bool patientIsSigner)
 {
 	if (dentalTreatment.empty()) return {};
 
@@ -388,10 +388,13 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 
 	auto why = std::string("Амбулаторен лист");
 
-	//some logic if it's not adult
-	if (!patientIsAdult) {
+	if (!patientIsAdult && patientIsSigner) {
+		ModalDialogBuilder::showMessage("Пациентът е непълнолетен. Моля, изберете родител/настойник.");
+	}
 
-		auto parent = PatientDialogPresenter("Въведете данните на родител/настойник").getPatient();
+	if (!patientIsAdult || !patientIsSigner) {
+
+		auto parent = NewDocPresenter("Въведете данните на родител/настойник").open();
 
 		if (!parent) return {};
 

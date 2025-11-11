@@ -9,10 +9,12 @@ ControlPanel::ControlPanel(QWidget* parent)
 {
 	ui.setupUi(this);
 #ifdef DISABLE_NEW_DENTAL_STATUSES
+	ui.verticalLayout->removeWidget(ui.Temporary);
 	ui.Necrosis->hide();
 	ui.NonCaries->hide();
 	ui.DefResto->hide();
 	ui.Resorption->hide();
+	ui.verticalLayout_2->addWidget(ui.Temporary);
 #endif
 	StatusButton* pathologies[]
 	{

@@ -1396,13 +1396,59 @@ void ListPresenter::printDeclarations()
 
 void ListPresenter::hisButtonPressed()
 {
+    
+	if (m_amblist.nrn.empty() || !m_amblist.his_updated)
+    {
+        sendToHis(true);
+        return;
+	}
+
+    //HIS Cancel
+    if (m_amblist.nrn.size()) { cancelHisAmbList(); }
+}
+
+void ListPresenter::cancelHisAmbList()
+{
+    eDentalCancelService.sendRequest(m_amblist.nrn,
+        [&](bool success) {
+
+            if (!success) return;
+
+            m_amblist.nrn.clear();
+            m_amblist.signature_bitmap.clear();
+            m_amblist.signature_data.clear();
+            m_amblist.procedures.clearRemovedProcedures();
+
+            for (auto& p : m_amblist.procedures) {
+                p.his_index = 0;
+            }
+
+            m_amblist.referrals.clear();
+            m_amblist.medical_notices.clear();
+
+            DbAmbList::update(m_amblist);
+
+            refreshTabName();
+
+            ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");
+
+            if (isCurrent())
+            {
+                setDataToView();
+            }
+        });
+}
+
+void ListPresenter::sendToHis(bool patientIsSigner)
+{
     //OPTIONAL INITIAL STATAUS PROCEDURE
+
     if (
-       User::settings().autoStatus &&
-       m_amblist.nrn.empty() &&
-       m_amblist.procedures.size() &&
-      !m_amblist.procedures.hasDentalExam()
-    )
+        User::settings().autoStatus &&
+        m_amblist.nrn.empty() &&
+        m_amblist.procedures.size() &&
+        !m_amblist.procedures.hasDentalExam()
+        )
     {
         Procedure p;
         p.code = ProcedureCode("97011-00");
@@ -1411,7 +1457,7 @@ void ListPresenter::hisButtonPressed()
         p.notes = "ИЗХОДЕН ОРАЛЕН СТАТУС (автоматично генерирана дейност)";
         m_amblist.procedures.addProcedure(p);
         m_amblist.procedures.moveProcedure(
-            m_amblist.procedures.list().size()-1,
+            m_amblist.procedures.list().size() - 1,
             0
         );
 
@@ -1431,6 +1477,7 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_amblist,
             *patient,
+            patientIsSigner,
             [&](auto& nrn, auto& seqIdxPair, bool outOfSync) {
 
                 if (nrn.empty()) {
@@ -1445,7 +1492,7 @@ void ListPresenter::hisButtonPressed()
                 m_amblist.nrn = nrn;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
-                    
+
                     m_amblist.procedures[sequence].his_index = hisIdx;
                 }
 
@@ -1464,7 +1511,7 @@ void ListPresenter::hisButtonPressed()
                 ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
 
             },
-            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data){ setSignature(sig_bitmap, sig_data);}
+            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) { setSignature(sig_bitmap, sig_data); }
         );
 
         return;
@@ -1476,9 +1523,10 @@ void ListPresenter::hisButtonPressed()
         if (!isValid()) return;
 
         eDentalAugmentService.sendRequest(
-            m_amblist, 
-            *patient, 
+            m_amblist,
+            *patient,
             DbAmbList::hasAutoStatus(m_amblist.nrn),
+            patientIsSigner,
             [&](auto& procedureIdx)
             {
                 m_amblist.his_updated = true;
@@ -1504,52 +1552,16 @@ void ListPresenter::hisButtonPressed()
                 DbAmbList::setAutoStatus(m_amblist.nrn, false);
                 ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
             },
-            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) { 
+            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) {
 
                 setSignature(sig_bitmap, sig_data);
-                DbAmbList::update(m_amblist); 
-                edited = false; 
+                DbAmbList::update(m_amblist);
+                edited = false;
             }
         );
 
         return;
     }
-
-    //HIS Cancel
-    if (m_amblist.nrn.size()) {
-        eDentalCancelService.sendRequest(m_amblist.nrn,
-            [&](bool success) {
-
-                if (!success) return;
-
-                m_amblist.nrn.clear();
-                m_amblist.signature_bitmap.clear();
-                m_amblist.signature_data.clear();
-                m_amblist.procedures.clearRemovedProcedures();
-                
-                for (auto& p : m_amblist.procedures) {
-                    p.his_index = 0;
-                }
-
-                m_amblist.referrals.clear();
-                m_amblist.medical_notices.clear();
-
-                DbAmbList::update(m_amblist);
-
-                refreshTabName();
-
-                ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");
-
-                if (isCurrent())
-                {
-                    setDataToView();
-                }
-        });
-
-        return;
-    }
-
-
 }
 
 

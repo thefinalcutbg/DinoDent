@@ -333,6 +333,10 @@ void SettingsMainPresenter::hisImport()
 
 void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
 {
+	if(amb.LPK != User::doctor().LPK) {
+		ModalDialogBuilder::showError("Амбулаторният лист не е издаден от текущия лекар.");
+		return;
+	}
 
 	Patient patient = p;
 

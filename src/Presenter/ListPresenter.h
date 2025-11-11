@@ -127,6 +127,9 @@ public:
     void printDeclarations();
 
     void hisButtonPressed();
+	void cancelHisAmbList();
+	void sendToHis(bool patientIsSigner = true);
+
 
     ~ListPresenter();
 };

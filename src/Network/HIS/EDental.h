@@ -25,6 +25,7 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
+			bool patientIsSigner,
             decltype(m_callback) nrnCallback,
             std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback
 		);
@@ -47,6 +48,7 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
+			bool patientIsSigner,
 			bool autoStatus, //legacy stuff
             decltype(m_callback) callback,
             std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback

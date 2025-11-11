@@ -45,7 +45,7 @@ protected:
 	std::string openTag(const std::string& tag);
 	std::string closeTag(const std::string tag);
 	//returns the xml block and the signature bitmap
-	std::pair<std::string, std::vector<unsigned char>> generatePatientSignature(const std::string& contents, const Patient& patient);
+	std::pair<std::string, std::vector<unsigned char>> generatePatientSignature(const std::string& contents, const Patient& patient, bool patientIsSigner);
 //	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
 
 	std::string getErrors(const std::string& reply);

@@ -138,6 +138,46 @@ ListView::ListView(QWidget* parent)
 	ui.controlPanel->hide();
 	ui.surfacePanel->hide();
 	ui.procedureTable->enableContextMenu(true);
+
+	ui.nrnButton->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(ui.nrnButton, &QPushButton::customContextMenuRequested, [=, this](const QPoint& pos) {
+
+		QMenu* hisMenu = new QMenu(ui.nrnButton);
+
+		auto text = ui.nrnButton->text();
+
+		//if signature tablet is configured
+		if (User::signatureTablet().getHisIdx()) {
+
+			QAction* action = new QAction("Изпрати с подпис на родител/настойник", hisMenu);
+
+			action->setIcon(QIcon(":/icons/icon_sign.png"));
+
+			connect(action, &QAction::triggered, this, [=, this] {
+				presenter->sendToHis(false);
+				});
+
+			hisMenu->addAction(action);
+		}
+
+		if(text.contains("корекция")) {
+	
+			QAction* action = new QAction("Анулирай", hisMenu);
+
+			action->setIcon(QIcon(":/icons/icon_remove.png"));
+
+			connect(action, &QAction::triggered, this, [=, this] {
+				presenter->cancelHisAmbList();
+			});
+
+			hisMenu->addAction(action);
+		}
+	
+		hisMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
+
+		hisMenu->exec(ui.nrnButton->mapToGlobal(pos));
+	});
 }
 
 void ListView::setPresenter(ListPresenter* presenter)

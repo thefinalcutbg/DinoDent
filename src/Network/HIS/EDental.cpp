@@ -10,6 +10,7 @@
 bool EDental::Open::sendRequest(
     const AmbList& ambSheet,
     const Patient& patient,
+	bool patientIsSigner,
     decltype(m_callback) nrnCallback,
     std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback
 )
@@ -46,7 +47,7 @@ bool EDental::Open::sendRequest(
         //signing for a first time
         if(sig_data.empty()){
 
-            auto sign_pair = HisService::generatePatientSignature(contents, patient);
+            auto sign_pair = HisService::generatePatientSignature(contents, patient, patientIsSigner);
 
             sig_data = sign_pair.first;
             sig_bitmap = sign_pair.second;
@@ -155,6 +156,7 @@ void EDental::Open::parseReply(const std::string& reply)
 bool EDental::Augment::sendRequest(
     const AmbList& ambSheet,
     const Patient& patient,
+	bool patientIsSigner,
     bool removeAutoStatus,
     decltype(m_callback) callback,
     std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback
@@ -202,7 +204,7 @@ bool EDental::Augment::sendRequest(
         //signing for a first time
         if(sig_data.empty()){
 
-            auto sign_pair = HisService::generatePatientSignature(contents, patient);
+            auto sign_pair = HisService::generatePatientSignature(contents, patient, patientIsSigner);
 
             sig_data = sign_pair.first;
             sig_bitmap = sign_pair.second;

@@ -394,7 +394,7 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 
 	if (!patientIsAdult || !patientIsSigner) {
 
-		auto parent = NewDocPresenter("Въведете данните на родител/настойник").open();
+		auto parent = NewDocPresenter("Избор на родител/настойник").open();
 
 		if (!parent) return {};
 

@@ -230,6 +230,11 @@ void PatientHistoryDialog::setHospitalizations(const std::vector<Hospitalization
 	hospi_model.setRows(h);
 }
 
+void PatientHistoryDialog::setPatientNoteFlags(const std::array<std::string, 32>& notes)
+{
+	ui.snapshotViewer->getTeethScene()->setNotes(notes);
+}
+
 void PatientHistoryDialog::hideNhif(bool hidden)
 {
 	ui.pisProcRadio->setHidden(hidden);

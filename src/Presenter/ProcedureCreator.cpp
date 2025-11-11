@@ -293,7 +293,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 
 	case ProcedureType::Restoration:
-		icd = "K03.7";
+		icd = "";
 		statusSearch = { Fracture, Caries, NonCariesLesion, DefectiveRestoration, Necrosis, Pulpitis, ApicalLesion, Root };
 		break;
 	case ProcedureType::RemoveRestoration:

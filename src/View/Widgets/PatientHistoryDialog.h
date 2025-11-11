@@ -38,6 +38,7 @@ public:
 	void setSnapshots(const std::vector<HisSnapshot>& snapshots, Procedure::DatabaseSource source);
 	void setPerioSnapshots(const std::vector<PerioSnapshot>& snapshots);
 	void setHospitalizations(const std::vector<Hospitalization>& h);
+	void setPatientNoteFlags (const std::array<std::string, 32>& notes);
 	void hideNhif(bool hidden);
 	void open(Procedure::DatabaseSource src);
 	~PatientHistoryDialog();

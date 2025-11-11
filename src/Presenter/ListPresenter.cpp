@@ -766,6 +766,8 @@ void ListPresenter::historyRequested()
 
     auto result = pr.openDialog();
 
+	view->setNotes(patient->teethNotes);
+
     if (std::holds_alternative<std::monostate>(result)) {
         return;
     }

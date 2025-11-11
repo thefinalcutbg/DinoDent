@@ -4,6 +4,7 @@
 #include "Database/DbInvoice.h"
 #include "Database/DbPrescription.h"
 #include "Database/DbBrowser.h"
+#include "Database/DbPatient.h"
 #include "Database/DbPatientSummary.h"
 
 #include "View/ModalDialogBuilder.h"
@@ -15,11 +16,12 @@
 
 PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 	patient(patient),
-
 	local_history(DbProcedure::getPatientProcedures(patient.rowid)),
 	view(*this)
 
 {
+	patient.teethNotes = DbPatient::getToothNotes(patient.rowid);
+
 	PlainTable docTable;
 
 	std::tie(this->documents, docTable) = DbBrowser::getPatientDocuments(patient.rowid);
@@ -82,6 +84,8 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 	}
 
 	view.setPerioSnapshots(perioSnapshots);
+
+	view.setPatientNoteFlags(patient.teethNotes);
 }
 
 void PatientHistoryPresenter::procedureSourceChanged(Procedure::DatabaseSource source)
@@ -224,6 +228,10 @@ void PatientHistoryPresenter::toothHistoryRequested(int toothIdx, Procedure::Dat
 	);
 
 	d.open(source);
+
+	patient.teethNotes[toothIdx] = d.getNote();
+
+	view.setPatientNoteFlags(patient.teethNotes);
 }
 
 void PatientHistoryPresenter::statusRefreshRequested()

@@ -90,7 +90,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 		}
 	});
 
-	connect(ui.snapshotViewer->getTeethScene(), &TeethViewScene::tooethDoubleClicked, this, 
+	connect(ui.snapshotViewer->getTeethScene(), &TeethViewScene::toothDoubleClicked, this, 
 		
 		[&](int idx) {
 		presenter.toothHistoryRequested(

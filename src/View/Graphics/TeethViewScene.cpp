@@ -178,7 +178,7 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
             presenter->addProcedure();
         }
 
-		emit tooethDoubleClicked(t->getIndex());
+		emit toothDoubleClicked(t->getIndex());
     }
 }
 

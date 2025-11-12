@@ -15,6 +15,8 @@ ControlPanel::ControlPanel(QWidget* parent)
 	ui.DefResto->hide();
 	ui.Resorption->hide();
 	ui.verticalLayout_2->addWidget(ui.Temporary);
+    ui.Restoration->move(ui.DefResto->pos());
+    ui.Caries->move(ui.NonCaries->pos());
 #endif
 	StatusButton* pathologies[]
 	{

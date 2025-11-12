@@ -458,7 +458,7 @@
          <bool>true</bool>
         </property>
         <property name="text">
-         <string>Подркепи DinoDent</string>
+         <string>Подкрепи DinoDent</string>
         </property>
        </widget>
        <widget class="ShortcutTile" name="ircButton">

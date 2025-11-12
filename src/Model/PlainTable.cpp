@@ -1,6 +1,6 @@
 ﻿#include "PlainTable.h"
 #include "FreeFunctions.h"
-#include <QDebug>
+
 void PlainTable::addEmptyRow()
 {
     for (auto& column : data) {

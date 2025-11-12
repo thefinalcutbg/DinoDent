@@ -1399,7 +1399,7 @@ void ListPresenter::hisButtonPressed()
     
 	if (m_amblist.nrn.empty() || !m_amblist.his_updated)
     {
-        sendToHis(true);
+        sendToHis();
         return;
 	}
 
@@ -1525,8 +1525,8 @@ void ListPresenter::sendToHis(bool patientIsSigner)
         eDentalAugmentService.sendRequest(
             m_amblist,
             *patient,
-            DbAmbList::hasAutoStatus(m_amblist.nrn),
             patientIsSigner,
+            DbAmbList::hasAutoStatus(m_amblist.nrn),
             [&](auto& procedureIdx)
             {
                 m_amblist.his_updated = true;

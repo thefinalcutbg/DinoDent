@@ -217,7 +217,7 @@ std::string Parser::write(const HISProcedureResult& hisResult)
 
 	return Json::FastWriter().write(resultJson);
 }
-#include <QDebug>
+
 void Parser::parse(const std::string& jsonString, ToothContainer& status)
 {
 	Json::Value statusJson;

@@ -99,6 +99,8 @@ bool AmbListValidator::ambListIsValid()
     }
 
     if (
+		User::doctor().specialty != NhifSpecialty::OralSurgeon  &&
+        User::doctor().specialty != NhifSpecialty::Maxillofacial &&
         m_procedures.size() &&
         patient.PISHistory.has_value() &&
 

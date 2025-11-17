@@ -360,11 +360,13 @@ void Tooth::setStatus(Status code, bool present) {
 	{
 	case Post:
 		setStatus(RootCanal, true); break;
+#ifndef DISABLE_NEW_DENTAL_STATUSES
 	case ApicalLesion:
 		if (!m_data[RootCanal]) {
 			setStatus(Necrosis, true);
 		}
 		break;
+#endif
 	case Resorption:
 		if (!m_data[RootCanal] && !m_data[Pulpitis]) {
 			setStatus(Necrosis, true);
@@ -523,9 +525,13 @@ std::vector<std::string> Tooth::getNhifStatus() const
 
 	statusLegend[Temporary] = "T";
 	statusLegend[Restoration] = "O";
-	statusLegend[DefectiveRestoration] = "O";
+
 	statusLegend[Caries] = "C";
 	statusLegend[Pulpitis] = "P";
+#ifndef DISABLE_NEW_DENTAL_STATUSES
+	statusLegend[DefectiveRestoration] = "O";
+	statusLegend[Necrosis] = "P";
+#endif
 	statusLegend[ApicalLesion] = "G";
 	statusLegend[Root] = "R";
 	statusLegend[Missing] = m_data[Splint] || m_data[Bridge] ? "" : "E";
@@ -567,12 +573,14 @@ std::vector<std::string> Tooth::getHISStatus() const
 	status[Healthy] = "H";
 	status[Temporary] = "";
 	status[Restoration] = "O";
+#ifndef DISABLE_NEW_DENTAL_STATUSES
 	status[Necrosis] = "N";
 	status[Resorption] = "Res";
-	status[Caries] = "C";
-	status[Pulpitis] = "P";
 	status[DefectiveRestoration] = "DR";
 	status[NonCariesLesion] = "NC";
+#endif
+	status[Caries] = "C";
+	status[Pulpitis] = "P";
 	status[ApicalLesion] = "G";
 	status[Root] = "R";
 	status[Missing] = "E";

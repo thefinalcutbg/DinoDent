@@ -287,7 +287,9 @@ void Tooth::setStatus(Status code, bool present) {
 	if (code == Temporary && type() == Molar) return;
 
 	if (present == m_data[code]) return;
-
+#ifdef DISABLE_NEW_DENTAL_STATUSES
+	m_data[Necrosis] = false; //bug fix for version 2.7.0
+#endif
 	//supernumeral cant have these statuses
 	if (isSupernumeral() &&
 		(
@@ -564,11 +566,11 @@ std::vector<std::string> Tooth::getNhifStatus() const
 
 std::vector<std::string> Tooth::getHISStatus() const
 {
-	std::vector<std::string> statuses;
+	std::vector<std::string> statuses{};
 
 	static std::array<std::string, 6> surfNum{ "o", "m", "d", "b", "l", "c" };
 	static constexpr std::array<const char*, 3> mobilityNum{ "M1", "M2", "M3" };
-	std::array<const char*, StatusCount> status;
+	std::array<std::string, StatusCount> status;
 
 	status[Healthy] = "H";
 	status[Temporary] = "";
@@ -609,6 +611,11 @@ std::vector<std::string> Tooth::getHISStatus() const
 	//adding surfaces
 	for (int i = Restoration; i <= NonCariesLesion; i++) {
 
+#ifdef DISABLE_NEW_DENTAL_STATUSES
+		if(i== NonCariesLesion || i == DefectiveRestoration) {
+			continue;
+		}
+#endif
 		for (int y = 0; y < SurfaceCount; y++) {
 			if (hasStatus(i, y)) statuses.push_back(status[i] + surfNum[y]);
 		}
@@ -621,12 +628,9 @@ std::vector<std::string> Tooth::getHISStatus() const
 			continue;
 		}
 
-		if (i == HasSupernumeral && isSupernumeral()) {
-			statuses.push_back(status[HasSupernumeral]);
-			continue;
+		if (boolStatus[i] && status[i].size()) {
+			statuses.push_back(status[i]);
 		}
-
-		if (boolStatus[i]) statuses.push_back(status[i]);
 	}
 
 	return statuses;

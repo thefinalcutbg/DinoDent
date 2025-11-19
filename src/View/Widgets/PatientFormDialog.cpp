@@ -124,6 +124,14 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         20
     );
 
+    ui.cityLineEdit->setDisabled(patientType == Patient::EU);
+    ui.cityLineEdit->setInputValidator(
+        patientType == Patient::EU ?
+        nullptr
+        :
+        &city_validator
+	);
+
     ui.foreignerGroup->setHidden(patientType != Patient::EU);
 
     switch (patientType)
@@ -161,6 +169,7 @@ void PatientFormDialog::patientTypeChanged(int patientType)
     case Patient::Type::EU:
         ui.idLineEdit->setInputValidator(&notEmpty_validator);
         ui.foreignCityEdit->setInputValidator(&notEmpty_validator);
+        ui.cityLineEdit->setText(User::practice().practice_address.getString(false).c_str());
         ui.idLineEdit->validateInput();
         ui.fNameEdit->setInputValidator(&notEmpty_validator);
         ui.mNameEdit->setInputValidator(nullptr);
@@ -254,6 +263,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.validDateEdit->set_Date(patient.foreigner->date_valid);
     ui.ehic_edit->setText(patient.foreigner->ehic.c_str());
     ui.foreignCityEdit->setText(patient.foreigner->city.c_str());
+    ui.cityLineEdit->clear();
 
     patient.foreigner->isEHIC() ?
         ui.ehicRadio->setChecked(true)

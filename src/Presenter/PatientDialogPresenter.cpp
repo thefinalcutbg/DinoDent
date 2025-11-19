@@ -161,6 +161,10 @@ Patient PatientDialogPresenter::getPatientFromView()
 {
 	Patient patient = view->getPatient();
 
+	if (patient.type == Patient::EU) {
+		patient.city = User::practice().practice_address;
+	}
+
 	//if the patient has rowid, set the cached data
 	if (rowid) { 
 		patient.medStats = medStats;

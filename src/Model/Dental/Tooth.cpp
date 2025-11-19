@@ -628,6 +628,11 @@ std::vector<std::string> Tooth::getHISStatus() const
 			continue;
 		}
 
+		if (i == HasSupernumeral && isSupernumeral()) {
+			statuses.push_back(status[HasSupernumeral]);
+			continue;
+		}
+
 		if (boolStatus[i] && status[i].size()) {
 			statuses.push_back(status[i]);
 		}

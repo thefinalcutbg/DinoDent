@@ -133,7 +133,7 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 			+ bind("county", p.foreigner ? "" : p.city.getRegionCode())
 			+ bind("ekatte", p.foreigner ? "" : p.city.ekatte())
 			+ bind("city", p.foreigner ? p.foreigner->city : p.city.getString(), true)
-			+ bind("line", p.foreigner ? "" : FreeFn::escapeXml(p.getFullAddress()))
+			+ bind("line", FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)
 		//<nhis:email value="[string]"/>

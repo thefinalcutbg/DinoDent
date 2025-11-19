@@ -57,7 +57,25 @@ std::string Patient::firstLastName() const
 
 std::string Patient::getFullAddress() const
 {
-	return city.getAddressWithStreet(address);
+	if (type != EU){
+		return city.getAddressWithStreet(address);
+	}
+
+	std::string result;
+	
+	if (foreigner) {
+		result += foreigner->country.getCode();
+		result += ", ";
+		result += foreigner->city;
+		
+		if(address.size()){
+			result += ", ";
+			result += address;
+		}
+	}
+
+	return result;
+
 }
 
 std::string Patient::getAllergiesStr() const

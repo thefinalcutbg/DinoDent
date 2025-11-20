@@ -159,7 +159,7 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>21</hour>
+        <hour>19</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -374,48 +374,13 @@
         </rect>
        </property>
       </widget>
-      <widget class="LineEdit" name="foreignCityEdit">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>40</y>
-         <width>171</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="maxLength">
-        <number>50</number>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_13">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>40</y>
-         <width>71</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Град:</string>
-       </property>
-      </widget>
       <widget class="QGroupBox" name="groupBox">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>70</y>
+         <y>50</y>
          <width>311</width>
-         <height>151</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="title">
@@ -425,7 +390,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>20</y>
+          <y>30</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -441,7 +406,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>110</y>
+          <y>130</y>
           <width>171</width>
           <height>21</height>
          </rect>
@@ -451,7 +416,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>50</y>
+          <y>60</y>
           <width>61</width>
           <height>20</height>
          </rect>
@@ -470,7 +435,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>110</y>
+          <y>130</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -483,7 +448,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>80</y>
+          <y>90</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -496,7 +461,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>50</y>
+          <y>60</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -509,7 +474,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>80</y>
+          <y>90</y>
           <width>101</width>
           <height>22</height>
          </rect>
@@ -522,7 +487,7 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>19</hour>
+          <hour>17</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
@@ -549,7 +514,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>20</y>
+          <y>30</y>
           <width>171</width>
           <height>21</height>
          </rect>
@@ -559,7 +524,7 @@
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>50</y>
+          <y>60</y>
           <width>61</width>
           <height>20</height>
          </rect>
@@ -765,7 +730,6 @@
   <tabstop>sexCombo</tabstop>
   <tabstop>birthEdit</tabstop>
   <tabstop>countryCombo</tabstop>
-  <tabstop>foreignCityEdit</tabstop>
   <tabstop>institutionNumber</tabstop>
   <tabstop>ehicRadio</tabstop>
   <tabstop>otherRadio</tabstop>

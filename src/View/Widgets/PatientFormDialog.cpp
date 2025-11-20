@@ -81,7 +81,6 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     patientFields[address] = ui.addressEdit;
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
-    patientFields[foreign_city] = ui.foreignCityEdit;
     patientFields[birthdate] = ui.birthEdit;
 
 
@@ -124,21 +123,24 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         20
     );
 
-    ui.cityLineEdit->setDisabled(patientType == Patient::EU);
-    ui.cityLineEdit->setInputValidator(
-        patientType == Patient::EU ?
-        nullptr
-        :
-        &city_validator
-	);
+    if (patientType == Patient::EU) {
+		ui.cityLineEdit->setCompleter(nullptr);
+		ui.cityLineEdit->setInputValidator(&notEmpty_validator);
+    }
+    else {
 
+		ui.cityLineEdit->setInputValidator(&city_validator);
+
+        if (ui.cityLineEdit->completer() == nullptr) {
+            ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
+        }
+    }
     ui.foreignerGroup->setHidden(patientType != Patient::EU);
 
     switch (patientType)
     {
     case Patient::Type::EGN:
         ui.idLineEdit->setInputValidator(&egn_validator);
-        ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
         ui.fNameEdit->setInputValidator(&name_validator);
         ui.mNameEdit->setInputValidator(&cyrillic_validator);
@@ -148,7 +150,6 @@ void PatientFormDialog::patientTypeChanged(int patientType)
 
     case Patient::Type::LNCH:
         ui.idLineEdit->setInputValidator(&ln4_validator);
-        ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
         ui.fNameEdit->setInputValidator(&name_validator);
         ui.mNameEdit->setInputValidator(&cyrillic_validator);
@@ -158,7 +159,6 @@ void PatientFormDialog::patientTypeChanged(int patientType)
 
     case Patient::Type::SSN:
         ui.idLineEdit->setInputValidator(&ssn_validator);
-        ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
         ui.fNameEdit->setInputValidator(&notEmpty_validator);
         ui.mNameEdit->setInputValidator(nullptr);
@@ -168,12 +168,11 @@ void PatientFormDialog::patientTypeChanged(int patientType)
 
     case Patient::Type::EU:
         ui.idLineEdit->setInputValidator(&notEmpty_validator);
-        ui.foreignCityEdit->setInputValidator(&notEmpty_validator);
-        ui.cityLineEdit->setText(User::practice().practice_address.getString(false).c_str());
         ui.idLineEdit->validateInput();
         ui.fNameEdit->setInputValidator(&notEmpty_validator);
         ui.mNameEdit->setInputValidator(nullptr);
         ui.lNameEdit->setInputValidator(&notEmpty_validator);
+        ui.cityLineEdit->setCompleter(nullptr);
         resetFields();
         break;
 
@@ -213,7 +212,6 @@ void PatientFormDialog::resetFields()
     ui.HIRBNoEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
-    ui.foreignCityEdit->reset();
 
     ui.institutionNumber->clear();
     ui.ehic_edit->clear();
@@ -262,8 +260,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.institutionNumber->setText(patient.foreigner->institution.c_str());
     ui.validDateEdit->set_Date(patient.foreigner->date_valid);
     ui.ehic_edit->setText(patient.foreigner->ehic.c_str());
-    ui.foreignCityEdit->setText(patient.foreigner->city.c_str());
-    ui.cityLineEdit->clear();
+	ui.cityLineEdit->setText(patient.foreigner->city.c_str());
 
     patient.foreigner->isEHIC() ?
         ui.ehicRadio->setChecked(true)
@@ -281,7 +278,7 @@ Patient PatientFormDialog::getPatient()
 
             Foreigner{
                 .country = ui.countryCombo->currentIndex(),
-                .city = ui.foreignCityEdit->getText(),
+                .city = ui.cityLineEdit->getText(),
                 .institution = ui.institutionNumber->text().toStdString(),
                 .ehic = ui.ehicRadio->isChecked() ? ui.ehic_edit->text().toStdString() : std::string(),
                 .date_valid = ui.validDateEdit->getDate(),
@@ -304,7 +301,7 @@ Patient PatientFormDialog::getPatient()
         .FirstName = ui.fNameEdit->text().toStdString(),
         .MiddleName = ui.mNameEdit->text().toStdString(),
         .LastName = ui.lNameEdit->text().toStdString(),
-        .city = ui.cityLineEdit->text().toStdString(),
+        .city = f ? User::practice().practice_address : ui.cityLineEdit->getText(),
         .address = ui.addressEdit->text().toStdString(),
         .HIRBNo = ui.HIRBNoEdit->text().toStdString(),
         .phone = ui.phoneEdit->text().toStdString(),

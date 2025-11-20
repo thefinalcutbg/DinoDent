@@ -38,7 +38,7 @@ struct PatientFormDialog : public QDialog
 
     PatientDialogPresenter& presenter;
 
-    enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, foreign_city, birthdate, size };
+    enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, birthdate, size };
 
     std::array<AbstractUIElement*, PatientField::size> patientFields;
 

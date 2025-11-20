@@ -66,6 +66,11 @@ void AutoCompleteLineEdit::reformat()
 
 void AutoCompleteLineEdit::setCompletions(const QStringList& list)
 {
+	if (list.empty()) {
+		setCompleter(nullptr);
+		return;
+	}
+
 	auto new_completer = new QCompleter(list, this);
 	new_completer->setCaseSensitivity(Qt::CaseInsensitive);
 	new_completer->setCompletionMode(QCompleter::PopupCompletion);

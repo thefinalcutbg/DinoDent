@@ -30,7 +30,7 @@ bool EDental::Open::sendRequest(
 		+ bind("lrn", ambSheet.lrn)
 			+ bind("basedOn", ambSheet.basedOn) //needs closing functionality
 			+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
-			+ bind("treatmentEnd", ambSheet.treatment_end)
+			+ bind("treatmentEnd", FreeFn::LocalToUTC(ambSheet.treatment_end))
 			+ bind("adverseConditions", adverseConditions)
 			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 			+ HisService::getMedicalStatus(patient)
@@ -187,7 +187,7 @@ bool EDental::Augment::sendRequest(
 		+ bind("nrnDental", ambSheet.nrn)
 		+ bind("basedOn", ambSheet.basedOn) //needs closing functionality
 		+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
-		+ bind("treatmentEnd", ambSheet.treatment_end)
+		+ bind("treatmentEnd", FreeFn::LocalToUTC(ambSheet.treatment_end))
 		+ bind("adverseConditions", adverseConditions)
 		+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 		+ HisService::getMedicalStatus(patient)
@@ -611,6 +611,15 @@ void EDental::Fetch::parseReply(const std::string& reply)
 	list.nrn = getString(ambXml, "nrnDental");
 	list.lrn = getString(ambXml, "lrn");
 	list.date = FreeFn::UTCToLocal(getString(ambXml, "treatmentStart"));
+	
+	if (ambXml->FirstChildElement("treatmentEnd")) {
+		list.treatment_end = FreeFn::UTCToLocal(getString(ambXml, "treatmentEnd"));
+	}
+
+	if (ambXml->FirstChildElement("basedOn")) {
+		list.basedOn = getString(ambXml, "basedOn");
+	}
+
 	list.nhifData.isUnfavourable = getBool(ambXml, "adverseConditions");
 	list.his_updated = true;
 

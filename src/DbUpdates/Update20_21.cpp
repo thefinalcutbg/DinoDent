@@ -3,7 +3,7 @@
 #include "Resources.h"
 #include "GlobalSettings.h"
 #include "View/Widgets/UpdateDialog.h"
-
+#include "Model/FreeFunctions.h"
 
 void DbUpdates::update26(UpdateDialog& d) {
 
@@ -48,4 +48,35 @@ void DbUpdates::update26(UpdateDialog& d) {
 	settings.pkcs11_list = (GlobalSettings::getDefaultPkcs11Paths());
 	GlobalSettings::setSettings(settings);
 
+}
+
+void DbUpdates::update36(UpdateDialog& d) {
+
+	//converting amblist treatmentEnd from UTC to local time:
+
+	if (Db::version() != 35) return;
+
+	Db db;
+
+	db.newStatement("SELECT rowid, treatment_end FROM amblist WHERE treatment_end IS NOT NULL");
+
+	std::vector<std::pair<long long, std::string>> rows;
+
+	while (db.hasRows()) {
+		rows.push_back({ db.asRowId(0), db.asString(1) });
+	}
+	
+	d.setRange(rows.size());
+
+	for (auto& row : rows) {
+	
+		auto localTime = FreeFn::UTCToLocal(row.second);
+		db.newStatement("UPDATE amblist SET treatment_end=? WHERE rowid=?");
+		db.bind(1, localTime);
+		db.bind(2, row.first);
+		db.execute();
+		d.increment();
+	}
+
+	db.setVersion(36);
 }

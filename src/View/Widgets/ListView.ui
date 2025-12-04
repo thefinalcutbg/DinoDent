@@ -124,7 +124,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>300</width>
+         <width>323</width>
          <height>20</height>
         </size>
        </property>
@@ -133,7 +133,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Времетраене на лечението: от</string>
+        <string>Продължителност на лечението: от</string>
        </property>
       </widget>
      </item>

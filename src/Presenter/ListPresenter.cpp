@@ -104,9 +104,27 @@ void ListPresenter::setHisButtonToView()
     }
 }
 
+void ListPresenter::makeEditedOnTimeChange()
+{
+    m_amblist.signature_bitmap = {};
+    m_amblist.signature_data.clear();
+    view->setSignature({});
+
+    if (m_amblist.nrn.size()) {
+        m_amblist.his_updated = false;
+
+        if (isCurrent()) {
+            setHisButtonToView();
+        }
+
+    }
+
+	TabInstance::makeEdited();
+}
+
 void ListPresenter::makeEdited()
 {
-	//if you change implementation, change also in ListPresenter::setTreatmentEndTime
+	//if you change implementation, change also in ListPresenter::makeEditedOnTimeChange()
 
     m_amblist.signature_bitmap = {};
     m_amblist.signature_data.clear();
@@ -614,27 +632,19 @@ void ListPresenter::setAmbDateTime(const std::string& datetime)
         view->setProcedures(m_amblist.procedures.list());
     }
 
-    makeEdited();
+    if(m_amblist.treatment_end < datetime){
+        m_amblist.treatment_end = datetime;
+        view->setTreatmentEnd(m_amblist.treatment_end);
+	}
+
+    makeEditedOnTimeChange();
 }
 
 void ListPresenter::setTreatmentEndTime(const std::string& datetime)
 {
     m_amblist.treatment_end = datetime;
-	
-    m_amblist.signature_bitmap = {};
-    m_amblist.signature_data.clear();
-    view->setSignature({});
 
-    if (m_amblist.nrn.size()) {
-        m_amblist.his_updated = false;
-
-        if (isCurrent()) {
-            setHisButtonToView();
-        }
-
-    }
-
-    TabInstance::makeEdited();
+    makeEditedOnTimeChange();
 }
 
 void ListPresenter::checkPention()

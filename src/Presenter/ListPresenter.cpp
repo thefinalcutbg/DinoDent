@@ -43,7 +43,7 @@ ListPresenter::ListPresenter(TabView* tabView, std::shared_ptr<Patient> patient,
 
     //the list is NEW:
 
-    m_amblist.treatment_end = FreeFn::getTimeStampUTC();
+    m_amblist.treatment_end = FreeFn::getTimeStampLocal();
 
     m_amblist.nhifData.isUnfavourable =
         User::practice().isUnfavourable() &&
@@ -106,25 +106,26 @@ void ListPresenter::setHisButtonToView()
 
 void ListPresenter::makeEdited()
 {
+	//if you change implementation, change also in ListPresenter::setTreatmentEndTime
+
     m_amblist.signature_bitmap = {};
     m_amblist.signature_data.clear();
     view->setSignature({});
 
-    m_amblist.treatment_end = FreeFn::getTimeStampUTC();
+    auto newTreatmentEnd = FreeFn::getTimeStampLocal();
 
-    
     if (m_amblist.procedures.size()) {
 
-        if (Date(m_amblist.treatment_end) < (m_amblist.procedures.end() - 1)->date)
+        if (Date(newTreatmentEnd) < (m_amblist.procedures.end() - 1)->date)
         {
-            m_amblist.treatment_end = (m_amblist.procedures.end() - 1)->date.to8601() + m_amblist.treatment_end.substr(10);
+            newTreatmentEnd = (m_amblist.procedures.end() - 1)->date.to8601() + m_amblist.treatment_end.substr(10);
         }
     }
     else {
 
-        if (Date(m_amblist.treatment_end) < m_amblist.getDate())
+        if (Date(newTreatmentEnd) < m_amblist.getDate())
         {
-            m_amblist.treatment_end = m_amblist.date;
+            newTreatmentEnd = m_amblist.date;
 		}
     }
 
@@ -136,6 +137,11 @@ void ListPresenter::makeEdited()
             setHisButtonToView();
         }
 
+    }
+
+    if (newTreatmentEnd > m_amblist.treatment_end) {
+		m_amblist.treatment_end = newTreatmentEnd;
+        view->setTreatmentEnd(m_amblist.treatment_end);
     }
 
     TabInstance::makeEdited();
@@ -500,6 +506,7 @@ void ListPresenter::setDataToView()
     setHisButtonToView();
 
     view->setDateTime(m_amblist.date);
+	view->setTreatmentEnd(m_amblist.treatment_end);
 
 	view->setSignature(m_amblist.signature_bitmap);
 
@@ -608,6 +615,26 @@ void ListPresenter::setAmbDateTime(const std::string& datetime)
     }
 
     makeEdited();
+}
+
+void ListPresenter::setTreatmentEndTime(const std::string& datetime)
+{
+    m_amblist.treatment_end = datetime;
+	
+    m_amblist.signature_bitmap = {};
+    m_amblist.signature_data.clear();
+    view->setSignature({});
+
+    if (m_amblist.nrn.size()) {
+        m_amblist.his_updated = false;
+
+        if (isCurrent()) {
+            setHisButtonToView();
+        }
+
+    }
+
+    TabInstance::makeEdited();
 }
 
 void ListPresenter::checkPention()

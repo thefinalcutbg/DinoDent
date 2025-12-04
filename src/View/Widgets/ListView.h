@@ -56,6 +56,7 @@ public:
     void setPresenter(ListPresenter* presenter);
     void focusTeethView();
     void setDateTime(const std::string& time8601);
+    void setTreatmentEnd(const std::string& time8601);
 	void setSignature(const std::vector<unsigned char>& s);
     void setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel);
     void hideSurfacePanel(bool hidden);

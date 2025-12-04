@@ -91,7 +91,8 @@ ListView::ListView(QWidget* parent)
     connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
     connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
-    connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
+	connect(ui.treatmentEnd, &QDateTimeEdit::dateTimeChanged, this, [=, this](const QDateTime& t) {if (presenter)presenter->setTreatmentEndTime(t.toString(Qt::ISODate).toStdString()); });
+	connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
     connect(ui.specCombo, &QComboBox::currentIndexChanged, this, [=, this]  {nhifChanged();});
     connect(ui.unfavCheck, &QCheckBox::checkStateChanged, this, [=, this] { nhifChanged(); });
@@ -268,6 +269,12 @@ void ListView::setDateTime(const std::string& time8601)
 {
 	QSignalBlocker b(ui.dateTimeEdit);
 	ui.dateTimeEdit->setDateTime(QDateTime::fromString(time8601.c_str(), Qt::ISODate));
+}
+
+void ListView::setTreatmentEnd(const std::string& time8601)
+{
+	QSignalBlocker b(ui.treatmentEnd);
+	ui.treatmentEnd->setDateTime(QDateTime::fromString(time8601.c_str(), Qt::ISODate));
 }
 
 void ListView::setSignature(const std::vector<unsigned char>& s)

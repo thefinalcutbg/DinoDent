@@ -133,12 +133,41 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Дата и час на започване на лечението:</string>
+        <string>Времетраене на лечението: от</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="CustomDateTimeEdit" name="dateTimeEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="displayFormat">
+        <string>dd.MM.yyyy HH:mm</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>до</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="CustomDateTimeEdit" name="treatmentEnd">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>

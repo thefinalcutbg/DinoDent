@@ -85,6 +85,7 @@ public:
     void setDataToView() override;
 
     void setAmbDateTime(const std::string& datetime);
+	void setTreatmentEndTime(const std::string& datetime);
 
     void checkPention();
     void addFinancialReceipt();

@@ -14,7 +14,15 @@ QString roundDouble(double number)
 		QString::number(number, 'f', 2);
 }
 
-QString priceToString(double price) { return roundDouble(price) + " лв."; }
+QString getPriceSuffix(int year)
+{
+	return year < 2026 ? "лв." : "€";
+}
+
+QString priceToString(double price, int year) {
+
+	return roundDouble(price) + getPriceSuffix(year);
+}
 
 QString formatDoubleWithDecimal(const double& price) //adding the dot in case of integer
 {

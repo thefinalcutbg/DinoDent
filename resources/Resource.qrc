@@ -83,7 +83,6 @@
     </qresource>
     <qresource prefix="/reports">
         <file>report_amb.lrxml</file>
-        <file>report_invoice.lrxml</file>
         <file>report_consent.lrxml</file>
         <file>report_gdpr.lrxml</file>
         <file>report_mdd4.lrxml</file>
@@ -94,6 +93,7 @@
         <file>report_hirbno.lrxml</file>
         <file>report_denture.lrxml</file>
         <file>report_ambnhif.lrxml</file>
+        <file>report_invoice.lrxml</file>
     </qresource>
     <qresource prefix="/fonts"/>
     <qresource prefix="/json">

@@ -173,8 +173,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 			buttonsSumWidth += button->width();
 	}
 
-	//ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
-
+	suffix = " " + getPriceSuffix(inv.date.year);
 
     setBusinessOperations(inv.businessOperations, inv.amount(), inv.isVAT);
 
@@ -184,17 +183,17 @@ void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, 
 {
 	m_model.setBusinessOperations(businessOp);
 
-	ui.priceLabel->setText(formatDoubleWithDecimal(amount) + " лв.");
+	ui.priceLabel->setText(formatDoubleWithDecimal(amount) + suffix);
 
     ui.vatCheckBox->setText( hasVAT ? "ДДС 20%:" : "ДДС 0%:" );
 
-    ui.vatLabel->setText(formatDoubleWithDecimal(hasVAT ? amount*0.2 : 0) + " лв.");
+    ui.vatLabel->setText(formatDoubleWithDecimal(hasVAT ? amount*0.2 : 0) + suffix);
 
     if(hasVAT){
         amount = amount + (0.2*amount);
     }
 
-	ui.sumLabel->setText(formatDoubleWithDecimal(amount) + " лв.");
+	ui.sumLabel->setText(formatDoubleWithDecimal(amount) + suffix);
 	update();
 }
 

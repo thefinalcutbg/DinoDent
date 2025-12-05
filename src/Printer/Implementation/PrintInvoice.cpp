@@ -56,11 +56,13 @@ bool Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 
     auto amount = inv.amount();
 
-    report.dataManager()->setReportVariable("amount", formatDoubleWithDecimal(amount));
+    auto suffix = " " + getPriceSuffix(inv.date.year);
+
+    report.dataManager()->setReportVariable("amount", formatDoubleWithDecimal(amount) + suffix);
     report.dataManager()->setReportVariable("vatPercent", inv.isVAT ? 20 : 0);
     double vatAmount = inv.isVAT ? amount * 0.2 : 0;
-    report.dataManager()->setReportVariable("vatAmount", formatDoubleWithDecimal(vatAmount));
-    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(amount + vatAmount));
+    report.dataManager()->setReportVariable("vatAmount", formatDoubleWithDecimal(vatAmount) + suffix);
+    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(amount + vatAmount) + suffix);
 
     report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(User::practice().rziCode));
 

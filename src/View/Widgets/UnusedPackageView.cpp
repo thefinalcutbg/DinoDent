@@ -161,7 +161,7 @@ void UnusedPackageView::setSumLabel(double price)
 		return;
 	}
 
-	ui.sumLabel->setText("Обща сума: " + formatDoubleWithDecimal(price) + " лв.");
+	ui.sumLabel->setText("Обща сума: " + formatDoubleWithDecimal(price) + getPriceSuffix(Date::currentYear()));
 }
 
 void UnusedPackageView::reset()

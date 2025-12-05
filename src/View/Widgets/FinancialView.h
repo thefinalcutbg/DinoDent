@@ -19,6 +19,8 @@ class FinancialView : public QWidget
 
     void showMainDocumentDetails(bool show);
 
+	QString suffix;
+
 public:
 	FinancialView(QWidget *parent = Q_NULLPTR);
 

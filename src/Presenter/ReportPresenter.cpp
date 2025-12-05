@@ -363,10 +363,12 @@ void ReportPresenter::finish()
 	}
 
 
+	auto priceSuffix = year >= 2026 || (year == 2025 && month == 12) ? " €" : " лв.";
+	
 	view->appendText(
 		"Минути дейност: " + std::to_string(sumMinutes) + " мин.\n"
 		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + " мин.\n"
-		"Очаквана сума : " + FreeFn::formatDouble(sumPrice) + std::string(year < 2026 ? " лв." : " €")
+		"Очаквана сума : " + FreeFn::formatDouble(sumPrice) + priceSuffix
 	);
 
 	m_hasErrors ?

@@ -21,4 +21,4 @@ CREATE TABLE notification (rowid INTEGER PRIMARY KEY, date TEXT, patient_rowid I
 CREATE TABLE medical_status (patient_rowid INTEGER NOT NULL, icd TEXT NOT NULL, type INTEGER NOT NULL, nrn VARCHAR(12), FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE);
 CREATE TABLE note_template (rowid INTEGER PRIMARY KEY, text TEXT NOT NULL);
 CREATE TABLE unfavourable_condition (ekatte  NOT NULL, rzi REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL);
-PRAGMA user_version = 35;
+PRAGMA user_version = 36;

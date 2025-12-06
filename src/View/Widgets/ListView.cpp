@@ -151,7 +151,17 @@ ListView::ListView(QWidget* parent)
 		//if signature tablet is configured
 		if (User::signatureTablet().getHisIdx()) {
 
-			QAction* action = new QAction("Изпрати с подпис на родител/настойник", hisMenu);
+			QAction* action = new QAction("Изпрати с подпис на пациента", hisMenu);
+
+			action->setIcon(QIcon(":/icons/icon_sign.png"));
+
+			connect(action, &QAction::triggered, this, [=, this] {
+				presenter->sendToHis(true);
+			});
+
+			hisMenu->addAction(action);
+
+			action = new QAction("Изпрати с подпис на родител/настойник", hisMenu);
 
 			action->setIcon(QIcon(":/icons/icon_sign.png"));
 

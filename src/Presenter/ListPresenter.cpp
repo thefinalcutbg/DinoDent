@@ -837,6 +837,7 @@ void ListPresenter::openDetails(int toothIdx)
 
     patient->teethNotes[toothIdx] = d.getNote();
     view->setNotes(patient->teethNotes);
+    surf_presenter.setTooth(m_amblist.teeth[m_selectedIndexes[0]], patient->teethNotes[m_selectedIndexes[0]].size());
 }
 
 void ListPresenter::openDetails()

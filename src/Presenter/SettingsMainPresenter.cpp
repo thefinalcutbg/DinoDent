@@ -330,6 +330,10 @@ void SettingsMainPresenter::hisImport()
 	his_fetch_service.sendRequest(nrn, importToDb);
 }
 
+void SettingsMainPresenter::balanceRequested(const std::string& usr, const std::string& pass)
+{
+	sms_balance_service.checkBalance(usr, pass);
+}
 
 void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
 {

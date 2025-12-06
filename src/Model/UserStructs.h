@@ -107,9 +107,6 @@ struct Practice
 
 	Settings settings;
 
-	std::string mobica_usr;
-	std::string mobica_pass;
-
 	std::optional<NhifContract> nhif_contract;
 
 	std::string addresssByActivity() const {

@@ -347,6 +347,13 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		*/
 	});
 
+	connect(ui.sms_balanceButton, &QPushButton::clicked, this, [&] { 
+		presenter.balanceRequested(
+			ui.smsUsrEdit->text().toStdString(), 
+			ui.smsPassEdit->text().toStdString()
+		); 
+	});
+
 	presenter.setView(this);
 	
 }
@@ -363,6 +370,7 @@ void SettingsDialog::setAdminPriv(bool admin)
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::NhifContract), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::CodeList), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::SQL), admin);
+		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::SMS), admin);
 		ui.monthlySheets->setDisabled(!admin);
 }
 
@@ -379,6 +387,8 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.patientList->setChecked(settings.showPatientList);
 	ui.autoDiagnosis->setChecked(settings.autoDiagnosis);
 	ui.monthlySheets->setChecked(settings.preferMonthlySheets);
+	ui.smsUsrEdit->setText(settings.sms_settings.usr.c_str());
+	ui.smsPassEdit->setText(settings.sms_settings.pass.c_str());
 }
 
 Settings SettingsDialog::getSettings()
@@ -394,7 +404,11 @@ Settings SettingsDialog::getSettings()
 		.autoDiagnosis = ui.autoDiagnosis->isChecked(),
 		.showPatientList = ui.patientList->isChecked(),
 		.preferMonthlySheets = ui.monthlySheets->isChecked(),
-		.timeout = ui.timeoutSpin->value()
+		.timeout = ui.timeoutSpin->value(),
+		.sms_settings = {
+			.usr = ui.smsUsrEdit->text().toStdString(),
+			.pass = ui.smsPassEdit->text().toStdString()
+		}
 	};
 }
 

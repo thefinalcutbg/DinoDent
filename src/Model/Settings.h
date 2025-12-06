@@ -1,8 +1,14 @@
 #pragma once
 #include <vector>
+#include <string>
 
 struct Settings //only practice-specific settings
 {
+	struct SMSSettings {
+		std::string usr;
+		std::string pass;
+	};
+
 	bool getHisHistoryAuto{ false };
 	bool getPisHistoryAuto{ false };
 	bool getNraStatusAuto{ false };
@@ -14,4 +20,5 @@ struct Settings //only practice-specific settings
 	bool showPatientList{ true };
 	bool preferMonthlySheets{ false };
 	int timeout{ 15 }; //in seconds!
+	SMSSettings sms_settings{};
 };

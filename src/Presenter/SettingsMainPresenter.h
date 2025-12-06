@@ -4,6 +4,7 @@
 #include "Presenter/ProcedureListPresenter.h"
 #include "Network/HIS/EDental.h"
 #include "Model/UserStructs.h"
+#include "Network/SMS/Mobica.h"
 
 class SettingsDialog;
 
@@ -15,6 +16,7 @@ class SettingsMainPresenter
 
 	UpdateMedications med_update;
 	EDental::Fetch his_fetch_service;
+	Mobica::BalanceReplyHandler sms_balance_service;
 
 	SettingsDialog* view{nullptr};
 
@@ -42,5 +44,6 @@ public:
     void practiceTabFocused(); //need to refresh the doctor list
 	void priceUpdated(const std::string& code, double price);
 	void hisImport();
+	void balanceRequested(const std::string& usr, const std::string& pass);
 
 };

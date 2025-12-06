@@ -16,22 +16,22 @@ static std::string translateCodeToBg(const std::string& code)
         codeInt = std::stoi(code);
     }
     catch (...) {
-        return "Неочакван отговор от Mobica.";
+        return "РќРµРѕС‡Р°РєРІР°РЅ РѕС‚РіРѕРІРѕСЂ РѕС‚ Mobica.";
     }
 
     switch (codeInt) {
-        case 1004: return "Съобщението е прието за изпращане.";
-        case 1005: return "Заявката е отхвърлена.";
-        case 1006: return "Невалиден телефонен номер.";
-        case 1007: return "Невалидни данни за отложено изпращане.";
-        case 1008: return "Невалиден формат на заявката.";
-        case 1115: return "Невалидно потребителско име или парола.";
-        case 1117: return "Недостатъчна наличност по акаунта.";
-        case 1120: return "Липсва стойност за задължително поле.";
-        case 1121: return "Заявката е изпратена от неразрешен IP адрес.";
-        case 1122: return "Акаунтът не е активен.";
-        default:
-            return "Неочакван отговор от Mobica.";
+    case 1004: return "РЎСЉРѕР±С‰РµРЅРёРµС‚Рѕ Рµ РїСЂРёРµС‚Рѕ Р·Р° РёР·РїСЂР°С‰Р°РЅРµ.";
+    case 1005: return "Р—Р°СЏРІРєР°С‚Р° Рµ РѕС‚С…РІСЉСЂР»РµРЅР°";
+    case 1006: return "РќРµРІР°Р»РёРґРµРЅ С‚РµР»РµС„РѕРЅРµРЅ РЅРѕРјРµСЂ.";
+    case 1007: return "РќРµРІР°Р»РёРґРЅРё РґР°РЅРЅРё Р·Р° РѕС‚Р»РѕР¶РµРЅРѕ РёР·РїСЂР°С‰Р°РЅРµ.";
+    case 1008: return "РќРµРІР°Р»РёРґРµРЅ С„РѕСЂРјР°С‚ РЅР° Р·Р°СЏРІРєР°С‚Р°.";
+    case 1115: return "РќРµРІР°Р»РёРґРЅРѕ РїРѕС‚СЂРµР±РёС‚РµР»СЃРєРѕ РёРјРµ РёР»Рё РїР°СЂРѕР»Р°.";
+    case 1117: return "РќРµРґРѕСЃС‚Р°С‚СЉС‡РЅР° РЅР°Р»РёС‡РЅРѕСЃС‚ РїРѕ Р°РєР°СѓРЅС‚Р°.";
+    case 1120: return "Р›РёРїСЃРІР° СЃС‚РѕР№РЅРѕСЃС‚ Р·Р° Р·Р°РґСЉР»Р¶РёС‚РµР»РЅРѕ РїРѕР»Рµ.";
+    case 1121: return "Р—Р°СЏРІРєР°С‚Р° Рµ РёР·РїСЂР°С‚РµРЅР° РѕС‚ РЅРµСЂР°Р·СЂРµС€РµРЅ IP Р°РґСЂРµСЃ.";
+    case 1122: return "РђРєР°СѓРЅС‚СЉС‚ РЅРµ Рµ Р°РєС‚РёРІРµРЅ.";
+    default:
+        return "РќРµРѕС‡Р°РєРІР°РЅ РѕС‚РіРѕРІРѕСЂ РѕС‚ Mobica.";
     }
 }
 
@@ -41,8 +41,8 @@ void Mobica::SmsReplyHandler::sendSms(const std::vector<SmsMessage>& messages)
 
     Json::Value json;
 
-    json["user"] = User::practice().mobica_usr;
-    json["pass"] = User::practice().mobica_pass;
+    json["user"] = User::practice().settings.sms_settings.usr;
+    json["pass"] = User::practice().settings.sms_settings.pass;
 
     Json::Value smsArray(Json::arrayValue);
 
@@ -79,14 +79,14 @@ void SmsReplyHandler::parseReply(const std::string& reply)
     Json::Reader reader;
 
     if (!reader.parse(reply, json)) {
-        ModalDialogBuilder::showError("Невалиден JSON отговор от Mobica.");
+        ModalDialogBuilder::showError("РќРµРІР°Р»РёРґРµРЅ JSON РѕС‚РіРѕРІРѕСЂ РѕС‚ Mobica.");
         return;
     }
 
     const std::string code = json.isMember("code") ? json["code"].asString() : std::string{};
 
     if (code.size()) {
-        ModalDialogBuilder::showMessage(translateCodeToBg(code));
+        ModalDialogBuilder::showMessage("Mobica:" + translateCodeToBg(code));
     }
 
 }
@@ -99,14 +99,14 @@ void BalanceReplyHandler::parseReply(const std::string& reply)
     Json::Reader reader;
 
     if (!reader.parse(reply, json)) {
-        ModalDialogBuilder::showError("Невалиден отговор от Mobica.");
+        ModalDialogBuilder::showError("РќРµРІР°Р»РёРґРµРЅ РѕС‚РіРѕРІРѕСЂ РѕС‚ Mobica.");
         return;
     }
 
     std::string balanceStr;
 
-    if (json.isMember("balance")) {
-        const Json::Value& b = json["balance"];
+    if (json.isMember("amount")) {
+        const Json::Value& b = json["amount"];
             balanceStr = b.asString();
     }
 
@@ -116,7 +116,7 @@ void BalanceReplyHandler::parseReply(const std::string& reply)
     }
 
     if (!balanceStr.empty()) {
-        std::string msg = "Текущ баланс по Mobica акаунта:\n" + balanceStr + currency;
+        std::string msg = "РўРµРєСѓС‰ Р±Р°Р»Р°РЅСЃ: " + balanceStr + currency;
         ModalDialogBuilder::showMessage(msg);
         return;
     }
@@ -126,7 +126,7 @@ void BalanceReplyHandler::parseReply(const std::string& reply)
         return;
     }
 
-    ModalDialogBuilder::showError("Неочакван формат на отговора за баланс от Mobica.");
+    ModalDialogBuilder::showError("РќРµРѕС‡Р°РєРІР°РЅ С„РѕСЂРјР°С‚ РЅР° РѕС‚РіРѕРІРѕСЂР° Р·Р° Р±Р°Р»Р°РЅСЃ РѕС‚ Mobica.");
 }
 
 void Mobica::BalanceReplyHandler::checkBalance(const std::string& usr, const std::string& pass)
@@ -138,5 +138,5 @@ void Mobica::BalanceReplyHandler::checkBalance(const std::string& usr, const std
     Json::FastWriter writer;
     const std::string jsonRequest = writer.write(root);
 
-    NetworkManager::sendRequestToMobicaSms(url, jsonRequest, this);
+    NetworkManager::sendRequestToMobicaSms(jsonRequest, url , this);
 }

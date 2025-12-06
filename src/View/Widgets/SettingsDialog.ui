@@ -535,41 +535,44 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>30</y>
-         <width>171</width>
+         <y>20</y>
+         <width>121</width>
          <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>Потербител/E-mail:</string>
+        <string>Потребител/E-mail:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="sms_usr_edit">
+      <widget class="LineEdit" name="smsUsrEdit">
        <property name="geometry">
         <rect>
-         <x>140</x>
-         <y>30</y>
-         <width>261</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="sms_pass_edit">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>60</y>
+         <x>150</x>
+         <y>20</y>
          <width>131</width>
          <height>21</height>
         </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="smsPassEdit">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>50</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::EchoMode::Password</enum>
        </property>
       </widget>
       <widget class="QLabel" name="label_37">
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>60</y>
-         <width>171</width>
+         <y>50</y>
+         <width>101</width>
          <height>21</height>
         </rect>
        </property>
@@ -582,7 +585,7 @@
         <rect>
          <x>30</x>
          <y>90</y>
-         <width>221</width>
+         <width>201</width>
          <height>16</height>
         </rect>
        </property>
@@ -596,8 +599,8 @@
       <widget class="QPushButton" name="sms_balanceButton">
        <property name="geometry">
         <rect>
-         <x>280</x>
-         <y>60</y>
+         <x>290</x>
+         <y>50</y>
          <width>121</width>
          <height>24</height>
         </rect>

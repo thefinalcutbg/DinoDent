@@ -403,7 +403,8 @@ std::string Parser::write(const Settings& settings)
 	json["autoDiagnosis"] = settings.autoDiagnosis;
 	json["preferMonthlySheets"] = settings.preferMonthlySheets;
 	json["timeout"] = settings.timeout;
-
+	json["sms_usr"] = settings.sms_settings.usr;
+	json["sms_pass"] = settings.sms_settings.pass;
 	Json::FastWriter writer;
 	return writer.write(json);
 }
@@ -431,7 +432,11 @@ Settings Parser::parseSettings(const std::string& settingsString)
 			true,
 		.showPatientList = json["patientList"].asBool(),
 		.preferMonthlySheets = json["preferMonthlySheets"].asBool(),
-		.timeout = json["timeout"].asInt()
+		.timeout = json["timeout"].asInt(),
+		.sms_settings = Settings::SMSSettings{
+			.usr = json["sms_usr"].asString(),
+			.pass = json["sms_pass"].asString()
+		}
 	};
 }
 

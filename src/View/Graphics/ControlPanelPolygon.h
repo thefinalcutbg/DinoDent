@@ -1,11 +1,12 @@
 #pragma once
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 
-#include  "Presenter/InputEnums.h"
+#include "Presenter/InputEnums.h"
 
-enum class MouseClick {leftClick, rightClick};
-enum class Hover{in, out};
+enum class MouseClick { leftClick, rightClick };
+enum class Hover { in, out };
 
+class QVariantAnimation;
 
 class PolygonObserver
 {
@@ -14,21 +15,23 @@ public:
     virtual void buttonClicked(ButtonPos position, MouseClick click) = 0;
 };
 
-class ControlPanelPolygon : public QGraphicsItem
+class ControlPanelPolygon : public QGraphicsObject
 {
- 
-    PolygonObserver* observer;
+    Q_OBJECT
 
+        PolygonObserver* observer;
     ButtonPos position;
     bool hovered;
     QPolygon poly;
 
+    qreal hoverProgress{ 0.0 };
+    QVariantAnimation* hoverAnimation{ nullptr };
+
 public:
-    ControlPanelPolygon(ButtonPos direction, PolygonObserver *observer);
+    ControlPanelPolygon(ButtonPos direction, PolygonObserver* observer);
 
     QRectF boundingRect() const override;
-
-    QPainterPath shape() const override; //required for the hover percision
+    QPainterPath shape() const override;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
@@ -46,9 +49,7 @@ public:
         is_focused = focused;
         update();
     }
-    
+
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
-
-
 };

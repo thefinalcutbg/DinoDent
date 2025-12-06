@@ -145,7 +145,8 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.pdfButton, &QPushButton::clicked, [&] { MainPresenter::get().pdfPressed(); });
     connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
     connect(ui.mircButton, &QPushButton::clicked, this, [&] { 
-        
+    connect(ui.userButton, &QPushButton::clicked, this, [&] { ui.userButton->showMenu(); });
+
         if (!m_chatDialog) return;
 
         if (!User::isValid()) {
@@ -167,10 +168,8 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.notifButton, &QPushButton::clicked, this, [&]{ MainPresenter::get().notificationPressed();});
 
     ui.userButton->setMenu(userMenu);
-    ui.userButton->setPopupMode(QToolButton::InstantPopup);
     ui.userButton->setIconSize(QSize(25, 25));
-    ui.userButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-
+   
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 /*
     ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));
@@ -194,7 +193,7 @@ TabView* DinoDent::tabView()
 
 void DinoDent::setUserLabel(const std::string& doctorName, const std::string& practiceName)
 {
-    ui.userButton->setText(QString::fromStdString("  " + doctorName));
+    ui.userButton->setText(QString::fromStdString(doctorName));
     //ui.practiceLabel->setText(QString::fromStdString(practiceName));
 
     QString title = "DinoDent v";

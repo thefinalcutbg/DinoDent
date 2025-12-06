@@ -16,7 +16,6 @@ class RecipientTileButton : public TileButton
 public:
 	RecipientTileButton(QWidget* parent) : TileButton(parent) {};
 	void setRecipient(const Recipient& r);
-
 };
 
 class IssuerTileButton : public TileButton
@@ -31,5 +30,4 @@ class IssuerTileButton : public TileButton
 public:
 	IssuerTileButton(QWidget* parent) : TileButton(parent) { m_reveresed = true; };
 	void setIssuer(const Issuer& r);
-
 };

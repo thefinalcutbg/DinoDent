@@ -3,22 +3,26 @@
 #include <QPushButton>
 #include <vector>
 
-class StatusMultiButton  : public QPushButton
+class QVariantAnimation;
+
+class StatusMultiButton : public QPushButton
 {
 	Q_OBJECT
 
 	void paintEvent(QPaintEvent* e) override;
-
 	bool eventFilter(QObject* obj, QEvent* e) override;
 
 	int m_state{ 0 };
-
 	bool m_hover{ false };
-
 	std::vector<QString> m_stateNames;
 
+	qreal m_checkProgress{ 0.0 };
+	QVariantAnimation* m_checkAnimation{ nullptr };
+	qreal m_hoverProgress{ 0.0 };
+	QVariantAnimation* m_hoverAnimation{ nullptr };
+
 public:
-	StatusMultiButton(QWidget *parent);
+	StatusMultiButton(QWidget* parent);
 
 	bool pathology{ false };
 
@@ -27,7 +31,5 @@ public:
 	~StatusMultiButton() {};
 
 signals:
-	void stateChanged(int state);	
-
-	
+	void stateChanged(int state);
 };

@@ -19,11 +19,8 @@ void RecipientTileButton::setRecipient(const Recipient& r)
 	repaint();
 }
 
-
 void RecipientTileButton::paintInfo(QPainter* painter)
 {
-
-
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
 	QString vat_phone_label = hasVat ? "ДДС №: " : "Телефон: ";
@@ -38,7 +35,7 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 
 	auto horizontalAdvance = [metric](const QString& label) {
 		return metric.horizontalAdvance(label);
-	};
+		};
 
 	painter->setFont(info);
 	painter->drawText(20 + horizontalAdvance("Име: "), rowYPos[0], name);
@@ -47,13 +44,12 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 	painter->drawText(20 + horizontalAdvance(vat_phone_label), rowYPos[3], vat_or_phone);
 
 	painter->setFont(header);
-	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
+	painter->setPen(QPen(animatedColor(Theme::fontRed, Theme::fontRedClicked)));
 	painter->drawText(20, 30, "Получател");
 }
 
 void IssuerTileButton::paintInfo(QPainter* painter)
 {
-
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
 	painter->setFont(infoLabel);
@@ -66,7 +62,7 @@ void IssuerTileButton::paintInfo(QPainter* painter)
 
 	auto horizontalAdvance = [metric](const QString& label) {
 		return metric.horizontalAdvance(label);
-	};
+		};
 
 	painter->setFont(info);
 	painter->drawText(20 + horizontalAdvance("Име: "), rowYPos[0], name);
@@ -75,9 +71,8 @@ void IssuerTileButton::paintInfo(QPainter* painter)
 	painter->drawText(20 + horizontalAdvance("ДДС №: "), rowYPos[3], this->vat);
 
 	painter->setFont(header);
-	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
+	painter->setPen(QPen(animatedColor(Theme::fontRed, Theme::fontRedClicked)));
 	painter->drawText(20, 30, "Издател");
-
 }
 
 void IssuerTileButton::setIssuer(const Issuer& r)
@@ -87,8 +82,8 @@ void IssuerTileButton::setIssuer(const Issuer& r)
 	this->address = QString::fromStdString(r.address_by_contract);
 
 	auto vat = r.vat();
-	
-	if (vat){
+
+	if (vat) {
 		this->vat = QString::fromStdString(vat.value());
 	}
 	else {
@@ -97,8 +92,3 @@ void IssuerTileButton::setIssuer(const Issuer& r)
 
 	repaint();
 }
-
-
-
-
-

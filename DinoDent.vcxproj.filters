@@ -390,9 +390,6 @@
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\UserButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -625,9 +622,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\TableModels\MKBModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbReferral.cpp">
@@ -1035,6 +1029,9 @@
     <ClCompile Include="src\View\Widgets\UnfavourableDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\TableModels\ICDModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1274,9 +1271,6 @@
     <ClInclude Include="src\DbUpdates\Updater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\Graphics\CPTooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1293,9 +1287,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Graphics\PerioScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\Graphics\SelectionBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Graphics\SpriteRect.h">
@@ -1864,9 +1855,6 @@
     <QtMoc Include="src\View\uiComponents\ToothButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\UserButton.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\PracticeDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1979,9 +1967,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\ReferralDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\MKBModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\ReferralTile.h">
@@ -2135,6 +2120,15 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\UnfavourableDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\TableModels\ICDModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Graphics\SelectionBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Graphics\ControlPanelPolygon.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

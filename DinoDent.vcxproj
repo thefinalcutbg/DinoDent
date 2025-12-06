@@ -497,7 +497,6 @@
     <ClCompile Include="src\View\uiComponents\TextEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\TileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
-    <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AllergyDialog.cpp" />
     <ClCompile Include="src\View\Widgets\CertificateListDialog.cpp" />
@@ -771,14 +770,14 @@
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <QtMoc Include="src\View\Widgets\WelcomeWidget.h" />
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h" />
-    <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
+    <QtMoc Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
     <ClInclude Include="src\View\Graphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\View\Graphics\PaintHint.h" />
     <ClInclude Include="src\View\Graphics\PerioChartItem.h" />
     <ClInclude Include="src\View\Graphics\PerioGraphicsButton.h" />
     <ClInclude Include="src\View\Graphics\PerioScene.h" />
-    <ClInclude Include="src\View\Graphics\SelectionBox.h" />
+    <QtMoc Include="src\View\Graphics\SelectionBox.h" />
     <ClInclude Include="src\View\Graphics\SpriteRect.h" />
     <ClInclude Include="src\View\Graphics\SpriteSheets.h" />
     <ClInclude Include="src\View\Graphics\ToothGraphicsItem.h" />
@@ -895,7 +894,6 @@
     <QtMoc Include="src\View\Widgets\BusinessOperationDialog.h" />
     <QtMoc Include="src\View\Widgets\BrowserDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeDialog.h" />
-    <QtMoc Include="src\View\uiComponents\UserButton.h" />
     <QtMoc Include="src\View\uiComponents\ToothButton.h" />
     <QtMoc Include="src\View\uiComponents\TextEdit.h" />
     <QtMoc Include="src\View\uiComponents\SpinBox.h" />

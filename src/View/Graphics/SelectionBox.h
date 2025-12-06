@@ -1,34 +1,34 @@
 #pragma once
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
+class QVariantAnimation;
 
-class SelectionBox : public QGraphicsItem
+class SelectionBox : public QGraphicsObject
 {
-	int index;
+    Q_OBJECT
+
+    int index;
     bool m_focused = false;
 
 public:
-	SelectionBox(int index);
-	~SelectionBox();
-	
+    SelectionBox(int index);
+    ~SelectionBox();
+
 protected:
+    bool hovered;
+    QRectF bounds;
+    qreal m_hoverProgress{ 0.0 };
+    QVariantAnimation* m_hoverAnimation{ nullptr };
 
-	bool hovered;
-	QRectF bounds;
-	QRectF boundingRect() const override;
-
-	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
-
-	void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
-
-	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
-
+    QRectF boundingRect() const override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
 public:
-	int getIndex();
+    int getIndex();
     void drawFocused(bool focused);
-
 };

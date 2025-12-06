@@ -228,6 +228,7 @@
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\HISDental.cpp" />
     <ClCompile Include="src\Model\Dental\HisSnapshot.cpp" />
+    <ClCompile Include="src\Network\SMS\Mobica.cpp" />
     <ClCompile Include="src\Presenter\PatientHistoryPresenter.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />
@@ -571,6 +572,7 @@
     <ClInclude Include="src\Model\Dental\Notification.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />
+    <ClInclude Include="src\Network\SMS\Mobica.h" />
     <ClInclude Include="src\Presenter\PatientHistoryPresenter.h" />
     <ClInclude Include="src\Printer\FilePaths.h" />
     <ClInclude Include="src\Printer\Implementation\PrintPrv.h" />

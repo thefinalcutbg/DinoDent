@@ -39,6 +39,12 @@ namespace NetworkManager
 		AbstractReplyHandler* handler
 	);
 
+	void sendRequestToMobicaSms(
+		const std::string& jsonRequest,
+		const std::string& url,
+		AbstractReplyHandler* handler
+	);
+
 	void sendTelemetry(const std::string& json);
 
 	void requestChallenge();

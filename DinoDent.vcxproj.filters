@@ -1032,6 +1032,9 @@
     <ClCompile Include="src\View\TableModels\ICDModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\SMS\Mobica.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1755,6 +1758,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PatientHistoryPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\SMS\Mobica.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

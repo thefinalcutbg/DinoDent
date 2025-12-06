@@ -268,13 +268,13 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Implant] = { Healthy, ApicalLesion, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Root, Post, Mobility, Impacted };
 	result[Fracture] = { Healthy, Missing, Impacted };
 	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
-	result[Mobility] = { Healthy, Missing, Impacted };
+	result[Mobility] = { Healthy, Missing, Impacted, Denture };
 	result[Crown] = { Healthy, Bridge, Missing, Root, Splint, Impacted, Denture };
 	result[Bridge] = { Healthy, Crown, Splint, Denture };
 	result[Splint] = { Healthy, Crown, Bridge, Denture };
 	result[HasSupernumeral] = { };
 	result[Impacted] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
-	result[Denture] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Necrosis, Periodontitis}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
+	result[Denture] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Necrosis, Periodontitis, Mobility}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
 	result[Calculus] = { Healthy, Root, Missing, Impacted, Denture };
 		return result;
 

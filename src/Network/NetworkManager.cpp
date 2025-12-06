@@ -170,6 +170,16 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
 
 }
 
+void NetworkManager::sendRequestToMobicaSms(const std::string& jsonRequest, const std::string& url, AbstractReplyHandler* handler)
+{
+    QNetworkRequest request(QUrl(url.c_str()));
+
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/json");
+    request.setRawHeader("Accept", "application/json");
+
+    postRequest(request, handler, jsonRequest);
+}
+
 void NetworkManager::sendTelemetry(const std::string& json)
 {
     QNetworkRequest request(QUrl("https://charmquark.xyz:18080/telemetry"));

@@ -50,7 +50,7 @@
   <widget class="StatusButton" name="Restoration">
    <property name="geometry">
     <rect>
-     <x>13</x>
+     <x>12</x>
      <y>8</y>
      <width>161</width>
      <height>27</height>
@@ -789,7 +789,7 @@
   <widget class="StatusButton" name="DefResto">
    <property name="geometry">
     <rect>
-     <x>13</x>
+     <x>12</x>
      <y>40</y>
      <width>161</width>
      <height>27</height>

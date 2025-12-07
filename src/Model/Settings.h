@@ -7,6 +7,9 @@ struct Settings //only practice-specific settings
 	struct SMSSettings {
 		std::string usr;
 		std::string pass;
+		bool hasCredentials() const {
+			return !usr.empty() && !pass.empty();
+		}
 	};
 
 	bool getHisHistoryAuto{ false };

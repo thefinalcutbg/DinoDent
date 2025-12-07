@@ -1,11 +1,18 @@
 ﻿#include "CalendarEventDialog.h"
 #include "Database/DbPatient.h"
+#include "Model/User.h"
 #include <QCompleter>
 #include <QPainter>
 #include <QAbstractItemView>
 #include <unordered_map>
 
-std::unordered_map<QString, std::pair<std::string, std::string>> s_completer;
+struct CompleterData {
+	std::string fname;
+	std::string birth;
+	std::string phone;
+};
+
+std::unordered_map<QString, CompleterData> s_completer;
 
 CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *parent) :
 	m_result(event),
@@ -19,6 +26,9 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		"Ново посещение"
 	);
 
+	ui.smsFrame->setHidden(true);
+	ui.smsReminderSpin->setHidden(true);
+	ui.label_6->setHidden(true);
 
 	connect(ui.okButton, &QPushButton::clicked, this, [&] {
 
@@ -29,14 +39,41 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
 
-		if (s_completer.count(summary)) {
+		if (m_phone.size()) {
 
-			auto& [fname, birth] = s_completer.at(summary);
+			auto& data = s_completer.at(summary);
 
-			m_result.patientFname = fname;
-			m_result.patientBirth = birth;
+			m_result.patientFname = data.fname;
+			m_result.patientBirth = data.birth;
 
+			if (!ui.smsFrame->isVisible()) return;
+
+			if (ui.smsNotifyCheck) {
+				m_smsMessages.push_back(
+					SmsMessage{
+					.phone = m_phone.toStdString(),
+					.message = "Записано посещение при зъболекар на " +
+					 ui.startDateTimeEdit->dateTime().toString("dd.MM.yyyy HH:mm").toStdString()
+					}
+				);
+			}
+
+			if(ui.smsReminderCheck->isChecked())
+			{
+				QDateTime remindTime = ui.startDateTimeEdit->dateTime().addSecs(-ui.smsReminderSpin->value() * 3600);
+				
+				m_smsMessages.push_back(
+					SmsMessage{
+					.phone = m_phone.toStdString(),
+					.message = "Напомняне за посещение при зъболекар на " +
+					 ui.startDateTimeEdit->dateTime().toString("dd.MM.yyyy HH:mm").toStdString(),
+					.toDate = remindTime.toString("yyyy-MM-ddTHH:mm:ss").toStdString()
+					}
+				);
+			}
 		}
+
+		sms_service.sendSms(m_smsMessages);
 
 		accept();
 
@@ -44,14 +81,50 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	connect(ui.summaryEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
-		ui.iconLabel->setText(
-			s_completer.count(text) ?
-			"<font color=\"Green\">✓</font>"
-			:
-			""
-		);
+		if (s_completer.count(text)) 
+		{
+			ui.iconLabel->setText("<font color=\"Green\">✓</font>");
+
+			m_phone = s_completer.at(text).phone.c_str();
+		} 
+		else 
+		{
+			ui.iconLabel->setText("");
+
+			m_phone = "";
+		}
+
+		if(!User::settings().sms_settings.hasCredentials()) {
+			m_phone = "";
+			ui.smsFrame->setHidden(true);
+			return;
+		}
+
+		const QRegularExpression re(R"((\+?\d[\d\s\-/]{8,}\d))");
+
+		QRegularExpressionMatch match = re.match(text);
+
+		if (m_phone.isEmpty() && match.hasMatch())
+		{
+			ui.smsFrame->setHidden(false);
+			m_phone = match.captured(1);
+			return;
+			
+		}
+
+		ui.smsFrame->setHidden(m_phone.isEmpty());
+	
 
 	});
+
+	connect(ui.smsReminderSpin, &QSpinBox::valueChanged, this, [&](int value) {
+		ui.smsReminderSpin->setSuffix(value == 1 ? " час" : " часа");
+	});
+
+	connect(ui.smsReminderCheck, &QCheckBox::toggled, this, [&](bool checked) {
+			ui.smsReminderSpin->setHidden(!checked);
+			ui.label_6->setHidden(!checked);
+		});
 
 	//setting autocomplete patients
 
@@ -64,7 +137,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		QString summary = QString::fromStdString(p.summary);
 
 		completerList.push_back(summary);
-		s_completer[summary] = std::make_pair(p.fname, p.birth);
+		s_completer[summary] = { p.fname, p.birth, p.phone};
 	}
 
 	auto new_completer = new QCompleter(completerList, this);

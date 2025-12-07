@@ -12,6 +12,7 @@ namespace DbPatient
         std::string fname;
         std::string birth;
         std::string color;
+        std::string phone;
     };
 
     long long insert(const Patient& patient);

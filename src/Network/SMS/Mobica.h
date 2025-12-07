@@ -3,21 +3,13 @@
 #include <string>
 #include <vector>
 #include "Network/AbstractReplyHandler.h"
+#include "Network/SMS/SmsMessage.h"
 
 class AbstractReplyHandler;
 
 namespace Mobica
 {
-
-    struct SmsMessage
-    {
-        std::string phone;
-        std::string message;
-        std::string idd;
-        std::string toDate;
-    };
-
-    class SmsReplyHandler : public AbstractReplyHandler
+    class SmsReplyHandler : protected AbstractReplyHandler
     {
        const std::string url = "https://gate.mobica.bg/v2/multi/json/sms.php";
     protected:
@@ -26,7 +18,7 @@ namespace Mobica
         void sendSms(const std::vector<SmsMessage>& messages);
     };
 
-    class BalanceReplyHandler : public AbstractReplyHandler
+    class BalanceReplyHandler : protected AbstractReplyHandler
     {
         const std::string url = "https://gate.mobica.bg/v2/user/account_balance.php";
     protected:

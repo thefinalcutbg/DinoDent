@@ -20,8 +20,8 @@ static std::string translateCodeToBg(const std::string& code)
     }
 
     switch (codeInt) {
-    case 1004: return "Съобщението е прието за изпращане.";
-    case 1005: return "Заявката е отхвърлена";
+    case 1004: return "SМS съобщението е прието за изпращане.";
+    case 1005: return "SMS заявката е отхвърлена";
     case 1006: return "Невалиден телефонен номер.";
     case 1007: return "Невалидни данни за отложено изпращане.";
     case 1008: return "Невалиден формат на заявката.";
@@ -66,7 +66,7 @@ void Mobica::SmsReplyHandler::sendSms(const std::vector<SmsMessage>& messages)
 
     Json::FastWriter writer;
 
-    NetworkManager::sendRequestToMobicaSms(url, writer.write(json), this);
+    NetworkManager::sendRequestToMobicaSms(writer.write(json), url, this);
 }
 
 void SmsReplyHandler::parseReply(const std::string& reply)
@@ -86,7 +86,7 @@ void SmsReplyHandler::parseReply(const std::string& reply)
     const std::string code = json.isMember("code") ? json["code"].asString() : std::string{};
 
     if (code.size()) {
-        ModalDialogBuilder::showMessage("Mobica:" + translateCodeToBg(code));
+        ModalDialogBuilder::showMessage(translateCodeToBg(code));
     }
 
 }

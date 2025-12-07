@@ -422,6 +422,7 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
         if (phone.size()) {
             r.summary += " ";
             r.summary += phone;
+			r.phone = phone;
         }
 
         r.birth = db.asString(3);     

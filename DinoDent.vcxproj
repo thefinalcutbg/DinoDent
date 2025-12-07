@@ -573,6 +573,7 @@
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />
     <ClInclude Include="src\Network\SMS\Mobica.h" />
+    <ClInclude Include="src\Network\SMS\SMSMessage.h" />
     <ClInclude Include="src\Presenter\PatientHistoryPresenter.h" />
     <ClInclude Include="src\Printer\FilePaths.h" />
     <ClInclude Include="src\Printer\Implementation\PrintPrv.h" />

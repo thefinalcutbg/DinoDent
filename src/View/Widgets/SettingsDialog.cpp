@@ -195,6 +195,16 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.lNameEdit->setErrorLabel(ui.errorLabel);
 	ui.phoneEdit->setErrorLabel(ui.errorLabel);
 
+	QPixmap mobica(":/icons/icon_mobica.png"); 
+
+	QPixmap scaled = mobica.scaled(
+		ui.mobica_label->size(),        
+		Qt::KeepAspectRatio,
+		Qt::SmoothTransformation
+	);
+
+	ui.mobica_label->setPixmap(scaled);
+
 	connect(ui.specialtyButton, &QPushButton::clicked, this,
 		[&] {
 

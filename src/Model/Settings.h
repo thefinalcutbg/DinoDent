@@ -7,6 +7,7 @@ struct Settings //only practice-specific settings
 	struct SMSSettings {
 		std::string usr;
 		std::string pass;
+		int reminder_hours = 6;
 		bool hasCredentials() const {
 			return !usr.empty() && !pass.empty();
 		}

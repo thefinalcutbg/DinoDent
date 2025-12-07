@@ -405,6 +405,7 @@ std::string Parser::write(const Settings& settings)
 	json["timeout"] = settings.timeout;
 	json["sms_usr"] = settings.sms_settings.usr;
 	json["sms_pass"] = settings.sms_settings.pass;
+	json["sms_reminder_hours"] = settings.sms_settings.reminder_hours;
 	Json::FastWriter writer;
 	return writer.write(json);
 }
@@ -433,10 +434,11 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.showPatientList = json["patientList"].asBool(),
 		.preferMonthlySheets = json["preferMonthlySheets"].asBool(),
 		.timeout = json["timeout"].asInt(),
-		.sms_settings = Settings::SMSSettings{
+		.sms_settings = json.isMember("sms_usr") ? Settings::SMSSettings{
 			.usr = json["sms_usr"].asString(),
-			.pass = json["sms_pass"].asString()
-		}
+			.pass = json["sms_pass"].asString(),
+			.reminder_hours = json["sms_reminder_hours"].asInt()
+		} : Settings::SMSSettings{}
 	};
 }
 

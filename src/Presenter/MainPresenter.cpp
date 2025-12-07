@@ -27,6 +27,7 @@
 #include "View/Widgets/SplashScreen.h"
 #include "View/Widgets/NotificationListDialog.h"
 #include "View/Widgets/DinoDent.h"
+#include "View/Widgets/SettingsDialog.h"
 
 #include "Printer/SignatureTablet.h"
 #include "Printer/FilePaths.h"
@@ -188,7 +189,7 @@ void MainPresenter::statisticPressed()
 
 void MainPresenter::settingsPressed()
 {
-    ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab::General);
+    ModalDialogBuilder::openSettingsDialog(static_cast<int>(SettingsDialog::Tab::General));
 
     view->setUserLabel(
         User::doctor().getFullName(),
@@ -253,7 +254,7 @@ void MainPresenter::logOut()
 
 void MainPresenter::userSettingsPressed()
 {
-    ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab::Doctor);
+    ModalDialogBuilder::openSettingsDialog(static_cast<int>(SettingsDialog::Tab::Doctor));
 
     view->setUserLabel(
         User::doctor().getFullName(),

@@ -354,6 +354,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		); 
 	});
 
+	connect(ui.smsReminderSpin, &QSpinBox::valueChanged, this, [&] {
+		ui.smsReminderSpin->setSuffix(ui.smsReminderSpin->value() == 1 ? " час" : " часа");
+	});
+
 	presenter.setView(this);
 	
 }
@@ -389,6 +393,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.monthlySheets->setChecked(settings.preferMonthlySheets);
 	ui.smsUsrEdit->setText(settings.sms_settings.usr.c_str());
 	ui.smsPassEdit->setText(settings.sms_settings.pass.c_str());
+	ui.smsReminderSpin->setValue(settings.sms_settings.reminder_hours);
 }
 
 Settings SettingsDialog::getSettings()
@@ -407,7 +412,8 @@ Settings SettingsDialog::getSettings()
 		.timeout = ui.timeoutSpin->value(),
 		.sms_settings = {
 			.usr = ui.smsUsrEdit->text().toStdString(),
-			.pass = ui.smsPassEdit->text().toStdString()
+			.pass = ui.smsPassEdit->text().toStdString(),
+			.reminder_hours = ui.smsReminderSpin->value()
 		}
 	};
 }

@@ -11,6 +11,7 @@
 #include "Printer/Print.h"
 #include "View/Widgets/FinancialView.h"
 #include "View/Widgets/TabView.h"
+#include "View/Widgets/SettingsDialog.h"
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring, const std::string& fileHash)
 {
@@ -261,7 +262,7 @@ void FinancialPresenter::editRecipient()
 
 void FinancialPresenter::editIssuer()
 {
-    ModalDialogBuilder::openSettingsDialog(SettingsDialog::Tab::Company);
+    ModalDialogBuilder::openSettingsDialog(static_cast<int>(SettingsDialog::Tab::Company));
     view->setInvoice(m_invoice);
 }
 

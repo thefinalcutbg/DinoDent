@@ -29,6 +29,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.smsFrame->setHidden(true);
 	ui.smsReminderSpin->setHidden(true);
 	ui.label_6->setHidden(true);
+	ui.smsReminderSpin->setValue(User::settings().sms_settings.reminder_hours);
 
 	connect(ui.okButton, &QPushButton::clicked, this, [&] {
 

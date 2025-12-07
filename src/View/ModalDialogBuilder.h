@@ -9,8 +9,6 @@
 #include "Model/MedicalNotice.h"
 #include "Model/Allergy.h"
 
-#include "View/Widgets/SettingsDialog.h"
-
 class QPixmap;
 class ProcedureDialogPresenter;
 struct PatientDialogPresenter;
@@ -59,7 +57,7 @@ namespace ModalDialogBuilder
 	std::optional<MedicalNotice> openDialog(const MedicalNotice& notice); //use default constructed for new notice
 	void showSnapshots(const std::vector<HisSnapshot>& snapshots);
 
-	void openSettingsDialog(SettingsDialog::Tab setingsTab = SettingsDialog::Tab::General);
+	void openSettingsDialog(int settingsTab = 0);
 	void pisDialog(MonthNotifPresenter* presenter);
 	void displayPixmap(const QPixmap& px);
 	ICD10 icdDialog(const ICD10& icd = {});

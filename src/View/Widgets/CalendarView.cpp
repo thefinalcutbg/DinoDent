@@ -8,6 +8,7 @@
 #include <QScrollBar>
 #include "View/Theme.h"
 #include <QPainter>
+#include <QShortcut>
 #include "Presenter/CalendarPresenter.h"
 #include "View/uiComponents/CalendarWidget.h"
 
@@ -63,11 +64,11 @@ CalendarView::CalendarView(QWidget* parent)
 
     scrollBar->setValue((pixelsPerMin * minutes) - (15*pixelsPerMin));
 
-    connect(ui.authButton, &QPushButton::clicked, this, [=] { presenter->grantAccessRequested(); });
-    connect(ui.exitButton, &QPushButton::clicked, this, [=] { presenter->restoreCredentials(); });
-    connect(ui.refreshButton, &QPushButton::clicked, this, [=] { presenter->refresh(); });
-    connect(ui.nextWeekButton, &QPushButton::clicked, this, [=] { if(presenter) presenter->nextWeekRequested(); });
-    connect(ui.prevWeekButton, &QPushButton::clicked, this, [=] { presenter->prevWeekRequested(); });
+    connect(ui.authButton, &QPushButton::clicked, this, [=, this] { presenter->grantAccessRequested(); });
+    connect(ui.exitButton, &QPushButton::clicked, this, [=, this] { presenter->restoreCredentials(); });
+    connect(ui.refreshButton, &QPushButton::clicked, this, [=, this] { presenter->refresh(); });
+    connect(ui.nextWeekButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->nextWeekRequested(); });
+    connect(ui.prevWeekButton, &QPushButton::clicked, this, [=, this] { presenter->prevWeekRequested(); });
     connect(ui.currentWeekButton, &QPushButton::clicked, this, [&] { presenter->currentWeekRequested(); });
     connect(ui.calendarCombo, &QComboBox::currentIndexChanged, this, [&](int index) { presenter->calendarIndexChanged(index);});
     connect(ui.calendarTable, &CalendarTable::eventEditRequested, this, [&](int index) { presenter->editEvent(index);});
@@ -79,6 +80,29 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarButton, &QPushButton::clicked, this, [&]{ showCalendarWidget(); });
     connect(ui.calendarTable, &CalendarTable::newDocRequested, this, [&](int index, TabType type) { presenter->newDocRequested(index, type); });
     connect(calendarWidget, &QCalendarWidget::clicked, this, [&](QDate date) { if (presenter)presenter->dateRequested(date); calendarWidget->close();  });
+
+    auto nextWeekShortcut = new QShortcut(QKeySequence(Qt::Key_Right), this);
+    connect(nextWeekShortcut, &QShortcut::activated, this, [=, this] {
+        if (presenter) presenter->nextWeekRequested();
+    });
+
+    auto prevWeekShortcut = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    connect(prevWeekShortcut, &QShortcut::activated, this, [=, this] {
+        if (presenter) presenter->prevWeekRequested();
+    });
+
+    auto scrollDownShortcut = new QShortcut(QKeySequence(Qt::Key_Down), this);
+    connect(scrollDownShortcut, &QShortcut::activated, this, [=, this] {
+        auto scrollBar = ui.scrollArea->verticalScrollBar();
+        scrollBar->setValue(scrollBar->value() + scrollBar->singleStep());
+    });
+
+    auto scrollUpShortcut = new QShortcut(QKeySequence(Qt::Key_Up), this);
+    connect(scrollUpShortcut, &QShortcut::activated, this, [=, this] {
+        auto scrollBar = ui.scrollArea->verticalScrollBar();
+        scrollBar->setValue(scrollBar->value() - scrollBar->singleStep());
+    });
+
 }
 
 void CalendarView::showCalendar(bool show)

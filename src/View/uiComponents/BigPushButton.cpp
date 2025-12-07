@@ -16,6 +16,8 @@ BigPushButton::BigPushButton(QWidget* parent) :
 {
     this->installEventFilter(this);
 
+    setCursor(QCursor(Qt::PointingHandCursor));
+
     auto font = this->font();
     font.setBold(true);
     setFont(font);
@@ -101,7 +103,6 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
 {
     if (e->type() == QEvent::Enter) {
         m_hover = true;
-        QApplication::setOverrideCursor(Qt::PointingHandCursor);
 
         // Animate hover in
         if (hoverAnimation) {
@@ -117,7 +118,7 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
     }
 
     if (e->type() == QEvent::Leave) {
-        QApplication::restoreOverrideCursor();
+
         m_hover = false;
 
         // Animate hover out
@@ -136,7 +137,6 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
     if (e->type() == QEvent::MouseButtonPress) {
         // Preserve original behavior: cancel hover on press
         m_hover = false;
-        QApplication::restoreOverrideCursor();
 
         if (hoverAnimation) {
             hoverAnimation->stop();

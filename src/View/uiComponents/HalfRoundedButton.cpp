@@ -8,13 +8,11 @@
 bool HalfRoundedButton::eventFilter(QObject*, QEvent* e)
 {
     if (e->type() == QEvent::Enter) {
-		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 		m_hover = true;
 		update();
 	}
 
     if (e->type() == QEvent::Leave) {
-		QApplication::restoreOverrideCursor();
 		m_hover = false;
 		update();
 	}
@@ -27,6 +25,8 @@ HalfRoundedButton::HalfRoundedButton(QWidget *parent)
 {
 	this->installEventFilter(this);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+	setCursor(QCursor(Qt::PointingHandCursor));
 
 	auto f = font();
 	f.setBold(true);

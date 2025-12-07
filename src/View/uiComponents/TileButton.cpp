@@ -18,6 +18,8 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 
     installEventFilter(this);
 
+    setCursor(QCursor(Qt::PointingHandCursor));
+
     m_hoverAnimation = new QVariantAnimation(this);
     m_hoverAnimation->setDuration(150);
     m_hoverAnimation->setEasingCurve(QEasingCurve::OutCubic);
@@ -89,7 +91,6 @@ bool TileButton::eventFilter(QObject*, QEvent* e)
 {
     if (e->type() == QEvent::Enter) {
         hover = true;
-        QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 
         if (m_hoverAnimation) {
             m_hoverAnimation->stop();
@@ -104,7 +105,7 @@ bool TileButton::eventFilter(QObject*, QEvent* e)
     }
 
     if (e->type() == QEvent::Leave) {
-        QApplication::restoreOverrideCursor();
+
         hover = false;
 
         if (m_hoverAnimation) {
@@ -131,7 +132,6 @@ bool TileButton::eventFilter(QObject*, QEvent* e)
         auto me = static_cast<QMouseEvent*>(e);
 
         if (me->button() == Qt::RightButton) {
-            QApplication::restoreOverrideCursor();
             emit customContextMenuRequested(mapToGlobal(me->pos()));
         }
         else {

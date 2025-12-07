@@ -16,6 +16,8 @@ HoverButton::HoverButton(QWidget* parent)
 	setStyle(Theme::fusionStyle());
 #endif
 
+	setCursor(QCursor(Qt::PointingHandCursor));
+
 	m_hoverAnimation = new QVariantAnimation(this);
 	m_hoverAnimation->setDuration(150);
 	m_hoverAnimation->setEasingCurve(QEasingCurve::OutCubic);
@@ -78,8 +80,7 @@ bool HoverButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::Enter) {
 		m_hover = true;
-		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
-
+	
 		if (m_hoverAnimation) {
 			m_hoverAnimation->stop();
 			m_hoverAnimation->setStartValue(m_hoverProgress);
@@ -93,8 +94,7 @@ bool HoverButton::eventFilter(QObject*, QEvent* e)
 	}
 
 	if (e->type() == QEvent::Leave) {
-		QApplication::restoreOverrideCursor();
-		m_hover = false;
+			m_hover = false;
 
 		if (m_hoverAnimation) {
 			m_hoverAnimation->stop();

@@ -4,7 +4,8 @@
 #include "GlobalSettings.h"
 #include "TableViewDialog.h"
 #include "View/ModalDialogBuilder.h"
-#include <QPainter>
+#include "View/Theme.h"
+
 #include <QtGlobal>
 #include <QInputDialog>
 #include "Model/User.h"

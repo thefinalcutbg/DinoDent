@@ -23,6 +23,8 @@ IconButton::IconButton(QWidget* parent)
     setStyle(Theme::fusionStyle());
 #endif
 
+    setCursor(QCursor(Qt::PointingHandCursor));
+
     m_hoverAnimation = new QVariantAnimation(this);
     m_hoverAnimation->setDuration(150); // ms
     m_hoverAnimation->setEasingCurve(QEasingCurve::OutCubic);
@@ -99,10 +101,6 @@ bool IconButton::eventFilter(QObject*, QEvent* e)
             GlobalWidgets::statusBar->showMessage(toolTip());
         }
 
-        if (isEnabled()) {
-            QApplication::setOverrideCursor(Qt::PointingHandCursor);
-        }
-
         if (m_hoverAnimation) {
             m_hoverAnimation->stop();
             m_hoverAnimation->setStartValue(m_hoverProgress);
@@ -121,7 +119,6 @@ bool IconButton::eventFilter(QObject*, QEvent* e)
         if (GlobalWidgets::statusBar) {
             GlobalWidgets::statusBar->clearMessage();
         }
-        QApplication::restoreOverrideCursor();
 
         if (m_hoverAnimation) {
             m_hoverAnimation->stop();

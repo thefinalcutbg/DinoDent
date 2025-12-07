@@ -17,6 +17,7 @@ ShortcutTile::ShortcutTile(QWidget* parent) : QPushButton(parent)
     auto font = this->font();
     font.setBold(true);
     setFont(font);
+    setCursor(Qt::PointingHandCursor);
 
     hoverAnimation = new QVariantAnimation(this);
     hoverAnimation->setDuration(150); // ms
@@ -102,7 +103,6 @@ bool ShortcutTile::eventFilter(QObject* o, QEvent* e)
 
     if (e->type() == QEvent::Enter) {
         hover = true;
-        QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 
         if (hoverAnimation) {
             hoverAnimation->stop();
@@ -117,7 +117,7 @@ bool ShortcutTile::eventFilter(QObject* o, QEvent* e)
     }
 
     if (e->type() == QEvent::Leave) {
-        QApplication::restoreOverrideCursor();
+
         hover = false;
 
         if (hoverAnimation) {

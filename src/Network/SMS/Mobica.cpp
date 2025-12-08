@@ -5,8 +5,54 @@
 #include "Model/User.h"
 
 #include <json/json.h>
+#include <QString>
 
 using namespace Mobica;
+
+static std::string normalizePhoneForMobica(const std::string& raw)
+{
+    //Keep only digits
+    QString digits;
+
+    for (QChar c : QString::fromStdString(raw)) {
+        if (c.isDigit()) {
+            digits.append(c);
+        }
+    }
+
+    if (digits.isEmpty()) {
+        return std::string();
+    }
+
+    //Remove leading 00
+    if (digits.startsWith("00")) {
+        digits.remove(0, 2);
+    }
+
+    if (digits.startsWith("359")) {
+        return digits.toStdString();
+    }
+
+    // drop the 0 and prepend 359
+    if (digits.startsWith('0')) {
+        digits.remove(0, 1);
+        digits.prepend("359");
+        return digits.toStdString();
+    }
+
+    //missing leading 0
+    if (digits.startsWith('8')) {
+        digits.prepend("359");
+        return digits.toStdString();
+    }
+
+    //if still not with 359, prepend it.
+    if (!digits.startsWith("359")) {
+        digits.prepend("359");
+    }
+
+    return digits.toStdString();
+}
 
 static std::string translateCodeToBg(const std::string& code)
 {
@@ -48,7 +94,7 @@ void Mobica::SmsReplyHandler::sendSms(const std::vector<SmsMessage>& messages)
 
     for (const auto& msg : messages) {
         Json::Value sms;
-        sms["phone"] = msg.phone;
+        sms["phone"] = normalizePhoneForMobica(msg.phone);
         sms["message"] = msg.message;
 
         if (!msg.idd.empty()) {

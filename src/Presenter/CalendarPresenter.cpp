@@ -540,6 +540,8 @@ void CalendarPresenter::cancelEventSmsNofifyLogic(const CalendarEvent& e)
 {
     if (!User::settings().sms_settings.hasCredentials()) return;
 
+	if (e.start < QDateTime::currentDateTime()) return;
+
      auto phone = FreeFn::getPhoneFromString(e.summary);
 
      if (phone.empty()) return;

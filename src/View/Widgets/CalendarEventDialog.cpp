@@ -61,6 +61,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 			"<font color=\"Green\">✓</font>" : ""
 		);
 
+		if(ui.startDateTimeEdit->dateTime() < QDateTime::currentDateTime())
+		{
+			ui.smsFrame->setHidden(true);
+			ui.reminderTimeLabel->setHidden(true);
+			return;
+		}
+
 		m_phone = FreeFn::getPhoneFromString(text.toStdString()).c_str();
 
 		ui.smsFrame->setHidden(m_phone.isEmpty() || !User::settings().sms_settings.hasCredentials());

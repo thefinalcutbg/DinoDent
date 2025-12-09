@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>848</width>
-    <height>638</height>
+    <width>888</width>
+    <height>672</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -631,7 +631,7 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>95</height>
+              <height>100</height>
              </size>
             </property>
            </widget>
@@ -647,7 +647,7 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>95</height>
+              <height>100</height>
              </size>
             </property>
            </widget>
@@ -663,7 +663,7 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>95</height>
+              <height>100</height>
              </size>
             </property>
            </widget>
@@ -725,7 +725,7 @@
           <item>
            <widget class="QLabel" name="label_39">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Легенда: &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ЛДМ&amp;gt;&lt;/span&gt; - фамилията на текущия лекар; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ТЕЛ&amp;gt; &lt;/span&gt;- телефонът на текущия лекар; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ДАТА&amp;gt;&lt;/span&gt; - датата на посещението; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ДЕН&lt;/span&gt;&amp;gt; - денят от седмицата на посещението; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ЧАС&amp;gt;&lt;/span&gt; - часът на посещението&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Легенда: &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ЛДМ&amp;gt;&lt;/span&gt; - фамилия на текущия лекар; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ТЕЛ&amp;gt; &lt;/span&gt;- телефон на текущия лекар; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ДАТА&amp;gt;&lt;/span&gt; - дата на посещението; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ДЕН&lt;/span&gt;&amp;gt; - ден от седмицата на посещението; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ЧАС&amp;gt;&lt;/span&gt; - час на посещението&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>

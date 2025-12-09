@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>528</width>
-    <height>95</height>
+    <width>514</width>
+    <height>116</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,12 @@
       <string>SMS шаблон</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
+       <number>9</number>
+      </property>
       <item>
        <widget class="QLineEdit" name="lineEdit"/>
       </item>
@@ -47,8 +53,8 @@
          <widget class="QPushButton" name="resetButton">
           <property name="maximumSize">
            <size>
-            <width>25</width>
-            <height>25</height>
+            <width>32</width>
+            <height>32</height>
            </size>
           </property>
           <property name="toolTip">
@@ -61,6 +67,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="previewButton">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Преглед</string>
           </property>

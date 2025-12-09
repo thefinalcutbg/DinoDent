@@ -64,7 +64,6 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		if(ui.startDateTimeEdit->dateTime() < QDateTime::currentDateTime())
 		{
 			ui.smsFrame->setHidden(true);
-			ui.reminderTimeLabel->setHidden(true);
 			return;
 		}
 
@@ -119,10 +118,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	new_completer->setModelSorting(QCompleter::UnsortedModel);
 	ui.summaryEdit->setCompleter(new_completer);
 
-	ui.summaryEdit->setText(event.summary.c_str());
-	ui.descriptionEdit->setText(event.description.c_str());
+	//important to set before setting text because of sms section show/hide logic
 	ui.startDateTimeEdit->setDateTime(event.start);
 	ui.endDateTimeEdit->setDateTime(event.end);
+
+	ui.summaryEdit->setText(event.summary.c_str());
+	ui.descriptionEdit->setText(event.description.c_str());
+
 
 	ui.summaryEdit->setFocus();
 

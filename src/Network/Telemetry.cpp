@@ -33,6 +33,7 @@ void Telemetry::sendData()
 	telemetry["notice_count"] = dbData.noticeCount;
 	telemetry["has_tablet"] = User::signatureTablet().getHisIdx() > 0;
 	telemetry["has_calendar"] = !DbDoctor::calendarRefreshToken(User::doctor().LPK).empty();
+	telemetry["has_sms"] = User::settings().sms_settings.hasCredentials();
 
 	int os = -1;
 

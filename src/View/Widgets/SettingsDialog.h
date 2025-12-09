@@ -44,6 +44,17 @@ class SettingsDialog : public QDialog
 
 	std::vector<DirType> dir_structure;
 
+
+	constexpr static inline int specIdxSize = 5;
+
+	constexpr static inline const char* specialties[specIdxSize]{
+	"Не е посочен",
+	"64 - Общопрактикуващ лекар по дентална медицина",
+	"61 - Детски лекар по дентална медицина",
+	"62 - Орална хирургия",
+	"68 - Дентална, орална и лицево-челюстна хирургия"
+	};
+
 	static inline const std::vector<std::string> s_dirStr = {
 		"Номер на практика",
 		"УИН на лекар",

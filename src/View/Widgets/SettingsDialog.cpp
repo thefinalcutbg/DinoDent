@@ -57,16 +57,6 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	ui.tabletErrorLabel->setStyleSheet("color: red;");
 
-	constexpr int specIdxSize = 5;
-
-	constexpr const char* specialties[specIdxSize]{
-		"Няма договор с НЗОК",
-		"64 - Общопрактикуващ лекар по дентална медицина",
-		"61 - Детски лекар по дентална медицина",
-		"62 - Орална хирургия",
-		"68 - Дентална, орална и лицево-челюстна хирургия"
-	};
-
 	for (auto& specialty : specialties)
 	{
 		ui.specialtyCombo->addItem(specialty);
@@ -524,13 +514,23 @@ void SettingsDialog::legalEntityChanged(bool selfInsured)
 
 QString SettingsDialog::getDoctorName(const PracticeDoctor &entity)
 {
-    QString suffix = entity.admin ? " (администратор)" : "";
+	QString result = "д-р ";
 
-    if (entity.lpk != User::doctor().LPK) {
-        return QString::fromStdString(entity.name) + suffix;
-    }
+	result += entity.lpk != User::doctor().LPK ?
+		QString::fromStdString(entity.name)
+		:
+		ui.fNameEdit->text() + " " + ui.lNameEdit->text();
 
-    return ui.fNameEdit->text() + " " + ui.lNameEdit->text() + suffix;
+	if (ui.nhifGroup->isChecked()) {
+		result += "/ Договор с НЗОК: ";
+		result += specialties[static_cast<int>(entity.specialty)];
+	}
+
+	if (entity.admin) {
+		result += " / Администратор /";
+	}
+
+	return result;
 }
 
 ProcedureListView* SettingsDialog::getPriceListView()

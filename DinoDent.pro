@@ -290,6 +290,7 @@ HEADERS += \
     src/View/SubWidgets/ProcedureInput.h \
     src/View/SubWidgets/ProcedureListView.h \
     src/View/SubWidgets/ReferralTile.h \
+    src/View/SubWidgets/SMSTemplate.h \
     src/View/SubWidgets/SnapshotViewer.h \
     src/View/SubWidgets/SurfacePanel.h \
     src/View/SubWidgets/TabTitle.h \
@@ -540,6 +541,7 @@ SOURCES += \
     src/Network/PIS/SendFileService.cpp \
     src/Network/PKCS11.cpp \
     src/Network/SMS/Mobica.cpp \
+    src/Network/SMS/SMSMessage.cpp \
     src/Network/Telemetry.cpp \
     src/Network/UpdateService/UpdateService.cpp \
     src/Network/crypto.cpp \
@@ -631,6 +633,7 @@ SOURCES += \
     src/View/SubWidgets/ProcedureInput.cpp \
     src/View/SubWidgets/ProcedureListView.cpp \
     src/View/SubWidgets/ReferralTile.cpp \
+    src/View/SubWidgets/SMSTemplate.cpp \
     src/View/SubWidgets/SnapshotViewer.cpp \
     src/View/SubWidgets/SurfacePanel.cpp \
     src/View/SubWidgets/TabTitle.cpp \
@@ -760,6 +763,7 @@ FORMS += \
     src/View/SubWidgets/ProcedureInput.ui \
     src/View/SubWidgets/ProcedureListView.ui \
     src/View/SubWidgets/ReferralTile.ui \
+    src/View/SubWidgets/SMSTemplate.ui \
     src/View/SubWidgets/SnapshotViewer.ui \
     src/View/SubWidgets/SurfacePanel.ui \
     src/View/SubWidgets/TabTitle.ui \

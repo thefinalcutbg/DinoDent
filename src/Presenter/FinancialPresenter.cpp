@@ -141,6 +141,7 @@ void FinancialPresenter::dateChanged(Date date)
 {
     m_invoice.date = date;
     makeEdited();
+    setDataToView();
 }
 
 void FinancialPresenter::taxEventDateChanged(Date date)

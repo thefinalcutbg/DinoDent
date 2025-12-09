@@ -39,7 +39,12 @@ ListPresenter::ListPresenter(TabView* tabView, std::shared_ptr<Patient> patient,
 
     surf_presenter.setStatusControl(this);
 
-    if (m_amblist.rowid) return;
+    if (m_amblist.rowid) {
+        if (m_amblist.treatment_end.empty()) {
+            m_amblist.treatment_end = m_amblist.date;
+        }
+        return;
+    }
 
     //the list is NEW:
 

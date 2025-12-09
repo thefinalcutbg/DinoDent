@@ -78,5 +78,8 @@ void DbUpdates::update36(UpdateDialog& d) {
 		d.increment();
 	}
 
+	db.newStatement("UPDATE amblist SET treatment_end = date WHERE treatment_end IS NULL");
+	db.execute();
+
 	db.setVersion(36);
 }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
+    <width>848</width>
     <height>638</height>
    </rect>
   </property>
@@ -595,7 +595,7 @@
           <item>
            <widget class="QLabel" name="label_41">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За да се възползвате от тази функционалност е необходимо да използвате вградения в софтуера график на &lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;Google Calendar&lt;/span&gt; и да се регистрирате в сайта на &lt;a href=&quot;https://user.mobica.bg/register?i18n=bg&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#003e92;&quot;&gt;Mobica&lt;/span&gt;&lt;/a&gt;. SMS съобщенията се изпращат при записване на час.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За да се възползвате от тази функционалност е необходимо да използвате вградения в софтуера график на &lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;Google Calendar&lt;/span&gt; и да направите &lt;a href=&quot;https://user.mobica.bg/register?i18n=bg&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#003e92;&quot;&gt;регистрация в сайта на Mobica&lt;/span&gt;&lt;/a&gt;. SMS съобщенията се изпращат при записване на час.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>

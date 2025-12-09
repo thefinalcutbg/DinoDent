@@ -106,7 +106,7 @@ void ModalDialogBuilder::showSnapshots(const std::vector<HisSnapshot>& snapshots
 	d.exec();
 }
 
-bool ModalDialogBuilder::askDialog(const std::string& questionText)
+bool ModalDialogBuilder::askDialog(const std::string& questionText, bool defaultAnswer)
 {
 	QMessageBox msg;
 
@@ -116,6 +116,12 @@ bool ModalDialogBuilder::askDialog(const std::string& questionText)
 	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No );
 	msg.setButtonText(QMessageBox::Yes, "Да");
 	msg.setButtonText(QMessageBox::No, "Не");
+
+	if(!defaultAnswer)
+	{
+		msg.setDefaultButton(QMessageBox::No);
+	}
+
 	msg.setIcon(QMessageBox::Question);
 
 	return msg.exec() == QMessageBox::Yes;

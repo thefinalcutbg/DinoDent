@@ -42,6 +42,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
 		
+		if(s_completer.count(summary))
+		{
+			auto& data = s_completer[summary];
+			m_result.patientFname = data.fname;
+			m_result.patientBirth = data.birth;
+		}
+
 		smsLogic();
 
 		accept();
@@ -120,10 +127,12 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.smsReminderSpin->setValue(User::settings().sms_settings.reminder_hours);
 	ui.smsReminderSpin->setMinimum(1);
 }
-#include "View/ModalDialogBuilder.h"
+
 void CalendarEventDialog::smsLogic()
 {
 	if (!ui.smsFrame->isVisible()) return;
+
+	if (!User::settings().sms_settings.hasCredentials()) return;
 
 	std::vector<SMSMessage> smsMessages;
 

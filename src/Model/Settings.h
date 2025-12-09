@@ -10,7 +10,7 @@ struct Settings //only practice-specific settings
 		std::string notifTemplate =
 			"Записан час при <ЛДМ> /<ТЕЛ>/ на <ДАТА> от <ЧАС>";
 		std::string reminderTemplate =
-			"Напомняне за час при <ЛДМ> /<ТЕЛ>/ на <ДАТА> <ЧАС>";
+			"Напомняне за час при <ЛДМ> на <ДАТА> от <ЧАС>";
 		std::string cancelTemplate =
 			"Часът Ви при <ЛДМ> на <ДАТА> от <ЧАС> е отменен";
 		int reminder_hours = 6;

@@ -27,7 +27,7 @@ SMSMessage::SMSMessage(
         this->toDate = apptDt.addSecs(-hoursBefore * 60 * 60).toString("yyyy-MM-dd HH:mm").toStdString();
     }
 
-    static const QString weekdays[7] = {
+    static const QString weekdays[8] = {
         "",
         "Понеделник",
         "Вторник",

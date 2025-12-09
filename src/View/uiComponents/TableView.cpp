@@ -91,11 +91,11 @@ void TableView::setAmbListLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
     hideColumn(0);
-    setColumnWidth(1, 100);
+    setColumnWidth(1, 105);
     setColumnWidth(2, 250);
     setColumnWidth(3, 65);
     setColumnWidth(4, 250);
-    setColumnWidth(5, 100);
+    setColumnWidth(5, 70);
     setColumnWidth(6, 100);
     hideColumn(7);
 

@@ -28,6 +28,7 @@ SMSMessage::SMSMessage(
     }
 
     static const QString weekdays[7] = {
+        "",
         "Понеделник",
         "Вторник",
         "Сряда",

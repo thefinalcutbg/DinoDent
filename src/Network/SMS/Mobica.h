@@ -9,13 +9,13 @@ class AbstractReplyHandler;
 
 namespace Mobica
 {
-    class SmsReplyHandler : protected AbstractReplyHandler
+    class SendSMS : protected AbstractReplyHandler
     {
        const std::string url = "https://gate.mobica.bg/v2/multi/json/sms.php";
     protected:
         void parseReply(const std::string& reply) override;
     public:
-        void sendSms(const std::vector<SmsMessage>& messages);
+        void sendSms(const std::vector<SMSMessage>& messages);
     };
 
     class BalanceReplyHandler : protected AbstractReplyHandler

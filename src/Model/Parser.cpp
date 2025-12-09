@@ -406,6 +406,9 @@ std::string Parser::write(const Settings& settings)
 	json["sms_usr"] = settings.sms_settings.usr;
 	json["sms_pass"] = settings.sms_settings.pass;
 	json["sms_reminder_hours"] = settings.sms_settings.reminder_hours;
+	json["sms_notif_template"] = settings.sms_settings.notifTemplate;
+	json["sms_reminder_template"] = settings.sms_settings.reminderTemplate;
+	json["sms_cancel_template"] = settings.sms_settings.cancelTemplate;
 	Json::FastWriter writer;
 	return writer.write(json);
 }
@@ -437,7 +440,10 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.sms_settings = json.isMember("sms_usr") ? Settings::SMSSettings{
 			.usr = json["sms_usr"].asString(),
 			.pass = json["sms_pass"].asString(),
-			.reminder_hours = json["sms_reminder_hours"].asInt()
+			.notifTemplate = json["sms_notif_template"].asString(),
+			.reminderTemplate = json["sms_reminder_template"].asString(),
+			.cancelTemplate = json["sms_cancel_template"].asString(),
+			.reminder_hours = json["sms_reminder_hours"].asInt(),
 		} : Settings::SMSSettings{}
 	};
 }

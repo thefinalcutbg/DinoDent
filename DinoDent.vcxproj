@@ -229,6 +229,7 @@
     <ClCompile Include="src\Model\Dental\HISDental.cpp" />
     <ClCompile Include="src\Model\Dental\HisSnapshot.cpp" />
     <ClCompile Include="src\Network\SMS\Mobica.cpp" />
+    <ClCompile Include="src\Network\SMS\SMSMessage.cpp" />
     <ClCompile Include="src\Presenter\PatientHistoryPresenter.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />
@@ -245,6 +246,7 @@
     <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
+    <ClCompile Include="src\View\SubWidgets\SMSTemplate.cpp" />
     <ClCompile Include="src\View\TableModels\NotificationTableModel.cpp" />
     <ClCompile Include="src\View\uiComponents\ColorPicker.cpp" />
     <ClCompile Include="src\View\uiComponents\NotesEdit.cpp" />
@@ -802,6 +804,7 @@
     <QtMoc Include="src\View\SubWidgets\MedicalNoticeTile.h" />
     <QtMoc Include="src\View\SubWidgets\ProcedureListView.h" />
     <QtMoc Include="src\View\SubWidgets\SnapshotViewer.h" />
+    <QtMoc Include="src\View\SubWidgets\SMSTemplate.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
     <QtMoc Include="src\View\TableModels\HospitalizationTableModel.h" />
@@ -930,6 +933,7 @@
     <QtMoc Include="src\View\Graphics\GraphicsView.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\View\SubWidgets\SMSTemplate.ui" />
     <QtUic Include="src\View\Widgets\MedicationTemplateDialog.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
     <QtUic Include="src\View\SubWidgets\SnapshotViewer.ui" />

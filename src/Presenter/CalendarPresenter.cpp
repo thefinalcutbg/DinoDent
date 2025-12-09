@@ -6,6 +6,7 @@
 
 #include "Model/User.h"
 #include "Model/TableRows.h"
+#include "Model/FreeFunctions.h"
 
 #include "Presenter/TabPresenter.h"
 #include "Presenter/PatientDialogPresenter.h"
@@ -367,6 +368,9 @@ void CalendarPresenter::deleteEvent(int index)
 
     deleteId = event->id;
 
+    cancelEventSmsNofifyLogic(*event);
+
+
     QVariantMap parameters;
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
     parameters["eventId"] = deleteId.c_str();
@@ -530,4 +534,22 @@ CalendarEvent* CalendarPresenter::getEvent(int eventIndex)
     if (eventIndex < 0 || eventIndex >= events->size()) return nullptr;
 
     return &events->at(eventIndex);
+}
+
+void CalendarPresenter::cancelEventSmsNofifyLogic(const CalendarEvent& e)
+{
+    if (!User::settings().sms_settings.hasCredentials()) return;
+
+     auto phone = FreeFn::getPhoneFromString(e.summary);
+
+     if (phone.empty()) return;
+
+     if (!ModalDialogBuilder::askDialog("Желаете ли да изпратите SMS известие за отмененаото посещение?")) return;
+
+      m_smsService.sendSms({
+          SMSMessage(
+            phone,
+            User::settings().sms_settings.cancelTemplate,
+			e.start.toString(SMSMessage::expectedFormat).toStdString())  
+       });
 }

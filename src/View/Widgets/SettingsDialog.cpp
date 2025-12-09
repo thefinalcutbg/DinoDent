@@ -195,15 +195,16 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.lNameEdit->setErrorLabel(ui.errorLabel);
 	ui.phoneEdit->setErrorLabel(ui.errorLabel);
 
-	QPixmap mobica(":/icons/icon_mobica.png"); 
+	//sms template setters
+	ui.smsNotifyTemplate->setTitle("Известие за записано посещние");
+	ui.smsReminderTemplate->setTitle("Напомняне за посещение");
+	ui.smsCancelTemplate->setTitle("Известие за отказано посещение");
 
-	QPixmap scaled = mobica.scaled(
-		ui.mobica_label->size(),        
-		Qt::KeepAspectRatio,
-		Qt::SmoothTransformation
-	);
+	Settings::SMSSettings smsDefaults;
 
-	ui.mobica_label->setPixmap(scaled);
+	ui.smsNotifyTemplate->setDefaultMessageTemplate(smsDefaults.notifTemplate.c_str());
+	ui.smsReminderTemplate->setDefaultMessageTemplate(smsDefaults.reminderTemplate.c_str());
+	ui.smsCancelTemplate->setDefaultMessageTemplate(smsDefaults.cancelTemplate.c_str());
 
 	connect(ui.specialtyButton, &QPushButton::clicked, this,
 		[&] {
@@ -404,7 +405,11 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.monthlySheets->setChecked(settings.preferMonthlySheets);
 	ui.smsUsrEdit->setText(settings.sms_settings.usr.c_str());
 	ui.smsPassEdit->setText(settings.sms_settings.pass.c_str());
+	ui.smsNotifyTemplate->setMessageTemplate(settings.sms_settings.notifTemplate.c_str());
+	ui.smsReminderTemplate->setMessageTemplate(settings.sms_settings.reminderTemplate.c_str());
+	ui.smsCancelTemplate->setMessageTemplate(settings.sms_settings.cancelTemplate.c_str());
 	ui.smsReminderSpin->setValue(settings.sms_settings.reminder_hours);
+
 }
 
 Settings SettingsDialog::getSettings()
@@ -424,6 +429,9 @@ Settings SettingsDialog::getSettings()
 		.sms_settings = {
 			.usr = ui.smsUsrEdit->text().toStdString(),
 			.pass = ui.smsPassEdit->text().toStdString(),
+			.notifTemplate = ui.smsNotifyTemplate->getMessageTemplate().toStdString(),
+			.reminderTemplate = ui.smsReminderTemplate->getMessageTemplate().toStdString(),
+			.cancelTemplate = ui.smsCancelTemplate->getMessageTemplate().toStdString(),
 			.reminder_hours = ui.smsReminderSpin->value()
 		}
 	};

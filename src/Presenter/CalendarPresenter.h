@@ -1,6 +1,7 @@
 #pragma once
 #include "Presenter/TabInstance.h"
 #include "Model/CalendarStructs.h"
+#include "Network/SMS/Mobica.h"
 #include <QString>
 #include <QDate>
 
@@ -64,6 +65,9 @@ class CalendarPresenter : public TabInstance
 
 	std::vector<CalendarEvent>* getEvents();
 	CalendarEvent* getEvent(int eventIndex);
+
+	Mobica::SendSMS m_smsService;
+	void cancelEventSmsNofifyLogic(const CalendarEvent& e);
 
 public:
 

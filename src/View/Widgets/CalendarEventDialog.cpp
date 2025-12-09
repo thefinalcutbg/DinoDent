@@ -1,6 +1,13 @@
 ﻿#include "CalendarEventDialog.h"
+
 #include "Database/DbPatient.h"
+
 #include "Model/User.h"
+#include "Model/FreeFunctions.h"
+
+#include "Network/SMS/SMSMessage.h"
+#include "Network/SMS/Mobica.h"
+
 #include <QCompleter>
 #include <QPainter>
 #include <QAbstractItemView>
@@ -25,12 +32,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		:
 		"Ново посещение"
 	);
-
-	ui.smsFrame->setHidden(true);
-	ui.smsReminderSpin->setHidden(true);
-	ui.label_6->setHidden(true);
-	ui.smsReminderSpin->setValue(User::settings().sms_settings.reminder_hours);
-
+	
 	connect(ui.okButton, &QPushButton::clicked, this, [&] {
 
 		QString summary = ui.summaryEdit->text();
@@ -39,42 +41,8 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		m_result.description = ui.descriptionEdit->text().toStdString();
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
-
-		if (m_phone.size()) {
-
-			auto& data = s_completer.at(summary);
-
-			m_result.patientFname = data.fname;
-			m_result.patientBirth = data.birth;
-
-			if (!ui.smsFrame->isVisible()) return;
-
-			if (ui.smsNotifyCheck) {
-				m_smsMessages.push_back(
-					SmsMessage{
-					.phone = m_phone.toStdString(),
-					.message = "Записано посещение при зъболекар на " +
-					 ui.startDateTimeEdit->dateTime().toString("dd.MM.yyyy HH:mm").toStdString()
-					}
-				);
-			}
-
-			if(ui.smsReminderCheck->isChecked())
-			{
-				QDateTime remindTime = ui.startDateTimeEdit->dateTime().addSecs(-ui.smsReminderSpin->value() * 3600);
-				
-				m_smsMessages.push_back(
-					SmsMessage{
-					.phone = m_phone.toStdString(),
-					.message = "Напомняне за посещение при зъболекар на " +
-					 ui.startDateTimeEdit->dateTime().toString("dd.MM.yyyy HH:mm").toStdString(),
-					.toDate = remindTime.toString("yyyy-MM-ddTHH:mm:ss").toStdString()
-					}
-				);
-			}
-		}
-
-		sms_service.sendSms(m_smsMessages);
+		
+		smsLogic();
 
 		accept();
 
@@ -82,50 +50,35 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	connect(ui.summaryEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
-		if (s_completer.count(text)) 
-		{
-			ui.iconLabel->setText("<font color=\"Green\">✓</font>");
+		ui.iconLabel->setText(s_completer.count(text) ?
+			"<font color=\"Green\">✓</font>" : ""
+		);
 
-			m_phone = s_completer.at(text).phone.c_str();
-		} 
-		else 
-		{
-			ui.iconLabel->setText("");
+		m_phone = FreeFn::getPhoneFromString(text.toStdString()).c_str();
 
-			m_phone = "";
-		}
-
-		if(!User::settings().sms_settings.hasCredentials()) {
-			m_phone = "";
-			ui.smsFrame->setHidden(true);
-			return;
-		}
-
-		const QRegularExpression re(R"((\+?\d[\d\s\-/]{8,}\d))");
-
-		QRegularExpressionMatch match = re.match(text);
-
-		if (m_phone.isEmpty() && match.hasMatch())
-		{
-			ui.smsFrame->setHidden(false);
-			m_phone = match.captured(1);
-			return;
-			
-		}
-
-		ui.smsFrame->setHidden(m_phone.isEmpty());
-	
-
+		ui.smsFrame->setHidden(m_phone.isEmpty() || !User::settings().sms_settings.hasCredentials());
 	});
 
 	connect(ui.smsReminderSpin, &QSpinBox::valueChanged, this, [&](int value) {
 		ui.smsReminderSpin->setSuffix(value == 1 ? " час" : " часа");
+
+		ui.reminderTimeLabel->setText(
+			"Време на напомнянето: " +
+			ui.startDateTimeEdit->dateTime().addSecs(-value * 60 * 60).toString("dd.MM.yyyy HH:mm")
+		);
+
 	});
 
 	connect(ui.smsReminderCheck, &QCheckBox::toggled, this, [&](bool checked) {
 			ui.smsReminderSpin->setHidden(!checked);
 			ui.label_6->setHidden(!checked);
-		});
+			ui.reminderTimeLabel->setHidden(!checked);
+	});
+
+	ui.smsFrame->setHidden(true);
+	ui.smsReminderSpin->setHidden(true);
+	ui.label_6->setHidden(true);
+	ui.reminderTimeLabel->hide();
 
 	//setting autocomplete patients
 
@@ -163,6 +116,39 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		ui.descriptionEdit->setFocus();
 	}
 
+	//default is 0. We ensure change and signal emition
+	ui.smsReminderSpin->setValue(User::settings().sms_settings.reminder_hours);
+	ui.smsReminderSpin->setMinimum(1);
+}
+#include "View/ModalDialogBuilder.h"
+void CalendarEventDialog::smsLogic()
+{
+	if (!ui.smsFrame->isVisible()) return;
+
+	std::vector<SMSMessage> smsMessages;
+
+	if (ui.smsNotifyCheck->isChecked()) {
+		smsMessages.emplace_back(
+			m_phone.toStdString(),
+			User::settings().sms_settings.notifTemplate,
+			m_result.start.toString(SMSMessage::expectedFormat).toStdString()
+		);
+	}
+
+	if (ui.smsReminderCheck->isChecked())
+	{
+		smsMessages.emplace_back(
+			m_phone.toStdString(),
+			User::settings().sms_settings.reminderTemplate,
+			m_result.start.toString(SMSMessage::expectedFormat).toStdString(),
+			ui.smsReminderSpin->value()
+		);
+	}
+
+	static Mobica::SendSMS sms_service;
+
+	sms_service.sendSms(smsMessages);
+		
 }
 
 void CalendarEventDialog::paintEvent(QPaintEvent* e)

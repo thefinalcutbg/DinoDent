@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iomanip>
 #include <fstream>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 std::string FreeFn::formatDouble(const double& price)
 {
@@ -141,4 +143,20 @@ std::string FreeFn::getPatientName(const std::string& fname, const std::string& 
     name += lname;
 
 	return name;
+}
+
+
+std::string FreeFn::getPhoneFromString(const std::string& text)
+{
+    QString qtext = QString::fromStdString(text);
+
+    static const QRegularExpression re(R"((\+?\d[\d\s\-/]{8,}\d))");
+
+    QRegularExpressionMatch match = re.match(qtext);
+    if (!match.hasMatch()) {
+        return std::string();
+    }
+
+    QString rawPhone = match.captured(1).trimmed();
+    return rawPhone.toStdString();
 }

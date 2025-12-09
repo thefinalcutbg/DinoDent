@@ -1035,6 +1035,12 @@
     <ClCompile Include="src\Network\SMS\Mobica.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\SMS\SMSMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SubWidgets\SMSTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1763,6 +1769,9 @@
     <ClInclude Include="src\Network\SMS\Mobica.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Network\SMS\SMSMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -2137,6 +2146,9 @@
     <QtMoc Include="src\View\Graphics\ControlPanelPolygon.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SubWidgets\SMSTemplate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2356,6 +2368,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\UnfavourableDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SubWidgets\SMSTemplate.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

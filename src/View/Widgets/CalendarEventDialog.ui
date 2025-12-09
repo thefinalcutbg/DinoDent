@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>384</width>
-    <height>236</height>
+    <width>421</width>
+    <height>247</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -224,7 +224,7 @@
            <string/>
           </property>
           <property name="minimum">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="maximum">
            <number>168</number>
@@ -233,7 +233,7 @@
            <number>1</number>
           </property>
           <property name="value">
-           <number>3</number>
+           <number>0</number>
           </property>
          </widget>
         </item>
@@ -270,6 +270,19 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="reminderTimeLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">

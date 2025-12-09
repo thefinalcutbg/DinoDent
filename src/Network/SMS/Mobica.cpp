@@ -24,31 +24,18 @@ static std::string normalizePhoneForMobica(const std::string& raw)
         return std::string();
     }
 
-    //Remove leading 00
-    if (digits.startsWith("00")) {
-        digits.remove(0, 2);
-    }
-
     if (digits.startsWith("359")) {
         return digits.toStdString();
     }
 
-    // drop the 0 and prepend 359
+    if (digits.startsWith("00")) {
+        digits.remove(0, 2);
+    }
+
     if (digits.startsWith('0')) {
         digits.remove(0, 1);
         digits.prepend("359");
         return digits.toStdString();
-    }
-
-    //missing leading 0
-    if (digits.startsWith('8')) {
-        digits.prepend("359");
-        return digits.toStdString();
-    }
-
-    //if still not with 359, prepend it.
-    if (!digits.startsWith("359")) {
-        digits.prepend("359");
     }
 
     return digits.toStdString();
@@ -81,7 +68,7 @@ static std::string translateCodeToBg(const std::string& code)
     }
 }
 
-void Mobica::SmsReplyHandler::sendSms(const std::vector<SmsMessage>& messages)
+void Mobica::SendSMS::sendSms(const std::vector<SMSMessage>& messages)
 {
     if (messages.empty()) return;
 
@@ -96,11 +83,6 @@ void Mobica::SmsReplyHandler::sendSms(const std::vector<SmsMessage>& messages)
         Json::Value sms;
         sms["phone"] = normalizePhoneForMobica(msg.phone);
         sms["message"] = msg.message;
-
-        if (!msg.idd.empty()) {
-            sms["idd"] = msg.idd;
-        }
-
         if (!msg.toDate.empty()) {
             sms["toDate"] = msg.toDate;
         }
@@ -115,7 +97,7 @@ void Mobica::SmsReplyHandler::sendSms(const std::vector<SmsMessage>& messages)
     NetworkManager::sendRequestToMobicaSms(writer.write(json), url, this);
 }
 
-void SmsReplyHandler::parseReply(const std::string& reply)
+void SendSMS::parseReply(const std::string& reply)
 {
     if (reply.empty()) {
         return;

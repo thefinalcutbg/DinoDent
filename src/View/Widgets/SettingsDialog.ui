@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>795</width>
-    <height>538</height>
+    <width>842</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,13 +19,7 @@
   <property name="windowTitle">
    <string>SettingsDialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>9</number>
-   </property>
-   <property name="rightMargin">
-    <number>9</number>
-   </property>
+  <layout class="QVBoxLayout" name="layout_2">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="sizePolicy">
@@ -266,6 +260,12 @@
          <layout class="QVBoxLayout" name="verticalLayout_9">
           <item>
            <widget class="QListWidget" name="pkcs11list">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="dragEnabled">
              <bool>true</bool>
             </property>
@@ -531,105 +531,71 @@
       <attribute name="title">
        <string>SMS</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_27">
+      <layout class="QVBoxLayout" name="verticalLayout_28">
        <item>
-        <widget class="QLabel" name="label_41">
-         <property name="text">
-          <string>За да се възползвате от тази функционалност е необходимо да използвате вградения в софтуера график Google Calendar и да се регистрирате в сайта на Mobica. SMS съобщенията се изпращат при записване на час.</string>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="minimumSize">
+          <size>
+           <width>450</width>
+           <height>0</height>
+          </size>
          </property>
-         <property name="wordWrap">
-          <bool>true</bool>
+         <property name="title">
+          <string>Mobica.bg</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_45">
-         <item>
-          <widget class="QFrame" name="frame_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>451</width>
-             <height>100</height>
-            </size>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Shape::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Shadow::Raised</enum>
-           </property>
-           <widget class="QLineEdit" name="smsPassEdit">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>40</y>
-              <width>131</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="echoMode">
-             <enum>QLineEdit::EchoMode::Password</enum>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_36">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>10</y>
-              <width>121</width>
-              <height>21</height>
-             </rect>
-            </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_44">
+          <item>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_36">
+              <property name="text">
+               <string>Потребител/E-mail:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" colspan="2">
+             <widget class="QLineEdit" name="smsUsrEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_37">
+              <property name="text">
+               <string>Парола:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="smsPassEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::EchoMode::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="sms_balanceButton">
+              <property name="text">
+               <string>Баланс по сметка</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_41">
             <property name="text">
-             <string>Потребител/E-mail:</string>
-            </property>
-           </widget>
-           <widget class="LineEdit" name="smsUsrEdit">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>10</y>
-              <width>131</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_37">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>40</y>
-              <width>101</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Парола:</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_38">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>75</y>
-              <width>201</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;a href=&quot;https://user.mobica.bg/register?i18n=bg&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Регистрация на нов потребител&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За да се възползвате от тази функционалност е необходимо да използвате вградения в софтуера график на &lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;Google Calendar&lt;/span&gt; и да се регистрирате в сайта на &lt;a href=&quot;https://user.mobica.bg/register?i18n=bg&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#003e92;&quot;&gt;Mobica&lt;/span&gt;&lt;/a&gt;. SMS съобщенията се изпращат при записване на час.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
@@ -641,101 +607,133 @@
              <bool>true</bool>
             </property>
            </widget>
-           <widget class="QPushButton" name="sms_balanceButton">
-            <property name="geometry">
-             <rect>
-              <x>200</x>
-              <y>70</y>
-              <width>121</width>
-              <height>24</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Проверка на баланс</string>
-            </property>
-           </widget>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_33">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>158</width>
-             <height>17</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="mobica_label">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>100</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_44">
-         <item>
-          <widget class="QLabel" name="label_39">
-           <property name="text">
-            <string>Напомняне за посещението </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="smsReminderSpin">
-           <property name="suffix">
-            <string> часа</string>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>168</number>
-           </property>
-           <property name="value">
-            <number>6</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_40">
-           <property name="text">
-            <string>предварително</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_32">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>SMS шаблони</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="SMSTemplate" name="smsNotifyTemplate" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>95</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="SMSTemplate" name="smsCancelTemplate" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>95</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="SMSTemplate" name="smsReminderTemplate" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>95</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_46">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_40">
+              <property name="text">
+               <string>По подразбиране съобщенията за напомняне се изпращат</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="smsReminderSpin">
+              <property name="suffix">
+               <string> часа</string>
+              </property>
+              <property name="maximum">
+               <number>168</number>
+              </property>
+              <property name="value">
+               <number>6</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_42">
+              <property name="text">
+               <string>преди записаното посещение</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_33">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_43">
+            <property name="text">
+             <string>*съобщенията с отложено изпращане не могат да бъдат анулирани</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_39">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Легенда: &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ЛДМ&amp;gt;&lt;/span&gt; - фамилията на текущия лекар; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ТЕЛ&amp;gt; &lt;/span&gt;- телефонът на текущия лекар; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ДАТА&amp;gt;&lt;/span&gt; - датата на посещението; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ДЕН&lt;/span&gt;&amp;gt; - денят от седмицата на посещението; &lt;span style=&quot; font-weight:700;&quot;&gt;&amp;lt;ЧАС&amp;gt;&lt;/span&gt; - часът на посещението&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer_7">
@@ -744,8 +742,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>212</height>
+           <width>0</width>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -2254,9 +2252,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>LineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>View/uiComponents/LineEdit.h</header>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>AutoCompleteLineEdit</class>
@@ -2264,9 +2262,9 @@
    <header>View/uiComponents/AutoCompleteLineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/LineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>NameEdit</class>
@@ -2277,6 +2275,12 @@
    <class>ProcedureListView</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/ProcedureListView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SMSTemplate</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/SMSTemplate.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

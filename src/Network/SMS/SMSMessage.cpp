@@ -27,22 +27,21 @@ SMSMessage::SMSMessage(
         this->toDate = apptDt.addSecs(-hoursBefore * 60 * 60).toString("yyyy-MM-dd HH:mm").toStdString();
     }
 
-    static const QString weekdays[8] = {
-        "",
-        "Понеделник",
-        "Вторник",
-        "Сряда",
-        "Четвъртък",
-        "Петък",
-        "Събота",
-        "Неделя"
+    static const QString weekdays[7] = {
+        "понеделник",
+        "вторник",
+        "сряда",
+        "четвъртък",
+        "петък",
+        "събота",
+        "неделя"
 	};
 
     const QString dateStr = apptDt.date().toString("dd.MM.yyyy");
     const QString timeStr = apptDt.time().toString("HH:mm");
     const QString doctorName = "д-р " + QString(User::doctor().lname.c_str());
     const QString doctorPhone = User::doctor().phone.c_str();
-    const QString weekdayStr = weekdays[apptDt.date().dayOfWeek()];
+    const QString weekdayStr = weekdays[apptDt.date().dayOfWeek()-1];
 
     qMsgTmpl.replace("<ДАТА>", dateStr, Qt::CaseSensitive);
     qMsgTmpl.replace("<ЧАС>", timeStr, Qt::CaseSensitive);

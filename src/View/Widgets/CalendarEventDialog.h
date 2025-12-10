@@ -15,6 +15,7 @@ class CalendarEventDialog : public QDialog
 	void smsLogic();
 
 	void paintEvent(QPaintEvent* e) override;
+	void smsFrameShowLogic();
 
 public:
 	CalendarEventDialog(const CalendarEvent& event, QWidget *parent = nullptr);

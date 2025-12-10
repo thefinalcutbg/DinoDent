@@ -61,18 +61,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 			"<font color=\"Green\">✓</font>" : ""
 		);
 
-		if(ui.startDateTimeEdit->dateTime() < QDateTime::currentDateTime())
-		{
-			ui.smsFrame->setHidden(true);
-			return;
-		}
-
 		m_phone = FreeFn::getPhoneFromString(text.toStdString()).c_str();
 
-		ui.smsFrame->setHidden(m_phone.isEmpty() || !User::settings().sms_settings.hasCredentials());
+		smsFrameShowLogic();
 	});
 
 	connect(ui.smsReminderSpin, &QSpinBox::valueChanged, this, [&](int value) {
+		
 		ui.smsReminderSpin->setSuffix(value == 1 ? " час" : " часа");
 
 		ui.reminderTimeLabel->setText(
@@ -80,6 +75,15 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 			ui.startDateTimeEdit->dateTime().addSecs(-value * 60 * 60).toString("dd.MM.yyyy HH:mm")
 		);
 
+	});
+
+	connect(ui.startDateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [&](const QDateTime& dateTime) {
+		
+		smsFrameShowLogic();
+
+		ui.reminderTimeLabel->setText(
+			"Време на напомнянето: " +
+			ui.startDateTimeEdit->dateTime().addSecs(-ui.smsReminderSpin->value() * 60 * 60).toString("dd.MM.yyyy HH:mm"));
 	});
 
 	connect(ui.smsReminderCheck, &QCheckBox::toggled, this, [&](bool checked) {
@@ -176,6 +180,26 @@ void CalendarEventDialog::paintEvent(QPaintEvent* e)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);
+}
+
+void CalendarEventDialog::smsFrameShowLogic()
+{
+	if (!User::settings().sms_settings.hasCredentials()) {
+		ui.smsFrame->hide();
+		return;
+	}
+
+	if (m_phone.isEmpty()) {
+		ui.smsFrame->hide();
+		return;
+	}
+
+	if (ui.startDateTimeEdit->dateTime() < QDateTime::currentDateTime()) {
+		ui.smsFrame->hide();
+		return;
+	}
+
+	ui.smsFrame->show();
 }
 
 CalendarEventDialog::~CalendarEventDialog()

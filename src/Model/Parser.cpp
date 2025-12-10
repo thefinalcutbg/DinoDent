@@ -409,6 +409,9 @@ std::string Parser::write(const Settings& settings)
 	json["sms_notif_template"] = settings.sms_settings.notifTemplate;
 	json["sms_reminder_template"] = settings.sms_settings.reminderTemplate;
 	json["sms_cancel_template"] = settings.sms_settings.cancelTemplate;
+	json["sms_notif_auto"] = settings.sms_settings.notifAuto;
+	json["sms_reminder_auto"] = settings.sms_settings.reminderAuto;
+	json["sms_cancel_auto"] = settings.sms_settings.cancelAuto;
 	Json::FastWriter writer;
 	return writer.write(json);
 }
@@ -444,6 +447,9 @@ Settings Parser::parseSettings(const std::string& settingsString)
 			.reminderTemplate = json["sms_reminder_template"].asString(),
 			.cancelTemplate = json["sms_cancel_template"].asString(),
 			.reminder_hours = json["sms_reminder_hours"].asInt(),
+			.notifAuto = json["sms_notif_auto"].asBool(),
+			.reminderAuto = json["sms_reminder_auto"].asBool(),
+			.cancelAuto = json["sms_cancel_auto"].asBool()
 		} : Settings::SMSSettings{}
 	};
 }

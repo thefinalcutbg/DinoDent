@@ -546,8 +546,11 @@ void CalendarPresenter::cancelEventSmsNofifyLogic(const CalendarEvent& e)
 
      if (phone.empty()) return;
 
-     if (!ModalDialogBuilder::askDialog(
-         "Желаете ли да изпратите SMS известие за отмененото посещение?", false)) {
+     if (!User::settings().sms_settings.cancelAuto &&
+         !ModalDialogBuilder::askDialog(
+         "Желаете ли да изпратите SMS известие за отмененото посещение?", false)
+         ) 
+     {
          return;
      }
 

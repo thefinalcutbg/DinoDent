@@ -70,6 +70,16 @@ void SMSTemplate::setTitle(const QString& title)
 	ui->groupBox->setTitle(title);
 }
 
+void SMSTemplate::setAutoCheck(bool autoCheck)
+{
+	ui->autoCheck->setChecked(autoCheck);
+}
+
+bool SMSTemplate::getAutoCheck()
+{
+	return ui->autoCheck->isChecked();
+}
+
 QString SMSTemplate::getMessageTemplate() const
 {
 	return ui->lineEdit ->text();

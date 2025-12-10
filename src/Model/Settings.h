@@ -14,6 +14,9 @@ struct Settings //only practice-specific settings
 		std::string cancelTemplate =
 			"Часът Ви при <ЛДМ> на <ДАТА> от <ЧАС> е отменен";
 		int reminder_hours = 6;
+		bool notifAuto = false;
+		bool reminderAuto = false;
+		bool cancelAuto = false;
 		bool hasCredentials() const {
 			return !usr.empty() && !pass.empty();
 		}

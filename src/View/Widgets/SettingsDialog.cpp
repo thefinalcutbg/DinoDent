@@ -399,7 +399,9 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.smsReminderTemplate->setMessageTemplate(settings.sms_settings.reminderTemplate.c_str());
 	ui.smsCancelTemplate->setMessageTemplate(settings.sms_settings.cancelTemplate.c_str());
 	ui.smsReminderSpin->setValue(settings.sms_settings.reminder_hours);
-
+	ui.smsNotifyTemplate->setAutoCheck(settings.sms_settings.notifAuto);
+	ui.smsReminderTemplate->setAutoCheck(settings.sms_settings.reminderAuto);
+	ui.smsCancelTemplate->setAutoCheck(settings.sms_settings.cancelAuto);
 }
 
 Settings SettingsDialog::getSettings()
@@ -422,7 +424,10 @@ Settings SettingsDialog::getSettings()
 			.notifTemplate = ui.smsNotifyTemplate->getMessageTemplate().toStdString(),
 			.reminderTemplate = ui.smsReminderTemplate->getMessageTemplate().toStdString(),
 			.cancelTemplate = ui.smsCancelTemplate->getMessageTemplate().toStdString(),
-			.reminder_hours = ui.smsReminderSpin->value()
+			.reminder_hours = ui.smsReminderSpin->value(),
+			.notifAuto = ui.smsNotifyTemplate->getAutoCheck(),
+			.reminderAuto = ui.smsReminderTemplate->getAutoCheck(),
+			.cancelAuto = ui.smsCancelTemplate->getAutoCheck()
 		}
 	};
 }

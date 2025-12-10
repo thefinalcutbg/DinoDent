@@ -18,6 +18,8 @@ public:
 	void setDefaultMessageTemplate(const QString& text);
 	void setMessageTemplate(const QString& text);
 	void setTitle(const QString& title);
+	void setAutoCheck(bool autoCheck);
+	bool getAutoCheck();
 	QString getMessageTemplate() const;
 	~SMSTemplate();
 

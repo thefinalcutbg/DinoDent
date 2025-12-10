@@ -79,6 +79,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="autoCheck">
+          <property name="text">
+           <string>Автоматично изпращане</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="charCountLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -88,6 +95,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
           </property>
          </widget>
         </item>

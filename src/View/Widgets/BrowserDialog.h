@@ -14,6 +14,8 @@ private:
 
 	BrowserPresenter presenter;
 
+	static inline int s_scrollBarPos = 0;
+
 	QSortFilterProxyModel idFilter;
 	NameFilterProxyModel nameFilter;
 	QSortFilterProxyModel phoneFilter;

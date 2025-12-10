@@ -6,6 +6,7 @@
 #include <QClipboard>
 #include <QMenu>
 #include <QKeyEvent>
+#include <QScrollBar>
 
 #include "View/Theme.h"
 #include "View/ModalDialogBuilder.h"
@@ -143,12 +144,14 @@ BrowserDialog::BrowserDialog()
 
 	presenter.setView(this);
 
+	ui.tableView->verticalScrollBar()->setValue(s_scrollBarPos);
 	//ui.dataTypeCombo->setCurrentIndex(2);
 
 }
 
 BrowserDialog::~BrowserDialog()
 {
+	s_scrollBarPos = ui.tableView->verticalScrollBar()->value();
 }
 
 void BrowserDialog::datesChanged()
@@ -171,6 +174,7 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 	ui.toDateEdit->setDate(QDate(state.to.year, state.to.month, state.to.day));
 	ui.detailsCombo->setCurrentIndex(state.showProcedures);
 	ui.tabBar->setCurrentIndex(static_cast<int>(state.model_type));
+	
 	calculateUiState();
 	
 }

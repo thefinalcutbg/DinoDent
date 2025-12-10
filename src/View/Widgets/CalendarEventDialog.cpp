@@ -140,8 +140,10 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.smsReminderSpin->setValue(User::settings().sms_settings.reminder_hours);
 	ui.smsReminderSpin->setMinimum(1);
 
-	ui.smsNotifyCheck->setChecked(User::settings().sms_settings.notifAuto);
-	ui.smsReminderCheck->setChecked(User::settings().sms_settings.reminderAuto);
+	if (event.id.empty()) {
+		ui.smsNotifyCheck->setChecked(User::settings().sms_settings.notifAuto);
+		ui.smsReminderCheck->setChecked(User::settings().sms_settings.reminderAuto);
+	}
 }
 
 void CalendarEventDialog::smsLogic()

@@ -1561,50 +1561,48 @@ void ListPresenter::sendToHis(bool patientIsSigner)
     }
 
     //HIS Update
-    if (!m_amblist.his_updated || !patientIsSigner)
-    {
-        if (!isValid()) return;
 
-        eDentalAugmentService.sendRequest(
-            m_amblist,
-            *patient,
-            patientIsSigner,
-            DbAmbList::hasAutoStatus(m_amblist.nrn),
-            [&](auto& procedureIdx)
+    if (!isValid()) return;
+
+    eDentalAugmentService.sendRequest(
+        m_amblist,
+        *patient,
+        patientIsSigner,
+        DbAmbList::hasAutoStatus(m_amblist.nrn),
+        [&](auto& procedureIdx)
+        {
+            m_amblist.his_updated = true;
+            m_amblist.procedures.clearRemovedProcedures();
+
+            for (auto& [sequence, hisIdx] : procedureIdx)
             {
-                m_amblist.his_updated = true;
-                m_amblist.procedures.clearRemovedProcedures();
-
-                for (auto& [sequence, hisIdx] : procedureIdx)
-                {
-                    m_amblist.procedures[sequence].his_index = hisIdx;
-                }
-
-                DbAmbList::update(m_amblist);
-
-                edited = false;
-
-                refreshTabName();
-
-                if (isCurrent())
-                {
-                    setHisButtonToView();
-                    view->setProcedures(m_amblist.procedures.list());
-                }
-
-                DbAmbList::setAutoStatus(m_amblist.nrn, false);
-                ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
-            },
-            [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) {
-
-                setSignature(sig_bitmap, sig_data);
-                DbAmbList::update(m_amblist);
-                edited = false;
+                m_amblist.procedures[sequence].his_index = hisIdx;
             }
-        );
 
-        return;
-    }
+            DbAmbList::update(m_amblist);
+
+            edited = false;
+
+            refreshTabName();
+
+            if (isCurrent())
+            {
+                setHisButtonToView();
+                view->setProcedures(m_amblist.procedures.list());
+            }
+
+            DbAmbList::setAutoStatus(m_amblist.nrn, false);
+            ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
+        },
+        [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) {
+
+            setSignature(sig_bitmap, sig_data);
+            DbAmbList::update(m_amblist);
+            edited = false;
+        }
+    );
+
+
 }
 
 

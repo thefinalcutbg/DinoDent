@@ -124,6 +124,15 @@ void ListPresenter::makeEditedOnTimeChange()
 
     }
 
+	//auto change treatment end for daily sheets
+    if (!User::settings().preferMonthlySheets &&
+        Date(m_amblist.treatment_end) != Date(m_amblist.date)
+    )
+    {
+        m_amblist.treatment_end = Date(m_amblist.date).to8601() + m_amblist.treatment_end.substr(10);
+		view->setTreatmentEnd(m_amblist.treatment_end);
+    }
+
 	TabInstance::makeEdited();
 }
 
@@ -135,8 +144,28 @@ void ListPresenter::makeEdited()
     m_amblist.signature_data.clear();
     view->setSignature({});
 
+    if (m_amblist.nrn.size()) {
+        m_amblist.his_updated = false;
+
+        if (isCurrent()) {
+            setHisButtonToView();
+        }
+
+    }
+
+	//treatment end update
+
     auto newTreatmentEnd = FreeFn::getTimeStampLocal();
 
+	//daily sheets edited from another day
+    if (!User::settings().preferMonthlySheets) {
+        if (Date(newTreatmentEnd) != Date(m_amblist.date))
+        {
+            TabInstance::makeEdited(); 
+            return;
+        }
+    }
+    
     if (m_amblist.procedures.size()) {
 
         if (Date(newTreatmentEnd) < (m_amblist.procedures.end() - 1)->date)
@@ -150,16 +179,6 @@ void ListPresenter::makeEdited()
         {
             newTreatmentEnd = m_amblist.date;
 		}
-    }
-
-
-    if (m_amblist.nrn.size()) {
-        m_amblist.his_updated = false;
-
-        if (isCurrent()) {
-            setHisButtonToView();
-        }
-
     }
 
     if (newTreatmentEnd > m_amblist.treatment_end) {

@@ -1503,6 +1503,17 @@ void ListPresenter::cancelHisAmbList()
 
 void ListPresenter::sendToHis(bool patientIsSigner)
 {
+    if(m_amblist.procedures.empty() &&
+		m_amblist.referrals.empty()&&
+		m_amblist.medical_notices.empty() &&
+        ModalDialogBuilder::askDialog(
+            "Амбулаторният лист е празен. Сигурни ли сте, че искате да го изпратите към НЗИС?"
+		) == false
+        )
+    {
+        return;
+	}
+
     //OPTIONAL INITIAL STATAUS PROCEDURE
 
     if (

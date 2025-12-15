@@ -149,7 +149,6 @@ void PatientDialogPresenter::searchDbForPatient(int type, const std::string& id)
 void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
 	if(hirbno.empty()){
-		ModalDialogBuilder::showMessage("Не е намерена активна здравна книжка");
 		return;
 	}
 

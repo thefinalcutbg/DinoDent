@@ -32,6 +32,7 @@ void GetHirbnoService::sendRequest(const Patient& p, std::function<void(const st
 void GetHirbnoService::processPISReply(const std::string& reply)
 {
 	if (reply.empty()) {
+		m_callback("");
 		m_callback = nullptr;
 		return;
 	}
@@ -52,8 +53,9 @@ void GetHirbnoService::processPISReply(const std::string& reply)
 
 
 
-	if (!hirbno) {
+	if (!hirbno && show_dialogs) {
 		ModalDialogBuilder::showMessage("Не е намерена активна здравна книжка");
+		m_callback("");
 		return;
 	}
 

@@ -1041,6 +1041,9 @@
     <ClCompile Include="src\View\SubWidgets\SMSTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\BulkRequester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1770,6 +1773,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\SMS\SMSMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\BulkRequester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

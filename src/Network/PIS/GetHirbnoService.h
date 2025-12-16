@@ -8,7 +8,7 @@ class GetHirbnoService final: private PisService
 	void processPISReply(const std::string& reply) override;
 public:
 
-	void sendRequest(
+	bool sendRequest(
 		const Patient& p,
 		std::function<void(const std::string&)> callback
 	);

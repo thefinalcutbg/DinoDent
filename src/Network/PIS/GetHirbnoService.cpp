@@ -4,7 +4,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Patient.h"
 
-void GetHirbnoService::sendRequest(const Patient& p, std::function<void(const std::string&)> callback)
+bool GetHirbnoService::sendRequest(const Patient& p, std::function<void(const std::string&)> callback)
 {
 	m_callback = callback;
 
@@ -26,7 +26,7 @@ void GetHirbnoService::sendRequest(const Patient& p, std::function<void(const st
 		"</ns3:query>"
 		;
 
-	PisService::sendRequest(query, SOAPAction::View);
+	return PisService::sendRequest(query, SOAPAction::View);
 }
 
 void GetHirbnoService::processPISReply(const std::string& reply)

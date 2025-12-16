@@ -17,17 +17,20 @@ class BulkRequester
 	GetHirbnoService hirbnoService;
 	DiagnosisService nhifDiagnosisServ;
 	EAllergy::Fetch eAllergyFetchService;
-	EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
 	EClinicalCondition::Fetch eClinicalConditionFetchService;
 	EHospitalization::Fetch eHospitalizationFetchService;
+	EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
+
 
 	Patient p;
 
-	std::vector<std::function<void()>> steps;
+	std::vector<std::function<bool()>> steps;
 
 	void nextStep();
 
 public:
+
+	BulkRequester();
 
 	struct Result {
 		std::optional<std::vector<Procedure>> pisDentalActivities;
@@ -38,6 +41,7 @@ public:
 		std::vector<MedicalStatus> pastDiseases;
 		std::vector<MedicalStatus> currentDiseases;
 		std::vector<Hospitalization> hospitalizations;
+		std::vector<HisSnapshot> hisSnapshots;
 	};
 
 	enum RequestType {

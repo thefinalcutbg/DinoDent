@@ -4,6 +4,7 @@
 #include "Database/DbReferral.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
+#include "Database/DbPatient.h"
 #include "Database/DbMedicalNotice.h"
 
 #include "Model/User.h"
@@ -298,6 +299,45 @@ void ListPresenter::fetchListProcedures(const std::string& nrn)
 	);
 }
 
+void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
+{
+    if (result.nraStatus.has_value())
+    {
+        patient->insuranceStatus = result.nraStatus.value();
+        patient_info.setInsuranceStatus(patient->insuranceStatus);
+    }
+
+    if(result.allergies.size())
+    {
+        patient->allergies = result.allergies;
+		DbPatient::updateAllergies(patient->rowid, patient->allergies);
+	}
+
+    if (result.pastDiseases.size())
+    {
+		patient->medStats.history = result.pastDiseases;
+		DbPatient::updateMedStatus(patient->rowid, patient->medStats);
+    }
+
+    if (result.currentDiseases.size())
+    {
+		patient->medStats.condition = result.currentDiseases;
+        DbPatient::updateMedStatus(patient->rowid, patient->medStats);
+    }
+
+    if(result.pisDentalActivities.has_value())
+    {
+		patient->PISHistory = result.pisDentalActivities.value();
+	}
+
+    if (result.hisDentalRecords.has_value())
+    {
+		patient->HISHistory = result.hisDentalRecords.value();
+    }
+
+    patient_info.refreshPatientData();
+}
+
 void ListPresenter::dynamicNhifConversion()
 {
     if (User::hasNhifContract()) {
@@ -574,70 +614,22 @@ void ListPresenter::setDataToView()
 
 	if (!firstFocus){ return; }
 
-    bool querySent = true; //prevents multiple PKCS11 prompts
+    bulkRequester.setCallback([&](const BulkRequester::Result& result) {handleBulkRequestResult(result);});
 
-    if (User::settings().getPisHistoryAuto && User::hasNhifContract() && !patient->PISHistory) {
+    bulkRequester.sendRequest(
+        *patient,
+        {
+            BulkRequester::NraStatus,
+            BulkRequester::Hospitalizations,
+            BulkRequester::Allergies,
+            BulkRequester::NhifMedicalConditions,
+            BulkRequester::NhifProcedures,
+            BulkRequester::HISProcedures,
+            BulkRequester::HISMedicalConditions
+        }
+	);
 
-        auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
-
-            if (!result) return;
-
-            auto& procedures = result.value();
-
-            patient->PISHistory = procedures;
-        };
-
-        querySent = dentalActService.sendRequest(*patient, false, callback);
-    }
-
-    if (!querySent) {
-        firstFocus = false;
-        return;
-    }
-
-    if (User::settings().getHisHistoryAuto && !patient->HISHistory) {
-            
-        auto callback = [&](const std::optional<std::vector<Procedure>>& result, const std::vector<HisSnapshot>& snapshots) {
-
-            if (!result) return;
- 
-            auto& procedures = result.value();
-
-            patient->HISHistory = procedures;
-  
-            if (!m_amblist.isNew()) return;
-
-            if(snapshots.empty()) return;
-
-//              m_amblist.teeth.copyOnlyOnUnknown(snapshots.back().teeth);
-
-            auto& lastHisSnapshotDate = snapshots.back().date;
-
-            auto lastDbProcedureDate = DbProcedure::getLastProcedureDate(patient->rowid);
-
-            if(m_amblist.teeth.noData() || (
-                lastHisSnapshotDate > lastDbProcedureDate
-                && ModalDialogBuilder::askDialog(
-                    "В НЗИС е открит по-актуален орален статус. Желаете ли да го заредите?"
-                )
-                )
-            ) {
-                m_amblist.teeth.copyFromHis(snapshots.back().teeth);
-            }
-
-            for (int i = 0; i < 32; i++)
-            {
-                view->repaintTooth(ToothPaintHint{ m_amblist.teeth[i], patient->teethNotes[i] });
-            }
-
-                
-        };
-
-        eDentalGetStatusAndProceduresService.sendRequest(*patient, false, callback);
-
-    }
-
-    firstFocus = false;
+	firstFocus = false;
 }
 
 
@@ -815,9 +807,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 
 void ListPresenter::historyRequested()
 {
-    if (dentalActService.awaitingReply() ||
-        eDentalGetStatusAndProceduresService.awaitingReply()
-    )
+    if (bulkRequester.awaitingReply())
     {
         ModalDialogBuilder::showMessage("Моля изчакайте, очаква се отговор от сървъра");
         return;

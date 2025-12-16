@@ -23,6 +23,7 @@ bool EClinicalCondition::Fetch::sendRequest(
 void EClinicalCondition::Fetch::parseReply(const std::string &reply)
 {
     if (reply.empty()) {
+		m_callback({}, {});
         m_callback = nullptr;
         return;
     }
@@ -30,7 +31,10 @@ void EClinicalCondition::Fetch::parseReply(const std::string &reply)
     auto errors = getErrors(reply);
 
     if (errors.size()) {
-        ModalDialogBuilder::showError(errors);
+        if (show_dialogs) {
+            ModalDialogBuilder::showError(errors);
+        }
+        m_callback({}, {});
         m_callback = nullptr;
         return;
     }

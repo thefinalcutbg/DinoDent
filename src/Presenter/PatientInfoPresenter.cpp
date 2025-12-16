@@ -253,6 +253,11 @@ void PatientInfoPresenter::openDocument(TabType type)
     TabPresenter::get().open(doc, true);
 }
 
+void PatientInfoPresenter::refreshPatientData()
+{
+	view->setPatient(*patient, patientAge);
+}
+
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
 {
     if (!status_result) {

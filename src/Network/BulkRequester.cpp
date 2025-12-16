@@ -10,7 +10,21 @@ void BulkRequester::nextStep()
 
 	auto step = std::move(steps.back());
 	steps.pop_back();
-	step();
+
+	if(!step()){
+		steps.clear();
+		if (m_callback) {
+			m_callback(m_result);
+		}
+	}
+}
+
+BulkRequester::BulkRequester()
+{
+	eAllergyFetchService.show_dialogs = false;
+	eClinicalConditionFetchService.show_dialogs = false;
+	eHospitalizationFetchService.show_dialogs = false;
+	eDentalGetStatusAndProceduresService.show_dialogs = false;
 }
 
 void BulkRequester::sendRequest(const Patient& patient, const std::vector<RequestType>& requestTypes)
@@ -26,45 +40,47 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 		case RequestType::NhifProcedures:
 
-			if(!User::hasNhifContract()) break;
+			if (!User::hasNhifContract()) break;
 
 			steps.push_back([this]() {
-				if (!dentalActService.sendRequest(
+				return dentalActService.sendRequest(
 					p,
 					false,
 					[this](const std::optional<std::vector<Procedure>>& result) {
 						m_result.pisDentalActivities = result;
 						nextStep();
-					}
-				)) nextStep();
-				});
+					});
+				}
+			);
 			break;
 
 		case RequestType::HISProcedures:
 			steps.push_back([this]() {
-				if (eDentalGetStatusAndProceduresService.sendRequest(
+				return eDentalGetStatusAndProceduresService.sendRequest(
 					p, false, [this](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshots)
 					{
 						m_result.hisDentalRecords = procedures;
+						m_result.hisSnapshots = snapshots;
 						nextStep();
-					}
-				)) nextStep();
-				});
+
+					});
+				}
+			);
 			break;
 
 		case RequestType::NraStatus:
 
-			if (!User::hasNhifContract() ||  User::practice().hasNraAccess()) break;
+			if (!User::hasNhifContract() || User::practice().hasNraAccess()) break;
 
 			steps.push_back([this]() {
-				if (!nraStatusServ.sendRequest(
+				return nraStatusServ.sendRequest(
 					p,
 					[this](const std::optional<InsuranceStatus>& result) {
 						m_result.nraStatus = result;
 						nextStep();
-					}
-				)) nextStep();
-				});
+					});
+				}
+			);
 			break;
 
 		case RequestType::HirbNo:
@@ -72,24 +88,24 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 			if (!User::hasNhifContract()) break;
 
 			steps.push_back([this]() {
-				if(!hirbnoService.sendRequest(
+				return hirbnoService.sendRequest(
 					p,
 					[this](const std::string& hirbNo) {
 						m_result.hirbNo = hirbNo;
 						nextStep();
 					}
-				)) nextStep();
-			});
+				);
+				});
 			break;
-		
+
 
 		case RequestType::NhifMedicalConditions:
 
 			if (!User::hasNhifContract()) break;
 
 			steps.push_back([this]() {
-				
-				if(!nhifDiagnosisServ.sendRequest(
+
+				return nhifDiagnosisServ.sendRequest(
 					p,
 					[this](const std::vector<ICD10>& current, const std::vector<ICD10>& past) {
 
@@ -102,19 +118,19 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 						nextStep();
 					}
-					)) nextStep();
+				);
 				});
 			break;
 
 		case RequestType::Allergies:
 			steps.push_back([this]() {
-				if(!eAllergyFetchService.sendRequest(
+				return eAllergyFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](const std::vector<Allergy>& result) {
 						m_result.allergies = result;
 						nextStep();
 					}
-				)) nextStep();
+				);
 				});
 			break;
 
@@ -122,7 +138,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 		case RequestType::HISMedicalConditions:
 			steps.push_back([this]() {
-				if (!eClinicalConditionFetchService.sendRequest(
+				return eClinicalConditionFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](const std::vector<MedicalStatus>& activeConditions, const std::vector<MedicalStatus>& pastConditions) {
 						for (auto& status : activeConditions) {
@@ -134,19 +150,19 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 						nextStep();
 					}
-				)) nextStep();
+				);
 				});
 			break;
 
 		case RequestType::Hospitalizations:
 			steps.push_back([this]() {
-				if(!eHospitalizationFetchService.sendRequest(
+				return eHospitalizationFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](const std::vector<Hospitalization>& hospitalizations) {
 						m_result.hospitalizations = hospitalizations;
 						nextStep();
 					}
-				)) nextStep();
+				);
 				});
 			break;
 

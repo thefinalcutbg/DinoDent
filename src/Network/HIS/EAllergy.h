@@ -49,7 +49,7 @@ namespace EAllergy
 		//does not return "Entered in Error"
 		bool sendRequest(const Patient& patient, const std::string& rzi, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }
-		
+		using HisService::show_dialogs;
 	};
 
 

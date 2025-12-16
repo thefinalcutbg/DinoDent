@@ -47,4 +47,5 @@ public:
     void notificationClicked();
     void openDocument(TabType type);
 	void setParent(TabInstance* p) { m_parent = p; }
+	void refreshPatientData();
 };

@@ -19,6 +19,18 @@ bool EHospitalization::Fetch::sendRequest(const Patient& patient, const std::str
 void EHospitalization::Fetch::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
+		m_callback({});
+		m_callback = nullptr;
+		return;
+	}
+
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		if (show_dialogs) {
+			ModalDialogBuilder::showError(errors);
+		}
+		m_callback({});
 		m_callback = nullptr;
 		return;
 	}

@@ -117,6 +117,8 @@ namespace EDental {
 		bool sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback);
 
 		bool awaitingReply() { return awaiting_reply; }
+
+		using HisService::show_dialogs;
 	};
 
 	class GetDentalHistory : private HisService
@@ -132,6 +134,8 @@ namespace EDental {
 		bool sendRequest(const Patient& patient, decltype(m_callback) callback);
 
 		bool awaitingReply() { return awaiting_reply; }
+
+		using HisService::show_dialogs;
 	};
 
 	class Fetch : private HisService
@@ -147,5 +151,7 @@ namespace EDental {
 		bool sendRequest(const std::string& nrn, decltype(m_callback) callback);
 
 		bool awaitingReply() { return awaiting_reply; }
+
+		using HisService::show_dialogs;
 	};
 }

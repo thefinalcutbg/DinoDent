@@ -17,6 +17,7 @@
 #include "Network/HIS/EMedicalNotice.h"
 #include "Network/NRA/NssiPentionService.h"
 #include "Presenter/PatientInfoPresenter.h"
+#include "Network/BulkRequester.h"
 
 typedef std::vector<int> SelectedTeethIdx;
 
@@ -37,17 +38,18 @@ class ListPresenter : public TabInstance
 
     bool firstFocus{ true };
 
-    DentalActivitiesService dentalActService;
-    NraStatusService nraStatusServ;
+	BulkRequester bulkRequester;
+   
     NssiPentionService nssiService;
-    DiagnosisService nhifDiagnosisServ;
+ 
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::Augment eDentalAugmentService;
 	EDental::Fetch eDentalFetchService;
-    EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
+
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
+
     EMedicalNotice::Issue eMedicalNoticeIssue;
     EMedicalNotice::Cancel eMedicalNoticeCancel;
     
@@ -64,6 +66,7 @@ class ListPresenter : public TabInstance
     void makeEditedOnTimeChange();
     void printPrv(bool toPdf);
     void fetchListProcedures(const std::string& nrn);
+	void handleBulkRequestResult(const BulkRequester::Result& result);
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();

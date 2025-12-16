@@ -20,6 +20,7 @@ public:
         HisService("L005", "/v1/longterm-care/doctor/clinical-condition-fetch") {}
     bool sendRequest(const Patient& patient, const std::string& rzi, decltype(m_callback) callback);
     bool awaitingReply() { return awaiting_reply; }
+    using HisService::show_dialogs;
 
 };
 

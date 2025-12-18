@@ -20,9 +20,6 @@ struct PatientInfoPresenter
 	int patientAge{ 0 };
 
 	NraStatusService nraStatusServ;
-	DiagnosisService nhifDiagnosisServ;
-	EAllergy::Fetch allergyFetchServ;
-	EHospitalization::Fetch eHospitalizationFetch;
 
 	bool m_showInsuranceDialog{ false };
 
@@ -36,13 +33,10 @@ public:
 	PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p);
 	void setDate(const Date& date);
 	void nraClicked(bool showDialog);
-	void diagnosisClicked();
-	void allergiesClicked();
 	void patientTileClicked();
 	void medStatTileClicked();
 	void appointmentClicked();
 	void notesRequested();
-	void checkHospitalization();
 	void setCurrent(bool current);
     void notificationClicked();
     void openDocument(TabType type);

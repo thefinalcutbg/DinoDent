@@ -48,13 +48,21 @@ bool DentalActivitiesService::sendRequest(
 
 void DentalActivitiesService::processPISReply(const std::string& reply)
 {
-	if (reply.empty()) { m_callback({});  return; }
+	if (reply.empty()) { 
+		m_callback({});  
+		m_callback = nullptr;
+		return; 
+	}
 
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	if (!doc.RootElement()) { return; }
+	if (!doc.RootElement()) { 
+		m_callback({});
+		m_callback = nullptr;
+		return; 
+	}
 
 	TiXmlHandle docHandle(&doc);
 

@@ -21,7 +21,10 @@ namespace sToken {
 
 void abort(const std::string& uiMessage) {
 
-	sToken::current_service = nullptr;
+	if (sToken::current_service) {
+		sToken::current_service->abortRequest();
+		sToken::current_service = nullptr;
+	}
 
 	if (sToken::silent) return;
 
@@ -101,7 +104,10 @@ void HisToken::setAuthRepy(const std::string& reply)
 		.FirstChildElement()			  //contents
 		.FirstChildElement().ToElement(); //token
 
-	if (!tokenElement) { abort("Неуспешна идентификация"); return;  }
+	if (!tokenElement) { 
+		abort("Неуспешна идентификация"); 
+		return;
+	}
 
 	const char* ptr = tokenElement->Attribute("value");
 

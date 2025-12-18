@@ -70,37 +70,6 @@ namespace EDental {
 		bool sendRequest(const std::string& nrn, std::function<void(bool)> success);
 	};
 
-	class GetStatus : private HisService
-	{
-
-		std::function<void(const ToothContainer& teeth)> m_callback;
-
-	protected:
-		void parseReply(const std::string& reply) override;
-
-	public:
-		GetStatus() :
-			HisService("D009", "/v1/edental/status/get") {}
-
-		bool sendRequest(const Patient& patient, std::function<void(const ToothContainer&)> callback);
-	};
-
-	class GetProcedures : private HisService
-	{
-
-		std::function<void(const std::optional<std::vector<Procedure>>& procedures)> m_callback;
-
-	protected:
-		void parseReply(const std::string& reply) override;
-
-	public:
-		GetProcedures() :
-			HisService("D009", "/v1/edental/status/get") {}
-
-		bool sendRequest(const Patient& patient, bool showDialog, decltype(m_callback) callback);
-
-		bool awaitingReply() { return awaiting_reply; }
-	};
 
 	//returns procedures AND status
 	class GetStatusAndProcedures : private HisService
@@ -115,23 +84,6 @@ namespace EDental {
 			HisService("D009", "/v1/edental/status/get") {}
 
 		bool sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback);
-
-		bool awaitingReply() { return awaiting_reply; }
-
-		using HisService::show_dialogs;
-	};
-
-	class GetDentalHistory : private HisService
-	{
-		std::function<void(const std::vector<HisSnapshot>& snapshots)> m_callback;
-
-		void parseReply(const std::string& reply) override;
-
-	public:
-		GetDentalHistory() :
-			HisService("D009", "/v1/edental/status/get") {}
-
-		bool sendRequest(const Patient& patient, decltype(m_callback) callback);
 
 		bool awaitingReply() { return awaiting_reply; }
 

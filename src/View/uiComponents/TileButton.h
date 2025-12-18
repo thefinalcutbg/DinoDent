@@ -89,9 +89,6 @@ class MedStatusTile : public TileButton
     void paintInfo(QPainter* painter) override;
     void resizeEvent(QResizeEvent* event) override;
 public:
-    IconButton* nhifButton;
-    IconButton* hisButton;
-    IconButton* hospitalizedButton;
     MedStatusTile(QWidget* parent = 0);
     void setData(const Patient& patient);
 

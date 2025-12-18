@@ -57,7 +57,7 @@ protected:
 	{}
 public:
 	static inline std::string hisUrl = "https://api.his.bg";
-
+	void abortRequest();
 	bool sendRequestToHis(const std::string& contents, const std::string& patientSignature = "");
 	bool sendRequestToHisNoAuth(const std::string& contents);
 

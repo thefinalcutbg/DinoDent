@@ -5,7 +5,7 @@
 #include <optional>
 #include "Model/Dental/Procedure.h"
 
-class DentalActivitiesService final: public PisService
+class DentalActivitiesService final: protected PisService
 {
 	
 	std::function<void(const std::optional<std::vector<Procedure>>&)> m_callback;
@@ -20,5 +20,5 @@ public:
 		decltype(m_callback) callback
 	);
 
-
+	using AbstractReplyHandler::show_dialogs;
 };

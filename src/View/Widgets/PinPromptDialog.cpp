@@ -12,7 +12,16 @@ PinPromptDialog::PinPromptDialog(const std::string& pem, const std::string& driv
 
 	ui.issuerLabel->setText(cert.issuerDisplayName());
 	ui.nameLabel->setText(cert.subjectDisplayName());
-	ui.expieryLabel->setText(cert.expiryDate().toString("dd.MM.yyyy") + " г.");
+	
+	auto expieryText = cert.expiryDate().toString("dd.MM.yyyy") + " г.";
+
+	if (cert.expiryDate().date() == QDate::currentDate()) {
+		ui.expieryLabel->setText("<span style='color:darkred; font-weight: bold;'>" + expieryText + " </span>");
+	}
+	else {
+		ui.expieryLabel->setText(expieryText);
+	}
+
 	ui.driverLabel->setText(driver.c_str());
 	ui.lineEdit->setEchoMode(QLineEdit::EchoMode::Password);
 

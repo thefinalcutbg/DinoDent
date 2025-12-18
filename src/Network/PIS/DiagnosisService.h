@@ -23,4 +23,6 @@ public:
 
 	bool awaitingReply() { return awaiting_reply; }
 
+	using AbstractReplyHandler::show_dialogs;
+
 };

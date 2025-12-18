@@ -384,106 +384,10 @@ void EDental::Cancel::parseReply(const std::string& reply)
 	m_callback = nullptr;
 }
 
-
-bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(const ToothContainer&)> callback)
-{
-	m_callback = callback;
-
-	std::string contents =
-		bind("identifierType", patient.getHisIdentifierType()) +
-		bind("identifier", patient.id) +
-		bind("fromDate", Date().to8601()) +
-		bind("toDate", Date::currentDate().to8601()) +
-		bind("practiceNumber", User::practice().rziCode)
-		;
-
-	return HisService::sendRequestToHis(contents);
-}
-
-void EDental::GetStatus::parseReply(const std::string& reply)
-{
-	if (reply.empty()) {
-		m_callback = nullptr;
-		return;
-	}
-
-	auto errors = getErrors(reply);
-
-	if (errors.size()) {
-		ModalDialogBuilder::showError(errors);
-		m_callback = nullptr;
-		return;
-	}
-
-	TiXmlDocument doc;
-
-	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
-
-	auto status_result = HISHistoryAlgorithms::getDentalHistory(doc);
-
-	if (status_result.empty()) status_result.emplace_back();
-
-	m_callback(status_result.back().teeth);
-
-	m_callback = nullptr;
-	
-
-}
-
-void EDental::GetProcedures::parseReply(const std::string& reply)
-{
-	if (reply.empty()) {
-		m_callback = nullptr;
-		return;
-	}
-
-	auto errors = getErrors(reply);
-
-	if (errors.size()) {
-		if (show_dialogs) {
-			ModalDialogBuilder::showError(errors);
-		}
-		m_callback = nullptr;
-		return;
-	}
-
-	TiXmlDocument doc;
-
-	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
-
-	auto procedures = getProceduresFromHis(doc.FirstChild()->FirstChildElement("nhis:contents"));
-
-	std::reverse(procedures.begin(), procedures.end());
-
-	m_callback(procedures);
-
-	m_callback = nullptr;
-
-}
-
-bool EDental::GetProcedures::sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback)
-{
-
-	this->show_dialogs = showDialogs;
-
-	m_callback = callback;
-
-	std::string contents =
-		bind("identifierType", patient.getHisIdentifierType()) +
-		bind("identifier", patient.id) +
-		bind("fromDate", "2008-01-01") +
-		bind("toDate", Date::currentDate().to8601()) +
-		bind("practiceNumber", User::practice().rziCode)
-		;
-
-	return HisService::sendRequestToHis(contents);
-}
-
-#include "HISHistoryAlgorithms.h"
-
 void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
+		m_callback({}, {});
 		m_callback = nullptr;
 		return;
 	}
@@ -494,6 +398,7 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 		if (show_dialogs) {
 			ModalDialogBuilder::showError(errors);
 		}
+		m_callback({}, {});
 		m_callback = nullptr;
 		return;
 	}
@@ -528,37 +433,6 @@ bool EDental::GetStatusAndProcedures::sendRequest(const Patient& patient,bool sh
 	return HisService::sendRequestToHis(contents);
 }
 
-
-bool EDental::GetDentalHistory::sendRequest(const Patient& patient, decltype(m_callback) callback)
-{
-	m_callback = callback;
-
-	std::string contents =
-		bind("identifierType", patient.getHisIdentifierType()) +
-		bind("identifier", patient.id) +
-		bind("fromDate", Date().to8601()) +
-		bind("toDate", Date::currentDate().to8601()) +
-		bind("practiceNumber", User::practice().rziCode)
-		;
-
-	return HisService::sendRequestToHis(contents);
-}
-
-void EDental::GetDentalHistory::parseReply(const std::string& reply)
-{
-	if (reply.empty()) {
-		m_callback = nullptr;
-		return;
-	}
-
-	TiXmlDocument doc;
-
-	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
-
-	m_callback(HISHistoryAlgorithms::getDentalHistory(doc));
-
-	m_callback = nullptr;
-}
 
 bool EDental::Fetch::sendRequest(const std::string& nrn, decltype(m_callback) callback)
 {

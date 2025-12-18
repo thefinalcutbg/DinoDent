@@ -317,32 +317,61 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
         }
     }
 
-    if(result.allergies.size())
+    if (result.allergies.size())
     {
         patient->allergies = result.allergies;
-		DbPatient::updateAllergies(patient->rowid, patient->allergies);
-	}
+
+        DbPatient::updateAllergies(patient->rowid, patient->allergies);
+    }
 
     if (result.pastDiseases.size())
     {
-		patient->medStats.history = result.pastDiseases;
-		DbPatient::updateMedStatus(patient->rowid, patient->medStats);
+        for (const auto& condition : result.pastDiseases) {
+            bool exists = false;
+
+            for (const auto& existing : patient->medStats.history) {
+                if (existing.diagnosis == existing.diagnosis) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                patient->medStats.history.push_back(condition);
+            }
+        }
+
+        DbPatient::updateMedStatus(patient->rowid, patient->medStats);
     }
 
     if (result.currentDiseases.size())
     {
-		patient->medStats.condition = result.currentDiseases;
+        for (const auto& current : result.currentDiseases) {
+            bool exists = false;
+
+            for (const auto& existing : patient->medStats.condition) {
+                if (current.diagnosis == existing.diagnosis) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                patient->medStats.condition.push_back(current);
+            }
+        }
+
         DbPatient::updateMedStatus(patient->rowid, patient->medStats);
     }
 
-    if(result.pisDentalActivities.has_value())
+    if (result.pisDentalActivities.has_value())
     {
-		patient->PISHistory = result.pisDentalActivities.value();
-	}
+        patient->PISHistory = result.pisDentalActivities.value();
+    }
 
     if (result.hisDentalRecords.has_value())
     {
-		patient->HISHistory = result.hisDentalRecords.value();
+        patient->HISHistory = result.hisDentalRecords.value();
     }
 
     if (result.hisSnapshots.size() && m_amblist.isNew() && User::settings().getHisHistoryAuto)
@@ -361,13 +390,18 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
             m_amblist.teeth.copyFromHis(result.hisSnapshots.back().teeth);
         }
 
-        for (int i = 0; i < 32; i++)
-        {
-            view->repaintTooth(ToothPaintHint{ m_amblist.teeth[i], patient->teethNotes[i] });
+        if (isCurrent()) {
+
+            for (int i = 0; i < 32; i++)
+            {
+                view->repaintTooth(ToothPaintHint{ m_amblist.teeth[i], patient->teethNotes[i] });
+            }
         }
     }
 
-    patient_info.refreshPatientData();
+    if (isCurrent()) {
+        patient_info.refreshPatientData();
+    }
 }
 
 void ListPresenter::dynamicNhifConversion()
@@ -652,10 +686,10 @@ void ListPresenter::setDataToView()
     {
         { BulkRequester::NhifProcedures, hasNhifContract && User::settings().getPisHistoryAuto },
         { BulkRequester::Hospitalizations, User::settings().getHospitalizationAuto },
-        { BulkRequester::NhifMedicalConditions, hasNhifContract && User::settings().getClinicalConditionsAuto },
+        { BulkRequester::NhifMedicalConditions, hasNhifContract && User::settings().getClinicalConditionsAuto && isNew() },
         { BulkRequester::HISProcedures, User::settings().getHisHistoryAuto },
-        { BulkRequester::HISMedicalConditions, User::settings().getClinicalConditionsAuto },
-        { BulkRequester::Allergies, User::settings().getAllergiesAuto }
+        { BulkRequester::HISMedicalConditions, User::settings().getClinicalConditionsAuto && isNew() },
+        { BulkRequester::Allergies, User::settings().getAllergiesAuto && isNew() }
 	};
 
 	std::vector<BulkRequester::RequestType> requests;

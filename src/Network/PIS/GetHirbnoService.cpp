@@ -56,6 +56,7 @@ void GetHirbnoService::processPISReply(const std::string& reply)
 	if (!hirbno && show_dialogs) {
 		ModalDialogBuilder::showMessage("Не е намерена активна здравна книжка");
 		m_callback("");
+		m_callback = nullptr;
 		return;
 	}
 

@@ -322,24 +322,6 @@ MedStatusTile::MedStatusTile(QWidget* parent) :
 {
     reverse();
     header.setPointSizeF(10);
-
-    hisButton = new IconButton(this);
-    hisButton->setIcon(QIcon(":/icons/icon_his.png"));
-    hisButton->setFixedSize(buttonSize, buttonSize);
-    hisButton->move(width() - 5 - buttonSize, 5);
-    hisButton->setToolTip("Извличане на алергии от НЗИС");
-
-    hospitalizedButton = new IconButton(this);
-    hospitalizedButton->setIcon(QIcon(":/icons/icon_hospital.png"));
-    hospitalizedButton->setFixedSize(buttonSize, buttonSize);
-    hospitalizedButton->move(width() - 5 - buttonSize, 40);
-    hospitalizedButton->setToolTip("Проверка за активна хоспитализация");
-
-    nhifButton = new IconButton(this);
-    nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
-    nhifButton->setFixedSize(buttonSize, buttonSize);
-    nhifButton->move(width() - 5 - buttonSize, 80);
-    nhifButton->setToolTip("Извличане на диагнози от рецептурната книжка");
 }
 
 void MedStatusTile::setData(const Patient& patient)
@@ -369,9 +351,6 @@ void MedStatusTile::setData(const Patient& patient)
     currentDiseases = elide(listToString(patient.medStats.condition, "Не съобщава").c_str(), 30);
     pastDiseases = elide(listToString(patient.medStats.history, "Не съобщава").c_str(), 30);
 
-    nhifButton->setHidden(!User::hasNhifContract());
-    hospitalizedButton->setHidden(!User::hasNhifContract());
-
     update();
 }
 
@@ -392,11 +371,6 @@ void MedStatusTile::paintInfo(QPainter* painter)
 void MedStatusTile::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    const int spacing = (height() - (buttonSize * 3)) / 4;
-    hisButton->move(width() - 5 - buttonSize, spacing);
-    hospitalizedButton->move(width() - 5 - buttonSize, spacing * 2 + buttonSize);
-    nhifButton->move(width() - 5 - buttonSize, spacing * 3 + buttonSize * 2);
-
 
     update();
 }

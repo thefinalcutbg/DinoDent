@@ -9,11 +9,19 @@ void NraStatusService::parseReply(const std::string& reply)
 	
 		TiXmlDocument doc;
 
-		if (reply.empty()) return;
+		if (reply.empty()) {
+			m_callback({});
+			m_callback = nullptr;
+			return;
+		}
 
 		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-		if (!doc.RootElement()) return;
+		if (!doc.RootElement()) {
+			m_callback({});
+			m_callback = nullptr;
+			return;
+		}
 
 		TiXmlHandle statusHandle(&doc);
 

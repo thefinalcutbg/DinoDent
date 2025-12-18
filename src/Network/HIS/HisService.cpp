@@ -15,6 +15,11 @@
 #include "Presenter/NewDocPresenter.h"
 #include "HISHistoryAlgorithms.h"
 
+void HisService::abortRequest()
+{
+	getReply(std::string{});
+}
+
 bool HisService::sendRequestToHis(const std::string& contents, const std::string& patientSignature)
 {
 	if (awaiting_reply) return false;

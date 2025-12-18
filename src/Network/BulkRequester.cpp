@@ -25,6 +25,9 @@ BulkRequester::BulkRequester()
 	eClinicalConditionFetchService.show_dialogs = false;
 	eHospitalizationFetchService.show_dialogs = false;
 	eDentalGetStatusAndProceduresService.show_dialogs = false;
+	dentalActService.show_dialogs = false;
+	nhifDiagnosisServ.show_dialogs = false;
+
 }
 
 void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>& requestTypes)

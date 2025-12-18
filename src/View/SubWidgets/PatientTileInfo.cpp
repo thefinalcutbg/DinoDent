@@ -71,14 +71,6 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 		if (presenter) presenter->medStatTileClicked();
 	});
 
-    connect(ui.medStatTile->nhifButton, &QPushButton::clicked, this, [=, this] {
-		if (presenter) presenter->diagnosisClicked();
-	});
-
-    connect(ui.medStatTile->hisButton, &QPushButton::clicked, this, [=, this] {
-		if (presenter) presenter->allergiesClicked();
-	});
-
 	connect (ui.patientTile->notesButton, &QPushButton::clicked, this, [=, this] {
 		if (presenter) presenter->notesRequested();
 	});
@@ -86,10 +78,6 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 	connect (ui.patientTile->appointmentButton, &QPushButton::clicked, this, [=, this] {
 		if (presenter) presenter->appointmentClicked();
 	});
-
-	connect (ui.medStatTile->hospitalizedButton, &QPushButton::clicked, this, [=, this] {
-		if (presenter) presenter->checkHospitalization();
-		});
 
     connect (ui.patientTile->notificationButton, &QPushButton::clicked, this, [=, this]{
         if (presenter) presenter->notificationClicked();

@@ -32,6 +32,9 @@ struct Settings //only practice-specific settings
 	bool autoDiagnosis{ true };
 	bool showPatientList{ true };
 	bool preferMonthlySheets{ false };
+	bool getHospitalizationAuto{ false };
+	bool getAllergiesAuto{ false };
+	bool getClinicalConditionsAuto{ false };
 	int timeout{ 15 }; //in seconds!
 	SMSSettings sms_settings{};
 };

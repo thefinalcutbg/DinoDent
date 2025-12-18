@@ -392,6 +392,9 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.weekendCheck->setChecked(settings.nhifWeekendCheck);
 	ui.patientList->setChecked(settings.showPatientList);
 	ui.autoDiagnosis->setChecked(settings.autoDiagnosis);
+	ui.autoAllergyCheck->setChecked(settings.getAllergiesAuto);
+	ui.autoClinicalCheck->setChecked(settings.getClinicalConditionsAuto);
+	ui.autoHospitalCheck->setChecked(settings.getHospitalizationAuto);
 	ui.monthlySheets->setChecked(settings.preferMonthlySheets);
 	ui.smsUsrEdit->setText(settings.sms_settings.usr.c_str());
 	ui.smsPassEdit->setText(settings.sms_settings.pass.c_str());
@@ -417,6 +420,9 @@ Settings SettingsDialog::getSettings()
 		.autoDiagnosis = ui.autoDiagnosis->isChecked(),
 		.showPatientList = ui.patientList->isChecked(),
 		.preferMonthlySheets = ui.monthlySheets->isChecked(),
+		.getHospitalizationAuto = ui.autoHospitalCheck->isChecked(),
+		.getAllergiesAuto = ui.autoAllergyCheck->isChecked(),
+		.getClinicalConditionsAuto = ui.autoClinicalCheck->isChecked(),
 		.timeout = ui.timeoutSpin->value(),
 		.sms_settings = {
 			.usr = ui.smsUsrEdit->text().toStdString(),

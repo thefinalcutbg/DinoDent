@@ -402,6 +402,9 @@ std::string Parser::write(const Settings& settings)
 	json["patientList"] = settings.showPatientList;
 	json["autoDiagnosis"] = settings.autoDiagnosis;
 	json["preferMonthlySheets"] = settings.preferMonthlySheets;
+	json["hospiCheck"] = settings.getHospitalizationAuto;
+	json["allergiesCheck"] = settings.getAllergiesAuto;
+	json["clinicalCheck"] = settings.getClinicalConditionsAuto;
 	json["timeout"] = settings.timeout;
 	json["sms_usr"] = settings.sms_settings.usr;
 	json["sms_pass"] = settings.sms_settings.pass;
@@ -439,6 +442,9 @@ Settings Parser::parseSettings(const std::string& settingsString)
 			true,
 		.showPatientList = json["patientList"].asBool(),
 		.preferMonthlySheets = json["preferMonthlySheets"].asBool(),
+		.getHospitalizationAuto = json["hospiCheck"].asBool(),
+		.getAllergiesAuto = json["allergiesCheck"].asBool(),
+		.getClinicalConditionsAuto = json["clinicalCheck"].asBool(),
 		.timeout = json["timeout"].asInt(),
 		.sms_settings = json.isMember("sms_usr") ? Settings::SMSSettings{
 			.usr = json["sms_usr"].asString(),

@@ -21,9 +21,6 @@ class BulkRequester
 	EHospitalization::Fetch eHospitalizationFetchService;
 	EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
 
-
-	Patient p;
-
 	std::vector<std::function<bool()>> steps;
 
 	void nextStep();

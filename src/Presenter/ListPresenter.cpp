@@ -301,10 +301,20 @@ void ListPresenter::fetchListProcedures(const std::string& nrn)
 
 void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
 {
-    if (result.nraStatus.has_value())
+    if (result.hospitalizations.size())
     {
-        patient->insuranceStatus = result.nraStatus.value();
-        patient_info.setInsuranceStatus(patient->insuranceStatus);
+        for (auto& h : result.hospitalizations)
+        {
+            if (h.status == Hospitalization::Status::Active)
+            {
+                ModalDialogBuilder::showMessage(
+                    "Открита е активна хоспитализация с начална дата " +
+                    Date(h.authoredOn).toBgStandard(true)
+                );
+
+                break;
+            }
+        }
     }
 
     if(result.allergies.size())
@@ -333,6 +343,28 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
     if (result.hisDentalRecords.has_value())
     {
 		patient->HISHistory = result.hisDentalRecords.value();
+    }
+
+    if (result.hisSnapshots.size() && m_amblist.isNew() && User::settings().getHisHistoryAuto)
+    {
+        auto& lastHisSnapshotDate = result.hisSnapshots.back().date;
+
+        auto lastDbProcedureDate = DbProcedure::getLastProcedureDate(patient->rowid);
+
+        if (m_amblist.teeth.noData() || (
+            lastHisSnapshotDate > lastDbProcedureDate
+            && ModalDialogBuilder::askDialog(
+                "В НЗИС е открит по-актуален орален статус. Желаете ли да го заредите?"
+            )
+            )
+            ) {
+            m_amblist.teeth.copyFromHis(result.hisSnapshots.back().teeth);
+        }
+
+        for (int i = 0; i < 32; i++)
+        {
+            view->repaintTooth(ToothPaintHint{ m_amblist.teeth[i], patient->teethNotes[i] });
+        }
     }
 
     patient_info.refreshPatientData();
@@ -614,20 +646,31 @@ void ListPresenter::setDataToView()
 
 	if (!firstFocus){ return; }
 
-    bulkRequester.setCallback([&](const BulkRequester::Result& result) {handleBulkRequestResult(result);});
+	bool hasNhifContract = User::hasNhifContract();
 
-    bulkRequester.sendRequest(
-        *patient,
-        {
-            BulkRequester::NraStatus,
-            BulkRequester::Hospitalizations,
-            BulkRequester::Allergies,
-            BulkRequester::NhifMedicalConditions,
-            BulkRequester::NhifProcedures,
-            BulkRequester::HISProcedures,
-            BulkRequester::HISMedicalConditions
+    std::vector<std::pair<BulkRequester::RequestType, bool>> requestTypes =
+    {
+        { BulkRequester::NhifProcedures, hasNhifContract && User::settings().getPisHistoryAuto },
+        { BulkRequester::Hospitalizations, User::settings().getHospitalizationAuto },
+        { BulkRequester::NhifMedicalConditions, hasNhifContract && User::settings().getClinicalConditionsAuto },
+        { BulkRequester::HISProcedures, User::settings().getHisHistoryAuto },
+        { BulkRequester::HISMedicalConditions, User::settings().getClinicalConditionsAuto },
+        { BulkRequester::Allergies, User::settings().getAllergiesAuto }
+	};
+
+	std::vector<BulkRequester::RequestType> requests;
+    requests.reserve(requestTypes.size());
+
+    for (auto& [type, enabled] : requestTypes)
+    {
+        if (enabled) {
+            requests.push_back(type);
         }
-	);
+    }
+
+    bulkRequester.setCallback([&](const BulkRequester::Result& result) {handleBulkRequestResult(result); });
+
+    bulkRequester.sendRequest(*patient, requests);
 
 	firstFocus = false;
 }
@@ -1628,6 +1671,8 @@ void ListPresenter::sendToHis(bool patientIsSigner)
 
 ListPresenter::~ListPresenter()
 {
+	bulkRequester.setCallback(nullptr);
+
     if (isCurrent()){
         view->setPresenter(nullptr);
     }

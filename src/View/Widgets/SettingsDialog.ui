@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -45,13 +45,6 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QCheckBox" name="autoHisCheck">
-              <property name="text">
-               <string>Автоматично извличане на данни от НЗИС при отваряне на амбулаторен лист</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QCheckBox" name="autoDiagnosis">
               <property name="text">
                <string>Автоматично попълване на диагноза при добавяне на нова процедура</string>
@@ -59,16 +52,16 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="autoStatus">
+             <widget class="QCheckBox" name="patientList">
               <property name="text">
-               <string>Автоматично подаване на изходен статус към НЗИС като първа манипулация</string>
+               <string>Показвай списъка с пациенти при създаване на нов медицински документ</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="patientList">
+             <widget class="QCheckBox" name="autoStatus">
               <property name="text">
-               <string>Показвай списъка с пациенти при създаване на нов медицински документ</string>
+               <string>Автоматично подаване на изходен статус към НЗИС като първа манипулация</string>
               </property>
              </widget>
             </item>
@@ -83,6 +76,49 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Нов амбулаторен лист</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_27">
+          <item>
+           <widget class="QCheckBox" name="autoHisCheck">
+            <property name="text">
+             <string>Автоматично извличане на актуален дентален статус</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoAllergyCheck">
+            <property name="text">
+             <string>Автоматично извличане на алергии</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoClinicalCheck">
+            <property name="text">
+             <string>Автоматично извличане на настоящи и минали заболявания</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoHospitalCheck">
+            <property name="text">
+             <string>Автоматично известяване за наличие на активна хоспитализация</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_4">

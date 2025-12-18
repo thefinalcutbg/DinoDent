@@ -9,7 +9,7 @@ struct Version {
 		
 		return {
 			.MAJOR = 2,
-            .MINOR = 8,
+            .MINOR = 9,
             .REVISION = 0
 		};
 	}

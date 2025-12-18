@@ -27,13 +27,11 @@ BulkRequester::BulkRequester()
 	eDentalGetStatusAndProceduresService.show_dialogs = false;
 }
 
-void BulkRequester::sendRequest(const Patient& patient, const std::vector<RequestType>& requestTypes)
+void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>& requestTypes)
 {
 	if (steps.size()) {
 		return;
 	}
-
-	p = patient;
 
 	for (auto& reqType : requestTypes) {
 		switch (reqType) {
@@ -42,7 +40,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 			if (!User::hasNhifContract()) break;
 
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return dentalActService.sendRequest(
 					p,
 					false,
@@ -55,7 +53,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 			break;
 
 		case RequestType::HISProcedures:
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return eDentalGetStatusAndProceduresService.sendRequest(
 					p, false, [this](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshots)
 					{
@@ -72,7 +70,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 			if (!User::hasNhifContract() || User::practice().hasNraAccess()) break;
 
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return nraStatusServ.sendRequest(
 					p,
 					[this](const std::optional<InsuranceStatus>& result) {
@@ -87,7 +85,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 			if (!User::hasNhifContract()) break;
 
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return hirbnoService.sendRequest(
 					p,
 					[this](const std::string& hirbNo) {
@@ -103,7 +101,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 			if (!User::hasNhifContract()) break;
 
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 
 				return nhifDiagnosisServ.sendRequest(
 					p,
@@ -123,7 +121,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 			break;
 
 		case RequestType::Allergies:
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return eAllergyFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](const std::vector<Allergy>& result) {
@@ -137,7 +135,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 
 
 		case RequestType::HISMedicalConditions:
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return eClinicalConditionFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](const std::vector<MedicalStatus>& activeConditions, const std::vector<MedicalStatus>& pastConditions) {
@@ -155,7 +153,7 @@ void BulkRequester::sendRequest(const Patient& patient, const std::vector<Reques
 			break;
 
 		case RequestType::Hospitalizations:
-			steps.push_back([this]() {
+			steps.push_back([this, p]() {
 				return eHospitalizationFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](const std::vector<Hospitalization>& hospitalizations) {

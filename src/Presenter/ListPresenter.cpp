@@ -687,7 +687,7 @@ void ListPresenter::setDataToView()
         { BulkRequester::NhifProcedures, hasNhifContract && User::settings().getPisHistoryAuto },
         { BulkRequester::Hospitalizations, User::settings().getHospitalizationAuto },
         { BulkRequester::NhifMedicalConditions, hasNhifContract && User::settings().getClinicalConditionsAuto && isNew() },
-        { BulkRequester::HISProcedures, User::settings().getHisHistoryAuto },
+        { BulkRequester::HISDentalHistory, User::settings().getHisHistoryAuto},
         { BulkRequester::HISMedicalConditions, User::settings().getClinicalConditionsAuto && isNew() },
         { BulkRequester::Allergies, User::settings().getAllergiesAuto && isNew() }
 	};

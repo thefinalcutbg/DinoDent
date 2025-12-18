@@ -43,7 +43,7 @@ public:
 
 	enum RequestType {
 		NhifProcedures,
-		HISProcedures,
+		HISDentalHistory,
 		NraStatus,
 		HirbNo,
 		NhifMedicalConditions,

@@ -55,7 +55,7 @@ void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>
 			);
 			break;
 
-		case RequestType::HISProcedures:
+		case RequestType::HISDentalHistory:
 			steps.push_back([this, p]() {
 				return eDentalGetStatusAndProceduresService.sendRequest(
 					p, false, [this](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshots)

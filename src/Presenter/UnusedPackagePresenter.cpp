@@ -194,10 +194,12 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		maxDate = std::max(maxDate, p.date);
 	}
 
+	auto currentDate = Date::currentDate();
+
 	auto dbProcedures = DbProcedure::getNhifSummary(
 		patient.rowid,
 		0,
-		maxDate.tomorrow(),
+		Date(1, currentDate.month, m_year),
 		Date(31, 12, m_year)
 	);
 

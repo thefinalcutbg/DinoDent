@@ -163,6 +163,7 @@ HEADERS += \
     src/Model/xml.h \
     src/Network/AbstractReplyHandler.h \
     src/Network/Base64Convert.h \
+    src/Network/BulkRequester.h \
     src/Network/Calendar/CalendarJsonParser.h \
     src/Network/Calendar/Credentials.h \
     src/Network/Calendar/Google.h \
@@ -508,6 +509,7 @@ SOURCES += \
     src/Model/xml.cpp \
     src/Network/AbstractReplyHandler.cpp \
     src/Network/Base64Convert.cpp \
+    src/Network/BulkRequester.cpp \
     src/Network/Calendar/CalendarJsonParser.cpp \
     src/Network/Calendar/Google.cpp \
     src/Network/GetHSM.cpp \

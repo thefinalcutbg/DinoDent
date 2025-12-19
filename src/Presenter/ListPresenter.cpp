@@ -126,7 +126,7 @@ void ListPresenter::makeEditedOnTimeChange()
     }
 
 	//auto change treatment end for daily sheets
-    if (!User::settings().preferMonthlySheets &&
+    if (!User::practice().generateMonthlySheets() &&
         Date(m_amblist.treatment_end) != Date(m_amblist.date)
     )
     {
@@ -159,14 +159,14 @@ void ListPresenter::makeEdited()
     auto newTreatmentEnd = FreeFn::getTimeStampLocal();
 
 	//daily sheets edited from another day
-    if (!User::settings().preferMonthlySheets) {
+    if (!User::practice().generateMonthlySheets()) {
         if (Date(newTreatmentEnd) != Date(m_amblist.date))
         {
             TabInstance::makeEdited(); 
             return;
         }
-    }
-    
+    } 
+
     if (m_amblist.procedures.size()) {
 
         if (Date(newTreatmentEnd) < (m_amblist.procedures.end() - 1)->date)

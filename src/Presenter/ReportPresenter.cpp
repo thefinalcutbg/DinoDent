@@ -27,19 +27,12 @@ void ReportPresenter::updateProgressBar()
 
 void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 {
-	AmbListValidator v(list, patient);
 
-	bool isValid = v.ambListIsValid();
+    bool isValid = true;
 
-	std::string amblistName = list.nrn.size() ?
-		list.nrn : " на " + patient.firstLastName();
+    std::string amblistName = list.nrn.size() ?
+    list.nrn : " на " + patient.firstLastName();
 
-	if (!isValid) {
-
-		m_hasErrors = true;
-
-		view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
-	}
 
 	if (list.nrn.empty()) {
 
@@ -47,7 +40,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.rowid, amblistName, " не е изпратен към НЗИС");
+        view->appendSheet(list.rowid, amblistName, "Не е изпратен към НЗИС");
 	}
 
 	if (list.nrn.size() && !list.his_updated) {
@@ -56,7 +49,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.rowid, amblistName, " Корекциите не са отразени в НЗИС");
+        view->appendSheet(list.rowid, amblistName, "Корекциите не са отразени в НЗИС");
 	}
 
 	if (nraCheck && patient.insuranceStatus.has_value() && !patient.foreigner) {
@@ -65,21 +58,46 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 	
 			case Insured::Yes: break;
 
-			case Insured::NoData: view->appendText(
-				"За пациент с ЕГН/ЛНЧ "
-				+ patient.id +
-				" не са открити данни в НАП");
+            case Insured::NoData:
+                view->appendSheet(list.rowid, amblistName, "В НАП не е открит здравноосигурителен статус за този пациент");
 				isValid = false;
 				m_hasErrors = true;
 				break;
 
 			case Insured::No:
-				view->appendText("Пациент с ЕГН/ЛНЧ " + patient.id + " е неосигурен");
+                view->appendSheet(list.rowid, amblistName, "Пациентът не е здравноосигурен");
 				isValid = false;
 				m_hasErrors = true;
 				break;
 		}
 	}
+
+    AmbListValidator v(list, patient);
+
+    if (!v.ambListIsValid()) {
+
+        m_hasErrors = true;
+
+        auto errorMsg = v.getErrorMsg();
+
+        //avoid exceeded limit duplication messages
+        auto strBegin = std::string("За дата");
+
+        if(errorMsg.substr(0, strBegin.size()) == strBegin){
+
+            if(exceededDailyLimitSet.contains(errorMsg)) return;
+
+            view->appendText(errorMsg);
+            exceededDailyLimitSet.insert(errorMsg);
+
+            return;
+
+        } else {
+            isValid = false;
+            view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
+        }
+    }
+
 
 	if (!isValid) {
 
@@ -99,6 +117,7 @@ void ReportPresenter::reset()
 	m_hasErrors = false;
 	m_currentIndex = -1;
 	errorSheets.clear();
+    exceededDailyLimitSet.clear();
 	view->setPercent(0);
 	view->enableReportButtons(false);
 	view->showStopButton(false);
@@ -130,9 +149,7 @@ void ReportPresenter::sendToPis()
 
 void ReportPresenter::checkNext()
 {
-
 	if (m_currentIndex >= lists.size()) {
-
 		finish();
 		return;
 	}
@@ -140,38 +157,26 @@ void ReportPresenter::checkNext()
 	auto& list = lists[m_currentIndex];
 
 	auto& patient = patients[list.patient_rowid];
-	
-	//no data in NRA
-	if (patient.foreigner) { patient.insuranceStatus.emplace(); }
 
-	//sending request to PIS
+    std::vector<BulkRequester::RequestType> requests;
+
+    if(nraCheck && !patient.insuranceStatus){
+        requests.push_back(BulkRequester::NraStatus);
+
+    } else if (patient.foreigner){
+        patient.insuranceStatus.emplace();
+    }
+
 	if (pisCheck && !patient.PISHistory.has_value())
 	{
-		bool success =
-		activitiesService.sendRequest(
-			patient, true,
-            [=, this](auto& result) { this->setPISActivities(result);}
-		);
-
-		if (!success) { reset();}
-
-		return;
+        requests.push_back(BulkRequester::NhifProcedures);
 	}
 
-	if (nraCheck && !patient.insuranceStatus.has_value())
-	{
-		bool success = 
-			nraService.sendRequest(
-			patient,
-                [=, this](auto& result) { this->setInsuranceStatus(result);},
-			true,
-			list.getDate()
-		);
-		
-		if (!success) { reset(); };
-
-		return;
-	}
+    if(requests.size()){
+        bulk_requester.setCallback([this](const BulkRequester::Result& r){ resultRecieved(r);});
+        bulk_requester.sendRequest(patient, requests);
+        return;
+    }
 
 	checkAmbList(list, patient);
 
@@ -199,37 +204,6 @@ void ReportPresenter::saveToXML()
 		+ "_01.xml";
 
 	ModalDialogBuilder::saveFile(m_report.value(), fileName);
-}
-
-void ReportPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
-{
-	if (!pisProcedures.has_value()) { 
-		reset();
-		return;
-	}
-	
-	if (m_currentIndex == -1) {
-		return;
-	}
-
-	patients[lists[m_currentIndex].patient_rowid].PISHistory = pisProcedures.value();
-	checkNext();
-	
-}
-
-void ReportPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus)
-{
-	if (!insuranceStatus) {
-		reset();
-	}
-
-	if (m_currentIndex == -1) {
-		return;
-	}
-
-	patients[lists[m_currentIndex].patient_rowid].insuranceStatus = insuranceStatus;
-
-	checkNext();
 }
 
 void ReportPresenter::setDate(int month, int year)
@@ -261,6 +235,7 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 	view->enableReportButtons(false);
 	view->setPercent(0);
 
+    exceededDailyLimitSet.clear();
 	m_hasErrors = false;
 	m_currentIndex = 0;
 
@@ -288,9 +263,6 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 	checkNext();
 
 	return;
-
-	
-
 }
 
 void ReportPresenter::generateSpecification()
@@ -308,7 +280,7 @@ void ReportPresenter::generateSpecification()
 
 	auto spec_report = NhifSpecReport(User::doctor(), Date(1, month, year), static_cast<NhifSpecificationType>(spec));
 
-	for (auto list : lists) for (auto procedure : list.procedures) {
+    for (auto& list : lists) for (auto& procedure : list.procedures) {
 		spec_report.addProcedure(
 			procedure,
 			patients[list.patient_rowid].isAdult(procedure.date),
@@ -323,7 +295,6 @@ void ReportPresenter::finish()
 {
 
 	std::string errors;
-
 
 	//checking max minutes allowed from NHIF
 
@@ -383,6 +354,33 @@ void ReportPresenter::finish()
 	view->showStopButton(false);
 	view->enableReportButtons(true);
 	
+}
+
+void ReportPresenter::resultRecieved(const BulkRequester::Result &r)
+{
+    if (m_currentIndex == -1) {
+        return;
+    }
+
+    if (pisCheck && !r.pisDentalActivities.has_value()) {
+        reset();
+        ModalDialogBuilder::showError("Неуспешна връзка с ПИС");
+        return;
+    } else if (pisCheck){
+        patients[lists[m_currentIndex].patient_rowid].PISHistory = r.pisDentalActivities.value();
+    }
+
+    if(nraCheck){
+        if(!r.nraStatus){
+            ModalDialogBuilder::showError("Неуспешна връзка с НАП");
+            reset();
+            return;
+        }
+
+        patients[lists[m_currentIndex].patient_rowid].insuranceStatus = r.nraStatus;
+    }
+
+    checkNext();
 }
 
 void ReportPresenter::setView(ReportView* view)

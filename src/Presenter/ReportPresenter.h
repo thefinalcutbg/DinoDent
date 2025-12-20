@@ -3,15 +3,15 @@
 #include "Model/TableRows.h"
 #include <vector>
 #include <unordered_map>
+#include <optional>
+
 #include "Model/Dental/AmbList.h"
 #include "Model/Dental/NhifSpecReport.h"
 #include "Model/Patient.h"
 
-#include "Network/PIS/DentalActivitiesService.h"
-#include "Network/NRA/NraStatusService.h"
+#include "Network/BulkRequester.h"
 #include "Network/PIS/SendFileService.h"
-#include <optional>
-#include <queue>
+
 
 class ReportView;
 
@@ -21,7 +21,13 @@ class ReportPresenter
 
 	//stores the amblists
 	std::vector<AmbList> lists;
-	std::map<long long, RowInstance> errorSheets;
+
+    //points to sheet rowid for link activation
+    std::map<long long, RowInstance> errorSheets;
+
+    //prevents multiple exceeded daily limit messages
+    std::set<std::string> exceededDailyLimitSet;
+
 
 	int m_currentIndex{ -1 };
 	bool m_hasErrors{ false };
@@ -33,18 +39,17 @@ class ReportPresenter
 
 	std::optional<std::string> m_report;
 
+
 	//stores the rowid and the patient
 	static inline std::unordered_map<long long, Patient> patients;
 
-	DentalActivitiesService activitiesService;
-	NraStatusService nraService;
+    BulkRequester bulk_requester;
 	SendFileService sendFileService;
 
-	//void pisCheckNext();
 	void updateProgressBar();
 	void checkAmbList(const AmbList& list, const Patient& patient);
 	void finish();
-
+    void resultRecieved(const BulkRequester::Result& r);
 	void checkNext();
 
 public:
@@ -52,8 +57,6 @@ public:
 	void reset();
 	void sendToPis();
 	void saveToXML();
-	void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
-	void setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus);
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);
 	void generateSpecification();

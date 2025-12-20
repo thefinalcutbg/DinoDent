@@ -32,7 +32,7 @@ public:
 	struct Result {
 		std::optional<std::vector<Procedure>> pisDentalActivities;
 		std::optional<std::vector<Procedure>> hisDentalRecords;
-		std::optional<InsuranceStatus> nraStatus;
+        std::optional<InsuranceStatus> nraStatus;
 		std::string hirbNo;
 		std::vector<Allergy> allergies;
 		std::vector<MedicalStatus> pastDiseases;

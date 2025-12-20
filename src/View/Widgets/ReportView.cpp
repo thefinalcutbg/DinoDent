@@ -96,18 +96,18 @@ ReportView::~ReportView()
 void ReportView::appendSheet(long long sheetRowid, const std::string& sheetNumber, const std::string& description)
 {
 	QString line = "Амбулаторен лист <a href=\"";
-	line += QString::number(sheetRowid);
+    line += QString::number(sheetRowid);
 	line += "\">";
 	line += sheetNumber.c_str();
 	line += "</a>: ";
 	line += description.c_str();
-
 	ui.textBrowser->append(line);
 }
 
 void ReportView::appendText(const std::string& text)
 {
-	ui.textBrowser->append(text.data());
+    QString line = QString::fromStdString(text);
+    ui.textBrowser->append(line);
 }
 
 void ReportView::clearText()

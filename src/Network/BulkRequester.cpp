@@ -71,7 +71,7 @@ void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>
 
 		case RequestType::NraStatus:
 
-			if (!User::hasNhifContract() || User::practice().hasNraAccess()) break;
+            if (!User::practice().hasNraAccess()) break;
 
 			steps.push_back([this, p]() {
 				return nraStatusServ.sendRequest(

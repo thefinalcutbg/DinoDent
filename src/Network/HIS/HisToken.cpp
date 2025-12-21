@@ -21,8 +21,8 @@ namespace sToken {
 
 void abort(const std::string& uiMessage) {
 
-	if (sToken::current_service) {
-		sToken::current_service->abortRequest();
+    if (sToken::current_service) {
+        sToken::current_service->abortRequest();
 		sToken::current_service = nullptr;
 	}
 
@@ -38,10 +38,11 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		return;
 	}
 
-	auto hsm = GetHSM::get(!sToken::silent);
+    auto hsm = GetHSM::get(!sToken::silent);
 
-	if (!hsm) {
-		sToken::current_service = nullptr;
+    if (!hsm) {
+        //empty string, since the dialog is shown on GetHSM::get
+        abort("");
 		return;
 	}
 

@@ -384,8 +384,13 @@ void ReportPresenter::resultRecieved(const BulkRequester::Result &r)
         patients[lists[m_currentIndex].patient_rowid].insuranceStatus = r.nraStatus;
     }
 
-    //empty his records return API error!!
-    if (hisCheck && r.hisDentalRecords){
+    if (hisCheck){
+        if(!r.hisDentalRecords){
+            ModalDialogBuilder::showError("Неуспешна връзка с НЗИС");
+            reset();
+            return;
+        }
+
         patients[lists[m_currentIndex].patient_rowid].HISHistory = r.hisDentalRecords.value();
     }
 

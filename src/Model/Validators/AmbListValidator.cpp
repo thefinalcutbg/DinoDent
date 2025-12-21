@@ -97,33 +97,31 @@ bool AmbListValidator::ambListIsValid()
         }
     }
 
+    auto foundExam = [](const std::optional<std::vector<Procedure>>& pList){
+
+        if(!pList.has_value()) return false;
+
+        return  std::find_if(
+                   pList->begin(), pList->end(),
+                   [](const Procedure& p) {
+                       return p.code.nhifCode() == 101
+                              && p.date.year == Date::currentYear();
+                   }) != pList->end();
+    };
+
     if (
-		User::doctor().specialty != NhifSpecialty::OralSurgeon  &&
+        User::doctor().specialty != NhifSpecialty::OralSurgeon  &&
         User::doctor().specialty != NhifSpecialty::Maxillofacial &&
+
         m_procedures.size() &&
-        patient.PISHistory.has_value() &&
 
-        std::find_if(
-            patient.PISHistory->begin(), patient.PISHistory->end(),
-            [](const Procedure& p) {
-                return p.code.nhifCode() == 101 
-                    && p.date.year == Date::currentYear(); 
-            }) == patient.PISHistory->end() &&
+        !foundExam({m_procedures}) &&
 
-        std::find_if(
-            patient.PISHistory->begin(), patient.HISHistory->end(),
-            [](const Procedure& p) {
-                return p.code.nhifCode() == 101
-                       && p.date.year == Date::currentYear();
-            }) == patient.PISHistory->end() &&
-
-             
-        std::find_if(
-            m_procedures.begin(), m_procedures.end(),
-            [](const Procedure& p) { return p.code.nhifCode() == 101; }) == m_procedures.end()
-        ) {
-
-        _error = "В ПИС не е открита отчетена процедура с код 101 за текущата година";
+        (patient.HISHistory || patient.PISHistory) &&
+        (!foundExam(patient.PISHistory) && !foundExam(patient.HISHistory))
+    )
+    {
+        _error = "Не е открита отчетена процедура с код 101 за текущата година";
         return false;
     };
 
@@ -212,7 +210,7 @@ bool AmbListValidator::isValidAccordingToHIS()
     if(!patient.HISHistory) return true;
 
     //not validating edited sheets because user can change the date of the procedure
-    if(ambList.nrn.size() & !ambList.his_updated) return true;
+    if(ambList.nrn.size() && !ambList.his_updated) return true;
 
     std::vector<ProcedureSummary> hisHistory;
 

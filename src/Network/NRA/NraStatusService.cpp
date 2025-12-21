@@ -10,7 +10,7 @@ void NraStatusService::parseReply(const std::string& reply)
 
     m_callback = nullptr;
 
-    if(!cb) return;
+    if(cb == nullptr) return;
 
 		TiXmlDocument doc;
 

@@ -1,10 +1,8 @@
 #include "BulkRequester.h"
 #include "Model/User.h"
-#include <QDebug>
+
 void BulkRequester::nextStep()
 {
-    qDebug() << 6;
-
     if (steps.empty()) {
         if(m_callback){
             m_callback(m_result);
@@ -13,7 +11,7 @@ void BulkRequester::nextStep()
         m_result = Result();
 		return;
 	}
-    qDebug() << 16;
+
 	auto step = std::move(steps.back());
 	steps.pop_back();
 
@@ -25,8 +23,6 @@ void BulkRequester::nextStep()
 
         m_result = Result();
 	}
-
-    qDebug() << 29;
 }
 
 BulkRequester::BulkRequester()
@@ -45,7 +41,7 @@ void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>
 	if (steps.size()) {
 		return;
 	}
-    qDebug() << "setting request types for " << p.id;
+
     steps.reserve(requestTypes.size());
 
 	for (auto& reqType : requestTypes) {
@@ -146,8 +142,6 @@ void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>
 				);
 				});
 			break;
-
-
 
 		case RequestType::HISMedicalConditions:
             steps.push_back([this, p]() {

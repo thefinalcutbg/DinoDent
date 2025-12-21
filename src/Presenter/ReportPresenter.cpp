@@ -389,7 +389,6 @@ void ReportPresenter::resultRecieved(const BulkRequester::Result &r)
         patients[lists[m_currentIndex].patient_rowid].HISHistory = r.hisDentalRecords.value();
     }
 
-
     checkNext();
 }
 

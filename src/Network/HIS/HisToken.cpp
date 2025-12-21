@@ -26,7 +26,7 @@ void abort(const std::string& uiMessage) {
 		sToken::current_service = nullptr;
 	}
 
-	if (sToken::silent) return;
+    if (sToken::silent || uiMessage.empty()) return;
 
 	ModalDialogBuilder::showMessage(uiMessage);
 }

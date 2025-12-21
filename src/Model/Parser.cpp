@@ -324,9 +324,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 			parseTooth(toothJson["D"], tooth.getSupernumeral());
 		}
 	}
-
-	
-
 }
 	
 

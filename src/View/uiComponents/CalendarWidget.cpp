@@ -10,7 +10,7 @@
 #include <QPushButton>
 #include <QWheelEvent>
 #include <QDateTimeEdit>
-#include <qdebug.h>
+
 CalendarWidget::CalendarWidget(QWidget* parent) : QCalendarWidget(parent) {
 
     setLocale(QLocale(QLocale::Bulgarian));

@@ -9,7 +9,6 @@
 #include "Model/FreeFunctions.h"
 #include "Database/DbReferral.h"
 #include "Database/DbMedicalNotice.h"
-#include <qdebug.h>
 
 long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {

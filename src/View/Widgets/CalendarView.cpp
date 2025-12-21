@@ -2,8 +2,7 @@
 #include <QOAuth2AuthorizationCodeFlow>
 #include <QDesktopServices>
 #include <QOAuthHttpServerReplyHandler>
-#include <qdebug.h>
-#include <qdatetime.h>
+#include <QDateTime>
 #include <QHeaderView>
 #include <QScrollBar>
 #include "View/Theme.h"

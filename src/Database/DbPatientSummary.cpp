@@ -4,7 +4,7 @@
 #include "Model/Dental/PerioStatus.h"
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
-#include <qdebug.h>
+
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
     std::vector<TimeFrame> initialFrames;

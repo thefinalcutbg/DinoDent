@@ -14,7 +14,6 @@
 #include "Presenter/TabPresenter.h"
 
 #include "View/Widgets/ReportView.h"
-#include "View/ModalDialogBuilder.h"
 
 #include "Printer/Print.h"
 
@@ -27,7 +26,6 @@ void ReportPresenter::updateProgressBar()
 
 void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 {
-
     bool isValid = true;
 
     std::string amblistName = list.nrn.size() ?
@@ -84,23 +82,19 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
         auto strBegin = std::string("За дата");
 
         if(errorMsg.substr(0, strBegin.size()) == strBegin){
-
             if(exceededDailyLimitSet.contains(errorMsg)) return;
 
             view->appendText(errorMsg);
             exceededDailyLimitSet.insert(errorMsg);
 
             return;
-
         } else {
             isValid = false;
             view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
         }
     }
 
-
 	if (!isValid) {
-
 		RowInstance instance{ TabType::AmbList };
 		instance.patientRowId = patient.rowid;
 		instance.rowID = list.rowid;
@@ -113,6 +107,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 void ReportPresenter::reset()
 {
 	//reseting
+    bulk_requester.setCallback(nullptr);
 	m_report.reset();
 	m_hasErrors = false;
 	m_currentIndex = -1;
@@ -122,7 +117,6 @@ void ReportPresenter::reset()
 	view->enableReportButtons(false);
 	view->showStopButton(false);
 	view->clearText();
-
 }
 
 void ReportPresenter::sendToPis()
@@ -167,13 +161,17 @@ void ReportPresenter::checkNext()
         patient.insuranceStatus.emplace();
     }
 
+    if (hisCheck && !patient.HISHistory.has_value())
+    {
+        requests.push_back(BulkRequester::HISDentalHistory);
+    }
+
 	if (pisCheck && !patient.PISHistory.has_value())
 	{
         requests.push_back(BulkRequester::NhifProcedures);
 	}
 
     if(requests.size()){
-        bulk_requester.setCallback([this](const BulkRequester::Result& r){ resultRecieved(r);});
         bulk_requester.sendRequest(patient, requests);
         return;
     }
@@ -181,7 +179,9 @@ void ReportPresenter::checkNext()
 	checkAmbList(list, patient);
 
 	m_currentIndex++;
+
 	updateProgressBar();
+
 	checkNext();
 }
 
@@ -214,7 +214,7 @@ void ReportPresenter::setDate(int month, int year)
 	reset();
 }
 
-void ReportPresenter::generateReport(bool checkPis, bool checkNra)
+void ReportPresenter::generateReport(bool checkPis, bool checkNra, bool checkHis)
 {
 
 	if (!User::practice().nhif_contract) {
@@ -229,6 +229,7 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 
 	pisCheck = checkPis;
 	nraCheck = checkNra;
+    hisCheck = checkHis;
 
 	errorSheets.clear();
 	view->clearText();
@@ -256,10 +257,12 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 		return;
 	}
 
-	//checking individual lists
-
+    //checking individual lists:
 
 	view->showStopButton(true);
+
+    bulk_requester.setCallback([=, this](const BulkRequester::Result& r){ resultRecieved(r);});
+
 	checkNext();
 
 	return;
@@ -353,7 +356,6 @@ void ReportPresenter::finish()
 	
 	view->showStopButton(false);
 	view->enableReportButtons(true);
-	
 }
 
 void ReportPresenter::resultRecieved(const BulkRequester::Result &r)
@@ -362,11 +364,13 @@ void ReportPresenter::resultRecieved(const BulkRequester::Result &r)
         return;
     }
 
-    if (pisCheck && !r.pisDentalActivities.has_value()) {
-        reset();
-        ModalDialogBuilder::showError("Неуспешна връзка с ПИС");
-        return;
-    } else if (pisCheck){
+    if(pisCheck){
+        if (!r.pisDentalActivities.has_value()) {
+            reset();
+            ModalDialogBuilder::showError("Неуспешна връзка с ПИС");
+            return;
+        }
+
         patients[lists[m_currentIndex].patient_rowid].PISHistory = r.pisDentalActivities.value();
     }
 
@@ -379,6 +383,12 @@ void ReportPresenter::resultRecieved(const BulkRequester::Result &r)
 
         patients[lists[m_currentIndex].patient_rowid].insuranceStatus = r.nraStatus;
     }
+
+    //empty his records return API error!!
+    if (hisCheck && r.hisDentalRecords){
+        patients[lists[m_currentIndex].patient_rowid].HISHistory = r.hisDentalRecords.value();
+    }
+
 
     checkNext();
 }

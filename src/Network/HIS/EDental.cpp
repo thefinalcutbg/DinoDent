@@ -347,15 +347,19 @@ void EDental::Cancel::parseReply(const std::string& reply)
 {
 	auto errors = getErrors(reply);
 
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
 	if (errors.size()) {
 
 		ModalDialogBuilder::showError(errors);
 
 		if (errors == "Прегледът вече е анулиран") {
-			m_callback(true);
+            cb(true);
 		}
 
-		m_callback = nullptr;
+        cb = nullptr;
 		return;
 	}
 
@@ -375,20 +379,21 @@ void EDental::Cancel::parseReply(const std::string& reply)
 		status->FirstAttribute()->IntValue() == 3
 		)
 	{
-		m_callback(true); 
-		m_callback = nullptr;
+        cb(true);
 		return;
 	}
 
-	m_callback(false);
-	m_callback = nullptr;
+    cb(false);
 }
 
 void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 {
+    if(!m_callback) return;
+
+    auto cb = std::move(m_callback);
+
 	if (reply.empty()) {
-		m_callback({}, {});
-		m_callback = nullptr;
+        cb({}, {});
 		return;
 	}
 
@@ -398,8 +403,7 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 		if (show_dialogs) {
 			ModalDialogBuilder::showError(errors);
 		}
-		m_callback({}, {});
-		m_callback = nullptr;
+        cb({}, {});
 		return;
 	}
 
@@ -411,9 +415,7 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 
 	std::reverse(procedures.begin(), procedures.end());
 
-    m_callback(procedures, HISHistoryAlgorithms::getDentalHistory(doc));
-
-	m_callback = nullptr;
+    cb(procedures, HISHistoryAlgorithms::getDentalHistory(doc));
 }
 
 bool EDental::GetStatusAndProcedures::sendRequest(const Patient& patient,bool showDialogs, decltype(m_callback) callback)

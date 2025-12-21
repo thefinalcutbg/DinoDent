@@ -9,7 +9,7 @@
 #include "Network/NRA/NraStatusService.h"
 #include "Network/NRA/NssiPentionService.h"
 #include "Network/PIS/GetHirbnoService.h"
-
+#include "View/ModalDialogBuilder.h"
 class BulkRequester
 {
 	DentalActivitiesService dentalActService;

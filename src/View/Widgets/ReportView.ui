@@ -61,7 +61,7 @@
      <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -86,6 +86,13 @@
       <widget class="QCheckBox" name="pisCheck">
        <property name="text">
         <string>Проверка спрямо ПИС</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="hisCheck">
+       <property name="text">
+        <string>Проверка прямо НЗИС</string>
        </property>
       </widget>
      </item>
@@ -124,13 +131,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <number>0</number>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="textVisible">
       <bool>true</bool>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="invertedAppearance">
       <bool>false</bool>
@@ -152,7 +159,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

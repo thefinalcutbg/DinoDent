@@ -31,9 +31,14 @@ bool GetHirbnoService::sendRequest(const Patient& p, std::function<void(const st
 
 void GetHirbnoService::processPISReply(const std::string& reply)
 {
+    if(m_callback == nullptr) return;
+
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
 	if (reply.empty()) {
-		m_callback("");
-		m_callback = nullptr;
+        cb("");
 		return;
 	}
 
@@ -68,5 +73,5 @@ void GetHirbnoService::processPISReply(const std::string& reply)
 		:
 		result = FreeFn::leadZeroes(result, 8);
 
-	m_callback(result);
+    cb(result);
 }

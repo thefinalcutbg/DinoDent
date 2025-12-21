@@ -299,6 +299,74 @@ void ListPresenter::fetchListProcedures(const std::string& nrn)
 	);
 }
 
+
+void ListPresenter::setDataToView()
+{
+    view->setPresenter(this);
+
+    patient_info.setDate(m_amblist.getDate());
+
+    patient_info.setCurrent(true);
+
+    setHisButtonToView();
+
+    view->setDateTime(m_amblist.date);
+    view->setTreatmentEnd(m_amblist.treatment_end);
+
+    view->setSignature(m_amblist.signature_bitmap);
+
+    surf_presenter.setStatusControl(this);
+    surf_presenter.setView(view->surfacePanel());
+    view->surfacePanel()->setPresenter(&surf_presenter);
+
+    for (int i = 0; i < 32; i++)
+    {
+        view->repaintTooth(ToothPaintHint(m_amblist.teeth[i], patient->teethNotes[i]));
+    }
+
+    view->setNotes(patient->teethNotes);
+
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+
+    refreshProcedureView();
+    dynamicNhifConversion();
+
+    view->setSelectedTeeth(m_selectedIndexes);
+
+    view->focusTeethView();
+
+    if (!firstFocus){ return; }
+
+    bool hasNhifContract = User::hasNhifContract();
+
+    std::vector<std::pair<BulkRequester::RequestType, bool>> requestTypes =
+        {
+            { BulkRequester::NhifProcedures, hasNhifContract && User::settings().getPisHistoryAuto },
+            { BulkRequester::Hospitalizations, User::settings().getHospitalizationAuto },
+            { BulkRequester::NhifMedicalConditions, hasNhifContract && User::settings().getClinicalConditionsAuto && isNew() },
+            { BulkRequester::HISDentalHistory, User::settings().getHisHistoryAuto || (hasNhifContract && User::settings().getPisHistoryAuto)},
+            { BulkRequester::HISMedicalConditions, User::settings().getClinicalConditionsAuto && isNew() },
+            { BulkRequester::Allergies, User::settings().getAllergiesAuto && isNew() }
+        };
+
+    std::vector<BulkRequester::RequestType> requests;
+    requests.reserve(requestTypes.size());
+
+    for (auto& [type, enabled] : requestTypes)
+    {
+        if (enabled) {
+            requests.push_back(type);
+        }
+    }
+
+    bulkRequester.setCallback([&](const BulkRequester::Result& result) {handleBulkRequestResult(result); });
+
+    bulkRequester.sendRequest(*patient, requests);
+
+    firstFocus = false;
+}
+
+
 void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
 {
     if (result.hospitalizations.size())
@@ -642,73 +710,6 @@ void ListPresenter::pdfPrint()
 {
     printPrv(true);
 }
-
-void ListPresenter::setDataToView()
-{
-    view->setPresenter(this);
-    
-    patient_info.setDate(m_amblist.getDate());
-
-    patient_info.setCurrent(true);
-
-    setHisButtonToView();
-
-    view->setDateTime(m_amblist.date);
-	view->setTreatmentEnd(m_amblist.treatment_end);
-
-	view->setSignature(m_amblist.signature_bitmap);
-
-    surf_presenter.setStatusControl(this);
-    surf_presenter.setView(view->surfacePanel());
-    view->surfacePanel()->setPresenter(&surf_presenter);
-
-    for (int i = 0; i < 32; i++)
-    {
-        view->repaintTooth(ToothPaintHint(m_amblist.teeth[i], patient->teethNotes[i]));
-    }
-
-    view->setNotes(patient->teethNotes);
-    
-    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
-
-    refreshProcedureView();
-    dynamicNhifConversion();
-
-    view->setSelectedTeeth(m_selectedIndexes);
-
-    view->focusTeethView();
-
-	if (!firstFocus){ return; }
-
-	bool hasNhifContract = User::hasNhifContract();
-
-    std::vector<std::pair<BulkRequester::RequestType, bool>> requestTypes =
-    {
-        { BulkRequester::NhifProcedures, hasNhifContract && User::settings().getPisHistoryAuto },
-        { BulkRequester::Hospitalizations, User::settings().getHospitalizationAuto },
-        { BulkRequester::NhifMedicalConditions, hasNhifContract && User::settings().getClinicalConditionsAuto && isNew() },
-        { BulkRequester::HISDentalHistory, User::settings().getHisHistoryAuto},
-        { BulkRequester::HISMedicalConditions, User::settings().getClinicalConditionsAuto && isNew() },
-        { BulkRequester::Allergies, User::settings().getAllergiesAuto && isNew() }
-	};
-
-	std::vector<BulkRequester::RequestType> requests;
-    requests.reserve(requestTypes.size());
-
-    for (auto& [type, enabled] : requestTypes)
-    {
-        if (enabled) {
-            requests.push_back(type);
-        }
-    }
-
-    bulkRequester.setCallback([&](const BulkRequester::Result& result) {handleBulkRequestResult(result); });
-
-    bulkRequester.sendRequest(*patient, requests);
-
-	firstFocus = false;
-}
-
 
 void ListPresenter::setAmbDateTime(const std::string& datetime)
 {
@@ -1565,6 +1566,8 @@ void ListPresenter::cancelHisAmbList()
             {
                 setDataToView();
             }
+
+            bulkRequester.sendRequest(*patient, {BulkRequester::HISDentalHistory});
         });
 }
 
@@ -1650,6 +1653,7 @@ void ListPresenter::sendToHis(bool patientIsSigner)
 
                 ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
 
+                bulkRequester.sendRequest(*patient, {BulkRequester::HISDentalHistory});
             },
             [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) { setSignature(sig_bitmap, sig_data); }
         );
@@ -1690,6 +1694,8 @@ void ListPresenter::sendToHis(bool patientIsSigner)
 
             DbAmbList::setAutoStatus(m_amblist.nrn, false);
             ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
+
+            bulkRequester.sendRequest(*patient, {BulkRequester::HISDentalHistory});
         },
         [&](const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data) {
 

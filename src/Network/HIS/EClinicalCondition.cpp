@@ -22,9 +22,14 @@ bool EClinicalCondition::Fetch::sendRequest(
 
 void EClinicalCondition::Fetch::parseReply(const std::string &reply)
 {
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
+    if(cb == nullptr) return;
+
     if (reply.empty()) {
-		m_callback({}, {});
-        m_callback = nullptr;
+        cb({}, {});
         return;
     }
 
@@ -34,8 +39,7 @@ void EClinicalCondition::Fetch::parseReply(const std::string &reply)
         if (show_dialogs) {
             ModalDialogBuilder::showError(errors);
         }
-        m_callback({}, {});
-        m_callback = nullptr;
+        cb({}, {});
         return;
     }
 
@@ -84,7 +88,5 @@ void EClinicalCondition::Fetch::parseReply(const std::string &reply)
         resultXml = resultXml->NextSiblingElement("nhis:results");
     }
 
-    m_callback(activeConditions, inactiveConditions);
-
-    m_callback = nullptr;
+    cb(activeConditions, inactiveConditions);
 }

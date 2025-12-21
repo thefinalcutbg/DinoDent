@@ -48,9 +48,14 @@ bool DentalActivitiesService::sendRequest(
 
 void DentalActivitiesService::processPISReply(const std::string& reply)
 {
+    if(m_callback == nullptr) return;
+
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
 	if (reply.empty()) { 
-		m_callback({});  
-		m_callback = nullptr;
+        cb({});
 		return; 
 	}
 
@@ -59,8 +64,7 @@ void DentalActivitiesService::processPISReply(const std::string& reply)
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 	if (!doc.RootElement()) { 
-		m_callback({});
-		m_callback = nullptr;
+        cb({});
 		return; 
 	}
 
@@ -101,6 +105,6 @@ void DentalActivitiesService::processPISReply(const std::string& reply)
 		procedures.back().db_source = Procedure::DatabaseSource::PIS;
 	}
 
-	m_callback(procedures);
+    cb(procedures);
 
 }

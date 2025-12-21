@@ -2053,7 +2053,7 @@
        <item>
         <widget class="QCheckBox" name="autoPisCheck">
          <property name="text">
-          <string>Автоматична проверка на амбулаторния лист спрямо дейностите отчетени в ПИС</string>
+          <string>Автоматична проверка на амбулаторния лист спрямо дейностите отчетени в ПИС и НЗИС</string>
          </property>
         </widget>
        </item>

@@ -33,6 +33,8 @@ SMSTemplate::SMSTemplate(QWidget *parent)
 		charText += QString::number(count);
 		charText += count == 1 ? " символ" : " символа";
 
+        ui->charCountLabel->setStyleSheet(count < 70 ? "" : "color: darkred");
+
 		ui->charCountLabel->setText(charText);
 	});
 

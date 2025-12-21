@@ -35,15 +35,18 @@ bool DiagnosisService::sendRequest(const Patient& p, decltype(m_callback) callba
 void DiagnosisService::processPISReply(const std::string& reply)
 {
 
-	//ModalDialogBuilder::showMultilineDialog(reply);
+    auto cb = m_callback;
+
+    m_callback = nullptr;
+
+    if(!cb) return;
 
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 	if (!doc.RootElement()) {
-		m_callback({}, {});
-		m_callback = nullptr;
+        cb({}, {});
 		return; 
 	}
 
@@ -85,6 +88,6 @@ void DiagnosisService::processPISReply(const std::string& reply)
 
 	}
 
-	m_callback(current, past);
+    cb(current, past);
 
 }

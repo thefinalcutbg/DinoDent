@@ -184,6 +184,19 @@ void PatientHistoryDialog::setProcedures(const std::vector<Procedure> procedures
 
 	if (!radioSrcMap[source]->isChecked()) return;
 
+    static const int ogRowHeight =
+        ui.procedureTable->verticalHeader()->defaultSectionSize();
+
+    if (source == Procedure::HIS) {
+        ui.procedureTable->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    } else {
+
+        ui.procedureTable->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+
+        for (int i = 0; i < procedures.size(); i++)
+            ui.procedureTable->setRowHeight(i, ogRowHeight);
+    }
+
 	procedure_model.setProcedures(procedures);
 }
 

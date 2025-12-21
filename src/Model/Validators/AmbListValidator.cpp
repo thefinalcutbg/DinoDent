@@ -1,5 +1,4 @@
 ﻿#include <unordered_set>
-#include <set>
 #include <algorithm>
 #include <map>
 
@@ -57,6 +56,8 @@ bool AmbListValidator::ambListIsValid()
         }
     }
 
+    if (!isValidAccordingToHIS()) return false;
+
     if (!dateIsValid()) return false;
 
     if (!examIsFirst()) return false;
@@ -71,7 +72,6 @@ bool AmbListValidator::ambListIsValid()
             return false;
         }
     }
-
 
     if (patient.HIRBNo.empty())
     {
@@ -95,7 +95,6 @@ bool AmbListValidator::ambListIsValid()
             _error = "Издаденото направление е с дата по-малка от тази на амбулаторния лист";
             return false;
         }
-
     }
 
     if (
@@ -111,6 +110,13 @@ bool AmbListValidator::ambListIsValid()
                     && p.date.year == Date::currentYear(); 
             }) == patient.PISHistory->end() &&
 
+        std::find_if(
+            patient.PISHistory->begin(), patient.HISHistory->end(),
+            [](const Procedure& p) {
+                return p.code.nhifCode() == 101
+                       && p.date.year == Date::currentYear();
+            }) == patient.PISHistory->end() &&
+
              
         std::find_if(
             m_procedures.begin(), m_procedures.end(),
@@ -122,7 +128,6 @@ bool AmbListValidator::ambListIsValid()
     };
 
     if (User::practice().isUnfavourable() && ambList.nhifData.isUnfavourable) {
-        
         if (!patient.city.isUnfav())
         {
             _error =
@@ -162,29 +167,6 @@ bool AmbListValidator::ambListIsValid()
     return true;
 }
 
-
-std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedure> pisHistory, Date ambListDate)
-{
-    std::vector<ProcedureSummary> result;
-
-    for (auto& p : pisHistory) {
-
-        if (p.date >= ambListDate) continue;
-
-        result.push_back(ProcedureSummary{
-                .date = p.date,
-                .code = p.code.nhifCode(),
-                .tooth_idx = p.getToothIndex()
-            });
-
-    }
-
-    return result;
-}
-
-
-
-
 bool AmbListValidator::isValidAccordingToDb()
 {
     if (ambList.nhifData.specification == NhifSpecificationType::Anesthesia) return true;
@@ -193,12 +175,21 @@ bool AmbListValidator::isValidAccordingToDb()
 
     std::vector<ProcedureSummary> nhifHistory;
 
+    //getting the procedures from pisHistory
+
     if (patient.PISHistory.has_value())
     {
-        nhifHistory = getSummaryFromPisHistory(
-                    patient.PISHistory.value(), 
-                    ambList.getDate()
-        );
+        for (auto& p : *patient.PISHistory) {
+
+            if (p.date >= ambListDate) continue;
+
+            nhifHistory.push_back(ProcedureSummary{
+                .date = p.date,
+                .code = p.code.nhifCode(),
+                .tooth_idx = p.getToothIndex()
+            });
+
+        }
     }
    
     //getting procedures from local db, from the day after the last record in NHIF
@@ -210,65 +201,111 @@ bool AmbListValidator::isValidAccordingToDb()
         ambList.getDate()
     );
 
-    //inserting the rest of the nhif procedures from local db
+    //combining PIS procedures and local db
     summary.insert(summary.end(), nhifHistory.begin(), nhifHistory.end());
 
+    return validatePackage(summary, m_procedures, nhifHistory.size() ? "ПИС" : "Локална база данни");
+}
+
+bool AmbListValidator::isValidAccordingToHIS()
+{
+    if(!patient.HISHistory) return true;
+
+    //not validating edited sheets because user can change the date of the procedure
+    if(ambList.nrn.size() & !ambList.his_updated) return true;
+
+    std::vector<ProcedureSummary> hisHistory;
+
+    for (auto& pHis : *patient.HISHistory) {
+
+        if(!pHis.isNhif()) continue;
+
+        bool skipProcedure = false;
+
+        for(auto& p : m_procedures){
+
+            if(!p.his_index) continue;
+
+            if(p.getToothIndex() == pHis.getToothIndex() &&
+                p.date == pHis.date &&
+                p.code.code() == pHis.code.code()
+                ) {
+                skipProcedure = true;
+                break;
+            }
+        }
+
+        //skipping procedure, because it is in the current amb sheet
+        if(skipProcedure) continue;
+
+        hisHistory.push_back(ProcedureSummary{
+            .date = pHis.date,
+            .code = pHis.code.nhifCode(),
+            .tooth_idx = pHis.getToothIndex()
+        });
+    }
+
+    return validatePackage(hisHistory, m_procedures, "НЗИС");
+}
+
+bool AmbListValidator::validatePackage(const std::vector<ProcedureSummary> &source, const std::vector<Procedure> &procedures, const std::string& sourceName)
+{
+    std::string suffix = " (Източник: " + sourceName + ")";
 
     typedef int ProcedureCode, Count;
 
     std::unordered_map<ProcedureCode, Count> currentYear;
     std::unordered_set<ToothIndex> extractedTeeth;
 
-    for (auto& p : summary) //getting procedures of the current year;
+    for (auto& p : source) //getting procedures of the current year;
     {
         if (p.date.year == ambListDate.year)
-            currentYear[p.code] ++;
+            currentYear[p.code]++;
 
         //getting the already extracted teeth
         if (p.isExtraction()) extractedTeeth.insert(p.tooth_idx);
     }
 
     PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate));
-    
+
     for (auto& t : currentYear) //loading the procedures from the current year
         for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
 
-    for (int i = 0; i < m_procedures.size(); i++) //iterrating over the ambList procedures
+    for (int i = 0; i < procedures.size(); i++) //iterrating over the ambList procedures
     {
-        auto& procedure = m_procedures[i];
-        
+        auto& procedure = procedures[i];
+
         //additional pregnant exam code
         if (procedure.code.ACHICode() == "97017-01") {
             packageCounter.setPregnantProperty();
         }
-
 
         if (!packageCounter.insertAndValidate(
                 procedure.code.nhifCode(),
                 patient.isAdult(procedure.date))
             ) //validating max allowed per year
         {
-            _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code.nhifCode()) + "!";
+            _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code.nhifCode()) + suffix;
             return false;
         };
 
         NhifProcedures::getYearLimit(procedure.code.nhifCode());
 
-        for (auto& p : summary) //validating max allowed per time period and per tooth
+        for (auto& p : source) //validating max allowed per time period and per tooth
         {
             if (p.code != procedure.code.nhifCode() || p.tooth_idx != procedure.getToothIndex()) continue;
 
             auto yearLimit = NhifProcedures::getYearLimit(procedure.code.nhifCode());
 
             Date minimumDate = { p.date.day, p.date.month, p.date.year + yearLimit };
-         
+
             if (procedure.date < minimumDate)
             {
                 std::string toothStr = procedure.getToothIndex().isValid() ?
-                   " на зъб " + procedure.getToothString() : "";
+                                           " на зъб " + procedure.getToothString() : "";
 
                 _error = "В базата данни съществува вече процедура с код " + std::to_string(p.code) + toothStr +
-                    " от преди по-малко от " + std::to_string(yearLimit) + " г.";
+                         " от преди по-малко от " + std::to_string(yearLimit) + " г." + suffix;
                 return false;
             }
         }
@@ -280,7 +317,7 @@ bool AmbListValidator::isValidAccordingToDb()
             )
         {
             _error = "За зъб " + tooth.getNhifNumenclature() +
-                + " вече съществуват данни за екстракция!";
+                     + " вече съществуват данни за екстракция!" + suffix;
             return false;
         }
 
@@ -288,7 +325,6 @@ bool AmbListValidator::isValidAccordingToDb()
 
     return true;
 }
-
 
 bool AmbListValidator::dateIsValid()
 {

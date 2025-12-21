@@ -2,6 +2,8 @@
 #include <QFileDialog>
 #include <QDialog>
 
+#include "Model/User.h"
+
 ReportView::ReportView(QWidget* parent)
 	: QWidget(parent)
 {
@@ -32,6 +34,10 @@ ReportView::ReportView(QWidget* parent)
 	ui.textBrowser->setReadOnly(true);
 	ui.textBrowser->setOpenLinks(false);
 
+    if(!User::practice().hasNraAccess()){
+        ui.nraCheck->setDisabled(true);
+    }
+
     connect(ui.generateButton, &QPushButton::clicked, this, [&] {
 
 		m_stop ?
@@ -39,7 +45,8 @@ ReportView::ReportView(QWidget* parent)
 			:
 			presenter.generateReport(
 				ui.pisCheck->isChecked(),
-				ui.nraCheck->isChecked()
+                ui.nraCheck->isChecked(),
+                ui.hisCheck->isChecked()
 			);
 
 		});
@@ -138,6 +145,7 @@ void ReportView::showStopButton(bool yes)
 
 		ui.nraCheck->setDisabled(yes);
 		ui.pisCheck->setDisabled(yes);
+        ui.hisCheck->setDisabled(yes);
 		ui.monthCombo->setDisabled(yes);
 		ui.yearSpin->setDisabled(yes);
 }

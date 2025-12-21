@@ -30,8 +30,14 @@ bool EAllergy::Report::sendRequest(const Patient& patient, const Allergy& a, dec
 
 void EAllergy::Report::parseReply(const std::string& reply)
 {
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
+    if(cb == nullptr) return;
+
 	if (reply.empty()) {
-		m_callback = nullptr;
+        cb({});
 		return;
 	}
 
@@ -39,7 +45,7 @@ void EAllergy::Report::parseReply(const std::string& reply)
 
 	if (errors.size()) {
 		ModalDialogBuilder::showError(errors);
-		m_callback = nullptr;
+        cb({});
 		return;
 	}
 
@@ -51,9 +57,7 @@ void EAllergy::Report::parseReply(const std::string& reply)
 
 	auto nrn = docHandle.FirstChild("nhis:message").FirstChild("nhis:contents").FirstChild("nhis:nrnAllergy");
 
-	if (nrn.ToElement()) m_callback(nrn.ToElement()->Attribute("value"));
-
-	m_callback = nullptr;
+    if (nrn.ToElement()) cb(nrn.ToElement()->Attribute("value"));
 }
 
 bool EAllergy::Edit::sendRequest(const Allergy& a, decltype(m_callback) callback/*, bool enteredInError*/)

@@ -6,20 +6,23 @@
 
 void NraStatusService::parseReply(const std::string& reply)
 {
-	
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
+    if(!cb) return;
+
 		TiXmlDocument doc;
 
 		if (reply.empty()) {
-			m_callback({});
-			m_callback = nullptr;
+            cb({});
 			return;
 		}
 
 		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 		if (!doc.RootElement()) {
-			m_callback({});
-			m_callback = nullptr;
+            cb({});
 			return;
 		}
 
@@ -32,7 +35,7 @@ void NraStatusService::parseReply(const std::string& reply)
 
 
 		if (patient.FirstChild().ToElement() == nullptr) {
-			m_callback({});
+            cb({});
 			return;
 		}
 
@@ -40,7 +43,7 @@ void NraStatusService::parseReply(const std::string& reply)
 			ModalDialogBuilder::showError(
 				patient.Child(1).ToElement()->GetText()
 			);
-			m_callback({});
+            cb({});
 			return;
 		}
 
@@ -63,9 +66,9 @@ void NraStatusService::parseReply(const std::string& reply)
 
 		switch(insuredCode)
 		{
-			case 1: m_callback(InsuranceStatus{ Insured::Yes, periods }); break;
-			case 2: m_callback(InsuranceStatus{ Insured::No, periods }); break;
-			default: m_callback(InsuranceStatus{Insured::NoData}); break;
+            case 1: cb(InsuranceStatus{ Insured::Yes, periods }); break;
+            case 2: cb(InsuranceStatus{ Insured::No, periods }); break;
+            default: cb(InsuranceStatus{Insured::NoData}); break;
 		}
 
 }

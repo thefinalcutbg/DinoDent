@@ -33,6 +33,7 @@ class ReportPresenter
 	bool m_hasErrors{ false };
 	bool pisCheck{ false };
 	bool nraCheck{ false };
+    bool hisCheck{ false };
 
 	int year{ 0 };
 	int month{ 0 };
@@ -58,7 +59,7 @@ public:
 	void sendToPis();
 	void saveToXML();
 	void setDate(int month, int year);
-	void generateReport(bool checkPis, bool checkNra);
+    void generateReport(bool checkPis, bool checkNra, bool checkHis);
 	void generateSpecification();
 	void setView(ReportView* view);
 	void linkClicked(long long sheetRowid);

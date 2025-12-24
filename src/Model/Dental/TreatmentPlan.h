@@ -29,8 +29,6 @@ struct TreatmentPlan
         AdditionalParameters param;
         int scenario = 0;
         std::pair<double, double> priceRange {0,0};
-
-        int getPriceMultiplier() const;
     };
 
     struct Stage{

@@ -77,6 +77,10 @@ struct Procedure
 
     DatabaseSource db_source{ Local };
 
+    int getPriceMultiplier() const;
+
+    double price {0};
+
     //for procedures fetched from his
     std::optional<HISProcedureResult> HIS_fetched_result;
 

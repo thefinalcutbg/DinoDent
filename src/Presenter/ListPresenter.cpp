@@ -1428,6 +1428,10 @@ void ListPresenter::createInvoice()
         return;
     }
 
+    for(auto& p : *selectedProcedures){
+        p.price = p.getPriceMultiplier() * User::getPrice(p.code.code()).second;
+    }
+
     TabPresenter::get().openInvoice(patient->rowid, selectedProcedures.value());
 }
 

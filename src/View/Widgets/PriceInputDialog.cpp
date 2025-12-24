@@ -11,16 +11,20 @@ PriceInputDialog::PriceInputDialog(const std::pair<double, double> &priceRange, 
 
     setWindowTitle("Въвеждане на цена");
 
-    connect(ui->rangeRadio, &QRadioButton::toggled, this, [this](bool checked){
+    connect(ui->rangeRadio, &QRadioButton::clicked, this, [this](bool checked){
         ui->fromSpin->setDisabled(!checked);
         ui->toSpin->setDisabled(!checked);
         ui->exactSpin->setDisabled(checked);
+        ui->fromSpin->setFocus();
+        ui->fromSpin->selectAll();
     });
 
-    connect(ui->exactRadio, &QRadioButton::toggled, this, [this](bool checked){
+    connect(ui->exactRadio, &QRadioButton::clicked, this, [this](bool checked){
         ui->fromSpin->setDisabled(checked);
         ui->toSpin->setDisabled(checked);
         ui->exactSpin->setDisabled(!checked);
+        ui->exactSpin->setFocus();
+        ui->exactSpin->selectAll();
     });
 
     connect(ui->okButton, &QPushButton::clicked, this, [this]{

@@ -7,6 +7,7 @@
 
 static Practice s_practice;
 static Doctor s_doctor;
+static std::unordered_map<std::string, std::pair<double, double>> s_priceList;
 
 std::unordered_map<std::string, std::string> s_names;
 
@@ -53,6 +54,8 @@ void User::setCurrentDoctor(const Doctor& doctor)
 void User::setCurrentPractice(const Practice& practice)
 {
     s_practice = practice;
+
+    s_priceList = DbPractice::getCodeValues(practice.rziCode);
 
     Ekatte::s_unfavList = DbPractice::getUnfavEkatte(practice.rziCode);
 }
@@ -111,4 +114,11 @@ bool User::isIncognito()
 void User::setIncognito(bool incognito)
 {
     DbDoctor::setIncognito(incognito, s_doctor.LPK);
+}
+
+std::pair<double, double> User::getPrice(const std::string &achiCode)
+{
+    if(!s_priceList.count(achiCode)) return {0, 0};
+
+    return s_priceList[achiCode];
 }

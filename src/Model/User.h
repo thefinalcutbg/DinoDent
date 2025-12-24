@@ -22,7 +22,7 @@ namespace User
 	bool isAdmin();
 	void refereshPracticeDoctor();
 	std::string getNameFromLPKorRHIF(const std::string& LPK);
-//	double getPrice(int procedureCode);
+    std::pair<double, double> getPrice(const std::string& achiCode);
 	bool hasNhifContract();
 	bool isIncognito();
 	void setIncognito(bool incognito);

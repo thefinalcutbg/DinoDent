@@ -91,6 +91,21 @@ std::vector<int> Procedure::getArrayIndexes() const
 	return result;
 }
 
+int Procedure::getPriceMultiplier() const
+{
+    int result = 1;
+
+    if((code.type() == ProcedureType::Bridge || code.type() == ProcedureType::Splint || code.type() == ProcedureType::RemoveCrownOrBridge) &&
+        std::holds_alternative<ConstructionRange>(affectedTeeth))
+    {
+        auto range =  std::get<ConstructionRange>(affectedTeeth);
+
+        result = range.toothTo-range.toothFrom+1;
+    }
+
+    return result;
+}
+
 std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 {
 	if (HIS_fetched_result) {

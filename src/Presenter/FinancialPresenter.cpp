@@ -56,18 +56,18 @@ FinancialPresenter::FinancialPresenter(TabView* tabView, std::shared_ptr<Patient
         m_invoice.taxEventDate = std::max(m_invoice.taxEventDate, p.date);
 
         BusinessOperation newOp(p);
-        
+
         bool toBeInserted{ true };
 
         for (auto& existingOp : m_invoice.businessOperations) {
 
-            if (existingOp == newOp) //&& existingOp.unit_price == p.value)
+            if (existingOp == newOp)
             {
                 existingOp.addQuantity(1);
                 toBeInserted = false;
                 break;
             }
-                
+
         }
 
         if(toBeInserted) m_invoice.businessOperations.push_back(newOp);

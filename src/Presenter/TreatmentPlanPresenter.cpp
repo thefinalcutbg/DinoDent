@@ -4,7 +4,6 @@
 #include "View/Widgets/TreatmentPlanView.h"
 #include "View/Widgets/PriceInputDialog.h"
 #include "Database/DbPerio.h"
-#include "Database/DbPractice.h"
 #include "Model/User.h"
 #include "ProcedureDialogPresenter.h"
 #include "View/Widgets/MultilineDialog.h"
@@ -201,9 +200,9 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
     for(auto& p : procedures){
         auto planned = TreatmentPlan::PlannedProcedure(p);
 
-        planned.priceRange = DbPractice::getCodeValue(p.code.code(), User::practice().rziCode);
+        planned.priceRange = User::getPrice(p.code.code());
 
-        auto multiplier = planned.getPriceMultiplier();
+        auto multiplier = p.getPriceMultiplier();
 
         planned.priceRange.first *= multiplier;
         planned.priceRange.second *= multiplier;

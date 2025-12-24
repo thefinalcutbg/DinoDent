@@ -7,8 +7,6 @@
 ProcedureListPresenter::ProcedureListPresenter()
 {
 
-    auto priceRanges = DbPractice::getCodeValues(User::practice().rziCode);
-
 	//lazy init
 	if (m_elements.empty()) {
 
@@ -29,7 +27,7 @@ ProcedureListPresenter::ProcedureListPresenter()
 						.code = code.code(),
 						.nhif = false,
                         .favourite = false,
-                        .price = priceRanges[code.code()]
+                        .price = User::getPrice(code.code())
 				});
 
 

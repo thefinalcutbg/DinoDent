@@ -27,22 +27,6 @@ std::string TreatmentPlan::PlannedProcedure::getName() const
     return name.empty() ? code.name() : name;
 }
 
-int TreatmentPlan::PlannedProcedure::getPriceMultiplier() const
-{
-    int result = 1;
-
-    if((code.type() == ProcedureType::Bridge || code.type() == ProcedureType::Splint) &&
-        std::holds_alternative<ConstructionRange>(affectedTeeth))
-    {
-
-        auto range =  std::get<ConstructionRange>(affectedTeeth);
-
-        result = range.toothTo-range.toothFrom+1;
-    }
-
-    return result;
-}
-
 std::pair<double, double> TreatmentPlan::Stage::getPriceLabel() const
 {
     double priceMin = 0;

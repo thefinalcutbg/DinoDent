@@ -21,7 +21,7 @@ public:
 	Invoice m_invoice;
 
     FinancialPresenter(TabView* tabView, const std::string& monthNotif, const std::string& fileHash);
-	FinancialPresenter(TabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures = {});
+    FinancialPresenter(TabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures = {});
 	FinancialPresenter(TabView* tabView, long long rowId);
 	FinancialPresenter(TabView* tabView, const Recipient& r);
 

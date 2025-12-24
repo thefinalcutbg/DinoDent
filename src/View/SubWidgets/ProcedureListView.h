@@ -15,6 +15,8 @@ class ProcedureListView : public QWidget
 	inline static QString s_search{ "" };
 	inline static int current_section{ -1 };
 
+    bool m_priceColumnHidden = true;
+
 	ProcedureTemplateModel model;
 	QSortFilterProxyModel proxyModel;
 
@@ -24,15 +26,15 @@ class ProcedureListView : public QWidget
 
 public:
 	ProcedureListView(QWidget *parent = nullptr);
-
+    void showPrices();
 	void setPresenter(ProcedureListPresenter* p);
 	void refresh();
 	~ProcedureListView() {};
 
 signals:
 	void deletePressed(const std::string& code);
-	void codeSelected(const std::string& code, bool nhif, double price);
-	void codeDoubleClicked(const std::string& code, bool nhif, double price);
+    void codeSelected(const std::string& code, bool nhif);
+    void codeDoubleClicked(const std::string& code, bool nhif);
 	void favouritesClicked(const std::string& code);
 
 private:

@@ -141,18 +141,12 @@ void ModalDialogBuilder::showError(const std::string& error)
 
 #include "View/Widgets/MultilineDialog.h"
 
-std::optional<std::string> ModalDialogBuilder::showMultilineDialog(const std::string& text, const std::string& title, bool enableEdit)
+void ModalDialogBuilder::showMultilineDialog(const std::string& text, const std::string& title)
 {
 	MultilineDialog d(text);
 
-	if (enableEdit) {
-		d.enableEditing();
-	}
-
 	d.setWindowTitle(title.c_str());
 	d.exec();
-
-	return d.getResult();
 }
 
 void ModalDialogBuilder::showMessage(const std::string& message)
@@ -322,18 +316,17 @@ void ModalDialogBuilder::openExplorer(const std::string& path)
 
 #include <QInputDialog>
 
-std::optional<std::string> ModalDialogBuilder::getStringInput(const std::string& dialogName, const std::string& fieldName)
+std::optional<std::string> ModalDialogBuilder::getStringInput(const std::string& dialogName, const std::string& fieldName, const std::string& inputText)
 {
 	bool ok;
 
-	QString text = QInputDialog::getText(NULL, dialogName.data(),
-		fieldName.data(),
-		QLineEdit::Password, QString(), &ok);
+    QString text = QInputDialog::getText(nullptr, dialogName.data(),
+        fieldName.data(),
+        QLineEdit::Normal, inputText.data(), &ok);
 
-	if (text.isEmpty()) return {};
+    if (!ok) return {};
 
-	return text.toStdString();
-
+    return text.toStdString();
 }
 
 #include "View/Widgets/PinPromptDialog.h"
@@ -395,7 +388,7 @@ void ModalDialogBuilder::displayPixmap(const QPixmap& px)
 #include "View/Widgets/InputDialog.h"
 
 std::string ModalDialogBuilder::inputDialog(
-	const std::string& text, 
+    const std::string& label,
 	const std::string& title, 
 	const std::string& input, 
 	bool asPassword, 
@@ -403,7 +396,7 @@ std::string ModalDialogBuilder::inputDialog(
 )
 {
 	InputDialog d(asPassword);
-	d.setLabel(text);
+    d.setLabel(label);
 	d.setTitle(title);
 	d.setInput(input);
 	d.enableNotEmptyValidator(emptyNotAllowed);

@@ -9,6 +9,7 @@
 #include "View/uiComponents/PixmapLabel.h"
 #include "View/Widgets/WelcomeWidget.h"
 #include "View/Widgets/CalendarView.h"
+#include "View/Widgets/TreatmentPlanView.h"
 #include "ui_TabView.h"
 
 class TabTitle;
@@ -21,6 +22,7 @@ class TabView : public QWidget
 	ListView m_listView;
 	FinancialView m_financialView;
 	PrescriptionView m_prescriptionView;
+    TreatmentPlanView m_treatmentView;
 	CalendarView m_calendarView;
 
 	WelcomeWidget welcomeScreen{ nullptr };
@@ -55,12 +57,14 @@ public:
 	void showFinancialView();
 	void showPerscriptionView();
 	void showWelcomeScreen();
+    void showTreatmentPlanView();
 	void showCalendarView();
 
 	ListView* listView() { return &m_listView; }
 	PerioView* perioView() { return &m_perioView; }
 	FinancialView* financialView() { return &m_financialView; }
 	PrescriptionView* prescriptionView() { return &m_prescriptionView; }
+    TreatmentPlanView* treatmentPlanView() { return &m_treatmentView; }
 	CalendarView* calendarView() { return &m_calendarView; }
 
 signals:

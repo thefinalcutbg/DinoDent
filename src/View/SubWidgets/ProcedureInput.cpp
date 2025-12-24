@@ -10,7 +10,6 @@
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ICD10Dialog.h"
 #include "View/Widgets/NotesTemplateDialog.h"
-#include "Model/User.h"
 
 ProcedureInput::ProcedureInput(QWidget* parent)
 	: QWidget(parent)
@@ -149,19 +148,26 @@ void ProcedureInput::setParamMinHeight(int height)
 	ui.paramFrame->setMinimumHeight(height);
 }
 
-QDateEdit* ProcedureInput::qDateEdit()
+DateEdit* ProcedureInput::dateEdit()
 {
 	return ui.dateEdit;
 }
 
-AbstractDateEdit* ProcedureInput::dateEdit()
+void ProcedureInput::setTreatmentPlanMode()
 {
-	return ui.dateEdit;
+    m_treatmentPlanMode = true;
+}
+
+void ProcedureInput::hideDate()
+{
+    m_dateHidden = true;
+    ui.dateFrame->setHidden(m_dateHidden);
 }
 
 void ProcedureInput::setCommonData(const CommonData& data, bool hasNhifCode)
 {
-	ui.dateFrame->setHidden(!User::hasNhifContract());
+
+    ui.dateFrame->setHidden(m_dateHidden);
 	ui.diagnosisGroup->show();
 	ui.notesGroup->show();
 	ui.financingGroup->show();
@@ -177,6 +183,14 @@ void ProcedureInput::setCommonData(const CommonData& data, bool hasNhifCode)
 	initFinancingCombo(hasNhifCode);
 	setFinancingSource(data.financingSource);
 	ui.errorLabel->clear();
+
+    if(m_treatmentPlanMode){
+        ui.financingGroup->setHidden(true);
+        ui.dateFrame->setHidden(true);
+        ui.notesLabel->setText("Допълнителни бележки:");
+        ui.templateButton->setHidden(true);
+    }
+
 }
 
 void ProcedureInput::setParameterData()

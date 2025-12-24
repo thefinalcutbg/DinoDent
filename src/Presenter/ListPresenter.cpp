@@ -953,17 +953,21 @@ void ListPresenter::refreshProcedureView()
 void ListPresenter::addProcedure()
 {
     //making a copy to apply the procedures before adding a new one
-    AmbList copy = m_amblist;
-    for (auto& p : copy.procedures) {
-        p.applyProcedure(copy.teeth);
+    ToothContainer teethCopy = m_amblist.teeth;
+
+    for (auto& p : m_amblist.procedures) {
+        p.applyProcedure(teethCopy);
     }
 
     ProcedureDialogPresenter p
     {
-        copy,
-        copy.teeth.getSelectedTeethPtr(m_selectedIndexes),
-        patient->turns18At(),
-        patient->canBePregnant(copy.getDate())
+        teethCopy.getSelectedTeethPtr(m_selectedIndexes),
+        m_amblist.date,
+        ProcedureDialogPresenter::NhifData{
+            patient->turns18At(),
+            patient->canBePregnant(m_amblist.getDate()),
+            m_amblist.nhifData.specification
+        }
     };
 
     auto procedures = p.openDialog();
@@ -1435,6 +1439,11 @@ void ListPresenter::createPerioMeasurment()
 void ListPresenter::createPrescription()
 {
     TabPresenter::get().openPerscription(*this->patient.get());
+}
+
+void ListPresenter::createTreatmentPlan()
+{
+    TabPresenter::get().openTreatmentPlan(*this->patient.get());
 }
 
 void ListPresenter::printDeclarations()

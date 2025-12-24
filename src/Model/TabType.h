@@ -1,10 +1,11 @@
 #pragma once
 
 enum class TabType { 
-	PatientSummary, 
-	AmbList, 
+	PatientSummary,
+    AmbList,
 	Prescription, 
-	PerioStatus, 
-	Financial, 
+    PerioStatus,
+    TreatmentPlan,
+    Financial,
 	Calendar 
 };

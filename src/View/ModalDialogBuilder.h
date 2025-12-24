@@ -33,15 +33,15 @@ namespace ModalDialogBuilder
 	void openBrowserDialog();
 
 	DialogAnswer YesNoCancelDailog(const std::string& text);
-	std::string inputDialog(const std::string& text, const std::string& title, const std::string& input = {}, bool asPassword = false, bool emptyNotAllowed = true);
+    std::string inputDialog(const std::string& label, const std::string& title, const std::string& input = {}, bool asPassword = false, bool emptyNotAllowed = true);
 	void saveFile(const std::string& data, const std::string& filename);
 	bool askDialog(const std::string& questionText, bool defaultAnswer = true);
 	void showError(const std::string& error);
 	void showMessage(const std::string& message);
 	int openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title, const std::string& description = std::string()); //returns -1 if canceled
 	void openExplorer(const std::string& path);
-	std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName);
-	std::optional<std::string> showMultilineDialog(const std::string& text, const std::string& title = "Debug", bool enableEdit = false);
+    std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName, const std::string& input);
+    void showMultilineDialog(const std::string& text, const std::string& title = "Debug");
 	std::string pinPromptDialog(const std::string& pem, const std::string& driver); //returns empty string if canceled
 
 	std::optional<std::string> openFile();

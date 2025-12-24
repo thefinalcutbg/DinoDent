@@ -31,15 +31,17 @@ MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 
 std::optional<std::string> MultilineDialog::getResult()
 {
-	return m_result;
+    exec();
+
+    return m_result;
 }
 
-void MultilineDialog::enableEditing()
+void MultilineDialog::enableEditing(bool setNotesFormat)
 {
 	ui.textBox->setReadOnly(false);
 	ui.copyButton->hide();
 
-	ui.textBox->setText(ui.textBox->toPlainText().toStdString());
+    ui.textBox->setText(ui.textBox->toPlainText().toStdString(), setNotesFormat);
 }
 
 MultilineDialog::~MultilineDialog()

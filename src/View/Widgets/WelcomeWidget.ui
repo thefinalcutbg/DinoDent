@@ -124,8 +124,8 @@
        <widget class="ShortcutTile" name="statisticButton">
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>180</y>
+          <x>20</x>
+          <y>350</y>
           <width>150</width>
           <height>150</height>
          </rect>
@@ -294,7 +294,7 @@
        <widget class="ShortcutTile" name="browser">
         <property name="geometry">
          <rect>
-          <x>20</x>
+          <x>360</x>
           <y>180</y>
           <width>150</width>
           <height>150</height>
@@ -328,7 +328,7 @@
        <widget class="ShortcutTile" name="settingsButton">
         <property name="geometry">
          <rect>
-          <x>20</x>
+          <x>190</x>
           <y>350</y>
           <width>150</width>
           <height>150</height>
@@ -362,7 +362,7 @@
        <widget class="ShortcutTile" name="nhifButton">
         <property name="geometry">
          <rect>
-          <x>360</x>
+          <x>530</x>
           <y>180</y>
           <width>150</width>
           <height>150</height>
@@ -393,44 +393,10 @@
          <string>Месечни отчети и известия</string>
         </property>
        </widget>
-       <widget class="ShortcutTile" name="aboutButton">
-        <property name="geometry">
-         <rect>
-          <x>530</x>
-          <y>350</y>
-          <width>150</width>
-          <height>150</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>За DinoDent</string>
-        </property>
-       </widget>
        <widget class="ShortcutTile" name="donateButton">
         <property name="geometry">
          <rect>
-          <x>360</x>
+          <x>530</x>
           <y>350</y>
           <width>150</width>
           <height>150</height>
@@ -464,7 +430,7 @@
        <widget class="ShortcutTile" name="ircButton">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>360</x>
           <y>350</y>
           <width>150</width>
           <height>150</height>
@@ -493,6 +459,40 @@
         </property>
         <property name="text">
          <string>IRC чат</string>
+        </property>
+       </widget>
+       <widget class="ShortcutTile" name="planButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>180</y>
+          <width>150</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Нов план на лечение</string>
         </property>
        </widget>
       </widget>

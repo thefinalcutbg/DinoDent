@@ -43,18 +43,17 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 
 		auto code = model.index(rowIdx, 1).data().toString().toStdString();
 
-		presenter->favClicked(ui.sectionCombo->currentIndex(), code);
+        presenter->favClicked(code);
 
 		refresh();
 
 	});
 
 	connect(ui.tableView, &QTableView::doubleClicked, this, [&](const QModelIndex& index) {
-			
+
 		emit codeDoubleClicked(
-			proxyModel.index(current_index, 1).data().toString().toStdString(),
-			proxyModel.index(current_index, 0).data(Qt::UserRole).toInt() == 1,
-			proxyModel.index(current_index, 3).data(Qt::UserRole).toDouble()
+            proxyModel.index(current_index, 1).data().toString().toStdString(),
+            proxyModel.index(current_index, 0).data(Qt::UserRole).toInt() == 1
 		);
 
 	});
@@ -64,15 +63,14 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 		current_index = table->selectionModel()->currentIndex().row();
 
 		if (current_index == -1) {
-			emit codeSelected(std::string{}, 0, 0);
+            emit codeSelected(std::string{}, 0);
 			ui.tableView->clearSelection(); //because of bug when reseting the model
 			return;
 		}
 
 		emit codeSelected(
 			proxyModel.index(current_index, 1).data().toString().toStdString(),
-			proxyModel.index(current_index, 0).data(Qt::UserRole).toInt() == 1, //NHIF value from model
-			proxyModel.index(current_index, 3).data(Qt::UserRole).toDouble()
+            proxyModel.index(current_index, 0).data(Qt::UserRole).toInt() == 1 //NHIF value from model
 		);
 		});
 
@@ -84,9 +82,13 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 			ui.tableView->selectRow(current_index);
 	});
 
-	
+    connect(ui.sectionCombo, &QComboBox::currentIndexChanged, this, [&] { refresh(); });
+}
 
-	connect(ui.sectionCombo, &QComboBox::currentIndexChanged, this, [&](int index) { refresh(); });
+void ProcedureListView::showPrices()
+{
+    m_priceColumnHidden = false;
+    refresh();
 }
 
 void ProcedureListView::setPresenter(ProcedureListPresenter* p)
@@ -123,20 +125,11 @@ void ProcedureListView::refresh()
 
 	auto list = presenter->getList(current_section);
 
-	auto hidePriceColumn = true;
-/*
-	for (auto& p : list) {
-		if (p.price && !p.nhif) {
-			hidePriceColumn = false;
-			break;
-		}
-	}
-*/
-	ui.tableView->setColumnHidden(4, hidePriceColumn);
+    ui.tableView->setColumnHidden(4, m_priceColumnHidden);
 
 	model.setProcedures(presenter->getList(current_section));
 
-	emit codeSelected(std::string{}, false, 0);
+    emit codeSelected(std::string{}, false);
 }
 
 

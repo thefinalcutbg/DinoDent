@@ -105,6 +105,7 @@ HEADERS += \
     src/Model/Dental/ToothContainer.h \
     src/Model/Dental/ToothIndex.h \
     src/Model/Dental/ToothUtils.h \
+    src/Model/Dental/TreatmentPlan.h \
     src/Model/DynamicNum.h \
     src/Model/Ekatte.h \
     src/Model/Financial/BusinessOperation.h \
@@ -242,6 +243,7 @@ HEADERS += \
     src/Presenter/SurfacePanelPresenter.h \
     src/Presenter/TabInstance.h \
     src/Presenter/TabPresenter.h \
+    src/Presenter/TreatmentPlanPresenter.h \
     src/Presenter/UnusedPackagePresenter.h \
     src/Printer/FilePaths.h \
     src/Printer/Implementation/PrintPrv.h \
@@ -356,6 +358,7 @@ HEADERS += \
     src/View/Widgets/PracticeListDialog.h \
     src/View/Widgets/PracticeSelectorView.h \
     src/View/Widgets/PrescriptionView.h \
+    src/View/Widgets/PriceInputDialog.h \
     src/View/Widgets/ProcedureDialog.h \
     src/View/Widgets/ProcedureEditDialog.h \
     src/View/Widgets/ProcedurePrintSelectDialog.h \
@@ -372,6 +375,7 @@ HEADERS += \
     src/View/Widgets/TabView.h \
     src/View/Widgets/TableViewDialog.h \
     src/View/Widgets/ToothUi.h \
+    src/View/Widgets/TreatmentPlanView.h \
     src/View/Widgets/UnfavourableDialog.h \
     src/View/Widgets/UnusedPackageView.h \
     src/View/Widgets/UpdateDialog.h \
@@ -470,6 +474,7 @@ SOURCES += \
     src/Model/Dental/ToothContainer.cpp \
     src/Model/Dental/ToothIndex.cpp \
     src/Model/Dental/ToothUtils.cpp \
+    src/Model/Dental/TreatmentPlan.cpp \
     src/Model/Ekatte.cpp \
     src/Model/Financial/BusinessOperation.cpp \
     src/Model/Financial/Invoice.cpp \
@@ -585,6 +590,7 @@ SOURCES += \
     src/Presenter/SurfacePanelPresenter.cpp \
     src/Presenter/TabInstance.cpp \
     src/Presenter/TabPresenter.cpp \
+    src/Presenter/TreatmentPlanPresenter.cpp \
     src/Presenter/UnusedPackagePresenter.cpp \
     src/Printer/FilePaths.cpp \
     src/Printer/Implementation/PrintAmb.cpp \
@@ -698,6 +704,7 @@ SOURCES += \
     src/View/Widgets/PracticeListDialog.cpp \
     src/View/Widgets/PracticeSelectorView.cpp \
     src/View/Widgets/PrescriptionView.cpp \
+    src/View/Widgets/PriceInputDialog.cpp \
     src/View/Widgets/ProcedureDialog.cpp \
     src/View/Widgets/ProcedureEditDialog.cpp \
     src/View/Widgets/ProcedurePrintSelectDialog.cpp \
@@ -712,6 +719,7 @@ SOURCES += \
     src/View/Widgets/StatisticDialogView.cpp \
     src/View/Widgets/TabView.cpp \
     src/View/Widgets/TableViewDialog.cpp \
+    src/View/Widgets/TreatmentPlanView.cpp \
     src/View/Widgets/UnfavourableDialog.cpp \
     src/View/Widgets/UnusedPackageView.cpp \
     src/View/Widgets/UpdateDialog.cpp \
@@ -812,6 +820,7 @@ FORMS += \
     src/View/Widgets/PracticeListDialog.ui \
     src/View/Widgets/PracticeSelectorView.ui \
     src/View/Widgets/PrescriptionView.ui \
+    src/View/Widgets/PriceInputDialog.ui \
     src/View/Widgets/ProcedureDialog.ui \
     src/View/Widgets/ProcedureEditDialog.ui \
     src/View/Widgets/ProcedurePrintSelectDialog.ui \
@@ -824,6 +833,7 @@ FORMS += \
     src/View/Widgets/StatisticDialogView.ui \
     src/View/Widgets/TabView.ui \
     src/View/Widgets/TableViewDialog.ui \
+    src/View/Widgets/TreatmentPlanView.ui \
     src/View/Widgets/UnfavourableDialog.ui \
     src/View/Widgets/UnusedPackageView.ui \
     src/View/Widgets/UpdateDialog.ui \

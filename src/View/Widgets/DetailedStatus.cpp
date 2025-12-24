@@ -36,7 +36,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 
 void DetailedStatus::setNotes(const std::string& notes)
 {
-	ui.notesEdit->setText(notes.c_str());
+    ui.notesEdit->setText(notes.c_str(), true);
 }
 
 void DetailedStatus::focusNotes(bool focus)

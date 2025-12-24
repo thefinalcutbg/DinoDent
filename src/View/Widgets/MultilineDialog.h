@@ -11,9 +11,9 @@ class MultilineDialog : public QDialog
 	std::optional<std::string> m_result;
 
 public:
-	MultilineDialog(const std::string& text, QWidget *parent = Q_NULLPTR);
+    MultilineDialog(const std::string& text, QWidget *parent = Q_NULLPTR);
 	std::optional<std::string> getResult();
-	void enableEditing();
+    void enableEditing(bool setNotesFormat);
 	~MultilineDialog();
 
 private:

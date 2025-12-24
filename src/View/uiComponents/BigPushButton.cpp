@@ -85,11 +85,8 @@ void BigPushButton::paintEvent(QPaintEvent*)
     if (!icon().isNull())
         icon().paint(&painter, iconRect);
 
-    // If colors are the same, we still want a font change on hover
-    bool differentFont = (hoverColor == normalColor && hoverProgress > 0.0);
-
     painter.setFont(font());
-    painter.setPen(QPen(differentFont ? Theme::fontTurquoise : Theme::fontTurquoiseClicked));
+    painter.setPen(QPen(m_hover ? Theme::fontTurquoise : Theme::fontTurquoiseClicked));
 
     int xPos = icon().isNull() ? 0 : 18;
 

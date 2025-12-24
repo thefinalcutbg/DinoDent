@@ -249,6 +249,64 @@ bool DbPractice::noPractices()
     return true;
 }
 
+std::unordered_map<std::string, std::pair<double, double>> DbPractice::getCodeValues(const std::string& rziCode)
+{
+    std::unordered_map<std::string, std::pair<double, double>> result;
+
+    Db db;
+
+    db.newStatement("SELECT code, from_value, to_value FROM code_list WHERE rzi=?");
+
+    db.bind(1, rziCode);
+
+    while (db.hasRows()) {
+        result[db.asString(0)] = {db.asDouble(1), db.asDouble(2)};
+    }
+
+    return result;
+}
+
+
+std::pair<double, double> DbPractice::getCodeValue(const std::string &code, const std::string &rziCode)
+{
+    Db db;
+
+    db.newStatement("SELECT from_value, to_value FROM code_list WHERE rzi=? AND code=?");
+
+    db.bind(1, rziCode);
+    db.bind(2, code);
+
+    while (db.hasRows()) {
+        return {db.asDouble(0), db.asDouble(1)};
+    }
+
+    return {0,0};
+}
+
+bool DbPractice::setCodeValues(const std::string& code, const std::pair<double, double>& priceRange, const std::string& rziCode)
+{
+    Db db;
+
+    if (priceRange.first == 0 && priceRange.second == 0) {
+        db.newStatement("DELETE FROM code_list WHERE code=? AND rzi=?");
+        db.bind(1, code);
+        db.bind(2, rziCode);
+        return db.execute();
+    }
+
+    db.newStatement(
+        "INSERT INTO code_list(rzi, code, from_value, to_value) VALUES(?,?,?,?) "
+        "ON CONFLICT(rzi, code) DO UPDATE SET from_value = excluded.from_value, to_value = excluded.to_value"
+        );
+
+    db.bind(1, rziCode);
+    db.bind(2, code);
+    db.bind(3, priceRange.first);
+    db.bind(4, priceRange.second);
+
+    return db.execute();
+}
+
 std::set<int> DbPractice::getUnfavEkatte(const std::string &rziCode)
 {
     std::string query = "SELECT ekatte FROM unfavourable_condition WHERE rzi=?";

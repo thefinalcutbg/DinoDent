@@ -48,7 +48,7 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
             .displayCode = m.code.ACHICode().c_str(),
             .name = m.code.name().c_str(),
             .price = m.price,
-            .displayPrice = m.price || m.nhif ? formatDoubleWithDecimal(m.price) : ""
+            .displayPrice = priceRangeToString(m.price)
         };
 
         if (row.code.isEmpty()) {
@@ -136,7 +136,6 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
         switch (column) 
         {
             case 0: return procedures[row].role;
-            case 3: return procedures[row].price;
             default: return QVariant();
 
         }

@@ -40,11 +40,11 @@ void GraphicsView::mousePressEvent(QMouseEvent* event)
 
 		auto newSelectedList = scene()->selectedItems();
 
-		if (newSelectedList.empty()) return;
+        if (newSelectedList.empty()) return;
 
 		//Аllows double click on multiple selected teeth:
 		if (previouslySelectedList.contains(newSelectedList[0])) {
-			for (auto i : previouslySelectedList) {
+            for (auto i : previouslySelectedList) {
 				i->setSelected(true);
 			}
 		}

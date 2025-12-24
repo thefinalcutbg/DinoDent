@@ -58,6 +58,8 @@
         <file>icon_bell_notify.png</file>
         <file>icon_sign.png</file>
         <file>icon_donate.png</file>
+        <file>icon_plan.png</file>
+        <file>icon_rightArrow.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

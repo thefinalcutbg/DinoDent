@@ -69,7 +69,7 @@ public:
 
 public:
 
-	virtual void prepareSwitch();
+    virtual void prepareSwitch();
 	virtual ~TabInstance() {};
 
 };

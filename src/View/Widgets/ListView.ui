@@ -801,6 +801,19 @@
       </widget>
      </item>
      <item>
+      <widget class="BigPushButton" name="treatmentPlanButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>46</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>План на лечение</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_18">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>

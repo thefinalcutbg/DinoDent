@@ -10,7 +10,7 @@
 #include "Network/HIS/EHospitalization.h"
 
 class TabInstance;
-class PatientTileInfo;
+struct PatientTileInfo;
 
 struct PatientInfoPresenter
 {

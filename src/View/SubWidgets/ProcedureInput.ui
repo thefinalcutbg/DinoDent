@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>432</width>
-    <height>663</height>
+    <width>450</width>
+    <height>719</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -125,6 +125,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="icdButton">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
           <property name="text">
            <string>МКБ 10</string>
           </property>
@@ -517,7 +523,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="notesLabel">
           <property name="text">
            <string>Допълнителни бележки (изпращат се към НЗИС):</string>
           </property>

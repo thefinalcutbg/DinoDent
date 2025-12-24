@@ -36,6 +36,7 @@ public:
 	void settingsPressed();
 	void newInvoicePressed();
     void notificationPressed();
+    void newTreatmentPlan();
 	void pdfPressed();
 	bool save();
 	void logOut();

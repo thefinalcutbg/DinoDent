@@ -63,7 +63,6 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
     connect(ui.hisConditionButton, &QPushButton::clicked,  this,[&]{ presenter->loadICDFromHIS(); });
 
     ui.pisConditionButton->setHidden(!User::hasNhifContract());
-
 }
 
 void MedicalStatusDialog::setPastDiseases(const std::vector<MedicalStatus>& pd)
@@ -110,6 +109,8 @@ void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 	}
 
 	ui.allergiesList->setCurrentRow(idx);
+
+    ui.allergiesList->setHidden(!ui.allergiesList->count());
 }
 
 MedicalStatusDialog::~MedicalStatusDialog()

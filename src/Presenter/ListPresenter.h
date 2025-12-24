@@ -128,7 +128,7 @@ public:
     void createInvoice();
     void createPerioMeasurment();
     void createPrescription();
-    
+    void createTreatmentPlan();
     void printDeclarations();
 
     void hisButtonPressed();

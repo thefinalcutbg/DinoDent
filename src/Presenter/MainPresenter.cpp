@@ -139,6 +139,16 @@ void MainPresenter::notificationPressed()
     view->setNotificationIcon(DbNotification::hasNotifications());
 }
 
+void MainPresenter::newTreatmentPlan()
+{
+    NewDocPresenter p("Нов план за лечение");
+
+    auto patient = p.open();
+
+    if (patient.has_value())
+        TabPresenter::get().openTreatmentPlan(patient.value());
+}
+
 void MainPresenter::pdfPressed()
 {
     auto tab = TabPresenter::get().currentTab();

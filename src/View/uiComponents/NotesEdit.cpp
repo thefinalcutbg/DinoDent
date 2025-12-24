@@ -35,22 +35,23 @@ void NotesEdit::keyPressEvent(QKeyEvent* event)
 
 }
 
-void NotesEdit::setText(const std::string& text)
+void NotesEdit::setText(const std::string& text, bool addDate)
 {
     QString qstr = text.c_str();
     
-    auto currentDate = getCurrentDateStr();
+    if(addDate){
+        auto currentDate = getCurrentDateStr();
 
-    if (!qstr.contains(currentDate)) {
+        if (!qstr.contains(currentDate)) {
 
-        if (text.size()) {
-            qstr += "\n\n";
+            if (text.size()) {
+                qstr += "\n\n";
+            }
+
+            qstr += getCurrentDateStr();
+            qstr += " - ";
         }
-
-        qstr += getCurrentDateStr();
-        qstr += " - ";
     }
-
     setPlainText(qstr);
 
     moveCursor(QTextCursor::MoveOperation::End);

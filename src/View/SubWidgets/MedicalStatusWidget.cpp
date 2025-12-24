@@ -16,6 +16,8 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
             m_status_list.push_back(MedicalStatus{result});
 
 			ui.statusList->addItem(result.name().c_str());
+
+            ui.statusList->setHidden(!ui.statusList->count());
 		}
 	);
 
@@ -47,6 +49,8 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 			m_status_list.erase(m_status_list.begin() + index);
 
 			setMedicalStatus(m_status_list);
+
+            ui.statusList->setHidden(!ui.statusList->count());
 		}
 	);
 	
@@ -78,8 +82,10 @@ void MedicalStatusWidget::setMedicalStatus(const std::vector<MedicalStatus>& s)
 			item->setIcon(CommonIcon::getPixmap(CommonIcon::HIS));
 		}
 
-		ui.statusList->addItem(item);
-	}
+        ui.statusList->addItem(item);
+    }
+
+    ui.statusList->setHidden(!ui.statusList->count());
 }
 
 std::vector<MedicalStatus> MedicalStatusWidget::getMedicalStatus()

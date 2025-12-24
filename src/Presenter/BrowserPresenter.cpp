@@ -89,6 +89,7 @@ void BrowserPresenter::refreshModel()
 		case TabType::AmbList:
 		case TabType::Prescription:
 		case TabType::Financial:
+        case TabType::TreatmentPlan:
 			id = 3; name = 4; phone = 5; break;
 		case TabType::PerioStatus:
 			id = 2; name = 3; phone = 4; break;
@@ -119,6 +120,7 @@ void BrowserPresenter::refreshPreview()
 		case TabType::Financial: view->setPreview(DbInvoice::getInvoice(rowid).businessOperations); break;
 		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
 		case TabType::PerioStatus: view->setPreview(PlainTable{}); break;
+        case TabType::TreatmentPlan: view->setPreview(PlainTable{}); break;
 		case TabType::PatientSummary: 
 			if (ui_state.showProcedures) {
 				view->setPreview({ DbProcedure::getPatientProcedures(rowid), false });
@@ -199,6 +201,7 @@ void BrowserPresenter::openCurrentSelection()
 			{
 				"Нов амбулаторен лист",
 				"Нова рецепта",
+                "Нов план на лечение",
 				"Нова фактура",
 				"Ново пародонтално измерване",
 				"Запази посещение",
@@ -212,6 +215,7 @@ void BrowserPresenter::openCurrentSelection()
 		static TabType arr[] = {
 			TabType::AmbList,
 			TabType::Prescription,
+            TabType::TreatmentPlan,
 			TabType::Financial,
 			TabType::PerioStatus,
 			TabType::Calendar,
@@ -260,6 +264,7 @@ void BrowserPresenter::deleteCurrentSelection()
 		{TabType::AmbList, "амбулаторни листoве?"},
 		{TabType::PerioStatus, "пародонтални измервания?"},
 		{TabType::PatientSummary, "пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!"},
+        {TabType::TreatmentPlan, "планове на лечение?"},
 		{TabType::Financial, "финансови документи?"},
 		{TabType::Prescription, "рецепти?"}
 	};

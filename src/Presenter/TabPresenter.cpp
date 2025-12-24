@@ -9,6 +9,7 @@
 #include "ListPresenter.h"
 #include "PerioPresenter.h"
 #include "PatientHistoryPresenter.h"
+#include "TreatmentPlanPresenter.h"
 #include "PrescriptionPresenter.h"
 #include "CalendarPresenter.h"
 #include "FinancialPresenter.h"
@@ -135,6 +136,11 @@ void TabPresenter::openPerio(const Patient& patient)
     createNewTab(new PerioPresenter(view, getPatient_ptr(patient)));
 }
 
+void TabPresenter::openTreatmentPlan(const Patient &patient)
+{
+    createNewTab(new TreatmentPlanPresenter(view, getPatient_ptr(patient)));
+}
+
 void TabPresenter::openPerscription(const Patient& patient)
 {
     createNewTab(new PrescriptionPresenter(view, getPatient_ptr(patient)));
@@ -250,6 +256,10 @@ bool TabPresenter::open(const RowInstance& row, bool setFocus)
                 new FinancialPresenter(view, row.rowID)
                 :
                 new FinancialPresenter(view, getPatient_ptr(patient));
+            break;
+
+        case TabType::TreatmentPlan:
+            newTab = new TreatmentPlanPresenter(view, getPatient_ptr(patient), row.rowID);
             break;
 
         case TabType::Prescription:

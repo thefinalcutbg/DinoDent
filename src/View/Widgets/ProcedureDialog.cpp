@@ -17,15 +17,15 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 	setWindowTitle("Добавяне на процедура");
 
 
-    connect(ui.procedureInput->qDateEdit(), &QDateEdit::dateChanged, this, [&] {
+    connect(ui.procedureInput->dateEdit(), &QDateEdit::dateChanged, this, [&] {
 
-		auto date = ui.procedureInput->qDateEdit()->date();
+        auto date = ui.procedureInput->dateEdit()->date();
         presenter.procedureDateChanged(Date{ date.day(), date.month(), date.year() });
         
 	});
 
 	connect(ui.procedureListView, &ProcedureListView::codeDoubleClicked, this, [&] { presenter.formAccepted(); });
-	connect(ui.procedureListView, &ProcedureListView::codeSelected, this, [&](const std::string& code, bool nhif, double price){ presenter.setCode(code, nhif, price); });
+    connect(ui.procedureListView, &ProcedureListView::codeSelected, this, [&](const std::string& code, bool nhif){ presenter.setCode(code, nhif); });
 
 	connect(ui.cancelButton, &QPushButton::clicked, this, [&] { close(); });
 	connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.formAccepted(); });

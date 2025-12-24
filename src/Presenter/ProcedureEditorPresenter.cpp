@@ -46,7 +46,8 @@ void ProcedureEditorPresenter::setView(ProcedureEditDialog* view)
 
 	view->procedureInput()->dateEdit()->set_Date(result->date);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
-	
+    if(!User::practice().generateMonthlySheets()){ view->procedureInput()->hideDate(); }
+
 	ProcedureInput::CommonData data;
 
 	data.diagnosis = result->diagnosis;

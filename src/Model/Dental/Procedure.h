@@ -93,7 +93,5 @@ struct Procedure
 	bool affectsToothIdx(int toothIdx) const;
     std::vector<int> getArrayIndexes() const;
     std::string getToothString() const;
-
-
 };
 

@@ -18,6 +18,10 @@ class ProcedureInput : public QWidget
 
 	bool m_postDisabled = false;
 
+    bool m_dateHidden = false;
+
+    bool m_treatmentPlanMode = false;
+
 	bool m_allow_singleRange = false;
 
 	//financing combo logic
@@ -56,15 +60,16 @@ public:
 
 	~ProcedureInput();
 
-	QDateEdit* qDateEdit();
+    DateEdit* dateEdit();
 
-	virtual AbstractDateEdit* dateEdit();
+    void hideDate();
+
+    void setTreatmentPlanMode();
 
 	Ui::ProcedureInput ui;
 
-
 	// Inherited via IProcedureInput
-	void setCommonData(const CommonData& data, bool hasNhifCode);
+    void setCommonData(const CommonData& data, bool hasNhifCode);
 
 	void setParameterData();
 	void setParameterData(AnesthesiaMinutes minutes);

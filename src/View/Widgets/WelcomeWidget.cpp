@@ -37,7 +37,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.calendar->setIcon(QIcon(":/icons/icon_calendar.png"));
-    ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
+    ui.planButton->setIcon(QIcon(":/icons/icon_plan.png"));
     ui.donateButton->setIcon(QIcon(":/icons/icon_donate.png"));
     ui.ircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
 
@@ -50,7 +50,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     connect(ui.settingsButton, &QPushButton::clicked, this, [&] { MainPresenter::get().settingsPressed(); });
     connect(ui.statisticButton, &QPushButton::clicked, this, [&] { MainPresenter::get().statisticPressed(); });
     connect(ui.calendar, &QPushButton::clicked, this, [&] { MainPresenter::get().openCalendar(); });
-    connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec();});
+    connect(ui.planButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newTreatmentPlan(); });
     connect(ui.donateButton, &QPushButton::clicked, this, [&] { QDesktopServices::openUrl(QUrl("https://dinodent.bg/donate/", QUrl::TolerantMode)); });
     connect(ui.ircButton, &QPushButton::clicked, this, [&] { 
 

@@ -44,3 +44,16 @@ void setTableViewDefaults(QTableView* view)
 }
 
 
+
+QString priceRangeToString(const std::pair<double, double> priceRange)
+{
+    if(priceRange.first == priceRange.second){
+        return priceToString(priceRange.first, 2026);
+    }
+
+    QString result = roundDouble(priceRange.first);
+    result += "-";
+    result += priceToString(priceRange.second, 2026);
+
+    return result;
+}

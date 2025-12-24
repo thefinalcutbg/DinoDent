@@ -9,6 +9,7 @@ class ProcedureDateValidator : public Validator
 	DateValidator _validator; //composition over inheritance, right?
 
 public:
+    ProcedureDateValidator() {};
 	ProcedureDateValidator(Date patientTurns18);
 	void setProcedure(int nhifCode, bool nhif);
 	bool validateInput(const Date& date) override;

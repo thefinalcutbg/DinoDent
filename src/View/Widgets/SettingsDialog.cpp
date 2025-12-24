@@ -336,18 +336,9 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	connect(ui.hisImport, &QPushButton::clicked, this, [&] { presenter.hisImport(); });
 
-	connect(ui.priceListView, &ProcedureListView::codeDoubleClicked, this, [&](const std::string& code, bool nhif, double price) {
-		/*
-		if (code.length() < 5) return; //not ACHI, but just a bloack
-
-		bool ok;
-		double newPrice = QInputDialog::getDouble(this, "Въведете цена", "Цена", price, 0, 10000, 2, &ok);
-
-		if (ok) {
-			presenter.priceUpdated(code, newPrice);
-		}
-		*/
-	});
+    connect(ui.priceListView, &ProcedureListView::codeDoubleClicked, this, [&](const std::string& code) {
+        presenter.priceEditRequested(code);
+    });
 
 	connect(ui.sms_balanceButton, &QPushButton::clicked, this, [&] { 
 		presenter.balanceRequested(

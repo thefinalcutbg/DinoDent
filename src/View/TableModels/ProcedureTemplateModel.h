@@ -12,7 +12,7 @@ struct ProcedureRow
 	QString displayCode;
 	QString name;
 	UserRole role{ UserRole::None };
-	double price;
+    std::pair<double, double> price;
 	QString displayPrice;
 };
 

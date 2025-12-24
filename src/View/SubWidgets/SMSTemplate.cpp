@@ -48,8 +48,7 @@ SMSTemplate::SMSTemplate(QWidget *parent)
 		
 		ModalDialogBuilder::showMultilineDialog(
 			previewText.toStdString(),
-			"Преглед на съобщението",
-			false
+            "Преглед на съобщението"
 		);
 	});
 }

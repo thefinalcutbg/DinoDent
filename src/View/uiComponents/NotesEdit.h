@@ -11,7 +11,7 @@ class NotesEdit : public QTextEdit
 
 public:
 	NotesEdit(QWidget* parent = nullptr);
-	void setText(const std::string& text);
-	std::string getText();
+    void setText(const std::string& text, bool addCurrentDate);
+    std::string getText();
 
 };

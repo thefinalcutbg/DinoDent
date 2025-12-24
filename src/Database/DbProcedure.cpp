@@ -483,47 +483,7 @@ std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date, long long
 
 	return result;
 }
-/*
-std::unordered_map<std::string, double> DbProcedure::getCodeValues()
-{
-	std::unordered_map<std::string, double> result;
 
-	Db db;
-
-	db.newStatement("SELECT code, value FROM code_list WHERE rzi=?");
-
-	db.bind(1, User::practice().rziCode);
-
-	while (db.hasRows()) {
-		result[db.asString(0)] = db.asDouble(1);
-	}
-
-	return result;
-}
-
-bool DbProcedure::setPrice(const std::string& code, double price)
-{
-	Db db;
-
-	if (!price) {
-		db.newStatement("DELETE FROM code_list WHERE code=? AND rzi=?");
-		db.bind(1, code);
-		db.bind(2, User::practice().rziCode);
-		return db.execute();
-	}
-
-	db.newStatement(
-		"INSERT INTO code_list(rzi, code, value) VALUES(?,?,?) "
-		"ON CONFLICT(rzi, code) DO UPDATE SET value = excluded.value"
-	);
-
-	db.bind(1, User::practice().rziCode);
-	db.bind(2, code);
-	db.bind(3, price);
-
-	return db.execute();
-}
-*/
 Date DbProcedure::getLastProcedureDate(long long patientRowid)
 {
     Db db;

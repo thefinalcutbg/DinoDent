@@ -35,7 +35,7 @@ public:
 	void setContextMenu(ContextMenu* contextMenu);
 
 	void setPresenter(ListPresenter* presenter);
-
+    std::vector<int> getSelectedTeethIdx();
 	void display(const ToothPaintHint& tooth);
 	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
 	void setProcedures(std::vector<int> teeth_procedures);

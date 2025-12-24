@@ -42,7 +42,7 @@
        <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
       </property>
       <property name="topMargin">
-       <number>7</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
        <number>7</number>
@@ -51,48 +51,23 @@
        <widget class="QFrame" name="frame_2">
         <property name="minimumSize">
          <size>
-          <width>432</width>
+          <width>460</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>432</width>
+          <width>460</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="frameShape">
          <enum>QFrame::Shape::NoFrame</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
+        <layout class="QHBoxLayout" name="_2">
          <property name="rightMargin">
-          <number>0</number>
+          <number>12</number>
          </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
          <item>
           <widget class="IconButton" name="newButton">
            <property name="sizePolicy">
@@ -103,8 +78,8 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>0</height>
+             <width>35</width>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -137,8 +112,8 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>0</height>
+             <width>35</width>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -163,6 +138,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>35</width>
@@ -178,7 +159,35 @@
           </widget>
          </item>
          <item>
+          <widget class="IconButton" name="planButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Нов план на лечение</string>
+           </property>
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="IconButton" name="invoiceButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>35</width>
@@ -194,6 +203,28 @@
           </widget>
          </item>
          <item>
+          <widget class="IconButton" name="calendarButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>График на посещенията</string>
+           </property>
+           <property name="text">
+            <string>Calendar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="IconButton" name="browserButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -203,8 +234,8 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>0</height>
+             <width>35</width>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -218,22 +249,6 @@
            </property>
            <property name="text">
             <string>Open</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="calendarButton">
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>График на посещенията</string>
-           </property>
-           <property name="text">
-            <string>Calendar</string>
            </property>
           </widget>
          </item>
@@ -261,7 +276,7 @@
             <string>Статистики</string>
            </property>
            <property name="text">
-            <string>Statistics</string>
+            <string>Stat</string>
            </property>
           </widget>
          </item>
@@ -272,6 +287,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
            </property>
            <property name="maximumSize">
             <size>
@@ -294,6 +315,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
            </property>
            <property name="maximumSize">
             <size>
@@ -338,6 +365,9 @@
        <spacer name="horizontalSpacer_4">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Expanding</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -445,13 +475,13 @@
        <widget class="QFrame" name="frame">
         <property name="minimumSize">
          <size>
-          <width>432</width>
+          <width>460</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>432</width>
+          <width>460</width>
           <height>16777215</height>
          </size>
         </property>
@@ -604,15 +634,15 @@
    <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
+   <class>BigPushButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/BigPushButton.h</header>
+  </customwidget>
+  <customwidget>
    <class>TabView</class>
    <extends>QWidget</extends>
    <header>View/Widgets/TabView.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>BigPushButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/BigPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

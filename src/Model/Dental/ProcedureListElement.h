@@ -6,5 +6,5 @@ struct ProcedureListElement
 	ProcedureCode code;
 	bool nhif = false;
 	bool favourite = false;
-	double price = 0;
+    std::pair<double, double> price;
 };

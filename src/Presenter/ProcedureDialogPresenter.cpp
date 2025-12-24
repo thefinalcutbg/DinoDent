@@ -1,5 +1,6 @@
 ﻿#include "ProcedureDialogPresenter.h"
 
+#include "Model/Dental/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
 
 #include "View/Widgets/ProcedureDialog.h"
@@ -10,36 +11,36 @@
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
-	const AmbList& ambSheet,
 	const std::vector<const Tooth*>& selectedTeeth,
-	const Date& patientTurns18,
-	bool pregnancyAllowed
+    const Date& procedureDate,
+    const std::optional<NhifData>& nhifData
 )
 	:
     selectedTeeth(selectedTeeth),
-	ambList(ambSheet),
-    patientTurns18(patientTurns18),
-    pregnancyAllowed(pregnancyAllowed),
+    nhifData(nhifData),
+    procedureDate(procedureDate),
     procedure_creator(selectedTeeth),
-    view(nullptr),
-    date_validator(patientTurns18)
+    view(nullptr)
 {
-	procedureDate = ambList.getDate();
+    if(!User::hasNhifContract() || !nhifData) return;
 
-	if (User::hasNhifContract() &&
+    date_validator = ProcedureDateValidator(nhifData->patientTurns18);
+
+    if (
 		procedureDate.month == Date::currentMonth() &&
 		procedureDate.year == Date::currentYear() &&
 		procedureDate <= Date::currentDate()
-	) {
+    ) {
 
-		procedureDate = Date::currentDate();
+        this->procedureDate = Date::currentDate();
 	}
 }
 
 void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 {
 	bool needsRefresh =
-		date < patientTurns18 != procedureDate < patientTurns18 &&
+        nhifData &&
+        date < nhifData->patientTurns18 != procedureDate < nhifData->patientTurns18 &&
 		User::hasNhifContract();
 
 	procedureDate = date;
@@ -57,9 +58,21 @@ void ProcedureDialogPresenter::setView(ProcedureDialog* view)
 
 	view->procedureList()->setPresenter(&list_presenter);
 
-	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
+    auto dateField = view->procedureInput()->dateEdit();
 
-	view->procedureInput()->dateEdit()->set_Date(procedureDate);
+    dateField->setInputValidator(&date_validator);
+
+    dateField->set_Date(procedureDate);
+
+    if(!User::practice().generateMonthlySheets()){
+        view->procedureInput()->hideDate();
+    }
+
+    bool treatmentPlanMode = !nhifData.has_value();
+
+    if(treatmentPlanMode){
+        view->procedureInput()->setTreatmentPlanMode();
+    }
 
 	refreshNhifList();
 	
@@ -72,17 +85,17 @@ void ProcedureDialogPresenter::setView(ProcedureDialog* view)
 
 	view->setSelectionLabel(selectedTeethNum);
 
-	setCode(ProcedureCode{}, false, 0);
+    setCode(ProcedureCode{}, false);
 }
 
-void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif, double price)
+void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif)
 {
 	if (code.nhifCode()) {
 		date_validator.setProcedure(code.nhifCode(), nhif);
 		view->procedureInput()->dateEdit()->validateInput();
 	}
 
-	procedure_creator.setProcedureCode(code, nhif, price);
+    procedure_creator.setProcedureCode(code, nhif);
 }
 
 void ProcedureDialogPresenter::formAccepted()
@@ -98,14 +111,14 @@ void ProcedureDialogPresenter::formAccepted()
 void ProcedureDialogPresenter::refreshNhifList()
 {
 
-	if (!User::hasNhifContract()) return;
+    if (!User::hasNhifContract() || !nhifData) return;
 
 	auto nhifProcedures = NhifProcedures::getNhifProcedures(
 		procedureDate,
 		User::doctor().specialty,
-		procedureDate >= patientTurns18,
-		pregnancyAllowed,
-		ambList.nhifData.specification
+        procedureDate >= nhifData->patientTurns18,
+        nhifData->pregnancyAllowed,
+        nhifData->specType
 	);
 
 	std::vector<std::pair<ProcedureCode, double>> codePricePair;
@@ -116,9 +129,9 @@ void ProcedureDialogPresenter::refreshNhifList()
 		auto patientPrice = NhifProcedures::getPrices(
 			code.nhifCode(),
 			procedureDate,
-			procedureDate >= patientTurns18,
+            procedureDate >= nhifData->patientTurns18,
 			User::doctor().specialty,
-			ambList.nhifData.specification
+            nhifData->specType
 		).first;
 
 		codePricePair.push_back(std::make_pair(code, patientPrice));

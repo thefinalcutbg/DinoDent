@@ -32,6 +32,7 @@ public:
 	SettingsMainPresenter();
 
 	void setView(SettingsDialog* view);
+    void priceEditRequested(const std::string& code);
 	void updateMedications();
 	void addDoctor();
 	void removeDoctor();
@@ -42,7 +43,6 @@ public:
 	void sqlCommandExec(const std::string& sql);
 	void printEmptyDocs();
     void practiceTabFocused(); //need to refresh the doctor list
-	void priceUpdated(const std::string& code, double price);
 	void hisImport();
 	void balanceRequested(const std::string& usr, const std::string& pass);
 

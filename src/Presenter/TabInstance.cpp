@@ -55,6 +55,7 @@ void TabInstance::setCurrent()
 		case TabType::PerioStatus: _tabView->showPerioView(); break;
 		case TabType::PatientSummary: break;
 		case TabType::Financial:_tabView->showFinancialView(); break;
+        case TabType::TreatmentPlan:_tabView->showTreatmentPlanView(); break;
 		case TabType::Prescription:_tabView->showPerscriptionView(); break;
 		case TabType::Calendar:_tabView->showCalendarView(); break;
 	}

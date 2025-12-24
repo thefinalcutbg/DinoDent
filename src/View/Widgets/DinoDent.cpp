@@ -39,6 +39,8 @@ DinoDent::DinoDent(QWidget* parent)
 {
     ui.setupUi(this);
 
+    ui.statusBar->hide();
+
     setWindowState(Qt::WindowMaximized);
 
 #ifdef Q_OS_WIN
@@ -118,6 +120,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
     ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
+    ui.planButton->setIcon(QIcon(":/icons/icon_plan.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.calendarButton->setIcon(QIcon(":/icons/icon_calendar.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
@@ -138,6 +141,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.calendarButton, &QPushButton::clicked, [&] { MainPresenter::get().openCalendar(); });
     connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });
+    connect(ui.planButton, &QPushButton::clicked, [&] { MainPresenter::get().newTreatmentPlan(); });
     connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});

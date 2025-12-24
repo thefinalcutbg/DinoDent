@@ -20,6 +20,7 @@
 #include "View/Widgets/SettingsDialog.h"
 #include "View/SubWidgets/ProcedureListView.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/PriceInputDialog.h"
 
 #include "Printer/FilePaths.h"
 #include "Printer/Print.h"
@@ -48,6 +49,25 @@ void SettingsMainPresenter::setView(SettingsDialog* view)
 	view->setAdminPriv(User::isAdmin());
 
 	view->getPriceListView()->setPresenter(&procedure_list);
+
+    view->getPriceListView()->showPrices();
+}
+
+void SettingsMainPresenter::priceEditRequested(const std::string& code)
+{
+    if(!ProcedureCode(code).isValid()) return;
+
+    auto price = procedure_list.getPriceRange(code);
+
+    PriceInputDialog d(price);
+
+    auto result = d.getResult();
+
+    if(!result) return;
+
+    procedure_list.setCodePrice(code, result.value());
+
+    view->getPriceListView()->refresh();
 }
 
 void SettingsMainPresenter::okPressed()
@@ -305,16 +325,6 @@ void SettingsMainPresenter::printEmptyDocs()
 void SettingsMainPresenter::practiceTabFocused()
 {
     view->setDoctorList(m_doctorsList);
-}
-
-void SettingsMainPresenter::priceUpdated(const std::string& code, double price)
-{
-	if (!ProcedureCode(code).isValid()) return;
-
-	procedure_list.setCodePrice(code, price);
-
-	view->getPriceListView()->refresh();
-
 }
 
 void SettingsMainPresenter::hisImport()

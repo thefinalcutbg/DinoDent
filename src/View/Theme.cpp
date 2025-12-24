@@ -145,6 +145,34 @@ QString Theme::getFancyStylesheet()
 			"image: none"
 			"}"
 
+            "QTreeWidget{"
+            "color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+            "selection-background-color: " + Theme::colorToString(Theme::background) + "; "
+            "selection-color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+            "}"
+            "QTreeWidget::item{"
+            "padding: 4px 6px;"
+            "}"
+
+            "QTreeWidget::item:selected{"
+            "background-color: " + Theme::colorToString(Theme::background) + "; "
+            "color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+            "}"
+
+            "QHeaderView::section{"
+            "color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+            "background-color: " + Theme::colorToString(Theme::sectionBackground) + "; "
+            "border: 0px; "
+            "padding: 6px 8px;"
+            "}"
+
+            "QTreeView::branch:closed:has-children{"
+            "image: url(:/icons/icon_rightArrow.png);"
+            "}"
+            "QTreeView::branch:open:has-children{"
+            "image: url(:/icons/icon_downArrow.png);"
+            "}"
+
 
 	);
 }

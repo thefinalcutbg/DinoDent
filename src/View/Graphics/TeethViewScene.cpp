@@ -6,6 +6,7 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
+#include <QGraphicsView>
 
 #include "Presenter/ListPresenter.h"
 #include "View/Graphics/ToothPainter.h"
@@ -71,8 +72,6 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
     connect(this, &QGraphicsScene::selectionChanged, [=, this]
     {
-        if (!presenter) { return; }
-
         std::vector<int> selectedIndexes;
         selectedIndexes.reserve(32);
 
@@ -84,8 +83,13 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
         std::sort(selectedIndexes.begin(), selectedIndexes.end());
 
-        presenter->setSelectedTeeth(selectedIndexes);
-        contextMenu->setSelection(selectedIndexes.size() == 1);
+        if(presenter){
+            presenter->setSelectedTeeth(selectedIndexes);
+        }
+
+        if(contextMenu){
+            contextMenu->setSelection(selectedIndexes.size() == 1);
+        }
             
     });
 
@@ -99,14 +103,20 @@ void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
 void TeethViewScene::setPresenter(ListPresenter* presenter)
 {
     this->presenter = presenter;
+}
 
-    /* //improves ram usage, but slows down the whole program
-    if(!presenter)
-        for (auto tooth : toothGraphic)
-        {
-            tooth->setToothPixmap(QPixmap());
-        }
-    */
+std::vector<int> TeethViewScene::getSelectedTeethIdx()
+{
+    std::vector<int> result;
+
+    result.reserve(32);
+
+    for(auto& item : items()){
+        if(!item->isSelected()) continue;
+        result.push_back(static_cast<SelectionBox*>(item)->getIndex());
+    }
+
+    return result;
 }
 
 
@@ -138,7 +148,7 @@ void TeethViewScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (!presenter) {
+    if (views().at(0)->dragMode() != QGraphicsView::RubberBandDrag) {
         QGraphicsScene::mousePressEvent(event);
         return;
     }

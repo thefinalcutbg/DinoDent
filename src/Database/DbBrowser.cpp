@@ -484,7 +484,8 @@ void DbBrowser::deleteRecord(TabType type, long long rowid)
         {TabType::PerioStatus, "periostatus"},
         {TabType::PatientSummary, "patient"},
         {TabType::Financial, "financial"},
-        {TabType::Prescription, "prescription"}
+        {TabType::Prescription, "prescription"},
+        {TabType::TreatmentPlan, "treatment_plan"}
     };
 
 

@@ -1,10 +1,13 @@
 ﻿#include "ProcedureListPresenter.h"
+#include "Database/DbPractice.h"
 #include "Model/Dental/ProcedureCode.h"
 #include "Database/DbDoctor.h"
 #include "Model/User.h"
 
 ProcedureListPresenter::ProcedureListPresenter()
 {
+
+    auto priceRanges = DbPractice::getCodeValues(User::practice().rziCode);
 
 	//lazy init
 	if (m_elements.empty()) {
@@ -25,7 +28,8 @@ ProcedureListPresenter::ProcedureListPresenter()
 				ProcedureListElement{
 						.code = code.code(),
 						.nhif = false,
-						.favourite = false
+                        .favourite = false,
+                        .price = priceRanges[code.code()]
 				});
 
 
@@ -118,20 +122,16 @@ std::vector<ProcedureListElement> ProcedureListPresenter::getList(int index) con
 
 }
 
-void ProcedureListPresenter::favClicked(int section, const std::string& code)
+void ProcedureListPresenter::favClicked(const std::string& code)
 {
 	fav_update_required = true;
 
 	for (auto& e : m_elements) {
-
 		if (code == e.code.code()) {
-
 			e.favourite = !e.favourite;
 
 			return;
-
 		}
-
 	}	
 }
 
@@ -147,7 +147,7 @@ void ProcedureListPresenter::setNhifProcedures(const std::vector<std::pair<Proce
 				.code = nhifCode,
 				.nhif = true,
 				.favourite = false,
-				.price = price
+                .price = {price, price}
 			}
 		);
 
@@ -159,20 +159,29 @@ bool ProcedureListPresenter::hasFavourites() const
 	return has_favourites;
 }
 
-void ProcedureListPresenter::setCodePrice(const std::string& code, double price)
+std::pair<double, double> ProcedureListPresenter::getPriceRange(const std::string &code)
 {
-	/*
+    for(auto& e : m_elements){
+        if(e.code.code() == code) return e.price;
+    }
+
+    return {0,0};
+}
+
+void ProcedureListPresenter::setCodePrice(const std::string& code, const std::pair<double, double>& price)
+{
+
 	for (auto& e : m_elements) {
 		if (e.code.code() == code) {
 			
 			e.price = price;
 			
-			DbProcedure::setPrice(code, price);
+            DbPractice::setCodeValues(code, price, User::practice().rziCode);
 
 			return;
 		}
 	}
-	*/
+
 }
 
 ProcedureListPresenter::~ProcedureListPresenter()

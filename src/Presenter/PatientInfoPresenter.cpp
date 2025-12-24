@@ -14,6 +14,7 @@
 #include "View/Widgets/NotificationDialog.h"
 #include "View/SubWidgets/PatientTileInfo.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/MultilineDialog.h"
 
 PatientInfoPresenter::PatientInfoPresenter(PatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), patientAge(patient->getAge(Date::currentDate()))
@@ -87,11 +88,10 @@ void PatientInfoPresenter::appointmentClicked()
 
 void PatientInfoPresenter::notesRequested()
 {
-    auto result = ModalDialogBuilder::showMultilineDialog(
-        patient->patientNotes,
-        "Бележки за пациента (не се изпращат към НЗИС)",
-        true
-    );
+    MultilineDialog d(patient->patientNotes);
+    d.setWindowTitle("Бележки за пациента (не се изпращат към НЗИС)");
+    d.enableEditing(true);
+    auto result = d.getResult();
 
     if (result) {
         DbNotes::saveNote(result.value(), patient->rowid, -1);

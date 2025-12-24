@@ -212,6 +212,7 @@ void TabView::showListView()
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
@@ -222,6 +223,7 @@ void TabView::showPerioView()
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 
@@ -233,16 +235,18 @@ void TabView::showFinancialView()
     m_perioView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showPerscriptionView()
 {
+    GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_prescriptionView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
-    GlobalWidgets::mainWindow->disableButtons(false, false, false);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showCalendarView()
@@ -252,7 +256,8 @@ void TabView::showCalendarView()
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);    
+    m_prescriptionView.setPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showWelcomeScreen()
@@ -263,6 +268,19 @@ void TabView::showWelcomeScreen()
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
+}
+
+void TabView::showTreatmentPlanView()
+{
+    GlobalWidgets::mainWindow->disableButtons(false, false, false);
+    showTabWidget(&m_treatmentView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 }
 
 TabView::~TabView()

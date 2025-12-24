@@ -40,6 +40,7 @@ public:
 	bool open(const RowInstance& row, bool setFocus = false);
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
+    void openTreatmentPlan(const Patient& patient);
 	void openPerscription(const Patient& patient);
     void openInvoice(const std::string& monthNotif, const std::string& fileHash);
 	void openInvoice(const Recipient& recipient);

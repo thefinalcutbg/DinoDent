@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model/Dental/ToothUtils.h"
+#include "Model/Dental/NhifSheetData.h"
 #include "Model/Validators/ProcedureDateValidator.h"
 #include "ProcedureCreator.h"
 
@@ -11,13 +11,20 @@ class ProcedureDialog;
 
 class ProcedureDialogPresenter
 {
+
+public:
+    struct NhifData{
+        Date patientTurns18;
+        bool pregnancyAllowed;
+        NhifSpecificationType specType;
+    };
+
+private:
 	std::vector<const Tooth*> selectedTeeth;
 
-	const AmbList& ambList;
+    std::optional<NhifData> nhifData;
 
-	Date patientTurns18;
-	Date procedureDate;
-	bool pregnancyAllowed{ false };
+    Date procedureDate;
 
 	ProcedureCreator procedure_creator;
 	ProcedureListPresenter list_presenter;
@@ -32,16 +39,15 @@ class ProcedureDialogPresenter
 public:
 
 	ProcedureDialogPresenter
-	(
-		const AmbList& ambSheet,
+    (
 		const std::vector<const Tooth*>& selectedTeeth,
-		const Date& patientTurns18,
-		bool pregnancyAllowed
+        const Date& procedureDate = Date::currentDate(),
+        const std::optional<NhifData>& nhifData = std::optional<NhifData>{}
 	);
 
 	void setView(ProcedureDialog* view);
 	void procedureDateChanged(const Date& date);
-	void setCode(ProcedureCode code, bool nhif, double price);
+    void setCode(ProcedureCode code, bool nhif);
 	void formAccepted();
 
 	std::vector<Procedure> openDialog();

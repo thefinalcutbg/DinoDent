@@ -89,8 +89,8 @@ void BrowserPresenter::refreshModel()
 		case TabType::AmbList:
 		case TabType::Prescription:
 		case TabType::Financial:
-        case TabType::TreatmentPlan:
 			id = 3; name = 4; phone = 5; break;
+        case TabType::TreatmentPlan:
 		case TabType::PerioStatus:
 			id = 2; name = 3; phone = 4; break;
 	}
@@ -201,7 +201,7 @@ void BrowserPresenter::openCurrentSelection()
 			{
 				"Нов амбулаторен лист",
 				"Нова рецепта",
-                "Нов план на лечение",
+                "Нов лечебен план",
 				"Нова фактура",
 				"Ново пародонтално измерване",
 				"Запази посещение",
@@ -264,7 +264,7 @@ void BrowserPresenter::deleteCurrentSelection()
 		{TabType::AmbList, "амбулаторни листoве?"},
 		{TabType::PerioStatus, "пародонтални измервания?"},
 		{TabType::PatientSummary, "пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!"},
-        {TabType::TreatmentPlan, "планове на лечение?"},
+        {TabType::TreatmentPlan, "лечебни планове?"},
 		{TabType::Financial, "финансови документи?"},
 		{TabType::Prescription, "рецепти?"}
 	};

@@ -141,7 +141,7 @@ void MainPresenter::notificationPressed()
 
 void MainPresenter::newTreatmentPlan()
 {
-    NewDocPresenter p("Нов план за лечение");
+    NewDocPresenter p("Нов лечебен план");
 
     auto patient = p.open();
 

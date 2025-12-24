@@ -13,7 +13,11 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 
     auto date = Date::currentDate();
 
-    if (date.month == 12)
+    if((date.month == 12 && date.day == 31) || (date.month == 1 && date.day < 5))
+    {
+        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoNewYear.png"));
+    }
+    else if (date.month == 12)
     {
         ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoChristmas.png"));
     }
@@ -25,8 +29,6 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     {
         ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoSmall.png"));
     }
-
-	setStyleSheet("background-color:" + Theme::colorToString(Theme::background));
 
     ui.ambButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
@@ -61,6 +63,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
         } 
     });
     
+    setStyleSheet("background-color:" + Theme::colorToString(Theme::background));
 }
 
 WelcomeWidget::~WelcomeWidget()

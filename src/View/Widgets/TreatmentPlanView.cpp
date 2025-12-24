@@ -45,6 +45,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 
     connect(ui->addStage, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->addStage(); });
     connect(ui->deleteButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->removePressed(); });
+    connect(ui->editButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->editPressed(); });
 
     connect(ui->addProcedure, &QPushButton::clicked, this, [=, this] {;
 
@@ -62,6 +63,8 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
             case 1: presenter->priceEditRequested(); break;
         }
     });
+
+    connect(ui->dateEdit, &QDateEdit::dateChanged, this, [=, this](const QDate& date){ if(presenter) presenter->dateChanged(Date(date)); });
 
     setStyleSheet(Theme::getFancyStylesheet());
 }

@@ -15,6 +15,8 @@ struct TreatmentPlan
     {
         PlannedProcedure(const Procedure& p);
 
+        PlannedProcedure() {};
+
         Procedure getProcedure() const;
 
         std::string getName() const;
@@ -27,8 +29,8 @@ struct TreatmentPlan
         std::string notes;
         AffectedTeeth affectedTeeth;
         AdditionalParameters param;
-        int scenario = 0;
         std::pair<double, double> priceRange {0,0};
+        long long id = 0; //autoincremented unique identifier
     };
 
     struct Stage{

@@ -715,3 +715,91 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 
 }
 
+std::string Parser::write(const std::vector<TreatmentPlan::Stage> &s)
+{
+    Json::Value json = Json::arrayValue;
+
+    for(auto& stage : s){
+        json.append(stage.notes);
+    }
+
+    return Json::FastWriter().write(json);
+}
+
+std::string Parser::write(const TreatmentPlan::PlannedProcedure &p)
+{
+    Json::Value root(Json::objectValue);
+
+    if (const auto* t = std::get_if<ToothIndex>(&p.affectedTeeth)) {
+            root["index"] = t->index;
+            root["temp"]  = t->temp;
+            root["supernumeral"] = t->supernumeral;
+    }
+    else if (const auto* r = std::get_if<ConstructionRange>(&p.affectedTeeth)) {
+            root["from"] = r->toothFrom;
+            root["to"]   = r->toothTo;
+    }
+
+    if (const auto* r = std::get_if<RestorationData>(&p.param)) {
+
+        Json::Value surfaces(Json::arrayValue);
+        for (bool b : r->surfaces) surfaces.append(b);
+        root["surfaces"] = surfaces;
+    }
+    else if (const auto* a = std::get_if<AnesthesiaMinutes>(&p.param)) {
+        root["minutes"] = a->minutes;
+    }
+
+    return Json::FastWriter().write(root);
+}
+
+void Parser::parse(const std::string& jsonString, TreatmentPlan::PlannedProcedure& p)
+{
+    Json::Value json = Json::objectValue;
+
+    Json::Reader reader;
+    if (!reader.parse(jsonString, json)) return;
+
+    if (json.isMember("index")) {
+        ToothIndex t;
+        t.index = json["index"].asInt();
+        t.temp  = json.get("temp", false).asBool();
+        t.supernumeral = json.get("supernumeral", false).asBool();
+
+        p.affectedTeeth = t;
+    }
+    else if (json.isMember("from") && json.isMember("to")){
+        p.affectedTeeth = ConstructionRange(json["from"].asInt(), json["to"].asInt());
+    }
+
+    if (json.isMember("surfaces")) {
+
+        RestorationData r;
+
+        const Json::Value& s = json["surfaces"];
+
+        for (int i = 0; i < SurfaceCount; i++) {
+            r.surfaces[i] = s[i].asBool();
+        }
+
+        p.param = r;
+    }
+    else if (json.isMember("minutes")) {
+        AnesthesiaMinutes a;
+        a.minutes = json["minutes"].asInt();
+        p.param = a;
+    }
+}
+
+void Parser::parse(const std::string &jsonString, std::vector<TreatmentPlan::Stage> &s)
+{
+    Json::Value json = Json::arrayValue;
+
+    Json::Reader reader;
+    if (!reader.parse(jsonString, json)) return;
+
+    for(auto& sJson : json){
+        s.emplace_back();
+        s.back().notes = sJson.asString();
+    }
+}

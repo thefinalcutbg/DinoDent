@@ -809,7 +809,7 @@
         </size>
        </property>
        <property name="text">
-        <string>План на лечение</string>
+        <string>Лечебен план</string>
        </property>
       </widget>
      </item>
@@ -891,6 +891,11 @@
    <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
+   <class>BigPushButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/BigPushButton.h</header>
+  </customwidget>
+  <customwidget>
    <class>PatientTileInfo</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/PatientTileInfo.h</header>
@@ -927,11 +932,6 @@
    <class>CustomDateTimeEdit</class>
    <extends>QDateTimeEdit</extends>
    <header>View/uiComponents/CustomDateTimeEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BigPushButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/BigPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

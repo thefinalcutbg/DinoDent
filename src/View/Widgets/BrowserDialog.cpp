@@ -34,7 +34,7 @@ BrowserDialog::BrowserDialog()
 	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листове");
 	ui.tabBar->addTab(QIcon(":/icons/icon_prescr.png"), "Рецепти");
 	ui.tabBar->addTab(QIcon(":/icons/icon_periosheet.png"), "Пародонтални измервания");
-    ui.tabBar->addTab(QIcon(":/icons/icon_plan.png"), "Планове на лечение");
+    ui.tabBar->addTab(QIcon(":/icons/icon_plan.png"), "Лечебни планове");
 	ui.tabBar->addTab(QIcon(":/icons/icon_invoice.png"), "Финансови документи");
 
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
@@ -259,7 +259,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		action->setIcon(QIcon(":/icons/icon_prescr.png"));
 		main_menu->addAction(action);
 
-        action = (new QAction("Нова план на лечение", main_menu));
+        action = (new QAction("Нов лечебен план", main_menu));
         connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::TreatmentPlan); });
         action->setIcon(QIcon(":/icons/icon_plan.png"));
         main_menu->addAction(action);

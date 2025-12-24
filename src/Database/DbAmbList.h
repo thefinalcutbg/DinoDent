@@ -33,5 +33,7 @@ namespace DbAmbList
     bool setAutoStatus(const std::string& nrn, bool autoStatus);
 
     long long getRowidByNRN(const std::string& nrn);
+
+    ToothContainer getStatus(long long patientRowid, const Date& onDate);
 };
 

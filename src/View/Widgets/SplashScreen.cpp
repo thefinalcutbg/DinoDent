@@ -7,7 +7,7 @@ QSplashScreen* s_splash{nullptr};
 
 void SplashScreen::createAndShow()
 {
-	s_splash = new QSplashScreen(QPixmap(":/other/splash.png"));
+    s_splash = new QSplashScreen(QPixmap(":/other/splash.png"));
     s_splash->show();
     s_splash->showMessage("DinoDent зарежда, моля изчакайте...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
     QApplication::instance()->processEvents();

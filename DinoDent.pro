@@ -69,6 +69,7 @@ HEADERS += \
     src/Database/DbReferral.h \
     src/Database/DbStatistics.h \
     src/Database/DbTelemetry.h \
+    src/Database/DbTreatmentPlan.h \
     src/Database/DbUpdateStatus.h \
     src/DbUpdates/DbUpdates.h \
     src/DbUpdates/Updater.h \
@@ -443,6 +444,7 @@ SOURCES += \
     src/Database/DbReferral.cpp \
     src/Database/DbStatistics.cpp \
     src/Database/DbTelemetry.cpp \
+    src/Database/DbTreatmentPlan.cpp \
     src/Database/DbUpdateStatus.cpp \
     src/DbUpdates/DbUpdates.cpp \
     src/DbUpdates/Update10.cpp \

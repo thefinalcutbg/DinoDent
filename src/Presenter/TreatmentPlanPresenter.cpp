@@ -3,10 +3,10 @@
 #include "View/Widgets/TabView.h"
 #include "View/Widgets/TreatmentPlanView.h"
 #include "View/Widgets/PriceInputDialog.h"
-#include "Database/DbPerio.h"
 #include "Model/User.h"
 #include "ProcedureDialogPresenter.h"
 #include "View/Widgets/MultilineDialog.h"
+#include "Database/DbTreatmentPlan.h"
 
 TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -14,10 +14,21 @@ TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr
     patient_info(tabView->treatmentPlanView()->tileInfo(), patient),
     view(tabView->treatmentPlanView())
 {
-    if(m_treatmentPlan.rowid) return;
+    m_treatmentPlan = DbTreatmentPlan::get(rowId);
+
+    if(m_treatmentPlan.rowid){
+
+        m_selection.first = m_treatmentPlan.stages.size()-1;
+
+        if(m_selection.first > -1){
+            m_selection.second = m_treatmentPlan.stages[m_selection.first].plannedProcedures.size()-1;
+        }
+
+        return;
+    }
 
     //if it is a new plan:
-    m_treatmentPlan.teeth = DbPerio::getStatus(patient->rowid, m_treatmentPlan.date);
+    m_treatmentPlan.teeth = DbAmbList::getStatus(patient->rowid, m_treatmentPlan.date);
 }
 
 void TreatmentPlanPresenter::setDataToView()
@@ -45,7 +56,10 @@ void TreatmentPlanPresenter::setTeethToView()
 
         affectedTeeth.clear();
 
-        for(int j = 0; j <= m_selection.second; j++){
+        int procedureCount = i == m_selection.first ? m_selection.second
+        : m_treatmentPlan.stages[i].plannedProcedures.size()-1;
+
+        for(int j = 0; j <= procedureCount; j++){
            auto procedure = m_treatmentPlan
                 .stages[i]
                 .plannedProcedures[j]
@@ -76,7 +90,7 @@ void TreatmentPlanPresenter::patientDataChanged()
 
 bool TreatmentPlanPresenter::isNew()
 {
-    return m_treatmentPlan.rowid;
+    return !m_treatmentPlan.rowid;
 }
 
 TabName TreatmentPlanPresenter::getTabName()
@@ -84,10 +98,11 @@ TabName TreatmentPlanPresenter::getTabName()
     TabName n;
 
     if (isNew()) {
-        n.header += "Нов план за лечение";
+        n.header += "Нов лечебен план";
     }
     else {
-        n.header += "План за лечение";
+        n.header += "Лечебен план ";
+        n.header += m_treatmentPlan.date.toBgStandard();
     }
 
     n.footer = patient->FirstName;
@@ -103,7 +118,21 @@ TabName TreatmentPlanPresenter::getTabName()
 
 bool TreatmentPlanPresenter::save()
 {
+    if(!requiresSaving()) return true;
+
+    bool success =  isNew() ?
+                       DbTreatmentPlan::insert(m_treatmentPlan, patient->rowid)
+                           :
+                       DbTreatmentPlan::update(m_treatmentPlan);
+
+    if(!success) return false;
+
+    edited = false;
+
+    refreshTabName();
+
     return true;
+
 }
 
 void TreatmentPlanPresenter::print()
@@ -118,11 +147,11 @@ void TreatmentPlanPresenter::pdfPrint()
 
 long long TreatmentPlanPresenter::rowID() const
 {
-    return 0;
+    return m_treatmentPlan.rowid;
 }
 
 void TreatmentPlanPresenter::addStage()
-{
+{   
     if(m_treatmentPlan.stages.size() == 9) return;
 
     auto &stages = m_treatmentPlan.stages;
@@ -152,6 +181,8 @@ void TreatmentPlanPresenter::addStage()
 
     view->setSelection(m_selection);
 
+    makeEdited();
+
 }
 
 void TreatmentPlanPresenter::removeStage()
@@ -177,10 +208,14 @@ void TreatmentPlanPresenter::removeStage()
     view->setSelection(m_selection);
 
     setTeethToView();
+
+    makeEdited();
 }
 
 void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
 {
+    if(m_selection.first == -1) return;
+
     if(m_treatmentPlan.stages.empty()){
         ModalDialogBuilder::showMessage("За да добавите процедура, първо добавете поне един етап");
         return;
@@ -219,11 +254,14 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
     view->setSelection(m_selection);
 
     setTeethToView();
+
+    makeEdited();
 }
 
 void TreatmentPlanPresenter::editPressed()
 {
-
+    m_selection.second == -1 ?
+        nameEditRequested() : priceEditRequested();
 }
 
 void TreatmentPlanPresenter::removePressed()
@@ -232,6 +270,13 @@ void TreatmentPlanPresenter::removePressed()
         removeStage()
         :
         removeProcedure();
+}
+
+void TreatmentPlanPresenter::dateChanged(const Date &date)
+{
+    m_treatmentPlan.date = date;
+
+    makeEdited();
 }
 
 void TreatmentPlanPresenter::removeProcedure()
@@ -259,6 +304,19 @@ void TreatmentPlanPresenter::removeProcedure()
     view->setSelection(m_selection);
 
     setTeethToView();
+
+    makeEdited();
+}
+
+bool TreatmentPlanPresenter::invalidSelection()
+{
+    if(m_selection.first == -1) return true;
+
+    if(m_selection.first >= m_treatmentPlan.stages.size()) return true;
+
+    if(m_selection.second > -1 && m_selection.second >= m_treatmentPlan.stages[m_selection.first].plannedProcedures .size()) return true;
+
+    return false;
 }
 
 void TreatmentPlanPresenter::selectionChanged(const std::pair<int, int>& stageProcedurePair)

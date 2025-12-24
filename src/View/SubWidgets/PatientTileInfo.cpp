@@ -40,7 +40,7 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action->setIcon(QIcon(":/icons/icon_prescr.png"));
     context_menu->addAction(action);
 
-    action = (new QAction("Нов план на лечение", context_menu));
+    action = (new QAction("Нов лечебен план", context_menu));
     connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::TreatmentPlan); });
     action->setIcon(QIcon(":/icons/icon_plan.png"));
     context_menu->addAction(action);

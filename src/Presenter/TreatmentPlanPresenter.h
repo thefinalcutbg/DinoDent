@@ -18,7 +18,7 @@ class TreatmentPlanPresenter : public TabInstance
 
     void removeStage();
     void removeProcedure();
-
+    bool invalidSelection();
     void setTeethToView();
 
 public:
@@ -41,6 +41,7 @@ public:
     void addProcedure(const std::vector<int>& teeth_idx);
     void editPressed();
     void removePressed();
+    void dateChanged(const Date& date);
     void selectionChanged(const std::pair<int, int>& stageProcedurePair);
     void priceEditRequested();
     void nameEditRequested();

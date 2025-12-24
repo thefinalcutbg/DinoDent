@@ -2,6 +2,8 @@
 
 #include <string>
 
+class QDate;
+
 class Date
 {
 
@@ -15,7 +17,7 @@ public:
     Date();
     Date(int day, int month, int year);
     Date(const std::string& iso8601);
-    
+    Date(const QDate& d);
 
     bool isInitialized() const;
     //all my troubles seem so far away

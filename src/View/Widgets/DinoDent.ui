@@ -173,7 +173,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Нов план на лечение</string>
+            <string>Нов лечебен план</string>
            </property>
            <property name="text">
             <string>PushButton</string>

@@ -559,3 +559,45 @@ long long DbAmbList::getRowidByNRN(const std::string& nrn)
 
     return 0;
 }
+
+ToothContainer DbAmbList::getStatus(long long patientRowId, const Date& date)
+{
+
+    std::string jsonStatus;
+    long long amblistId{0};
+    std::string LPK;
+
+    std::string query = "SELECT amblist.status, amblist.rowid, amblist.LPK FROM amblist WHERE amblist.patient_rowid = ? AND strftime('%Y %m %d',amblist.date) <= ? ORDER BY amblist.date DESC LIMIT 1";
+
+    Db db(query);
+
+    db.bind(1, patientRowId);
+    db.bind(2, date.to8601());
+
+    while (db.hasRows())
+    {
+        jsonStatus = db.asString(0);
+        amblistId = db.asRowId(1);
+        LPK = db.asString(2);
+    }
+
+    if (jsonStatus.empty())
+    {
+        return ToothContainer();
+    }
+
+    ToothContainer toothStatus;
+
+    Parser::parse(jsonStatus, toothStatus);
+
+
+    for (auto& p : DbProcedure::getProcedures(amblistId, db))
+    {
+        if (p.date <= date.to8601()){
+            p.applyProcedure(toothStatus);
+        }
+    }
+
+    return toothStatus;
+
+}

@@ -50,12 +50,10 @@ PriceInputDialog::PriceInputDialog(const std::pair<double, double> &priceRange, 
     ui->toSpin->setSuffix(getPriceSuffix(2026));
 
     if(priceRange.first == priceRange.second){
-        ui->exactRadio->setChecked(true);
-        ui->exactSpin->setFocus();
+        ui->exactRadio->click();
     }
     else {
-        ui->rangeRadio->setChecked(true);
-        ui->fromSpin->setFocus();
+        ui->rangeRadio->click();
     }
 
     adjustSize();

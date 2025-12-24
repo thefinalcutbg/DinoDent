@@ -51,6 +51,63 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     return std::make_pair(rows, tableView);
 }
 
+std::pair <std::vector<RowInstance>, PlainTable> getTreatmentPlans(const Date& from, const Date& to)
+{
+    std::vector<RowInstance> rows;
+    PlainTable tableView;
+
+    std::string query =
+    "SELECT "
+    "treatment_plan.rowid, treatment_plan.date,"
+    "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
+    "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
+    "patient.color "
+    "FROM treatment_plan "
+    "JOIN patient ON treatment_plan.patient_rowid = patient.rowid "
+    "WHERE strftime('%Y-%m-%d', treatment_plan.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
+    "AND treatment_plan.lpk = '" + User::doctor().LPK + "' "
+    "AND treatment_plan.rzi = '" + User::practice().rziCode + "' "
+    "GROUP BY treatment_plan.rowid "
+    "ORDER BY treatment_plan.date ASC, treatment_plan.rowid ASC";
+
+    Db db(query);
+
+    tableView.addColumn({"Дата",120,PlainColumn::Right});
+    tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
+    tableView.addColumn({"Име на пациент",240});
+    tableView.indicator_column = 3;
+    tableView.addColumn({"Телефон",120,PlainColumn::Center});
+
+    while (db.hasRows())
+    {
+        rows.emplace_back(TabType::TreatmentPlan);
+
+        auto& row = rows.back();
+        row.rowID = db.asRowId(0);
+        row.patientRowId = db.asRowId(2);
+
+        //Date
+        tableView.addCell(0, {.data = Date(db.asString(1)).toBgStandard()});
+
+        //ID
+        tableView.addCell(1, {.data = db.asString(3)});
+
+        //Name
+        tableView.addCell(2, {
+            .data = FreeFn::getPatientName(db.asString(4), db.asString(5), db.asString(6)),
+            .icon = db.asBool(8) ? CommonIcon::BDAY : CommonIcon::NOICON
+         });
+
+        //Phone
+        tableView.addCell(3, { .data = db.asString(7)});
+
+        //Color
+        tableView.setIndicatorToLastRow(db.asString(9));
+    }
+
+    return std::make_pair(rows, tableView);
+}
+
 std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, const Date& to)
 {
 
@@ -352,7 +409,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
 
     return std::make_pair(rows, tableView);
 }
-
+#include "View/ModalDialogBuilder.h"
 std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(long long patientRowid)
 {
     PlainTable table;
@@ -375,22 +432,22 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         "END AS his_updated, "
         "lpk as author, (lpk = ? AND rzi = ?) as from_me FROM amblist WHERE patient_rowid=? "
         "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me FROM prescription WHERE patient_rowid=? "
-        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif, 1 AS his_updated, lpk as author,  (lpk = ? AND rzi = ?) as from_me  FROM periostatus WHERE patient_rowid=? "
-        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif, 1 AS his_updated, practice_rzi as author,  (practice_rzi = ?) as from_me FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? "
+        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif, 1 AS his_updated, lpk as author, (lpk = ? AND rzi = ?) as from_me FROM periostatus WHERE patient_rowid=? "
+        "UNION ALL SELECT rowid, 4 AS type, date, NULL as num, NULL AS nrn, NULL as nhif, 1 AS his_updated, lpk as author, (lpk = ? AND rzi = ?) as from_me FROM treatment_plan WHERE patient_rowid=? "
+        "UNION ALL SELECT financial.rowid, 5 AS type, date, num, NULL AS nrn, NULL as nhif, 1 AS his_updated, practice_rzi as author,  (practice_rzi = ?) as from_me FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? "
         "ORDER BY date DESC"
     );
 
     auto rzi = User::practice().rziCode;
     auto lpk = User::doctor().LPK;
 
-    for (int i = 1; i < 10; i+=3) {
+    for (int i = 1; i < 13; i+=3) {
         db.bind(i, lpk);
         db.bind(i+1, rzi);
         db.bind(i+2, patientRowid);
     }
-    db.bind(10, rzi);
-    db.bind(11, patientRowid);
-    
+    db.bind(13, rzi);
+    db.bind(14, patientRowid);
 
     while (db.hasRows())
     {
@@ -426,20 +483,24 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         }
 
         switch (type) {
-            case 1: 
+            case static_cast<int>(TabType::AmbList):
                 docTypeString = "Амбулаторен лист";
                 docTypeIcon = CommonIcon::AMBLIST;
                 break;
-            case 2:
+            case static_cast<int>(TabType::Prescription):
                 docTypeString = "Рецепта";
                 docTypeIcon = CommonIcon::PRESCR;
                 break;
-            case 3:
+            case static_cast<int>(TabType::PerioStatus):
                 docTypeString = "Пародонтален статус";
                 docTypeIcon = CommonIcon::PERIO;
                 nrn.clear();
                 break;
-            case 4:
+            case static_cast<int>(TabType::TreatmentPlan):
+                docTypeString = "Лечебен план";
+                docTypeIcon = CommonIcon::TREATMENTPLAN;
+                break;
+            case static_cast<int>(TabType::Financial):
                 docTypeString = "Фактура";
                 docTypeIcon = CommonIcon::INVOICE;
                 nrn = FreeFn::leadZeroes(db.asLongLong(3), 10);
@@ -450,7 +511,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         rowidData.push_back(static_cast<TabType>(type));
         rowidData.back().rowID = rowid;
         //financial
-        rowidData.back().patientRowId = type == 4 ? 0 : patientRowid;
+        rowidData.back().patientRowId = type == static_cast<int>(TabType::Financial) ? 0 : patientRowid;
         rowidData.back().premissionToOpen = db.asBool(8);
 
         table.addCell(0, { .data = date, .icon = nhif ? CommonIcon::NHIF : CommonIcon::NOICON });
@@ -472,6 +533,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getData(TabType type,
         case TabType::PerioStatus: return getPerioRows(from, to);
         case TabType::PatientSummary: return getPatientRows();
         case TabType::Financial: return getFinancialRows(from, to);
+        case TabType::TreatmentPlan: return getTreatmentPlans(from, to);
         case TabType::Prescription: return getPrescriptionRows(from, to);
         default: return {};
     }

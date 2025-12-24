@@ -40,6 +40,8 @@ Date::Date(const std::string& str)
 
 }
 
+Date::Date(const QDate &d) : Date(d.day(), d.month(), d.year())
+{}
 
 bool Date::isLeapYear(int year)
 {

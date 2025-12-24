@@ -7,6 +7,7 @@
 #include "Model/Parser.h"
 
 #include "Database/DbPerio.h"
+#include "Database/DbAmbList.h"
 
 #include "View/Widgets/TabView.h"
 #include "View/ModalDialogBuilder.h"
@@ -18,7 +19,7 @@ PerioPresenter::PerioPresenter(TabView* view, std::shared_ptr<Patient> patient, 
     view(view->perioView()),
     patient_info(view->perioView()->patientTile(), patient),
     m_perioStatus(rowId ? DbPerio::getPerioStatus(rowId) : DbPerio::getPerioStatus(patient->rowid, Date::currentDate())),
-    m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date))
+    m_toothStatus(DbAmbList::getStatus(patient->rowid, m_perioStatus.date))
 {
 
     if (m_perioStatus.date != Date::currentDate() && !rowId) //if its not todays measurment and it is new document

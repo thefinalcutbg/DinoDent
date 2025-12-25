@@ -9,7 +9,7 @@ bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentP
     long long uniqueId = 0;
 
     db.newStatement("SELECT id FROM planned_procedure ORDER BY id DESC LIMIT 1");
-        ModalDialogBuilder::showMultilineDialog(db.getPreparedStatement());
+
     while(db.hasRows()){
         uniqueId = db.asLongLong(0)+1;
     }

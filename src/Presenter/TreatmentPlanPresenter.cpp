@@ -224,12 +224,12 @@ void TreatmentPlanPresenter::removeStage()
 
 void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
 {
-    if(m_selection.first == -1) return;
-
     if(m_treatmentPlan.stages.empty()){
         ModalDialogBuilder::showMessage("За да добавите процедура, първо добавете поне един етап");
         return;
     }
+
+    if(m_selection.first == -1) return;
 
     auto &stage = m_treatmentPlan.stages[m_selection.first].plannedProcedures;
 

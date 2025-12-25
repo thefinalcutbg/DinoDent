@@ -33,7 +33,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.from_tooth_index, "		//18
 								"procedure.to_tooth_index, "		//19
 								"procedure.minutes, "				//20
-								"procedure.status "					//21
+                                "procedure.status, "				//21
+                                "procedure.planned_procedure_id "   //22
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 						"WHERE amblist.rowid=? "
 						"AND procedure.removed=? "
@@ -58,7 +59,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
-
+        p.planned_procedure_idx = db.asLongLong(22);
 		auto his_status = db.asString(21);
 
 		if (his_status.size()) {
@@ -115,7 +116,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		if (p.code.type() == ProcedureType::Anesthesia)
 		{
 			p.param = AnesthesiaMinutes{ db.asInt(20) };
-		}
+        }
 		
 	}
 
@@ -161,8 +162,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.newStatement(
 			"INSERT INTO procedure "
 			"(date, code, financing_source, at_tooth_index, temporary, supernumeral, amblist_rowid, icd, diagnosis_description, notes, his_index, removed, "
-			"surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes, status) "
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            "surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes, status, planned_procedure_id) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date.to8601());
 		db.bind(2, p.code.code());
@@ -182,6 +183,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(10, p.notes);
 		db.bind(11, p.his_index);
 		db.bind(12, toInsert[i].removed);
+
+        db.bind(24, p.planned_procedure_idx);
 
 		if (p.HIS_fetched_result) {
 			db.bind(23, Parser::write(*p.HIS_fetched_result));

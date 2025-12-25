@@ -11,7 +11,6 @@ class TabView;
 
 class TabPresenter
 {
-
 	std::unordered_map<int, TabInstance*> m_tabs;
 
 	int m_indexCounter{ -1 };

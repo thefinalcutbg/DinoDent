@@ -42,7 +42,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>80</width>
+         <width>0</width>
          <height>20</height>
         </size>
        </property>
@@ -66,6 +66,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="completedCheck">
+       <property name="text">
+        <string>Изпълнен</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
@@ -75,7 +82,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>550</width>
+         <width>500</width>
          <height>20</height>
         </size>
        </property>
@@ -85,12 +92,18 @@
       <widget class="BigPushButton" name="addStage">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>150</width>
          <height>45</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Добави етап</string>
+        <string>Етап</string>
        </property>
       </widget>
      </item>
@@ -98,12 +111,18 @@
       <widget class="BigPushButton" name="addProcedure">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>150</width>
          <height>45</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Добави процедура</string>
+        <string>Процедура</string>
        </property>
       </widget>
      </item>
@@ -170,7 +189,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>20</height>
         </size>
        </property>

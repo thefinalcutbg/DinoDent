@@ -14,12 +14,15 @@ class TreatmentPlanPresenter : public TabInstance
     //stage and procedure
     std::pair<int, int> m_selection = {-1, -1};
 
+    std::vector<long long> m_deleted_procedures;
+
     TreatmentPlan m_treatmentPlan;
 
     void removeStage();
     void removeProcedure();
     bool invalidSelection();
     void setTeethToView();
+    void setCompletedProcedures();
 
 public:
     TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
@@ -45,4 +48,5 @@ public:
     void selectionChanged(const std::pair<int, int>& stageProcedurePair);
     void priceEditRequested();
     void nameEditRequested();
+    void setCompleted(bool completed);
 };

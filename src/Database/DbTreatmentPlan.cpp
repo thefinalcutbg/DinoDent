@@ -2,17 +2,10 @@
 #include "Database.h"
 #include "Model/User.h"
 #include "Model/Parser.h"
-#include "View/ModalDialogBuilder.h"
 
 bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentPlan::Stage> &stages){
 
-    long long uniqueId = 0;
-
-    db.newStatement("SELECT id FROM planned_procedure ORDER BY id DESC LIMIT 1");
-
-    while(db.hasRows()){
-        uniqueId = db.asLongLong(0)+1;
-    }
+    db.execute("PRAGMA foreign_keys = OFF");
 
     db.newStatement("DELETE FROM planned_procedure WHERE treatment_plan_rowid=?");
 
@@ -23,9 +16,32 @@ bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentP
     for(int i = 0; i < stages.size(); i++){
         for(auto& p : stages[i].plannedProcedures){
 
-            if(!p.id) p.id = uniqueId++;
-
-            db.newStatement("INSERT INTO planned_procedure (treatment_plan_rowid, stage, code, name, icd10, diagnosis_description, notes, data, price_from, price_to, id) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            db.newStatement(R"SQL(
+INSERT INTO planned_procedure (
+treatment_plan_rowid,
+stage,
+code,
+name,
+icd10,
+diagnosis_description,
+notes,
+data,
+price_from,
+price_to,
+rowid
+) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+ON CONFLICT(rowid) DO UPDATE SET
+treatment_plan_rowid=excluded.treatment_plan_rowid,
+stage=excluded.stage,
+code=excluded.code,
+name=excluded.name,
+icd10=excluded.icd10,
+diagnosis_description=excluded.diagnosis_description,
+notes=excluded.notes,
+data=excluded.data,
+price_from=excluded.price_from,
+price_to=excluded.price_to
+            )SQL");
 
             db.bind(1, planRowid);
             db.bind(2, i);
@@ -37,11 +53,19 @@ bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentP
             db.bind(8, Parser::write(p.affectedTeeth, p.param));
             db.bind(9, p.priceRange.first);
             db.bind(10, p.priceRange.second);
-            db.bind(11, p.id);
+
+            if(p.rowid) db.bind(11, p.rowid);
+            else db.bindNull(11);
 
             if(!db.execute()) return false;
+
+            if(!p.rowid){
+                p.rowid = db.lastInsertedRowID();
+            }
         }
     }
+
+    db.execute("PRAGMA foreign_keys = ON");
 
     return true;
 }
@@ -50,7 +74,7 @@ bool DbTreatmentPlan::insert(TreatmentPlan &t, long long patientRowid)
 {
     Db db;
 
-    db.newStatement("INSERT INTO treatment_plan (date, rzi, lpk, patient_rowid, status, stage_description) VALUES (?,?,?,?,?,?)");
+    db.newStatement("INSERT INTO treatment_plan (date, rzi, lpk, patient_rowid, status, stage_description, is_completed) VALUES (?,?,?,?,?,?,?)");
 
     db.bind(1, t.date.to8601());
     db.bind(2, User::practice().rziCode);
@@ -58,6 +82,7 @@ bool DbTreatmentPlan::insert(TreatmentPlan &t, long long patientRowid)
     db.bind(4, patientRowid);
     db.bind(5, Parser::write(t.teeth));
     db.bind(6, Parser::write(t.stages));
+    db.bind(7, t.is_completed);
 
     if(!db.execute()) return false;
 
@@ -69,17 +94,24 @@ bool DbTreatmentPlan::insert(TreatmentPlan &t, long long patientRowid)
 
 }
 
-bool DbTreatmentPlan::update(TreatmentPlan &t)
+bool DbTreatmentPlan::update(TreatmentPlan &t, const std::vector<long long>& deletedProcedures)
 {
     Db db;
 
-    db.newStatement("UPDATE treatment_plan SET date=?, status=?, stage_description=? WHERE rowid=?");
+    db.newStatement("UPDATE treatment_plan SET date=?, status=?, stage_description=?, is_completed=? WHERE rowid=?");
     db.bind(1, t.date.to8601());
     db.bind(2, Parser::write(t.teeth));
     db.bind(3, Parser::write(t.stages));
-    db.bind(4, t.rowid);
+    db.bind(4, t.is_completed);
+    db.bind(5, t.rowid);
 
     if(!db.execute()) return false;
+
+    for(auto rowidForDeletion : deletedProcedures){
+        db.newStatement("DELETE FROM planned_procedure WHERE rowid=?");
+        db.bind(1, rowidForDeletion);
+        db.execute();
+    }
 
     return insertPlannedProcedures(db, t.rowid, t.stages);
 }
@@ -91,7 +123,7 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
     Db db;
 
     db.newStatement(
-        "SELECT date, lpk, status, stage_description "
+        "SELECT date, lpk, status, stage_description, is_completed "
         "FROM treatment_plan "
         "WHERE rowid=?"
     );
@@ -104,10 +136,11 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
         t.LPK = db.asString(1);
         Parser::parse(db.asString(2), t.teeth);
         Parser::parse(db.asString(3), t.stages); //creating all the stages
+        t.is_completed = db.asBool(4);
     }
 
     db.newStatement(
-        "SELECT stage, code, name, icd10, diagnosis_description, notes, data, price_from, price_to, id "
+        "SELECT stage, code, name, icd10, diagnosis_description, notes, data, price_from, price_to, rowid "
         "FROM planned_procedure "
         "WHERE treatment_plan_rowid=? "
         "ORDER BY rowid ASC"
@@ -129,7 +162,7 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
         p.notes = db.asString(5);
         Parser::parse(db.asString(6), p.affectedTeeth, p.param);
         p.priceRange = {db.asDouble(7), db.asDouble(8)};
-        p.id = db.asInt(9);
+        p.rowid = db.asInt(9);
     }
 
     return t;
@@ -146,23 +179,26 @@ std::vector<Procedure> DbTreatmentPlan::getPendingProcedures(long long patientRo
     pp.icd10,
     pp.diagnosis_description,
     pp.data,
-    pp.id,
+    pp.rowid,
     pp.price_to
     FROM planned_procedure pp
     JOIN treatment_plan tp ON tp.rowid = pp.treatment_plan_rowid
     WHERE tp.patient_rowid=?
-    AND pp.id IS NOT NULL
+    AND tp.rzi=?
+    AND tp.is_completed=0
+    AND pp.rowid IS NOT NULL
     AND NOT EXISTS (
     SELECT 1
     FROM "procedure" pr
-    WHERE pr.planned_procedure_id = pp.id
+    WHERE pr.planned_procedure_rowid = pp.rowid
     )
-    ORDER BY tp.date ASC, pp.stage ASC, pp.id ASC
+    ORDER BY tp.date ASC, pp.stage ASC, pp.rowid ASC
     )SQL";
 
     Db db(query);
 
     db.bind(1, patientRowid);
+    db.bind(2, User::practice().rziCode);
 
     while(db.hasRows())
     {
@@ -187,14 +223,93 @@ std::vector<Procedure> DbTreatmentPlan::getPendingProcedures(long long patientRo
     return result;
 }
 
-long long DbTreatmentPlan::getExistingPlan(long long patientRowId)
+long long DbTreatmentPlan::getActiveTreatmentPlan(long long patientRowId)
 {
-    Db db("SELECT rowid FROM treatment_plan WHERE treatment_plan.patient_rowid=?");
+    Db db(R"SQL(
+SELECT
+tp.rowid
+FROM treatment_plan tp
+JOIN planned_procedure pp ON tp.rowid = pp.treatment_plan_rowid
+WHERE tp.patient_rowid=?
+AND tp.rzi=?
+AND tp.is_completed=0
+ORDER BY tp.date ASC, pp.stage ASC, pp.rowid ASC
+    )SQL");
+
     db.bind(1, patientRowId);
+    db.bind(2, User::practice().rziCode);
 
     while(db.hasRows()){
         return db.asRowId(0);
     }
 
     return 0;
+}
+
+std::set<long long> DbTreatmentPlan::getCompletedProcedures(long long patientRowid)
+{
+    std::set<long long> result;
+
+    Db db(R"SQL(
+SELECT procedure.planned_procedure_rowid
+FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid
+WHERE amblist.patient_rowid = ?
+AND procedure.planned_procedure_rowid NOT NULL OR
+procedure.planned_procedure_rowid != 0
+    )SQL");
+
+    db.bind(1, patientRowid);
+
+    while(db.hasRows()){
+        result.insert(db.asLongLong(0));
+    }
+
+    return result;
+}
+
+long long DbTreatmentPlan::getActivePlan(long long patientRowId)
+{
+    Db db(R"SQL(
+SELECT
+tp.rowid
+FROM treatment_plan tp
+WHERE tp.patient_rowid=?
+AND tp.rzi=?
+AND tp.is_completed=0
+ORDER BY tp.date ASC
+    )SQL");
+
+    db.bind(1, patientRowId);
+    db.bind(2, User::practice().rziCode);
+
+    while(db.hasRows()){
+        return db.asRowId(0);
+    }
+
+    return 0;
+}
+
+std::pair<double, double> DbTreatmentPlan::getPlannedProcedurePrice(long long rowid)
+{
+    Db db(R"SQL(
+SELECT
+price_from, price_to
+FROM planned_procedure
+WHERE planned_procedure.rowid=?
+    )SQL");
+
+    db.bind(1, rowid);
+
+    while(db.hasRows()){
+        return{db.asDouble(0), db.asDouble(1)};
+    }
+
+    return {0,0};
+}
+
+bool DbTreatmentPlan::setAsCompleted(long long rowid)
+{
+    Db db("UPDATE treatment_plan SET is_completed=1 WHERE rowid=?");
+    db.bind(1, rowid);
+    return db.execute();
 }

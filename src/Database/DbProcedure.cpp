@@ -34,7 +34,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.to_tooth_index, "		//19
 								"procedure.minutes, "				//20
                                 "procedure.status, "				//21
-                                "procedure.planned_procedure_id "   //22
+                                "procedure.planned_procedure_rowid "//22
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 						"WHERE amblist.rowid=? "
 						"AND procedure.removed=? "
@@ -162,8 +162,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.newStatement(
 			"INSERT INTO procedure "
 			"(date, code, financing_source, at_tooth_index, temporary, supernumeral, amblist_rowid, icd, diagnosis_description, notes, his_index, removed, "
-            "surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes, status, planned_procedure_id) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            "surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes, status, planned_procedure_rowid) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT rowid FROM planned_procedure WHERE rowid = ?))");
 
 		db.bind(1, p.date.to8601());
 		db.bind(2, p.code.code());

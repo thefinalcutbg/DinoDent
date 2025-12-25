@@ -21,6 +21,7 @@ class TreatmentPlanView : public QWidget
 
     void paintEvent(QPaintEvent* event) override;
     std::pair<int,int> getSelection() const;
+    void disableEditFileds(bool disabled);
 
 public:
     explicit TreatmentPlanView(QWidget *parent = nullptr);

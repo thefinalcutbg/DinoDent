@@ -30,6 +30,7 @@ const QPixmap& CommonIcon::getPixmap(CommonIcon::Type t)
         s_pixmaps[CommonIcon::DATABASE] = QPixmap(":/icons/icon_db.png");
         s_pixmaps[CommonIcon::REFRESH] = QPixmap(":/icons/icon_sync.png");
 		s_pixmaps[CommonIcon::SIGNATURE] = QPixmap(":/icons/icon_sign.png");
+        s_pixmaps[CommonIcon::CHECKED] = QPixmap(":/icons/icon_apply.png");
         icon_arr_init = true;
     }
 

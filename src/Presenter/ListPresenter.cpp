@@ -313,7 +313,7 @@ void ListPresenter::setDataToView()
 
     view->setDateTime(m_amblist.date);
     view->setTreatmentEnd(m_amblist.treatment_end);
-    view->showAddPlannedButton(DbTreatmentPlan::getExistingPlan(patient->rowid));
+    view->showAddPlannedButton(DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid));
     view->setSignature(m_amblist.signature_bitmap);
 
     surf_presenter.setStatusControl(this);
@@ -471,6 +471,19 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
     if (isCurrent()) {
         patient_info.refreshPatientData();
     }
+}
+
+void ListPresenter::setTreatmentAsCompleted()
+{
+
+    auto activePlanRowid = DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid);
+
+    if(!activePlanRowid) return;
+
+    ModalDialogBuilder::showMessage("Не са открити повече планирани процедури. Лечебният план ще бъде маркиран като изпълнен");
+
+    DbTreatmentPlan::setAsCompleted(activePlanRowid);
+    view->showAddPlannedButton(DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid));
 }
 
 void ListPresenter::dynamicNhifConversion()
@@ -692,6 +705,8 @@ bool ListPresenter::save()
     edited = false;
 
     refreshTabName();
+
+    view->showAddPlannedButton(DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid));
 
     return true;
 
@@ -997,24 +1012,27 @@ void ListPresenter::addPlannedProcedure()
 
     auto planned = DbTreatmentPlan::getPendingProcedures(patient->rowid, exclude);
 
-    if(planned.size() == 0) return;
+    if(planned.size() == 0) {
+
+        setTreatmentAsCompleted();
+
+        return;
+    }
 
     for(auto& p : planned){
         p.date = Date::currentDate();
         p.LPK = User::doctor().LPK;
     }
 
-    ProcedurePrintSelectDialog d(planned);
-    d.selectFinancingSource(FinancingSource::University); //so that none will be selected
-    d.exec();
+    auto selected = ModalDialogBuilder::selectProcedures(planned, FinancingSource::University);
 
-    auto selected = d.selectedProcedures();
+    if(!selected) return;
 
-    if(selected.empty()) return;
-
-    for(auto idx : selected){
-        m_amblist.procedures.addProcedure(planned[idx]);
+    for(auto& p : *selected){
+        m_amblist.procedures.addProcedure(p);
     }
+
+    if(selected->size() == planned.size()){ setTreatmentAsCompleted();}
 
     refreshProcedureView();
 
@@ -1464,7 +1482,13 @@ void ListPresenter::createInvoice()
     }
 
     for(auto& p : *selectedProcedures){
-        p.price = p.getPriceMultiplier() * User::getPrice(p.code.code()).second;
+
+        auto price = p.planned_procedure_idx ?
+            DbTreatmentPlan::getPlannedProcedurePrice(p.planned_procedure_idx)
+            :
+            User::getPrice(p.code.code());
+
+        p.price = p.getPriceMultiplier() * price.second;
     }
 
     TabPresenter::get().openInvoice(patient->rowid, selectedProcedures.value());

@@ -67,6 +67,7 @@ class ListPresenter : public TabInstance
     void printPrv(bool toPdf);
     void fetchListProcedures(const std::string& nrn);
 	void handleBulkRequestResult(const BulkRequester::Result& result);
+    void setTreatmentAsCompleted();
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();

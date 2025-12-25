@@ -10,6 +10,7 @@ struct TreatmentPlan
     Date date {Date::currentDate()};
     std::string LPK; // made by;
     ToothContainer teeth;
+    bool is_completed {false};
 
     struct PlannedProcedure
     {
@@ -23,6 +24,7 @@ struct TreatmentPlan
 
         std::string getPriceLabel();
 
+        long long rowid = 0;
         ProcedureCode code;
         std::string name; //if empty take procedure code description
         Diagnosis diagnosis;
@@ -30,7 +32,7 @@ struct TreatmentPlan
         AffectedTeeth affectedTeeth;
         AdditionalParameters param;
         std::pair<double, double> priceRange {0,0};
-        long long id = 0; //autoincremented unique identifier
+        bool isCompleted {false}; //dynamic
     };
 
     struct Stage{

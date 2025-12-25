@@ -46,6 +46,10 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     connect(ui->addStage, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->addStage(); });
     connect(ui->deleteButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->removePressed(); });
     connect(ui->editButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->editPressed(); });
+    connect(ui->completedCheck, &QCheckBox::clicked, this, [=, this](bool checked) {
+        disableEditFileds(checked);
+        if(presenter) presenter->setCompleted(checked);
+    });
 
     connect(ui->addProcedure, &QPushButton::clicked, this, [=, this] {;
 
@@ -117,6 +121,15 @@ std::pair<int, int> TreatmentPlanView::TreatmentPlanView::getSelection() const
     return {ui->stageList->indexOfTopLevelItem(parent), parent->indexOfChild(item)};
 }
 
+void TreatmentPlanView::disableEditFileds(bool disabled)
+{
+    ui->dateEdit->setDisabled(disabled);
+    ui->editButton->setHidden(disabled);
+    ui->deleteButton->setHidden(disabled);
+    ui->addProcedure->setHidden(disabled);
+    ui->addStage->setHidden(disabled);
+}
+
 void TreatmentPlanView::setPresenter(TreatmentPlanPresenter *p)
 {
     presenter = p;
@@ -129,7 +142,13 @@ void TreatmentPlanView::repaintTooth(const ToothPaintHint &tooth)
 
 void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
 {
-    QSignalBlocker b(ui->stageList);
+    QSignalBlocker b1(ui->completedCheck);
+
+    ui->completedCheck->setChecked(p.is_completed);
+
+    disableEditFileds(p.is_completed);
+
+    QSignalBlocker b2(ui->stageList);
 
     ui->dateEdit->set_Date(p.date);
 
@@ -174,6 +193,10 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
             auto *procItem = new QTreeWidgetItem(stageItem);
             procItem->setText(0, procedure.getName().c_str());
             procItem->setText(1, priceRangeToString(procedure.priceRange));
+
+            if(procedure.isCompleted){
+                procItem->setIcon(0, CommonIcon::getPixmap(CommonIcon::CHECKED));
+            }
 
             procItem->setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
 

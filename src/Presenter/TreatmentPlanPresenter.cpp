@@ -17,12 +17,15 @@ TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr
     m_treatmentPlan = DbTreatmentPlan::get(rowid);
 
     if(!rowid){
-        rowid = DbTreatmentPlan::getExistingPlan(patient->rowid);
+        rowid = DbTreatmentPlan::getActivePlan(patient->rowid);
 
         if(rowid){
-            auto answer = ModalDialogBuilder::askDialog("За този пациент е открит съществуващ план за лечение. Желаете ли да бъде зареден?");
+            ModalDialogBuilder::showMessage(
+                "За този пациент е открит активен план за лечение. "
+                "Ако искате да създадете нов, маркирайте текущия като изпълнен."
+            );
 
-            if(answer) m_treatmentPlan = DbTreatmentPlan::get(rowid);
+            m_treatmentPlan = DbTreatmentPlan::get(rowid);
         }
     }
 
@@ -47,13 +50,14 @@ void TreatmentPlanPresenter::setDataToView()
 
     patient_info.setCurrent(true);
 
+    setCompletedProcedures();
+
     view->setTreatmentPlan(m_treatmentPlan);
 
     view->setSelection(m_selection);
 
     setTeethToView();
 }
-
 
 void TreatmentPlanPresenter::setTeethToView()
 {
@@ -86,6 +90,14 @@ void TreatmentPlanPresenter::setTeethToView()
     }
 }
 
+void TreatmentPlanPresenter::setCompletedProcedures()
+{
+    auto completed = DbTreatmentPlan::getCompletedProcedures(patient->rowid);
+
+    for(auto& s : m_treatmentPlan.stages)
+        for (auto& p : s.plannedProcedures)
+            p.isCompleted = completed.count(p.rowid);
+}
 
 void TreatmentPlanPresenter::prepareDerivedForSwitch()
 {
@@ -133,9 +145,11 @@ bool TreatmentPlanPresenter::save()
     bool success =  isNew() ?
                        DbTreatmentPlan::insert(m_treatmentPlan, patient->rowid)
                            :
-                       DbTreatmentPlan::update(m_treatmentPlan);
+                       DbTreatmentPlan::update(m_treatmentPlan, m_deleted_procedures);
 
     if(!success) return false;
+
+    m_deleted_procedures.clear();
 
     edited = false;
 
@@ -161,7 +175,9 @@ long long TreatmentPlanPresenter::rowID() const
 }
 
 void TreatmentPlanPresenter::addStage()
-{   
+{
+    if(m_treatmentPlan.is_completed) return;
+
     if(m_treatmentPlan.stages.size() == 9) return;
 
     auto &stages = m_treatmentPlan.stages;
@@ -197,6 +213,8 @@ void TreatmentPlanPresenter::addStage()
 
 void TreatmentPlanPresenter::removeStage()
 {
+    if(m_treatmentPlan.is_completed) return;
+
     auto &stages = m_treatmentPlan.stages;
 
     if (m_selection.first == -1) return;
@@ -224,6 +242,8 @@ void TreatmentPlanPresenter::removeStage()
 
 void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
 {
+    if(m_treatmentPlan.is_completed) return;
+
     if(m_treatmentPlan.stages.empty()){
         ModalDialogBuilder::showMessage("За да добавите процедура, първо добавете поне един етап");
         return;
@@ -270,12 +290,16 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
 
 void TreatmentPlanPresenter::editPressed()
 {
+    if(m_treatmentPlan.is_completed) return;
+
     m_selection.second == -1 ?
         nameEditRequested() : priceEditRequested();
 }
 
 void TreatmentPlanPresenter::removePressed()
 {
+    if(m_treatmentPlan.is_completed) return;
+
     m_selection.second == -1 ?
         removeStage()
         :
@@ -295,11 +319,20 @@ void TreatmentPlanPresenter::removeProcedure()
 
     if (m_selection.first == -1) return;
 
-    if(!ModalDialogBuilder::askDialog(
-            "Сигурни ли сте, че искате да премахнете избраната процедура?", false
-    )) return;
-
     auto &planned = m_treatmentPlan.stages[m_selection.first].plannedProcedures;
+
+    auto &procedure = m_treatmentPlan.stages[m_selection.first].plannedProcedures[m_selection.second];
+
+    if(procedure.isCompleted){
+        ModalDialogBuilder::showMessage("Тази процедура е вече извършена и не може да бъде премахната");
+        return;
+    }
+
+    if(!ModalDialogBuilder::askDialog("Сигурни ли сте, че искате да премахнете избраната процедура?")) return;
+
+    if(procedure.rowid){
+        m_deleted_procedures.push_back(procedure.rowid);
+    }
 
     planned.erase(planned.begin() + m_selection.second);
 
@@ -338,6 +371,7 @@ void TreatmentPlanPresenter::selectionChanged(const std::pair<int, int>& stagePr
 
 void TreatmentPlanPresenter::priceEditRequested()
 {
+    if(m_treatmentPlan.is_completed) return;
 
     if(m_selection.second == -1) return;
 
@@ -357,10 +391,13 @@ void TreatmentPlanPresenter::priceEditRequested()
     view->setTreatmentPlan(m_treatmentPlan);
 
     view->setSelection(m_selection);
+
+    makeEdited();
 }
 
 void TreatmentPlanPresenter::nameEditRequested()
 {
+    if(m_treatmentPlan.is_completed) return;
 
     if(m_selection.first == -1) return;
 
@@ -408,5 +445,11 @@ void TreatmentPlanPresenter::nameEditRequested()
 
     view->setSelection(m_selection);
 
+    makeEdited();
+}
+
+void TreatmentPlanPresenter::setCompleted(bool completed)
+{
+    m_treatmentPlan.is_completed = completed;
     makeEdited();
 }

@@ -79,7 +79,9 @@ struct Procedure
 
     int getPriceMultiplier() const;
 
-    double price {0};
+    double price {0}; //temporary variable - not save anywhere in db
+
+    long long planned_procedure_idx{0};
 
     //for procedures fetched from his
     std::optional<HISProcedureResult> HIS_fetched_result;

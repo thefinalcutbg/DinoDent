@@ -30,6 +30,7 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setAmbListLayout();
 
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
+    ui.plannedProcedure->setIcon(QIcon(":/icons/icon_plan.png"));
 	ui.statusResultButton->setIcon(QIcon(":/icons/icon_apply.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
@@ -48,6 +49,7 @@ ListView::ListView(QWidget* parent)
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.prescrButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
+    ui.plannedProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
@@ -96,6 +98,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.treatmentEnd, &QDateTimeEdit::dateTimeChanged, this, [=, this](const QDateTime& t) {if (presenter)presenter->setTreatmentEndTime(t.toString(Qt::ISODate).toStdString()); });
 	connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
+    connect(ui.plannedProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addPlannedProcedure(); });
     connect(ui.specCombo, &QComboBox::currentIndexChanged, this, [=, this]  {nhifChanged();});
     connect(ui.unfavCheck, &QCheckBox::checkStateChanged, this, [=, this] { nhifChanged(); });
     connect(ui.nssiButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->checkPention(); });
@@ -439,6 +442,11 @@ void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());
+}
+
+void ListView::showAddPlannedButton(bool show)
+{
+    ui.plannedProcedure->setHidden(!show);
 }
 
 

@@ -34,7 +34,7 @@ bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentP
             db.bind(5, p.diagnosis.icd.code());
             db.bind(6, p.diagnosis.additional_descr);
             db.bind(7, p.notes);
-            db.bind(8, Parser::write(p));
+            db.bind(8, Parser::write(p.affectedTeeth, p.param));
             db.bind(9, p.priceRange.first);
             db.bind(10, p.priceRange.second);
             db.bind(11, p.id);
@@ -127,7 +127,7 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
         p.diagnosis.icd = db.asString(3);
         p.diagnosis.additional_descr = db.asString(4);
         p.notes = db.asString(5);
-        Parser::parse(db.asString(6), p);
+        Parser::parse(db.asString(6), p.affectedTeeth, p.param);
         p.priceRange = {db.asDouble(7), db.asDouble(8)};
         p.id = db.asInt(9);
     }
@@ -135,9 +135,66 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
     return t;
 }
 
-std::vector<TreatmentPlan::PlannedProcedure> DbTreatmentPlan::getPendingProcedures(long long patientRowid)
+std::vector<Procedure> DbTreatmentPlan::getPendingProcedures(long long patientRowid, const std::set<long long>& exclude)
 {
-    std::vector<TreatmentPlan::PlannedProcedure> result;
+    std::vector<Procedure> result;
+
+    std::string query = R"SQL(
+    SELECT
+    pp.code,
+    pp.name,
+    pp.icd10,
+    pp.diagnosis_description,
+    pp.data,
+    pp.id,
+    pp.price_to
+    FROM planned_procedure pp
+    JOIN treatment_plan tp ON tp.rowid = pp.treatment_plan_rowid
+    WHERE tp.patient_rowid=?
+    AND pp.id IS NOT NULL
+    AND NOT EXISTS (
+    SELECT 1
+    FROM "procedure" pr
+    WHERE pr.planned_procedure_id = pp.id
+    )
+    ORDER BY tp.date ASC, pp.stage ASC, pp.id ASC
+    )SQL";
+
+    Db db(query);
+
+    db.bind(1, patientRowid);
+
+    while(db.hasRows())
+    {
+        auto idx = db.asLongLong(5);
+
+        if(exclude.count(idx)) continue;
+
+        result.emplace_back();
+        auto& p = result.back();
+
+        p.date = Date::currentDate();
+        p.code = db.asString(0);
+        p.notes = db.asString(1);
+        p.diagnosis.icd = db.asString(2);
+        p.diagnosis.additional_descr = db.asString(3);
+        Parser::parse(db.asString(4), p.affectedTeeth, p.param);
+        p.planned_procedure_idx = idx;
+        p.financingSource = db.asDouble(6) == 0 ? FinancingSource::None :
+                                FinancingSource::Patient;
+    }
 
     return result;
+}
+
+long long DbTreatmentPlan::getExistingPlan(long long patientRowId)
+{
+    Db db("SELECT rowid FROM treatment_plan WHERE treatment_plan.patient_rowid=?");
+    db.bind(1, patientRowId);
+
+    while(db.hasRows()){
+        return db.asRowId(0);
+    }
+
+    return 0;
 }

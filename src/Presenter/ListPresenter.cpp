@@ -6,6 +6,7 @@
 #include "Database/DbProcedure.h"
 #include "Database/DbPatient.h"
 #include "Database/DbMedicalNotice.h"
+#include "Database/DbTreatmentPlan.h"
 
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
@@ -312,7 +313,7 @@ void ListPresenter::setDataToView()
 
     view->setDateTime(m_amblist.date);
     view->setTreatmentEnd(m_amblist.treatment_end);
-
+    view->showAddPlannedButton(DbTreatmentPlan::getExistingPlan(patient->rowid));
     view->setSignature(m_amblist.signature_bitmap);
 
     surf_presenter.setStatusControl(this);
@@ -984,6 +985,40 @@ void ListPresenter::addProcedure()
 
     makeEdited();
 
+}
+
+void ListPresenter::addPlannedProcedure()
+{
+    std::set<long long> exclude; //excluding already added ones
+
+    for(auto& p : m_amblist.procedures){
+        exclude.insert(p.planned_procedure_idx);
+    }
+
+    auto planned = DbTreatmentPlan::getPendingProcedures(patient->rowid, exclude);
+
+    if(planned.size() == 0) return;
+
+    for(auto& p : planned){
+        p.date = Date::currentDate();
+        p.LPK = User::doctor().LPK;
+    }
+
+    ProcedurePrintSelectDialog d(planned);
+    d.selectFinancingSource(FinancingSource::University); //so that none will be selected
+    d.exec();
+
+    auto selected = d.selectedProcedures();
+
+    if(selected.empty()) return;
+
+    for(auto idx : selected){
+        m_amblist.procedures.addProcedure(planned[idx]);
+    }
+
+    refreshProcedureView();
+
+    makeEdited();
 }
 
 void ListPresenter::editProcedure(int index)

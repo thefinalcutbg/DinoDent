@@ -242,7 +242,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	main_menu->addAction(action);
 
 
-	if (ui.tabBar->currentIndex() != 4) {
+    if (ui.tabBar->currentIndex() != static_cast<int>(TabType::Financial)) {
 
 		action = (new QAction("Нов амбулаторен лист", main_menu));
         connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::AmbList); });

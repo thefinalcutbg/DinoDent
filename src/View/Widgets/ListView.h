@@ -71,6 +71,7 @@ public:
     void setNhifData(const NhifSheetData& data, bool showUnfav);
     void setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices);
     void setHisButtonText(const HisButtonProperties& prop);
+    void showAddPlannedButton(bool show);
 
     ~ListView();
 

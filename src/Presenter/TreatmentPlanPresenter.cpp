@@ -8,13 +8,23 @@
 #include "View/Widgets/MultilineDialog.h"
 #include "Database/DbTreatmentPlan.h"
 
-TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
+TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowid)
     :
     TabInstance(tabView, TabType::TreatmentPlan, patient),
     patient_info(tabView->treatmentPlanView()->tileInfo(), patient),
     view(tabView->treatmentPlanView())
 {
-    m_treatmentPlan = DbTreatmentPlan::get(rowId);
+    m_treatmentPlan = DbTreatmentPlan::get(rowid);
+
+    if(!rowid){
+        rowid = DbTreatmentPlan::getExistingPlan(patient->rowid);
+
+        if(rowid){
+            auto answer = ModalDialogBuilder::askDialog("За този пациент е открит съществуващ план за лечение. Желаете ли да бъде зареден?");
+
+            if(answer) m_treatmentPlan = DbTreatmentPlan::get(rowid);
+        }
+    }
 
     if(m_treatmentPlan.rowid){
 
@@ -27,9 +37,9 @@ TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr
         return;
     }
 
-    //if it is a new plan:
     m_treatmentPlan.teeth = DbAmbList::getStatus(patient->rowid, m_treatmentPlan.date);
 }
+
 
 void TreatmentPlanPresenter::setDataToView()
 {

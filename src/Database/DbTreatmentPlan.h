@@ -1,5 +1,6 @@
 #pragma once
 #include "Model/Dental/TreatmentPlan.h"
+#include <set>
 
 namespace DbTreatmentPlan{
 
@@ -7,6 +8,6 @@ namespace DbTreatmentPlan{
     bool insert(TreatmentPlan& t, long long patientRowid);
     bool update(TreatmentPlan& t);
     TreatmentPlan get(long long rowid);
-    TreatmentPlan get(long long patientRowId, Date date);
-    std::vector<TreatmentPlan::PlannedProcedure> getPendingProcedures(long long patientRowid);
+    long long getExistingPlan(long long patientRowId);
+    std::vector<Procedure> getPendingProcedures(long long patientRowid, const std::set<long long>& exclude = {});
 }

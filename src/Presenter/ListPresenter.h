@@ -105,6 +105,7 @@ public:
     void openDetails();
 
     void addProcedure();
+    void addPlannedProcedure();
     void editProcedure(int index);
     void deleteProcedure(int index);
     void moveProcedure(int from, int to);

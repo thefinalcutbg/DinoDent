@@ -26,11 +26,13 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 
     ui->addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
     ui->addStage->setIcon(QIcon(":/icons/icon_add.png"));
+    ui->addConclusion->setIcon(QIcon(":/icons/icon_add.png"));
     ui->deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
     ui->editButton->setIcon(QIcon(":/icons/icon_edit.png"));
 
     ui->addProcedure->setHoverColor(Theme::mainBackgroundColor);
     ui->addStage->setHoverColor(Theme::mainBackgroundColor);
+    ui->addConclusion->setHoverColor(Theme::mainBackgroundColor);
     ui->deleteButton->setHoverColor(Theme::mainBackgroundColor);
     ui->editButton->setHoverColor(Theme::mainBackgroundColor);
 
@@ -128,6 +130,7 @@ void TreatmentPlanView::disableEditFileds(bool disabled)
     ui->deleteButton->setHidden(disabled);
     ui->addProcedure->setHidden(disabled);
     ui->addStage->setHidden(disabled);
+    ui->addConclusion->setHidden(disabled);
 }
 
 void TreatmentPlanView::setPresenter(TreatmentPlanPresenter *p)

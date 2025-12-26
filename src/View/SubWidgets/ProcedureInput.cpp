@@ -20,7 +20,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
     ui.templateButton->setMaximumWidth(32);
 
-	connect(ui.rangeCheck, &QCheckBox::toggled, this, [&](bool checked) {
+    connect(ui.blockCrownCheck, &QCheckBox::toggled, this, [&](bool checked) {
 		ui.rangeGroup->setHidden(!checked);
 		ui.hyperdonticCheckBox->setHidden(checked);
 		});

@@ -307,7 +307,7 @@ void TreatmentPlanPresenter::addConclusion()
 {
     if(m_treatmentPlan.lastStageIsConclusion) return;
 
-    if(stages.empty()){
+    if(m_treatmentPlan.stages.empty()){
         ModalDialogBuilder::showMessage("За да добавите заключение първо добавете поне един етап");
         return;
     }

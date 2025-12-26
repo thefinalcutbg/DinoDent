@@ -55,7 +55,7 @@
       <widget class="QFrame" name="frame">
        <property name="minimumSize">
         <size>
-         <width>1220</width>
+         <width>1240</width>
          <height>50</height>
         </size>
        </property>
@@ -72,18 +72,34 @@
         <enum>QFrame::Shadow::Plain</enum>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
         <property name="topMargin">
          <number>0</number>
         </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
+        <item>
+         <widget class="HoverButton" name="loadStatusButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>140</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Зареди статус</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
@@ -114,7 +130,7 @@
            <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Policy::Fixed</enum>
+           <enum>QSizePolicy::Policy::Expanding</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -367,7 +383,7 @@
                </font>
               </property>
               <property name="text">
-               <string>ПОСЛЕДОВАТЕЛНОСТ НА ПЛАНА:</string>
+               <string>ПОСЛЕДОВАТЕЛНОСТ НА ЛЕЧЕНИЕТО:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -467,11 +483,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
-  </customwidget>
-  <customwidget>
    <class>IconButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/IconButton.h</header>
@@ -491,6 +502,16 @@
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>View/Graphics/GraphicsView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HoverButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/HoverButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

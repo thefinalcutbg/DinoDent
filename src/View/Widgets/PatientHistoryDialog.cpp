@@ -253,7 +253,7 @@ void PatientHistoryDialog::hideNhif(bool hidden)
 	ui.pisProcRadio->setHidden(hidden);
 }
 
-void PatientHistoryDialog::open(Procedure::DatabaseSource src)
+void PatientHistoryDialog::open(Procedure::DatabaseSource src, bool forceShowApplyToStatus)
 {
 	switch (src)
 	{
@@ -281,7 +281,14 @@ void PatientHistoryDialog::open(Procedure::DatabaseSource src)
 		case Procedure::Local:
 
 		ui.applyPISProcedures->hide();
-		ui.applyToStatus->hide();
+
+        ui.applyToStatus->hide();
+
+        //calling from treatment plan
+        if(forceShowApplyToStatus){
+            ui.applyToStatus->show();
+            ui.applyToStatus->setText("Приложи статуса към лечебния план");
+        }
 
 		ui.localProcRadio->click();
 		ui.localStatRadio->click();

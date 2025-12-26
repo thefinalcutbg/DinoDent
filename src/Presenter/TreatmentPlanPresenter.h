@@ -43,6 +43,7 @@ public:
     void pdfPrint();
     long long rowID() const;
 
+    void loadStatus();
     void addStage();
     void addProcedure(const std::vector<int>& teeth_idx);
     void addConclusion();

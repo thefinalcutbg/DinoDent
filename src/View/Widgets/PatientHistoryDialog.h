@@ -40,7 +40,7 @@ public:
 	void setHospitalizations(const std::vector<Hospitalization>& h);
 	void setPatientNoteFlags (const std::array<std::string, 32>& notes);
 	void hideNhif(bool hidden);
-	void open(Procedure::DatabaseSource src);
+    void open(Procedure::DatabaseSource src, bool showApplyToStatus);
 	~PatientHistoryDialog();
 
 private:

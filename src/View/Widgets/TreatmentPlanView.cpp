@@ -79,6 +79,8 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 
     connect(ui->dateEdit, &QDateEdit::dateChanged, this, [=, this](const QDate& date){ if(presenter) presenter->dateChanged(Date(date)); });
 
+    connect(ui->loadStatusButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->loadStatus(); });
+
     setStyleSheet(Theme::getFancyStylesheet());
 }
 
@@ -135,6 +137,7 @@ void TreatmentPlanView::disableEditFileds(bool disabled)
     bool emptyList = ui->stageList->topLevelItemCount() == 0;
 
     ui->dateEdit->setDisabled(disabled);
+    ui->loadStatusButton->setDisabled(disabled);
     ui->editButton->setHidden(disabled || emptyList);
     ui->deleteButton->setHidden(disabled || emptyList);
     ui->addProcedure->setHidden(disabled);

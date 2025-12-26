@@ -46,6 +46,6 @@ public:
 	void applyPISprocedures();
 	void applyStatus(const ToothContainer& selectedStatus);
 
-	decltype(result) openDialog(bool openWithLocal = false); //should return result
+    decltype(result) openDialog(bool openWithLocal = false, bool forceShowApplyToStatus = false); //should return result
 
 };

@@ -1,13 +1,19 @@
 #include "TreatmentPlanPresenter.h"
 
+#include "Database/DbTreatmentPlan.h"
+
+#include "Model/User.h"
+
+#include "ProcedureDialogPresenter.h"
+#include "Presenter/PatientHistoryPresenter.h"
+
+#include "View/Widgets/MultilineDialog.h"
 #include "View/Widgets/TabView.h"
 #include "View/Widgets/TreatmentPlanView.h"
 #include "View/Widgets/PriceInputDialog.h"
-#include "Model/User.h"
-#include "ProcedureDialogPresenter.h"
-#include "View/Widgets/MultilineDialog.h"
-#include "Database/DbTreatmentPlan.h"
+
 #include "View/Widgets/PlannedProcedureDialog.h"
+
 
 TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowid)
     :
@@ -205,6 +211,18 @@ void TreatmentPlanPresenter::pdfPrint()
 long long TreatmentPlanPresenter::rowID() const
 {
     return m_treatmentPlan.rowid;
+}
+
+void TreatmentPlanPresenter::loadStatus()
+{
+    PatientHistoryPresenter dialog(*patient);
+    auto result = dialog.openDialog(true, true);
+
+    if(std::holds_alternative<ToothContainer>(result)){
+        m_treatmentPlan.teeth = std::get<ToothContainer>(result);
+    }
+
+    setTeethToView();
 }
 
 void TreatmentPlanPresenter::addStage()

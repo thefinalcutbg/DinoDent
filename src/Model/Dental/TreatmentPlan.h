@@ -44,5 +44,5 @@ struct TreatmentPlan
 
     std::vector<Stage> stages;
 
-    std::string disclamer; //auto generation?
+    bool lastStageIsConclusion = false;
 };

@@ -74,7 +74,7 @@ bool DbTreatmentPlan::insert(TreatmentPlan &t, long long patientRowid)
 {
     Db db;
 
-    db.newStatement("INSERT INTO treatment_plan (date, rzi, lpk, patient_rowid, status, stage_description, is_completed) VALUES (?,?,?,?,?,?,?)");
+    db.newStatement("INSERT INTO treatment_plan (date, rzi, lpk, patient_rowid, status, stage_description, has_conclusion, is_completed) VALUES (?,?,?,?,?,?,?,?)");
 
     db.bind(1, t.date.to8601());
     db.bind(2, User::practice().rziCode);
@@ -82,7 +82,8 @@ bool DbTreatmentPlan::insert(TreatmentPlan &t, long long patientRowid)
     db.bind(4, patientRowid);
     db.bind(5, Parser::write(t.teeth));
     db.bind(6, Parser::write(t.stages));
-    db.bind(7, t.is_completed);
+    db.bind(7, t.lastStageIsConclusion);
+    db.bind(8, t.is_completed);
 
     if(!db.execute()) return false;
 
@@ -98,12 +99,13 @@ bool DbTreatmentPlan::update(TreatmentPlan &t, const std::vector<long long>& del
 {
     Db db;
 
-    db.newStatement("UPDATE treatment_plan SET date=?, status=?, stage_description=?, is_completed=? WHERE rowid=?");
+    db.newStatement("UPDATE treatment_plan SET date=?, status=?, stage_description=?, has_conclusion=?, is_completed=? WHERE rowid=?");
     db.bind(1, t.date.to8601());
     db.bind(2, Parser::write(t.teeth));
     db.bind(3, Parser::write(t.stages));
-    db.bind(4, t.is_completed);
-    db.bind(5, t.rowid);
+    db.bind(4, t.lastStageIsConclusion);
+    db.bind(5, t.is_completed);
+    db.bind(6, t.rowid);
 
     if(!db.execute()) return false;
 
@@ -123,7 +125,7 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
     Db db;
 
     db.newStatement(
-        "SELECT date, lpk, status, stage_description, is_completed "
+        "SELECT date, lpk, status, stage_description, has_conclusion, is_completed "
         "FROM treatment_plan "
         "WHERE rowid=?"
     );
@@ -136,7 +138,8 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
         t.LPK = db.asString(1);
         Parser::parse(db.asString(2), t.teeth);
         Parser::parse(db.asString(3), t.stages); //creating all the stages
-        t.is_completed = db.asBool(4);
+        t.lastStageIsConclusion = db.asBool(4);
+        t.is_completed = db.asBool(5);
     }
 
     db.newStatement(

@@ -172,8 +172,6 @@ QString Theme::getFancyStylesheet()
             "QTreeView::branch:open:has-children{"
             "image: url(:/icons/icon_downArrow.png);"
             "}"
-
-
 	);
 }
 

@@ -45,7 +45,17 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
             if(presenter) presenter->selectionChanged(getSelection());
     });
 
+/*
+    connect(ui->stageList, &QTreeWidget::itemExpanded, this, [=, this](QTreeWidgetItem* i){
+        static_cast<QLabel*>(ui->stageList->itemWidget(i, 0))->setWordWrap(false);
+    });
+
+    connect(ui->stageList, &QTreeWidget::itemCollapsed, this, [=, this](QTreeWidgetItem* i){
+        static_cast<QLabel*>(ui->stageList->itemWidget(i, 0))->setWordWrap(true);
+    });
+*/
     connect(ui->addStage, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->addStage(); });
+    connect(ui->addConclusion, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->addConclusion(); });
     connect(ui->deleteButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->removePressed(); });
     connect(ui->editButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->editPressed(); });
     connect(ui->completedCheck, &QCheckBox::clicked, this, [=, this](bool checked) {
@@ -64,10 +74,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 
         if(!presenter|| !item) return;
 
-            switch(column){
-            case 0: presenter->nameEditRequested(); break;
-            case 1: presenter->priceEditRequested(); break;
-        }
+        presenter->editPressed();
     });
 
     connect(ui->dateEdit, &QDateEdit::dateChanged, this, [=, this](const QDate& date){ if(presenter) presenter->dateChanged(Date(date)); });
@@ -102,7 +109,7 @@ void TreatmentPlanView::paintEvent(QPaintEvent *event)
         ui->frameOut->x() + ui->teethView->width(),
         ui->frameOut->y(),  //y1
         ui->frameOut->x() + ui->teethView->width(),
-        ui->frameOut->y()+ui->teethView->height()
+        ui->frameOut->y()+ui->frameOut->height()
         );
 
 }
@@ -158,26 +165,29 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
     ui->stageList->clear();
 
     static const QString numArr[] = {
-        "Първи", "Втори", "Трети", "Четвърти", "Пети",
-        "Шести", "Седми", "Осми", "Девети", "Десети"
+        "ПЪРВИ", "ВТОРИ", "ТРЕТИ", "ЧЕТВЪРТИ", "ПЕТИ",
+        "ШЕСТИ", "СЕДМИ", "ОСВМИ", "ДЕВЕТИ", "ДЕСЕТИ"
     };
 
     //setting stages
 
     for(int i = 0; i < p.stages.size(); i++){
 
+        auto isConclusion = (i == p.stages.size()-1 && p.lastStageIsConclusion);
+
         const auto &stage = p.stages[i];
 
-        auto stageText = "<b>" + numArr[i] + " етап</b>";
+        auto stageText = !isConclusion ?
+            "<b>" + numArr[i] + " ЕТАП:</b> " : "<b>ЗАКЛЮЧЕНИЕ:</b> ";
 
         if(stage.notes.size()){
-            stageText += " - ";
             stageText += QString::fromStdString(stage.notes);
         }
 
         auto *stageItem = new QTreeWidgetItem(ui->stageList);
 
         auto *label = new QLabel;
+        label->setWordWrap(isConclusion);
         label->setTextFormat(Qt::RichText);
         label->setText(stageText);
 
@@ -232,11 +242,9 @@ void TreatmentPlanView::setSelection(const std::pair<int, int>& pair)
 
     if(pair.second == -1) { return; }
 
-    stageItem->setSelected(false);
+    stageItem->setExpanded(true);
 
     auto procedureItem = stageItem->child(pair.second);
-
-    stageItem->setExpanded(true);
 
     procedureItem->setSelected(true);
 

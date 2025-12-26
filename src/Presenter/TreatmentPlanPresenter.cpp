@@ -180,6 +180,11 @@ void TreatmentPlanPresenter::addStage()
 
     if(m_treatmentPlan.stages.size() == 9) return;
 
+    if(m_selection.first == m_treatmentPlan.stages.size()-1 &&
+        m_treatmentPlan.lastStageIsConclusion){
+        return;
+    }
+
     auto &stages = m_treatmentPlan.stages;
 
     MultilineDialog d("");
@@ -224,12 +229,18 @@ void TreatmentPlanPresenter::removeStage()
         "Сигурни ли сте, че искате да премахнете етапа заедно с всички негови процедури?", false
     )) return;
 
-    stages.erase(stages.begin() + m_selection.first);
+    bool stageIsConclusion =
+        m_treatmentPlan.lastStageIsConclusion &&
+        m_selection.first == stages.size()-1;
 
-    view->setTreatmentPlan(m_treatmentPlan);
+    stages.erase(stages.begin() + m_selection.first);
 
     m_selection.first = std::min(m_selection.first, static_cast<int>(stages.size()) - 1);
     m_selection.second = -1;
+
+    if(stageIsConclusion){
+        m_treatmentPlan.lastStageIsConclusion = false;
+    }
 
     view->setTreatmentPlan(m_treatmentPlan);
 
@@ -245,11 +256,15 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
     if(m_treatmentPlan.is_completed) return;
 
     if(m_treatmentPlan.stages.empty()){
-        ModalDialogBuilder::showMessage("За да добавите процедура, първо добавете поне един етап");
+        ModalDialogBuilder::showMessage("За да добавите процедура първо добавете поне един етап");
         return;
     }
 
     if(m_selection.first == -1) return;
+
+    if(m_treatmentPlan.lastStageIsConclusion){
+        return;
+    }
 
     auto &stage = m_treatmentPlan.stages[m_selection.first].plannedProcedures;
 
@@ -288,6 +303,33 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
     makeEdited();
 }
 
+void TreatmentPlanPresenter::addConclusion()
+{
+    if(m_treatmentPlan.lastStageIsConclusion) return;
+
+    if(stages.empty()){
+        ModalDialogBuilder::showMessage("За да добавите заключение първо добавете поне един етап");
+        return;
+    }
+
+    m_treatmentPlan.lastStageIsConclusion = true;
+
+    auto &stages = m_treatmentPlan.stages;
+
+    MultilineDialog d("");
+    d.setWindowTitle("Описание на етапа");
+    d.enableEditing(false);
+
+    auto conclusion = d.getResult();
+
+    if(!conclusion.has_value()) return;
+
+    m_treatmentPlan.stages.emplace_back();
+    m_treatmentPlan.stages.back().notes = conclusion.value();
+
+    view->setTreatmentPlan(m_treatmentPlan);
+}
+
 void TreatmentPlanPresenter::editPressed()
 {
     if(m_treatmentPlan.is_completed) return;
@@ -322,11 +364,6 @@ void TreatmentPlanPresenter::removeProcedure()
     auto &planned = m_treatmentPlan.stages[m_selection.first].plannedProcedures;
 
     auto &procedure = m_treatmentPlan.stages[m_selection.first].plannedProcedures[m_selection.second];
-
-    if(procedure.isCompleted){
-        ModalDialogBuilder::showMessage("Тази процедура е вече извършена и не може да бъде премахната");
-        return;
-    }
 
     if(!ModalDialogBuilder::askDialog("Сигурни ли сте, че искате да премахнете избраната процедура?")) return;
 

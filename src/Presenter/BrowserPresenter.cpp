@@ -276,7 +276,7 @@ void BrowserPresenter::deleteCurrentSelection()
 
 	for (auto& row : m_selectedInstances)
 	{
-		if (TabPresenter::get().documentTabOpened(row->type, row->rowID))
+        if (TabPresenter::get().documentTabOpened(row->type, row->rowID) != -1)
 		{
 			ModalDialogBuilder::showMessage
 			("Първо затворете всички избрани за изтриване документи!");

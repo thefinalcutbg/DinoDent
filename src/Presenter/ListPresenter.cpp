@@ -475,12 +475,23 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
 
 void ListPresenter::setTreatmentAsCompleted()
 {
-
     auto activePlanRowid = DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid);
 
     if(!activePlanRowid) return;
 
-    ModalDialogBuilder::showMessage("Не са открити повече планирани процедури. Лечебният план ще бъде маркиран като изпълнен");
+    if(!ModalDialogBuilder::askDialog("Желаете ли да маркирате лечебния план като изпълнен?")) return;
+
+    //check if already opened:
+    auto tabIdx = TabPresenter::get().documentTabOpened(TabType::TreatmentPlan, activePlanRowid);
+
+    if(tabIdx != -1){
+        RowInstance tab(TabType::TreatmentPlan);
+        tab.rowID = activePlanRowid;
+        tab.patientRowId = patient->rowid;
+
+        TabPresenter::get().open(tab, true);
+        return;
+    }
 
     DbTreatmentPlan::setAsCompleted(activePlanRowid);
     view->showAddPlannedButton(DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid));

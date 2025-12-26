@@ -47,7 +47,8 @@ public:
 	void openCalendar(const CalendarEvent& event);
 	void openCalendar();
 
-	bool documentTabOpened(TabType type, long long rowID) const;
+    //returns tab index, otherwise returns -1
+    int documentTabOpened(TabType type, long long rowID) const;
 	bool patientTabOpened(long long patientRowid) const;
 
 	void closeTabRequested(int tabId);

@@ -306,14 +306,14 @@ bool TabPresenter::newListAlreadyOpened(const Patient& patient)
 
 
 
-bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
+int TabPresenter::documentTabOpened(TabType type, long long rowID) const
 {
     for (const auto& [index, tab] : m_tabs)
     {
 
         if (tab->type == type && tab->rowID() == rowID)
         {
-            return true;
+            return index;
         }
     }
 
@@ -324,12 +324,12 @@ bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
         {       
             if (tab->patient && tab->patient.get()->rowid == rowID)
             {
-                return true;
+                return index;
             }
         }
     }
 
-    return false;
+    return -1;
 }
 
 bool TabPresenter::patientTabOpened(long long) const

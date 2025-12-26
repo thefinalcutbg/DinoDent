@@ -9,7 +9,8 @@ namespace DbTelemetry
 			prescrCount{ 0 },
 			invoiceCount{ 0 },
 			patientCount{ 0 },
-			noticeCount{ 0 }
+            noticeCount{ 0 },
+            planCount{ 0 }
 		;
 		
 	};

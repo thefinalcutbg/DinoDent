@@ -132,9 +132,11 @@ std::pair<int, int> TreatmentPlanView::TreatmentPlanView::getSelection() const
 
 void TreatmentPlanView::disableEditFileds(bool disabled)
 {
+    bool emptyList = ui->stageList->topLevelItemCount() == 0;
+
     ui->dateEdit->setDisabled(disabled);
-    ui->editButton->setHidden(disabled);
-    ui->deleteButton->setHidden(disabled);
+    ui->editButton->setHidden(disabled || emptyList);
+    ui->deleteButton->setHidden(disabled || emptyList);
     ui->addProcedure->setHidden(disabled);
     ui->addStage->setHidden(disabled);
     ui->addConclusion->setHidden(disabled);
@@ -152,11 +154,10 @@ void TreatmentPlanView::repaintTooth(const ToothPaintHint &tooth)
 
 void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
 {
+
     QSignalBlocker b1(ui->completedCheck);
 
     ui->completedCheck->setChecked(p.is_completed);
-
-    disableEditFileds(p.is_completed);
 
     QSignalBlocker b2(ui->stageList);
 
@@ -187,7 +188,6 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
         auto *stageItem = new QTreeWidgetItem(ui->stageList);
 
         auto *label = new QLabel;
-        label->setWordWrap(isConclusion);
         label->setTextFormat(Qt::RichText);
         label->setText(stageText);
 
@@ -221,6 +221,8 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
 
         stageItem->setExpanded(true);
     }
+
+    disableEditFileds(p.is_completed);
 }
 
 void TreatmentPlanView::setAffectedTeeth(const std::vector<int>& indexes)

@@ -73,10 +73,11 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 	});
 
 	connect(ui.templateButton, &QPushButton::clicked, this, [&] {
-		
-		NotesTemplateDialog d;
-		
-		d.exec();
+
+        auto templateType = m_treatmentPlanMode ? DbNotes::TemplateType::PlannedProcedure
+                                                : DbNotes::TemplateType::ProcedureNote;
+
+        NotesTemplateDialog d(templateType);
 
 		auto result = d.getResult();
 
@@ -190,7 +191,6 @@ void ProcedureInput::setCommonData(const CommonData& data, bool hasNhifCode)
         ui.financingGroup->setHidden(true);
         ui.dateFrame->setHidden(true);
         ui.notesLabel->setText("Допълнителни бележки:");
-        ui.templateButton->setHidden(true);
     }
 
 }

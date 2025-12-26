@@ -24,8 +24,5 @@ namespace DbProcedure
     std::vector<Procedure> getPatientProcedures(long long patientRowid);
     std::vector<int> getDailyNhifProcedures(const Date& date, long long excludeAmblistRowid);
     Date getLastProcedureDate(long long patientRowid);
-
-    std::vector<std::string> getProcedureTemplateNotes();
-    void setProcedureTemplateNotes(const std::vector<std::string>& notes);
 };
 

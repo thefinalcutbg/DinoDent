@@ -84,7 +84,8 @@ void PatientInfoPresenter::notesRequested()
 {
     MultilineDialog d(patient->patientNotes);
     d.setWindowTitle("Бележки за пациента (не се изпращат към НЗИС)");
-    d.enableEditing(true);
+    d.enableEditing();
+    d.enableNotesFormat();
     auto result = d.getResult();
 
     if (result) {

@@ -1,15 +1,15 @@
 #include "NotesTemplateDialog.h"
-#include "Database/DbProcedure.h"
 #include "View/ModalDialogBuilder.h"
 
-NotesTemplateDialog::NotesTemplateDialog(QWidget *parent)
-	: QDialog(parent)
+NotesTemplateDialog::NotesTemplateDialog(DbNotes::TemplateType type, QWidget *parent)
+    : QDialog(parent),
+    m_type(type)
 {
 	ui.setupUi(this);
 
 	setWindowTitle("Шаблони за допълнителни бележки");
 
-	auto notes = DbProcedure::getProcedureTemplateNotes();
+    auto notes = DbNotes::getTemplateNotes(m_type);
 
 	ui.tableWidget->setColumnCount(1);
 	ui.tableWidget->setRowCount(notes.size());
@@ -20,8 +20,15 @@ NotesTemplateDialog::NotesTemplateDialog(QWidget *parent)
 	ui.tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	for (int i = 0; i < notes.size(); i++) {
-		ui.tableWidget->setItem(i, 0, new QTableWidgetItem(notes[i].c_str()));
+
+        auto item = new QTableWidgetItem(notes[i].c_str());
+        ui.tableWidget->setItem(i, 0, item);
+
 	}
+
+    if(notes.size()){
+        ui.tableWidget->selectRow(0);
+    }
 
 	connect(ui.addButton, &QPushButton::clicked, this, [&] {
 		
@@ -81,6 +88,6 @@ NotesTemplateDialog::~NotesTemplateDialog()
 		toInsert.push_back(ui.tableWidget->item(i, 0)->text().toStdString());
 	}
 
-	DbProcedure::setProcedureTemplateNotes(toInsert);
+    DbNotes::setTemplateNotes(toInsert, m_type);
 
 }

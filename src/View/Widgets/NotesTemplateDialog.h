@@ -2,6 +2,7 @@
 
 #include <QDialog>
 #include "ui_NotesTemplateDialog.h"
+#include "Database/DbNotes.h"
 
 class NotesTemplateDialog : public QDialog
 {
@@ -9,11 +10,13 @@ class NotesTemplateDialog : public QDialog
 
 	bool edited = false;
 
+    DbNotes::TemplateType m_type;
+
 	QString m_result;
 
 public:
-	NotesTemplateDialog(QWidget *parent = nullptr);
-	QString getResult() const { return m_result; }
+    NotesTemplateDialog(DbNotes::TemplateType type, QWidget *parent = nullptr);
+    QString getResult() { exec(); return m_result; }
 	~NotesTemplateDialog();
 
 private:

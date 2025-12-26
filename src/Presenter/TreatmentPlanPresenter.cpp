@@ -8,6 +8,7 @@
 #include "View/Widgets/MultilineDialog.h"
 #include "Database/DbTreatmentPlan.h"
 #include "View/Widgets/PlannedProcedureDialog.h"
+
 TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowid)
     :
     TabInstance(tabView, TabType::TreatmentPlan, patient),
@@ -221,7 +222,8 @@ void TreatmentPlanPresenter::addStage()
 
     MultilineDialog d("");
     d.setWindowTitle("Описание на етапа");
-    d.enableEditing(false);
+    d.enableTemplateLoading(DbNotes::TemplateType::PlanStage);
+    d.enableEditing();
 
     auto stageDescription = d.getResult();
 
@@ -252,11 +254,13 @@ void TreatmentPlanPresenter::removeStage()
 {
     if(m_treatmentPlan.is_completed) return;
 
+    auto stage = getCurrentStage();
+
+    if(!stage) return;
+
     auto &stages = m_treatmentPlan.stages;
 
-    if (m_selection.first == -1) return;
-
-    if(m_treatmentPlan.stages[m_selection.first].plannedProcedures.size() &&
+    if(stage->plannedProcedures.size() &&
     !ModalDialogBuilder::askDialog(
         "Сигурни ли сте, че искате да премахнете етапа заедно с всички негови процедури?", false
     )) return;
@@ -272,6 +276,11 @@ void TreatmentPlanPresenter::removeStage()
 
     if(stageIsConclusion){
         m_treatmentPlan.lastStageIsConclusion = false;
+    }
+
+    //only conclusion is left
+    if(m_treatmentPlan.stages.size() == 1 && stageIsConclusion){
+        m_treatmentPlan.stages.clear();
     }
 
     view->setTreatmentPlan(m_treatmentPlan);
@@ -352,14 +361,15 @@ void TreatmentPlanPresenter::addConclusion()
 
     MultilineDialog d("");
     d.setWindowTitle("Описание на етапа");
-    d.enableEditing(false);
+    d.enableTemplateLoading(DbNotes::TemplateType::PlanConclusion);
+    d.enableEditing();
 
     auto conclusion = d.getResult();
 
     if(!conclusion.has_value()) return;
 
-    m_treatmentPlan.stages.emplace_back();
-    m_treatmentPlan.stages.back().notes = conclusion.value();
+    stages.emplace_back();
+    stages.back().notes = conclusion.value();
 
     view->setTreatmentPlan(m_treatmentPlan);
 }
@@ -369,7 +379,7 @@ void TreatmentPlanPresenter::editPressed()
     if(m_treatmentPlan.is_completed) return;
 
     if(m_selection.second == -1) {
-            nameEditRequested();
+            stageEditRequested();
             return;
     }
 
@@ -407,18 +417,16 @@ void TreatmentPlanPresenter::dateChanged(const Date &date)
 
 void TreatmentPlanPresenter::removeProcedure()
 {
-    if(m_selection.second == -1) return;
+    auto currentProcedure = getCurrentProcedure();
 
-    if (m_selection.first == -1) return;
+    if(!currentProcedure) return;
 
-    auto &planned = m_treatmentPlan.stages[m_selection.first].plannedProcedures;
+    auto &planned = getCurrentStage()->plannedProcedures;
 
-    auto &procedure = m_treatmentPlan.stages[m_selection.first].plannedProcedures[m_selection.second];
+    if(!ModalDialogBuilder::askDialog("Сигурни ли сте, че искате да премахнете избраната процедура?"), false) return;
 
-    if(!ModalDialogBuilder::askDialog("Сигурни ли сте, че искате да премахнете избраната процедура?")) return;
-
-    if(procedure.rowid){
-        m_deleted_procedures.push_back(procedure.rowid);
+    if(currentProcedure->rowid){
+        m_deleted_procedures.push_back(currentProcedure->rowid);
     }
 
     planned.erase(planned.begin() + m_selection.second);
@@ -482,57 +490,36 @@ void TreatmentPlanPresenter::priceEditRequested()
     makeEdited();
 }
 
-void TreatmentPlanPresenter::nameEditRequested()
+void TreatmentPlanPresenter::stageEditRequested()
 {
     if(m_treatmentPlan.is_completed) return;
 
-    if(m_selection.first == -1) return;
+    auto stage = getCurrentStage();
 
-    if(m_selection.second == -1){
+    if(!stage) return;
 
-        auto& textForEdit = m_treatmentPlan.stages[m_selection.first].notes;
+    auto templateType = stage == getConclusion() ?
+                            DbNotes::TemplateType::PlanConclusion : DbNotes::TemplateType::PlanStage;
 
-        MultilineDialog d(textForEdit);
-        d.setWindowTitle("Описание на етапа");
-        d.enableEditing(false);
+    MultilineDialog d(stage->notes);
+    d.setWindowTitle("Описание на етапа");
+    d.enableTemplateLoading(templateType);
+    d.enableEditing();
 
-        auto result = d.getResult();
-
-        if(!result) return;
-
-        textForEdit = result.value();
-
-        view->setTreatmentPlan(m_treatmentPlan);
-
-        view->setSelection(m_selection);
-
-        makeEdited();
-
-        return;
-    }
-
-    auto& procedure =
-        m_treatmentPlan
-        .stages[m_selection.first]
-        .plannedProcedures[m_selection.second];
-
-    auto text = procedure.name.empty() ? procedure.code.name() : procedure.name;
-
-    auto result = ModalDialogBuilder::getStringInput("", "Редактиране на процедурата", text);
+    auto result = d.getResult();
 
     if(!result) return;
 
-    if(result->empty()){
-        procedure.name.clear();
-    } else {
-        procedure.name = result.value();
-    }
+    stage->notes = result.value();
 
     view->setTreatmentPlan(m_treatmentPlan);
 
     view->setSelection(m_selection);
 
     makeEdited();
+
+    return;
+
 }
 
 void TreatmentPlanPresenter::setCompleted(bool completed)

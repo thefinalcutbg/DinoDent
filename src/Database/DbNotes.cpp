@@ -44,3 +44,46 @@ bool DbNotes::saveNote(const std::string& note, long long patientRowId, int toot
 
     return db.execute();
 }
+
+std::vector<std::string> DbNotes::getTemplateNotes(TemplateType type)
+{
+    Db db;
+
+    db.newStatement("SELECT text FROM note_template WHERE type=?");
+
+    db.bind(1, type);
+
+    std::vector<std::string> result;
+
+    while (db.hasRows()) {
+        result.push_back(db.asString(0));
+    }
+
+    return result;
+}
+
+void DbNotes::setTemplateNotes(const std::vector<std::string>& notes, TemplateType type)
+{
+    Db db;
+    db.newStatement("DELETE FROM note_template WHERE type=?");
+
+    db.bind(1, type);
+
+    db.execute();
+
+    for (auto& note : notes) {
+        db.newStatement("INSERT INTO note_template (text, type) VALUES(?, ?)");
+        db.bind(1, note);
+        db.bind(2, type);
+        db.execute();
+    }
+}
+
+void DbNotes::insertTemplateNote(const std::string &note, TemplateType type)
+{
+    Db db;
+    db.newStatement("INSERT INTO note_template (text, type) VALUES(?, ?)");
+    db.bind(1, note);
+    db.bind(2, type);
+    db.execute();
+}

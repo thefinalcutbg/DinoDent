@@ -3,4 +3,5 @@ CREATE TABLE treatment_plan (rowid INTEGER PRIMARY KEY, patient_rowid INTEGER RE
 CREATE TABLE planned_procedure (rowid INTEGER PRIMARY KEY AUTOINCREMENT, treatment_plan_rowid INTEGER REFERENCES treatment_plan (rowid) ON DELETE CASCADE ON UPDATE CASCADE, stage INTEGER, code TEXT, name TEXT, icd10 TEXT, diagnosis_description TEXT, notes TEXT, data TEXT, price_from REAL, price_to REAL);
 ALTER TABLE procedure ADD COLUMN planned_procedure_rowid INTEGER REFERENCES planned_procedure (rowid) ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE note_template ADD COLUMN type INTEGER;
+UPDATE note_template SET type=0;
 PRAGMA user_version=37;

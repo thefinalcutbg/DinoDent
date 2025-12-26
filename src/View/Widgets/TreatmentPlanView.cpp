@@ -238,9 +238,10 @@ void TreatmentPlanView::setSelection(const std::pair<int, int>& pair)
 
     ui->stageList->scrollToItem(stageItem, QAbstractItemView::PositionAtCenter);
 
-    stageItem->setSelected(true);
-
-    if(pair.second == -1) { return; }
+    if(pair.second == -1) {
+        stageItem->setSelected(true);
+        return;
+    }
 
     stageItem->setExpanded(true);
 

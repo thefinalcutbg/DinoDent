@@ -262,7 +262,9 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
 
     if(m_selection.first == -1) return;
 
-    if(m_treatmentPlan.lastStageIsConclusion){
+    if(m_treatmentPlan.lastStageIsConclusion &&
+        m_treatmentPlan.stages.size()-1 == m_selection.first
+    ){
         return;
     }
 

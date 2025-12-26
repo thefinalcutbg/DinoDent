@@ -78,6 +78,7 @@ public:
     void setParameterData(ConstructionRange range, bool allowSingle); //Range
     void setParameterData(bool supernumeral, ConstructionRange range, bool preferSingle); //Crown or Block crown
     void setParameterData(bool supernumeral, ConstructionRange range, RestorationData r, int preferedIndex); //AMBI
+    void setParameterData(const AffectedTeeth& teeth, const AdditionalParameters& param);
 	void setCurrentPresenter(ProcedureCreator* presenter) { this->presenter = presenter; }
 
 	ResultData getResult();

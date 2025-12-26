@@ -1,5 +1,6 @@
 CREATE TABLE code_list (rzi TEXT NOT NULL REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE, code TEXT NOT NULL, from_value REAL, to_value REAL, PRIMARY KEY (rzi, code));
 CREATE TABLE treatment_plan (rowid INTEGER PRIMARY KEY, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, rzi TEXT REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE SET DEFAULT, lpk TEXT REFERENCES doctor (lpk) ON DELETE NO ACTION ON UPDATE CASCADE, date TEXT, status TEXT, stage_description TEXT, is_completed INTEGER, has_conclusion INTEGER);
 CREATE TABLE planned_procedure (rowid INTEGER PRIMARY KEY AUTOINCREMENT, treatment_plan_rowid INTEGER REFERENCES treatment_plan (rowid) ON DELETE CASCADE ON UPDATE CASCADE, stage INTEGER, code TEXT, name TEXT, icd10 TEXT, diagnosis_description TEXT, notes TEXT, data TEXT, price_from REAL, price_to REAL);
-ALTER TABLE procedure AD COLUMN planned_procedure_rowid INTEGER REFERENCES planned_procedure (rowid) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE procedure ADD COLUMN planned_procedure_rowid INTEGER REFERENCES planned_procedure (rowid) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE note_template ADD COLUMN type INTEGER;
 PRAGMA user_version=37;

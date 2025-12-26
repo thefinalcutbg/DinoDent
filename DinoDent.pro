@@ -291,6 +291,7 @@ HEADERS += \
     src/View/SubWidgets/PatientTileInfo.h \
     src/View/SubWidgets/PerioStatisticView.h \
     src/View/SubWidgets/PerioSummary.h \
+    src/View/SubWidgets/PriceInputWidget.h \
     src/View/SubWidgets/ProcedureInput.h \
     src/View/SubWidgets/ProcedureListView.h \
     src/View/SubWidgets/ReferralTile.h \
@@ -355,6 +356,7 @@ HEADERS += \
     src/View/Widgets/PinPromptDialog.h \
     src/View/Widgets/PisDialog.h \
     src/View/Widgets/PisImportView.h \
+    src/View/Widgets/PlannedProcedureDialog.h \
     src/View/Widgets/PracticeDialog.h \
     src/View/Widgets/PracticeListDialog.h \
     src/View/Widgets/PracticeSelectorView.h \
@@ -640,6 +642,7 @@ SOURCES += \
     src/View/SubWidgets/PatientTileInfo.cpp \
     src/View/SubWidgets/PerioStatisticView.cpp \
     src/View/SubWidgets/PerioSummary.cpp \
+    src/View/SubWidgets/PriceInputWidget.cpp \
     src/View/SubWidgets/ProcedureInput.cpp \
     src/View/SubWidgets/ProcedureListView.cpp \
     src/View/SubWidgets/ReferralTile.cpp \
@@ -702,6 +705,7 @@ SOURCES += \
     src/View/Widgets/PinPromptDialog.cpp \
     src/View/Widgets/PisDialog.cpp \
     src/View/Widgets/PisImportView.cpp \
+    src/View/Widgets/PlannedProcedureDialog.cpp \
     src/View/Widgets/PracticeDialog.cpp \
     src/View/Widgets/PracticeListDialog.cpp \
     src/View/Widgets/PracticeSelectorView.cpp \
@@ -772,6 +776,7 @@ FORMS += \
     src/View/SubWidgets/PatientTileInfo.ui \
     src/View/SubWidgets/PerioStatisticView.ui \
     src/View/SubWidgets/PerioSummary.ui \
+    src/View/SubWidgets/PriceInputWidget.ui \
     src/View/SubWidgets/ProcedureInput.ui \
     src/View/SubWidgets/ProcedureListView.ui \
     src/View/SubWidgets/ReferralTile.ui \
@@ -818,6 +823,7 @@ FORMS += \
     src/View/Widgets/PinPromptDialog.ui \
     src/View/Widgets/PisDialog.ui \
     src/View/Widgets/PisImportView.ui \
+    src/View/Widgets/PlannedProcedureDialog.ui \
     src/View/Widgets/PracticeDialog.ui \
     src/View/Widgets/PracticeListDialog.ui \
     src/View/Widgets/PracticeSelectorView.ui \

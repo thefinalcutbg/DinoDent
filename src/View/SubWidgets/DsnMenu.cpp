@@ -56,7 +56,7 @@ DsnMenu::DsnMenu()
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i, true); });
 #ifndef  DISABLE_NEW_DENTAL_STATUSES
        surfNonCar[i] = nonCariesMenu->addAction(surfName[i]);
-       connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i, true); })
+        connect(surfNonCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::NonCariesLesion, i, true); });
 #endif
     }
 

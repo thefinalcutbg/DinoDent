@@ -7,7 +7,7 @@
 #include "ProcedureDialogPresenter.h"
 #include "View/Widgets/MultilineDialog.h"
 #include "Database/DbTreatmentPlan.h"
-
+#include "View/Widgets/PlannedProcedureDialog.h"
 TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowid)
     :
     TabInstance(tabView, TabType::TreatmentPlan, patient),
@@ -336,8 +336,15 @@ void TreatmentPlanPresenter::editPressed()
 {
     if(m_treatmentPlan.is_completed) return;
 
-    m_selection.second == -1 ?
-        nameEditRequested() : priceEditRequested();
+    if(m_selection.second == -1) {
+            nameEditRequested();
+            return;
+    }
+
+    PlannedProcedureDialog d(m_treatmentPlan.stages[m_selection.first].plannedProcedures[m_selection.second]);
+    d.exec();
+
+    view->setTreatmentPlan(m_treatmentPlan);
 }
 
 void TreatmentPlanPresenter::removePressed()

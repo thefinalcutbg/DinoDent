@@ -11,10 +11,11 @@ class PlannedProcedureDialog : public QDialog
 {
     Q_OBJECT
 
-    TreatmentPlan::PlannedProcedure& procedure_ref;
+    TreatmentPlan::PlannedProcedure m_procedure;
 
 public:
     explicit PlannedProcedureDialog(TreatmentPlan::PlannedProcedure& p, QWidget *parent = nullptr);
+    std::optional<TreatmentPlan::PlannedProcedure> getResult();
     ~PlannedProcedureDialog();
 
 private:

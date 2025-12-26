@@ -141,6 +141,8 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 	ui.templateButton->setIcon(QPixmap(":/icons/icon_template.png"));
 	ui.icdEdit->setCompletions(completionList);
 	ui.icdEdit->completer()->setFilterMode(Qt::MatchContains);
+
+    ui.errorLabel->setStyleSheet("color:red");
 }
 
 void ProcedureInput::setParamMinHeight(int height)
@@ -216,7 +218,7 @@ void ProcedureInput::setParameterData(bool supernumeral)
 {
 	setParameterData();
 
-	ui.rangeCheck->hide();
+    ui.blockCrownCheck->hide();
 	ui.toothFrame->show();
 	ui.hyperdonticCheckBox->setChecked(supernumeral);
 	
@@ -261,10 +263,10 @@ void ProcedureInput::setParameterData(bool supernumeral, ConstructionRange range
 	ui.beginCombo->setCurrentIndex(range.toothFrom);
 	ui.endCombo->setCurrentIndex(range.toothTo);
 	ui.toothFrame->show();
-	ui.rangeCheck->show();
+    ui.blockCrownCheck->show();
 
-	ui.rangeCheck->setChecked(!preferSingle);
-	emit ui.rangeCheck->toggled(!preferSingle); //in case it is already checked
+    ui.blockCrownCheck->setChecked(!preferSingle);
+    emit ui.blockCrownCheck->toggled(!preferSingle); //in case it is already checked
 }
 
 void ProcedureInput::setParameterData(bool supernumeral, ConstructionRange range, RestorationData r, int preferedIndex)

@@ -99,6 +99,38 @@ void TreatmentPlanPresenter::setCompletedProcedures()
             p.isCompleted = completed.count(p.rowid);
 }
 
+TreatmentPlan::Stage *TreatmentPlanPresenter::getCurrentStage()
+{
+    if(m_selection.first < 0) return nullptr;
+
+    if(m_selection.first >= m_treatmentPlan.stages.size()) return nullptr;
+
+    return &m_treatmentPlan.stages[m_selection.first];
+
+}
+
+TreatmentPlan::PlannedProcedure *TreatmentPlanPresenter::getCurrentProcedure()
+{
+    if(m_selection.second < 0) return nullptr;
+
+    auto stage = getCurrentStage();
+
+    if(!stage) return nullptr;
+
+    if(m_selection.second >= stage->plannedProcedures.size()) return nullptr;
+
+    return &stage->plannedProcedures[m_selection.second];
+}
+
+TreatmentPlan::Stage *TreatmentPlanPresenter::getConclusion()
+{
+    if(!m_treatmentPlan.lastStageIsConclusion) return nullptr;
+
+    if(m_treatmentPlan.stages.empty()) return nullptr;
+
+    return &m_treatmentPlan.stages.back();
+}
+
 void TreatmentPlanPresenter::prepareDerivedForSwitch()
 {
     view->setPresenter(nullptr);
@@ -341,8 +373,17 @@ void TreatmentPlanPresenter::editPressed()
             return;
     }
 
-    PlannedProcedureDialog d(m_treatmentPlan.stages[m_selection.first].plannedProcedures[m_selection.second]);
-    d.exec();
+    auto currentProcedure = getCurrentProcedure();
+
+    if(!currentProcedure) return;
+
+    PlannedProcedureDialog d(*currentProcedure);
+
+    auto result = d.getResult();
+
+    if(!result) return;
+
+    *currentProcedure = result.value();
 
     view->setTreatmentPlan(m_treatmentPlan);
 }

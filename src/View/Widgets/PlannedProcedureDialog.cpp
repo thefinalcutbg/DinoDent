@@ -3,11 +3,12 @@
 
 PlannedProcedureDialog::PlannedProcedureDialog(TreatmentPlan::PlannedProcedure& p,QWidget *parent)
     : QDialog(parent)
-    , procedure_ref(p),
+    , m_procedure(p),
     ui(new Ui::PlannedProcedureDialog)
 {
     ui->setupUi(this);
 
+    setWindowTitle("Редактиране на процедура");
 
     ui->nameEdit->setText(p.code.name().c_str());
 
@@ -26,27 +27,37 @@ PlannedProcedureDialog::PlannedProcedureDialog(TreatmentPlan::PlannedProcedure& 
 
     ui->procedureInput->setParameterData();
 
+    ui->nameEdit->setFocus();
+    ui->nameEdit->selectAll();
+
     connect(ui->okButton, &QPushButton::clicked, this, [=, this]{
 
         if(ui->procedureInput->isValid().size()) return;
 
         auto resultData = ui->procedureInput->getResult();
 
-        procedure_ref.diagnosis = resultData.diagnosis;
+        m_procedure.diagnosis = resultData.diagnosis;
 
-        procedure_ref.notes = resultData.notes;
+        m_procedure.notes = resultData.notes;
 
         auto text = ui->nameEdit->text().toStdString();
 
-        if(text != procedure_ref.code.name()){
-            procedure_ref.name = text;
+        if(text != m_procedure.code.name()){
+            m_procedure.name = text;
         }
 
-        procedure_ref.priceRange = ui->priceInput->getPrice();
+        m_procedure.priceRange = ui->priceInput->getPrice();
 
         accept();
 
     });
+}
+
+std::optional<TreatmentPlan::PlannedProcedure> PlannedProcedureDialog::getResult()
+{
+    if(exec() != QDialog::Accepted) return {};
+
+    return m_procedure;
 }
 
 PlannedProcedureDialog::~PlannedProcedureDialog()

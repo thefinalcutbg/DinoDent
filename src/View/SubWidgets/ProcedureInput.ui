@@ -254,7 +254,7 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QCheckBox" name="rangeCheck">
+          <widget class="QCheckBox" name="blockCrownCheck">
            <property name="text">
             <string>Блок корони</string>
            </property>

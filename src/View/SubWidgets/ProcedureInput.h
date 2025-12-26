@@ -72,12 +72,12 @@ public:
     void setCommonData(const CommonData& data, bool hasNhifCode);
 
 	void setParameterData();
-	void setParameterData(AnesthesiaMinutes minutes);
-	void setParameterData(bool supernumeral);
-	void setParameterData(bool supernumeral, RestorationData r);
-	void setParameterData(ConstructionRange range, bool allowSingle);
-	void setParameterData(bool supernumeral, ConstructionRange range, bool preferSingle);
-	void setParameterData(bool supernumeral, ConstructionRange range, RestorationData r, int preferedIndex);
+    void setParameterData(AnesthesiaMinutes minutes); //Anesthesia
+    void setParameterData(bool supernumeral); //Specific tooth
+    void setParameterData(bool supernumeral, RestorationData r); //Restoration
+    void setParameterData(ConstructionRange range, bool allowSingle); //Range
+    void setParameterData(bool supernumeral, ConstructionRange range, bool preferSingle); //Crown or Block crown
+    void setParameterData(bool supernumeral, ConstructionRange range, RestorationData r, int preferedIndex); //AMBI
 	void setCurrentPresenter(ProcedureCreator* presenter) { this->presenter = presenter; }
 
 	ResultData getResult();

@@ -23,6 +23,9 @@ class TreatmentPlanPresenter : public TabInstance
     bool invalidSelection();
     void setTeethToView();
     void setCompletedProcedures();
+    TreatmentPlan::Stage* getCurrentStage();
+    TreatmentPlan::PlannedProcedure* getCurrentProcedure();
+    TreatmentPlan::Stage* getConclusion();
 
 public:
     TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);

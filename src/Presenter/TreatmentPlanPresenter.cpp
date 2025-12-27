@@ -312,22 +312,20 @@ void TreatmentPlanPresenter::removeStage()
         "Сигурни ли сте, че искате да премахнете етапа заедно с всички негови процедури?", false
     )) return;
 
-    bool stageIsConclusion =
-        m_treatmentPlan.lastStageIsConclusion &&
-        m_selection.first == stages.size()-1;
+    if(stage == getConclusion()){
+        m_treatmentPlan.lastStageIsConclusion = false;
+    }
 
     stages.erase(stages.begin() + m_selection.first);
 
     m_selection.first = std::min(m_selection.first, static_cast<int>(stages.size()) - 1);
     m_selection.second = -1;
 
-    if(stageIsConclusion){
-        m_treatmentPlan.lastStageIsConclusion = false;
-    }
-
     //only conclusion is left
-    if(m_treatmentPlan.stages.size() == 1 && stageIsConclusion){
+    if(m_treatmentPlan.stages.size() == 1 && m_treatmentPlan.lastStageIsConclusion){
+        m_treatmentPlan.lastStageIsConclusion = false;
         m_treatmentPlan.stages.clear();
+        m_selection = {-1, -1};
     }
 
     view->setTreatmentPlan(m_treatmentPlan);

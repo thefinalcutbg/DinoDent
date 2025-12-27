@@ -18,6 +18,15 @@ ControlPanel::ControlPanel(QWidget* parent)
     ui.Restoration->move(ui.DefResto->pos());
     ui.Caries->move(ui.NonCaries->pos());
 #endif
+
+#ifdef Q_OS_OSX
+    auto moveButtons = [](QPushButton* b){ b->move(b->x(), b->y()+10);};
+    moveButtons(ui.NonCaries);
+    moveButtons(ui.Caries);
+    moveButtons(ui.Restoration);
+    moveButtons(ui.DefResto);
+#endif
+
 	StatusButton* pathologies[]
 	{
 		ui.Caries, ui.NonCaries, ui.Resorption, ui.Necrosis, ui.Pulpitis, ui.Missing, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus

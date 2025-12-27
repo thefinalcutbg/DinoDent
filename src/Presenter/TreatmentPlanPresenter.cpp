@@ -262,6 +262,7 @@ void TreatmentPlanPresenter::addStage()
 
     if(m_selection.first == m_treatmentPlan.stages.size()-1 &&
         m_treatmentPlan.lastStageIsConclusion){
+        ModalDialogBuilder::showMessage("Не можете да добавите етап след заключението");
         return;
     }
 
@@ -351,6 +352,7 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
     if(m_treatmentPlan.lastStageIsConclusion &&
         m_treatmentPlan.stages.size()-1 == m_selection.first
     ){
+        ModalDialogBuilder::showMessage("Не можете да добавите процедура в заключението");
         return;
     }
 
@@ -410,7 +412,7 @@ void TreatmentPlanPresenter::addConclusion()
     auto &stages = m_treatmentPlan.stages;
 
     MultilineDialog d("");
-    d.setWindowTitle("Описание на етапа");
+    d.setWindowTitle("Описание на заключението");
     d.enableTemplateLoading(DbNotes::TemplateType::PlanConclusion);
     d.enableEditing();
 
@@ -423,7 +425,11 @@ void TreatmentPlanPresenter::addConclusion()
 
     m_treatmentPlan.lastStageIsConclusion = true;
 
+    m_selection = {m_treatmentPlan.stages.size()-1, -1};
+
     view->setTreatmentPlan(m_treatmentPlan);
+
+    view->setSelection(m_selection);
 }
 
 void TreatmentPlanPresenter::editPressed()

@@ -288,6 +288,7 @@ void PatientHistoryDialog::open(Procedure::DatabaseSource src, bool forceShowApp
         if(forceShowApplyToStatus){
             ui.applyToStatus->show();
             ui.applyToStatus->setText("Приложи статуса към лечебния план");
+            ui.applyToStatus->setDefault(true);
         }
 
 		ui.localProcRadio->click();

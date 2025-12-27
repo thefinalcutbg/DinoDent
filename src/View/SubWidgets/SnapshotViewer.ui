@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1011</width>
-    <height>511</height>
+    <width>1021</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,6 +57,9 @@
             <height>451</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::FocusPolicy::TabFocus</enum>
+          </property>
           <property name="frameShape">
            <enum>QFrame::Shape::NoFrame</enum>
           </property>
@@ -71,13 +74,13 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>30</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>25</width>
+              <width>30</width>
               <height>16777215</height>
              </size>
             </property>
@@ -90,6 +93,9 @@
            <widget class="QSlider" name="statusSlider">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::FocusPolicy::StrongFocus</enum>
             </property>
             <property name="maximum">
              <number>0</number>
@@ -110,9 +116,15 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>25</width>
+              <width>30</width>
               <height>16777215</height>
              </size>
             </property>

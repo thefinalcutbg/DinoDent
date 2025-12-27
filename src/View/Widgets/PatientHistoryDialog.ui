@@ -127,6 +127,9 @@
            <property name="text">
             <string>Приложи към статуса на амбулаторния лист</string>
            </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -230,6 +233,9 @@
           <widget class="QPushButton" name="applyToStatus">
            <property name="text">
             <string>Приложи към статуса на амбулаторния лист</string>
+           </property>
+           <property name="default">
+            <bool>false</bool>
            </property>
           </widget>
          </item>

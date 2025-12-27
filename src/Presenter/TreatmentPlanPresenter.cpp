@@ -250,6 +250,8 @@ void TreatmentPlanPresenter::loadStatus()
     }
 
     setTeethToView();
+
+    makeEdited();
 }
 
 void TreatmentPlanPresenter::addStage()

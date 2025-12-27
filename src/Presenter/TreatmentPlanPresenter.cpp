@@ -395,14 +395,19 @@ void TreatmentPlanPresenter::addProcedure(const std::vector<int>& teeth_idx)
 
 void TreatmentPlanPresenter::addConclusion()
 {
-    if(m_treatmentPlan.lastStageIsConclusion) return;
+    if(m_treatmentPlan.lastStageIsConclusion){
+
+        m_selection.first = m_treatmentPlan.stages.size()-1;
+        m_selection.second = -1;
+        view->setSelection(m_selection);
+        editPressed();
+        return;
+    }
 
     if(m_treatmentPlan.stages.empty()){
         ModalDialogBuilder::showMessage("За да добавите заключение първо добавете поне един етап");
         return;
     }
-
-    m_treatmentPlan.lastStageIsConclusion = true;
 
     auto &stages = m_treatmentPlan.stages;
 
@@ -417,6 +422,8 @@ void TreatmentPlanPresenter::addConclusion()
 
     stages.emplace_back();
     stages.back().notes = conclusion.value();
+
+    m_treatmentPlan.lastStageIsConclusion = true;
 
     view->setTreatmentPlan(m_treatmentPlan);
 }
@@ -508,6 +515,7 @@ void TreatmentPlanPresenter::selectionChanged(const std::pair<int, int>& stagePr
 {
     m_selection = stageProcedurePair;
 
+    view->setSelection(m_selection); //sometimes view and presenter get out of sync
     setTeethToView();
 }
 

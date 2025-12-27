@@ -30,7 +30,7 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setAmbListLayout();
 
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
-    ui.plannedProcedure->setIcon(QIcon(":/icons/icon_plan.png"));
+    ui.plannedProcedure->setIcon(QIcon(":/icons/icon_addPlanned.png"));
 	ui.statusResultButton->setIcon(QIcon(":/icons/icon_apply.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));

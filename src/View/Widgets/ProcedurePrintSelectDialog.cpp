@@ -1,13 +1,7 @@
 ﻿#include "ProcedurePrintSelectDialog.h"
 #include <QPainter>
 #include "View/CommonIcon.h"
-
-void ProcedurePrintSelectDialog::paintEvent(QPaintEvent*)
-{
-	QPainter painter(this);
-
-	painter.fillRect(rect(), Qt::white);
-}
+#include <QMouseEvent>
 
 ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals, QWidget* parent)
 	: QDialog(parent), model(procedures)
@@ -15,6 +9,8 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 	ui.setupUi(this);
 	setModal(true);
     setWindowTitle("Избор на процедури");
+
+    ui.tableView->viewport()->installEventFilter(this);
 
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
@@ -78,6 +74,58 @@ void ProcedurePrintSelectDialog::selectFinancingSource(FinancingSource source)
 	ui.referralCheck->setChecked(source == FinancingSource::NHIF);
 }
 
+void ProcedurePrintSelectDialog::paintEvent(QPaintEvent*)
+{
+    QPainter painter(this);
+
+    painter.fillRect(rect(), Qt::white);
+}
+
+bool ProcedurePrintSelectDialog::eventFilter(QObject* obj, QEvent* event)
+{
+    if (obj == ui.tableView->viewport())
+    {
+        const auto type = event->type();
+        if (type == QEvent::MouseButtonPress || type == QEvent::MouseButtonDblClick)
+        {
+            auto* me = static_cast<QMouseEvent*>(event);
+            if (me->button() == Qt::LeftButton)
+            {
+                const QModelIndex clickedIndex = ui.tableView->indexAt(me->pos());
+                if (!clickedIndex.isValid())
+                    return QDialog::eventFilter(obj, event);
+
+                const QModelIndex checkIndex = model.index(clickedIndex.row(), 0);
+
+                //avoid double-toggling when user clicks the checkbox itself
+                QStyleOptionViewItem opt;
+                opt.initFrom(ui.tableView->viewport());
+                opt.rect = ui.tableView->visualRect(checkIndex);
+                opt.features |= QStyleOptionViewItem::HasCheckIndicator;
+                opt.checkState = static_cast<Qt::CheckState>(model.data(checkIndex, Qt::CheckStateRole).toInt());
+                opt.state |= (opt.checkState == Qt::Checked) ? QStyle::State_On : QStyle::State_Off;
+
+                const QRect checkRect = ui.tableView->style()->subElementRect(
+                    QStyle::SE_ItemViewItemCheckIndicator, &opt, ui.tableView->viewport());
+
+                const bool clickedOnCheckbox = checkRect.contains(me->pos());
+
+                // handle single-clicks on the checkbox but ignore double-clicks to avoid a second toggle.
+                if (clickedOnCheckbox)
+                    return (type == QEvent::MouseButtonDblClick);
+
+
+                const bool isChecked = (opt.checkState == Qt::Checked);
+                model.setData(checkIndex, isChecked ? Qt::Unchecked : Qt::Checked, Qt::CheckStateRole);
+
+
+                return true; // swallow event
+            }
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
+}
 
 ProcedurePrintSelectDialog::~ProcedurePrintSelectDialog()
 {

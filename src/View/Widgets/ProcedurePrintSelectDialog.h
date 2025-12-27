@@ -21,6 +21,8 @@ class ProcedurePrintSelectDialog : public QDialog
 	int mh119index{ -1 };
 
 	void paintEvent(QPaintEvent* e) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
 
 public:
 	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals = {}, QWidget* parent = Q_NULLPTR);

@@ -157,24 +157,29 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
 }
 bool ProcedureSelectModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    auto row = index.row();
-
-    if (!index.isValid())
+    if (!index.isValid() || index.column() != 0)
         return false;
-    if (role == Qt::CheckStateRole)
-    {
-        if ((Qt::CheckState)value.toInt() == Qt::Checked)
-        {
-            m_selectedRows[row] = true;
-            return true;
-        }
-        else
-        {
-            m_selectedRows[row] = false;
-            return true;
-        }
-    }
-    return false;
+
+    if (role != Qt::CheckStateRole)
+        return false;
+
+    auto row = index.row();
+    if (row < 0 || row >= static_cast<int>(m_selectedRows.size()))
+        return false;
+
+    bool checked = (static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked);
+
+    // Avoid unnecessary repaints.
+    if (m_selectedRows[row] == checked)
+        return true;
+
+    m_selectedRows[row] = checked;
+
+    QVector<int> roles;
+    roles << Qt::CheckStateRole;
+    emit dataChanged(index, index, roles);
+
+    return true;
 }
 
 Qt::ItemFlags ProcedureSelectModel::flags(const QModelIndex& index) const

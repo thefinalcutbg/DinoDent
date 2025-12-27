@@ -12,8 +12,8 @@ class ProcedureSelectModel : public QAbstractTableModel
     bool removeRows(int, int, const QModelIndex& = QModelIndex()) override {return false; }
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-	bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+
+
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
 
 	std::vector<QProcedure> m_procedures;
@@ -21,7 +21,8 @@ class ProcedureSelectModel : public QAbstractTableModel
 
 public:
 
-
+    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 	void selectFinancingSource(FinancingSource source);
 	void selectAll();
 	ProcedureSelectModel(const std::vector<Procedure>& p, QObject* parent = nullptr);

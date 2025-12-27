@@ -39,6 +39,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     teethViewScene = new TeethViewScene(ui->teethView);
     ui->teethView->setScene(teethViewScene);
     ui->teethView->setSceneRect(teethViewScene->sceneRect());
+    teethViewScene->drawFocused(true);
 
     connect(ui->stageList, &QTreeWidget::itemSelectionChanged, this, [=, this] {
 
@@ -69,6 +70,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     });
 
     connect(teethViewScene, &TeethViewScene::toothDoubleClicked, [&, this]{ ui->addProcedure->click();});
+    connect(teethViewScene, &TeethViewScene::returnPressed, [&, this]{ ui->addProcedure->click();});
 
     connect(ui->stageList, &QTreeWidget::itemDoubleClicked, this, [this](QTreeWidgetItem *item, int column){
 

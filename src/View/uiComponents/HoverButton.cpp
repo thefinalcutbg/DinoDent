@@ -36,6 +36,11 @@ void HoverButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
+    if(!this->isEnabled()){
+        painter.fillRect(rect(), Theme::background);
+        return;
+    }
+
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
 	QPainterPath outline;

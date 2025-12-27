@@ -97,6 +97,7 @@
         <file>report_denture.lrxml</file>
         <file>report_ambnhif.lrxml</file>
         <file>report_invoice.lrxml</file>
+        <file>report_plan.lrxml</file>
     </qresource>
     <qresource prefix="/fonts"/>
     <qresource prefix="/json">

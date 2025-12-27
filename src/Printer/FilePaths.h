@@ -7,6 +7,7 @@ struct AmbList;
 struct Prescription;
 struct Patient;
 struct Invoice;
+struct TreatmentPlan;
 
 namespace FilePaths {
 
@@ -18,4 +19,5 @@ namespace FilePaths {
 	std::string get(const Prescription& prescr, const Patient& patient);
 	std::string get(const Invoice& invoice);
 	std::string get(DeclarationType declType, const Patient& patient);
+    std::string get(const TreatmentPlan& plan, const Patient& patient);
 }

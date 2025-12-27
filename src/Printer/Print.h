@@ -9,6 +9,7 @@ class Referral;
 struct FiscalReport;
 class NhifSpecReport;
 struct Prescription;
+struct TreatmentPlan;
 
 namespace Print
 {
@@ -27,7 +28,7 @@ namespace Print
 	bool consent(const Patient& p, const std::string& pdfFilename = {});
 	bool invoice(const Invoice& inv, const std::string& pdfFilename = {});
 	bool prescription(const Prescription& prescr, const Patient& patient, const std::string& filename = {});
-	
+    bool treatmentPlan(const TreatmentPlan& plan, const Patient& p, const std::string& pdfFilename = {});
 	//declarations:
 	bool printDentureDeclaration(const Patient* patient, const AmbList* amblist = nullptr, const std::string& pdfFilename = {});
 	bool printHirbNoDeclaration(const Patient* patient, const std::string& pdfFilename = {});

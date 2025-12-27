@@ -604,6 +604,7 @@ SOURCES += \
     src/Printer/Implementation/PrintHIRBNoDeclaration.cpp \
     src/Printer/Implementation/PrintInvoice.cpp \
     src/Printer/Implementation/PrintOther.cpp \
+    src/Printer/Implementation/PrintPlan.cpp \
     src/Printer/Implementation/PrintPrescription.cpp \
     src/Printer/Implementation/PrintPrv.cpp \
     src/Printer/Implementation/PrintReferral.cpp \

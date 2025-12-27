@@ -44,5 +44,6 @@ public:
     ~TeethViewScene();
 
 signals:
+    void returnPressed();
 	void toothDoubleClicked(int idx);
 };

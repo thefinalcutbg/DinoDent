@@ -7,7 +7,7 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/Prescription/Prescription.h"
 #include "Model/Financial/Invoice.h"
-
+#include "Model/Dental/TreatmentPlan.h"
 #include "View/ModalDialogBuilder.h"
 
 std::vector<DirType> subdir_structure;
@@ -150,4 +150,11 @@ std::string FilePaths::get(DeclarationType declType, const Patient& patient)
         ".pdf";
 
     return getPath(patient, Date::currentDate(), declStr[declType], filename);
+}
+
+std::string FilePaths::get(const TreatmentPlan &plan, const Patient &patient)
+{
+    auto filename = plan.date.to8601() + "_PLAN_" + patient.id.substr(0, 6) + ".pdf";
+
+    return getPath(patient, plan.date, "Лечебни планове", filename);
 }

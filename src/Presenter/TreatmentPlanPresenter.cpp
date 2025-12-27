@@ -11,9 +11,9 @@
 #include "View/Widgets/TabView.h"
 #include "View/Widgets/TreatmentPlanView.h"
 #include "View/Widgets/PriceInputDialog.h"
-
 #include "View/Widgets/PlannedProcedureDialog.h"
-
+#include "Printer/Print.h"
+#include "Printer/FilePaths.h"
 
 TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr<Patient> patient, long long rowid)
     :
@@ -200,12 +200,39 @@ bool TreatmentPlanPresenter::save()
 
 void TreatmentPlanPresenter::print()
 {
+    save();
 
+    Print::treatmentPlan(m_treatmentPlan, *patient);
 }
 
 void TreatmentPlanPresenter::pdfPrint()
 {
+    save();
 
+    auto filepath = FilePaths::get(m_treatmentPlan, *patient);
+    if (filepath.empty()) return;
+
+    bool success = Print::treatmentPlan(m_treatmentPlan, *patient, filepath);
+
+    if(!success) return;
+
+    if (!User::signatureTablet().isPDFconfigured()) {
+        if (ModalDialogBuilder::askDialog(
+                "Файлът е запазен успешно. Желаете ли да отворите директорията?"
+                ))
+        {
+            ModalDialogBuilder::openExplorer(filepath);
+        }
+
+        return;
+    }
+
+    if (ModalDialogBuilder::askDialog("Файлът е запазен успешно. Желаете ли да го подпишете с графологичен таблет?")){
+
+        User::signatureTablet().signPdf(filepath);
+
+        return;
+    }
 }
 
 long long TreatmentPlanPresenter::rowID() const

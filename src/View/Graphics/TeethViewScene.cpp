@@ -249,7 +249,6 @@ int TeethViewScene::keyCodeMapper(QKeyEvent *e)
 
 void TeethViewScene::keyPressEvent(QKeyEvent* event)
 {
-    if (!presenter) return;
 
     int lastSelected = 0;
     int firstSelected = 0;
@@ -269,7 +268,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
     switch (event->key())
     {
-        case Qt::Key_Return: presenter->addProcedure(); break;
+        case Qt::Key_Return: emit returnPressed(); if(presenter) presenter->addProcedure(); break;
         case Qt::Key_Right:
             if (event->modifiers() & Qt::ShiftModifier)
             {
@@ -317,8 +316,10 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
             break;
         }
 
-        case Qt::Key_Delete: presenter->setOther(OtherInputs::removeAll);; break;
+        case Qt::Key_Delete: if(presenter) presenter->setOther(OtherInputs::removeAll);; break;
     }
+
+    if (!presenter) return;
 
     switch (keyCodeMapper(event)) //shortcut keys for input diagnosis
     {

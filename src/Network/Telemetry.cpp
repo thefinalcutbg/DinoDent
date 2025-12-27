@@ -3,7 +3,7 @@
 #include <json/json.h>
 
 #include "Model/User.h"
-#include "Version.h"
+#include "src/Version.h"
 #include "Network/NetworkManager.h"
 #include "GlobalSettings.h"
 #include "Model/FreeFunctions.h"

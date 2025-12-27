@@ -3,7 +3,7 @@
 #include "DbUpdates.h"
 #include "View/Widgets/UpdateDialog.h"
 #include "View/ModalDialogBuilder.h"
-#include "Version.h"
+#include "src/Version.h"
 #include "Resources.h"
 
 void commonUpdate(int toVersion) {

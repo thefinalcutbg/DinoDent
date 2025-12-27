@@ -6,7 +6,7 @@
 #include <json/json.h>
 #include "View/Widgets/UpdatePromptDialog.h"
 #include "View/Widgets/UpdateDownloader.h"
-#include "Version.h"
+#include "src/Version.h"
 #include <QDesktopServices>
 #include "GlobalSettings.h"
 

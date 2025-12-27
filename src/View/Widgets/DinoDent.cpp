@@ -25,7 +25,7 @@
 #include "Database/DbNotification.h"
 
 #include "ChatDialog.h"
-#include "Version.h"
+#include "src/Version.h"
 
 #ifdef Q_OS_WIN
 #include <QWindow>

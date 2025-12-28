@@ -21,6 +21,7 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
     report.dataManager()->setReportVariable("date", plan.date.toBgStandard().c_str());
     report.dataManager()->setReportVariable("printDate", Date::currentDate().toBgStandard().c_str());
     report.dataManager()->setReportVariable("statusLegend", plan.teeth.getPrintLegend().c_str());
+    report.dataManager()->setReportVariable("totalPrice", priceRangeToString(plan.getTotalPrice()));
 
     PlainTable t;
 
@@ -32,7 +33,8 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
         "diagnosis",
         "notes",
         "price",
-        "stage_price"
+        "stage_price",
+        "code"
     };
 
     const char* stageTitles[] = {
@@ -83,7 +85,7 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
             t.addCell(0, PlainCell{.data=title});
             t.addCell(1, PlainCell{.data=stage.notes});
 
-            for(int y = 2; y < 8; y++){
+            for(int y = 2; y < 9; y++){
                 t.addCell(y, {});
             }
 
@@ -95,13 +97,13 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
         QString stagePrice;
 
         if(priceRange.first || priceRange.second){
-            stagePrice = "Сумарно за етапа: " + priceRangeToString(stage.getPriceRange());
+            stagePrice = priceRangeToString(stage.getPriceRange());
         }
 
         for(auto& planned : stage.plannedProcedures){
             t.addCell(0, {title});
             t.addCell(1, {stage.notes});
-            t.addCell(2, {planned.getName()});
+            t.addCell(2, {planned.getNameText()});
 
             std::string toothRange;
 
@@ -115,10 +117,11 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
             }
 
             t.addCell(3, {toothRange});
-            t.addCell(4, {planned.diagnosis.icd.isValid() ? planned.diagnosis.icd.name() : planned.diagnosis.additional_descr});
+            t.addCell(4, {planned.getDiagnosisText()});
             t.addCell(5, {planned.notes});
             t.addCell(6, {priceRangeToString(planned.priceRange).toStdString()});
             t.addCell(7, {stagePrice.toStdString()});
+            t.addCell(8, {planned.code.code()});
         }
     };
 
@@ -128,6 +131,8 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
     report.dataManager()->addModel("procedures", &m, true);
 
     QApplication::restoreOverrideCursor();
+
+   // report.designReport();
 
     return PrintPrv::printLogic(report, pdfFilename);
 }

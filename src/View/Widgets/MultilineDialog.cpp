@@ -18,7 +18,6 @@ MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 
     ui.templateButton->hide();
     ui.templateCheck->hide();
-    ui.titleLabel->hide();
 
     connect(ui.templateButton, &QPushButton::clicked, this, [&] {
             NotesTemplateDialog d(m_template_type);
@@ -79,7 +78,6 @@ void MultilineDialog::enableTemplateLoading(DbNotes::TemplateType type)
 
     ui.templateButton->show();
     ui.templateCheck->show();
-    ui.titleLabel->show();
 }
 
 MultilineDialog::~MultilineDialog()

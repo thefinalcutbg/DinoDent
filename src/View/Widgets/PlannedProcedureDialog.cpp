@@ -10,7 +10,7 @@ PlannedProcedureDialog::PlannedProcedureDialog(TreatmentPlan::PlannedProcedure& 
 
     setWindowTitle("Редактиране на процедура");
 
-    ui->nameEdit->setText(p.code.name().c_str());
+    ui->nameEdit->setText(p.getNameText().c_str());
 
     ui->priceInput->setPrice(p.priceRange);
 

@@ -211,7 +211,7 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
             const auto &procedure = stage.plannedProcedures[j];
 
             auto *procItem = new QTreeWidgetItem(stageItem);
-            procItem->setText(0, procedure.getName().c_str());
+            procItem->setText(0, procedure.getNameText().c_str());
             procItem->setText(1, priceRangeToString(procedure.priceRange));
 
             if(procedure.isCompleted){

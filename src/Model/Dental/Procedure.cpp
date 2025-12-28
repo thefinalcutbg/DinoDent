@@ -106,6 +106,26 @@ int Procedure::getPriceMultiplier() const
     return result;
 }
 
+std::string Procedure::getToothString(const AffectedTeeth &teeth)
+{
+    if(std::holds_alternative<ToothIndex>(teeth)){
+        return std::get<ToothIndex>(teeth).getNhifNumenclature();
+    }
+
+    if(std::holds_alternative<ConstructionRange>(teeth)){
+        auto& [from, to] = std::get<ConstructionRange>(teeth);
+
+        if (from == to) {
+            return ToothUtils::getNomenclature(from, false);
+        }
+
+        return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
+
+    }
+
+    return std::string();
+}
+
 std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 {
 	if (HIS_fetched_result) {
@@ -471,24 +491,6 @@ std::string Procedure::getToothString() const
 		return HIS_fetched_result->getToothString();
 	}
 
-	switch (static_cast<ProcedureScope>(affectedTeeth.index()))
-	{
-		case ProcedureScope::AllOrNone:
-			return std::string();
-		case ProcedureScope::SingleTooth:
-			return getToothIndex().getNhifNumenclature();
-		case ProcedureScope::Range:
-		{
-			auto& [from, to] = std::get<ConstructionRange>(affectedTeeth);
-
-			if (from == to) {
-				return ToothUtils::getNomenclature(from, false);
-			}
-
-			return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
-		}
-	}
-
-	return std::string();
+    return getToothString(affectedTeeth);
 }
 

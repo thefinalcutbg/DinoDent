@@ -133,9 +133,9 @@ PlainTable::PlainTable(const std::vector<TreatmentPlan::PlannedProcedure> &proce
         auto p = planned.getProcedure();
 
         addCell(0, {.data="",.icon = icon});
-        addCell(1, {p.diagnosis.getDiagnosisText()});
-        addCell(2, {p.getToothString()});
-        addCell(3, {planned.getName()});
+        addCell(1, {planned.getDiagnosisText()});
+        addCell(2, {Procedure::getToothString(planned.affectedTeeth)});
+        addCell(3, {planned.getNameText()});
         addCell(4, {p.code.ACHICode().c_str()});
         addCell(5, {planned.notes});
         addCell(6, {priceRangeToString(planned.priceRange).toStdString()});

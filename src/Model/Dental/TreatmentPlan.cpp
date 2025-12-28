@@ -22,9 +22,14 @@ Procedure TreatmentPlan::PlannedProcedure::getProcedure() const
     };
 }
 
-std::string TreatmentPlan::PlannedProcedure::getName() const
+const std::string& TreatmentPlan::PlannedProcedure::getNameText() const
 {
     return name.empty() ? code.name() : name;
+}
+
+const std::string &TreatmentPlan::PlannedProcedure::getDiagnosisText() const
+{
+    return diagnosis.additional_descr.size() ? diagnosis.additional_descr : diagnosis.icd.name();
 }
 
 std::pair<double, double> TreatmentPlan::Stage::getPriceRange() const
@@ -36,6 +41,19 @@ std::pair<double, double> TreatmentPlan::Stage::getPriceRange() const
     {
         priceMin += p.priceRange.first;
         priceMax += p.priceRange.second;
+    }
+
+    return std::make_pair(priceMin, priceMax);
+}
+
+std::pair<double, double> TreatmentPlan::getTotalPrice() const
+{
+    double priceMin = 0;
+    double priceMax = 0;
+
+    for(auto& s :stages){
+        priceMin += s.getPriceRange().first;
+        priceMax += s.getPriceRange().second;
     }
 
     return std::make_pair(priceMin, priceMax);

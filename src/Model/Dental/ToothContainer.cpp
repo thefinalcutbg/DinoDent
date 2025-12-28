@@ -403,7 +403,7 @@ std::string ToothContainer::getPrintLegend() const
 
     if(uniqueLegend.empty()) return "";
 
-    std::string result = "Легенда:";
+    std::string result = "<b>Легенда:</b>";
 
     for(auto& l : uniqueLegend){
 

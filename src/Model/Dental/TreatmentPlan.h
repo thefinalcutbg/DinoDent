@@ -20,7 +20,8 @@ struct TreatmentPlan
 
         Procedure getProcedure() const;
 
-        std::string getName() const;
+        const std::string& getNameText() const;
+        const std::string& getDiagnosisText() const;
 
         std::string getPriceLabel();
 
@@ -45,4 +46,6 @@ struct TreatmentPlan
     std::vector<Stage> stages;
 
     bool lastStageIsConclusion = false;
+
+    std::pair<double, double> getTotalPrice() const;
 };

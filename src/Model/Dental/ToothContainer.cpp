@@ -4,6 +4,7 @@
 #include "BridgeAlgorithms.h"
 #include "Dental.h"
 #include <optional>
+#include <set>
 
 using namespace Dental;
 
@@ -350,4 +351,64 @@ void ToothContainer::setToothDetails(const Tooth& tooth)
 
 	teeth.at(idx) = tooth;
 
+}
+
+std::string ToothContainer::getPrintLegend() const
+{
+    static const std::unordered_map<std::string, std::string> legendMap = {
+        {"H",   "Интактен зъб"},
+        {"C",   "Кариес"},
+        {"NC",  "Некариозна лезия"},
+        {"P",   "Пулпит"},
+        {"N",   "Некроза на пулпата"},
+        {"G",   "Периодонтит"},
+        {"R",   "Корен/Разрушен зъб"},
+        {"Res", "Резорбция"},
+        {"O",   "Възстановяване"},
+        {"DR",  "Дефект на възстановяване"},
+        {"E",   "Липсващ зъб"},
+        {"K",   "Корона (самостоятелна)"},
+        {"Kb",  "Корона (мостокрепител)"},
+        {"B",   "Изкуствен зъб от фиксирано протезиране"},
+        {"X",   "Изкуствен зъб от подвижно протезиране"},
+        {"Pa",  "Пародонтит/Периимплантит"},
+        {"M1",  "Подвижност(I-ва степен)"},
+        {"M2",  "Подвижност(II-ра степен)"},
+        {"M3",  "Подвижност(III-та степен)"},
+        {"F",   "Фрактура"},
+        {"I",   "Имплант"},
+        {"D",   "Свръхброен зъб"},
+        {"Re",  "Ретиниран зъб"},
+        {"Rc",  "Девитализиран зъб"},
+        {"Rp",  "Радикуларен щифт"},
+        {"S",   "Шина/Адхезивен мост"},
+        {"T",   "Зъбен камък"}
+    };
+
+
+    std::set<std::string>  uniqueLegend;
+
+    for(auto& t : *this){
+        for(auto& s : t.getDetailedPrintStatus()){
+
+            if(!legendMap.contains(s)){
+                continue;
+            }
+
+            auto str = s + " - " + legendMap.at(s); //simplif
+
+            uniqueLegend.insert(str);
+        }
+    }
+
+    if(uniqueLegend.empty()) return "";
+
+    std::string result = "Легенда:";
+
+    for(auto& l : uniqueLegend){
+
+        result += " " + l + ";";
+    }
+
+    return result;
 }

@@ -60,5 +60,7 @@ public:
     bool noData() const;
 
 	int getMissingTeethCount(bool countWisdom = false) const;
+
+    std::string getPrintLegend() const;
 };
 

@@ -2,6 +2,8 @@
 #include <algorithm>
 #include "ToothUtils.h"
 #include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 
 using namespace Dental;
 
@@ -663,6 +665,37 @@ std::string Tooth::getPrintStatus() const
 
 	return result;
 
+}
+
+std::set<std::string>  Tooth::getDetailedPrintStatus() const
+{
+    auto vec = getHISStatus();
+
+    static const std::unordered_map<std::string, std::string> simplificationMap = [] {
+        std::unordered_map<std::string, std::string> m;
+        static const std::array<const char*, 6> surf{ "o", "m", "d", "b", "l", "c" };
+
+        for (auto s : surf) {
+            m.emplace(std::string("C")  + s, "C");
+            m.emplace(std::string("O")  + s, "O");
+            m.emplace(std::string("DR") + s, "DR");
+            m.emplace(std::string("NC") + s, "NC");
+        }
+        return m;
+    }();
+
+    std::set<std::string> result;
+
+    for (const auto& status : vec) {
+
+        if(simplificationMap.contains(status)){
+            result.insert(simplificationMap.at(status));
+        } else {
+            result.insert(status);
+        }
+    }
+
+    return result;
 }
 
 std::string Tooth::getToothInfo() const

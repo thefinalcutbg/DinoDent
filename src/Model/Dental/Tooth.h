@@ -3,7 +3,7 @@
 #include <map>
 #include <array>
 #include <vector>
-
+#include <set>
 #include "ToothIndex.h"
 #include "Dental.h"
 
@@ -98,7 +98,9 @@ public:
 	void copyFromHIS(const Tooth& other);
 	std::vector<std::string> getNhifStatus() const;
 	std::vector<std::string> getHISStatus() const;
-	std::string getPrintStatus() const;
+    std::string getPrintStatus() const;
+    std::set<std::string> getDetailedPrintStatus() const;
+    std::string getPrintLegend() const;
 	std::string getToothInfo() const;
 	std::string toothName() const;
 

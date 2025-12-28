@@ -39,7 +39,7 @@ struct TreatmentPlan
 
         std::string notes;
         std::vector<PlannedProcedure> plannedProcedures;
-        std::pair<double, double> getPriceLabel() const;
+        std::pair<double, double> getPriceRange() const;
     };
 
     std::vector<Stage> stages;

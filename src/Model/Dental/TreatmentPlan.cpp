@@ -27,7 +27,7 @@ std::string TreatmentPlan::PlannedProcedure::getName() const
     return name.empty() ? code.name() : name;
 }
 
-std::pair<double, double> TreatmentPlan::Stage::getPriceLabel() const
+std::pair<double, double> TreatmentPlan::Stage::getPriceRange() const
 {
     double priceMin = 0;
     double priceMax = 0;

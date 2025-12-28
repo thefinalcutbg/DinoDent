@@ -197,7 +197,7 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
         label->setText(stageText);
 
         if(!isConclusion){
-            stageItem->setText(1, priceRangeToString(stage.getPriceLabel()));
+            stageItem->setText(1, priceRangeToString(stage.getPriceRange()));
         }
 
         stageItem->setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);

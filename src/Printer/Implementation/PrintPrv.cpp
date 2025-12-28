@@ -30,6 +30,9 @@ void PrintPrv::fillCommonData(LimeReport::ReportEngine& report, const Patient& p
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
+    report.dataManager()->setReportVariable("doctorPhone", QString::fromStdString(doctor.phone));
+    report.dataManager()->setReportVariable("practiceName", QString::fromStdString(practice.name));
+
 }
 
 void PrintPrv::fillOutReferrals(LimeReport::ReportEngine& report, const AmbList& amb)

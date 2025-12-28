@@ -1,5 +1,6 @@
 ﻿#include "PlainTable.h"
 #include "FreeFunctions.h"
+#include "View/GlobalFunctions.h"
 
 void PlainTable::addEmptyRow()
 {
@@ -111,5 +112,32 @@ PlainTable::PlainTable(const std::vector<Medication>& mList)
 
         addCell(1, { m.parseFullDosage() });
 
+    }
+}
+
+PlainTable::PlainTable(const std::vector<TreatmentPlan::PlannedProcedure> &procedures)
+{
+    addColumn({"",30});
+    addColumn({"Диагноза", 250 });
+    addColumn({"Зъб", 70, PlainColumn::Center });
+    addColumn({"Процедура", 300 });
+    addColumn({"КСМП", 100, PlainColumn::Center });
+    addColumn({"Бележки", 200, PlainColumn::Left });
+    addColumn({"Цена", 100, PlainColumn::Center});
+
+    for (auto& planned : procedures) {
+
+        CommonIcon::Type icon = planned.isCompleted ?
+            CommonIcon::CHECKED : CommonIcon::NOICON;
+
+        auto p = planned.getProcedure();
+
+        addCell(0, {.data="",.icon = icon});
+        addCell(1, {p.diagnosis.getDiagnosisText()});
+        addCell(2, {p.getToothString()});
+        addCell(3, {planned.getName()});
+        addCell(4, {p.code.ACHICode().c_str()});
+        addCell(5, {planned.notes});
+        addCell(6, {priceRangeToString(planned.priceRange).toStdString()});
     }
 }

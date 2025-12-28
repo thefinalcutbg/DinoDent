@@ -34,6 +34,7 @@ struct PlainColumn {
 #include "Model/Financial/BusinessOperation.h"
 #include "Model/Dental/Procedure.h"
 #include "Model/Prescription/Medication.h"
+#include "Model/Dental/TreatmentPlan.h"
 
 struct PlainTable {
 
@@ -65,7 +66,7 @@ struct PlainTable {
 	PlainTable(const std::vector<Procedure>& pList, bool keepNotes = true);
 	PlainTable(const std::vector<BusinessOperation>& bList);
 	PlainTable(const std::vector<Medication>& mList);
-
+    PlainTable(const std::vector<TreatmentPlan::PlannedProcedure>& procedures);
 };
 
 

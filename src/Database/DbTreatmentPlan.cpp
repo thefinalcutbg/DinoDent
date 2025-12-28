@@ -316,3 +316,44 @@ bool DbTreatmentPlan::setAsCompleted(long long rowid)
     db.bind(1, rowid);
     return db.execute();
 }
+
+std::vector<TreatmentPlan::PlannedProcedure> DbTreatmentPlan::getProcedureSummary(long long rowid)
+{
+    std::vector<TreatmentPlan::PlannedProcedure> result;
+
+    Db db;
+
+    db.newStatement(
+R"SQL(
+SELECT
+stage, code, name, icd10, diagnosis_description, notes, data, price_from, price_to, rowid,
+EXISTS (
+    SELECT 1
+    FROM procedure
+    WHERE procedure.planned_procedure_rowid = planned_procedure.rowid
+    )AS is_completed
+FROM planned_procedure
+WHERE treatment_plan_rowid = ?
+ORDER BY rowid ASC;
+)SQL");
+
+    db.bind(1, rowid);
+
+    while (db.hasRows())
+    {
+        auto& p = result.emplace_back();
+
+        p.code = db.asString(1);
+        p.name = db.asString(2);
+        p.diagnosis.icd = db.asString(3);
+        p.diagnosis.additional_descr = db.asString(4);
+        p.notes = db.asString(5);
+        Parser::parse(db.asString(6), p.affectedTeeth, p.param);
+        p.priceRange = {db.asDouble(7), db.asDouble(8)};
+        p.rowid = db.asInt(9);
+        p.isCompleted = db.asBool(10);
+    }
+
+
+    return result;
+}

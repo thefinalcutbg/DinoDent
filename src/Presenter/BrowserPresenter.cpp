@@ -8,6 +8,7 @@
 #include "Database/DbProcedure.h"
 #include "Database/DbBrowser.h"
 #include "Database/DbPatient.h"
+#include "Database/DbTreatmentPlan.h"
 
 #include <map>
 
@@ -120,7 +121,7 @@ void BrowserPresenter::refreshPreview()
 		case TabType::Financial: view->setPreview(DbInvoice::getInvoice(rowid).businessOperations); break;
 		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
 		case TabType::PerioStatus: view->setPreview(PlainTable{}); break;
-        case TabType::TreatmentPlan: view->setPreview(PlainTable{}); break;
+        case TabType::TreatmentPlan: view->setPreview(DbTreatmentPlan::getProcedureSummary(rowid)); break;
 		case TabType::PatientSummary: 
 			if (ui_state.showProcedures) {
 				view->setPreview({ DbProcedure::getPatientProcedures(rowid), false });

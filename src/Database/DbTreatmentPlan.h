@@ -13,5 +13,6 @@ namespace DbTreatmentPlan{
     std::set<long long> getCompletedProcedures(long long patientRowid);
     long long getActivePlan(long long patientRowid);
     std::pair<double, double> getPlannedProcedurePrice(long long rowid);
+    std::vector<TreatmentPlan::PlannedProcedure> getProcedureSummary(long long planRowid);
     bool setAsCompleted(long long rowid);
 }

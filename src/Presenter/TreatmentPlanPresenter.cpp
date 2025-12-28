@@ -454,6 +454,8 @@ void TreatmentPlanPresenter::editPressed()
     *currentProcedure = result.value();
 
     view->setTreatmentPlan(m_treatmentPlan);
+
+    makeEdited();
 }
 
 void TreatmentPlanPresenter::removePressed()
@@ -521,32 +523,6 @@ void TreatmentPlanPresenter::selectionChanged(const std::pair<int, int>& stagePr
 
     view->setSelection(m_selection); //sometimes view and presenter get out of sync
     setTeethToView();
-}
-
-void TreatmentPlanPresenter::priceEditRequested()
-{
-    if(m_treatmentPlan.is_completed) return;
-
-    if(m_selection.second == -1) return;
-
-    auto& priceRange = m_treatmentPlan
-                        .stages[m_selection.first]
-                        .plannedProcedures[m_selection.second]
-                        .priceRange;
-
-    PriceInputDialog d(priceRange);
-
-    auto result = d.getResult();
-
-    if(!result) return;
-
-    priceRange = result.value();
-
-    view->setTreatmentPlan(m_treatmentPlan);
-
-    view->setSelection(m_selection);
-
-    makeEdited();
 }
 
 void TreatmentPlanPresenter::stageEditRequested()

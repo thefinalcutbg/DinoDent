@@ -51,7 +51,6 @@ public:
     void removePressed();
     void dateChanged(const Date& date);
     void selectionChanged(const std::pair<int, int>& stageProcedurePair);
-    void priceEditRequested();
     void stageEditRequested();
     void setCompleted(bool completed);
 };

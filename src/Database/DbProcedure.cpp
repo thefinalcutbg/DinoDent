@@ -487,12 +487,20 @@ std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date, long long
 	return result;
 }
 
-Date DbProcedure::getLastProcedureDate(long long patientRowid)
+Date DbProcedure::getLastVisitDate(long long patientRowid)
 {
     Db db;
 
     db.newStatement("SELECT procedure.date FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
                     "WHERE amblist.patient_rowid=? ORDER BY procedure.date DESC LIMIT 1");
+    db.bind(1, patientRowid);
+
+    while(db.hasRows()){
+        return Date(db.asString(0));
+    }
+    //if now procedures found, check the date of the last ambulatory sheet:
+    db.newStatement("SELECT amblist.date FROM amblist WHERE amblist.patient_rowid=? ORDER BY amblist.date DESC LIMIT 1");
+
     db.bind(1, patientRowid);
 
     while(db.hasRows()){

@@ -23,6 +23,6 @@ namespace DbProcedure
     std::vector<Procedure> getToothProcedures(long long patientRowId, int tooth);
     std::vector<Procedure> getPatientProcedures(long long patientRowid);
     std::vector<int> getDailyNhifProcedures(const Date& date, long long excludeAmblistRowid);
-    Date getLastProcedureDate(long long patientRowid);
+    Date getLastVisitDate(long long patientRowid);
 };
 

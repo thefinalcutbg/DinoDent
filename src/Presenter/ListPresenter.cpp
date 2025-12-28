@@ -447,7 +447,7 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
     {
         auto& lastHisSnapshotDate = result.hisSnapshots.back().date;
 
-        auto lastDbProcedureDate = DbProcedure::getLastProcedureDate(patient->rowid);
+        auto lastDbProcedureDate = DbProcedure::getLastVisitDate(patient->rowid);
 
         if (m_amblist.teeth.noData() || (
             lastHisSnapshotDate > lastDbProcedureDate

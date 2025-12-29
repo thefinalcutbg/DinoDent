@@ -479,7 +479,7 @@ void ListPresenter::setTreatmentAsCompleted()
 
     if(!activePlanRowid) return;
 
-    if(!ModalDialogBuilder::askDialog("Желаете ли да маркирате лечебния план като изпълнен?")) return;
+    if(!ModalDialogBuilder::askDialog("Всички процедури в текущия лечебен план са извършени. Желаете ли да го маркирате като изпълнен?")) return;
 
     //check if already opened:
     auto tabIdx = TabPresenter::get().documentTabOpened(TabType::TreatmentPlan, activePlanRowid);

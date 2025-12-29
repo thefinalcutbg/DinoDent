@@ -1261,8 +1261,7 @@ void ListPresenter::addReferral(ReferralType type)
 
     if (!User::hasNhifContract()) {
         ModalDialogBuilder::showMessage(
-            "За да създадете направление, трябва да попълните данните" 
-            "\nна договора с НЗОК и кодът на специалността от насторйки"
+            "Текущият лекар няма сключен договор с НЗОК"
         );
 
         return;

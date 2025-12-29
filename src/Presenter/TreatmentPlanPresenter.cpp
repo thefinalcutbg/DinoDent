@@ -10,7 +10,6 @@
 #include "View/Widgets/MultilineDialog.h"
 #include "View/Widgets/TabView.h"
 #include "View/Widgets/TreatmentPlanView.h"
-#include "View/Widgets/PriceInputDialog.h"
 #include "View/Widgets/PlannedProcedureDialog.h"
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
@@ -24,7 +23,7 @@ TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr
     m_treatmentPlan = DbTreatmentPlan::get(rowid);
 
     if(!rowid){
-        rowid = DbTreatmentPlan::getActivePlan(patient->rowid);
+        rowid = DbTreatmentPlan::getActiveTreatmentPlan(patient->rowid);
 
         if(rowid){
             ModalDialogBuilder::showMessage(
@@ -33,6 +32,12 @@ TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr
             );
 
             m_treatmentPlan = DbTreatmentPlan::get(rowid);
+
+            if(!isByCurrentUser()){
+                ModalDialogBuilder::showMessage(
+                    "Планът не е създаден от текущия потребител. Направените по него промени няма да бъдат запазени."
+                );
+            }
         }
     }
 
@@ -104,6 +109,11 @@ void TreatmentPlanPresenter::setCompletedProcedures()
     for(auto& s : m_treatmentPlan.stages)
         for (auto& p : s.plannedProcedures)
             p.isCompleted = completed.count(p.rowid);
+}
+
+bool TreatmentPlanPresenter::isByCurrentUser()
+{
+    return User::doctor().LPK == m_treatmentPlan.LPK;
 }
 
 TreatmentPlan::Stage *TreatmentPlanPresenter::getCurrentStage()
@@ -181,6 +191,11 @@ bool TreatmentPlanPresenter::save()
 {
     if(!requiresSaving()) return true;
 
+    if(!isByCurrentUser()){
+        ModalDialogBuilder::showMessage("Този план не е създаден от текущия потребител. Направените по него промени не могат да бъдат запазени.");
+        return false;
+    }
+
     bool success =  isNew() ?
                        DbTreatmentPlan::insert(m_treatmentPlan, patient->rowid)
                            :
@@ -200,14 +215,14 @@ bool TreatmentPlanPresenter::save()
 
 void TreatmentPlanPresenter::print()
 {
-    save();
+    if(!save()) return;
 
     Print::treatmentPlan(m_treatmentPlan, *patient);
 }
 
 void TreatmentPlanPresenter::pdfPrint()
 {
-    save();
+    if(!save()) return;
 
     auto filepath = FilePaths::get(m_treatmentPlan, *patient);
     if (filepath.empty()) return;

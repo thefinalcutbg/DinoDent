@@ -242,7 +242,7 @@ JOIN planned_procedure pp ON tp.rowid = pp.treatment_plan_rowid
 WHERE tp.patient_rowid=?
 AND tp.rzi=?
 AND tp.is_completed=0
-ORDER BY tp.date ASC, pp.stage ASC, pp.seqence ASC
+ORDER BY tp.date DESC
     )SQL");
 
     db.bind(1, patientRowId);
@@ -274,28 +274,6 @@ procedure.planned_procedure_rowid != 0
     }
 
     return result;
-}
-
-long long DbTreatmentPlan::getActivePlan(long long patientRowId)
-{
-    Db db(R"SQL(
-SELECT
-tp.rowid
-FROM treatment_plan tp
-WHERE tp.patient_rowid=?
-AND tp.rzi=?
-AND tp.is_completed=0
-ORDER BY tp.date ASC
-    )SQL");
-
-    db.bind(1, patientRowId);
-    db.bind(2, User::practice().rziCode);
-
-    while(db.hasRows()){
-        return db.asRowId(0);
-    }
-
-    return 0;
 }
 
 std::pair<double, double> DbTreatmentPlan::getPlannedProcedurePrice(long long rowid)

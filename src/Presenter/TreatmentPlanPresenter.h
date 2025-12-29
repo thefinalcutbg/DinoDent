@@ -23,6 +23,7 @@ class TreatmentPlanPresenter : public TabInstance
     bool invalidSelection();
     void setTeethToView();
     void setCompletedProcedures();
+    bool isByCurrentUser();
     TreatmentPlan::Stage* getCurrentStage();
     TreatmentPlan::PlannedProcedure* getCurrentProcedure();
     TreatmentPlan::Stage* getConclusion();

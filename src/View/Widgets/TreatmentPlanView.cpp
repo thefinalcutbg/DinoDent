@@ -159,12 +159,11 @@ void TreatmentPlanView::repaintTooth(const ToothPaintHint &tooth)
 
 void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
 {
-
     QSignalBlocker b1(ui->completedCheck);
+    QSignalBlocker b2(ui->stageList);
+    QSignalBlocker b3(ui->dateEdit);
 
     ui->completedCheck->setChecked(p.is_completed);
-
-    QSignalBlocker b2(ui->stageList);
 
     ui->dateEdit->set_Date(p.date);
 

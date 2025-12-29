@@ -3,6 +3,7 @@
 #include "View/TableModels/PlainTableModel.h"
 #include "Model/Dental/TreatmentPlan.h"
 #include "View/GlobalFunctions.h";
+#include "Database/DbDoctor.h";
 
 bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, const std::string& pdfFilename)
 {
@@ -14,9 +15,14 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
 
 
     auto& practice = User::practice();
-    auto& doctor = User::doctor();
+    auto doctor = DbDoctor::getDoctor(plan.LPK);
 
-    PrintPrv::fillCommonData(report, patient, doctor, practice);
+    if(!doctor.has_value()){
+        QApplication::restoreOverrideCursor();
+        return false;
+    }
+
+    PrintPrv::fillCommonData(report, patient, *doctor, practice);
 
     report.dataManager()->setReportVariable("date", plan.date.toBgStandard().c_str());
     report.dataManager()->setReportVariable("printDate", Date::currentDate().toBgStandard().c_str());

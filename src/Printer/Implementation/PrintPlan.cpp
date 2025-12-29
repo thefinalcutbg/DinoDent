@@ -4,7 +4,7 @@
 #include "Model/Dental/TreatmentPlan.h"
 #include "View/GlobalFunctions.h";
 #include "Database/DbDoctor.h";
-
+#include <QDateTime>
 bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
@@ -25,7 +25,7 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
     PrintPrv::fillCommonData(report, patient, *doctor, practice);
 
     report.dataManager()->setReportVariable("date", plan.date.toBgStandard().c_str());
-    report.dataManager()->setReportVariable("printDate", Date::currentDate().toBgStandard().c_str());
+    report.dataManager()->setReportVariable("printDate", QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm"));
     report.dataManager()->setReportVariable("statusLegend", plan.teeth.getPrintLegend().c_str());
     report.dataManager()->setReportVariable("totalPrice", priceRangeToString(plan.getTotalPrice()));
 
@@ -138,7 +138,7 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
 
     QApplication::restoreOverrideCursor();
 
-   // report.designReport();
+    report.designReport();
 
     return PrintPrv::printLogic(report, pdfFilename);
 }

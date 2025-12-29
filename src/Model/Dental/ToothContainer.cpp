@@ -395,7 +395,7 @@ std::string ToothContainer::getPrintLegend() const
                 continue;
             }
 
-            auto str = s + " - " + legendMap.at(s); //simplif
+            auto str = "<b>" + s + "</b> - " + legendMap.at(s); //simplif
 
             uniqueLegend.insert(str);
         }
@@ -403,7 +403,7 @@ std::string ToothContainer::getPrintLegend() const
 
     if(uniqueLegend.empty()) return "";
 
-    std::string result = "<b>Легенда:</b>";
+    std::string result = "<b>ЛЕГЕНДА:</b>";
 
     for(auto& l : uniqueLegend){
 

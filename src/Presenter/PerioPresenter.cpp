@@ -266,6 +266,7 @@ bool PerioPresenter::isNew()
 
 void PerioPresenter::print()
 {
+    view->print();
 }
 
 void PerioPresenter::setDataToView()

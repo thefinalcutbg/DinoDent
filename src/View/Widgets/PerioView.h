@@ -78,7 +78,7 @@ public:
     PatientTileInfo* patientTile();
     void setMeasurment(int index, int pd, int cal, int gm, int recession);
     void setDate(const Date& date);
-    
+    void print();
 
 private:
     Ui::PerioViewClass ui;

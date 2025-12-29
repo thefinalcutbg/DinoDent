@@ -214,6 +214,33 @@ void PerioView::setDate(const Date& d)
 	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
 }
 
+void PerioView::print()
+{
+    auto currentStylesheet = styleSheet();
+
+    setStyleSheet("");
+
+    auto getWidgetPixmap = [](QWidget* w){
+        w->ensurePolished();
+        if (w->layout()) w->layout()->activate();   // optional, helps with lazy layouts
+
+        QPixmap pm(w->size());
+        pm.fill(Qt::transparent);
+
+        QPainter p(&pm);
+        w->render(&p);                     // paints w + children at current size
+        p.end();
+
+        return pm;
+    };
+
+    getWidgetPixmap(ui.mandibula).save("widget.png", "PNG");
+    getWidgetPixmap(ui.maxilla).save("widget.png", "PNG");
+
+    setStyleSheet(currentStylesheet);
+
+}
+
 
 
 void PerioView::paintEvent(QPaintEvent*)
@@ -506,11 +533,11 @@ void PerioView::initializeFullMouth()
 	ui.maxilla->ui.graphicsSurfaceView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	ui.maxilla->ui.graphicsSurfaceView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-	double xPos = 0;
+    double xPos = 0;
 
 	for (int i = 0; i < 64; i++)
 	{
-		if (!(i % 4) && i > 3) xPos += surfButtonWidth;
+        if (!(i % 4) && i > 3) xPos += surfButtonWidth;
 
 		m_FMPS[i] = new PerioGraphicsButton(i, PerioGraphicsType::Plaque, this);
 		maxillaryScene->addItem(m_FMPS[i]);
@@ -530,7 +557,7 @@ void PerioView::initializeFullMouth()
 
 	for (int i = 64; i < 128; i++)
 	{
-		if (!(i % 4) && i > 67) xPos -= surfButtonWidth;
+        if (!(i % 4) && i > 67) xPos -= surfButtonWidth;
 
 		m_FMPS[i] = new PerioGraphicsButton(i, PerioGraphicsType::Plaque, this);
 		mandibularScene->addItem(m_FMPS[i]);

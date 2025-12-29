@@ -288,6 +288,3 @@ TabView::~TabView()
     ui.scrollArea->takeWidget();
 
 }
-
-
-

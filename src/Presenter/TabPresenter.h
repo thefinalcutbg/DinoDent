@@ -19,6 +19,7 @@ class TabPresenter
 	TabView* view{ nullptr };
 
 	bool newListAlreadyOpened(const Patient& patient);
+    bool activeTreatmentPlanAlreadyOpened(long long patientRowid);
 
 	void createNewTab(TabInstance* tabInstance, bool setFocus = true);
 

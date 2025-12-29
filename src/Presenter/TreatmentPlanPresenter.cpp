@@ -38,6 +38,8 @@ TreatmentPlanPresenter::TreatmentPlanPresenter(TabView* tabView, std::shared_ptr
                     "Планът не е създаден от текущия потребител. Направените по него промени няма да бъдат запазени."
                 );
             }
+        }else {
+            m_treatmentPlan.LPK = User::doctor().LPK;
         }
     }
 

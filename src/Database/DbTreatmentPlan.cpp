@@ -201,7 +201,7 @@ std::vector<Procedure> DbTreatmentPlan::getPendingProcedures(long long patientRo
     FROM "procedure" pr
     WHERE pr.planned_procedure_rowid = pp.rowid
     )
-    ORDER BY tp.date ASC, pp.stage ASC, pp.seqence ASC
+    ORDER BY tp.date ASC, pp.stage ASC, pp.sequence ASC
     )SQL";
 
     Db db(query);

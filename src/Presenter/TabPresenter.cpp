@@ -2,6 +2,7 @@
 
 #include <TinyXML/tinyxml.h>
 
+#include "Database/DbTreatmentPlan.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/TableRows.h"
@@ -138,6 +139,8 @@ void TabPresenter::openPerio(const Patient& patient)
 
 void TabPresenter::openTreatmentPlan(const Patient &patient)
 {
+    if(activeTreatmentPlanAlreadyOpened(patient.rowid)) return;
+
     createNewTab(new TreatmentPlanPresenter(view, getPatient_ptr(patient)));
 }
 
@@ -259,6 +262,7 @@ bool TabPresenter::open(const RowInstance& row, bool setFocus)
             break;
 
         case TabType::TreatmentPlan:
+            if (!row.rowID && activeTreatmentPlanAlreadyOpened(patient.rowid)) return true;
             newTab = new TreatmentPlanPresenter(view, getPatient_ptr(patient), row.rowID);
             break;
 
@@ -304,7 +308,28 @@ bool TabPresenter::newListAlreadyOpened(const Patient& patient)
     return false;
 }
 
+bool TabPresenter::activeTreatmentPlanAlreadyOpened(long long patientRowid)
+{
+    long long activeRowid = DbTreatmentPlan::getActiveTreatmentPlan(patientRowid);
 
+    for (auto& [index, tabInstance] : m_tabs)
+    {
+        if(tabInstance->type != TabType::TreatmentPlan) continue;
+
+        if(tabInstance->rowID() != activeRowid) continue;
+
+        ModalDialogBuilder::showMessage(
+            "За този пациент е открит активен план за лечение. "
+            "Ако искате да създадете нов, маркирайте текущия като изпълнен."
+            );
+
+        view->focusTab(index);
+
+        return true;
+    }
+
+    return false;
+}
 
 int TabPresenter::documentTabOpened(TabType type, long long rowID) const
 {

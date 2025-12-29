@@ -14,7 +14,9 @@ bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentP
     db.execute();
 
     for(int i = 0; i < stages.size(); i++){
-        for(auto& p : stages[i].plannedProcedures){
+        for(int j = 0; j < stages[i].plannedProcedures.size(); j++){
+
+            auto p = stages[i].plannedProcedures[j];
 
             db.newStatement(R"SQL(
 INSERT INTO planned_procedure (
@@ -28,8 +30,9 @@ notes,
 data,
 price_from,
 price_to,
-rowid
-) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+rowid,
+sequence
+) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
 ON CONFLICT(rowid) DO UPDATE SET
 treatment_plan_rowid=excluded.treatment_plan_rowid,
 stage=excluded.stage,
@@ -40,7 +43,8 @@ diagnosis_description=excluded.diagnosis_description,
 notes=excluded.notes,
 data=excluded.data,
 price_from=excluded.price_from,
-price_to=excluded.price_to
+price_to=excluded.price_to,
+sequence=excluded.sequence
             )SQL");
 
             db.bind(1, planRowid);
@@ -56,6 +60,8 @@ price_to=excluded.price_to
 
             if(p.rowid) db.bind(11, p.rowid);
             else db.bindNull(11);
+
+            db.bind(12, j);
 
             if(!db.execute()) return false;
 
@@ -146,7 +152,7 @@ TreatmentPlan DbTreatmentPlan::get(long long rowid)
         "SELECT stage, code, name, icd10, diagnosis_description, notes, data, price_from, price_to, rowid "
         "FROM planned_procedure "
         "WHERE treatment_plan_rowid=? "
-        "ORDER BY rowid ASC"
+        "ORDER BY stage ASC, rowid ASC"
         );
 
     db.bind(1, rowid);
@@ -195,7 +201,7 @@ std::vector<Procedure> DbTreatmentPlan::getPendingProcedures(long long patientRo
     FROM "procedure" pr
     WHERE pr.planned_procedure_rowid = pp.rowid
     )
-    ORDER BY tp.date ASC, pp.stage ASC, pp.rowid ASC
+    ORDER BY tp.date ASC, pp.stage ASC, pp.seqence ASC
     )SQL";
 
     Db db(query);
@@ -236,7 +242,7 @@ JOIN planned_procedure pp ON tp.rowid = pp.treatment_plan_rowid
 WHERE tp.patient_rowid=?
 AND tp.rzi=?
 AND tp.is_completed=0
-ORDER BY tp.date ASC, pp.stage ASC, pp.rowid ASC
+ORDER BY tp.date ASC, pp.stage ASC, pp.seqence ASC
     )SQL");
 
     db.bind(1, patientRowId);
@@ -334,7 +340,7 @@ EXISTS (
     )AS is_completed
 FROM planned_procedure
 WHERE treatment_plan_rowid = ?
-ORDER BY rowid ASC;
+ORDER BY stage ASC, sequence ASC;
 )SQL");
 
     db.bind(1, rowid);

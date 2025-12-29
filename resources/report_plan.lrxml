@@ -3553,7 +3553,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout45</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="100"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="99"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem46</objectName>
@@ -3618,7 +3618,7 @@
                               <itemLocation Type="enumAndFlags" Value="1"/>
                               <stretchToMaxHeight Type="bool" Value="0"/>
                               <itemAlign Type="enumAndFlags" Value="4"/>
-                              <content Type="QString">$V{city} $V{address}</content>
+                              <content Type="QString">$V{address}</content>
                               <margin Type="int" Value="4"/>
                               <alignment Type="enumAndFlags" Value="129"/>
                               <autoWidth Type="enumAndFlags" Value="0"/>
@@ -3668,7 +3668,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout47</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="149"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="148"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem48</objectName>
@@ -4033,7 +4033,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout53</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="100"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="99"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem54</objectName>
@@ -4148,7 +4148,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout55</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="149"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="148"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem56</objectName>
@@ -4320,7 +4320,7 @@
             </item>
             <item ClassName="Data" Type="Object">
               <objectName Type="QString">DataBand136</objectName>
-              <geometry Type="QRect" height="122" width="2000" x="50" y="1543"/>
+              <geometry Type="QRect" height="122" width="2000" x="50" y="1553"/>
               <children Type="Collection">
                 <item ClassName="HLayout" Type="Object">
                   <objectName Type="QString">HorizontalLayout19</objectName>
@@ -4333,7 +4333,7 @@
                       <zOrder Type="qreal" Value="-2"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout19</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4380,7 +4380,7 @@
                       <zOrder Type="qreal" Value="-2"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout19</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4427,7 +4427,7 @@
                       <zOrder Type="qreal" Value="-2"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout19</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4474,7 +4474,7 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout19</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4521,7 +4521,7 @@
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout19</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4591,7 +4591,7 @@
               <autoHeight Type="bool" Value="1"/>
               <bandIndex Type="int" Value="8"/>
               <keepBottomSpace Type="bool" Value="0"/>
-              <keepTopSpace Type="bool" Value="1"/>
+              <keepTopSpace Type="bool" Value="0"/>
               <parentBand Type="QString"></parentBand>
               <backgroundColor Type="QColor" Value="#ffffff"/>
               <backgroundBrushStyle Type="enumAndFlags" Value="1"/>
@@ -4740,7 +4740,7 @@
             </item>
             <item ClassName="GroupHeader" Type="Object">
               <objectName Type="QString">GroupBandHeader1</objectName>
-              <geometry Type="QRect" height="55" width="2000" x="50" y="1488"/>
+              <geometry Type="QRect" height="65" width="2000" x="50" y="1488"/>
               <children Type="Collection">
                 <item ClassName="HLayout" Type="Object">
                   <objectName Type="QString">HorizontalLayout5</objectName>
@@ -4750,10 +4750,10 @@
                       <objectName Type="QString">TextItem18</objectName>
                       <geometry Type="QRect" height="60" width="110" x="0" y="0"/>
                       <children Type="Collection"/>
-                      <zOrder Type="qreal" Value="-2"/>
+                      <zOrder Type="qreal" Value="-0.9"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout5</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4797,10 +4797,10 @@
                       <objectName Type="QString">TextItem3</objectName>
                       <geometry Type="QRect" height="60" width="690" x="110" y="0"/>
                       <children Type="Collection"/>
-                      <zOrder Type="qreal" Value="-2"/>
+                      <zOrder Type="qreal" Value="-0.9"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout5</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4844,10 +4844,10 @@
                       <objectName Type="QString">TextItem4</objectName>
                       <geometry Type="QRect" height="60" width="100" x="800" y="0"/>
                       <children Type="Collection"/>
-                      <zOrder Type="qreal" Value="-2"/>
+                      <zOrder Type="qreal" Value="-0.9"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout5</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4891,10 +4891,10 @@
                       <objectName Type="QString">TextItem6</objectName>
                       <geometry Type="QRect" height="60" width="690" x="900" y="0"/>
                       <children Type="Collection"/>
-                      <zOrder Type="qreal" Value="-1"/>
+                      <zOrder Type="qreal" Value="-0.9"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout5</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -4938,10 +4938,10 @@
                       <objectName Type="QString">TextItem7</objectName>
                       <geometry Type="QRect" height="60" width="190" x="1590" y="0"/>
                       <children Type="Collection"/>
-                      <zOrder Type="qreal" Value="-1"/>
+                      <zOrder Type="qreal" Value="-0.9"/>
                       <borders Type="enumAndFlags" Value="15"/>
                       <parentName Type="QString">HorizontalLayout5</parentName>
-                      <borderLineSize Type="qreal" Value="3"/>
+                      <borderLineSize Type="qreal" Value="1"/>
                       <isVisible Type="bool" Value="1"/>
                       <shadow Type="bool" Value="0"/>
                       <borderColor Type="QColor" Value="#000000"/>
@@ -5029,7 +5029,7 @@
             </item>
             <item ClassName="ReportFooter" Type="Object">
               <objectName Type="QString">ReportFooter7</objectName>
-              <geometry Type="QRect" height="626" width="2000" x="50" y="1739"/>
+              <geometry Type="QRect" height="626" width="2000" x="50" y="1749"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem8</objectName>
@@ -5483,7 +5483,7 @@
             </item>
             <item ClassName="PageFooter" Type="Object">
               <objectName Type="QString">PageFooter15</objectName>
-              <geometry Type="QRect" height="150" width="2000" x="50" y="2365"/>
+              <geometry Type="QRect" height="150" width="2000" x="50" y="2375"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem15</objectName>
@@ -5501,7 +5501,7 @@
                   <itemLocation Type="enumAndFlags" Value="0"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
-                  <content Type="QString">Стр. $V{#PAGE} / $V{#PAGE_COUNT}</content>
+                  <content Type="QString">стр. $V{#PAGE} / $V{#PAGE_COUNT}</content>
                   <margin Type="int" Value="4"/>
                   <alignment Type="enumAndFlags" Value="34"/>
                   <autoWidth Type="enumAndFlags" Value="0"/>
@@ -5700,7 +5700,7 @@
             </item>
             <item ClassName="GroupFooter" Type="Object">
               <objectName Type="QString">GroupBandFooter13</objectName>
-              <geometry Type="QRect" height="74" width="2000" x="50" y="1665"/>
+              <geometry Type="QRect" height="74" width="2000" x="50" y="1675"/>
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem13</objectName>

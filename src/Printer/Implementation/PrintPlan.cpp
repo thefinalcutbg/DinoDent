@@ -122,6 +122,13 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
                 toothRange = ToothUtils::getNomenclature(begin, false) + "-" + ToothUtils::getNomenclature(end, false);
             }
 
+            //clearing for dentures, because tooth count depends on the dental technician
+            if(planned.code.type() == ProcedureType::Denture ||
+              planned.code.type() == ProcedureType::DenturePair
+                ){
+                toothRange.clear();
+            }
+
             t.addCell(3, {toothRange});
             t.addCell(4, {planned.getDiagnosisText()});
             t.addCell(5, {planned.notes});
@@ -138,7 +145,7 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
 
     QApplication::restoreOverrideCursor();
 
-    report.designReport();
+    //report.designReport();
 
     return PrintPrv::printLogic(report, pdfFilename);
 }

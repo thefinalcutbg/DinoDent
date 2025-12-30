@@ -442,6 +442,8 @@ void TreatmentPlanPresenter::addConclusion()
 
     m_treatmentPlan.lastStageIsConclusion = true;
 
+    makeEdited();
+
     m_selection = {m_treatmentPlan.stages.size()-1, -1};
 
     view->setTreatmentPlan(m_treatmentPlan);

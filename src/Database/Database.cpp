@@ -1,7 +1,8 @@
 ﻿#include "Database.h"
 #include <sqlite3.h>
 #include "Resources.h"
-
+#include "GlobalSettings.h"
+#include "View/ModalDialogBuilder.h"
 
 constexpr const char* database_error_msg = 
     "Неуспешно записване в базата данни.\n"
@@ -26,8 +27,7 @@ Db::Db(Db* existingConnection)
          throw;
     }
 
-    execute("PRAGMA foreign_keys = ON");
-    
+    sqlite3_exec(db_connection, "PRAGMA foreign_keys = ON", NULL, NULL, NULL);
 }
 
 Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection)
@@ -39,9 +39,20 @@ bool Db::hasRows(){
 
     if (total_bindings != successful_bindings) return false;
 
+    static bool debugCalled = false;
+
+    if(GlobalSettings::showDbDebugEnabled() && !debugCalled){
+        debugCalled = true;
+        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
+    }
+
+
     bool result = sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
 
-    if(!result) finalizeStatement();
+    if(!result){
+        debugCalled = false;
+        finalizeStatement();
+    }
 
     return result;
 }
@@ -112,6 +123,11 @@ bool Db::execute(const std::string& query)
 
     if (err){
         showDbError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
+    }
+
+
+    if(GlobalSettings::showDbDebugEnabled() && query != "PRAGMA foreign_keys = ON"){
+        ModalDialogBuilder::showMultilineDialog(query);
     }
 
     finalizeStatement();
@@ -244,6 +260,10 @@ bool Db::execute()
         return false;
     }
 
+    if(GlobalSettings::showDbDebugEnabled()){
+        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
+    }
+
     auto result = sqlite3_step(stmt);
     finalizeStatement();
 
@@ -291,6 +311,10 @@ void Db::setVersion(int version)
 bool Db::crudQuery(const std::string& query)
 {
     Db db(query);
+
+    if(GlobalSettings::showDbDebugEnabled()){
+        ModalDialogBuilder::showMultilineDialog(query);
+    }
 
     return db.execute();
 }

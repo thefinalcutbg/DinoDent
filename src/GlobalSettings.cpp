@@ -192,6 +192,7 @@ std::string GlobalSettings::telemetryId()
 
 bool s_showRequests{ false };
 bool s_showReplies{ false };
+bool s_showDbDebug{ false };
 
 bool GlobalSettings::showRequestsEnabled()
 {
@@ -212,6 +213,7 @@ void GlobalSettings::setSettings(const GlobalSettingsData& data)
 {
     s_showRequests = data.show_requests;
     s_showReplies = data.show_replies;
+    s_showDbDebug = data.show_dbDebug;
 
     Json::Value settings = getSettingsAsJson();
 
@@ -252,6 +254,12 @@ GlobalSettingsData GlobalSettings::getSettings()
 
     result.show_replies = s_showReplies;
     result.show_requests = s_showRequests;
+    result.show_dbDebug = s_showDbDebug;
 
     return result;
+}
+
+bool GlobalSettings::showDbDebugEnabled()
+{
+    return s_showDbDebug;
 }

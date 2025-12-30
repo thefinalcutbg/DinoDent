@@ -452,9 +452,11 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 	QSignalBlocker b1(ui.requestsCheck);
 	QSignalBlocker b2(ui.repliesCheck);
 	QSignalBlocker b4(ui.devBranch);
+    QSignalBlocker b3(ui.localDbCheck);
 
 	ui.requestsCheck->setChecked(data.show_requests);
 	ui.repliesCheck->setChecked(data.show_replies);
+    ui.localDbCheck->setChecked(data.show_dbDebug);
 	ui.devBranch->setChecked(data.dev_branch);
 	ui.tabletCombo->setCurrentIndex(data.signer_model);
 
@@ -481,6 +483,7 @@ GlobalSettingsData SettingsDialog::getGlobalSettings() {
 		.dev_branch = ui.devBranch->isChecked(),
 		.show_requests = ui.requestsCheck->isChecked(),
 		.show_replies = ui.repliesCheck->isChecked(),
+        .show_dbDebug = ui.localDbCheck->isChecked(),
 		.signer_model = ui.tabletCombo->currentIndex(),
 		.signer_filepath = ui.signSoftEdit->text().toStdString(),
 		.pdfDir = ui.dirEdit->text().toStdString(),

@@ -11,6 +11,7 @@ struct GlobalSettingsData {
 	bool dev_branch{ false };
 	bool show_requests{ false };
 	bool show_replies{ false };
+    bool show_dbDebug { false };
 	int signer_model{ 0 };
 	std::string signer_filepath;
 

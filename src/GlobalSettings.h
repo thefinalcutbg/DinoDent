@@ -16,6 +16,7 @@ namespace GlobalSettings
 
 	bool showRequestsEnabled();
 	bool showRepliesEnabled();
+    bool showDbDebugEnabled();
 	bool devBranch();
 
 	void setSettings(const GlobalSettingsData& settings);

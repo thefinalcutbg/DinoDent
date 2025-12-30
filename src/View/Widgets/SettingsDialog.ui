@@ -187,6 +187,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="localDbCheck">
+            <property name="text">
+             <string>Показвай заявките към локалната база данни</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

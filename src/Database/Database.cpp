@@ -126,7 +126,7 @@ bool Db::execute(const std::string& query)
     }
 
 
-    if(GlobalSettings::showDbDebugEnabled() && query != "PRAGMA foreign_keys = ON"){
+    if(GlobalSettings::showDbDebugEnabled()){
         ModalDialogBuilder::showMultilineDialog(query);
     }
 

@@ -16,7 +16,7 @@ class TreatmentPlanView : public QWidget
 {
     Q_OBJECT
 
-    TreatmentPlanPresenter* presenter;
+    TreatmentPlanPresenter* presenter = nullptr;
     TeethViewScene* teethViewScene;
 
     void paintEvent(QPaintEvent* event) override;

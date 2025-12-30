@@ -224,14 +224,17 @@
   <ItemGroup>
     <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="src\Database\DbNotification.cpp" />
+    <ClCompile Include="src\Database\DbTreatmentPlan.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\HISDental.cpp" />
     <ClCompile Include="src\Model\Dental\HisSnapshot.cpp" />
+    <ClCompile Include="src\Model\Dental\TreatmentPlan.cpp" />
     <ClCompile Include="src\Network\BulkRequester.cpp" />
     <ClCompile Include="src\Network\SMS\Mobica.cpp" />
     <ClCompile Include="src\Network\SMS\SMSMessage.cpp" />
     <ClCompile Include="src\Presenter\PatientHistoryPresenter.cpp" />
+    <ClCompile Include="src\Presenter\TreatmentPlanPresenter.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintConsent.cpp" />
@@ -239,6 +242,7 @@
     <ClCompile Include="src\Printer\Implementation\PrintGDPR.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintInvoice.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintHIRBNoDeclaration.cpp" />
+    <ClCompile Include="src\Printer\Implementation\PrintPlan.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPrescription.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPrv.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintReferral.cpp" />
@@ -247,6 +251,7 @@
     <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
+    <ClCompile Include="src\View\SubWidgets\PriceInputWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\SMSTemplate.cpp" />
     <ClCompile Include="src\View\TableModels\NotificationTableModel.cpp" />
     <ClCompile Include="src\View\uiComponents\ColorPicker.cpp" />
@@ -519,6 +524,7 @@
     <ClCompile Include="src\View\Widgets\PatientHistoryDialog.cpp" />
     <ClCompile Include="src\View\SubWidgets\PerioSummary.cpp" />
     <ClCompile Include="src\View\Widgets\PisImportView.cpp" />
+    <ClCompile Include="src\View\Widgets\PlannedProcedureDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOperationDialog.cpp" />
@@ -528,6 +534,7 @@
     <ClCompile Include="src\View\Widgets\FinancialView.cpp" />
     <ClCompile Include="src\View\Widgets\InputDialog.cpp" />
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\PriceInputDialog.cpp" />
     <ClCompile Include="src\View\Widgets\SignatureViewDialog.cpp" />
     <ClCompile Include="src\View\Widgets\SplashScreen.cpp" />
     <ClCompile Include="src\View\Widgets\StatisticDialogView.cpp" />
@@ -556,6 +563,7 @@
     <ClCompile Include="src\View\Widgets\SettingsDialog.cpp" />
     <ClCompile Include="src\View\Widgets\TabView.cpp" />
     <ClCompile Include="src\View\Widgets\DinoDent.cpp" />
+    <ClCompile Include="src\View\Widgets\TreatmentPlanView.cpp" />
     <ClCompile Include="src\View\Widgets\UnfavourableDialog.cpp" />
     <ClCompile Include="src\View\Widgets\UnusedPackageView.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
@@ -568,17 +576,21 @@
     <ClInclude Include="include\json\json.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Database\DbNotification.h" />
+    <ClInclude Include="src\Database\DbTreatmentPlan.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
+    <QtMoc Include="src\View\Widgets\TreatmentPlanView.h" />
     <QtMoc Include="src\View\Widgets\UnfavourableDialog.h" />
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
     <ClInclude Include="src\Model\Dental\HISDental.h" />
     <ClInclude Include="src\Model\Dental\Notification.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
+    <ClInclude Include="src\Model\Dental\TreatmentPlan.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />
     <ClInclude Include="src\Network\BulkRequester.h" />
     <ClInclude Include="src\Network\SMS\Mobica.h" />
     <ClInclude Include="src\Network\SMS\SMSMessage.h" />
     <ClInclude Include="src\Presenter\PatientHistoryPresenter.h" />
+    <ClInclude Include="src\Presenter\TreatmentPlanPresenter.h" />
     <ClInclude Include="src\Printer\FilePaths.h" />
     <ClInclude Include="src\Printer\Implementation\PrintPrv.h" />
     <ClInclude Include="src\Printer\SignatureTablet.h" />
@@ -807,6 +819,7 @@
     <QtMoc Include="src\View\SubWidgets\ProcedureListView.h" />
     <QtMoc Include="src\View\SubWidgets\SnapshotViewer.h" />
     <QtMoc Include="src\View\SubWidgets\SMSTemplate.h" />
+    <QtMoc Include="src\View\SubWidgets\PriceInputWidget.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
     <QtMoc Include="src\View\TableModels\HospitalizationTableModel.h" />
@@ -870,6 +883,8 @@
     <QtMoc Include="src\View\Widgets\NotesTemplateDialog.h" />
     <QtMoc Include="src\View\Widgets\PatientHistoryDialog.h" />
     <QtMoc Include="src\View\SubWidgets\PerioSummary.h" />
+    <QtMoc Include="src\View\Widgets\PlannedProcedureDialog.h" />
+    <QtMoc Include="src\View\Widgets\PriceInputDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -935,6 +950,7 @@
     <QtMoc Include="src\View\Graphics\GraphicsView.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\View\SubWidgets\PriceInputWidget.ui" />
     <QtUic Include="src\View\SubWidgets\SMSTemplate.ui" />
     <QtUic Include="src\View\Widgets\MedicationTemplateDialog.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
@@ -968,6 +984,7 @@
     <QtUic Include="src\View\Widgets\PatientHistoryDialog.ui" />
     <QtUic Include="src\View\SubWidgets\PerioSummary.ui" />
     <QtUic Include="src\View\Widgets\PisImportView.ui" />
+    <QtUic Include="src\View\Widgets\PlannedProcedureDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />
     <QtUic Include="src\View\Widgets\BusinessOperationDialog.ui" />
@@ -977,6 +994,7 @@
     <QtUic Include="src\View\Widgets\FinancialView.ui" />
     <QtUic Include="src\View\Widgets\InputDialog.ui" />
     <QtUic Include="src\View\Widgets\InvoicePrintDialog.ui" />
+    <QtUic Include="src\View\Widgets\PriceInputDialog.ui" />
     <QtUic Include="src\View\Widgets\SignatureViewDialog.ui" />
     <QtUic Include="src\View\Widgets\StatisticDialogView.ui" />
     <QtUic Include="src\View\Widgets\TableViewDialog.ui" />
@@ -1003,6 +1021,7 @@
     <QtUic Include="src\View\Widgets\SettingsDialog.ui" />
     <QtUic Include="src\View\Widgets\TabView.ui" />
     <QtUic Include="src\View\Widgets\DinoDent.ui" />
+    <QtUic Include="src\View\Widgets\TreatmentPlanView.ui" />
     <QtUic Include="src\View\Widgets\UnfavourableDialog.ui" />
     <QtUic Include="src\View\Widgets\UnusedPackageView.ui" />
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />

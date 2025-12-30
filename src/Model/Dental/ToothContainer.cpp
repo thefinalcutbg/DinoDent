@@ -5,6 +5,7 @@
 #include "Dental.h"
 #include <optional>
 #include <set>
+#include <unordered_map>
 
 using namespace Dental;
 

@@ -9,6 +9,17 @@
 #include <QPainterPath>
 #include <QTreeWidgetItem>
 #include <QScrollBar>
+#include <QProxyStyle>
+
+class NoFocusRectStyle : public QProxyStyle {
+public:
+    using QProxyStyle::QProxyStyle;
+    void drawPrimitive(PrimitiveElement e, const QStyleOption* opt,
+        QPainter* p, const QWidget* w = nullptr) const override {
+        if (e == PE_FrameFocusRect) return;
+        QProxyStyle::drawPrimitive(e, opt, p, w);
+    }
+};
 
 TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     : QWidget(parent)
@@ -22,7 +33,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     ui->stageList->header()->setStretchLastSection(false);
     ui->stageList->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->stageList->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-
+    ui->stageList->setStyle(new NoFocusRectStyle(ui->stageList->style())); //removes the dotted rect on Windows
 
     ui->addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
     ui->addStage->setIcon(QIcon(":/icons/icon_add.png"));
@@ -195,9 +206,12 @@ void TreatmentPlanView::setTreatmentPlan(const TreatmentPlan &p)
         label->setTextFormat(Qt::RichText);
         label->setText(stageText);
 
-        if(!isConclusion){
-            stageItem->setText(1, priceRangeToString(stage.getPriceRange()));
-        }
+     
+        auto font = stageItem->font(1);
+        font.setBold(true);
+        stageItem->setFont(1, font);
+        stageItem->setText(1, priceRangeToString(isConclusion ? p.getTotalPrice() : stage.getPriceRange()));
+        
 
         stageItem->setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
 

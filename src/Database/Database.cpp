@@ -39,18 +39,15 @@ bool Db::hasRows(){
 
     if (total_bindings != successful_bindings) return false;
 
-    static bool debugCalled = false;
-
-    if(GlobalSettings::showDbDebugEnabled() && !debugCalled){
-        debugCalled = true;
+    if(GlobalSettings::showDbDebugEnabled() && debug_hasRows){
+        debug_hasRows = false;
         ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
     }
-
 
     bool result = sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
 
     if(!result){
-        debugCalled = false;
+        debug_hasRows = true;
         finalizeStatement();
     }
 

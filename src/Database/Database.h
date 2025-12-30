@@ -18,6 +18,8 @@ class Db
 
     sqlite3_stmt* stmt;
 
+    bool debug_hasRows = true;
+
     static inline bool s_showErrorDialog{ false };
     static inline std::string dbLocation{ "database.db" };
 

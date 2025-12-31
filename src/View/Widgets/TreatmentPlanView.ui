@@ -264,8 +264,8 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>470</width>
-            <height>500</height>
+            <width>740</width>
+            <height>470</height>
            </size>
           </property>
           <property name="autoFillBackground">
@@ -412,7 +412,7 @@
            <widget class="QTreeWidget" name="stageList">
             <property name="minimumSize">
              <size>
-              <width>500</width>
+              <width>490</width>
               <height>0</height>
              </size>
             </property>

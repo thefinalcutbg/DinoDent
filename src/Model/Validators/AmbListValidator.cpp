@@ -97,15 +97,15 @@ bool AmbListValidator::ambListIsValid()
         }
     }
 
-    auto foundExam = [](const std::optional<std::vector<Procedure>>& pList){
+    auto foundExam = [this](const std::optional<std::vector<Procedure>>& pList){
 
         if(!pList.has_value()) return false;
 
         return  std::find_if(
                    pList->begin(), pList->end(),
-                   [](const Procedure& p) {
+                   [this](const Procedure& p) {
                        return p.code.nhifCode() == 101
-                              && p.date.year == Date::currentYear();
+                              && p.date.year == ambList.getDate().year;
                    }) != pList->end();
     };
 

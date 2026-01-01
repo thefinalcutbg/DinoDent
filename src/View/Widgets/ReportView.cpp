@@ -67,6 +67,10 @@ ReportView::ReportView(QWidget* parent)
 	ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 	ui.specButton->setIcon(QIcon(":/icons/icon_print.png"));
 
+	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
+	ui.hisCheck->setIcon(QIcon(":/icons/icon_his.png"));
+	ui.nraCheck->setIcon(QIcon(":/icons/icon_nra.png"));
+
     connect(ui.textBrowser, &TextBrowser::linkPressed, this, [&](const QString& str) { presenter.linkClicked(str.toLongLong()); });
 
 	presenter.setView(this);

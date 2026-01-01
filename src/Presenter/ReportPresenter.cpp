@@ -76,21 +76,18 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
         m_hasErrors = true;
 
-        auto errorMsg = v.getErrorMsg();
+        auto& errorMsg = v.getErrorMsg();
 
         //avoid exceeded limit duplication messages
         auto strBegin = std::string("За дата");
 
-        if(errorMsg.substr(0, strBegin.size()) == strBegin){
-            if(exceededDailyLimitSet.contains(errorMsg)) return;
+		if (errorMsg.substr(0, strBegin.size()) != strBegin) {
+			isValid = false;
+			view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
 
-            view->appendText(errorMsg);
-            exceededDailyLimitSet.insert(errorMsg);
-
-            return;
-        } else {
-            isValid = false;
-            view->appendSheet(list.rowid, amblistName, v.getErrorMsg());
+		} else if(!exceededDailyLimitSet.contains(errorMsg)) {
+				view->appendText(errorMsg);
+				exceededDailyLimitSet.insert(errorMsg);	
         }
     }
 

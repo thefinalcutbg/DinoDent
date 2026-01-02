@@ -19,6 +19,10 @@ bool Print::priceList(ProcedureTemplateModel& m)
     report.dataManager()->setReportVariable("city", practice.practice_address.getAddressWithStreet(" ").c_str());
     report.dataManager()->addModel("procedures", &m, false);
 
+    if(Date::currentDate() < Date(8,8,2026)){
+        report.dataManager()->setReportVariable("designation", "курс на превалутиране: 1 EUR = 1,95583 BGN");
+    }
+
     QApplication::restoreOverrideCursor();
 
     report.printReport();

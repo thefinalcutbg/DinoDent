@@ -21,7 +21,7 @@ QString getPriceSuffix(int year)
 
 QString priceToString(double price, int year) {
 
-	return roundDouble(price) + getPriceSuffix(year);
+    return roundDouble(price) + QChar(0x00A0) + getPriceSuffix(year);
 }
 
 QString formatDoubleWithDecimal(const double& price) //adding the dot in case of integer
@@ -56,7 +56,7 @@ QString priceRangeToString(const std::pair<double, double> priceRange)
     };
 
     auto levToString = [&](double eur) -> QString {
-        return levAmountToString(eur) + " лв.";
+        return levAmountToString(eur) + QChar(0x00A0) + "лв.";
     };
 
     if(!priceRange.first && !priceRange.second){

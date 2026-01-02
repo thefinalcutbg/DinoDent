@@ -6,6 +6,8 @@ CONFIG += c++20
 
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 14.0
+
 CONFIG += no_zint no_svg no_formdesigner no_embedded_designer #limereport options
 include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport source code
 

@@ -8,6 +8,7 @@ struct Invoice;
 class Referral;
 struct FiscalReport;
 class NhifSpecReport;
+class ProcedureTemplateModel;
 struct Prescription;
 struct TreatmentPlan;
 
@@ -33,6 +34,7 @@ namespace Print
 	bool printDentureDeclaration(const Patient* patient, const AmbList* amblist = nullptr, const std::string& pdfFilename = {});
 	bool printHirbNoDeclaration(const Patient* patient, const std::string& pdfFilename = {});
 	bool gdpr(const Patient& patient, const std::string& pdfFilename = {});
+    bool priceList(ProcedureTemplateModel& m);
 
 	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
 

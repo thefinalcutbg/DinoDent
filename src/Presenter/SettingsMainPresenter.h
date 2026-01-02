@@ -33,6 +33,7 @@ public:
 
 	void setView(SettingsDialog* view);
     void priceEditRequested(const std::string& code);
+    void printPriceList();
 	void updateMedications();
 	void addDoctor();
 	void removeDoctor();

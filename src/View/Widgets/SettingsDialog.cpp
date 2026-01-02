@@ -351,6 +351,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.smsReminderSpin->setSuffix(ui.smsReminderSpin->value() == 1 ? " час" : " часа");
 	});
 
+    connect(ui.printPriceButton, &QPushButton::clicked, this, [&] { presenter.printPriceList(); });
+
 	presenter.setView(this);
 	
 }

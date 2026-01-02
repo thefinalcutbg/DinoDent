@@ -13,7 +13,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 
     auto date = Date::currentDate();
 
-    if((date.month == 12 && date.day == 31) || (date.month == 1 && date.day < 5))
+    if((date.month == 12 && date.day == 31) || (date.month == 1 && date.day < 2))
     {
         ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoNewYear.png"));
     }

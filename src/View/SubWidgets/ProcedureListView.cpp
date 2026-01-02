@@ -18,9 +18,10 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 	table->setModel(&proxyModel);
 	table->setMouseTracking(true);
 
-	table->setColumnWidth(0, 30);
+    table->setColumnWidth(0, 30);
 	table->hideColumn(1);
     table->setColumnWidth(2, 100);
+    table->setColumnWidth(4, 120);
 	table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeMode::Stretch);
 	table->horizontalHeader()->setHighlightSections(false);
 	table->verticalHeader()->setVisible(false);

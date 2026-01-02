@@ -6,7 +6,7 @@ CONFIG += c++20
 
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
-CONFIG += no_zint no_svg no_formdesigner #no_embedded_designer #limereport options
+CONFIG += no_zint no_svg no_formdesigner no_embedded_designer #limereport options
 include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport source code
 
 unix:!macx{
@@ -606,6 +606,7 @@ SOURCES += \
     src/Printer/Implementation/PrintOther.cpp \
     src/Printer/Implementation/PrintPlan.cpp \
     src/Printer/Implementation/PrintPrescription.cpp \
+    src/Printer/Implementation/PrintPriceList.cpp \
     src/Printer/Implementation/PrintPrv.cpp \
     src/Printer/Implementation/PrintReferral.cpp \
     src/Printer/SignatureTablet.cpp \

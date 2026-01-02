@@ -141,7 +141,7 @@ bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, con
     PlainTableModel m;
     m.setTableData(t);
 
-    report.dataManager()->addModel("procedures", &m, true);
+    report.dataManager()->addModel("procedures", &m, false);
 
     QApplication::restoreOverrideCursor();
 

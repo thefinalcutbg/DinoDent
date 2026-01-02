@@ -70,6 +70,29 @@ void SettingsMainPresenter::priceEditRequested(const std::string& code)
     view->getPriceListView()->refresh();
 }
 
+void SettingsMainPresenter::printPriceList()
+{
+
+    std::vector<ProcedureListElement> toPrint;
+
+    //filtering only procedures with prices
+    for(auto& p : procedure_list.getList(0)){
+        if(p.price.first || p.price.second){
+            toPrint.push_back(p);
+        }
+    }
+
+    if(toPrint.empty()){
+        ModalDialogBuilder::showMessage("Не са открити въведени цени");
+        return;
+    }
+
+    ProcedureTemplateModel m;
+    m.setProcedures(toPrint);
+
+    Print::priceList(m);
+}
+
 void SettingsMainPresenter::okPressed()
 {
 	if (applyChanges())

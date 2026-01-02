@@ -3553,7 +3553,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout45</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="100"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="99"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem46</objectName>
@@ -3668,7 +3668,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout47</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="149"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="148"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem48</objectName>
@@ -4033,7 +4033,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout53</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="100"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="99"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem54</objectName>
@@ -4148,7 +4148,7 @@
                         </item>
                         <item ClassName="HLayout" Type="Object">
                           <objectName Type="QString">HorizontalLayout55</objectName>
-                          <geometry Type="QRect" height="49" width="798" x="1" y="149"/>
+                          <geometry Type="QRect" height="49" width="798" x="1" y="148"/>
                           <children Type="Collection">
                             <item ClassName="TextItem" Type="Object">
                               <objectName Type="QString">TextItem56</objectName>
@@ -5387,7 +5387,7 @@
                       <margin Type="int" Value="4"/>
                       <alignment Type="enumAndFlags" Value="132"/>
                       <autoWidth Type="enumAndFlags" Value="0"/>
-                      <autoHeight Type="bool" Value="0"/>
+                      <autoHeight Type="bool" Value="1"/>
                       <font Type="QFont" family="Arial" italic="0" pointSize="10" underline="0" weight="700"/>
                       <backgroundOpacity Type="int" Value="100"/>
                       <backgroundMode Type="enumAndFlags" Value="1"/>
@@ -5433,8 +5433,8 @@
                       <content Type="QString">$V{totalPrice}</content>
                       <margin Type="int" Value="4"/>
                       <alignment Type="enumAndFlags" Value="132"/>
-                      <autoWidth Type="enumAndFlags" Value="2"/>
-                      <autoHeight Type="bool" Value="0"/>
+                      <autoWidth Type="enumAndFlags" Value="0"/>
+                      <autoHeight Type="bool" Value="1"/>
                       <font Type="QFont" family="Arial" italic="0" pointSize="10" underline="0" weight="700"/>
                       <backgroundOpacity Type="int" Value="100"/>
                       <backgroundMode Type="enumAndFlags" Value="1"/>
@@ -5747,7 +5747,7 @@
                       <margin Type="int" Value="4"/>
                       <alignment Type="enumAndFlags" Value="132"/>
                       <autoWidth Type="enumAndFlags" Value="0"/>
-                      <autoHeight Type="bool" Value="0"/>
+                      <autoHeight Type="bool" Value="1"/>
                       <font Type="QFont" family="Arial" italic="0" pointSize="8" underline="0" weight="700"/>
                       <backgroundOpacity Type="int" Value="100"/>
                       <backgroundMode Type="enumAndFlags" Value="1"/>
@@ -5794,7 +5794,7 @@
                       <margin Type="int" Value="4"/>
                       <alignment Type="enumAndFlags" Value="132"/>
                       <autoWidth Type="enumAndFlags" Value="0"/>
-                      <autoHeight Type="bool" Value="0"/>
+                      <autoHeight Type="bool" Value="1"/>
                       <font Type="QFont" family="Arial" italic="0" pointSize="8" underline="0" weight="700"/>
                       <backgroundOpacity Type="int" Value="100"/>
                       <backgroundMode Type="enumAndFlags" Value="1"/>

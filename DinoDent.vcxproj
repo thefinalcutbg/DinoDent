@@ -244,6 +244,7 @@
     <ClCompile Include="src\Printer\Implementation\PrintHIRBNoDeclaration.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPlan.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPrescription.cpp" />
+    <ClCompile Include="src\Printer\Implementation\PrintPriceList.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPrv.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintReferral.cpp" />
     <ClCompile Include="src\Printer\SignatureTablet.cpp" />

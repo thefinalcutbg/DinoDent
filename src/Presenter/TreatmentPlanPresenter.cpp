@@ -414,7 +414,7 @@ void TreatmentPlanPresenter::addConclusion()
 {
     if(m_treatmentPlan.lastStageIsConclusion){
 
-        m_selection.first = m_treatmentPlan.stages.size()-1;
+        m_selection.first = static_cast<int>(m_treatmentPlan.stages.size())-1;
         m_selection.second = -1;
         view->setSelection(m_selection);
         editPressed();
@@ -444,7 +444,7 @@ void TreatmentPlanPresenter::addConclusion()
 
     makeEdited();
 
-    m_selection = {m_treatmentPlan.stages.size()-1, -1};
+    m_selection = {static_cast<int>(m_treatmentPlan.stages.size())-1, -1};
 
     view->setTreatmentPlan(m_treatmentPlan);
 

@@ -25,5 +25,5 @@ bool Print::priceList(ProcedureTemplateModel& m)
 
     QApplication::restoreOverrideCursor();
 
-    report.printReport();
+    return report.printReport();
 }

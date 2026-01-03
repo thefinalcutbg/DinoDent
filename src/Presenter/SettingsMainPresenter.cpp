@@ -64,7 +64,7 @@ void SettingsMainPresenter::priceEditRequested(const std::string& code)
     PriceInputDialog d(price);
 
 	if (procedureCode.isFixedProsthoBased()) {
-		d.setLabel("Цената е за един зъб/член - изчислява се автоматично в зависимост от дължината на конструкцията");
+		d.setLabel("Цената е за един зъб/член - изчислява се автоматично в зависимост от дължината на конструкцията!");
 	}
 
     auto result = d.getResult();

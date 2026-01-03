@@ -84,26 +84,17 @@ public:
 
     //returns NHIF code if there is a NHIF mapping otherwise returns 0
     int nhifCode() const;
-
-    bool isNhifOnly() const;
-
-    const std::string& name() const;
-
-    const std::string& code() const { return m_code; }
-
-    const std::string& ACHICode() const;
-
-    const std::string& defaultICD10() const;
-
-    int achiBlock() const;
-
-    const std::string& achiBlockName() const;
-
-    ProcedureType type() const;
-
-    ProcedureScope getScope() const;
-
     bool isLegacy() const;
+    bool isNhifOnly() const;
+    bool isFixedProsthoBased() const;
+    const std::string& name() const;
+    const std::string& code() const { return m_code; }
+    const std::string& ACHICode() const;
+    const std::string& defaultICD10() const;
+    int achiBlock() const;
+    const std::string& achiBlockName() const;
+    ProcedureType type() const;
+    ProcedureScope getScope() const;
 
     static decltype(s_mapping)& getMap() { return s_mapping; }
     static ProcedureScope getScope(ProcedureType t);

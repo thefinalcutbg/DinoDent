@@ -55,11 +55,17 @@ void SettingsMainPresenter::setView(SettingsDialog* view)
 
 void SettingsMainPresenter::priceEditRequested(const std::string& code)
 {
-    if(!ProcedureCode(code).isValid()) return;
+	auto procedureCode = ProcedureCode(code);
+
+    if(!procedureCode.isValid()) return;
 
     auto price = procedure_list.getPriceRange(code);
 
     PriceInputDialog d(price);
+
+	if (procedureCode.isFixedProsthoBased()) {
+		d.setLabel("Цена за един зъб/член - изчислява се автоматично в зависимост от дължината на конструкцията");
+	}
 
     auto result = d.getResult();
 
@@ -83,7 +89,7 @@ void SettingsMainPresenter::printPriceList()
     }
 
     if(toPrint.empty()){
-        ModalDialogBuilder::showMessage("Не са открити въведени цени");
+        ModalDialogBuilder::showMessage("Необходимо е да въведете цена на поне една процедура");
         return;
     }
 

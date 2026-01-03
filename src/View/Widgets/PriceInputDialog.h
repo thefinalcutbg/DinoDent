@@ -16,7 +16,7 @@ class PriceInputDialog : public QDialog
 
 public:
     explicit PriceInputDialog(const std::pair<double, double>& priceRange = {0,0}, QWidget *parent = nullptr);
-
+    void setLabel(const std::string& text);
     auto getResult(){ exec(); return m_result;}
 
     ~PriceInputDialog();

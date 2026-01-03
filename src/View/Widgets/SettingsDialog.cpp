@@ -353,6 +353,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
     connect(ui.printPriceButton, &QPushButton::clicked, this, [&] { presenter.printPriceList(); });
 
+	ui.printPriceButton->setIcon(CommonIcon::getPixmap(CommonIcon::PRINT));
+
 	presenter.setView(this);
 	
 }

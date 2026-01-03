@@ -95,7 +95,7 @@ int Procedure::getPriceMultiplier() const
 {
     int result = 1;
 
-    if((code.type() == ProcedureType::Bridge || code.type() == ProcedureType::Splint || code.type() == ProcedureType::RemoveCrownOrBridge) &&
+    if(code.isFixedProsthoBased() &&
         std::holds_alternative<ConstructionRange>(affectedTeeth))
     {
         auto range =  std::get<ConstructionRange>(affectedTeeth);

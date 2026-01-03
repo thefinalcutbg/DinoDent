@@ -57,6 +57,13 @@ PriceInputDialog::PriceInputDialog(const std::pair<double, double> &priceRange, 
     }
 
     adjustSize();
+
+    setStyleSheet("QDialog{background-color:white}");
+}
+
+void PriceInputDialog::setLabel(const std::string& text)
+{
+    ui->label_2->setText(QString::fromStdString(text));
 }
 
 PriceInputDialog::~PriceInputDialog()

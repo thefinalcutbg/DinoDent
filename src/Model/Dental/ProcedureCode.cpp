@@ -256,6 +256,17 @@ bool ProcedureCode::isNhifOnly() const
     return nhif_code && (nhif_code < 832 && nhif_code > 835);
 }
 
+bool ProcedureCode::isFixedProsthoBased() const
+{
+	auto t = type();
+
+	if (t == ProcedureType::Bridge) return true;
+	if (t == ProcedureType::Splint) return true;
+	if (t == ProcedureType::RemoveCrownOrBridge) return true;
+
+	return false;
+}
+
 const std::string& ProcedureCode::name() const
 {
 	return isValid() ? s_mapping[m_code].name : dummy;

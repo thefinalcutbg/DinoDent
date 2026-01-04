@@ -83,7 +83,7 @@ struct Procedure
 
     long long planned_procedure_idx{0};
 
-    static inline std::string getToothString(const AffectedTeeth& teeth);
+    static std::string getToothString(const AffectedTeeth& teeth);
 
     //for procedures fetched from his
     std::optional<HISProcedureResult> HIS_fetched_result;

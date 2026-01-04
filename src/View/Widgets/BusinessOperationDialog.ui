@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>501</width>
-    <height>197</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -117,7 +117,7 @@
             <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
            <property name="suffix">
-            <string> лв.</string>
+            <string/>
            </property>
            <property name="maximum">
             <double>10000.000000000000000</double>

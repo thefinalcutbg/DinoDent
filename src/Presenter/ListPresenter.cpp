@@ -126,13 +126,13 @@ void ListPresenter::makeEditedOnTimeChange()
 
     }
 
-	//auto change treatment end for daily sheets
+    //auto change treatment end for daily sheets
     if (!User::practice().generateMonthlySheets() &&
         Date(m_amblist.treatment_end) != Date(m_amblist.date)
     )
     {
         m_amblist.treatment_end = Date(m_amblist.date).to8601() + m_amblist.treatment_end.substr(10);
-		view->setTreatmentEnd(m_amblist.treatment_end);
+        view->setTreatmentEnd(m_amblist.treatment_end);
     }
 
 	TabInstance::makeEdited();
@@ -166,7 +166,17 @@ void ListPresenter::makeEdited()
             TabInstance::makeEdited(); 
             return;
         }
-    } 
+    }
+
+    //or monthly sheets edited from another month
+    if (User::practice().generateMonthlySheets()){
+        if(!Date(newTreatmentEnd).isTheSameMonthAs(m_amblist.date))
+        {
+            TabInstance::makeEdited();
+            return;
+        }
+
+    }
 
     if (m_amblist.procedures.size()) {
 

@@ -16,7 +16,7 @@ bool insertPlannedProcedures(Db& db, long long planRowid, std::vector<TreatmentP
     for(int i = 0; i < stages.size(); i++){
         for(int j = 0; j < stages[i].plannedProcedures.size(); j++){
 
-            auto p = stages[i].plannedProcedures[j];
+            auto& p = stages[i].plannedProcedures[j];
 
             db.newStatement(R"SQL(
 INSERT INTO planned_procedure (

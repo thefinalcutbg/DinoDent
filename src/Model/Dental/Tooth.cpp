@@ -14,7 +14,6 @@ Tooth::Tooth(int arr_index) : m_index(arr_index)
 	m_supernumeral = new Tooth(this);
 }
 
-
 Tooth::Tooth(Tooth* parent) : m_index(parent->m_index), m_parent(parent)
 {}
 
@@ -260,14 +259,15 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[NonCariesLesion] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[Caries] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[NonCariesLesion] = { Healthy, Root, Implant, Missing, Impacted, Denture };
-	result[Necrosis] = { Healthy, Pulpitis, Missing, Impacted, RootCanal, Post, Impacted, Denture };
-	result[Pulpitis] = { Healthy, ApicalLesion, Necrosis, Missing, Impacted, RootCanal, Post, Impacted, Denture };
+    result[Necrosis] = { Healthy, Pulpitis, Missing, Impacted, Implant, RootCanal, Post, Impacted, Denture };
+    result[Resorption] = { Healthy, Implant, Missing, Denture };
+    result[Pulpitis] = { Healthy, ApicalLesion, Necrosis, Missing, Impacted, RootCanal, Post, Impacted, Denture, Implant };
 	result[ApicalLesion] = { Healthy, Pulpitis, Missing, Impacted, Implant, Denture };
-	result[Missing] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Implant, Pulpitis, Necrosis, RootCanal, Fracture, Root, ApicalLesion, Periodontitis, Crown, Post, Mobility, Denture, Calculus, Impacted };
+    result[Missing] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Implant, Pulpitis, Necrosis, RootCanal, Resorption, Fracture, Root, ApicalLesion, Periodontitis, Crown, Post, Mobility, Denture, Calculus, Impacted };
 	result[RootCanal] = { Healthy, Pulpitis, Necrosis, Missing, Impacted, Implant, Denture };
 	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Necrosis, Impacted, Denture };
 	result[Root] = { Healthy, Caries, NonCariesLesion,  Restoration, DefectiveRestoration, Crown, Missing, Implant, Calculus };
-	result[Implant] = { Healthy, ApicalLesion, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Root, Post, Mobility, Impacted };
+    result[Implant] = { Healthy, ApicalLesion, Temporary, Missing, Restoration, DefectiveRestoration, Caries, NonCariesLesion,  Pulpitis, Necrosis, RootCanal, Resorption, Root, Post, Mobility, Impacted };
 	result[Fracture] = { Healthy, Missing, Impacted };
 	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
 	result[Mobility] = { Healthy, Missing, Impacted, Denture };
@@ -276,7 +276,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Splint] = { Healthy, Crown, Bridge, Denture };
 	result[HasSupernumeral] = { };
 	result[Impacted] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
-	result[Denture] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Necrosis, Periodontitis, Mobility}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
+    result[Denture] = { Healthy, Restoration, DefectiveRestoration, Caries, NonCariesLesion, Missing, Crown, Bridge, Splint, Post, Calculus, ApicalLesion, RootCanal, Pulpitis, Necrosis, Resorption, Periodontitis, Mobility}; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
 	result[Calculus] = { Healthy, Root, Missing, Impacted, Denture };
 		return result;
 
@@ -289,9 +289,7 @@ void Tooth::setStatus(Status code, bool present) {
 	if (code == Temporary && type() == Molar) return;
 
 	if (present == m_data[code]) return;
-#ifdef DISABLE_NEW_DENTAL_STATUSES
-	m_data[Necrosis] = false; //bug fix for version 2.7.0
-#endif
+
 	//supernumeral cant have these statuses
 	if (isSupernumeral() &&
 		(
@@ -363,16 +361,10 @@ void Tooth::setStatus(Status code, bool present) {
 	switch (code)
 	{
 	case Post:
-		setStatus(RootCanal, true); break;
-#ifndef DISABLE_NEW_DENTAL_STATUSES
+        setStatus(RootCanal, true);
+        break;
 	case ApicalLesion:
 		if (!m_data[RootCanal]) {
-			setStatus(Necrosis, true);
-		}
-		break;
-#endif
-	case Resorption:
-		if (!m_data[RootCanal] && !m_data[Pulpitis]) {
 			setStatus(Necrosis, true);
 		}
 		break;
@@ -529,13 +521,10 @@ std::vector<std::string> Tooth::getNhifStatus() const
 
 	statusLegend[Temporary] = "T";
 	statusLegend[Restoration] = "O";
-
 	statusLegend[Caries] = "C";
 	statusLegend[Pulpitis] = "P";
-#ifndef DISABLE_NEW_DENTAL_STATUSES
 	statusLegend[DefectiveRestoration] = "O";
 	statusLegend[Necrosis] = "P";
-#endif
 	statusLegend[ApicalLesion] = "G";
 	statusLegend[Root] = "R";
 	statusLegend[Missing] = m_data[Splint] || m_data[Bridge] ? "" : "E";
@@ -577,12 +566,10 @@ std::vector<std::string> Tooth::getHISStatus() const
 	status[Healthy] = "H";
 	status[Temporary] = "";
 	status[Restoration] = "O";
-#ifndef DISABLE_NEW_DENTAL_STATUSES
 	status[Necrosis] = "N";
 	status[Resorption] = "Res";
 	status[DefectiveRestoration] = "DR";
 	status[NonCariesLesion] = "NC";
-#endif
 	status[Caries] = "C";
 	status[Pulpitis] = "P";
 	status[ApicalLesion] = "G";
@@ -612,12 +599,6 @@ std::vector<std::string> Tooth::getHISStatus() const
 
 	//adding surfaces
 	for (int i = Restoration; i <= NonCariesLesion; i++) {
-
-#ifdef DISABLE_NEW_DENTAL_STATUSES
-		if(i== NonCariesLesion || i == DefectiveRestoration) {
-			continue;
-		}
-#endif
 		for (int y = 0; y < SurfaceCount; y++) {
 			if (hasStatus(i, y)) statuses.push_back(status[i] + surfNum[y]);
 		}

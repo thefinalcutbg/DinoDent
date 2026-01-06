@@ -2,8 +2,6 @@
 
 #include <string_view>
 
-#define DISABLE_NEW_DENTAL_STATUSES
-
 //Some important enums and string literals
 namespace Dental
 {

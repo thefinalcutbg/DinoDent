@@ -220,9 +220,9 @@ int TeethViewScene::keyCodeMapper(QKeyEvent *e)
         {1068, Qt::Key_X},
         {1061, Qt::Key_H},
         {1046, Qt::Key_V},
-        {1070, Qt::Key_Y},
-        {1085, Qt::Key_N},
-        {1079, Qt::Key_Z},
+        {1066, Qt::Key_Y},
+        {1053, Qt::Key_N},
+        {1047, Qt::Key_Z},
         {1081, Qt::Key_J},
         {1040, Qt::Key_A}
     };
@@ -335,12 +335,10 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_F :presenter->setToothStatus(StatusType::General, Fracture); break;
       case Qt::Key_I :presenter->setToothStatus(StatusType::General, Implant); break;
       case Qt::Key_L :presenter->setToothStatus(StatusType::General, Periodontitis); break;
-#ifndef DISABLE_NEW_DENTAL_STATUSES
       case Qt::Key_Y:presenter->setToothStatus(StatusType::General, DefectiveRestoration); break;
       case Qt::Key_U:presenter->setToothStatus(StatusType::General, NonCariesLesion); break;
       case Qt::Key_N:presenter->setToothStatus(StatusType::General, Necrosis); break;
       case Qt::Key_Z: presenter->setToothStatus(StatusType::General, Resorption); break;
-#endif
       case Qt::Key_0 :presenter->setToothStatus(StatusType::General, Mobility); break;
       case Qt::Key_1 :presenter->setToothStatus(StatusType::Mobility, 0); break;
       case Qt::Key_2 :presenter->setToothStatus(StatusType::Mobility, 1); break;

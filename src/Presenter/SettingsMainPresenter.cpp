@@ -404,11 +404,10 @@ void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
 
 	bool success = false;
 
-	if (ambSheet.rowid &&
-		ModalDialogBuilder::askDialog(
-			"Този амбулаторен лист вече съществува в базата данни. Желаете ли да го презапишете?"
-		)
-	){
+    if (ambSheet.rowid){
+
+        if(!ModalDialogBuilder::askDialog("Този амбулаторен лист вече съществува в базата данни. Желаете ли да го презапишете?")) { return;}
+
 		DbAmbList::update(ambSheet);
 		success = true;
 	}

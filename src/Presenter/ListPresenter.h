@@ -136,7 +136,7 @@ public:
     void hisButtonPressed();
 	void cancelHisAmbList();
 	void sendToHis(bool patientIsSigner = true);
-
+    void syncWithHis();
 
     ~ListPresenter();
 };

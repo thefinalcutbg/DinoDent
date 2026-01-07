@@ -105,10 +105,8 @@ void EDental::Open::parseReply(const std::string& reply)
 
 	if (errors.size()) {
 		if (FreeFn::contains(errors, "Вече има подаден")) {
-			auto existingNrn = errors.substr(errors.size() - 12);
+            auto existingNrn = errors.substr(errors.size() - 12);
 			m_callback(existingNrn, {}, true);
-			m_callback = nullptr;
-			return;
 		}
 
         ModalDialogBuilder::showError(errors);

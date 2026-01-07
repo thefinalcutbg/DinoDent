@@ -36,7 +36,8 @@ ListView::ListView(QWidget* parent)
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
 	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
-	
+    ui.syncButton->setIcon(QIcon(":/icons/icon_sync.png"));
+
     ui.perioButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.prescrButton->setIcon(QIcon(":/icons/icon_add.png"));
@@ -59,8 +60,9 @@ ListView::ListView(QWidget* parent)
     ui.declarationButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
     ui.treatmentPlanButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.syncButton->setHoverColor(Theme::mainBackgroundColor);
 
-	QMenu* menu = new QMenu(ui.addRefButton);
+    QMenu* menu = new QMenu(ui.addRefButton);
 
 	menu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
@@ -91,6 +93,7 @@ ListView::ListView(QWidget* parent)
 
 	ui.procedureTable->setMinimumWidth(ui.teethView->width() + ui.controlPanel->width());
 
+    connect(ui.syncButton, &QPushButton::clicked, this, [=, this] { presenter->syncWithHis();});
     connect(ui.sigButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->showSignature(); });
     connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
@@ -150,7 +153,7 @@ ListView::ListView(QWidget* parent)
 
 	connect(ui.nrnButton, &QPushButton::customContextMenuRequested, [=, this](const QPoint& pos) {
 
-		QMenu* hisMenu = new QMenu(ui.nrnButton);
+        QMenu* hisMenu = new QMenu(this);
 
 		auto text = ui.nrnButton->text();
 
@@ -178,18 +181,27 @@ ListView::ListView(QWidget* parent)
 			hisMenu->addAction(action);
 		}
 
-		if(text.contains("корекция")) {
-	
-			QAction* action = new QAction("Анулирай", hisMenu);
+        if(text != "Изпрати към НЗИС"){
+            QAction* action = new QAction("Синхронизирай с НЗИС", hisMenu);
 
-			action->setIcon(QIcon(":/icons/icon_remove.png"));
+            action->setIcon(QIcon(":/icons/icon_sync.png"));
 
-			connect(action, &QAction::triggered, this, [=, this] {
-				presenter->cancelHisAmbList();
-			});
+            connect(action, &QAction::triggered, this, [=, this] {
+                presenter->syncWithHis();
+            });
 
-			hisMenu->addAction(action);
-		}
+            hisMenu->addAction(action);
+
+            action = new QAction("Анулирай", hisMenu);
+
+            action->setIcon(QIcon(":/icons/icon_remove.png"));
+
+            connect(action, &QAction::triggered, this, [=, this] {
+                presenter->cancelHisAmbList();
+            });
+
+            hisMenu->addAction(action);
+        }
 	
 		hisMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
@@ -439,6 +451,9 @@ void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());
+
+    bool showSync = false;//prop.buttonText != "Изпрати към НЗИС";
+    ui.syncButton->setHidden(!showSync);
 }
 
 void ListView::showAddPlannedButton(bool show)

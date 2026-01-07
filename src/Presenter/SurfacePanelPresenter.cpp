@@ -53,15 +53,15 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
 			break;
 		case SurfaceState::defective:
-            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+            statusControl->setToothStatus(StatusType::Caries, surface);
             break;
-        case SurfaceState::nonCaries:
-            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
-            break;
-        //BONUS/HIDDEN:
         case SurfaceState::defectiveWithCaries:
             statusControl->setToothStatus(StatusType::Caries, surface);
             statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
+            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+            break;
+        case SurfaceState::nonCaries:
+            statusControl->setToothStatus(StatusType::Caries, surface);
             break;
         case SurfaceState::nonCariesWithCaries:
             statusControl->setToothStatus(StatusType::Caries, surface);

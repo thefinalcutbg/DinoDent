@@ -53,12 +53,20 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
 			break;
 		case SurfaceState::defective:
-			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
-			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
-			break;
-		case SurfaceState::nonCaries:
-			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
-			break;
+            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+            break;
+        case SurfaceState::nonCaries:
+            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+            break;
+        //BONUS/HIDDEN:
+        case SurfaceState::defectiveWithCaries:
+            statusControl->setToothStatus(StatusType::Caries, surface);
+            statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
+            break;
+        case SurfaceState::nonCariesWithCaries:
+            statusControl->setToothStatus(StatusType::Caries, surface);
+            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+            break;
 		}
 	}
 	else
@@ -78,9 +86,16 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 		case SurfaceState::defective:
 			statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
 			break;
-		case SurfaceState::nonCaries:
+        case SurfaceState::defectiveWithCaries:
+            statusControl->setToothStatus(StatusType::DefectiveRestoration, surface);
+            statusControl->setToothStatus(StatusType::Caries, surface);
+            break;
+        case SurfaceState::nonCaries:
 			statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
 			break;
+        case SurfaceState::nonCariesWithCaries:
+            statusControl->setToothStatus(StatusType::Caries, surface);
+            statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
 		case SurfaceState::none:
 			break;
 		};
@@ -98,7 +113,6 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth, bool hasNotes)
 	currentIndex = tooth.index();
 
 	view->paintTooth(ToothPaintHint(tooth), hasNotes);
-	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	std::array<std::string, 6> stateLabel;
 	std::array<std::string, 6> surfaceName;
@@ -114,11 +128,21 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth, bool hasNotes)
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::secondary);
 			stateLabel[i] = "Вторичен кариес";
 		}
+        else if (tooth.hasStatus(Dental::DefectiveRestoration, surface) && tooth.hasStatus(Dental::Caries, surface))
+        {
+            surfaceState[i] = std::make_tuple(surface, SurfaceState::defectiveWithCaries);
+            stateLabel[i] = "Деф. възст.+кариес";
+        }
 		else if (tooth.hasStatus(Dental::Restoration, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::restoration);
 			stateLabel[i] = "Възстановяване";
 		}
+        else if (tooth.hasStatus(Dental::NonCariesLesion, surface) && tooth.hasStatus(Dental::Caries, surface))
+        {
+            surfaceState[i] = std::make_tuple(surface, SurfaceState::nonCariesWithCaries);
+            stateLabel[i] = "Некар. л-я+кариес";
+        }
 		else if (tooth.hasStatus(Dental::Caries, surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
@@ -133,7 +157,7 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth, bool hasNotes)
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::nonCaries);
 			stateLabel[i] = "Некариозна лезия";
-		}
+        }
 		else 
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::none);

@@ -420,9 +420,9 @@ void Tooth::setSurface(Dental::Status code, int surface, bool present)
 
 	static std::map<Status, std::vector<Status>> incompatSurfaceStatus = {
 		{Restoration,			{DefectiveRestoration, NonCariesLesion}},
-		{Caries,				{DefectiveRestoration, NonCariesLesion}},
-		{DefectiveRestoration,	{Caries, Restoration, NonCariesLesion}},
-		{NonCariesLesion,		{Restoration, Caries, DefectiveRestoration}}
+        {Caries,				{}},
+        {DefectiveRestoration,	{Restoration, NonCariesLesion}},
+        {NonCariesLesion,		{Restoration, DefectiveRestoration}}
 	};
 
 	if (!surfaceCodeMap.contains(code)) return;

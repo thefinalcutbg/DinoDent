@@ -204,23 +204,6 @@ QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     QPainter endResultPainter(&endResult);
     endResultPainter.drawPixmap(0, 0, surface);
 
-    //drawing the stripes
-    for (auto& [color, surfaceList] : stripeColorSurfaceMap) {
-
-        QPixmap stripedSurface(coords.toothRect.width(), coords.toothRect.height());
-        stripedSurface.fill(Qt::transparent);
-        QPainter stripePainter(&stripedSurface);
-
-        for (auto surface : surfaceList) {
-
-            auto& stripeColor = colorToQColorMap[tooth.surfaces[surface].stripes];
-
-            stripePainter.drawPixmap(coords.surfPos[surface], textureFormat(*texturePack.surfaces[surface], stripeColor, 1));
-        }
-
-        endResultPainter.drawPixmap(0, 0, textureStripe(stripedSurface));
-    }
-
     //drawing the outlines
     for (auto& [color, surfaceList] : outlineColorSurfaceMap) {
 
@@ -236,6 +219,23 @@ QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
         }
 
         endResultPainter.drawPixmap(0, 0, textureOutline(outlinedSurface, colorToQColorMap[color]));
+    }
+
+    //drawing the stripes
+    for (auto& [color, surfaceList] : stripeColorSurfaceMap) {
+
+        QPixmap stripedSurface(coords.toothRect.width(), coords.toothRect.height());
+        stripedSurface.fill(Qt::transparent);
+        QPainter stripePainter(&stripedSurface);
+
+        for (auto surface : surfaceList) {
+
+            auto& stripeColor = colorToQColorMap[tooth.surfaces[surface].stripes];
+
+            stripePainter.drawPixmap(coords.surfPos[surface], textureFormat(*texturePack.surfaces[surface], stripeColor, 1));
+        }
+
+        endResultPainter.drawPixmap(0, 0, textureStripe(stripedSurface));
     }
 
     return endResult;

@@ -23,6 +23,13 @@ PerioView::PerioView(QWidget* parent)
 {
 	ui.setupUi(this);
 
+#ifdef Q_OS_WIN
+	auto margins = ui.frame_2->layout()->contentsMargins();
+	margins.setTop(50);
+	ui.frame_2->layout()->setContentsMargins(margins);
+	ui.label_20->setMinimumHeight(333);
+#endif
+
     ui.frame->setDynamicFocusBorderChange();
 
     connect(ui.dateEdit, &QDateEdit::dateChanged, this, [=, this](QDate d) {if (presenter)presenter->dateChanged(Date{ d.day(), d.month(), d.year() });});

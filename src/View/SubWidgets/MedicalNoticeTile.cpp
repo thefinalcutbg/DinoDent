@@ -9,7 +9,7 @@ MedicalNoticeTile::MedicalNoticeTile(const MedicalNotice& notice, int index, QWi
     : QWidget(parent), m_index(index)
 {
 	ui.setupUi(this);
-
+    Theme::applyShadow(this);
 	installEventFilter(this);
 	setAttribute(Qt::WA_Hover, true);
 

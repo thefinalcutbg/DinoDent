@@ -205,7 +205,7 @@ bool SettingsMainPresenter::applyChanges()
 	{
 		view->focusTab(SettingsDialog::Tab::Doctor);
 		ModalDialogBuilder::showError(
-			"Доктор с такъв УИН вече съществува. За да го добавите, "
+			"Лекар с такъв УИН вече съществува. За да го добавите, "
 			"използвайте \"Добави лекар\" от раздел \"Практика\". "
 			"След това излезте от текущия профил и влезте с УИН-а на другия лекар."
 		);
@@ -404,11 +404,10 @@ void SettingsMainPresenter::importToDb(const AmbList& amb, const Patient& p)
 
 	bool success = false;
 
-	if (ambSheet.rowid &&
-		ModalDialogBuilder::askDialog(
-			"Този амбулаторен лист вече съществува в базата данни. Желаете ли да го презапишете?"
-		)
-	){
+    if (ambSheet.rowid){
+
+        if(!ModalDialogBuilder::askDialog("Този амбулаторен лист вече съществува в базата данни. Желаете ли да го презапишете?")) { return;}
+
 		DbAmbList::update(ambSheet);
 		success = true;
 	}

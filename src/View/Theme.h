@@ -4,6 +4,7 @@
 #include <QPainterPath>
 
 class QStyle;
+class QWidget;
 
 namespace Theme
 {
@@ -31,4 +32,9 @@ namespace Theme
 	QString getPopupMenuStylesheet();
     QStyle* fusionStyle(); //for custom buttons on macos to slove the margin problem. Fix leak!
     void cleanUpFusionStyle();
+    void applyShadow(QWidget* w,
+        int blur = 24,
+        QPoint offset = {0, 2},
+        QColor color = QColor(0, 0, 0, 38));
+
 };

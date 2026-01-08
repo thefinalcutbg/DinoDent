@@ -29,6 +29,8 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 
     //ui->stageList->setWordWrap(true);
 
+    ui->frameOut->addVerticalSeparator(ui->teethView->width()+3);
+
     ui->stageList->setHeaderHidden(true);
     ui->stageList->header()->setStretchLastSection(false);
     ui->stageList->header()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -103,30 +105,6 @@ void TreatmentPlanView::paintEvent(QPaintEvent *event)
     painter.begin(this);
     painter.setRenderHint(QPainter::RenderHint::Antialiasing);
     painter.fillRect(rect(), Theme::background);
-
-    QPainterPath path;
-
-    path.addRoundedRect(
-        ui->frameOut->x(),
-        ui->frameOut->y(),
-        ui->frameOut->width(),
-        ui->frameOut->height(),
-        Theme::radius/2,
-        Theme::radius/2
-        );
-
-    painter.fillPath(path, Theme::sectionBackground);
-
-    painter.setPen(QPen(Theme::mainBackgroundColor));
-    painter.drawPath(path);
-
-    painter.drawLine(
-        ui->frameOut->x() + ui->teethView->width(),
-        ui->frameOut->y(),  //y1
-        ui->frameOut->x() + ui->teethView->width(),
-        ui->frameOut->y()+ui->frameOut->height()
-        );
-
 }
 
 std::pair<int, int> TreatmentPlanView::TreatmentPlanView::getSelection() const

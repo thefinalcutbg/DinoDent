@@ -67,7 +67,7 @@ void ProcedureEditorPresenter::setView(ProcedureEditDialog* view)
 	if (his_fetch_result) {
 		inputView->setParameterData();
 		result.reset();
-		ModalDialogBuilder::showMessage("Процедурата е изтеглена от НЗИС и някои нейни параметри не могат да бъдат достъпни за редактиране!");
+        ModalDialogBuilder::showMessage("Процедурата е изтеглена от НЗИС и някои нейни параметри не са достъпни за редактиране!");
 		return;
 	}
 

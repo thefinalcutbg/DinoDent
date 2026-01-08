@@ -7,7 +7,7 @@
 class Tooth;
 
 enum class SurfaceClick {rightClick, leftClick};
-enum class SurfaceState { none, restoration, caries, secondary, defective, nonCaries };
+enum class SurfaceState { none, restoration, caries, secondary, defective, nonCaries, defectiveWithCaries, nonCariesWithCaries };
 
 class ListPresenter;
 class SurfacePanel;

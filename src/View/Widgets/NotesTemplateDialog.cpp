@@ -7,7 +7,12 @@ NotesTemplateDialog::NotesTemplateDialog(DbNotes::TemplateType type, QWidget *pa
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Шаблони за допълнителни бележки");
+    switch(type){
+        case DbNotes::TemplateType::ProcedureNote: setWindowTitle("Шаблони за допълнителни бележки"); break;
+        case DbNotes::TemplateType::PlannedProcedure: setWindowTitle("Шаблони за допълнителни бележки"); break;
+        case DbNotes::TemplateType::PlanStage: setWindowTitle("Шаблони за етап на лечебен план"); break;
+        case DbNotes::TemplateType::PlanConclusion: setWindowTitle("Шаблони за заключение на лечебен план"); break;
+    }
 
     auto notes = DbNotes::getTemplateNotes(m_type);
 

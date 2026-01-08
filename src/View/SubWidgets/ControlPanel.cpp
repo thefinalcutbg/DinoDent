@@ -8,16 +8,6 @@ ControlPanel::ControlPanel(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
-#ifdef DISABLE_NEW_DENTAL_STATUSES
-	ui.verticalLayout->removeWidget(ui.Temporary);
-	ui.Necrosis->hide();
-	ui.NonCaries->hide();
-	ui.DefResto->hide();
-	ui.Resorption->hide();
-	ui.verticalLayout_2->addWidget(ui.Temporary);
-    ui.Restoration->move(ui.DefResto->pos());
-    ui.Caries->move(ui.NonCaries->pos());
-#endif
 
 #ifdef Q_OS_OSX
     auto moveButtons = [](QPushButton* b){ b->move(b->x(), b->y()+10);};
@@ -112,10 +102,8 @@ void ControlPanel::hideCommonButtons(bool hidden)
 {
 	ui.Restoration->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
-#ifndef DISABLE_NEW_DENTAL_STATUSES
 	ui.NonCaries->setHidden(hidden);
 	ui.DefResto->setHidden(hidden);
-#endif
 }
 
 void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)

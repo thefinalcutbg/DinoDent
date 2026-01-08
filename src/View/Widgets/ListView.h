@@ -39,8 +39,6 @@ class ListView : public QWidget
     void paintEvent(QPaintEvent* event) override;
     bool eventFilter(QObject* obj, QEvent* event) override;
 
-    bool m_teethViewFocused {false};
-
     void nhifChanged();
 
 public:

@@ -5,6 +5,9 @@
 #include <QPainter>
 #include <QtGlobal>
 
+const QColor BLUE = QColor(0, 100, 255);
+const QColor GREEN = QColor(0, 255, 110);
+
 inline QPixmap textureFormat(const QPixmap& px, QColor color, double opacity)
 {
     QPixmap pixmap = px;
@@ -81,7 +84,7 @@ QPixmap getSplintRect(const ToothPaintHint& tooth)
     result.fill(Qt::transparent);
     QPainter painter(&result);
 
-    QColor color(tooth.prostho == ProsthoHint::splint_green ? Qt::GlobalColor::green : Qt::blue);
+    QColor color(tooth.prostho == ProsthoHint::splint_green ? GREEN : BLUE);
 
     QBrush brush(color);
     painter.setBrush(brush);
@@ -169,10 +172,10 @@ QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
 
     std::map<SurfaceColor, QColor> colorToQColorMap = {
         {SurfaceColor::none, QColor()},
-        {SurfaceColor::blue, Qt::blue},
-        {SurfaceColor::green, Qt::green},
+        {SurfaceColor::blue, BLUE},
+        {SurfaceColor::green, GREEN},
         {SurfaceColor::red, Qt::red},
-        {SurfaceColor::orange, QColor(247, 148, 26)}
+        {SurfaceColor::orange, QColor(225,128,0)}
     };
 
     std::map<SurfaceColor, std::vector<int>> outlineColorSurfaceMap; //stores the different outlines
@@ -201,23 +204,6 @@ QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     QPainter endResultPainter(&endResult);
     endResultPainter.drawPixmap(0, 0, surface);
 
-    //drawing the stripes
-    for (auto& [color, surfaceList] : stripeColorSurfaceMap) {
-
-        QPixmap stripedSurface(coords.toothRect.width(), coords.toothRect.height());
-        stripedSurface.fill(Qt::transparent);
-        QPainter stripePainter(&stripedSurface);
-
-        for (auto surface : surfaceList) {
-
-            auto& stripeColor = colorToQColorMap[tooth.surfaces[surface].stripes];
-
-            stripePainter.drawPixmap(coords.surfPos[surface], textureFormat(*texturePack.surfaces[surface], stripeColor, 1));
-        }
-
-        endResultPainter.drawPixmap(0, 0, textureStripe(stripedSurface));
-    }
-
     //drawing the outlines
     for (auto& [color, surfaceList] : outlineColorSurfaceMap) {
 
@@ -233,6 +219,23 @@ QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
         }
 
         endResultPainter.drawPixmap(0, 0, textureOutline(outlinedSurface, colorToQColorMap[color]));
+    }
+
+    //drawing the stripes
+    for (auto& [color, surfaceList] : stripeColorSurfaceMap) {
+
+        QPixmap stripedSurface(coords.toothRect.width(), coords.toothRect.height());
+        stripedSurface.fill(Qt::transparent);
+        QPainter stripePainter(&stripedSurface);
+
+        for (auto surface : surfaceList) {
+
+            auto& stripeColor = colorToQColorMap[tooth.surfaces[surface].stripes];
+
+            stripePainter.drawPixmap(coords.surfPos[surface], textureFormat(*texturePack.surfaces[surface], stripeColor, 1));
+        }
+
+        endResultPainter.drawPixmap(0, 0, textureStripe(stripedSurface));
     }
 
     return endResult;
@@ -308,14 +311,14 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
     case ToothTextureHint::extr_m:
         painter.setOpacity(0.1);
         painter.drawPixmap(0, 0, *texturePack.tooth);
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.tooth, Qt::green, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.tooth, GREEN, 0.3));
         painter.setOpacity(1);
         break;
 
     case ToothTextureHint::impl_m:
         painter.drawPixmap(coords.implantPos, *texturePack.implant);
         painter.setOpacity(0.2);
-        painter.drawPixmap(coords.implantPos, textureFormat(*texturePack.implant, Qt::green, 1));
+        painter.drawPixmap(coords.implantPos, textureFormat(*texturePack.implant, GREEN, 1));
         painter.setOpacity(1);
         break;
     case ToothTextureHint::impl:
@@ -345,10 +348,10 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
         painter.drawPixmap(0, 0, textureFormat(endo, Qt::red, 0.3));
         break;
     case EndoHint::blue:
-        painter.drawPixmap(0, 0, textureFormat(endo, Qt::blue, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(endo, BLUE, 0.3));
         break;
     case EndoHint::green:
-        painter.drawPixmap(0, 0, textureFormat(endo, Qt::green, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(endo, GREEN, 0.3));
         break;
     case EndoHint::darkred:
         painter.drawPixmap(0, 0, textureFormat(endo, Qt::darkRed, 0.3));
@@ -361,11 +364,11 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
         break;
     case PostHint::blue:
         painter.drawPixmap(0, 0, *texturePack.post);
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.post, QColor{ Qt::blue }, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.post, QColor{ BLUE }, 0.5));
         break;
     case PostHint::green:
         painter.drawPixmap(0, 0, *texturePack.post);
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.post, QColor{ Qt::green }, 0.3));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.post, QColor{ GREEN }, 0.5));
         break;
 
 
@@ -458,7 +461,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     {
         QPixmap bridge = getBridgeTexture(tooth);
         painter.drawPixmap(coords.crownRect, bridge);
-        painter.drawPixmap(coords.crownRect, textureFormat(bridge, Qt::green, 0.3));
+        painter.drawPixmap(coords.crownRect, textureFormat(bridge, GREEN, 0.3));
         break;
     }
     case ProsthoHint::splint:
@@ -466,7 +469,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         {
             painter.setOpacity(1);
             painter.drawPixmap(coords.crownRect, *texturePack.fiberOptic);
-            painter.drawPixmap(coords.crownRect, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::blue }, 0.3)));
+            painter.drawPixmap(coords.crownRect, (textureFormat(*texturePack.fiberOptic, QColor{ BLUE }, 0.3)));
         }
         painter.setOpacity(0.3);
         painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
@@ -476,7 +479,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         {
             painter.setOpacity(1);
             painter.drawPixmap(coords.crownRect, *texturePack.fiberOptic);
-            painter.drawPixmap(coords.crownRect, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::green }, 0.3)));
+            painter.drawPixmap(coords.crownRect, (textureFormat(*texturePack.fiberOptic, QColor{ GREEN }, 0.3)));
         }
         painter.setOpacity(0.3);
         painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
@@ -486,7 +489,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.drawPixmap(coords.toothRect, getDenture(tooth));
         break;
     case ProsthoHint::denture_green:
-        painter.drawPixmap(coords.toothRect, textureFormat(getDenture(tooth), Qt::green, 0.2));
+        painter.drawPixmap(coords.toothRect, textureFormat(getDenture(tooth), GREEN, 0.4));
         painter.setOpacity(0.5);
         painter.drawPixmap(coords.toothRect, getDenture(tooth));        
         break;

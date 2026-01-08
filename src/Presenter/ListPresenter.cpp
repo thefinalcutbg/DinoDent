@@ -126,13 +126,13 @@ void ListPresenter::makeEditedOnTimeChange()
 
     }
 
-	//auto change treatment end for daily sheets
+    //auto change treatment end for daily sheets
     if (!User::practice().generateMonthlySheets() &&
         Date(m_amblist.treatment_end) != Date(m_amblist.date)
     )
     {
         m_amblist.treatment_end = Date(m_amblist.date).to8601() + m_amblist.treatment_end.substr(10);
-		view->setTreatmentEnd(m_amblist.treatment_end);
+        view->setTreatmentEnd(m_amblist.treatment_end);
     }
 
 	TabInstance::makeEdited();
@@ -166,7 +166,17 @@ void ListPresenter::makeEdited()
             TabInstance::makeEdited(); 
             return;
         }
-    } 
+    }
+
+    //or monthly sheets edited from another month
+    if (User::practice().generateMonthlySheets()){
+        if(!Date(newTreatmentEnd).isTheSameMonthAs(m_amblist.date))
+        {
+            TabInstance::makeEdited();
+            return;
+        }
+
+    }
 
     if (m_amblist.procedures.size()) {
 
@@ -295,7 +305,7 @@ void ListPresenter::fetchListProcedures(const std::string& nrn)
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
-                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+                ModalDialogBuilder::showMessage("Амбулаторният лист е синхронизиран с НЗИС успешно");
         }
 	);
 }
@@ -1304,7 +1314,7 @@ void ListPresenter::addReferral(ReferralType type)
         }
     }
     */
-    else
+    else if(type == ReferralType::MH119)
     {
         for (auto& r : m_amblist.referrals)
         {
@@ -1642,7 +1652,7 @@ void ListPresenter::cancelHisAmbList()
 
             refreshTabName();
 
-            ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");
+            ModalDialogBuilder::showMessage("Амбулаторният лист е анулиран успешно");
 
             if (isCurrent())
             {
@@ -1733,7 +1743,7 @@ void ListPresenter::sendToHis(bool patientIsSigner)
                     view->setProcedures(m_amblist.procedures.list());
                 }
 
-                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+                ModalDialogBuilder::showMessage("Амбулаторният лист е изпратен към НЗИС успешно");
 
                 bulkRequester.sendRequest(*patient, {BulkRequester::HISDentalHistory});
             },
@@ -1775,7 +1785,7 @@ void ListPresenter::sendToHis(bool patientIsSigner)
             }
 
             DbAmbList::setAutoStatus(m_amblist.nrn, false);
-            ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
+            ModalDialogBuilder::showMessage("Амбулаторният лист е коригиран успешно");
 
             bulkRequester.sendRequest(*patient, {BulkRequester::HISDentalHistory});
         },
@@ -1788,6 +1798,13 @@ void ListPresenter::sendToHis(bool patientIsSigner)
     );
 
 
+}
+
+void ListPresenter::syncWithHis()
+{
+    if(m_amblist.nrn.size()){
+        fetchListProcedures(m_amblist.nrn);
+    }
 }
 
 

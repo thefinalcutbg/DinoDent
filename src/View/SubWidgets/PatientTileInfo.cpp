@@ -9,7 +9,7 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-
+    Theme::applyShadow(this);
     //init context menu
     context_menu = new QMenu(this);
 

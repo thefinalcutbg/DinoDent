@@ -58,7 +58,7 @@ void TileButton::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-
+/*
     auto path = Theme::getHalfCurvedPath(width(), height());
 
     if (m_reveresed) {
@@ -78,7 +78,7 @@ void TileButton::paintEvent(QPaintEvent*)
     if (m_reveresed) {
         painter.resetTransform();
     }
-
+*/
     QColor textColor = animatedColor(Theme::fontTurquoise, Theme::fontTurquoiseClicked);
     painter.setPen(QPen(textColor));
 

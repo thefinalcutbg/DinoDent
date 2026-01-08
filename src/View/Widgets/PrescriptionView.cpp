@@ -8,6 +8,8 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 {
 	ui.setupUi(this);
 
+    ui.frame->setDynamicFocusBorderChange();
+
 	ui.addButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));

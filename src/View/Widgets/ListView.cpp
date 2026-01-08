@@ -19,9 +19,9 @@ ListView::ListView(QWidget* parent)
 	teethViewScene->setContextMenu(contextMenu);
 
     ui.frame->addVerticalSeparator(ui.teethView->width());
-    ui.frame->setFrameColor(Theme::border);
 
-    ui.procedureFrame->setFrameColor(Theme::border);
+    ui.procedureFrame->setDynamicFocusBorderChange();
+    ui.frame->setDynamicFocusBorderChange();
 
     ui.nrnButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -32,7 +32,6 @@ ListView::ListView(QWidget* parent)
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
 	ui.teethView->installEventFilter(this);
 
-    ui.procedureTable->installEventFilter(this);
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
@@ -238,37 +237,19 @@ void ListView::paintEvent(QPaintEvent*)
 
 bool ListView::eventFilter(QObject* obj, QEvent* event)
 {
-    const bool isTeethView      = (obj == ui.teethView);
-    const bool isProcedureTable = (obj == ui.procedureTable);
-
-    if (!isTeethView && !isProcedureTable)
-        return false;
+    if (obj != ui.teethView) return false;
 
     if (event->type() == QEvent::FocusOut)
     {
-        if (isTeethView) {
-            ui.frame->setFrameColor(Theme::border);
-            ui.surfacePanel->drawFocused(false);
-            teethViewScene->drawFocused(false);
-        }
-
-        if (isProcedureTable) {
-            ui.procedureFrame->setFrameColor(Theme::border);
-        }
+        ui.surfacePanel->drawFocused(false);
+        teethViewScene->drawFocused(false);
 
         repaint();
     }
     else if (event->type() == QEvent::FocusIn)
     {
-        if (isTeethView) {
-            ui.frame->setFrameColor(Theme::mainBackgroundColor);
-            ui.surfacePanel->drawFocused(true);
-            teethViewScene->drawFocused(true);
-        }
-
-        if (isProcedureTable) {
-            ui.procedureFrame->setFrameColor(Theme::mainBackgroundColor);
-        }
+        ui.surfacePanel->drawFocused(true);
+        teethViewScene->drawFocused(true);
 
         repaint();
     }

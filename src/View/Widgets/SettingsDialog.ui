@@ -1732,7 +1732,7 @@
      </widget>
      <widget class="QWidget" name="codeTab">
       <attribute name="title">
-       <string>Процедури</string>
+       <string>Ценоразпис</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_25">
        <item>
@@ -1775,7 +1775,7 @@
          <item>
           <widget class="QPushButton" name="printPriceButton">
            <property name="text">
-            <string>Принтирай ценоразпис</string>
+            <string>Принтирай</string>
            </property>
           </widget>
          </item>

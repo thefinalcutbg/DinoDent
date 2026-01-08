@@ -44,7 +44,7 @@ QString Theme::colorToString(const QColor& color)
 
 QString Theme::getFancyStylesheet()
 {
-	return QString(
+    return QString(
 			"QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
 			
 			"QCheckBox{"
@@ -56,12 +56,13 @@ QString Theme::getFancyStylesheet()
 			"}"
 
 			"QTableView{"
-            "color :" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
+            "color :" + Theme::colorToString(Theme::fontTurquoise) + "; "
             "selection-color:" + Theme::colorToString(Theme::fontTurquoise) + "; "
             "selection-background-color: " + Theme::colorToString(Theme::background) + "; "
+            "background: transparent;"
 			"}"
 
-            "QTableView { background: transparent; }"
+
             "QTableView::viewport { background: transparent; }"
             "QHeaderView { background: transparent; }"
             "QHeaderView::section { background: transparent; }"

@@ -30,6 +30,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     //ui->stageList->setWordWrap(true);
 
     ui->frameOut->addVerticalSeparator(ui->teethView->width()+3);
+    ui->frameOut->setDynamicFocusBorderChange();
 
     ui->stageList->setHeaderHidden(true);
     ui->stageList->header()->setStretchLastSection(false);

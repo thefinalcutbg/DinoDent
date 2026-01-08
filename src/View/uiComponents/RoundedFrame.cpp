@@ -1,6 +1,8 @@
 #include "RoundedFrame.h"
 #include "View/Theme.h"
 #include <QPainterPath>
+#include <QApplication>
+#include <QAbstractScrollArea>
 
 RoundedFrame::RoundedFrame(QWidget* parent)
     : QFrame(parent)
@@ -9,6 +11,22 @@ RoundedFrame::RoundedFrame(QWidget* parent)
     setAttribute(Qt::WA_TranslucentBackground, true);
     setAutoFillBackground(false);
     Theme::applyShadow(this);
+}
+
+void RoundedFrame::setDynamicFocusBorderChange()
+{
+    const auto widgets = findChildren<QWidget*>();
+    for (QWidget* w : widgets) {
+        w->installEventFilter(this);
+
+        // Important: QAbstractScrollArea focus often goes to viewport()
+        if (auto* sa = qobject_cast<QAbstractScrollArea*>(w)) {
+            if (sa->viewport())
+                sa->viewport()->installEventFilter(this);
+        }
+    }
+
+    updateFocusState();
 }
 
 void RoundedFrame::paintEvent(QPaintEvent* event)
@@ -23,7 +41,7 @@ void RoundedFrame::paintEvent(QPaintEvent* event)
     p.fillRect(rect(), Qt::transparent);
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    QPen pen(m_color);
+    QPen pen(m_hasChildFocus ? m_color : Theme::border);
     pen.setCosmetic(true);
     pen.setWidth(2);
     p.setPen(pen);
@@ -43,4 +61,23 @@ void RoundedFrame::paintEvent(QPaintEvent* event)
     if (m_separatorPosition != -1) {
         p.drawLine(m_separatorPosition, 0, m_separatorPosition, height());
     }
+}
+
+void RoundedFrame::updateFocusState()
+{
+    QWidget* nowW = QApplication::focusWidget();
+    const bool inside = nowW && (nowW == this || isAncestorOf(nowW));
+    if (inside == m_hasChildFocus) return;
+    m_hasChildFocus = inside;
+    update();
+}
+
+bool RoundedFrame::eventFilter(QObject* watched, QEvent* event)
+{
+    Q_UNUSED(watched);
+
+    if (event->type() == QEvent::FocusIn || event->type() == QEvent::FocusOut) {
+        updateFocusState();
+    }
+    return false;
 }

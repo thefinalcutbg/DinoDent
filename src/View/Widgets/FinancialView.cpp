@@ -11,6 +11,11 @@ FinancialView::FinancialView(QWidget *parent)
 {
 	ui.setupUi(this);
 
+    ui.headerFrame->addVerticalSeparator(ui.recipientButton->width());
+    ui.headerFrame->setFrameColor(Theme::border);
+
+    ui.frame->setDynamicFocusBorderChange();
+
 	ui.numberSpinBox->setTotalLength(10);
 
 	ui.numberSpinBox->installEventFilter(new MouseWheelGuard(ui.numberSpinBox));
@@ -28,19 +33,8 @@ FinancialView::FinancialView(QWidget *parent)
 
 	ui.operationsTable->setModel(&m_model);
 	ui.operationsTable->setBusinessOperationLayout();
-	ui.operationsTable->setStyleSheet(
-		"color :" + Theme::colorToString(Theme::fontTurquoise) + "; "
-		"selection-color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
-		"selection-background-color: " + Theme::colorToString(Theme::background) + "; "
-	);
 
 	setStyleSheet(Theme::getFancyStylesheet());
-
-	ui.operationsLabel->setStyleSheet(
-		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
-		 "font-weight: bold; font-size: 12px;"
-	);
-
 
 	ui.mainDocNumSpin->setTotalLength(10);
 

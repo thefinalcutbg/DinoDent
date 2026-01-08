@@ -9,7 +9,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-    Theme::applyShadow(this);
+
+    ui.frame->addVerticalSeparator(ui.patientTile->width());
+    ui.frame->setFrameColor(Theme::border);
+
     //init context menu
     context_menu = new QMenu(this);
 

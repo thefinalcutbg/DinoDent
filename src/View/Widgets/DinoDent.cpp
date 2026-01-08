@@ -186,7 +186,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     ui.userButton->setMenu(userMenu);
     ui.userButton->setIconSize(QSize(25, 25));
-   
+    Theme::applyShadow(ui.userButton);
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 /*
     ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));

@@ -2,8 +2,8 @@
 #include "Model/PlainTable.h"
 #include "View/TableModels/PlainTableModel.h"
 #include "Model/Dental/TreatmentPlan.h"
-#include "View/GlobalFunctions.h";
-#include "Database/DbDoctor.h";
+#include "View/GlobalFunctions.h"
+#include "Database/DbDoctor.h"
 #include <QDateTime>
 bool Print::treatmentPlan(const TreatmentPlan& plan, const Patient& patient, const std::string& pdfFilename)
 {

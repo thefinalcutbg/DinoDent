@@ -15,7 +15,6 @@ BigPushButton::BigPushButton(QWidget* parent) :
     normalColor(Theme::sectionBackground)
 {
     this->installEventFilter(this);
-    Theme::applyShadow(this);
     setCursor(QCursor(Qt::PointingHandCursor));
 
     auto font = this->font();

@@ -1071,6 +1071,9 @@
     <ClCompile Include="src\Printer\Implementation\PrintPriceList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\RoundedFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -2201,6 +2204,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\PriceInputWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\RoundedFrame.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

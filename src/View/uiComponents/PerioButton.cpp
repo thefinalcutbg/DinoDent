@@ -57,7 +57,7 @@ void PerioButton::paintEvent(QPaintEvent*)
 			icon().paint(&painter, rect);
 		
 
-		painter.setPen(palette().color(QPalette::ColorRole::Text));
+        painter.setPen(Theme::fontTurquoiseClicked);
 		auto font = painter.font();
 		
 		painter.drawText(rect, Qt::AlignCenter, text());

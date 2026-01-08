@@ -164,18 +164,21 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
     appointmentButton->setFixedSize(iconSize, iconSize);
     appointmentButton->move(width() - (iconSize + 5), 5);
     appointmentButton->setToolTip("Запази посещение");
+    appointmentButton->setHoverColor(Theme::mainBackgroundColor);
 
     notificationButton = new IconButton(this);
     notificationButton->setIcon(QIcon(":/icons/icon_bell.png"));
     notificationButton->setFixedSize(iconSize, iconSize);
     notificationButton->move(appointmentButton->x() - 40, appointmentButton->y());
     notificationButton->setToolTip("Добавяне на напомняне");
+    notificationButton->setHoverColor(Theme::mainBackgroundColor);
 
     notesButton = new IconButton(this);
     notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
     notesButton->setFixedSize(iconSize, iconSize);
     notesButton->move(notificationButton->x() - 40, notificationButton->y());
     notesButton->setToolTip("Бележки за пациента");
+    notesButton->setHoverColor(Theme::mainBackgroundColor);
 }
 
 

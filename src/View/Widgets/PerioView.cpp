@@ -23,6 +23,8 @@ PerioView::PerioView(QWidget* parent)
 {
 	ui.setupUi(this);
 
+    ui.frame->setDynamicFocusBorderChange();
+
     connect(ui.dateEdit, &QDateEdit::dateChanged, this, [=, this](QDate d) {if (presenter)presenter->dateChanged(Date{ d.day(), d.month(), d.year() });});
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.upperButton);

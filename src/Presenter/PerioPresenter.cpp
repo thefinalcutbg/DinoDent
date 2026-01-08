@@ -322,7 +322,7 @@ TabName PerioPresenter::getTabName()
     }
     :
     TabName{
-        .header = "Пародонтaлен статус " + m_perioStatus.date.toBgStandard(),
+        .header = "Пародонт. статус " + m_perioStatus.date.toBgStandard(),
         .footer = patient->firstLastName() ,
         .indicatorColor = patient->colorNameRgb
     };

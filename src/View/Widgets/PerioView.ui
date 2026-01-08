@@ -43,7 +43,7 @@
   <widget class="HalfRoundedButton" name="upperButton">
    <property name="geometry">
     <rect>
-     <x>446</x>
+     <x>513</x>
      <y>170</y>
      <width>151</width>
      <height>31</height>
@@ -59,7 +59,7 @@
   <widget class="HalfRoundedButton" name="lowerButton">
    <property name="geometry">
     <rect>
-     <x>596</x>
+     <x>663</x>
      <y>170</y>
      <width>161</width>
      <height>31</height>
@@ -106,8 +106,8 @@
   <widget class="DateEdit" name="dateEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>170</y>
+     <x>146</x>
+     <y>175</y>
      <width>121</width>
      <height>22</height>
     </rect>
@@ -122,8 +122,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>170</y>
+     <x>106</x>
+     <y>175</y>
      <width>49</width>
      <height>21</height>
     </rect>
@@ -551,15 +551,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>PatientTileInfo</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/PatientTileInfo.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>RoundedFrame</class>
    <extends>QFrame</extends>
    <header>View/uiComponents/RoundedFrame.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PatientTileInfo</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/PatientTileInfo.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

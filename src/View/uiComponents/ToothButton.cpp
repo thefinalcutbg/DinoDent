@@ -37,49 +37,14 @@ void ToothButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
-	QColor color{ isChecked() ? Theme::sectionBackground : Theme::background };
-
 	if (m_hover) {
-		color = Theme::background;
+        painter.fillRect(rect(), Theme::background);
 	}
 
 	QPen pen(Theme::border);
 	pen.setCosmetic(true);
 	pen.setWidth(2);
 	painter.setPen(pen);
-
-	switch (m_layoutPos)
-	{
-		case LayoutPosition::Center:
-		{
-			QRect border_rect{ rect() };
-			painter.fillRect(border_rect, color);
-			painter.drawRect(border_rect);
-		}
-			break;
-		case LayoutPosition::Left:
-		{
-			auto path = Theme::getOneCornerCurvedRect(width(), height());
-			painter.fillPath(path, color);
-			painter.drawPath(path);
-		}
-			break;
-		case LayoutPosition::Right:
-		{
-
-			QTransform mirror(-1, 0, 0, 0, 1, 0, 0, 0, 1);
-			painter.setTransform(mirror);
-			painter.translate(-width(), 0);
-
-			auto path = Theme::getOneCornerCurvedRect(width(), height());
-			painter.fillPath(path, color);
-			painter.drawPath(path);
-
-			painter.resetTransform();
-		}
-			break;
-	}
-
 
 	painter.setPen(isChecked() || m_hover ? Theme::fontTurquoiseClicked : Qt::lightGray);
 

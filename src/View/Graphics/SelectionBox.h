@@ -12,12 +12,9 @@ class SelectionBox : public QGraphicsObject
 
     int index;
     bool m_focused = false;
+    SelectionBox* left_ptr = nullptr;
+    SelectionBox* right_ptr = nullptr;
 
-public:
-    SelectionBox(int index);
-    ~SelectionBox();
-
-protected:
     bool hovered;
     QRectF bounds;
     qreal m_hoverProgress{ 0.0 };
@@ -29,6 +26,10 @@ protected:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
 public:
+    SelectionBox(int index);
+    void setNeighbours(SelectionBox* left, SelectionBox* right) { left_ptr = left; right_ptr = right; }
     int getIndex();
     void drawFocused(bool focused);
+    ~SelectionBox();
+
 };

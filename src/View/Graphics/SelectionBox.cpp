@@ -77,8 +77,30 @@ void SelectionBox::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWi
     QColor fillColor(Qt::gray);
     fillColor.setAlphaF(totalAlpha);
 
-    painter->drawRect(bounds);
-    painter->fillRect(bounds, fillColor);
+    bool lSelected = left_ptr && left_ptr->isSelected() && isSelected();
+    bool rSelected = right_ptr && right_ptr->isSelected() && isSelected();
+
+    QPainterPath path;
+
+    if(lSelected && rSelected){
+        path.addRect(bounds);
+    }else if (!lSelected && rSelected) {
+        path = Theme::getHalfCurvedPath(bounds.width(), bounds.height());
+    }else if (lSelected && !rSelected) {
+
+        path = Theme::getHalfCurvedPath(bounds.width(), bounds.height());
+
+        // mirror horizontally inside its own bounds
+        QTransform t;
+        t.translate(bounds.width(), 0);  // move origin to the right edge
+        t.scale(-1, 1);                  // flip X
+        path = t.map(path);
+    } else {
+        path.addRoundedRect(bounds, 10, 10);
+    }
+
+    painter->fillPath(path, fillColor);
+    painter->drawPath(path);
 }
 
 void SelectionBox::hoverEnterEvent(QGraphicsSceneHoverEvent*)

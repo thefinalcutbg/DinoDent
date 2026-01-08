@@ -93,6 +93,21 @@ TeethViewScene::TeethViewScene(QObject *parent)
             
     });
 
+    selectionBox[0]->setNeighbours(nullptr, selectionBox[1]);
+
+    for(int i = 1; i < 15; i++){
+        selectionBox[i]->setNeighbours(selectionBox[i-1], selectionBox[i+1]);
+    }
+
+    selectionBox[15]->setNeighbours(selectionBox[14], nullptr);
+
+    selectionBox[16]->setNeighbours(selectionBox[17], nullptr);
+
+    for(int i = 17; i < 31; i++){
+        selectionBox[i]->setNeighbours(selectionBox[i+1], selectionBox[i-1]);
+    }
+
+    selectionBox[31]->setNeighbours(nullptr, selectionBox[30]);
 }
 
 void TeethViewScene::setContextMenu(ContextMenu* contextMenu)

@@ -337,7 +337,7 @@ void TableViewHeader::paintEvent(QPaintEvent*)
     QFont font;
     font.setBold(true);
 
-    borderPen.setColor(Theme::fontTurquoiseClicked);
+    borderPen.setColor(focused ? Theme::fontTurquoise : Theme::fontTurquoiseClicked);
     painter.setPen(borderPen);
 
     painter.setFont(font);

@@ -16,7 +16,7 @@ CalendarView::CalendarView(QWidget* parent)
 {
     ui.setupUi(this);
 
-    //IMPORTANT! Never edit the ui file. I barely made it not showing 83194 scrollbars
+    ui.calendarButton->setGraphicsEffect(nullptr);
 
     calendarWidget = new CalendarWidget();
     calendarWidget->setWindowFlag(Qt::WindowType::Popup);

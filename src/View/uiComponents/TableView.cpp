@@ -28,7 +28,7 @@ TableView::TableView(QWidget* parent)
     setHorizontalHeader(&header);
     installEventFilter(this);
     setItemDelegate(new NoFocusDelegate);
-    horizontalHeader()->setFixedHeight(50);
+    horizontalHeader()->setFixedHeight(30);
 
     setFrameShape(QFrame::Shape::NoFrame);
 
@@ -230,101 +230,64 @@ void TableView::keyPressEvent(QKeyEvent* event)
 
 void TableView::paintEvent(QPaintEvent* e)
 {
-    constexpr int footerHeight = 10;
+    // Let Qt paint items/selection/etc first
+    QTableView::paintEvent(e);
 
-    int h = viewport()->height();
-    int w = viewport()->width();
+    auto* m = model();
+    if (!m) return;
+
+    // During model resets/layout, header counts can lag model counts
+    const int colCount = qMin(m->columnCount(), horizontalHeader()->count());
+    const int rowCount = qMin(m->rowCount(),    verticalHeader()->count());
+    if (colCount <= 0 || rowCount <= 0) return;
+
+    const int h = viewport()->height() - 10;
+    const int w = viewport()->width();
 
     QPainter painter(viewport());
+    painter.setRenderHint(QPainter::Antialiasing, true);
 
-    painter.setRenderHint(QPainter::RenderHint::Antialiasing);
-
-    painter.fillRect(rect(), Theme::background);
-
-    QPainterPath path = Theme::getHalfCurvedPath(h, w);
-
-    painter.translate(0, h);
-    painter.rotate(-90);
-
-    painter.fillPath(path, Theme::sectionBackground);
-
-    painter.end();
-
-    QTableView::paintEvent(e);
-   
-
-    painter.begin(viewport());
-
-    painter.translate(0, h);
-    painter.rotate(-90);
-
-    QPen borderPen(hasFocus() ? Theme::mainBackgroundColor : Theme::border);
-    borderPen.setCosmetic(true);
-    borderPen.setWidth(2);
-
-    painter.setPen(borderPen);
-    painter.drawPath(path);
-
-    painter.resetTransform();
-
-    QPen pen(hasFocus() ? Theme::fontTurquoise : Theme::mainBackgroundColor);
+    QPen pen(hasFocus() ? Theme::mainBackgroundColor : Theme::border);
     pen.setCosmetic(true);
     pen.setWidth(1);
     painter.setPen(pen);
-    
-    //drawing the columns:
-    if (model() != nullptr && model()->rowCount()) {
 
-        double xPos = 0;
+    // columns
+    double xPos = 0;
+    bool firstVisible = true;
+    for (int i = 0; i < colCount; ++i) {
+        if (horizontalHeader()->isSectionHidden(i)) continue;
 
-        bool firstVisible(true);
-
-        for (int i = 0; i < model()->columnCount(); i++)
-        {
-
-            if (horizontalHeader()->isSectionHidden(i)) {
-                continue;
-            }
-
-            if (firstVisible) {
-                firstVisible = false;
-                xPos += horizontalHeader()->sectionSize(i);
-                continue;
-            }
-
-            painter.drawLine(QPointF(xPos-1, 0), QPointF(xPos-1, h + footerHeight));
-
-            xPos += horizontalHeader()->sectionSize(i);
-            
+        const int sz = horizontalHeader()->sectionSize(i);
+        if (firstVisible) {
+            firstVisible = false;
+            xPos += sz;
+            continue;
         }
-
+        painter.drawLine(QPointF(xPos - 1, 0), QPointF(xPos - 1, h));
+        xPos += sz;
     }
 
-    //drawing the rows:
+    // rows
+    double yPos = 0;
+    for (int i = 1; i < rowCount; ++i) {
+        if (verticalHeader()->isSectionHidden(i)) continue;
 
-    if (model() != nullptr && model()->columnCount()) {
-
-        double yPos = 0;
-
-        for (int i = 1; i < model()->rowCount(); i++)
-        {
-
-            if (verticalHeader()->isSectionHidden(i)) {
-                continue;
-            }
-
-            yPos += verticalHeader()->sectionSize(i - 1);
-
-
-            painter.drawLine(QPointF(1, yPos), QPointF(w-1, yPos));
-
-        }
-
+        const int prevSz = verticalHeader()->sectionSize(i - 1);
+        yPos += prevSz;
+        painter.drawLine(QPointF(1, yPos), QPointF(w - 1, yPos));
     }
 
-
-
+    // last line after last visible row (optional)
+    double yEnd = 0;
+    for (int r = 0; r < rowCount; ++r) {
+        if (verticalHeader()->isSectionHidden(r)) continue;
+        yEnd += verticalHeader()->sectionSize(r);
+    }
+    // if you enable it:
+     if (yEnd >= 0 && yEnd <= h) painter.drawLine(QPointF(1, yEnd), QPointF(w - 1, yEnd));
 }
+
 
 Q_INVOKABLE int TableView::selectedRow() const
 {
@@ -361,25 +324,11 @@ void TableViewHeader::paintEvent(QPaintEvent*)
 
     painter.setRenderHint(QPainter::Antialiasing);
 
-    painter.fillRect(rect(), Theme::background);
+    auto focused = static_cast<QWidget*>(parent())->hasFocus();
 
-    QPainterPath path = Theme::getHalfCurvedPath(height(), width());;
-
-    painter.translate(width(), 0);
-    painter.rotate(90);
-    
-    painter.fillPath(path, Theme::sectionBackground);
-
-    QPen borderPen(Theme::mainBackgroundColor);
+    QPen borderPen(focused ? Theme::mainBackgroundColor : Theme::border);
     borderPen.setWidth(2);
     borderPen.setCosmetic(true);
-
-    painter.setPen(borderPen);
-    painter.drawPath(path);
-
-    painter.resetTransform();
-
-    borderPen.setColor(Theme::fontTurquoiseClicked);
 
     painter.setPen(borderPen);
 
@@ -387,6 +336,9 @@ void TableViewHeader::paintEvent(QPaintEvent*)
 
     QFont font;
     font.setBold(true);
+
+    borderPen.setColor(Theme::fontTurquoiseClicked);
+    painter.setPen(borderPen);
 
     painter.setFont(font);
 
@@ -414,9 +366,6 @@ void TableViewHeader::paintEvent(QPaintEvent*)
         }
 
     }
-
-
-
 
     painter.end();
 

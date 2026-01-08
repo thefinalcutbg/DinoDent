@@ -1314,7 +1314,7 @@ void ListPresenter::addReferral(ReferralType type)
         }
     }
     */
-    else
+    else if(type == ReferralType::MH119)
     {
         for (auto& r : m_amblist.referrals)
         {

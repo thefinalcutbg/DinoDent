@@ -2,6 +2,8 @@
 
 #include <QStyleFactory>
 #include <QStyle>
+#include <QGraphicsDropShadowEffect>
+#include <QWidget>
 
 QPainterPath Theme::getHalfCurvedPath(int width, int height)
 {
@@ -54,10 +56,16 @@ QString Theme::getFancyStylesheet()
 			"}"
 
 			"QTableView{"
-			"color :" + Theme::colorToString(Theme::fontTurquoise) + "; "
-			"selection-color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
-			"selection-background-color: " + Theme::colorToString(Theme::background) + "; "
+            "color :" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
+            "selection-color:" + Theme::colorToString(Theme::fontTurquoise) + "; "
+            "selection-background-color: " + Theme::colorToString(Theme::background) + "; "
 			"}"
+
+            "QTableView { background: transparent; }"
+            "QTableView::viewport { background: transparent; }"
+            "QHeaderView { background: transparent; }"
+            "QHeaderView::section { background: transparent; }"
+            "QTableCornerButton::section { background: transparent; }"
 
 			"QComboBox{"
 			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
@@ -203,4 +211,13 @@ void Theme::cleanUpFusionStyle()
         delete s_fusion;
     }
 
+}
+
+void Theme::applyShadow(QWidget *w, int blur, QPoint offset, QColor color)
+{
+    auto* fx = new QGraphicsDropShadowEffect(w);
+    fx->setBlurRadius(blur);
+    fx->setOffset(offset);
+    fx->setColor(color);
+    w->setGraphicsEffect(fx);
 }

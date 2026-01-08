@@ -187,7 +187,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>20</hour>
+           <hour>18</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -464,16 +464,72 @@
         </spacer>
        </item>
        <item>
-        <widget class="TableView" name="medicationTable">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="RoundedFrame" name="frame">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
          </property>
-         <property name="styleSheet">
-          <string notr="true"/>
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Plain</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>1</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="TableView" name="medicationTable">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="leftMargin">
+             <number>10</number>
+            </property>
+            <property name="rightMargin">
+             <number>10</number>
+            </property>
+            <property name="bottomMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="supplementsEdit">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="maxLength">
+               <number>2000</number>
+              </property>
+              <property name="placeholderText">
+               <string>Нелекарствени добавки  (напр. витамини, пробиотици, хранителни добавки) </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -491,19 +547,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="supplementsEdit">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>2000</number>
-         </property>
-         <property name="placeholderText">
-          <string>Нелекарствени добавки  (напр. витамини, пробиотици, хранителни добавки) </string>
-         </property>
-        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer_2">
@@ -562,6 +605,12 @@
    <class>HoverButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/HoverButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RoundedFrame</class>
+   <extends>QFrame</extends>
+   <header>View/uiComponents/RoundedFrame.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>DateEdit</class>

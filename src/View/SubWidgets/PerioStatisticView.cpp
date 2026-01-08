@@ -13,7 +13,6 @@ void PerioStatisticView::paintEvent(QPaintEvent*)
 	QPainter painter;
 	painter.begin(this);
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
-	painter.fillRect(rect(), Theme::background);
 
 	QPainterPath path;
 
@@ -64,7 +63,7 @@ PerioStatisticView::PerioStatisticView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-
+    Theme::applyShadow(this);
 	hexagonGraphicsItem = new HexagonGraphicsItem();
 
 	ui.hexGraphicsView->setScene(new QGraphicsScene());

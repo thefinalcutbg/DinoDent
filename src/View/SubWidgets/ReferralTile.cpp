@@ -8,7 +8,7 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
     : QWidget(parent), m_index(index)
 {
 	ui.setupUi(this);
-
+    Theme::applyShadow(this);
 	installEventFilter(this);
 	setAttribute(Qt::WA_Hover, true);
 

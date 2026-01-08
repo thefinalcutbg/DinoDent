@@ -131,6 +131,19 @@ DinoDent::DinoDent(QWidget* parent)
     ui.donateButton->setIcon(QIcon(":/icons/icon_donate.png"));
     ui.notifButton->setMonochrome(true);
     ui.mircButton->setMonochrome(true);
+/*
+    Theme::applyShadow(ui.newButton);
+    Theme::applyShadow(ui.perioButton);
+    Theme::applyShadow(ui.perscrButton);
+    Theme::applyShadow(ui.planButton);
+    Theme::applyShadow(ui.invoiceButton);
+    Theme::applyShadow(ui.calendarButton);
+    Theme::applyShadow(ui.settingsButton);
+    Theme::applyShadow(ui.aboutButton);
+    Theme::applyShadow(ui.browserButton);
+    Theme::applyShadow(ui.statisticButton);
+*/
+    Theme::applyShadow(ui.donateButton);
     
     connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://dinodent.bg/donate/", QUrl::TolerantMode)); });
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
@@ -220,14 +233,20 @@ bool DinoDent::initialized()
 
 void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled)
 {
-    ui.printButton->setDisabled(printDisabled);
-    ui.saveButton->setDisabled(saveDisabled);
-    ui.pdfButton->setDisabled(pdfDisabled);
+    auto disableFn = [](QPushButton* b, bool disable){
+        b->setDisabled(disable);
+    //    disable ? b->setGraphicsEffect(nullptr) : Theme::applyShadow(b);
+    };
+
+    disableFn(ui.printButton, printDisabled);
+    disableFn(ui.saveButton, saveDisabled);
+    disableFn(ui.pdfButton, pdfDisabled);
 }
 
 void DinoDent::setIrcIcon(bool glow)
 {
     ui.mircButton->setMonochrome(!glow);
+    glow ? Theme::applyShadow(ui.mircButton) : ui.mircButton->setGraphicsEffect(nullptr);
 }
 
 void DinoDent::paintEvent(QPaintEvent*)
@@ -255,6 +274,7 @@ void DinoDent::setNotificationIcon(int activeNotifCount)
 {
     ui.notifButton->setMonochrome(!activeNotifCount);
     ui.notifButton->setIcon(activeNotifCount ? QIcon(":/icons/icon_bell_notify.png") : QIcon(":/icons/icon_bell.png"));
+    activeNotifCount ? Theme::applyShadow(ui.notifButton) : ui.notifButton->setGraphicsEffect(nullptr);
 
     switch(activeNotifCount){
         case 0: ui.notifButton->setToolTip("Няма активни напомняния"); break;

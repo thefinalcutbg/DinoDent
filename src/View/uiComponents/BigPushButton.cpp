@@ -11,11 +11,11 @@
 
 BigPushButton::BigPushButton(QWidget* parent) :
     QPushButton(parent),
-    normalColor(Theme::sectionBackground),
-    hoverColor(Theme::background)
+    hoverColor(Theme::background),
+    normalColor(Theme::sectionBackground)
 {
     this->installEventFilter(this);
-
+    Theme::applyShadow(this);
     setCursor(QCursor(Qt::PointingHandCursor));
 
     auto font = this->font();

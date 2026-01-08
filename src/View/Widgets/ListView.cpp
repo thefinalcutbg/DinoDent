@@ -18,6 +18,11 @@ ListView::ListView(QWidget* parent)
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
 
+    ui.frame->addVerticalSeparator(ui.teethView->width());
+    ui.frame->setFrameColor(Theme::border);
+
+    ui.procedureFrame->setFrameColor(Theme::border);
+
     ui.nrnButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
 	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));
@@ -26,8 +31,12 @@ ListView::ListView(QWidget* parent)
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
 	ui.teethView->installEventFilter(this);
+
+    ui.procedureTable->installEventFilter(this);
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
+
+    ui.historyButton->setGraphicsEffect(nullptr);
 
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
     ui.plannedProcedure->setIcon(QIcon(":/icons/icon_addPlanned.png"));
@@ -132,7 +141,7 @@ ListView::ListView(QWidget* parent)
 			else ui.procedureTable->selectRow(currentIdx);
 		});
 
-    connect(ui.procedureTable, &TableView::deletePressed, this, [=, this](int row) { ui.deleteProcedure->clicked(); });
+    connect(ui.procedureTable, &TableView::deletePressed, this, [=, this]() { ui.deleteProcedure->clicked(); });
     connect(ui.procedureTable, &TableView::editPressed, this, [=, this](int row) { if (presenter) presenter->editProcedure(row); });
     connect(ui.procedureTable, &TableView::rowDragged, this, [=, this] {
 
@@ -222,57 +231,49 @@ void ListView::paintEvent(QPaintEvent*)
 	QPainter painter;
 	painter.begin(this);
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
-	painter.fillRect(rect(), Theme::background);
+    painter.fillRect(rect(), Theme::background);
 
-	QPainterPath path;
-
-	path.addRoundedRect(
-		QRectF(
-			ui.frame->x() + ui.teethView->x(),
-			ui.frame->y() + ui.teethView->y(),
-			ui.frame->width(),
-			ui.frame->height()
-		),
-		Theme::radius/2,
-		Theme::radius/2
-	);
-
-	painter.fillPath(path, Theme::sectionBackground);
-	
-	painter.setPen(QPen(m_teethViewFocused ? Theme::mainBackgroundColor : Theme::border));
-	painter.drawPath(path);
-
-	painter.drawLine(
-		ui.frame->x() + ui.surfacePanel->x(), //x1
-		ui.frame->y(),						  //y1
-		ui.frame->x() + ui.surfacePanel->x(), //x2
-		ui.frame->y() + ui.frame->height() //y2
-	);
-
+    //ui.frame->setFrameColor(m_teethViewFocused ? Theme::mainBackgroundColor : Theme::border);
 }
 
 bool ListView::eventFilter(QObject* obj, QEvent* event)
 {
-	if (obj != ui.teethView) return false;
+    const bool isTeethView      = (obj == ui.teethView);
+    const bool isProcedureTable = (obj == ui.procedureTable);
 
-	if (event->type() == QEvent::FocusOut)
-	{
-			m_teethViewFocused = false;
-			ui.surfacePanel->drawFocused(false);
+    if (!isTeethView && !isProcedureTable)
+        return false;
+
+    if (event->type() == QEvent::FocusOut)
+    {
+        if (isTeethView) {
+            ui.frame->setFrameColor(Theme::border);
+            ui.surfacePanel->drawFocused(false);
             teethViewScene->drawFocused(false);
-			repaint();
+        }
 
-	}
-	else if (event->type() == QEvent::FocusIn)
-	{
-		m_teethViewFocused = true;
-		ui.surfacePanel->drawFocused(true);
-        teethViewScene->drawFocused(true);
-		repaint();
-	}
+        if (isProcedureTable) {
+            ui.procedureFrame->setFrameColor(Theme::border);
+        }
 
+        repaint();
+    }
+    else if (event->type() == QEvent::FocusIn)
+    {
+        if (isTeethView) {
+            ui.frame->setFrameColor(Theme::mainBackgroundColor);
+            ui.surfacePanel->drawFocused(true);
+            teethViewScene->drawFocused(true);
+        }
 
-	return false;
+        if (isProcedureTable) {
+            ui.procedureFrame->setFrameColor(Theme::mainBackgroundColor);
+        }
+
+        repaint();
+    }
+
+    return false;
 }
 
 void ListView::nhifChanged()
@@ -318,6 +319,7 @@ void ListView::setSignature(const std::vector<unsigned char>& s)
 	}
 
 	QPixmap sigPx = QPixmap::fromImage(QImage::fromData(s.data(), static_cast<int>(s.size())));
+
 
 	ui.sigButton->setEnabled(true);
 	ui.sigButton->setIcon(QIcon(sigPx));

@@ -1,11 +1,12 @@
 #include "ShadowBakeWidget.h"
-#include "View/Theme.h"
-
 #include <QApplication>
 #include <QChildEvent>
 #include <QEvent>
+#include "View/Theme.h"
 #include <QPainter>
 #include <QTimer>
+
+bool s_bakingEnabled = false;
 
 ShadowBakeWidget::ShadowBakeWidget(QWidget* parent)
     : QWidget(parent)
@@ -15,7 +16,6 @@ ShadowBakeWidget::ShadowBakeWidget(QWidget* parent)
 
 void ShadowBakeWidget::setShadowTargets(const std::vector<QWidget*>& targets)
 {
-    // Remove old filters
     for (QWidget* w : m_targets) {
         if (w) w->removeEventFilter(this);
     }
@@ -52,7 +52,8 @@ void ShadowBakeWidget::removeDeadTargets()
 
 void ShadowBakeWidget::scheduleBake()
 {
-    if (m_bakeScheduled)
+
+    if (m_bakeScheduled || !s_bakingEnabled)
         return;
 
     m_bakeScheduled = true;
@@ -138,6 +139,13 @@ void ShadowBakeWidget::childEvent(QChildEvent* e)
 bool ShadowBakeWidget::event(QEvent* e)
 {
     switch (e->type()) {
+    case QEvent::Show: {
+        if (!s_bakingEnabled) {
+            s_bakingEnabled = true;
+			scheduleBake();
+            break;
+        }
+    }
     case QEvent::LayoutRequest:
     case QEvent::PolishRequest:
     case QEvent::StyleChange:

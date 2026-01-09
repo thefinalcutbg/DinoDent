@@ -19,7 +19,7 @@ protected:
     void childEvent(QChildEvent* e) override;
     bool event(QEvent* e) override;
     bool eventFilter(QObject* watched, QEvent* e) override;
-
+        
 private:
     void scheduleBake();
     void bakeNow();
@@ -29,9 +29,9 @@ private:
     void removeDeadTargets();
 
 private:
-    std::vector<QWidget*> m_targets; // raw pointers (you asked for QWidget*)
+    std::vector<QWidget*> m_targets;
     QPixmap m_baked;
 
     bool m_bakeScheduled = false;
-    int  m_debounceMs = 0; // change to e.g. 16 if you want to wait one frame
+    int  m_debounceMs = 0;
 };

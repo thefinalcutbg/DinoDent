@@ -46,7 +46,9 @@ QString Theme::getFancyStylesheet()
 {
     return QString(
 			"QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
-			
+
+            "QLineEdit{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
+
 			"QCheckBox{"
 				"color :" + Theme::colorToString(Theme::fontTurquoise) + ";"
 			"}"

@@ -2,6 +2,7 @@
 #include "Presenter/PrescriptionPresenter.h"
 #include "View/Theme.h"
 #include <QPainter>
+#include "View/Widgets/NotesTemplateDialog.h"
 
 PrescriptionView::PrescriptionView(QWidget* parent)
 	: QWidget(parent)
@@ -15,12 +16,14 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.eRxButton->setIcon(QIcon(":/icons/icon_erx.png"));
 	ui.templateButton->setIcon(QIcon(":/icons/icon_template.png"));
+    ui.supTemplateButton->setIcon(QIcon(":/icons/icon_template.png"));
 
 	ui.addButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.editButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.eRxButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.templateButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.supTemplateButton->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.medicationTable->setModel(&medModel);
 
@@ -59,6 +62,12 @@ PrescriptionView::PrescriptionView(QWidget* parent)
     connect(ui.breastfeedingCheck, &QCheckBox::stateChanged, this, [=, this] { sendFemaleProperties(); });
     connect(ui.eRxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->eRxPressed(); });
 	connect(ui.templateButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addTemplate(); });
+    connect(ui.supTemplateButton, &QPushButton::clicked, this, [=, this] {
+        NotesTemplateDialog d(DbNotes::TemplateType::Supplements);
+        auto result = d.getResult();
+        if(result.isEmpty()) return;
+        ui.supplementsEdit->setText(result);
+    });
 }
 
 PatientTileInfo* PrescriptionView::patientTile()

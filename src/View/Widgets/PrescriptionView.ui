@@ -193,7 +193,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>16</hour>
+           <hour>14</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -428,7 +428,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Зареди шаблон</string>
+            <string>Шаблони за медикаменти</string>
            </property>
            <property name="text">
             <string>Зареди шаблон</string>
@@ -521,15 +521,41 @@
              <number>10</number>
             </property>
             <item>
+             <widget class="IconButton" name="supTemplateButton">
+              <property name="minimumSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Шаблони за нелекарствени добавки</string>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Нелекарствени добавки:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLineEdit" name="supplementsEdit">
               <property name="text">
                <string/>
               </property>
               <property name="maxLength">
                <number>2000</number>
-              </property>
-              <property name="placeholderText">
-               <string>Нелекарствени добавки  (напр. витамини, пробиотици, хранителни добавки) </string>
               </property>
              </widget>
             </item>
@@ -603,11 +629,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TableView</class>
-   <extends>QTableView</extends>
-   <header>View/uiComponents/TableView.h</header>
-  </customwidget>
-  <customwidget>
    <class>HoverButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/HoverButton.h</header>
@@ -622,6 +643,11 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TableView</class>
+   <extends>QTableView</extends>
+   <header>View/uiComponents/TableView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

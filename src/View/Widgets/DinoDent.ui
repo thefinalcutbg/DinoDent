@@ -245,7 +245,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Документация  (Ctrl+O)</string>
+            <string>Документация (Ctrl+O)</string>
            </property>
            <property name="text">
             <string>Open</string>

@@ -13,7 +13,7 @@
 ShortcutTile::ShortcutTile(QWidget* parent) : QPushButton(parent)
 {
     installEventFilter(this);
-    Theme::applyShadow(this);
+    Theme::applyShadow(this, 14, {0, 1}, QColor(0, 0, 0, 22));
     auto font = this->font();
     font.setBold(true);
     setFont(font);

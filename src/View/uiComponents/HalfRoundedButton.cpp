@@ -25,7 +25,7 @@ HalfRoundedButton::HalfRoundedButton(QWidget *parent)
 {
 	this->installEventFilter(this);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    Theme::applyShadow(this);
+    Theme::applyShadow(this, 14, {0, 1}, QColor(0, 0, 0, 22));
 	setCursor(QCursor(Qt::PointingHandCursor));
 
 	auto f = font();

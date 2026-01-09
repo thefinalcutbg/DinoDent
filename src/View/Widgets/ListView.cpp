@@ -17,7 +17,7 @@ ListView::ListView(QWidget* parent)
 	teethViewScene = new TeethViewScene(ui.teethView);
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
-
+    ui.sigButton->setGraphicsEffect(nullptr);
     ui.frame->addVerticalSeparator(ui.teethView->width());
 
     ui.procedureFrame->setDynamicFocusBorderChange();
@@ -294,7 +294,6 @@ void ListView::setSignature(const std::vector<unsigned char>& s)
 		ui.sigButton->setOutlineColor(Theme::background);
 		ui.sigButton->setDisabled(true);
 		ui.sigButton->setToolTip("");
-        ui.sigButton->setGraphicsEffect(nullptr);
 		return;
 	}
 
@@ -307,7 +306,6 @@ void ListView::setSignature(const std::vector<unsigned char>& s)
 	ui.sigButton->setOutlineColor(Theme::mainBackgroundColor);
 	ui.sigButton->setHoverColor(Theme::background);
 	ui.sigButton->setToolTip("Преглед на подпис");
-    Theme::applyLightShadow(ui.sigButton);
 
 }
 

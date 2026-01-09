@@ -9,7 +9,7 @@ RoundedFrame::RoundedFrame(QWidget* parent)
 {
     m_color = Theme::mainBackgroundColor;
 
-    Theme::applyShadow(this);
+ //   Theme::applyShadow(this);
 }
 
 void RoundedFrame::setDynamicFocusBorderChange()
@@ -36,7 +36,8 @@ void RoundedFrame::paintEvent(QPaintEvent* event)
     p.setRenderHint(QPainter::Antialiasing, true);
 
     if (!graphicsEffect()) {
-        p.fillRect(rect(), Theme::background);
+        //return;
+        //p.fillRect(rect(), Theme::background);
     }
 
     QPen pen(m_hasChildFocus ? m_color : Theme::border);

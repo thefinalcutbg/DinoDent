@@ -10,9 +10,16 @@
 #include <QIcon>
 
 ListView::ListView(QWidget* parent)
-	: QWidget(parent), presenter(nullptr)
+	: ShadowBakeWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
+
+	setShadowTargets({
+		ui.patientInfoTile->getFrame(),
+		ui.frame,
+		ui.procedureFrame
+		}
+	);
 
 	teethViewScene = new TeethViewScene(ui.teethView);
 	contextMenu = new ContextMenu();
@@ -223,16 +230,6 @@ void ListView::setPresenter(ListPresenter* presenter)
 	contextMenu->setPresenter(presenter);
 }
 
-void ListView::paintEvent(QPaintEvent*)
-{
-	QPainter painter;
-	painter.begin(this);
-	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
-    painter.fillRect(rect(), Theme::background);
-
-    //ui.frame->setFrameColor(m_teethViewFocused ? Theme::mainBackgroundColor : Theme::border);
-}
-
 bool ListView::eventFilter(QObject* obj, QEvent* event)
 {
     if (obj != ui.teethView) return false;
@@ -253,6 +250,29 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
     }
 
     return false;
+}
+
+void ListView::captureViewport()
+{
+	Theme::applyShadow(ui.frame);
+	Theme::applyShadow(ui.procedureFrame);
+	ui.frame->update();
+	ui.procedureFrame->update();
+	// Ensure correct DPI
+	const qreal dpr = devicePixelRatioF();
+
+	QPixmap pm(size() * dpr);
+	pm.setDevicePixelRatio(dpr);
+	pm.fill(Qt::transparent);
+
+	// Render THIS widget (and its children) into pm
+	// QWidget::render renders children too by default.
+	render(&pm, QPoint(), QRegion(), QWidget::DrawWindowBackground | QWidget::DrawChildren);
+
+	m_captured = pm;
+	ui.frame->setGraphicsEffect(nullptr);
+	ui.procedureFrame->setGraphicsEffect(nullptr);
+	update();
 }
 
 void ListView::nhifChanged()

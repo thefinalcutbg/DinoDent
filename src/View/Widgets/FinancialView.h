@@ -4,18 +4,17 @@
 #include "ui_FinancialView.h"
 #include "Presenter/FinancialPresenter.h"
 #include "View/TableModels/BusinessOperationModel.h"
+#include "View/uiComponents/ShadowBakeWidget.h"
 
 struct Invoice;
 
-class FinancialView : public QWidget
+class FinancialView : public ShadowBakeWidget
 {
 	Q_OBJECT
 
 	FinancialPresenter* presenter{nullptr};
 
 	BusinessOperationModel m_model;
-
-    void paintEvent(QPaintEvent* event) override;
 
     void showMainDocumentDetails(bool show);
 
@@ -34,6 +33,4 @@ public:
 
 private:
 	Ui::FinancialView ui;
-
-	// Inherited via IFinancialView
 };

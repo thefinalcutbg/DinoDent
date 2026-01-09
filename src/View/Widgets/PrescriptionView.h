@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QWidget>
+#include "View/uiComponents/ShadowBakeWidget.h"
 #include "ui_PrescriptionView.h"
 
 #include "View/TableModels/MedicationTableModel.h"
@@ -8,7 +8,7 @@
 class PrescriptionPresenter;
 struct Dispensation;
 
-class PrescriptionView final : public QWidget
+class PrescriptionView final : public ShadowBakeWidget
 {
 	Q_OBJECT
 
@@ -17,8 +17,6 @@ class PrescriptionView final : public QWidget
 	MedicationTableModel medModel;
 
 	void dispensationLogic();
-
-	void paintEvent(QPaintEvent* event);
 
 	void sendFemaleProperties();
 

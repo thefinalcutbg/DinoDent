@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_PerioView.h"
-
+#include "View/uiComponents/ShadowBakeWidget.h"
 #include "ToothUi.h"
 
 class ToothButton;
@@ -22,7 +22,7 @@ struct ChartIndex
 
 class PerioPresenter;
 
-class PerioView : public QWidget
+class PerioView : public ShadowBakeWidget
 {
     Q_OBJECT
 
@@ -55,8 +55,6 @@ class PerioView : public QWidget
     void initializeFullMouth();
     void initializeRecAndAtt();
     void initializeTeethScenes();
-
-    void paintEvent(QPaintEvent* event) override;
 
     void refreshChartMeasurment(int idx);
 

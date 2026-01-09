@@ -5,9 +5,11 @@
 #include "View/Widgets/NotesTemplateDialog.h"
 
 PrescriptionView::PrescriptionView(QWidget* parent)
-	: QWidget(parent)
+	: ShadowBakeWidget(parent)
 {
 	ui.setupUi(this);
+
+	setShadowTargets({ ui.frame, ui.patientInfoTile->getFrame() });
 
     ui.frame->setDynamicFocusBorderChange();
 
@@ -117,13 +119,6 @@ void PrescriptionView::dispensationLogic()
 			ui.repeats->value()
 		});
 
-}
-
-void PrescriptionView::paintEvent(QPaintEvent*)
-{
-	QPainter painter(this);
-
-	painter.fillRect(rect(), Theme::background);
 }
 
 void PrescriptionView::sendFemaleProperties()

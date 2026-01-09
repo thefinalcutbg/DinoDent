@@ -22,12 +22,12 @@ public:
 };
 
 TreatmentPlanView::TreatmentPlanView(QWidget *parent)
-    : QWidget(parent)
+    : ShadowBakeWidget(parent)
     , ui(new Ui::TreatmentPlanView)
 {
     ui->setupUi(this);
 
-    //ui->stageList->setWordWrap(true);
+    setShadowTargets({ ui->frameOut, ui->patientInfoTile->getFrame() });
 
     ui->frameOut->addVerticalSeparator(ui->teethView->width()+3);
     ui->frameOut->setDynamicFocusBorderChange();
@@ -98,14 +98,6 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     connect(ui->loadStatusButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->loadStatus(); });
 
     setStyleSheet(Theme::getFancyStylesheet());
-}
-
-void TreatmentPlanView::paintEvent(QPaintEvent *event)
-{
-    QPainter painter;
-    painter.begin(this);
-    painter.setRenderHint(QPainter::RenderHint::Antialiasing);
-    painter.fillRect(rect(), Theme::background);
 }
 
 std::pair<int, int> TreatmentPlanView::TreatmentPlanView::getSelection() const

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QWidget>
+#include "View/uiComponents/ShadowBakeWidget.h"
 
 class TreatmentPlanPresenter;
 class PatientTileInfo;
@@ -12,14 +12,13 @@ namespace Ui {
 class TreatmentPlanView;
 }
 
-class TreatmentPlanView : public QWidget
+class TreatmentPlanView : public ShadowBakeWidget
 {
     Q_OBJECT
 
     TreatmentPlanPresenter* presenter = nullptr;
     TeethViewScene* teethViewScene;
 
-    void paintEvent(QPaintEvent* event) override;
     std::pair<int,int> getSelection() const;
     void disableEditFileds(bool disabled);
 

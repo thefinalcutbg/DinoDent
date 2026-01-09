@@ -255,6 +255,7 @@
     <ClCompile Include="src\View\SubWidgets\PriceInputWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\SMSTemplate.cpp" />
     <ClCompile Include="src\View\TableModels\NotificationTableModel.cpp" />
+    <ClCompile Include="src\View\uiComponents\ShadowBakeWidget.cpp" />
     <ClCompile Include="src\View\uiComponents\ColorPicker.cpp" />
     <ClCompile Include="src\View\uiComponents\NotesEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\RoundedFrame.cpp" />
@@ -846,6 +847,7 @@
     <QtMoc Include="src\View\uiComponents\BigPushButton.h" />
     <QtMoc Include="src\View\uiComponents\CalendarWidget.h" />
     <QtMoc Include="src\View\uiComponents\ColorPicker.h" />
+    <QtMoc Include="src\View\uiComponents\ShadowBakeWidget.h" />
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
     <QtMoc Include="src\View\uiComponents\HoverButton.h" />
     <ClInclude Include="src\View\uiComponents\MouseWheelGuard.h" />

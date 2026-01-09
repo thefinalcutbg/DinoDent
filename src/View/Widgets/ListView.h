@@ -9,9 +9,10 @@
 #include "Model/Referrals/Referral.h"
 
 #include "Presenter/ListPresenter.h"
-
+#include <QPixmap>
 #include "View/Graphics/TeethViewScene.h"
 #include "View/TableModels/ProcedureTableModel.h"
+#include "View/uiComponents/ShadowBakeWidget.h"
 
 struct CheckModel;
 struct AmbList;
@@ -24,10 +25,10 @@ struct MedicalNotice;
 class Date;
 class Time;
 
-class ListView : public QWidget
+class ListView : public ShadowBakeWidget
 {
     Q_OBJECT
-
+    QPixmap m_captured;
     ListPresenter* presenter;
 
     TeethViewScene* teethViewScene;
@@ -36,7 +37,6 @@ class ListView : public QWidget
 
     ProcedureTableModel model;
 
-    void paintEvent(QPaintEvent* event) override;
     bool eventFilter(QObject* obj, QEvent* event) override;
 
     void nhifChanged();
@@ -50,7 +50,7 @@ public:
     };
 
     ListView(QWidget* parent = Q_NULLPTR);
-
+    void captureViewport();
     void setPresenter(ListPresenter* presenter);
     void focusTeethView();
     void setDateTime(const std::string& time8601);

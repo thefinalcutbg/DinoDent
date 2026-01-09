@@ -18,6 +18,7 @@ public:
 	PatientTileInfo(QWidget *parent = nullptr);
 	void setPatient(const Patient& p, int age);
 	void setPresenter(PatientInfoPresenter* p) { presenter = p; }
+	RoundedFrame* getFrame() { return ui.frame; }
 	~PatientTileInfo();
 
 private:

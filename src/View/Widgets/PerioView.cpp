@@ -19,9 +19,16 @@
 
 
 PerioView::PerioView(QWidget* parent)
-	: QWidget(parent)
+	: ShadowBakeWidget(parent)
 {
 	ui.setupUi(this);
+
+	setShadowTargets({ 
+		ui.maxilla->ui.frame, 
+		ui.patientInfoTile->getFrame(), 
+		ui.perioStatistics,
+		ui.frame
+	});
 
 #ifdef Q_OS_WIN
 	auto margins = ui.frame_2->layout()->contentsMargins();
@@ -249,15 +256,6 @@ void PerioView::print()
     setStyleSheet(currentStylesheet);
 
 }
-
-
-
-void PerioView::paintEvent(QPaintEvent*)
-{
-    QPainter painter(this);
-    painter.fillRect(0, 0, width(), height(), Theme::background);
-}
-
 
 ToothUi PerioView::getUIbyTooth(int idx)
 {

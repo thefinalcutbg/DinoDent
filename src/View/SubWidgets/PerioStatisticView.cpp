@@ -63,7 +63,7 @@ PerioStatisticView::PerioStatisticView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-    Theme::applyShadow(this);
+
 	hexagonGraphicsItem = new HexagonGraphicsItem();
 
 	ui.hexGraphicsView->setScene(new QGraphicsScene());

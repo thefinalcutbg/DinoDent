@@ -35,8 +35,6 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
-    ui.historyButton->setGraphicsEffect(nullptr);
-
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
     ui.plannedProcedure->setIcon(QIcon(":/icons/icon_addPlanned.png"));
 	ui.statusResultButton->setIcon(QIcon(":/icons/icon_apply.png"));
@@ -296,6 +294,7 @@ void ListView::setSignature(const std::vector<unsigned char>& s)
 		ui.sigButton->setOutlineColor(Theme::background);
 		ui.sigButton->setDisabled(true);
 		ui.sigButton->setToolTip("");
+        ui.sigButton->setGraphicsEffect(nullptr);
 		return;
 	}
 
@@ -308,6 +307,7 @@ void ListView::setSignature(const std::vector<unsigned char>& s)
 	ui.sigButton->setOutlineColor(Theme::mainBackgroundColor);
 	ui.sigButton->setHoverColor(Theme::background);
 	ui.sigButton->setToolTip("Преглед на подпис");
+    Theme::applyLightShadow(ui.sigButton);
 
 }
 

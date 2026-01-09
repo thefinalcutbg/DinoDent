@@ -52,7 +52,7 @@ void RoundedFrame::paintEvent(QPaintEvent* event)
     r.adjust(half, half, -half, -half);
 
     QPainterPath path;
-    path.addRoundedRect(r, Theme::radius, Theme::radius);
+    path.addRoundedRect(r, Theme::radius/2, Theme::radius/2);
 
     p.fillPath(path, Theme::sectionBackground);
 

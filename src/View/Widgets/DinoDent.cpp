@@ -186,7 +186,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     ui.userButton->setMenu(userMenu);
     ui.userButton->setIconSize(QSize(25, 25));
-    Theme::applyShadow(ui.userButton);
+    Theme::applyLightShadow(ui.userButton);
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 /*
     ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));
@@ -235,7 +235,7 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDis
 {
     auto disableFn = [](QPushButton* b, bool disable){
         b->setDisabled(disable);
-    //    disable ? b->setGraphicsEffect(nullptr) : Theme::applyShadow(b);
+        disable ? b->setGraphicsEffect(nullptr) : Theme::applyLightShadow(b);
     };
 
     disableFn(ui.printButton, printDisabled);
@@ -246,7 +246,7 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDis
 void DinoDent::setIrcIcon(bool glow)
 {
     ui.mircButton->setMonochrome(!glow);
-    glow ? Theme::applyShadow(ui.mircButton) : ui.mircButton->setGraphicsEffect(nullptr);
+    glow ? Theme::applyLightShadow(ui.mircButton) : ui.mircButton->setGraphicsEffect(nullptr);
 }
 
 void DinoDent::paintEvent(QPaintEvent*)
@@ -274,7 +274,7 @@ void DinoDent::setNotificationIcon(int activeNotifCount)
 {
     ui.notifButton->setMonochrome(!activeNotifCount);
     ui.notifButton->setIcon(activeNotifCount ? QIcon(":/icons/icon_bell_notify.png") : QIcon(":/icons/icon_bell.png"));
-    activeNotifCount ? Theme::applyShadow(ui.notifButton) : ui.notifButton->setGraphicsEffect(nullptr);
+    activeNotifCount ? Theme::applyLightShadow(ui.notifButton) : ui.notifButton->setGraphicsEffect(nullptr);
 
     switch(activeNotifCount){
         case 0: ui.notifButton->setToolTip("Няма активни напомняния"); break;

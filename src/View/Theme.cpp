@@ -230,3 +230,8 @@ void Theme::applyShadow(QWidget *w, int blur, QPoint offset, QColor color)
     fx->setColor(color);
     w->setGraphicsEffect(fx);
 }
+
+void Theme::applyLightShadow(QWidget *w)
+{
+    Theme::applyShadow(w, 14, {0, 1}, QColor(0, 0, 0, 22));
+}

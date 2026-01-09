@@ -37,4 +37,6 @@ namespace Theme
         QPoint offset = {0, 2},
         QColor color = QColor(0, 0, 0, 38));
 
+    void applyLightShadow(QWidget* w);
+
 };

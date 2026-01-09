@@ -18,7 +18,7 @@ IconButton::IconButton(QWidget* parent)
     , backgroundColor(Theme::sectionBackground)
 {
     installEventFilter(this);
-
+    Theme::applyLightShadow(this);
 #ifdef Q_OS_MAC
     setStyle(Theme::fusionStyle());
 #endif

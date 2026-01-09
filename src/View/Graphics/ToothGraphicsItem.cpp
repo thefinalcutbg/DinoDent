@@ -2,7 +2,8 @@
 #include <QPainter>
 #include <QIcon>
 #include <QGraphicsSceneMouseEvent>
-
+#include <QPainterPath>
+#include "View/Theme.h"
 ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), hasNote(false), m_tooth(180, 500)
 {
 
@@ -46,8 +47,25 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
     if (hasProcedure)
     {
-        painter->setOpacity(0.2);
-        painter->fillRect(0, procedureMarkerHeight, bounds.width(), 15, QBrush(Qt::green));
+        painter->setOpacity(0.3);
+
+        const int areaX = 0;
+        const int areaY = procedureMarkerHeight;
+        const int areaW = bounds.width();
+        const int areaH = 15;
+
+        const int rw = areaW-4;
+        const int rh = qMin(areaH, 15);
+
+        const int x = areaX + (areaW - rw) / 2;
+        const int y = areaY + (areaH - rh) / 2;
+
+        QRectF r(x, y, rw, rh);
+
+        QPainterPath path;
+        path.addRoundedRect(r, 5, 5);
+        painter->fillPath(path, QColor(0, 255, 110));
+
         painter->setOpacity(1);
     }
 
@@ -74,7 +92,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
     //painter->setOpacity(0.3);
     //painter->fillRect(bounds, QBrush(Qt::green));
-    
+
 }
 
 void ToothGraphicsItem::showLingual(bool show)

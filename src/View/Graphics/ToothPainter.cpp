@@ -583,7 +583,7 @@ inline void drawToothNumberLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
     QFont font;//{ "Arial", 28 };
     font.setPointSizeF(30);
 	font.setBold(1);
-	painter.setPen(Qt::gray);
+    painter.setPen(Qt::darkGray);
 	painter.setFont(font);
 
 	painter.drawText(QRect{ 0,yPos,pixmap.width(), 50 }, Qt::AlignCenter, tooth.num.c_str());

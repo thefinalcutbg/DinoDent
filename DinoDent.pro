@@ -414,6 +414,7 @@ HEADERS += \
     src/View/uiComponents/PixmapLabel.h \
     src/View/uiComponents/RightClickButton.h \
     src/View/uiComponents/RoundedFrame.h \
+    src/View/uiComponents/ShadowBakeWidget.h \
     src/View/uiComponents/ShortcutTile.h \
     src/View/uiComponents/SpinBox.h \
     src/View/uiComponents/StatusButton.h \
@@ -764,6 +765,7 @@ SOURCES += \
     src/View/uiComponents/PixmapLabel.cpp \
     src/View/uiComponents/RightClickButton.cpp \
     src/View/uiComponents/RoundedFrame.cpp \
+    src/View/uiComponents/ShadowBakeWidget.cpp \
     src/View/uiComponents/ShortcutTile.cpp \
     src/View/uiComponents/SpinBox.cpp \
     src/View/uiComponents/StatusButton.cpp \

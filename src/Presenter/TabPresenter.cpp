@@ -316,6 +316,8 @@ bool TabPresenter::activeTreatmentPlanAlreadyOpened(long long patientRowid)
     {
         if(tabInstance->type != TabType::TreatmentPlan) continue;
 
+        if(tabInstance->patient->rowid != patientRowid) continue;
+
         if(tabInstance->rowID() != activeRowid) continue;
 
         ModalDialogBuilder::showMessage(

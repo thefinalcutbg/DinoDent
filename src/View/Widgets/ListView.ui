@@ -265,7 +265,7 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>1082</width>
+         <width>1112</width>
          <height>511</height>
         </size>
        </property>
@@ -275,7 +275,7 @@
        <widget class="ControlPanel" name="controlPanel" native="true">
         <property name="geometry">
          <rect>
-          <x>760</x>
+          <x>750</x>
           <y>80</y>
           <width>351</width>
           <height>431</height>
@@ -287,7 +287,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>761</width>
+          <width>741</width>
           <height>511</height>
          </rect>
         </property>
@@ -307,7 +307,7 @@
        <widget class="SurfacePanel" name="surfacePanel" native="true">
         <property name="geometry">
          <rect>
-          <x>760</x>
+          <x>750</x>
           <y>0</y>
           <width>351</width>
           <height>161</height>
@@ -364,6 +364,11 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
          </property>
          <property name="text">
           <string>ИЗВЪРШЕНИ ПРОЦЕДУРИ:</string>
@@ -586,7 +591,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>1100</width>
+              <width>1112</width>
               <height>0</height>
              </size>
             </property>

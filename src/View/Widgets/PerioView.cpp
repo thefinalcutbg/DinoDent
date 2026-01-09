@@ -25,6 +25,7 @@ PerioView::PerioView(QWidget* parent)
 
 	setShadowTargets({ 
 		ui.maxilla->ui.frame, 
+		ui.mandibula->ui.frame,
 		ui.patientInfoTile->getFrame(), 
 		ui.perioStatistics,
 		ui.frame

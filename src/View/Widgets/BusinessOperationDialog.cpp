@@ -1,6 +1,7 @@
 ﻿#include "BusinessOperationDialog.h"
 #include <QPainter>
 #include "Model/Dental/ProcedureCode.h"
+#include "Model/User.h"
 
 QStringList s_completionList;
 
@@ -51,6 +52,12 @@ BuisnessOperationDialog::BuisnessOperationDialog(const std::optional<BusinessOpe
 		if (!pCode.isValid()) return;
 
 		ui.codeEdit->setText(pCode.ACHICode().c_str());
+
+        auto price = User::getPrice(pCode.ACHICode().c_str()).second;
+
+        if(!price) return;
+
+        ui.priceSpinBox->setValue(price);
 	});
 
     connect(ui.cancelButton, &QPushButton::clicked, this, [&] { reject(); });

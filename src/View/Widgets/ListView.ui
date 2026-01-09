@@ -779,7 +779,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>46</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -820,7 +820,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>45</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -861,7 +861,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>45</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -902,7 +902,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>45</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -960,7 +960,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>45</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -995,7 +995,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>46</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1036,7 +1036,7 @@
            <property name="minimumSize">
             <size>
              <width>200</width>
-             <height>45</height>
+             <height>35</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1156,6 +1156,22 @@
    <container>1</container>
   </customwidget>
   <customwidget>
+   <class>GraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>View/Graphics/GraphicsView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HoverButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/HoverButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RoundedFrame</class>
+   <extends>QFrame</extends>
+   <header>View/uiComponents/RoundedFrame.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>SurfacePanel</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/SurfacePanel.h</header>
@@ -1167,31 +1183,15 @@
    <header>View/uiComponents/TableView.h</header>
   </customwidget>
   <customwidget>
-   <class>GraphicsView</class>
-   <extends>QGraphicsView</extends>
-   <header>View/Graphics/GraphicsView.h</header>
-  </customwidget>
-  <customwidget>
    <class>ControlPanel</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/ControlPanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>HoverButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/HoverButton.h</header>
-  </customwidget>
-  <customwidget>
    <class>CustomDateTimeEdit</class>
    <extends>QDateTimeEdit</extends>
    <header>View/uiComponents/CustomDateTimeEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RoundedFrame</class>
-   <extends>QFrame</extends>
-   <header>View/uiComponents/RoundedFrame.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

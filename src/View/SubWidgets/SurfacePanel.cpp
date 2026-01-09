@@ -13,7 +13,7 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 
 	ui.notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
     ui.notesButton->setHoverColor(Theme::mainBackgroundColor);
-
+	ui.notesButton->setGraphicsEffect(nullptr);
 	scene = new QGraphicsScene;
 	ui.surfaceView->setScene(scene);
 	scene->setBackgroundBrush(Qt::white);

@@ -15,6 +15,10 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.hisButton->setIcon(QIcon(":/icons/icon_his.png"));
 
+	ui.printButton->setGraphicsEffect(nullptr);
+	ui.deleteButton->setGraphicsEffect(nullptr);
+	ui.hisButton->setGraphicsEffect(nullptr);
+
 	ui.printButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
 

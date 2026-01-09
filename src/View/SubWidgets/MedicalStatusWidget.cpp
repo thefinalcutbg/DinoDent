@@ -64,7 +64,10 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 		ui.removeButton->setDisabled(noSelection);
 	});
 
-
+	ui.addButton->setGraphicsEffect(nullptr);
+	ui.editButton->setGraphicsEffect(nullptr);
+	ui.removeButton->setGraphicsEffect(nullptr);
+	
     ui.statusList->itemSelectionChanged();
 }
 

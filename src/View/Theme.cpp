@@ -47,7 +47,13 @@ QString Theme::getFancyStylesheet()
     return QString(
 			"QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
 
-            "QLineEdit{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
+            "QLineEdit{ "
+            "color :" + Theme::colorToString(Theme::fontTurquoise) + ";"
+            "border: 1px solid; "
+            "border-color: " + Theme::colorToString(Theme::border) + "; "
+            "border-radius: 10px; "
+            "padding: 3px 0px 3px 3px;"
+            "}"
 
 			"QCheckBox{"
 				"color :" + Theme::colorToString(Theme::fontTurquoise) + ";"

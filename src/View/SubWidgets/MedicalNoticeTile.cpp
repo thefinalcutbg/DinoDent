@@ -9,7 +9,7 @@ MedicalNoticeTile::MedicalNoticeTile(const MedicalNotice& notice, int index, QWi
     : QWidget(parent), m_index(index)
 {
 	ui.setupUi(this);
-    Theme::applyShadow(this);
+
 	installEventFilter(this);
 	setAttribute(Qt::WA_Hover, true);
 
@@ -46,7 +46,7 @@ MedicalNoticeTile::MedicalNoticeTile(const MedicalNotice& notice, int index, QWi
 void MedicalNoticeTile::paintEvent(QPaintEvent*)
 {
 	QPainterPath path;
-	path.addRoundedRect(0, 0, width(), height(), Theme::radius, Theme::radius);
+	path.addRoundedRect(0, 0, width(), height(), Theme::radius/2, Theme::radius/2);
 
 	QPainter painter;
 	painter.begin(this);

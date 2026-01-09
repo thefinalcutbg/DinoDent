@@ -8,7 +8,6 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
     : QWidget(parent), m_index(index)
 {
 	ui.setupUi(this);
-    Theme::applyShadow(this);
 	installEventFilter(this);
 	setAttribute(Qt::WA_Hover, true);
 
@@ -59,7 +58,7 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 void ReferralTile::paintEvent(QPaintEvent*)
 {
 	QPainterPath path;
-	path.addRoundedRect(0, 0, width(), height(), Theme::radius, Theme::radius);
+	path.addRoundedRect(0, 0, width(), height(), Theme::radius/2, Theme::radius/2);
 
 	QPainter painter;
 	painter.begin(this);

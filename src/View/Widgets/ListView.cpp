@@ -422,6 +422,14 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 
 void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices)
 {
+	auto shadowTargets = std::vector<QWidget*>{
+	ui.patientInfoTile->getFrame(),
+	ui.frame,
+	ui.procedureFrame
+	};
+	
+
+
 	while (ui.docsLayout->count())
 	{
 		ui.docsLayout->takeAt(0)->widget()->deleteLater();
@@ -435,6 +443,7 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
         connect(refWidget, &ReferralTile::print,  this, [=, this](int index) {presenter->printReferral(index); });
         connect(refWidget, &ReferralTile::sendToHis, this, [=, this](int index) {presenter->sendReferralToHis(index); });
 		ui.docsLayout->addWidget(refWidget);
+		shadowTargets.push_back(refWidget);
 	}
 
     for (std::size_t i = 0; i < notices.size(); i++) {
@@ -443,8 +452,10 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
         connect(noticeWidget, &MedicalNoticeTile::clicked, this, [=, this](int index) {presenter->editMedicalNotice(index); });
         connect(noticeWidget, &MedicalNoticeTile::sendToHis, this, [=, this](int index) {presenter->sendMedicalNoticeToHis(index); });
 		ui.docsLayout->addWidget(noticeWidget);
-
+		shadowTargets.push_back(noticeWidget);
 	}
+
+	setShadowTargets(shadowTargets);
 }
 
 

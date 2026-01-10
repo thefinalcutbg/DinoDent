@@ -33,7 +33,13 @@
     <widget class="PatientTileInfo" name="patientInfoTile" native="true">
      <property name="minimumSize">
       <size>
-       <width>700</width>
+       <width>0</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
        <height>150</height>
       </size>
      </property>
@@ -332,6 +338,280 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="procedureLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>ИЗВЪРШЕНИ ПРОЦЕДУРИ:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer_24">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="minimumSize">
+        <size>
+         <width>1112</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>1112</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Shape::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Plain</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="IconButton" name="addProcedure">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Добави процедура</string>
+          </property>
+          <property name="text">
+           <string>Добави</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="IconButton" name="plannedProcedure">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Добави процедура от план за лечение&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Планирани</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="IconButton" name="deleteProcedure">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Изтрий процедура</string>
+          </property>
+          <property name="text">
+           <string>Изтрий</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="IconButton" name="editProcedure">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Редактирай процедура</string>
+          </property>
+          <property name="text">
+           <string>Редактирай</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="BigPushButton" name="historyButton">
+          <property name="minimumSize">
+           <size>
+            <width>220</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Онлайн пациентско досие</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="IconButton" name="statusResultButton">
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Покажи резултата от лечението</string>
+          </property>
+          <property name="text">
+           <string>Резулат</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_25">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_23">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Policy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <property name="topMargin">
       <number>10</number>
@@ -355,210 +635,16 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="topMargin">
-        <number>15</number>
+        <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="procedureLabel">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>ИЗВЪРШЕНИ ПРОЦЕДУРИ:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="bottomMargin">
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="IconButton" name="addProcedure">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Добави процедура</string>
-           </property>
-           <property name="text">
-            <string>Добави</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="plannedProcedure">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Добави процедура от план за лечение&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="text">
-            <string>Планирани</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="editProcedure">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Редактирай процедура</string>
-           </property>
-           <property name="text">
-            <string>Редактирай</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="deleteProcedure">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Изтрий процедура</string>
-           </property>
-           <property name="text">
-            <string>Изтрий</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="BigPushButton" name="historyButton">
-           <property name="minimumSize">
-            <size>
-             <width>220</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Онлайн пациентско досие</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="statusResultButton">
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Покажи резултата от лечението</string>
-           </property>
-           <property name="text">
-            <string>Резулат</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Expanding</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>100</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
         <widget class="RoundedFrame" name="procedureFrame">
+         <property name="minimumSize">
+          <size>
+           <width>1112</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Shape::NoFrame</enum>
          </property>
@@ -584,14 +670,14 @@
           <item>
            <widget class="TableView" name="procedureTable">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>1112</width>
+              <width>0</width>
               <height>0</height>
              </size>
             </property>

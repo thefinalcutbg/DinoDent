@@ -42,7 +42,6 @@ TabView::TabView(QWidget *parent)
     ui.tabBar->setMovable(true);
     ui.tabBar->setTabsClosable(false);
     ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
-
 #ifdef Q_OS_MAC
     ui.tabBar->setStyle(Theme::fusionStyle());
     ui.tabBar->installEventFilter(new NoHScrollFilter(ui.tabBar));
@@ -87,7 +86,7 @@ TabView::TabView(QWidget *parent)
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
  
-    ui.scrollArea->setObjectName("ScrollArea");
+    ui.scrollAreaWidgetContents_2->setObjectName("ScrollArea");
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
     TabPresenter::get().setView(this);
@@ -126,20 +125,6 @@ int TabView::getTabIndex(int tabId)
     }
 
     return -1;
-}
-
-
-void TabView::showTabWidget(QWidget* w)
-{
-    /*
-    ui.stackedWidget->setCurrentWidget(w);
-    w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    w->adjustSize();
-    ui.stackedWidget->adjustSize();
-    */
-    if (w == ui.scrollArea->widget()) return;
-    ui.scrollArea->takeWidget();
-    ui.scrollArea->setWidget(w);
 }
 
 void TabView::removeAllTabs()

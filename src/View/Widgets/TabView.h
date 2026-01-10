@@ -18,8 +18,6 @@ class TabView : public QWidget
 {
 	Q_OBJECT
 
-	void showTabWidget(QWidget* w);
-
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
 
@@ -52,7 +50,7 @@ public:
 	void showCalendarView();
 
 	ListView* listView() { return ui.listWidget; }
-	PerioView* perioView() { return ui.perioWidget; }
+    PerioView* perioView() { return ui.perioWidget; }
 	FinancialView* financialView() { return ui.financialWidget; }
 	PrescriptionView* prescriptionView() { return ui.prescrWidget; }
     TreatmentPlanView* treatmentPlanView() { return ui.planView; }

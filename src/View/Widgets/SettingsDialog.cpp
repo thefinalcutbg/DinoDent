@@ -173,7 +173,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	//doctor validators
 	ui.lpkEdit->setInputValidator(&lpk_validator);
 	ui.fNameEdit->setInputValidator(&name_validator);
-	ui.mNameEdit->setInputValidator(&name_validator);
+	ui.mNameEdit->setInputValidator(nullptr);
 	ui.lNameEdit->setInputValidator(&name_validator);
 	ui.phoneEdit->setInputValidator(&not_empty_validator);
 	auto phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
@@ -516,7 +516,7 @@ void SettingsDialog::disableNhifValidators(bool disabled)
 void SettingsDialog::legalEntityChanged(bool selfInsured)
 {
 	ui.selfInsuredId->setInputValidator(selfInsured ? &grao_validator : nullptr);
-
+	ui.mNameEdit->setInputValidator(selfInsured ? &name_validator : nullptr);
 	ui.selfInsuredId->setHidden(!selfInsured);
     ui.selfInsuredLabel->setHidden(!selfInsured);
 }

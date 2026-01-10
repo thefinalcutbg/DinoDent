@@ -45,7 +45,7 @@ void MainPresenter::setView(DinoDent* view)
     User::signatureTablet() = SignatureTablet(glob_set.signer_model, glob_set.signer_filepath);
     FilePaths::setSettings(glob_set.pdfDir, glob_set.subdirStructure);
 
-    firstTimeLogic();
+    if(!firstTimeLogic()) return;
 
     LoginPresenter login;
     
@@ -281,12 +281,16 @@ bool MainPresenter::closeAllTabs()
     return TabPresenter::get().permissionToLogOut();
 }
 
-void MainPresenter::firstTimeLogic()
+bool MainPresenter::firstTimeLogic()
 {
-    if(!DbPractice::noPractices()) return;
+    if(!DbPractice::noPractices()) return true;
   
+	auto result = ModalDialogBuilder::basicProfileDialog();
+
+    if (!result) return false;
+
     Practice p;
-    p.name = "DinoDent";
+    p.name = result->practiceName;
     p.practice_address = 68134;
     p.firm_address = "гр. София";
     p.legal_entity = 2;
@@ -294,9 +298,9 @@ void MainPresenter::firstTimeLogic()
     p.bulstat = "000000000";
             
     Doctor d;
-    d.fname = "Иван";
-    d.mname = "Иванов";
-    d.lname = "Иванов";
+	d.fname = result->firstName;
+    d.mname = "";
+    d.lname = result->lastName;
     d.LPK = "000000000";
     d.hisSpecialty = 0;
     d.phone = "";
@@ -312,8 +316,8 @@ void MainPresenter::firstTimeLogic()
     DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
    
     ModalDialogBuilder::showMessage(
-        "Стартирате програмата за първи път. "
-        "Създаден е примерен профил. "
-        "Можете да редактирате данните от \"Настройки\" "
+        "Можете да редактирате останалите данни от \"Настройки\" "
     );
+
+    return true;
 }

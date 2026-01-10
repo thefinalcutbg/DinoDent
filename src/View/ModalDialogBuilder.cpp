@@ -92,6 +92,72 @@ std::optional<MedicalNotice> ModalDialogBuilder::openDialog(const MedicalNotice&
 	return d.getResult();
 }
 
+#include <QFormLayout>
+
+std::optional<ModalDialogBuilder::BasicProfile> ModalDialogBuilder::basicProfileDialog()
+{
+	QDialog dlg;
+	dlg.setWindowTitle("Първоначална настройка");
+	dlg.setModal(true);
+	dlg.setStyleSheet("QDialog {background-color: white;}");
+
+	auto* title = new QLabel("Стартирате програмата за първи път. Попълнете Вашите основни данни:", &dlg);
+
+	auto* firstNameEdit = new QLineEdit(&dlg);
+	auto* lastNameEdit = new QLineEdit(&dlg);
+	auto* practiceEdit = new QLineEdit(&dlg);
+
+	auto* form = new QFormLayout();
+	form->addRow("Име:", firstNameEdit);
+	form->addRow("Фамилия:", lastNameEdit);
+	form->addRow("Име на практика:", practiceEdit);
+
+	auto* cancelBtn = new QPushButton("Отказ", &dlg);
+	auto* okBtn = new QPushButton("OK", &dlg);
+	okBtn->setDefault(true);
+	okBtn->setEnabled(false);
+
+	QObject::connect(cancelBtn, &QPushButton::clicked, &dlg, &QDialog::reject);
+	QObject::connect(okBtn, &QPushButton::clicked, &dlg, &QDialog::accept);
+
+	auto updateOkEnabled = [&]() {
+		const bool ok =
+			!firstNameEdit->text().trimmed().isEmpty() &&
+			!lastNameEdit->text().trimmed().isEmpty() &&
+			!practiceEdit->text().trimmed().isEmpty();
+		okBtn->setEnabled(ok);
+		};
+
+	QObject::connect(firstNameEdit, &QLineEdit::textChanged, &dlg, [&](const QString&) { updateOkEnabled(); });
+	QObject::connect(lastNameEdit, &QLineEdit::textChanged, &dlg, [&](const QString&) { updateOkEnabled(); });
+	QObject::connect(practiceEdit, &QLineEdit::textChanged, &dlg, [&](const QString&) { updateOkEnabled(); });
+
+	auto* buttons = new QHBoxLayout();
+	buttons->addStretch(1);
+	buttons->addWidget(cancelBtn);
+	buttons->addWidget(okBtn);
+
+	auto* root = new QVBoxLayout(&dlg);
+	root->addWidget(title);
+	root->addLayout(form);
+	root->addLayout(buttons);
+
+	dlg.resize(460, dlg.sizeHint().height());
+
+	if (dlg.exec() != QDialog::Accepted)
+		return std::nullopt;
+
+	BasicProfile p;
+	p.firstName = firstNameEdit->text().trimmed().toStdString();
+	p.lastName = lastNameEdit->text().trimmed().toStdString();
+	p.practiceName = practiceEdit->text().trimmed().toStdString();
+
+	if (p.firstName.empty() || p.lastName.empty() || p.practiceName.empty())
+		return std::nullopt;
+
+	return p;
+}
+
 #include "View/SubWidgets/SnapshotViewer.h"
 void ModalDialogBuilder::showSnapshots(const std::vector<HisSnapshot>& snapshots)
 {

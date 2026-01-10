@@ -285,7 +285,7 @@
        <widget class="GraphicsView" name="teethView">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>1</x>
           <y>0</y>
           <width>741</width>
           <height>511</height>

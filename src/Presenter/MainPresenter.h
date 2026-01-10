@@ -18,7 +18,7 @@ class MainPresenter
 
 	MainPresenter(){}
 
-	void firstTimeLogic(); //returns false if there are no practices
+	bool firstTimeLogic(); //returns false if there are no practices
 
 public:
 

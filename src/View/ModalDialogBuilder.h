@@ -30,6 +30,13 @@ enum class NotificationType {NoData, Xml, PisHash };
 
 namespace ModalDialogBuilder
 {
+	struct BasicProfile
+	{
+		std::string firstName;
+		std::string lastName;
+		std::string practiceName;
+	};
+
 	void openBrowserDialog();
 
 	DialogAnswer YesNoCancelDailog(const std::string& text);
@@ -55,6 +62,7 @@ namespace ModalDialogBuilder
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation();
 	std::optional<MedicalNotice> openDialog(const MedicalNotice& notice); //use default constructed for new notice
+	std::optional<BasicProfile> basicProfileDialog();
 	void showSnapshots(const std::vector<HisSnapshot>& snapshots);
 
 	void openSettingsDialog(int settingsTab = 0);

@@ -79,7 +79,7 @@ void DoctorDialogPresenter::setView(DoctorSettingsDialog* view)
     this->view = view;
 
     view->lineEdit(DoctorSettingsDialog::FirstName)->setInputValidator(&name_validator);
-    view->lineEdit(DoctorSettingsDialog::MiddleName)->setInputValidator(&name_validator);
+    view->lineEdit(DoctorSettingsDialog::MiddleName)->setInputValidator(nullptr);
     view->lineEdit(DoctorSettingsDialog::LastName)->setInputValidator(&name_validator);
     view->lineEdit(DoctorSettingsDialog::LPK)->setInputValidator(&lpk_validator);
     view->lineEdit(DoctorSettingsDialog::Phone)->setInputValidator(&not_emptyValidator);

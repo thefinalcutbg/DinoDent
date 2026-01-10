@@ -94,11 +94,14 @@ void SpriteSheets::initialize()
 	constexpr int commonWidth = 120;
 
 	QPixmap commonTexture(":/tooth/tooth_common.png");
-	implant = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
-	calculusImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
-	perioImplant = new QPixmap(commonTexture.copy(QRect(240, 0, 120, 860)));
+	implantFront = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
+	calculusImplantFront = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
+	perioImplantFront = new QPixmap(commonTexture.copy(QRect(240, 0, 120, 860)));
 	dentureFront = new QPixmap(commonTexture.copy(QRect(360, 0, 120, 860)));
-	dentureMolar = new QPixmap(commonTexture.copy(QRect(480, 0, 180, 860)));
+	implantMolar = new QPixmap(commonTexture.copy(QRect(480, 0, 180, 860)));
+	calculusImplantMolar = new QPixmap(commonTexture.copy(QRect(660, 0, 180, 860)));
+	perioImplantMolar = new QPixmap(commonTexture.copy(QRect(840, 0, 180, 860)));
+	dentureMolar = new QPixmap(commonTexture.copy(QRect(1020, 0, 180, 860)));
 
 	int xPos = 0;
 
@@ -109,9 +112,9 @@ void SpriteSheets::initialize()
 		int width = isMolar ? molarWidth : commonWidth;
 
 		initializePack(textures[i], masterSprites, xPos, width);
-		textures[i].implant = implant;
-		textures[i].calculusImplant = calculusImplant;
-		textures[i].perioImplant = perioImplant;
+		textures[i].implant = isMolar ? implantMolar : implantFront;
+		textures[i].calculusImplant = isMolar ? calculusImplantMolar : calculusImplantFront;
+		textures[i].perioImplant = isMolar ? perioImplantMolar : perioImplantFront;
 		textures[i].denture = isMolar ? dentureMolar : dentureFront;
 
 		xPos += width;
@@ -145,7 +148,12 @@ const SpritesheetCoords& SpriteSheets::getCoordinates(int toothIndex, bool tempo
 
 SpriteSheets::~SpriteSheets()
 {
-	delete implant;
-	delete calculusImplant;
-	delete perioImplant;
+	delete implantFront;
+	delete calculusImplantFront;
+	delete perioImplantFront;
+	delete dentureFront;
+	delete implantMolar;
+	delete calculusImplantMolar;
+	delete perioImplantMolar;
+	delete dentureMolar;
 }

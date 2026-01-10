@@ -50,7 +50,6 @@ public:
     };
 
     ListView(QWidget* parent = Q_NULLPTR);
-    void captureViewport();
     void setPresenter(ListPresenter* presenter);
     void focusTeethView();
     void setDateTime(const std::string& time8601);

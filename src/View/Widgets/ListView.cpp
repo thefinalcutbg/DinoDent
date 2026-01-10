@@ -252,29 +252,6 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
     return false;
 }
 
-void ListView::captureViewport()
-{
-	Theme::applyShadow(ui.frame);
-	Theme::applyShadow(ui.procedureFrame);
-	ui.frame->update();
-	ui.procedureFrame->update();
-	// Ensure correct DPI
-	const qreal dpr = devicePixelRatioF();
-
-	QPixmap pm(size() * dpr);
-	pm.setDevicePixelRatio(dpr);
-	pm.fill(Qt::transparent);
-
-	// Render THIS widget (and its children) into pm
-	// QWidget::render renders children too by default.
-	render(&pm, QPoint(), QRegion(), QWidget::DrawWindowBackground | QWidget::DrawChildren);
-
-	m_captured = pm;
-	ui.frame->setGraphicsEffect(nullptr);
-	ui.procedureFrame->setGraphicsEffect(nullptr);
-	update();
-}
-
 void ListView::nhifChanged()
 {
 	if (presenter == nullptr) return;

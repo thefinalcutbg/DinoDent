@@ -22,10 +22,13 @@ class SpriteSheets
 	std::array<const SpritesheetCoords*, 32> tempoCoords;
 
 
-	QPixmap* implant;
-	QPixmap* calculusImplant;
-	QPixmap* perioImplant;
+	QPixmap* implantFront;
+	QPixmap* calculusImplantFront;
+	QPixmap* perioImplantFront;
 	QPixmap* dentureFront;
+	QPixmap* implantMolar;
+	QPixmap* calculusImplantMolar;
+	QPixmap* perioImplantMolar;
 	QPixmap* dentureMolar;
 
 	TexturePack textures[26];

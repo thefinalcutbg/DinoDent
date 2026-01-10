@@ -47,6 +47,10 @@ QString Theme::getFancyStylesheet()
     return QString(
 			"QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
 
+			"QToolTip { "
+			"background-color:" + Theme::colorToString(Theme::sectionBackground) + "; "
+			"}"
+
             "QLineEdit{ "
             "color :" + Theme::colorToString(Theme::fontTurquoise) + ";"
             "border: 1px solid; "

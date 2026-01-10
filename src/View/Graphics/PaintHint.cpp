@@ -3,6 +3,7 @@
 #include "Model/User.h"
 #include "Model/Dental/Tooth.h"
 #include "Model/Dental/ToothUtils.h"
+#include "View/Theme.h"
 
 using namespace Dental;
 
@@ -195,9 +196,17 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
         dsn->isHyperdontic = true;
     }
 getToolTip:
-    toolTip = "<b>" + tooth.toothName() + "</b><br>";
+
+    toolTip += "<span style=\"color:";
+    toolTip += Theme::colorToString(Qt::darkGray).toStdString();
+    toolTip += "\">";
+
+    toolTip += "<b>" + tooth.toothName() + "</b><br>";
+
     toolTip += tooth.getToothInfo();
     if (notes.size()) {
         toolTip += "<br><br><b>Бележки:</b> " + notes;
     }
+
+    toolTip += "</span>";
 }

@@ -26,6 +26,8 @@ QSize PixmapLabel::sizeHint() const
 
 QPixmap PixmapLabel::scaledPixmap() const
 {
+    if(pix.isNull()) return pix;
+
     auto scaled = pix.scaled(
         this->size() * devicePixelRatioF(), 
         Qt::KeepAspectRatio, 

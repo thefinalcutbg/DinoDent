@@ -178,7 +178,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, double amount, bool hasVAT)
 {
 	m_model.setBusinessOperations(businessOp);
-
+	updateGeometry();
 	ui.priceLabel->setText(formatDoubleWithDecimal(amount) + suffix);
 
     ui.vatCheckBox->setText( hasVAT ? "ДДС 20%:" : "ДДС 0%:" );

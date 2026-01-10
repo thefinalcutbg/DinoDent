@@ -23,10 +23,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <property name="topMargin">
-      <number>8</number>
+      <number>3</number>
      </property>
      <property name="bottomMargin">
-      <number>8</number>
+      <number>5</number>
      </property>
      <item>
       <spacer name="horizontalSpacer_9">
@@ -95,13 +95,13 @@
        <property name="minimumSize">
         <size>
          <width>1240</width>
-         <height>60</height>
+         <height>55</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>1200</width>
-         <height>60</height>
+         <height>55</height>
         </size>
        </property>
        <property name="frameShape">

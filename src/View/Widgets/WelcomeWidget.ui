@@ -117,8 +117,14 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
         <property name="text">
          <string>Нов амбулаторен лист</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="ShortcutTile" name="statisticButton">
@@ -150,6 +156,9 @@
         </property>
         <property name="mouseTracking">
          <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="text">
          <string>Калкулатор за статистики</string>
@@ -185,6 +194,9 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
         <property name="text">
          <string>Нов финансов документ</string>
         </property>
@@ -218,6 +230,9 @@
         </property>
         <property name="mouseTracking">
          <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="text">
          <string>График на посещенията</string>
@@ -253,6 +268,9 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
         <property name="text">
          <string>Ново пародонтално измерване</string>
         </property>
@@ -286,6 +304,9 @@
         </property>
         <property name="mouseTracking">
          <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="text">
          <string>Нова рецепта</string>
@@ -321,6 +342,9 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
         <property name="text">
          <string>Документация</string>
         </property>
@@ -354,6 +378,9 @@
         </property>
         <property name="mouseTracking">
          <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="text">
          <string>Настройки</string>
@@ -389,6 +416,9 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
         <property name="text">
          <string>Месечни отчети и известия</string>
         </property>
@@ -422,6 +452,9 @@
         </property>
         <property name="mouseTracking">
          <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="text">
          <string>Подкрепи DinoDent</string>
@@ -457,6 +490,9 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
         <property name="text">
          <string>IRC чат</string>
         </property>
@@ -490,6 +526,9 @@
         </property>
         <property name="mouseTracking">
          <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="text">
          <string>Нов лечебен план</string>

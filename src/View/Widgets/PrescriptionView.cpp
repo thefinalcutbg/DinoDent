@@ -9,9 +9,9 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 {
 	ui.setupUi(this);
 
-	setShadowTargets({ ui.frame, ui.patientInfoTile->getFrame() });
+	setShadowTargets({ ui.medicationFrame, ui.patientInfoTile });
 
-    ui.frame->setDynamicFocusBorderChange();
+    ui.medicationFrame->setDynamicFocusBorderChange();
 
 	ui.addButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));

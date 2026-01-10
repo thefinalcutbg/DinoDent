@@ -15,7 +15,7 @@ ListView::ListView(QWidget* parent)
 	ui.setupUi(this);
 
 	setShadowTargets({
-		ui.patientInfoTile->getFrame(),
+		ui.patientInfoTile,
 		ui.frame,
 		ui.procedureFrame
 		}
@@ -400,7 +400,7 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices)
 {
 	auto shadowTargets = std::vector<QWidget*>{
-	ui.patientInfoTile->getFrame(),
+	ui.patientInfoTile,
 	ui.frame,
 	ui.procedureFrame
 	};

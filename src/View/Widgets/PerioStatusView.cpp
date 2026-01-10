@@ -4,7 +4,7 @@
 #include "Model/Dental/PerioStatus.h"
 
 PerioStatusView::PerioStatusView(QWidget *parent)
-	: QWidget(parent)
+	: RoundedFrame(parent)
 {
 	ui.setupUi(this);
 }

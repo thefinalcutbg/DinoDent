@@ -11,12 +11,12 @@ FinancialView::FinancialView(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setShadowTargets({ ui.frame, ui.headerFrame });
+	setShadowTargets({ ui.tableFrame, ui.headerFrame });
 
     ui.headerFrame->addVerticalSeparator(ui.recipientButton->width());
     ui.headerFrame->setFrameColor(Theme::border);
 
-    ui.frame->setDynamicFocusBorderChange();
+    ui.tableFrame->setDynamicFocusBorderChange();
 
 	ui.numberSpinBox->setTotalLength(10);
 
@@ -157,7 +157,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.sendPisButton->setHidden(!nzokForm);
 	ui.operationsTable->enableContextMenu(!nzokForm);
     ui.vatCheckBox->setDisabled(nzokForm || !issuer.vat());
-
+	
 	//centering the label:
 
 	QPushButton* layoutButtons[4]{ ui.addButton, ui.deleteButton, ui.editButton, ui.saveXMLButton };

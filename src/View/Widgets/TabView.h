@@ -18,15 +18,6 @@ class TabView : public QWidget
 {
 	Q_OBJECT
 
-	PerioView m_perioView;
-	ListView m_listView;
-	FinancialView m_financialView;
-	PrescriptionView m_prescriptionView;
-    TreatmentPlanView m_treatmentView;
-	CalendarView m_calendarView;
-
-	WelcomeWidget welcomeScreen{ nullptr };
-
 	void showTabWidget(QWidget* w);
 
 	TabTitle* getTabTitle(int tabId);
@@ -60,12 +51,12 @@ public:
     void showTreatmentPlanView();
 	void showCalendarView();
 
-	ListView* listView() { return &m_listView; }
-	PerioView* perioView() { return &m_perioView; }
-	FinancialView* financialView() { return &m_financialView; }
-	PrescriptionView* prescriptionView() { return &m_prescriptionView; }
-    TreatmentPlanView* treatmentPlanView() { return &m_treatmentView; }
-	CalendarView* calendarView() { return &m_calendarView; }
+	ListView* listView() { return ui.listWidget; }
+	PerioView* perioView() { return ui.perioWidget; }
+	FinancialView* financialView() { return ui.financialWidget; }
+	PrescriptionView* prescriptionView() { return ui.prescrWidget; }
+    TreatmentPlanView* treatmentPlanView() { return ui.planView; }
+	CalendarView* calendarView() { return ui.calendarPage; }
 
 signals:
 	void closeRequested(int mapIndex);

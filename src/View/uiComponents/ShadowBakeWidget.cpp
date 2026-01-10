@@ -95,7 +95,6 @@ void ShadowBakeWidget::bakeNow()
 
     qApp->processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
 
-
     const qreal dpr = devicePixelRatioF();
     QPixmap pm(size() * dpr);
     pm.setDevicePixelRatio(dpr);
@@ -103,6 +102,48 @@ void ShadowBakeWidget::bakeNow()
 
     render(&pm, QPoint(), QRegion(),
         QWidget::DrawWindowBackground | QWidget::DrawChildren);
+
+       // --- Mask everything except m_targets (and their descendants) ---
+    {
+        QSet<QWidget*> keep;
+
+        for (QWidget* t : m_targets) {
+            if (!t) continue;
+            keep.insert(t);
+
+            const auto descendants = t->findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly);
+            // If you want ALL descendants (not just direct), use default findChildren without flags:
+            // const auto descendants = t->findChildren<QWidget*>();
+            // We'll do ALL descendants:
+            for (QWidget* d : t->findChildren<QWidget*>())
+                keep.insert(d);
+        }
+
+        QPainter p(&pm);
+        p.setCompositionMode(QPainter::CompositionMode_Source);
+
+        const auto all = findChildren<QWidget*>();
+
+        for (QWidget* w : all) {
+            if (!w || w == this) continue;
+            if (!w->isVisible()) continue;
+
+            if (keep.contains(w)) continue;
+
+            QRect r(w->mapTo(this, QPoint(0, 0)), w->size());
+
+            //Also clear shadows around non-target widgets
+             r.adjust(-2, -2, 2, 2);
+
+            r = r.intersected(rect());
+            if (r.isEmpty()) continue;
+
+            p.fillRect(r, Qt::transparent);
+        }
+
+        p.end();
+    }
+    // --- end masking ---
 
     setTargetsShadowEnabled(false);
 

@@ -25,25 +25,10 @@
   <property name="windowTitle">
    <string>PerioView</string>
   </property>
-  <widget class="QStackedWidget" name="stackedWidget">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>230</y>
-     <width>1161</width>
-     <height>781</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>0</number>
-   </property>
-   <widget class="PerioStatusView" name="maxilla"/>
-   <widget class="PerioStatusView" name="mandibula"/>
-  </widget>
   <widget class="HalfRoundedButton" name="upperButton">
    <property name="geometry">
     <rect>
-     <x>513</x>
+     <x>520</x>
      <y>179</y>
      <width>151</width>
      <height>31</height>
@@ -59,7 +44,7 @@
   <widget class="HalfRoundedButton" name="lowerButton">
    <property name="geometry">
     <rect>
-     <x>663</x>
+     <x>670</x>
      <y>179</y>
      <width>161</width>
      <height>31</height>
@@ -96,7 +81,7 @@
   <widget class="PerioStatisticView" name="perioStatistics" native="true">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>110</x>
      <y>1030</y>
      <width>1126</width>
      <height>360</height>
@@ -135,19 +120,19 @@
   <widget class="PatientTileInfo" name="patientInfoTile" native="true">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>20</y>
-     <width>831</width>
-     <height>141</height>
+     <width>811</width>
+     <height>121</height>
     </rect>
    </property>
   </widget>
   <widget class="RoundedFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>860</x>
+     <x>850</x>
      <y>20</y>
-     <width>371</width>
+     <width>381</width>
      <height>191</height>
     </rect>
    </property>
@@ -161,7 +146,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
+      <y>10</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -175,7 +160,7 @@
      <rect>
       <x>20</x>
       <y>40</y>
-      <width>331</width>
+      <width>341</width>
       <height>101</height>
      </rect>
     </property>
@@ -232,7 +217,7 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>20</y>
+      <y>10</y>
       <width>161</width>
       <height>21</height>
      </rect>
@@ -245,7 +230,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>140</y>
+      <y>150</y>
       <width>331</width>
       <height>31</height>
      </rect>
@@ -258,7 +243,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>20</y>
+      <y>10</y>
       <width>41</width>
       <height>21</height>
      </rect>
@@ -277,7 +262,7 @@
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>230</y>
      <width>91</width>
      <height>757</height>
@@ -537,8 +522,27 @@
     </item>
    </layout>
   </widget>
+  <widget class="PerioStatusView" name="mandibula" native="true">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>250</y>
+     <width>1126</width>
+     <height>760</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="PerioStatusView" name="maxilla" native="true">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>250</y>
+     <width>1126</width>
+     <height>760</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>patientInfoTile</zorder>
-  <zorder>stackedWidget</zorder>
   <zorder>upperButton</zorder>
   <zorder>lowerButton</zorder>
   <zorder>riskLabel</zorder>
@@ -547,6 +551,8 @@
   <zorder>label_2</zorder>
   <zorder>frame</zorder>
   <zorder>frame_2</zorder>
+  <zorder>mandibula</zorder>
+  <zorder>maxilla</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

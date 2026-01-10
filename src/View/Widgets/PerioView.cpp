@@ -24,9 +24,9 @@ PerioView::PerioView(QWidget* parent)
 	ui.setupUi(this);
 
 	setShadowTargets({ 
-		ui.maxilla->ui.frame, 
-		ui.mandibula->ui.frame,
-		ui.patientInfoTile->getFrame(), 
+		ui.maxilla, 
+		ui.mandibula,
+		ui.patientInfoTile, 
 		ui.perioStatistics,
 		ui.frame
 	});
@@ -53,12 +53,14 @@ PerioView::PerioView(QWidget* parent)
 	ui.upperButton->setChecked(true);
     connect(ui.upperButton, &QPushButton::clicked, this,
         [=, this] {
-			ui.stackedWidget->setCurrentWidget(ui.maxilla);
+			ui.maxilla->show();
+			ui.mandibula->hide();
 			presenter->teethViewChanged(false); 
 		});
     connect(ui.lowerButton, &QPushButton::clicked, this,
         [=, this] {
-			ui.stackedWidget->setCurrentWidget(ui.mandibula); 
+			ui.maxilla->hide();
+			ui.mandibula->show();
 			presenter->teethViewChanged(true);
 		});
 

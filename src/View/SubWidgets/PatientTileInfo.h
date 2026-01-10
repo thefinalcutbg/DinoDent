@@ -3,10 +3,11 @@
 #include <QWidget>
 
 #include "ui_PatientTileInfo.h"
+#include "View/uiComponents/RoundedFrame.h"
 
 struct PatientInfoPresenter;
 
-struct PatientTileInfo : public QWidget
+struct PatientTileInfo : public RoundedFrame
 {
 	Q_OBJECT
 
@@ -18,7 +19,6 @@ public:
 	PatientTileInfo(QWidget *parent = nullptr);
 	void setPatient(const Patient& p, int age);
 	void setPresenter(PatientInfoPresenter* p) { presenter = p; }
-	RoundedFrame* getFrame() { return ui.frame; }
 	~PatientTileInfo();
 
 private:

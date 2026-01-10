@@ -27,7 +27,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setShadowTargets({ ui->frameOut, ui->patientInfoTile->getFrame() });
+    setShadowTargets({ ui->frameOut, ui->patientInfoTile });
 
     ui->frameOut->addVerticalSeparator(ui->teethView->width()+3);
     ui->frameOut->setDynamicFocusBorderChange();

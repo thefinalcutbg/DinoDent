@@ -6,12 +6,12 @@
 #include "View/Theme.h"
 
 PatientTileInfo::PatientTileInfo(QWidget *parent)
-	: QWidget(parent)
+	: RoundedFrame(parent)
 {
 	ui.setupUi(this);
 
-    ui.frame->addVerticalSeparator(ui.patientTile->width());
-    ui.frame->setFrameColor(Theme::border);
+    addVerticalSeparator(ui.patientTile->width());
+    setFrameColor(Theme::border);
 
     //init context menu
     context_menu = new QMenu(this);

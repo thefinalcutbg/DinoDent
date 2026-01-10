@@ -5,6 +5,13 @@
 #include "View/Widgets/DinoDent.h"
 #include <QDate>
 #include <QDesktopServices>
+#include <QPainter>
+
+void WelcomeWidget::paintEvent(QPaintEvent* event)
+{
+    QPainter painter(this);
+	painter.fillRect(event->rect(), Theme::background);
+}
 
 WelcomeWidget::WelcomeWidget(QWidget *parent)
 	: QWidget(parent)
@@ -62,8 +69,6 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
             static_cast<DinoDent*>(mainWin)->openIrc();
         } 
     });
-    
-    setStyleSheet("background-color:" + Theme::colorToString(Theme::background));
 }
 
 WelcomeWidget::~WelcomeWidget()

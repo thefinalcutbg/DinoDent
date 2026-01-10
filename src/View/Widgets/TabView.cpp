@@ -232,80 +232,44 @@ void TabView::setScrollPos(std::pair<int, int> scrollPos)
 void TabView::showListView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-    showTabWidget(&m_listView);
-    m_perioView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
-    m_treatmentView.setPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.listPage);
 }
 
 void TabView::showPerioView()
 {
     GlobalWidgets::mainWindow->disableButtons(true, false, true);
-    showTabWidget(&m_perioView);
-    m_listView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
-    m_treatmentView.setPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.perioPage);
 }
 
 
 void TabView::showFinancialView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-    showTabWidget(&m_financialView);
-    m_listView.setPresenter(nullptr);
-    m_perioView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
-    m_treatmentView.setPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.financialPage);
 }
 
 void TabView::showPerscriptionView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-    showTabWidget(&m_prescriptionView);
-    m_listView.setPresenter(nullptr);
-    m_perioView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
-    m_treatmentView.setPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.prescriptionPage);
 }
 
 void TabView::showCalendarView()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true, true);
-    showTabWidget(&m_calendarView);
-    m_listView.setPresenter(nullptr);
-    m_perioView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_treatmentView.setPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.calendarPage);
 }
 
 void TabView::showWelcomeScreen()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true, true);
-    showTabWidget(&welcomeScreen);
-    m_listView.setPresenter(nullptr);
-    m_perioView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_treatmentView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.welcomePage);
 }
 
 void TabView::showTreatmentPlanView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-    showTabWidget(&m_treatmentView);
-    m_listView.setPresenter(nullptr);
-    m_perioView.setPresenter(nullptr);
-    m_financialView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
-    m_calendarView.setCalendarPresenter(nullptr);
+	ui.stackedWidget->setCurrentWidget(ui.planPage);
 }
 
 TabView::~TabView()

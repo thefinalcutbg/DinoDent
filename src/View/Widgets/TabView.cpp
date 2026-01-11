@@ -68,6 +68,20 @@ TabView::TabView(QWidget* parent)
     TabPresenter::get().setView(this);
 }
 
+void TabView::disableViewportUpdates()
+{
+    scrollArea()->viewport()->setUpdatesEnabled(false);
+}
+
+void TabView::enableViewportUpdates()
+{
+    if (auto w = scrollArea()->widget())
+        if (w->layout()) w->layout()->activate();
+
+    scrollArea()->viewport()->setUpdatesEnabled(true);
+    scrollArea()->viewport()->update();
+}
+
 
 void TabView::requestClose(int tabId)
 {

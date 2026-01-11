@@ -47,7 +47,7 @@ void TabInstance::setCurrent()
 {
 	is_current = true;
 
-	_tabView->scrollArea()->viewport()->setUpdatesEnabled(false);
+	_tabView->disableViewportUpdates();
 
 	setDataToView();
 
@@ -65,12 +65,7 @@ void TabInstance::setCurrent()
 
 	setScrollPosition();
 
-	if (auto w = _tabView->scrollArea()->widget())
-		if (w->layout()) w->layout()->activate();
-
-	_tabView->scrollArea()->viewport()->setUpdatesEnabled(true);
-
-	_tabView->scrollArea()->viewport()->update();
+	_tabView->enableViewportUpdates();
 }
 
 void TabInstance::prepareSwitch()

@@ -23,7 +23,7 @@ class TabInstance
 {
 
 	std::pair<int, int> m_scrollPos;
-	TabView* _tabView;
+
 	void setScrollPosition();
 
 	int m_containerIdx{ -1 }; //used to change the tab name even if not current
@@ -31,6 +31,8 @@ class TabInstance
 	bool is_current{ false };
 
 protected:
+
+	TabView* _tabView;
 
 	bool edited{ false };
 

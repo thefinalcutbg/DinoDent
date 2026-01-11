@@ -32,11 +32,13 @@ class TabView : public QWidget
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
 
-
 public:
 
 	TabView(QWidget* parent = Q_NULLPTR);
 	~TabView();
+
+	void enableViewportUpdates();
+	void disableViewportUpdates();
 
 	void requestClose(int tabId);
 

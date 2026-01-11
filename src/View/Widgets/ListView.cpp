@@ -355,9 +355,7 @@ void ListView::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 
 void ListView::setProcedures(const std::vector<Procedure>& m)
 {
-
 	model.setProcedures(m);
-	updateGeometry();
 
 	std::vector<int> proc_teeth;
 	proc_teeth.reserve(32);

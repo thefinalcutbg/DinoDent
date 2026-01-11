@@ -210,7 +210,7 @@ void TabView::showListView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_listView);
-    m_listView.bakeNow();
+    m_listView.scheduleBake();
     m_perioView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
@@ -222,7 +222,7 @@ void TabView::showPerioView()
 {
     GlobalWidgets::mainWindow->disableButtons(true, false, true);
     showTabWidget(&m_perioView);
-	m_perioView.bakeNow();
+	m_perioView.scheduleBake();
     m_listView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
@@ -235,7 +235,7 @@ void TabView::showFinancialView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_financialView);
-    m_financialView.bakeNow();
+    m_financialView.scheduleBake();
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
@@ -247,7 +247,7 @@ void TabView::showPerscriptionView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_prescriptionView);
-	m_prescriptionView.bakeNow();
+	m_prescriptionView.scheduleBake();
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
@@ -282,7 +282,7 @@ void TabView::showTreatmentPlanView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_treatmentView);
-	m_treatmentView.bakeNow();
+	m_treatmentView.scheduleBake();
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);

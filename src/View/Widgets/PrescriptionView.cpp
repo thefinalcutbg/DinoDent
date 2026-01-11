@@ -173,6 +173,7 @@ void PrescriptionView::setNrn(const std::string& nrn)
 	ui.breastfeedingCheck->setDisabled(readOnly);
 	ui.eRxButton->setHidden(readOnly);
 	ui.templateButton->setHidden(readOnly);
+	ui.supTemplateButton->setHidden(readOnly);
 
 	if (nrn.empty()) {
 

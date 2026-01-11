@@ -18,13 +18,24 @@ class TabView : public QWidget
 {
 	Q_OBJECT
 
+		PerioView m_perioView;
+	ListView m_listView;
+	FinancialView m_financialView;
+	PrescriptionView m_prescriptionView;
+	TreatmentPlanView m_treatmentView;
+	CalendarView m_calendarView;
+
+	WelcomeWidget welcomeScreen{ nullptr };
+
+	void showTabWidget(QWidget* w);
+
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
 
 
 public:
 
-	TabView(QWidget *parent = Q_NULLPTR);
+	TabView(QWidget* parent = Q_NULLPTR);
 	~TabView();
 
 	void requestClose(int tabId);
@@ -42,19 +53,19 @@ public:
 	void setScrollPos(std::pair<int, int> scrollPos);
 
 	void showListView();
-    void showPerioView();
+	void showPerioView();
 	void showFinancialView();
 	void showPerscriptionView();
 	void showWelcomeScreen();
-    void showTreatmentPlanView();
+	void showTreatmentPlanView();
 	void showCalendarView();
 
-	ListView* listView() { return ui.listWidget; }
-    PerioView* perioView() { return ui.perioWidget; }
-	FinancialView* financialView() { return ui.financialWidget; }
-	PrescriptionView* prescriptionView() { return ui.prescrWidget; }
-    TreatmentPlanView* treatmentPlanView() { return ui.planView; }
-	CalendarView* calendarView() { return ui.calendarPage; }
+	ListView* listView() { return &m_listView; }
+	PerioView* perioView() { return &m_perioView; }
+	FinancialView* financialView() { return &m_financialView; }
+	PrescriptionView* prescriptionView() { return &m_prescriptionView; }
+	TreatmentPlanView* treatmentPlanView() { return &m_treatmentView; }
+	CalendarView* calendarView() { return &m_calendarView; }
 
 signals:
 	void closeRequested(int mapIndex);

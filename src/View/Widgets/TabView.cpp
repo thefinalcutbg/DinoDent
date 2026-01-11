@@ -9,42 +9,18 @@
 #include "View/Widgets/GlobalWidgets.h"
 #include "Model/User.h"
 
-class NoHScrollFilter : public QObject {
-public:
-    using QObject::QObject;
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override {
-        if (event->type() == QEvent::Wheel) {
-            auto *we = static_cast<QWheelEvent*>(event);
-
-            const QPoint ad = we->angleDelta();
-            const QPoint pd = we->pixelDelta();
-
-            const bool hasHoriz =
-                (ad.x() != 0) || (pd.x() != 0);
-
-            if (hasHoriz) {
-                we->ignore();
-                return true;
-            }
-        }
-        return QObject::eventFilter(obj, event);
-    }
-};
-
-TabView::TabView(QWidget *parent)
-	: QWidget(parent)
+TabView::TabView(QWidget* parent)
+    : QWidget(parent)
 {
-	ui.setupUi(this);
+    ui.setupUi(this);
 
     ui.tabBar->setExpanding(false);
     ui.tabBar->setMovable(true);
     ui.tabBar->setTabsClosable(false);
     ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
+
 #ifdef Q_OS_MAC
     ui.tabBar->setStyle(Theme::fusionStyle());
-    ui.tabBar->installEventFilter(new NoHScrollFilter(ui.tabBar));
 #endif
 
     ui.tabBar->setStyleSheet(
@@ -78,16 +54,16 @@ TabView::TabView(QWidget *parent)
 
             auto tabId = static_cast<TabTitle*>
                 (ui.tabBar->tabButton(index, QTabBar::ButtonPosition::RightSide))
-                    ->getTabId();
+                ->getTabId();
 
             TabPresenter::get().setCurrentTab(tabId);
         });
 
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
- 
-    ui.scrollAreaWidgetContents_2->setObjectName("ScrollArea");
-    setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
+
+    ui.scrollArea->setObjectName("ScrollArea");
+    setStyleSheet("#ScrollArea{background-color:" + Theme::colorToString(Theme::background) + "}");
 
     TabPresenter::get().setView(this);
 }
@@ -103,7 +79,7 @@ TabTitle* TabView::getTabTitle(int tabId)
     for (int i = 0; i < ui.tabBar->count(); i++)
     {
         auto tab = static_cast<TabTitle*>(ui.tabBar->tabButton(i, QTabBar::ButtonPosition::RightSide));
-        
+
         if (tab->getTabId() == tabId) {
             return tab;
         }
@@ -127,16 +103,30 @@ int TabView::getTabIndex(int tabId)
     return -1;
 }
 
+
+void TabView::showTabWidget(QWidget* w)
+{
+    /*
+    ui.stackedWidget->setCurrentWidget(w);
+    w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    w->adjustSize();
+    ui.stackedWidget->adjustSize();
+    */
+    if (w == ui.scrollArea->widget()) return;
+    ui.scrollArea->takeWidget();
+    ui.scrollArea->setWidget(w);
+}
+
 void TabView::removeAllTabs()
 {
     ui.tabBar->blockSignals(true);
-    
+
     while (ui.tabBar->count()) {
         ui.tabBar->removeTab(0);
     }
 
     ui.tabBar->blockSignals(false);
-    
+
     emit ui.tabBar->currentChanged(-1);
 
 }
@@ -145,7 +135,7 @@ void TabView::newTab(int tabId, const TabName& tabName)
 {
     TabTitle* tab = new TabTitle(this, tabId);
 
-//    tab->setMinimumWidth(200);
+    //    tab->setMinimumWidth(200);
 
     tab->setData(tabName);
 
@@ -156,19 +146,19 @@ void TabView::newTab(int tabId, const TabName& tabName)
 
         ui.tabBar->setTabButton(newTabIdx, QTabBar::ButtonPosition::RightSide, tab);
 
-        
+
 
     }
 
     //if the tab, which is added is the first one:
     if (ui.tabBar->count() == 1) emit ui.tabBar->currentChanged(0);
-    
+
 
 
 }
 
 void TabView::focusTab(int tabId)
-{    
+{
     ui.tabBar->setCurrentIndex(getTabIndex(tabId));
 
 }
@@ -217,46 +207,84 @@ void TabView::setScrollPos(std::pair<int, int> scrollPos)
 void TabView::showListView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-	ui.stackedWidget->setCurrentWidget(ui.listPage);
+    showTabWidget(&m_listView);
+    m_perioView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
 {
     GlobalWidgets::mainWindow->disableButtons(true, false, true);
-	ui.stackedWidget->setCurrentWidget(ui.perioPage);
+    showTabWidget(&m_perioView);
+    m_listView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 
 void TabView::showFinancialView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-	ui.stackedWidget->setCurrentWidget(ui.financialPage);
+    showTabWidget(&m_financialView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showPerscriptionView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-	ui.stackedWidget->setCurrentWidget(ui.prescriptionPage);
+    showTabWidget(&m_prescriptionView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showCalendarView()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true, true);
-	ui.stackedWidget->setCurrentWidget(ui.calendarPage);
+    showTabWidget(&m_calendarView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
 }
 
 void TabView::showWelcomeScreen()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true, true);
-	ui.stackedWidget->setCurrentWidget(ui.welcomePage);
+    showTabWidget(&welcomeScreen);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_treatmentView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 }
 
 void TabView::showTreatmentPlanView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
-	ui.stackedWidget->setCurrentWidget(ui.planPage);
+    showTabWidget(&m_treatmentView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 }
 
 TabView::~TabView()
 {
+    ui.scrollArea->takeWidget();
+
 }

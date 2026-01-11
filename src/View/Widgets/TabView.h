@@ -18,7 +18,7 @@ class TabView : public QWidget
 {
 	Q_OBJECT
 
-		PerioView m_perioView;
+	PerioView m_perioView;
 	ListView m_listView;
 	FinancialView m_financialView;
 	PrescriptionView m_prescriptionView;
@@ -66,7 +66,7 @@ public:
 	PrescriptionView* prescriptionView() { return &m_prescriptionView; }
 	TreatmentPlanView* treatmentPlanView() { return &m_treatmentView; }
 	CalendarView* calendarView() { return &m_calendarView; }
-
+	QScrollArea* scrollArea() { return ui.scrollArea; }
 signals:
 	void closeRequested(int mapIndex);
 

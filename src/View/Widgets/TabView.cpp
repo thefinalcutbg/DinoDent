@@ -120,17 +120,9 @@ int TabView::getTabIndex(int tabId)
 
 void TabView::showTabWidget(QWidget* w)
 {
-    /*
-    ui.stackedWidget->setCurrentWidget(w);
-    w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    w->adjustSize();
-    ui.stackedWidget->adjustSize();
-    */
-
     if (w == ui.scrollArea->widget()) return;
     ui.scrollArea->takeWidget();
     ui.scrollArea->setWidget(w);
-
 }
 
 void TabView::removeAllTabs()

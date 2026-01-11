@@ -9,6 +9,30 @@
 #include "View/Widgets/GlobalWidgets.h"
 #include "Model/User.h"
 
+class NoHScrollFilter : public QObject {
+public:
+    using QObject::QObject;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override {
+        if (event->type() == QEvent::Wheel) {
+            auto *we = static_cast<QWheelEvent*>(event);
+
+            const QPoint ad = we->angleDelta();
+            const QPoint pd = we->pixelDelta();
+
+            const bool hasHoriz =
+                (ad.x() != 0) || (pd.x() != 0);
+
+            if (hasHoriz) {
+                we->ignore();
+                return true;
+            }
+        }
+        return QObject::eventFilter(obj, event);
+    }
+};
+
 TabView::TabView(QWidget* parent)
     : QWidget(parent)
 {
@@ -21,6 +45,7 @@ TabView::TabView(QWidget* parent)
 
 #ifdef Q_OS_MAC
     ui.tabBar->setStyle(Theme::fusionStyle());
+    ui.tabBar->installEventFilter(new NoHScrollFilter(ui.tabBar));
 #endif
 
     ui.tabBar->setStyleSheet(

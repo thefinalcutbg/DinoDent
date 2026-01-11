@@ -259,6 +259,4 @@ void TabView::showTreatmentPlanView()
 
 TabView::~TabView()
 {
-    ui.scrollArea->takeWidget();
-
 }

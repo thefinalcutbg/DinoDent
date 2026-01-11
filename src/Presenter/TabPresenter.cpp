@@ -52,7 +52,7 @@ void TabPresenter::createNewTab(TabInstance* tabInstance, bool setFocus)
 
 void TabPresenter::setCurrentTab(int index)
 {
-	if (index == m_currentIndex) return;
+    if (index == m_currentIndex) return;
 
     if (currentTab() != nullptr) currentTab()->prepareSwitch();
 

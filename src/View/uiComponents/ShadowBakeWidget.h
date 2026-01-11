@@ -10,7 +10,7 @@ class ShadowBakeWidget : public QWidget
     Q_OBJECT
 public:
     explicit ShadowBakeWidget(QWidget* parent = nullptr);
-
+    void bakeNow();
     void setShadowTargets(const std::vector<QWidget*>& targets);
 
 protected:
@@ -22,7 +22,6 @@ protected:
         
 private:
     void scheduleBake();
-    void bakeNow();
 
     void setTargetsShadowEnabled(bool enabled);
     void installFiltersFor(QWidget* w);

@@ -253,34 +253,6 @@
           </widget>
          </item>
          <item>
-          <widget class="IconButton" name="statisticButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Статистики</string>
-           </property>
-           <property name="text">
-            <string>Stat</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="IconButton" name="pisButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -305,6 +277,34 @@
            </property>
            <property name="text">
             <string> Pis</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="IconButton" name="statisticButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Статистики</string>
+           </property>
+           <property name="text">
+            <string>Stat</string>
            </property>
           </widget>
          </item>

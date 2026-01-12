@@ -10,9 +10,10 @@ class WelcomeWidget : public QWidget
 	Q_OBJECT
 
 	void paintEvent(QPaintEvent* event) override;
-
+	QStringList m_tips;
 public:
 	WelcomeWidget(QWidget *parent = nullptr);
+	void refreshTip();
 	~WelcomeWidget();
 
 private:

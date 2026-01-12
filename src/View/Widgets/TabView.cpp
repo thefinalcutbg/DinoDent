@@ -300,6 +300,7 @@ void TabView::showCalendarView()
 void TabView::showWelcomeScreen()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true, true);
+    welcomeScreen.refreshTip();
     showTabWidget(&welcomeScreen);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);

@@ -328,17 +328,14 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 		
 	case ProcedureType::Crown:
-		icd = "K03.7";
 		icdSimple[Implant] = "Z96.5";
 		statusSearch = {Implant, Fracture, RootCanal};
 		break;
 	case ProcedureType::CrownOrBridgeOrVeneer:
-
 		break;
 	case ProcedureType::RemoveCrownOrBridge:
 		statusSearch = { Pulpitis, ApicalLesion, Root, Fracture, Periodontitis, RootCanal };
 		break;
-
 	case ProcedureType::MultipleExtraction:
 		break;
 	}

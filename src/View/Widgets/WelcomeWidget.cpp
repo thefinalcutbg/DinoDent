@@ -6,6 +6,8 @@
 #include <QDate>
 #include <QDesktopServices>
 #include <QPainter>
+#include <QFile>
+#include <QRandomGenerator>
 
 void WelcomeWidget::paintEvent(QPaintEvent* event)
 {
@@ -17,6 +19,8 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+    //setStyleSheet(Theme::getFancyStylesheet());
 
     auto date = Date::currentDate();
 
@@ -69,6 +73,46 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
             static_cast<DinoDent*>(mainWin)->openIrc();
         } 
     });
+
+    //loading tips
+
+    QFile file(":/other/tips.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+
+    QTextStream in(&file);
+
+    in.setEncoding(QStringConverter::Utf8);
+
+    while (!in.atEnd())
+    {
+        const QString line = in.readLine().trimmed();
+
+        if (line.isEmpty()) continue;
+
+        m_tips.append(line);
+    }
+
+    ui.tipFrame->setFrameColor(Theme::border);
+
+    Theme::applyLightShadow(ui.tipFrame);
+
+}
+
+void WelcomeWidget::refreshTip()
+{
+    if (m_tips.isEmpty())
+        return;
+
+    static int s_hour = -1;
+    //refreshing every hour
+    auto currentHour = QTime::currentTime().hour();
+
+    if (currentHour == s_hour) return;
+
+    s_hour = currentHour;
+
+    int idx = QRandomGenerator::global()->bounded(m_tips.size());
+    ui.tipLabel->setText(m_tips.at(idx));
 }
 
 WelcomeWidget::~WelcomeWidget()

@@ -173,5 +173,6 @@
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>
+        <file>tips.txt</file>
     </qresource>
 </RCC>

@@ -75,15 +75,17 @@ void ShortcutTile::paintEvent(QPaintEvent*)
     pen.setWidth(2);
     painter.setPen(pen);
 
-    int iconRectSide = clicked ? 35 : 40;
+    int iconRectSide = clicked ? 30 : 35;//35 : 40;
 
     if (!icon().isNull()) {
         icon().paint(&painter,
             QRect(width() / 2 - iconRectSide / 2,
-                height() / 2 - iconRectSide / 2 - 10,
+                height() / 2 - iconRectSide / 2, //-10
                 iconRectSide,
                 iconRectSide));
     }
+
+    return;
 
     painter.setPen(QPen(textColor));
     painter.setFont(font());

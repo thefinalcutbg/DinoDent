@@ -20,7 +20,9 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
-    //setStyleSheet(Theme::getFancyStylesheet());
+    setStyleSheet("color: " + Theme::colorToString(Theme::fontTurquoise));
+
+    ui.tipLabel->setStyleSheet("color:rgb(68,68,68)");
 
     auto date = Date::currentDate();
 
@@ -95,22 +97,21 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     ui.tipFrame->setFrameColor(Theme::border);
 
     Theme::applyLightShadow(ui.tipFrame);
-
 }
 
-void WelcomeWidget::refreshTip()
+void WelcomeWidget::refreshTip(bool perHour)
 {
     if (m_tips.isEmpty())
         return;
 
     static int s_hour = -1;
-    //refreshing every hour
+
     auto currentHour = QTime::currentTime().hour();
 
-    if (currentHour == s_hour) return;
-
+    if (perHour && currentHour == s_hour) return;
+        
     s_hour = currentHour;
-
+    
     int idx = QRandomGenerator::global()->bounded(m_tips.size());
     ui.tipLabel->setText(m_tips.at(idx));
 }

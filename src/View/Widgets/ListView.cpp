@@ -34,6 +34,7 @@ ListView::ListView(QWidget* parent)
 
 	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));
 	ui.specCombo->installEventFilter(new MouseWheelGuard(ui.specCombo));
+	ui.treatmentEnd->installEventFilter(new MouseWheelGuard(ui.treatmentEnd));
 
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());

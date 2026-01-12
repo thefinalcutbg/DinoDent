@@ -13,7 +13,7 @@ class WelcomeWidget : public QWidget
 	QStringList m_tips;
 public:
 	WelcomeWidget(QWidget *parent = nullptr);
-	void refreshTip();
+	void refreshTip(bool perHour = true);
 	~WelcomeWidget();
 
 private:

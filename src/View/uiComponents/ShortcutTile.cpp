@@ -36,7 +36,7 @@ void ShortcutTile::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
-    painter.setRenderHint(QPainter::Antialiasing);
+   // painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
     QPainterPath path;

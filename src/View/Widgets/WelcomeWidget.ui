@@ -684,7 +684,7 @@
           <x>140</x>
           <y>340</y>
           <width>461</width>
-          <height>171</height>
+          <height>160</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -711,22 +711,52 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QLabel" name="label_13">
-              <property name="font">
-               <font>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Plain</enum>
-              </property>
-              <property name="text">
-               <string>ЗНАЕТЕ ЛИ ЧЕ:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignmentFlag::AlignCenter</set>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_13">
+                <property name="font">
+                 <font>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Shadow::Plain</enum>
+                </property>
+                <property name="text">
+                 <string>Знаете ли че:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QLabel" name="tipLabel">
@@ -740,10 +770,10 @@
                <string/>
               </property>
               <property name="textFormat">
-               <enum>Qt::TextFormat::RichText</enum>
+               <enum>Qt::TextFormat::PlainText</enum>
               </property>
               <property name="alignment">
-               <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
               </property>
               <property name="wordWrap">
                <bool>true</bool>

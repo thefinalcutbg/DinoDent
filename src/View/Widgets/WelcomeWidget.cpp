@@ -99,7 +99,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     Theme::applyLightShadow(ui.tipFrame);
 }
 
-void WelcomeWidget::refreshTip(bool perHour)
+void WelcomeWidget::refreshTip()
 {
     if (m_tips.isEmpty())
         return;

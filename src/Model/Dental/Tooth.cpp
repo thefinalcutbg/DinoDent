@@ -362,11 +362,6 @@ void Tooth::setStatus(Status code, bool present) {
 	{
 	case Post:
         setStatus(RootCanal, true);
-        break;
-	case ApicalLesion:
-		if (!m_data[RootCanal]) {
-			setStatus(Necrosis, true);
-		}
 		break;
 	case Restoration:
 		if (hasNoSurfacesSet(m_resto_surface)) setSurface(Restoration, getDefaultSurface());

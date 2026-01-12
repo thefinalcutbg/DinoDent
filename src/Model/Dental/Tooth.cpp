@@ -519,7 +519,7 @@ std::vector<std::string> Tooth::getNhifStatus() const
 	statusLegend[Caries] = "C";
 	statusLegend[Pulpitis] = "P";
 	statusLegend[DefectiveRestoration] = "O";
-	statusLegend[Necrosis] = "P";
+	statusLegend[Necrosis] = m_data[ApicalLesion] ? "" : "P";
 	statusLegend[ApicalLesion] = "G";
 	statusLegend[Root] = "R";
 	statusLegend[Missing] = m_data[Splint] || m_data[Bridge] ? "" : "E";
@@ -537,7 +537,6 @@ std::vector<std::string> Tooth::getNhifStatus() const
 
 	for (int i = 0; i < StatusCount; i++)
 	{
-
 		if (i == HasSupernumeral && isSupernumeral()) {
 			simpleStatus.push_back("Dsn");
 			continue;

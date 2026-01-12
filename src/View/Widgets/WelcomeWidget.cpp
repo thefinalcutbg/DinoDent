@@ -108,7 +108,7 @@ void WelcomeWidget::refreshTip()
 
     auto currentHour = QTime::currentTime().hour();
 
-    if (perHour && currentHour == s_hour) return;
+    if (currentHour == s_hour) return;
         
     s_hour = currentHour;
     

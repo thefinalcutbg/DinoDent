@@ -233,8 +233,9 @@ bool SettingsMainPresenter::applyChanges()
 		if (atLeastOneNhifDoctor == false) {
 
 			bool answer = ModalDialogBuilder::askDialog(
-				"Практиката има договор с НЗОК, но нито един лекар в нея\n"
-				"няма код специалност по НЗОК. Да продължа ли въпреки това?");
+				"Практиката има попълнен договор с НЗОК, но в раздел Практика "
+				"нито един лекар не е добавен към него. " 
+				"Процедурите по НЗОК няма да бъдат видими. Да продължа ли въпреки това?");
 			if (!answer) {
 				view->focusTab(SettingsDialog::Tab::Practice);
 				return false;
@@ -259,6 +260,14 @@ bool SettingsMainPresenter::applyChanges()
 		return false;
 	}
 
+	auto globalData = view->getGlobalSettings();
+
+	PKCS11::setDriverPaths(globalData.pkcs11_list);
+	User::signatureTablet() = SignatureTablet(globalData.signer_model, globalData.signer_filepath);
+	FilePaths::setSettings(globalData.pdfDir, globalData.subdirStructure);
+
+	GlobalSettings::setSettings(globalData);
+
 	practice.settings = view->getSettings();
 
 	DbPractice::updatePractice(practice, User::practice().rziCode);
@@ -270,14 +279,6 @@ bool SettingsMainPresenter::applyChanges()
 	User::setCurrentDoctor(DbDoctor::getDoctor(doctor.LPK).value());
 	User::refereshPracticeDoctor();
 	NetworkManager::setTimeout(practice.settings.timeout);
-
-	auto globalData = view->getGlobalSettings();
-
-	PKCS11::setDriverPaths(globalData.pkcs11_list);
-	User::signatureTablet() = SignatureTablet(globalData.signer_model, globalData.signer_filepath);
-	FilePaths::setSettings(globalData.pdfDir, globalData.subdirStructure);
-
-	GlobalSettings::setSettings(globalData);
 
 	//if nhif contract has just been changed show monthly/dayly amb sheeet message
 	if (monthlySheets != practice.generateMonthlySheets()) {

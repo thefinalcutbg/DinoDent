@@ -662,10 +662,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <property name="topMargin">
-      <number>10</number>
+      <number>9</number>
      </property>
      <property name="bottomMargin">
-      <number>10</number>
+      <number>20</number>
      </property>
      <item>
       <spacer name="horizontalSpacer_9">
@@ -685,9 +685,6 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>10</number>
-       </property>
        <property name="topMargin">
         <number>0</number>
        </property>
@@ -735,6 +732,108 @@
            </widget>
           </item>
           <item>
+           <widget class="QFrame" name="NhifSheetFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="topMargin">
+              <number>1</number>
+             </property>
+             <property name="bottomMargin">
+              <number>1</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="spec_label">
+               <property name="text">
+                <string>НЗОК спецификация:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="specCombo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Изцяло или частично заплащана от НЗОК</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Лица лишени от родителска грижа</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Обща анестезия при психични заболявания</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="unfavCheck">
+               <property name="text">
+                <string>Неблагоприятни условия</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>331</width>
+                 <height>37</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="HoverButton" name="pentionTaxButton">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>26</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Само за потребителска такса - пенсионери!</string>
+               </property>
+               <property name="text">
+                <string>Опис на касов бон</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="IconButton" name="nssiButton">
+               <property name="minimumSize">
+                <size>
+                 <width>35</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>35</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Проверка за упражнено право на пенсия</string>
+               </property>
+               <property name="text">
+                <string>Пенсия</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
            <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Orientation::Vertical</enum>
@@ -749,108 +848,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="NhifSheetFrame">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <property name="topMargin">
-           <number>1</number>
-          </property>
-          <property name="bottomMargin">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="spec_label">
-            <property name="text">
-             <string>НЗОК спецификация:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="specCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>Изцяло или частично заплащана от НЗОК</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Лица лишени от родителска грижа</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Обща анестезия при психични заболявания</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="unfavCheck">
-            <property name="text">
-             <string>Неблагоприятни условия</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="HoverButton" name="pentionTaxButton">
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>26</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Само за потребителска такса - пенсионери!</string>
-            </property>
-            <property name="text">
-             <string>Опис на касов бон</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="IconButton" name="nssiButton">
-            <property name="minimumSize">
-             <size>
-              <width>35</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>35</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Проверка за упражнено право на пенсия</string>
-            </property>
-            <property name="text">
-             <string>Пенсия</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>

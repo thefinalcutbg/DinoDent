@@ -372,20 +372,13 @@ void ListView::setProcedures(const std::vector<Procedure>& m)
 
 void ListView::hideNhifSheetData()
 {
-	ui.spec_label->hide();
-	ui.specCombo->hide();
-	ui.unfavCheck->hide();
-	ui.nssiButton->hide();
-	ui.pentionTaxButton->hide();
+	ui.NhifSheetFrame->hide();
 	ui.procedureTable->hideColumn(5);
 }
 
 void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
-{
-	ui.spec_label->show();
-	ui.specCombo->show();
-	ui.nssiButton->show();
-	ui.pentionTaxButton->show();
+{	
+	ui.NhifSheetFrame->show();
 	ui.procedureTable->showColumn(5);
 
 	QSignalBlocker b(ui.specCombo);

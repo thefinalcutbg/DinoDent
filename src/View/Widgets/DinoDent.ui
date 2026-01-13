@@ -301,7 +301,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Статистики</string>
+            <string>Калкулатор за статистики</string>
            </property>
            <property name="text">
             <string>Stat</string>

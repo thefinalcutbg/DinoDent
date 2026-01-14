@@ -66,24 +66,11 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		smsFrameShowLogic();
 	});
 
-	connect(ui.smsReminderSpin, &QSpinBox::valueChanged, this, [&](int value) {
-		
-		ui.smsReminderSpin->setSuffix(value == 1 ? " час" : " часа");
-
-		ui.reminderTimeLabel->setText(
-			"Време на напомнянето: " +
-			ui.startDateTimeEdit->dateTime().addSecs(-value * 60 * 60).toString("dd.MM.yyyy HH:mm")
-		);
-
-	});
+	connect(ui.smsReminderSpin, &QSpinBox::valueChanged, this, [&](int value) { updateReminderTimeLabel(); });
 
 	connect(ui.startDateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [&](const QDateTime& dateTime) {
-		
 		smsFrameShowLogic();
-
-		ui.reminderTimeLabel->setText(
-			"Време на напомнянето: " +
-			ui.startDateTimeEdit->dateTime().addSecs(-ui.smsReminderSpin->value() * 60 * 60).toString("dd.MM.yyyy HH:mm"));
+		updateReminderTimeLabel();
 	});
 
 	connect(ui.smsReminderCheck, &QCheckBox::toggled, this, [&](bool checked) {
@@ -201,7 +188,29 @@ void CalendarEventDialog::smsFrameShowLogic()
 		return;
 	}
 
+	auto reminder_secs = ui.smsReminderSpin->value() * 60 * 60;
+
+	if (QDateTime::currentDateTime().addSecs(reminder_secs) > ui.startDateTimeEdit->dateTime()) {
+		ui.smsReminderCheck->setChecked(false);
+	}
+
 	ui.smsFrame->show();
+}
+
+void CalendarEventDialog::updateReminderTimeLabel()
+{
+	ui.smsReminderSpin->setSuffix(ui.smsReminderSpin->value() == 1 ? " час" : " часа");
+
+	auto reminderTime = ui.startDateTimeEdit->dateTime().addSecs(-ui.smsReminderSpin->value() * 60 * 60);
+
+	ui.reminderTimeLabel->setStyleSheet(
+		reminderTime < QDateTime::currentDateTime() ? "color: darkRed" : ""
+	);
+
+	ui.reminderTimeLabel->setText(
+		"Време на напомнянето: " +
+		reminderTime.toString("dd.MM.yyyy HH:mm")
+	);
 }
 
 CalendarEventDialog::~CalendarEventDialog()

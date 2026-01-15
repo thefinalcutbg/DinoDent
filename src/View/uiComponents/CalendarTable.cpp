@@ -7,6 +7,7 @@
 #include <QAbstractTableModel>
 #include <QMenu>
 #include <QPainterPath>
+#include <QTimer>
 
 #include "View/Theme.h"
 
@@ -145,6 +146,12 @@ CalendarTable::CalendarTable(QWidget* parent) : QTableView(parent)
             m_data.setPixelRatio(devicePixelRatioF());
             m_data.setCellSize(logicalIndex, newSize, rowHeight(1));
         });
+
+    //timer for updating the time marker
+    auto* timer = new QTimer(this);
+    timer->setInterval(60'000);                
+    connect(timer, &QTimer::timeout, this, [this] { viewport()->update(); });  
+    timer->start();
 }
 
 void CalendarTable::leaveEvent(QEvent* event)
@@ -368,43 +375,40 @@ void CalendarTable::paintEvent(QPaintEvent* e)
 
     if (m_today_column == -1) return;
 
-    //painting current time marker
-
     QPainter painter(viewport());
 
-    QPen pen(Qt::PenStyle::DotLine);
-
-    pen.setWidth(2);
-
+    QPen pen(Qt::DotLine);
+    pen.setWidth(3);
     pen.setColor(Qt::darkCyan);
-
+    pen.setCosmetic(true);
     painter.setPen(pen);
 
-    auto currentTime = QTime::currentTime();
+    QTime currentTime = QTime::currentTime();
 
     int currentMinutes = currentTime.hour() * 60 + currentTime.minute();
 
-    double pixelsPerMinute = (double)height() / 1440; //minutes per day;
+    double pixelsPerMinute = (double)viewport()->height() / 1440.0;
+    int y = (int)(pixelsPerMinute * currentMinutes) - verticalOffset();
 
-    int y = pixelsPerMinute * currentMinutes;
+    int x = columnViewportPosition(m_today_column);
+    int w = columnWidth(m_today_column);
 
- //   painter.drawLine(0, y, width(), y);
+    painter.save();
+    painter.setClipRect(QRect(x, 0, w, viewport()->height()));
+    painter.drawLine(x, y, x + w - 1, y);
+    painter.restore();
 
-    //painting non-dashed line on current day;
-
-    pen.setStyle(Qt::PenStyle::SolidLine);
-
+    pen.setStyle(Qt::SolidLine);
     painter.setPen(pen);
 
-    int pixelsPerDay = width() / 7;
-
-    painter.drawLine(pixelsPerDay * m_today_column, y, pixelsPerDay * (m_today_column + 1), y);
+    painter.save();
+    painter.setClipRect(QRect(x, 0, w, viewport()->height()));
+    painter.drawLine(x, y, x + w - 1, y);
+    painter.restore();
 
     QPainterPath path;
+    path.addEllipse(x - 5, y - 5, 10, 10);
 
-    path.addEllipse((pixelsPerDay * m_today_column)-5, y -5, 10, 10);
-
-    painter.setRenderHint(QPainter::RenderHint::Antialiasing);
-
+    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.fillPath(path, Qt::darkCyan);
 }

@@ -12,7 +12,11 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle("Нов документ");
 
-    ui.hirbnoButton->setHidden(!User::hasNhifContract());
+    if (!User::hasNhifContract()) {
+        ui.hirbnoButton->hide();
+        ui.HIRBNoEdit->QLineEdit::hide();
+        ui.hirbNoLabel->hide();
+    }
 
     numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 
@@ -94,9 +98,6 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     patientTypeChanged(1); //sets the conditional validators
 
     presenter.setView(this);
-
-
-
 }
 
 void PatientFormDialog::paintEvent(QPaintEvent*)
@@ -173,6 +174,7 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         ui.mNameEdit->setInputValidator(nullptr);
         ui.lNameEdit->setInputValidator(&notEmpty_validator);
         ui.cityLineEdit->setCompleter(nullptr);
+        ui.nhifForeignerBox->setHidden(!User::hasNhifContract());
         resetFields();
         break;
 

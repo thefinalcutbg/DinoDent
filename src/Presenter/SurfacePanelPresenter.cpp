@@ -96,6 +96,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
         case SurfaceState::nonCariesWithCaries:
             statusControl->setToothStatus(StatusType::Caries, surface);
             statusControl->setToothStatus(StatusType::NonCariesLesion, surface);
+			break;
 		case SurfaceState::none:
 			break;
 		};

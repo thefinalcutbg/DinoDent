@@ -4,6 +4,7 @@
 #include <QStyle>
 #include <QGraphicsDropShadowEffect>
 #include <QWidget>
+#include "Model/Date.h"
 #include "src/Version.h"
 
 QPainterPath Theme::getHalfCurvedPath(int width, int height)
@@ -243,4 +244,25 @@ void Theme::applyShadow(QWidget *w, int blur, QPoint offset, QColor color)
 void Theme::applyLightShadow(QWidget *w)
 {
     Theme::applyShadow(w, 14, {0, 1}, QColor(0, 0, 0, 22));
+}
+
+QPixmap Theme::getDinoSprite()
+{
+	auto date = Date::currentDate();
+
+	if ((date.month == 12 && date.day == 31) || (date.month == 1 && date.day < 2))
+	{
+		return QPixmap(":/icons/dinoNewYear.png");
+	}
+	else if (date.month == 12)
+	{
+		return QPixmap(":/icons/dinoChristmas.png");
+	}
+	else if (date.isOrthodoxEasternWeek())
+	{
+		return QPixmap(":/icons/dinoEaster.png");
+	}
+
+	return QPixmap(":/icons/dinoSmall.png");
+	
 }

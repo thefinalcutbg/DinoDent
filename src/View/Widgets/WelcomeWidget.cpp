@@ -26,22 +26,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 
     auto date = Date::currentDate();
 
-    if((date.month == 12 && date.day == 31) || (date.month == 1 && date.day < 2))
-    {
-        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoNewYear.png"));
-    }
-    else if (date.month == 12)
-    {
-        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoChristmas.png"));
-    }
-    else if (date.isOrthodoxEasternWeek())
-    {
-        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoEaster.png"));
-    }
-    else
-    {
-        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoSmall.png"));
-    }
+    ui.cornerLabel->setPixmap(Theme::getDinoSprite());
 
     ui.ambButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));

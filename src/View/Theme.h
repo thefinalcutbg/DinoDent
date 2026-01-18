@@ -39,4 +39,6 @@ namespace Theme
 
     void applyLightShadow(QWidget* w);
 
+	QPixmap getDinoSprite();
+
 };

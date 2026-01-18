@@ -45,11 +45,19 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	ui.addSubdir->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.removeSubdir->setIcon(QIcon(":/icons/icon_remove.png"));
+	ui.addDoctor->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.removeDoctor->setIcon(QIcon(":/icons/icon_remove.png"));
+
 	ui.printEmptyDocs->setIcon(CommonIcon::getPixmap(CommonIcon::PRINT));
 	ui.hisImport->setIcon(CommonIcon::getPixmap(CommonIcon::HIS));
 	ui.updateMedButton->setIcon(CommonIcon::getPixmap(CommonIcon::PRESCR));
 	ui.sqlTable->setModel(&sql_table_model);
 	ui.sqlTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+	ui.doctorList->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	ui.doctorList->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+	ui.doctorList->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+	ui.doctorList->horizontalHeader()->setHighlightSections(false);
 
 	ui.sqlTable->hide();
 	ui.sqlButton->hide();
@@ -221,7 +229,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		presenter.practiceDoctorChanged(ui.specialtyCombo->currentIndex(), ui.adminCheck->isChecked());
 		});
 
-	connect(ui.doctorList, &QListWidget::itemSelectionChanged, this, [=, this]() {
+	connect(ui.doctorList, &QTableWidget::itemSelectionChanged, this, [=, this]() {
 
 		int row = ui.doctorList->selectedItems().empty() ? -1 : ui.doctorList->selectionModel()->currentIndex().row();
 
@@ -230,7 +238,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.adminCheck->setHidden(hideDetails);
 		ui.specialtyCombo->setHidden(hideDetails);
 		ui.label_13->setHidden(hideDetails);
-		ui.removeDoctor->setHidden(hideDetails);
+		ui.removeDoctor->setDisabled(hideDetails);
 
 		presenter.doctorIndexChanged(row);
 
@@ -530,15 +538,6 @@ QString SettingsDialog::getDoctorName(const PracticeDoctor &entity)
 		:
 		ui.fNameEdit->text() + " " + ui.lNameEdit->text();
 
-	if (ui.nhifGroup->isChecked()) {
-		result += "/ Договор с НЗОК: ";
-		result += specialties[static_cast<int>(entity.specialty)];
-	}
-
-	if (entity.admin) {
-		result += " / Администратор /";
-	}
-
 	return result;
 }
 
@@ -632,24 +631,27 @@ void SettingsDialog::setDoctor(const Doctor& doctor)
 
 void SettingsDialog::setDoctorList(const std::vector<PracticeDoctor>& doctors)
 {
-	ui.doctorList->clear();
+	ui.doctorList->clearContents();
 
-	for (auto& doctor : doctors)
-	{
-        ui.doctorList->addItem(getDoctorName(doctor));
+	bool nhif = ui.nhifGroup->isChecked();
+
+	ui.doctorList->setRowCount(doctors.size());
+
+	nhif ? ui.doctorList->showColumn(2) : ui.doctorList->hideColumn(2);
+
+	for (int i = 0; i < doctors.size(); i++) {
+		auto& doc = doctors[i];
+		
+		ui.doctorList->setItem(i, 0, new QTableWidgetItem(getDoctorName(doc)));
+		ui.doctorList->setItem(i, 1, new QTableWidgetItem(specialties[static_cast<int>(doc.specialty)]));
+		ui.doctorList->setItem(i, 2, new QTableWidgetItem(doc.admin ? "ДА" : "НЕ"));
+		ui.doctorList->item(i, 2)->setTextAlignment(Qt::AlignCenter);
 	}
 
-	auto count = ui.doctorList->count();
-
-	if (count) {
-		ui.doctorList->setCurrentRow(count - 1);
-		return;
-	}
-
-	//if list is empty
 	ui.adminCheck->setHidden(true);
 	ui.specialtyCombo->setHidden(true);
 	ui.label_13->setHidden(true);
+	ui.removeDoctor->setDisabled(true);
 }
 
 void SettingsDialog::setDoctorProperties(bool admin, NhifSpecialty specialty)
@@ -712,7 +714,9 @@ Doctor SettingsDialog::getDoctor()
 
 void SettingsDialog::replaceCurrentItem(const PracticeDoctor& item)
 {
-    ui.doctorList->currentItem()->setText(getDoctorName(item));
+    ui.doctorList->item(ui.doctorList->currentRow(), 0)->setText(getDoctorName(item));
+	ui.doctorList->item(ui.doctorList->currentRow(), 1)->setText(specialties[static_cast<int>(item.specialty)]);
+	ui.doctorList->item(ui.doctorList->currentRow(), 2)->setText(item.admin ? "ДА" : "НЕ");
 }
 
 bool SettingsDialog::allFieldsAreValid()

@@ -51,6 +51,13 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
             .displayPrice = priceRangeToString(m.price)
         };
 
+        if (m.nhif) {
+            row.displayPrice = priceToString(m.price.first, 2026);
+            row.displayPrice += " (";
+			row.displayPrice += priceToString(m.price.second, 2026);
+			row.displayPrice += ")";
+        }
+
         if (row.code.isEmpty()) {
             row.role = ProcedureRow::None;
         }

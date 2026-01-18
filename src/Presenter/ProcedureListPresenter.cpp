@@ -133,11 +133,11 @@ void ProcedureListPresenter::favClicked(const std::string& code)
 	}	
 }
 
-void ProcedureListPresenter::setNhifProcedures(const std::vector<std::pair<ProcedureCode, double>>& nhifProcedures)
+void ProcedureListPresenter::setNhifProcedures(const std::vector <std::tuple <ProcedureCode, double, double >> &nhifProcedures)
 {
 	m_nhif_list.clear();
 
-	for (auto& [nhifCode, price] : nhifProcedures) {
+	for (auto& [nhifCode, pricePatient, priceNHIF] : nhifProcedures) {
 
 		m_nhif_list.push_back(
 
@@ -145,7 +145,7 @@ void ProcedureListPresenter::setNhifProcedures(const std::vector<std::pair<Proce
 				.code = nhifCode,
 				.nhif = true,
 				.favourite = false,
-                .price = {price, price}
+                .price = {pricePatient, priceNHIF}
 			}
 		);
 

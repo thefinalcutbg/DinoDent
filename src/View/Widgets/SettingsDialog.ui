@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -62,6 +62,13 @@
              <widget class="QCheckBox" name="autoStatus">
               <property name="text">
                <string>Автоматично подаване на изходен статус към НЗИС като първа манипулация</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="showPricesCheck">
+              <property name="text">
+               <string>Показвай цени в прозореца за добавяне на нова процедура</string>
               </property>
              </widget>
             </item>

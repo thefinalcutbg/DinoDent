@@ -68,6 +68,10 @@ void ProcedureDialogPresenter::setView(ProcedureDialog* view)
         view->procedureInput()->hideDate();
     }
 
+	if (User::settings().showProcedurePrices) {
+		view->procedureList()->showPrices();
+	}
+
     bool treatmentPlanMode = !nhifData.has_value();
 
     if(treatmentPlanMode){
@@ -121,20 +125,20 @@ void ProcedureDialogPresenter::refreshNhifList()
         nhifData->specType
 	);
 
-	std::vector<std::pair<ProcedureCode, double>> codePricePair;
+	std::vector<std::tuple<ProcedureCode, double, double>> codePricePair;
 	codePricePair.reserve(nhifProcedures.size());
 
 	for (auto& code : nhifProcedures) {
 		
-		auto patientPrice = NhifProcedures::getPrices(
+		auto [patientPrice, nhifPrice] = NhifProcedures::getPrices(
 			code.nhifCode(),
 			procedureDate,
             procedureDate >= nhifData->patientTurns18,
 			User::doctor().specialty,
             nhifData->specType
-		).first;
+		);
 
-		codePricePair.push_back(std::make_pair(code, patientPrice));
+		codePricePair.push_back(std::make_tuple(code, patientPrice, nhifPrice));
 	}
 
 	list_presenter.setNhifProcedures(codePricePair);

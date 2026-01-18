@@ -27,7 +27,7 @@ public:
 	std::vector<std::string> getSectionList() const;
 	std::vector<ProcedureListElement> getList(int index) const;
     void favClicked(const std::string& code);
-	void setNhifProcedures(const std::vector<std::pair<ProcedureCode, double>>& nhifProcedures);
+	void setNhifProcedures(const std::vector<std::tuple<ProcedureCode, double, double>>& nhifProcedures);
 	bool hasFavourites() const;
     std::pair<double, double> getPriceRange(const std::string& code);
     void setCodePrice(const std::string& code, const std::pair<double, double>& price);

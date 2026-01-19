@@ -23,13 +23,18 @@ class ProcedurePrintSelectDialog : public QDialog
 	void paintEvent(QPaintEvent* e) override;
     bool eventFilter(QObject* obj, QEvent* event) override;
 
+	void showFinancingSourceButtonsLogic(const std::vector<Procedure>& procedures);
 
 public:
-	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals = {}, QWidget* parent = Q_NULLPTR);
+	//if empty referral vector (as oposed to empty optional) is passed, ambulatory sheet format is assumed
+	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, bool ambListPrintSelect = false);
 	
 	const std::vector<int> selectedProcedures() const;
 	bool printReferrals() const;
 	void selectFinancingSource(FinancingSource source);
+	bool printNhifAmbSheet() const {
+		return !ui.nhifRadio->isHidden() && ui.nhifRadio->isChecked();
+	};
 
 	~ProcedurePrintSelectDialog();
 

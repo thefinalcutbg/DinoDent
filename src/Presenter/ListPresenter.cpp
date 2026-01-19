@@ -210,11 +210,11 @@ void ListPresenter::printPrv(bool toPdf)
     }
 
     std::vector<Procedure> selectedProcedures;
-    bool printReferrals = false;
+    bool printNhif = false;
 
     if (m_amblist.procedures.size() || m_amblist.referrals.size())
     {
-        ProcedurePrintSelectDialog dialog(m_amblist.procedures.list(), m_amblist.referrals);
+        ProcedurePrintSelectDialog dialog(m_amblist.procedures.list(), true);
 
         for (auto& p : m_amblist.procedures) {
 
@@ -234,7 +234,7 @@ void ListPresenter::printPrv(bool toPdf)
             selectedProcedures.push_back(m_amblist.procedures.at(idx));
         }
 
-        printReferrals = dialog.printReferrals();
+        printNhif = dialog.printNhifAmbSheet();
 
     }
 
@@ -242,8 +242,6 @@ void ListPresenter::printPrv(bool toPdf)
         std::find_if(selectedProcedures.begin(), selectedProcedures.end(),
             [&](const Procedure& p) { return p.financingSource != FinancingSource::NHIF; }
         ) == selectedProcedures.end();
-
-    bool printNhif = printReferrals || selectedProcedures.empty() || nhifProceduresOnly;
 
     if (printNhif && selectedProcedures.size() > 6) {
         printNhif = !ModalDialogBuilder::askDialog(
@@ -261,7 +259,7 @@ void ListPresenter::printPrv(bool toPdf)
     }
 
 
-    bool success = Print::ambList(m_amblist, *patient, printNhif, selectedProcedures, printReferrals, filepath);
+    bool success = Print::ambList(m_amblist, *patient, printNhif, selectedProcedures, filepath);
 
     if (!toPdf) return;
 

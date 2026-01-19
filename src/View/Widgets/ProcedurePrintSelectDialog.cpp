@@ -3,8 +3,8 @@
 #include "View/CommonIcon.h"
 #include <QMouseEvent>
 
-ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals, QWidget* parent)
-	: QDialog(parent), model(procedures)
+ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, bool ambListPrintSelect)
+	: QDialog(nullptr), model(procedures)
 {
 	ui.setupUi(this);
 	setModal(true);
@@ -34,9 +34,14 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 	ui.nhifButton->setIcon(CommonIcon::getPixmap(CommonIcon::NHIF));
 	ui.phifButton->setIcon(CommonIcon::getPixmap(CommonIcon::PHIF));
 
+    ui.cashRadio->toggle();
+
+    ui.formatGroup->setHidden(!ambListPrintSelect);
+
+    showFinancingSourceButtonsLogic(procedures);
+
 	if (procedures.empty()) {
 		ui.tableView->hide();
-		ui.groupBox->hide();
 		adjustSize();
 	}
 
@@ -50,12 +55,11 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 
 		});
 
-    connect(ui.patientButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::Patient); });
-    connect(ui.nhifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::NHIF); });
-	connect(ui.phifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::PHIF); });
-	connect(ui.allButton, &QPushButton::clicked, this, [&] { model.selectAll(); });
-	if (referrals.empty()) ui.referralCheck->setHidden(true);
-
+    connect(ui.patientButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::Patient);});
+    connect(ui.nhifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::NHIF);});
+	connect(ui.phifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::PHIF);});
+	connect(ui.noneButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::None);});
+    connect(ui.allButton, &QPushButton::clicked, this, [&] { model.selectAll(); ui.cashRadio->toggle(); });
 }
 
 const std::vector<int> ProcedurePrintSelectDialog::selectedProcedures() const
@@ -65,13 +69,14 @@ const std::vector<int> ProcedurePrintSelectDialog::selectedProcedures() const
 
 bool ProcedurePrintSelectDialog::printReferrals() const
 {
-	return !ui.referralCheck->isHidden() && ui.referralCheck->isChecked();
+    return ui.nhifRadio->isChecked();
 }
 
 void ProcedurePrintSelectDialog::selectFinancingSource(FinancingSource source)
 {
 	model.selectFinancingSource(source);
-	ui.referralCheck->setChecked(source == FinancingSource::NHIF);
+
+	source == FinancingSource::NHIF ? ui.nhifRadio->setChecked(true) : ui.cashRadio->setChecked(true);
 }
 
 void ProcedurePrintSelectDialog::paintEvent(QPaintEvent*)
@@ -125,6 +130,53 @@ bool ProcedurePrintSelectDialog::eventFilter(QObject* obj, QEvent* event)
     }
 
     return QDialog::eventFilter(obj, event);
+}
+
+void ProcedurePrintSelectDialog::showFinancingSourceButtonsLogic(const std::vector<Procedure>& procedures)
+{
+    ui.groupBox->setHidden(true);
+
+    if (procedures.empty()) return;
+
+    for (auto& w : ui.groupBox->findChildren<QPushButton*>()) {
+        w->setHidden(true);
+    }
+
+    //check if procedures countain different financing sources
+    bool differentFinancingSources = false;
+
+    for (auto& p : procedures) {
+        if (procedures.begin()->financingSource != p.financingSource) {
+            differentFinancingSources = true;
+            break;
+        }
+    }
+
+    if (!differentFinancingSources) {
+        return;
+    }
+
+    ui.cashRadio->setChecked(true);
+
+    ui.allButton->show();
+
+
+    for (auto& p : procedures) {
+        ui.groupBox->show();
+
+        if (p.financingSource == FinancingSource::NHIF) {
+            ui.nhifButton->show();
+        }
+        else if (p.financingSource == FinancingSource::PHIF) {
+            ui.phifButton->show();
+        }
+        else if (p.financingSource == FinancingSource::Patient) {
+            ui.patientButton->show();
+        }
+        else if (p.financingSource == FinancingSource::None) {
+            ui.noneButton->show();
+        }
+    }
 }
 
 ProcedurePrintSelectDialog::~ProcedurePrintSelectDialog()

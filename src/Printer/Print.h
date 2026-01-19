@@ -23,7 +23,6 @@ namespace Print
 		const Patient& patient, 
 		bool printNhif,
 		const std::vector<Procedure>& selectedProcedures,
-		bool printReferrals,
 		const std::string& pdfFilename = {}
 	);
 	bool consent(const Patient& p, const std::string& pdfFilename = {});

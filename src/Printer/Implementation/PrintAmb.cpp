@@ -7,7 +7,6 @@ bool Print::ambList(
     const Patient& patient,
     bool printNhif,
     const std::vector<Procedure>& selectedProcedures,
-    bool printReferrals,
     const std::string& pdfFilename
 )
 {
@@ -107,6 +106,8 @@ bool Print::ambList(
         return PrintPrv::printLogic(report, pdfFilename);
     }
 
+	//end of function in case of NON-NHIF 
+
     //procedures
     for (size_t i = 0; i < 6 && i < selectedProcedures.size(); i++)
     {
@@ -141,10 +142,7 @@ bool Print::ambList(
 
     //referrals
 
-    if (printReferrals) {
-        PrintPrv::fillOutReferrals(report, amb);
-    }
-
+    PrintPrv::fillOutReferrals(report, amb);
 
     //setting denture declaration
 

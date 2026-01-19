@@ -33,13 +33,6 @@
     <widget class="QTableView" name="tableView"/>
    </item>
    <item>
-    <widget class="QCheckBox" name="referralCheck">
-     <property name="text">
-      <string>Принтирай направления по НЗОК</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QGroupBox" name="groupBox">
@@ -77,6 +70,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="noneButton">
+            <property name="text">
+             <string>Без финансиране</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="allButton">
             <property name="text">
              <string>Всички</string>
@@ -89,6 +89,29 @@
       </widget>
      </item>
      <item>
+      <widget class="QGroupBox" name="formatGroup">
+       <property name="title">
+        <string>Формат на амбулаторния лист</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QRadioButton" name="cashRadio">
+          <property name="text">
+           <string>Платен прием</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="nhifRadio">
+          <property name="text">
+           <string>НЗОК</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
@@ -96,7 +119,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>0</height>
         </size>
        </property>
       </spacer>
@@ -109,12 +132,12 @@
           <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Policy::Fixed</enum>
+          <enum>QSizePolicy::Policy::Preferred</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>

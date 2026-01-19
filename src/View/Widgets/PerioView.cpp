@@ -31,6 +31,9 @@ PerioView::PerioView(QWidget* parent)
 		ui.frame
 	});
 
+	ui.maxilla->setFrameColor(Theme::border);
+	ui.mandibula->setFrameColor(Theme::border);
+
 #ifdef Q_OS_WIN
 	auto margins = ui.frame_2->layout()->contentsMargins();
 	margins.setTop(50);
@@ -117,6 +120,8 @@ PerioView::PerioView(QWidget* parent)
 
 	setStyleSheet(Theme::getFancyStylesheet());
 
+	ui.maxilla->ui.graphicsView->setStyleSheet("border: 1px solid darkGray;");
+	ui.mandibula->ui.graphicsView->setStyleSheet("border: 1px solid darkGray;");
 }
 
 void PerioView::PerioGraphicClicked(int index, PerioGraphicsType type)

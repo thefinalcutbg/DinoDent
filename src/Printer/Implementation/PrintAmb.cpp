@@ -60,6 +60,38 @@ bool Print::ambList(
         MedicalStatuses::toString(patient.medStats.history).c_str()
     );
 
+    //this is where NHIF and NON-NHIF sheets diverge
+
+    if (!printNhif) {
+
+        ProcedureTableModel pModel;
+
+        for (auto& tooth : amb.teeth) {
+            report.dataManager()->setReportVariable("idx" + QString::number(tooth.index()), tooth.toothIndex().getNhifNumenclature().c_str());
+
+            QString status;
+
+            for (auto& s : tooth.getDetailedPrintStatus()) {
+                status += s.c_str();
+                status += " ";
+            }
+
+            report.dataManager()->setReportVariable("s" + QString::number(tooth.index()), status);
+        }
+
+        report.dataManager()->setReportVariable("statusLegend", amb.teeth.getPrintLegend().c_str());
+
+        pModel.setProcedures(selectedProcedures, true);
+
+        report.dataManager()->addModel("procedures", &pModel, false);
+
+        QApplication::restoreOverrideCursor();
+
+        return PrintPrv::printLogic(report, pdfFilename);
+    }
+
+    //end of function in case of NON-NHIF 
+
 
     std::array<bool, 32> temp;
 
@@ -90,23 +122,6 @@ bool Print::ambList(
         report.dataManager()->setReportVariable("dsnPos" + idx, dsn.position);
         report.dataManager()->setReportVariable("dsnS" + idx, dsn.printStatus.c_str());
     }
-
-    //this is where NHIF and NON-NHIF sheets diverge
-
-    if (!printNhif) {
-
-        ProcedureTableModel pModel;
-
-        pModel.setProcedures(selectedProcedures, true);
-
-        report.dataManager()->addModel("procedures", &pModel, false);
-
-        QApplication::restoreOverrideCursor();
-
-        return PrintPrv::printLogic(report, pdfFilename);
-    }
-
-	//end of function in case of NON-NHIF 
 
     //procedures
     for (size_t i = 0; i < 6 && i < selectedProcedures.size(); i++)

@@ -268,9 +268,10 @@ void CalendarEventDialog::emailShowLogic()
 		return;
 	}
 
-	if (!m_result.email.size())
+	if (s_completer.at(ui.summaryEdit->text()).email.empty())
 	{
 		ui.emailCheck->hide();
+		return;
 	}
 
 	ui.emailCheck->setChecked(true);

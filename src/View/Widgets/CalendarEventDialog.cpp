@@ -103,12 +103,6 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		updateReminderTimeLabel();
 	});
 
-	connect(ui.emailCheck, &QCheckBox::stateChanged, this, [&](bool checked) {
-		if (checked) {
-			ui.warningLabel->setText(checked ? "Описанието ще бъде видимо за пациента": "");
-		} 
-	});
-
 	connect(ui.smsReminderCheck, &QCheckBox::toggled, this, [&](bool checked) {
 			ui.smsReminderSpin->setHidden(!checked);
 			ui.label_6->setHidden(!checked);

@@ -270,7 +270,7 @@ void TableView::paintEvent(QPaintEvent* e)
 
     // rows
     double yPos = 0;
-    for (int i = 1; i < rowCount; ++i) {
+    for (int i = 0; i < rowCount; ++i) {
         if (verticalHeader()->isSectionHidden(i)) continue;
 
         const int prevSz = verticalHeader()->sectionSize(i - 1);

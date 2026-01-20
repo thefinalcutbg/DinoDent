@@ -159,7 +159,7 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>3</hour>
+        <hour>1</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -487,12 +487,12 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>1</hour>
+          <hour>23</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
           <month>12</month>
-          <day>25</day>
+          <day>24</day>
          </datetime>
         </property>
         <property name="minimumDate">
@@ -677,7 +677,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>E-mail:</string>
+       <string>Имейл:</string>
       </property>
      </widget>
     </widget>

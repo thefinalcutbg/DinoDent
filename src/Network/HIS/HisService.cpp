@@ -141,7 +141,7 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 			+ bind("line", FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)
-		//<nhis:email value="[string]"/>
+		+bind("email", p.email)
 		+"<nhis:various>"
 			+bind("age", p.getAge())
 			+preg_breastfeed

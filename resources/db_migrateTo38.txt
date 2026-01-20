@@ -1,0 +1,14 @@
+ALTER TABLE patient ADD COLUMN email TEXT;
+PRAGMA foreign_keys = 0;
+CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM financial;
+DROP TABLE financial;
+CREATE TABLE financial ( rowid INTEGER PRIMARY KEY, practice_rzi VARCHAR (10) NOT NULL REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE, date TEXT NOT NULL DEFAULT '1900-01-01', num BIGINT NOT NULL, type INT NOT NULL, recipient_id VARCHAR (100), recipient_name TEXT, recipient_phone VARCHAR (20), recipient_address TEXT, data TEXT NOT NULL, recipient_vat INTEGER, claimed_hash TEXT );
+INSERT INTO financial ( rowid, practice_rzi, date, num, type, recipient_id, recipient_name, recipient_phone, recipient_address, data, recipient_vat, claimed_hash ) SELECT rowid, practice_rzi, date, num, type, recipient_id, recipient_name, recipient_phone, recipient_address, data, recipient_vat, claimed_hash FROM sqlitestudio_temp_table;
+DROP TABLE sqlitestudio_temp_table;
+CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM unfavourable_condition;
+DROP TABLE unfavourable_condition;
+CREATE TABLE unfavourable_condition ( ekatte INTEGER NOT NULL, rzi TEXT REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL );
+INSERT INTO unfavourable_condition ( ekatte, rzi ) SELECT ekatte, rzi FROM sqlitestudio_temp_table;
+DROP TABLE sqlitestudio_temp_table;
+PRAGMA foreign_keys = 1;
+PRAGMA user_version=38;

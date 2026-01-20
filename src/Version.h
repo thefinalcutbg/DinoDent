@@ -3,13 +3,13 @@
 
 struct Version {
 
-    static constexpr unsigned dbVersion() { return 37; }
+    static constexpr unsigned dbVersion() { return 38; }
 
 	static constexpr Version current() {
 		
 		return {
 			.MAJOR = 2,
-            .MINOR = 10,
+            .MINOR = 11,
             .REVISION = 0
 		};
 	}

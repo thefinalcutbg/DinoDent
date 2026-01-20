@@ -2,7 +2,7 @@
 #include <json/json.h>
 #include <QDateTime>
 
-void parseEventSpecificProperties(Json::Value& json, CalendarEvent& event)
+static void parseEventSpecificProperties(Json::Value& json, CalendarEvent& event)
 {
 
 	//parsing app specific
@@ -100,7 +100,7 @@ std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string&
 		item.removeMember("end");
 		item.removeMember("description");
 
-		parseEventSpecificProperties(item, e);
+		parseEventSpecificProperties(item, e);;
 
 		e.json = Json::FastWriter().write(item);
 
@@ -149,6 +149,21 @@ std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event, cons
 		appSpecific["shared"] = prop;
 
 		json["extendedProperties"] = appSpecific;
+	}
+
+	if (!event.email.empty()) {
+		Json::Value attendee;
+		attendee["email"] = event.email;
+		if (!event.patientFname.empty()) attendee["displayName"] = event.patientFname;
+
+		Json::Value attendees(Json::arrayValue);
+		attendees.append(attendee);
+
+		json["attendees"] = attendees;
+
+		json["guestsCanModify"] = false;
+		json["guestsCanInviteOthers"] = false;
+		json["guestsCanSeeOtherGuests"] = false;
 	}
 
 	return Json::FastWriter().write(json);

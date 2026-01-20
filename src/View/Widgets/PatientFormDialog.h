@@ -29,6 +29,7 @@ struct PatientFormDialog : public QDialog
     HIRBNoValidator hirb_validator;
     CityValidator city_validator;
     CyrillicValidator cyrillic_validator;
+	EmailValidator email_validator;
 
     Ui::PatientFormDialog ui;
 
@@ -38,7 +39,7 @@ struct PatientFormDialog : public QDialog
 
     PatientDialogPresenter& presenter;
 
-    enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, birthdate, size };
+    enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, email, birthdate, size };
 
     std::array<AbstractUIElement*, PatientField::size> patientFields;
 

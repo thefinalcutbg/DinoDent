@@ -7,8 +7,8 @@ long long DbPatient::insert(const Patient& patient)
     Db db(
         "INSERT INTO patient "
         "(type, id, birth, sex, fname, mname, lname, "
-        "ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid, foreign_city, color) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        "ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid, foreign_city, color, email) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, patient.type);
@@ -33,6 +33,7 @@ long long DbPatient::insert(const Patient& patient)
     }
 
     db.bind(17, patient.colorNameRgb);
+	db.bind(18, patient.email);
 
     if (db.execute()) return db.lastInsertedRowID();
 
@@ -60,7 +61,8 @@ bool DbPatient::update(const Patient& patient)
         "ehic_num=?,"
         "date_valid=?, "
         "foreign_city=?, "
-        "color=? "
+        "color=?, "
+		"email=? "
         "WHERE rowid=?"
     );
 
@@ -86,8 +88,9 @@ bool DbPatient::update(const Patient& patient)
     }
     
     db.bind(16, patient.colorNameRgb);
+	db.bind(17, patient.email);
 
-    db.bind(17, patient.rowid);
+    db.bind(18, patient.rowid);
 
     return db.execute();
 
@@ -95,7 +98,7 @@ bool DbPatient::update(const Patient& patient)
 
 Patient DbPatient::get(const std::string& patientID, int type)
 {
-    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid, color "
+    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid, color, email "
         "FROM patient WHERE id = ? "
         "AND type = ?";
 
@@ -139,6 +142,7 @@ Patient DbPatient::get(const std::string& patientID, int type)
         }
 
         patient.colorNameRgb = db.asString(17);
+		patient.email = db.asString(18);
     }
 
     //ensured birth and sex are valid
@@ -153,12 +157,14 @@ Patient DbPatient::get(const std::string& patientID, int type)
     patient.allergies = getAllergies(patient.rowid, db);
     return patient;
 }
-
+#include "View/ModalDialogBuilder.h"
 Patient DbPatient::get(long long rowid)
 {
-    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid, color "
-        "FROM patient WHERE rowid = " + std::to_string(rowid)
+    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid, color, email "
+        "FROM patient WHERE rowid=?"
     );
+
+    db.bind(1, rowid);
 
     Patient patient;
 
@@ -189,6 +195,7 @@ Patient DbPatient::get(long long rowid)
         }
 
         patient.colorNameRgb = db.asString(17);
+		patient.email = db.asString(18);
     }
 
     patient.teethNotes = getToothNotes(patient.rowid);
@@ -409,7 +416,7 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
 {
     std::vector<PatientRecord> result;
 
-    Db db("SELECT fname, lname, phone, birth, color FROM patient");
+    Db db("SELECT fname, lname, phone, birth, color, email FROM patient");
 
     while (db.hasRows())
     {
@@ -428,6 +435,8 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
         r.birth = db.asString(3);     
 
         r.color = db.asString(4);
+
+		r.email = db.asString(5);
 
         result.push_back(r);
     }

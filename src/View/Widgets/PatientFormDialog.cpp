@@ -38,6 +38,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     ui.lNameEdit->setInputValidator(&name_validator);
     ui.cityLineEdit->setInputValidator(&city_validator);
     ui.HIRBNoEdit->setInputValidator(&hirb_validator);
+	ui.emailEdit->setInputValidator(&email_validator);
     ui.birthEdit->setInputValidator(&birth_validator);
 
     ui.validDateEdit->set_Date(Date::currentDate());
@@ -85,6 +86,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     patientFields[address] = ui.addressEdit;
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
+	patientFields[email] = ui.emailEdit;
     patientFields[birthdate] = ui.birthEdit;
 
 
@@ -214,7 +216,7 @@ void PatientFormDialog::resetFields()
     ui.HIRBNoEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
-
+	ui.emailEdit->reset();
     ui.institutionNumber->clear();
     ui.ehic_edit->clear();
 
@@ -253,7 +255,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.addressEdit->QLineEdit::setText(QString::fromStdString(patient.address));
     ui.HIRBNoEdit->QLineEdit::setText(QString::fromStdString(patient.HIRBNo));
     ui.phoneEdit->QLineEdit::setText(QString::fromStdString(patient.phone));
-
+	ui.emailEdit->QLineEdit::setText(QString::fromStdString(patient.email));
     ui.colorPicker->setColor(QColor(patient.colorNameRgb.c_str()));
 
     if (!patient.foreigner) return;
@@ -307,6 +309,7 @@ Patient PatientFormDialog::getPatient()
         .address = ui.addressEdit->text().toStdString(),
         .HIRBNo = ui.HIRBNoEdit->text().toStdString(),
         .phone = ui.phoneEdit->text().toStdString(),
+        .email = ui.emailEdit->text().toStdString(),
         .foreigner = f,
         .colorNameRgb = colorName
     };

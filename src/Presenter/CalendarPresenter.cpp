@@ -375,6 +375,10 @@ void CalendarPresenter::deleteEvent(int index)
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
     parameters["eventId"] = deleteId.c_str();
 
+    if (event->email.size()) {
+        parameters["sendUpdates"] = "all";
+    }
+
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events/eventId",
         parameters, "DELETE", {}, QueryType::DeleteEvent
@@ -474,6 +478,10 @@ void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
         QVariantMap parameters;
         parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
         parameters["eventId"] = event.id.c_str();
+
+        if (event.email.size()) {
+            parameters["sendUpdates"] = "all";
+        }
 
         Google::query(
             "https://www.googleapis.com/calendar/v3/calendars/calendarId/events/eventId",

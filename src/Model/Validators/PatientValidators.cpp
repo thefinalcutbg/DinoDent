@@ -1,4 +1,5 @@
 ﻿#include "PatientValidators.h"
+#include <regex>
 
 const std::string EgnValidator::invalid{ "Невалиден ЕГН" };
 
@@ -166,4 +167,21 @@ bool EgnLnchValidator::validateInput(const std::string& text)
     }
 
     return false;
+}
+
+EmailValidator::EmailValidator()
+{
+    _errorMsg = &invalid;
+}
+
+bool EmailValidator::validateInput(const std::string& text)
+{
+    if (text.empty()) return true;
+
+    static const std::regex emailRegex(
+        R"(^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$)",
+        std::regex::ECMAScript
+    );
+
+    return std::regex_match(text, emailRegex);
 }

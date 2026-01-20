@@ -58,7 +58,6 @@ public:
 
 class EgnLnchValidator : public Validator
 {
-
 	EgnValidator egn_val;
 	Ln4Validator lnch_val;
 
@@ -67,4 +66,12 @@ public:
 	EgnLnchValidator();
 	bool validateInput(const std::string& text);
 
+};
+
+class EmailValidator : public Validator
+{
+	static inline const std::string invalid = "Невалидна електронна поща";
+public:
+	EmailValidator();
+	bool validateInput(const std::string& text);
 };

@@ -17,7 +17,10 @@ struct CompleterData {
 	std::string fname;
 	std::string birth;
 	std::string phone;
+	std::string email;
 };
+
+const QString s_emailPrefix = "🦷 ";
 
 std::unordered_map<QString, CompleterData> s_completer;
 
@@ -33,11 +36,28 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		"Ново посещение"
 	);
 	
+	//removing the email prefix if present
+	QString summary = event.summary.c_str();
+
+	if(summary.startsWith(s_emailPrefix))
+	{
+		summary = summary.mid(s_emailPrefix.length());
+		m_result.summary = summary.toStdString();
+		m_prefixRemoved = true;
+	}
+	
 	connect(ui.okButton, &QPushButton::clicked, this, [&] {
 
 		QString summary = ui.summaryEdit->text();
 
 		m_result.summary = summary.toStdString();
+
+		if (m_prefixRemoved) {
+			//adding the email prefix
+			summary = s_emailPrefix + summary;
+			m_result.summary = summary.toStdString();
+		}
+
 		m_result.description = ui.descriptionEdit->text().toStdString();
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
@@ -47,6 +67,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 			auto& data = s_completer[summary];
 			m_result.patientFname = data.fname;
 			m_result.patientBirth = data.birth;
+			
+			if ((ui.emailCheck->isVisible() && ui.emailCheck->isChecked())) {
+				m_result.email = data.email;
+				//adding the email prefix
+				summary = s_emailPrefix + summary;
+				m_result.summary = summary.toStdString();
+			}
 		}
 
 		smsLogic();
@@ -57,11 +84,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	connect(ui.summaryEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
-		ui.iconLabel->setText(s_completer.count(text) ?
-			"<font color=\"Green\">✓</font>" : ""
-		);
+		bool hasCompletion = s_completer.count(text);
+
+		ui.iconLabel->setText(hasCompletion ? "<font color=\"Green\">✓</font>" : "");
 
 		m_phone = FreeFn::getPhoneFromString(text.toStdString()).c_str();
+
+		emailShowLogic();
 
 		smsFrameShowLogic();
 	});
@@ -70,7 +99,14 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 	connect(ui.startDateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [&](const QDateTime& dateTime) {
 		smsFrameShowLogic();
+		emailShowLogic();
 		updateReminderTimeLabel();
+	});
+
+	connect(ui.emailCheck, &QCheckBox::stateChanged, this, [&](bool checked) {
+		if (checked) {
+			ui.warningLabel->setText(checked ? "Описанието ще бъде видимо за пациента": "");
+		} 
 	});
 
 	connect(ui.smsReminderCheck, &QCheckBox::toggled, this, [&](bool checked) {
@@ -95,7 +131,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		QString summary = QString::fromStdString(p.summary);
 
 		completerList.push_back(summary);
-		s_completer[summary] = { p.fname, p.birth, p.phone};
+		s_completer[summary] = { p.fname, p.birth, p.phone, p.email};
 	}
 
 	auto new_completer = new QCompleter(completerList, this);
@@ -110,16 +146,16 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.summaryEdit->setCompleter(new_completer);
 
 	//important to set before setting text because of sms section show/hide logic
-	ui.startDateTimeEdit->setDateTime(event.start);
-	ui.endDateTimeEdit->setDateTime(event.end);
-
-	ui.summaryEdit->setText(event.summary.c_str());
-	ui.descriptionEdit->setText(event.description.c_str());
+	ui.startDateTimeEdit->setDateTime(m_result.start);
+	ui.endDateTimeEdit->setDateTime(m_result.end);
+	//set the m_summary with the removed email prefix
+	ui.summaryEdit->setText(m_result.summary.c_str());
+	ui.descriptionEdit->setText(m_result.description.c_str());
 
 
 	ui.summaryEdit->setFocus();
 
-	if (event.summary.size()) {
+	if (m_result.summary.size()) {
 		ui.descriptionEdit->setFocus();
 	}
 
@@ -127,7 +163,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.smsReminderSpin->setValue(User::settings().sms_settings.reminder_hours);
 	ui.smsReminderSpin->setMinimum(1);
 
-	if (event.id.empty()) {
+	if (m_result.id.empty()) {
 		ui.smsNotifyCheck->setChecked(User::settings().sms_settings.notifAuto);
 		ui.smsReminderCheck->setChecked(User::settings().sms_settings.reminderAuto);
 	}
@@ -211,6 +247,35 @@ void CalendarEventDialog::updateReminderTimeLabel()
 		"Време на напомнянето: " +
 		reminderTime.toString("dd.MM.yyyy HH:mm")
 	);
+}
+
+void CalendarEventDialog::emailShowLogic()
+{
+	if (!s_completer.count(ui.summaryEdit->text()))
+	{
+		ui.emailCheck->hide();
+		return;
+	}
+
+	if (m_result.id.size()) {
+		ui.emailCheck->hide();
+		return;
+	}
+
+	if(ui.startDateTimeEdit->dateTime() < QDateTime::currentDateTime())
+	{
+		ui.emailCheck->hide();
+		return;
+	}
+
+	if (!m_result.email.size())
+	{
+		ui.emailCheck->hide();
+	}
+
+	ui.emailCheck->setChecked(true);
+
+	ui.emailCheck->show();
 }
 
 CalendarEventDialog::~CalendarEventDialog()

@@ -17,6 +17,9 @@ class CalendarEventDialog : public QDialog
 	void paintEvent(QPaintEvent* e) override;
 	void smsFrameShowLogic();
 	void updateReminderTimeLabel();
+	void emailShowLogic();
+
+	bool m_prefixRemoved{ false };
 
 public:
 	CalendarEventDialog(const CalendarEvent& event, QWidget *parent = nullptr);

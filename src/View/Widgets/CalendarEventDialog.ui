@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>421</width>
-    <height>240</height>
+    <height>282</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -176,6 +176,13 @@
        <number>0</number>
       </property>
       <item>
+       <widget class="QCheckBox" name="emailCheck">
+        <property name="text">
+         <string>Имейл покана + добавяне в календара на пациента</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="smsNotifyCheck">
         <property name="text">
          <string>SMS известие за записан час</string>
@@ -290,17 +297,17 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
+      <widget class="QLabel" name="warningLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="text">
+        <string/>
        </property>
-      </spacer>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="okButton">

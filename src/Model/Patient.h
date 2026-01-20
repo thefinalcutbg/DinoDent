@@ -35,6 +35,7 @@ struct Patient
 	std::string address;
 	std::string HIRBNo;
 	std::string phone;
+	std::string email;
 
 	std::optional<Foreigner> foreigner;
 
@@ -50,6 +51,7 @@ struct Patient
 	std::optional<std::vector<Procedure>> PISHistory;
 	std::optional<std::vector<Procedure>> HISHistory;
 	std::optional<InsuranceStatus> insuranceStatus;
+
 	static Sex getSexFromEgn(const std::string& egn);
 	int getAge(const Date& currentDate = Date::currentDate())  const;
 	bool isAdult(const Date& currentDate = Date::currentDate())  const;

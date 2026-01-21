@@ -1,4 +1,4 @@
-#include "FreeFunctions.h"
+﻿#include "FreeFunctions.h"
 #include <sstream>
 #include <iomanip>
 #include <fstream>
@@ -159,4 +159,41 @@ std::string FreeFn::getPhoneFromString(const std::string& text)
 
     QString rawPhone = match.captured(1).trimmed();
     return rawPhone.toStdString();
+}
+
+#include "Database/DbPatient.h"
+#include "View/Widgets/MultilineDialog.h"
+#include "Network/SMS/Mobica.h"
+#include "Model/User.h"
+#include "View/ModalDialogBuilder.h"
+
+bool FreeFn::sendSMS(long long patientRowid)
+{
+    if (!User::settings().sms_settings.hasCredentials()) {
+        ModalDialogBuilder::openSettingsDialog(3);
+        return false;
+    }
+
+	static Mobica::SendSMS smsSender;
+
+	auto patient = DbPatient::get(patientRowid);
+
+	if (patient.rowid == 0) return false;
+
+    if (patient.phone.empty())  return false;
+
+    MultilineDialog d({});
+	d.setWindowTitle("Изпращане на SMS до " + QString::fromStdString(patient.firstLastName()));
+	d.enableEditing();
+	d.enableTemplateLoading(DbNotes::TemplateType::SMS);
+
+	auto result = d.getResult();
+
+	if (!result || result->empty()) return false;
+
+    SMSMessage m(patient.phone, result.value());
+
+    smsSender.sendSms({ m });
+
+    return false;
 }

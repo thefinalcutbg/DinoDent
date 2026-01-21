@@ -6,6 +6,7 @@
 
 #include "Model/User.h"
 #include "Model/TableRows.h"
+#include "Model/FreeFunctions.h"
 
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MedicalStatusPresenter.h"
@@ -142,6 +143,11 @@ void PatientInfoPresenter::openDocument(TabType type)
 void PatientInfoPresenter::refreshPatientData()
 {
 	view->setPatient(*patient, patientAge);
+}
+
+void PatientInfoPresenter::sendSms()
+{
+	FreeFn::sendSMS(patient->rowid);
 }
 
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)

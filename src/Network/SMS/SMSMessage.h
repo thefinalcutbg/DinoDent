@@ -9,7 +9,7 @@ struct SMSMessage
     SMSMessage(
         const std::string& phone,
         const std::string& msgTemplate,
-        const std::string& appointmentDateTime,
+        const std::string& appointmentDateTime = "",
 		int hoursBefore = 0
     );
 

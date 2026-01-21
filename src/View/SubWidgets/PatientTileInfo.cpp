@@ -4,6 +4,7 @@
 
 #include "Presenter/PatientInfoPresenter.h"
 #include "View/Theme.h"
+#include "Model/User.h"
 
 PatientTileInfo::PatientTileInfo(QWidget *parent)
 	: RoundedFrame(parent)
@@ -61,6 +62,11 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action = (new QAction("Пациентско досие", context_menu));
     connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::PatientSummary); });
     action->setIcon(QIcon(":/icons/icon_history.png"));
+    context_menu->addAction(action);
+
+    action = (new QAction("Изпрати SMS", context_menu));
+    connect(action, &QAction::triggered, this, [=, this] { presenter->sendSms(); });
+    action->setIcon(QIcon(":/icons/icon_message.png"));
     context_menu->addAction(action);
 
     context_menu->setStyleSheet(Theme::getPopupMenuStylesheet());

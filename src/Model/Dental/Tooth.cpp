@@ -670,6 +670,10 @@ std::set<std::string>  Tooth::getDetailedPrintStatus() const
         }
     }
 
+	if (hasStatus(HasSupernumeral)) {
+		result.insert("Dsn");
+	}
+
     return result;
 }
 

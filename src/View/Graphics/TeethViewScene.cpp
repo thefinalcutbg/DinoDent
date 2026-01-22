@@ -163,29 +163,48 @@ void TeethViewScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (views().at(0)->dragMode() != QGraphicsView::RubberBandDrag) {
+    if (views().isEmpty() || views().at(0)->dragMode() != QGraphicsView::RubberBandDrag) {
         QGraphicsScene::mousePressEvent(event);
         return;
     }
 
-    //ctr bug:
+    if (event->button() == Qt::RightButton) {
+        QGraphicsItem* item = itemAt(event->scenePos(), QTransform());
+
+        if (item && item->isSelected()) {
+            event->accept();
+            return;
+        }
+
+        if (item && !item->isSelected()) {
+            clearSelection();
+            item->setSelected(true);
+            event->accept();
+            return;
+        }
+
+        QGraphicsScene::mousePressEvent(event);
+        return;
+    }
+
     if (event->button() != Qt::LeftButton) {
-        event->accept();
+        QGraphicsScene::mousePressEvent(event);
         return;
     }
 
-    //menu bug:
-    if (event->button() != Qt::LeftButton || 
-        QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
-        QGraphicsScene::mousePressEvent(event);
+    const bool ctrl = (event->modifiers() & Qt::ControlModifier);
+
+    if (ctrl) {
+        if (QGraphicsItem* item = itemAt(event->scenePos(), QTransform())) {
+            item->setSelected(!item->isSelected());
+        }
+        event->ignore(); // allow rubberband on drag
         return;
     }
 
     QGraphicsItem* item = itemAt(event->scenePos(), QTransform());
-
-    if (item != NULL && !item->isSelected())
-    {
-        item->setSelected(1);
+    if (item != nullptr && !item->isSelected()) {
+        item->setSelected(true);
     }
 }
 

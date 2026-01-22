@@ -20,12 +20,12 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     QAction* action;
 
     action = (new QAction("Запази посещение", context_menu));
-    connect(action, &QAction::triggered, this, [=, this] { presenter->openDocument(TabType::Calendar); });
+    connect(action, &QAction::triggered, this, [=, this] { presenter->appointmentClicked(); });
     action->setIcon(QIcon(":/icons/icon_calendar.png"));
     context_menu->addAction(action);
 
     action = (new QAction("Създрай напомняне", context_menu));
-    connect(action, &QAction::triggered, this, [=, this] { presenter->appointmentClicked(); });
+    connect(action, &QAction::triggered, this, [=, this] { presenter->notificationClicked(); });
     action->setIcon(QIcon(":/icons/icon_bell.png"));
     context_menu->addAction(action);
 

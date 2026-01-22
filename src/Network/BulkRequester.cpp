@@ -166,7 +166,7 @@ void BulkRequester::sendRequest(const Patient& p, const std::vector<RequestType>
 				return eHospitalizationFetchService.sendRequest(
 					p, User::practice().rziCode,
 					[this](auto& hList) {
-						m_result.hospitalizations = hList ? hList.value() : {};
+						m_result.hospitalizations = hList ? hList.value() : std::vector<Hospitalization>();
 						nextStep();
 					}
 				);

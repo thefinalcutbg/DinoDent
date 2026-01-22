@@ -24,33 +24,34 @@ void GraphicsView::disableMultiSelection()
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)
 {
-	if(dragMode() != QGraphicsView::DragMode::RubberBandDrag){
-		QGraphicsView::mousePressEvent(event);
-		return;
-	}
+    if (dragMode() != QGraphicsView::RubberBandDrag) {
+        QGraphicsView::mousePressEvent(event);
+        return;
+    }
 
-	auto previouslySelectedList = scene()->selectedItems();
+    QGraphicsItem* clickedItem = itemAt(event->pos());
 
-	QGraphicsView::mousePressEvent(event);
-	
-	if (event->button() == Qt::LeftButton &&
-		!QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+    const auto previouslySelectedList = scene()->selectedItems();
 
-		QGraphicsView::mousePressEvent(event);
+    QGraphicsView::mousePressEvent(event);
 
-		auto newSelectedList = scene()->selectedItems();
+    if (event->button() == Qt::LeftButton &&
+        !(event->modifiers() & Qt::ControlModifier)) 
+    {
+    
+        if (scene()->selectedItems().isEmpty() && clickedItem) {
+            clickedItem->setSelected(true);
+        }
 
-        if (newSelectedList.empty()) return;
+        auto newSelectedList = scene()->selectedItems();
+        if (newSelectedList.isEmpty()) return;
 
-		//Аllows double click on multiple selected teeth:
-		if (previouslySelectedList.contains(newSelectedList[0])) {
-            for (auto i : previouslySelectedList) {
-				i->setSelected(true);
-			}
-		}
-		
-	}
-	
+        if (previouslySelectedList.contains(newSelectedList.first())) {
+            for (auto* i : previouslySelectedList) {
+                i->setSelected(true);
+            }
+        }
+    }
 }
 
 GraphicsView::~GraphicsView()

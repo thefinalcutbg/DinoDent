@@ -9,6 +9,7 @@
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
+#include "Model/FreeFunctions.h"
 
 #include "View/CommonIcon.h"
 
@@ -76,13 +77,11 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
     initTable(ui->futureTable);
 
     ui->appointmentButton->setIcon(CommonIcon::getPixmap(CommonIcon::CALENDAR));
+	ui->smsButton->setIcon(QPixmap(":/icons/icon_sms.png"));
 
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [&](int index) {
-
-        auto table = index ? ui->futureTable : ui->activeTable;
-        ui->appointmentButton->setDisabled(!table->model()->rowCount());
-
-    });
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [&](int index) { buttonEnabledLogic();});
+    connect(ui->activeTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, [&] { buttonEnabledLogic(); });
+    connect(ui->futureTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, [&] { buttonEnabledLogic(); });
 
     connect(ui->appointmentButton, &QPushButton::clicked, this, [&]{
 
@@ -97,6 +96,17 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
             true
         );
     });
+
+    connect(ui->smsButton, &QPushButton::clicked, this, [&]{
+        
+        auto table = ui->tabWidget->currentIndex() ? ui->futureTable : ui->activeTable;
+
+        if (!table->selectionModel()->hasSelection()) return;
+
+        auto patientRowid = table->selectionModel()->selectedRows(0)[0].data().toLongLong();
+		
+		auto smsSent = FreeFn::sendSMS(patientRowid);
+	});
 
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -150,6 +160,22 @@ void NotificationListDialog::appointmentLogic(long long patientRowid, long long 
     }
 
     DbNotification::remove(notifRowid);
+}
+
+void NotificationListDialog::buttonEnabledLogic()
+{
+    auto table = ui->tabWidget->currentIndex() ? ui->futureTable : ui->activeTable;
+
+    bool hasSelection = table->selectionModel()->hasSelection();
+
+    ui->appointmentButton->setDisabled(!hasSelection);
+    ui->smsButton->setDisabled(!hasSelection);
+
+    if (!hasSelection) return;
+
+    bool hasPhoneNumber = table->selectionModel()->selectedRows(3)[0].data().toString().size();
+
+    ui->smsButton->setDisabled(!hasPhoneNumber);
 }
 
 void NotificationListDialog::paintEvent(QPaintEvent*)

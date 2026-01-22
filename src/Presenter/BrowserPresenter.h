@@ -49,5 +49,7 @@ public:
 	void deleteCurrentSelection();
 	void openPatientDocuments(const std::set<int>& selectedIndexes);
 	void editPatientData();
+	void sendSms();
+	void createNotification();
 };
 

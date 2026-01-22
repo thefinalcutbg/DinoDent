@@ -28,9 +28,6 @@ struct Settings //only practice-specific settings
 	bool getHirbNoAuto{ false };
 	bool nhifDailyLimitCheck{ false };
 	bool nhifWeekendCheck{ false };
-	bool autoStatus{ false };
-	bool autoDiagnosis{ true };
-	bool showPatientList{ true };
 	bool preferMonthlySheets{ false };
 	bool getHospitalizationAuto{ false };
 	bool getAllergiesAuto{ false };

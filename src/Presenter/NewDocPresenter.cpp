@@ -32,13 +32,6 @@ void NewDocPresenter::patientSelected(long long rowid)
 
 std::optional<Patient> NewDocPresenter::open()
 {
-	if (!User::practice().settings.showPatientList) {
-
-		PatientDialogPresenter p(title);
-
-		return p.getPatient();
-	}
-
 	auto [rows, table] = DbBrowser::getData(TabType::PatientSummary, Date(), Date());
 
 	table.data.insert(table.data.begin(), PlainColumn());

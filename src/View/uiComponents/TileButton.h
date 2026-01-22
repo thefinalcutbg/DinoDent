@@ -45,8 +45,7 @@ struct PatientTile : public TileButton
 public:
     IconButton* nraButton;
     IconButton* notesButton;
-    IconButton* appointmentButton;
-    IconButton* notificationButton;
+    IconButton* menuButton;
     PatientTile(QWidget* parent = 0);
     void setData(const Patient& patient, int age);
 

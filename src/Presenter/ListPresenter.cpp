@@ -1674,30 +1674,6 @@ void ListPresenter::sendToHis(bool patientIsSigner)
         return;
 	}
 
-    //OPTIONAL INITIAL STATAUS PROCEDURE
-
-    if (
-        User::settings().autoStatus &&
-        m_amblist.nrn.empty() &&
-        m_amblist.procedures.size() &&
-        !m_amblist.procedures.hasDentalExam()
-        )
-    {
-        Procedure p;
-        p.code = ProcedureCode("97011-00");
-        p.diagnosis.icd = ICD10("Z01.2");
-        p.date = m_amblist.getDate();
-        p.notes = "ИЗХОДЕН ОРАЛЕН СТАТУС (автоматично генерирана дейност)";
-        m_amblist.procedures.addProcedure(p);
-        m_amblist.procedures.moveProcedure(
-            m_amblist.procedures.list().size() - 1,
-            0
-        );
-
-        makeEdited();
-        view->setProcedures(m_amblist.procedures.list());
-    }
-
     if (m_amblist.treatment_end.empty()) {
         m_amblist.treatment_end = FreeFn::getTimeStampUTC();
     }

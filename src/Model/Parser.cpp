@@ -395,9 +395,6 @@ std::string Parser::write(const Settings& settings)
 	json["hirbnoCheck"] = settings.getHirbNoAuto;
 	json["dailyLimitCheck"] = settings.nhifDailyLimitCheck;
 	json["weekendCheck"] = settings.nhifWeekendCheck;
-	json["autoStatus"] = settings.autoStatus;
-	json["patientList"] = settings.showPatientList;
-	json["autoDiagnosis"] = settings.autoDiagnosis;
 	json["preferMonthlySheets"] = settings.preferMonthlySheets;
 	json["hospiCheck"] = settings.getHospitalizationAuto;
 	json["allergiesCheck"] = settings.getAllergiesAuto;
@@ -433,9 +430,6 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.getHirbNoAuto = json["hirbnoCheck"].asBool(),
 		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
 		.nhifWeekendCheck = json["weekendCheck"].asBool(),
-		.autoStatus = json["autoStatus"].asBool(),
-		.autoDiagnosis = json.isMember("autoDiagnosis") ? json["autoDiagnosis"].asBool() : true,
-		.showPatientList = json.isMember("patientList") ? json["patientList"].asBool() : true,
 		.preferMonthlySheets = json["preferMonthlySheets"].asBool(),
 		.getHospitalizationAuto = json["hospiCheck"].asBool(),
 		.getAllergiesAuto = json["allergiesCheck"].asBool(),

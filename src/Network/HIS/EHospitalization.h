@@ -9,7 +9,7 @@ namespace EHospitalization
 {
 	class Fetch : private HisService
 	{
-		std::function<void(std::vector<Hospitalization>)> m_callback;
+		std::function<void(const std::optional<std::vector<Hospitalization>>&)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;

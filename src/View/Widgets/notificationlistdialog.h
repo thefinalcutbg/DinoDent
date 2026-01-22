@@ -16,7 +16,7 @@ class NotificationListDialog : public QDialog
     NotificationTableModel future_model;
 
     void appointmentLogic(long long patientRowid, long long notificatioNRowid, const std::string& descr = {}, bool forceAppointment = false);
-
+    void buttonEnabledLogic();
     void paintEvent(QPaintEvent* event) override;
 public:
     explicit NotificationListDialog(QWidget *parent = nullptr);

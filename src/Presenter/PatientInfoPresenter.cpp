@@ -119,16 +119,12 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
 
 void PatientInfoPresenter::notificationClicked()
 {
-    NotificationDialog d;
-    d.exec();
+    FreeFn::createNotification(patient->rowid);
+}
 
-    auto result = d.getResult();
-
-    if(!result) return;
-
-    result->patientRowid = patient->rowid;
-
-    DbNotification::insert(result.value());
+void PatientInfoPresenter::sendSms()
+{
+    FreeFn::sendSMS(patient->rowid);
 }
 
 void PatientInfoPresenter::openDocument(TabType type)
@@ -145,10 +141,30 @@ void PatientInfoPresenter::refreshPatientData()
 	view->setPatient(*patient, patientAge);
 }
 
-void PatientInfoPresenter::sendSms()
+void PatientInfoPresenter::checkActiveHospitalization()
 {
-	FreeFn::sendSMS(patient->rowid);
+    m_hospitalization_serv.sendRequest(
+        *patient.get(),
+		User::practice().rziCode,
+        [=, this](auto hospitalizations) {
+
+            if (!hospitalizations) return;
+
+            for (auto& h : hospitalizations.value()) {
+                if(h.status == Hospitalization::Status::Active) {
+                    ModalDialogBuilder::showMessage(
+                        "Пациентът е в активна хоспитализация от "
+						+ h.authoredOn.toBgStandard()
+					);
+                    return;
+				}
+            }
+
+			ModalDialogBuilder::showMessage("Пациентът няма активна хоспитализация.");
+        }
+	);
 }
+
 
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
 {

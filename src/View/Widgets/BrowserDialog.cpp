@@ -244,29 +244,9 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 
     if (ui.tabBar->currentIndex() != static_cast<int>(TabType::Financial)) {
 
-		action = (new QAction("Нов амбулаторен лист", main_menu));
-        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::AmbList); });
-		action->setIcon(QIcon(":/icons/icon_sheet.png"));
-		main_menu->addAction(action);
-
-		action = (new QAction("Ново пародонтално измерване", main_menu));
-        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::PerioStatus); });
-		action->setIcon(QIcon(":/icons/icon_periosheet.png"));
-		main_menu->addAction(action);
-
-		action = (new QAction("Нова рецепта", main_menu));
-        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Prescription); });
-		action->setIcon(QIcon(":/icons/icon_prescr.png"));
-		main_menu->addAction(action);
-
-        action = (new QAction("Нов лечебен план", main_menu));
-        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::TreatmentPlan); });
-        action->setIcon(QIcon(":/icons/icon_plan.png"));
-        main_menu->addAction(action);
-
-		action = (new QAction("Нова фактура", main_menu));
-        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Financial); });
-		action->setIcon(QIcon(":/icons/icon_invoice.png"));
+		action = (new QAction("Редактирай данните на пациена", main_menu));
+		connect(action, &QAction::triggered, this, [=, this] { presenter.editPatientData(); });
+		action->setIcon(QIcon(":/icons/icon_edit.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Запази посещение", main_menu));
@@ -274,15 +254,48 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		action->setIcon(QIcon(":/icons/icon_calendar.png"));
 		main_menu->addAction(action);
 
+		action = (new QAction("Създрай напомняне", main_menu));
+		connect(action, &QAction::triggered, this, [=, this] { presenter.createNotification(); });
+		action->setIcon(QIcon(":/icons/icon_bell.png"));
+		main_menu->addAction(action);
+
+		action = (new QAction("Изпрати SMS", main_menu));
+		connect(action, &QAction::triggered, this, [=, this] { presenter.sendSms(); });
+		action->setIcon(QIcon(":/icons/icon_sms.png"));
+		main_menu->addAction(action);
+
 		action = (new QAction("Пациентско досие", main_menu));
 		connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::PatientSummary); });
 		action->setIcon(QIcon(":/icons/icon_history.png"));
 		main_menu->addAction(action);
 
-		action = (new QAction("Редактирай данните на пациена", main_menu));
-		connect(action, &QAction::triggered, this, [=, this] { presenter.editPatientData(); });
-		action->setIcon(QIcon(":/icons/icon_edit.png"));
-		main_menu->addAction(action);
+		QMenu* newDocMenu = new QMenu("Създай", main_menu);
+		main_menu->addMenu(newDocMenu);
+
+		action = (new QAction("Нов амбулаторен лист", newDocMenu));
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::AmbList); });
+		action->setIcon(QIcon(":/icons/icon_sheet.png"));
+		newDocMenu->addAction(action);
+
+		action = (new QAction("Ново пародонтално измерване", newDocMenu));
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::PerioStatus); });
+		action->setIcon(QIcon(":/icons/icon_periosheet.png"));
+		newDocMenu->addAction(action);
+
+		action = (new QAction("Нова рецепта", newDocMenu));
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Prescription); });
+		action->setIcon(QIcon(":/icons/icon_prescr.png"));
+		newDocMenu->addAction(action);
+
+        action = (new QAction("Нов лечебен план", newDocMenu));
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::TreatmentPlan); });
+        action->setIcon(QIcon(":/icons/icon_plan.png"));
+		newDocMenu->addAction(action);
+
+		action = (new QAction("Нова фактура", newDocMenu));
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Financial); });
+		action->setIcon(QIcon(":/icons/icon_invoice.png"));
+		newDocMenu->addAction(action);
 	}
 
 	action = (new QAction("Копирай текста", main_menu));

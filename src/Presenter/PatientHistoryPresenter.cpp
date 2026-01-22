@@ -230,10 +230,12 @@ void PatientHistoryPresenter::hospitalizationRequested()
 {
 	eHospitalizationFetch.sendRequest(patient,
 		User::practice().rziCode,
-		[&](const std::vector<Hospitalization>& hList) {
+		[&](auto& hList) {
 
-			hospitalizations = hList;
-			view.setHospitalizations(hList);
+			if (!hList) return;
+
+			hospitalizations = hList.value();
+			view.setHospitalizations(hospitalizations);
 
 		}
 	);

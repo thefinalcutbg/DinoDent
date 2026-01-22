@@ -159,28 +159,18 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
     nraButton->move(5, 5);
     nraButton->setFixedSize(iconSize, iconSize);
 
-    appointmentButton = new IconButton(this);
-    appointmentButton->setIcon(QIcon(":/icons/icon_calendar.png"));
-    appointmentButton->setFixedSize(iconSize, iconSize);
-    appointmentButton->move(width() - (iconSize + 5), 5);
-    appointmentButton->setToolTip("Запази посещение");
-    appointmentButton->setHoverColor(Theme::mainBackgroundColor);
-	appointmentButton->setGraphicsEffect(nullptr);
-
-    notificationButton = new IconButton(this);
-    notificationButton->setIcon(QIcon(":/icons/icon_bell.png"));
-    notificationButton->setFixedSize(iconSize, iconSize);
-    notificationButton->move(appointmentButton->x() - 40, appointmentButton->y());
-    notificationButton->setToolTip("Добавяне на напомняне");
-    notificationButton->setHoverColor(Theme::mainBackgroundColor);
-	notificationButton->setGraphicsEffect(nullptr);
+    menuButton = new IconButton(this);
+    menuButton->setIcon(QIcon(":/icons/icon_menu.png"));
+    menuButton->setFixedSize(iconSize, iconSize);
+    menuButton->move(width() - (iconSize + 5), 5);
+    menuButton->setToolTip("Отвори меню");
+    menuButton->setGraphicsEffect(nullptr);
 
     notesButton = new IconButton(this);
     notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
     notesButton->setFixedSize(iconSize, iconSize);
-    notesButton->move(notificationButton->x() - 40, notificationButton->y());
+    notesButton->move(menuButton->x() - 40, menuButton->y());
     notesButton->setToolTip("Бележки за пациента");
-    notesButton->setHoverColor(Theme::mainBackgroundColor);
 	notesButton->setGraphicsEffect(nullptr);
 }
 
@@ -238,9 +228,8 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
 
-    appointmentButton->move(width() - 5 - appointmentButton->width(), 5);
-    notificationButton->move(appointmentButton->x() - 40, appointmentButton->y());
-    notesButton->move(notificationButton->x() - 40, notificationButton->y());
+    menuButton->move(width() - 5 - menuButton->width(), 5);
+    notesButton->move(menuButton->x() - 40, menuButton->y());
 
     update();
 }

@@ -20,4 +20,5 @@ namespace FreeFn {
     std::string getPatientName(const std::string& fname, const std::string& mname, const std::string& lname);
 	std::string getPhoneFromString(const std::string& text);
     bool sendSMS(long long patientRowid);
+    void createNotification(long long patientRowid);
 };

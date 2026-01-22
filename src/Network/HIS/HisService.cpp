@@ -55,7 +55,10 @@ std::string HisService::signMessage(const std::string& message)
 {
 	auto hsm = GetHSM::get(show_dialogs);
 
-	if (!hsm) { return std::string{}; }
+	if (!hsm) { 
+		show_dialogs = false;  //to not show multiple dialogs
+		return std::string{}; 
+	}
 
 	return Signer::signEnveloped(message, hsm->takePrivateKey(), hsm->x509ptr(), true);
 }

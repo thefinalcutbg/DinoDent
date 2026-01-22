@@ -10,6 +10,8 @@
 #include "Database/DbPatient.h"
 #include "Database/DbTreatmentPlan.h"
 
+#include "Model/FreeFunctions.h"
+
 #include <map>
 
 
@@ -22,12 +24,7 @@ void BrowserPresenter::setView(BrowserDialog* view)
 	if (firstCall) {
 
 		firstCall = false;
-		//no need to show patient list if it is shown on every new document
-		ui_state.model_type =
-			User::practice().settings.showPatientList ?
-			TabType::AmbList
-			:
-			TabType::PatientSummary;
+		ui_state.model_type = TabType::AmbList;
 	}
 
 	this->view->setUiState(ui_state);
@@ -338,4 +335,18 @@ void BrowserPresenter::editPatientData()
 	if (result) {
 		refreshModel();
 	}
+}
+
+void BrowserPresenter::createNotification()
+{
+	if (m_selectedInstances.empty()) return;
+
+	FreeFn::createNotification(m_selectedInstances[0]->patientRowId);
+}
+
+void BrowserPresenter::sendSms()
+{
+	if (m_selectedInstances.empty()) return;
+
+	FreeFn::sendSMS(m_selectedInstances[0]->patientRowId);
 }

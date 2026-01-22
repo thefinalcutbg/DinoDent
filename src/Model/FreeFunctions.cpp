@@ -197,3 +197,20 @@ bool FreeFn::sendSMS(long long patientRowid)
 
     return false;
 }
+
+#include "View/Widgets/notificationdialog.h"
+#include "Database/DbNotification.h"
+
+void FreeFn::createNotification(long long patientRowid)
+{
+    NotificationDialog d;
+    d.exec();
+
+    auto result = d.getResult();
+
+    if (!result) return;
+
+    result->patientRowid = patientRowid;
+
+    DbNotification::insert(result.value());
+}

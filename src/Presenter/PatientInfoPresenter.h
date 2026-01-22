@@ -20,6 +20,7 @@ struct PatientInfoPresenter
 	int patientAge{ 0 };
 
 	NraStatusService nraStatusServ;
+	EHospitalization::Fetch m_hospitalization_serv;
 
 	bool m_showInsuranceDialog{ false };
 
@@ -42,5 +43,6 @@ public:
     void openDocument(TabType type);
 	void setParent(TabInstance* p) { m_parent = p; }
 	void refreshPatientData();
+	void checkActiveHospitalization();
 	void sendSms();
 };

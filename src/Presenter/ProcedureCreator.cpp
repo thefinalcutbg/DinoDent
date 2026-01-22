@@ -40,16 +40,15 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif)
 	//setting common data
 	ProcedureInput::CommonData commonData;
 
-	if (User::settings().autoDiagnosis){
-		auto & defaultICDCode = code.defaultICD10();
+	auto & defaultICDCode = code.defaultICD10();
 
-		if (defaultICDCode.size()) {
-			commonData.diagnosis.icd = defaultICDCode;
-		}
-		else {
-			commonData.diagnosis = diag_map[code.type()];
-		}
+	if (defaultICDCode.size()) {
+		commonData.diagnosis.icd = defaultICDCode;
 	}
+	else {
+		commonData.diagnosis = diag_map[code.type()];
+	}
+	
 
 	commonData.financingSource = nhif ? FinancingSource::NHIF : s_preferred_financing;
 

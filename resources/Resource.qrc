@@ -63,6 +63,7 @@
         <file>dinoNewYear.png</file>
         <file>icon_addPlanned.png</file>
         <file>icon_menu.png</file>
+        <file>icon_sms.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

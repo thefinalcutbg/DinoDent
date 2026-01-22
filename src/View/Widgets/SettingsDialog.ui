@@ -37,52 +37,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>Общи настройки</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QCheckBox" name="autoDiagnosis">
-              <property name="text">
-               <string>Автоматично попълване на диагноза при добавяне на нова процедура</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="patientList">
-              <property name="text">
-               <string>Показвай списъка с пациенти при създаване на нов медицински документ</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="autoStatus">
-              <property name="text">
-               <string>Автоматично подаване на изходен статус към НЗИС като първа манипулация</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="showPricesCheck">
-              <property name="text">
-               <string>Показвай цени в прозореца за добавяне на нова процедура</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="monthlySheets">
-              <property name="text">
-               <string>Генериране на амбулаторните листове на месечна основа</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QHBoxLayout" name="horizontalLayout_4"/>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_6">
@@ -96,6 +51,13 @@
           <string>Нов амбулаторен лист</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_27">
+          <item>
+           <widget class="QCheckBox" name="monthlySheets">
+            <property name="text">
+             <string>Генериране на амбулаторните листове на месечна основа</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QCheckBox" name="autoHisCheck">
             <property name="text">
@@ -205,42 +167,99 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QPushButton" name="updateMedButton">
-           <property name="text">
-            <string>Актуализиране на списъка с медикаменти от НСЦРЛП</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Последна актуализация:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="medUpdateLabel">
-           <property name="text">
-            <string>няма</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        <widget class="QFrame" name="buttonFrame">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPushButton" name="updateMedButton">
+              <property name="text">
+               <string>Актуализиране на списъка с медикаменти от НСЦРЛП</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Последна актуализация:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="medUpdateLabel">
+              <property name="text">
+               <string>няма</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_47">
+            <item>
+             <widget class="QPushButton" name="hisImport">
+              <property name="text">
+               <string>Зареждане на амбулаторен лист от НЗИС</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_32">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_42">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="printEmptyDocs">
+              <property name="text">
+               <string>Печат на празни бланки</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_35">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer_2">
@@ -254,40 +273,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_42">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="printEmptyDocs">
-           <property name="text">
-            <string>Печат на празни бланки</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_35">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="hisImport">
-           <property name="text">
-            <string>Зареждане на амбулаторен лист от НЗИС</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
@@ -1789,6 +1774,13 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showPricesCheck">
+         <property name="text">
+          <string>Показвай цени в прозореца за добавяне на нова процедура</string>
          </property>
         </widget>
        </item>

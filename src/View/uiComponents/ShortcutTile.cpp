@@ -45,9 +45,6 @@ void ShortcutTile::paintEvent(QPaintEvent*)
     QColor normalBg(Theme::sectionBackground);
     QColor hoverBg(Theme::inactiveTabBG);
 
-    QColor normalText(Theme::fontTurquoiseClicked);
-    QColor hoverText(Theme::fontTurquoise);
-
     auto mixChannel = [](int a, int b, qreal t) -> int {
         return a + qRound((b - a) * t);
         };
@@ -61,12 +58,6 @@ void ShortcutTile::paintEvent(QPaintEvent*)
     background.setGreen(mixChannel(normalBg.green(), hoverBg.green(), t));
     background.setBlue(mixChannel(normalBg.blue(), hoverBg.blue(), t));
     background.setAlpha(mixChannel(normalBg.alpha(), hoverBg.alpha(), t));
-
-    QColor textColor;
-    textColor.setRed(mixChannel(normalText.red(), hoverText.red(), t));
-    textColor.setGreen(mixChannel(normalText.green(), hoverText.green(), t));
-    textColor.setBlue(mixChannel(normalText.blue(), hoverText.blue(), t));
-    textColor.setAlpha(mixChannel(normalText.alpha(), hoverText.alpha(), t));
 
     painter.fillPath(path, background);
 
@@ -86,15 +77,6 @@ void ShortcutTile::paintEvent(QPaintEvent*)
     }
 
     return;
-
-    painter.setPen(QPen(textColor));
-    painter.setFont(font());
-
-    QTextOption textOption;
-    textOption.setWrapMode(QTextOption::WordWrap);
-    textOption.setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-
-    painter.drawText(QRectF(10, 100, width() - 20, 50), text(), textOption);
 }
 
 bool ShortcutTile::eventFilter(QObject* o, QEvent* e)

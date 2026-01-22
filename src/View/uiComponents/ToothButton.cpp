@@ -37,8 +37,12 @@ void ToothButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
+    auto r = rect();
+
 	if (m_hover) {
-        painter.fillRect(rect(), Theme::background);
+        QPainterPath path;
+        path.addRoundedRect(r.x()+10, r.y()+2, r.width()-20, r.height()-4, Theme::radius/2, Theme::radius/2);
+        painter.fillPath(path, Theme::background);
 	}
 
 	QPen pen(Theme::border);
@@ -46,7 +50,7 @@ void ToothButton::paintEvent(QPaintEvent*)
 	pen.setWidth(2);
 	painter.setPen(pen);
 
-	painter.setPen(isChecked() || m_hover ? Theme::fontTurquoiseClicked : Qt::lightGray);
+    painter.setPen(isChecked() ? Theme::fontTurquoiseClicked : Qt::lightGray);
 
 	painter.drawText(rect(), Qt::AlignCenter, text());
 

@@ -129,8 +129,8 @@ DinoDent::DinoDent(QWidget* parent)
     ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
     ui.pdfButton->setIcon(QIcon(":/icons/icon_pdf.png"));
     ui.donateButton->setIcon(QIcon(":/icons/icon_donate.png"));
-	ui.notifButton->setIconMode(IconButton::COLOR);
-	ui.mircButton->setIconMode(IconButton::COLOR);
+	ui.notifButton->setIconMode(IconButton::MONOCHROME);
+	ui.mircButton->setIconMode(IconButton::MONOCHROME);
 
     Theme::applyShadow(ui.donateButton);
     
@@ -228,7 +228,7 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDis
 
 void DinoDent::setIrcIconAlert(bool glow)
 {
-    ui.mircButton->setIconMode(glow ? IconButton::COLOR : IconButton::COLOR);
+    ui.mircButton->setIconMode(glow ? IconButton::COLOR : IconButton::MONOCHROME);
     ui.mircButton->setAlert(glow ? "!" : "");
 }
 
@@ -255,7 +255,7 @@ void DinoDent::closeEvent(QCloseEvent* event)
 
 void DinoDent::setNotificationIcon(int activeNotifCount)
 {
-    ui.notifButton->setIconMode(activeNotifCount ? IconButton::COLOR : IconButton::COLOR);
+    ui.notifButton->setIconMode(activeNotifCount ? IconButton::COLOR : IconButton::MONOCHROME);
     ui.notifButton->setAlert(activeNotifCount ? std::to_string(activeNotifCount) : "");
     activeNotifCount ? Theme::applyLightShadow(ui.notifButton) : ui.notifButton->setGraphicsEffect(nullptr);
 

@@ -129,20 +129,9 @@ DinoDent::DinoDent(QWidget* parent)
     ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
     ui.pdfButton->setIcon(QIcon(":/icons/icon_pdf.png"));
     ui.donateButton->setIcon(QIcon(":/icons/icon_donate.png"));
-    ui.notifButton->setMonochrome(true);
-    ui.mircButton->setMonochrome(true);
-/*
-    Theme::applyShadow(ui.newButton);
-    Theme::applyShadow(ui.perioButton);
-    Theme::applyShadow(ui.perscrButton);
-    Theme::applyShadow(ui.planButton);
-    Theme::applyShadow(ui.invoiceButton);
-    Theme::applyShadow(ui.calendarButton);
-    Theme::applyShadow(ui.settingsButton);
-    Theme::applyShadow(ui.aboutButton);
-    Theme::applyShadow(ui.browserButton);
-    Theme::applyShadow(ui.statisticButton);
-*/
+	ui.notifButton->setIconMode(IconButton::COLOR_ON_HOVER_ONLY);
+	ui.mircButton->setIconMode(IconButton::COLOR_ON_HOVER_ONLY);
+
     Theme::applyShadow(ui.donateButton);
     
     connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://dinodent.bg/donate/", QUrl::TolerantMode)); });
@@ -174,7 +163,7 @@ DinoDent::DinoDent(QWidget* parent)
             return;
         }
 
-        setIrcIcon(false);
+        setIrcIconAlert(false);
         
         m_chatDialog->openAndConnect();
         
@@ -188,13 +177,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.userButton->setIconSize(QSize(25, 25));
     Theme::applyLightShadow(ui.userButton);
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
-/*
-    ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));
-    
-    QFont font;
-    font.setBold(true);
-    ui.practiceLabel->setFont(font);
-*/
+
     SplashScreen::hideAndDestroy();
 
     ui.tabView->showWelcomeScreen();
@@ -243,10 +226,10 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDis
     disableFn(ui.pdfButton, pdfDisabled);
 }
 
-void DinoDent::setIrcIcon(bool glow)
+void DinoDent::setIrcIconAlert(bool glow)
 {
-    ui.mircButton->setMonochrome(!glow);
-    glow ? Theme::applyLightShadow(ui.mircButton) : ui.mircButton->setGraphicsEffect(nullptr);
+    ui.mircButton->setIconMode(glow ? IconButton::COLOR : IconButton::COLOR_ON_HOVER_ONLY);
+    ui.mircButton->setAlert(glow ? "!" : "");
 }
 
 void DinoDent::paintEvent(QPaintEvent*)
@@ -272,8 +255,8 @@ void DinoDent::closeEvent(QCloseEvent* event)
 
 void DinoDent::setNotificationIcon(int activeNotifCount)
 {
-    ui.notifButton->setMonochrome(!activeNotifCount);
-    ui.notifButton->setIcon(activeNotifCount ? QIcon(":/icons/icon_bell_notify.png") : QIcon(":/icons/icon_bell.png"));
+    ui.notifButton->setIconMode(activeNotifCount ? IconButton::COLOR : IconButton::COLOR_ON_HOVER_ONLY);
+    ui.notifButton->setAlert(activeNotifCount ? std::to_string(activeNotifCount) : "");
     activeNotifCount ? Theme::applyLightShadow(ui.notifButton) : ui.notifButton->setGraphicsEffect(nullptr);
 
     switch(activeNotifCount){

@@ -12,7 +12,6 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	ui.setupUi(this);
 
 	ui.notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
-    ui.notesButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.notesButton->setGraphicsEffect(nullptr);
 	scene = new QGraphicsScene;
 	ui.surfaceView->setScene(scene);
@@ -61,7 +60,7 @@ void SurfacePanel::setPresenter(SurfacePanelPresenter* presenter)
 void SurfacePanel::paintTooth(const ToothPaintHint& tooth, bool hasNotes)
 {
 	toothGraphic->setPixmap(ToothPainter::getOcclusal(tooth));
-	ui.notesButton->setMonochrome(!hasNotes);
+	ui.notesButton->setIconMode(hasNotes ? IconButton::COLOR : IconButton::MONOCHROME);
 }
 
 void SurfacePanel::hidePanel(bool hidden)

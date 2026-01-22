@@ -56,7 +56,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		if (m_topic.size()) //if it isn't the initial topic
 		{
 			if (!isVisible()) {
-				static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
+				static_cast<DinoDent*>(this->parent())->setIrcIconAlert(true);
 			}
 		}
 
@@ -126,7 +126,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		session_log.append(result + "\n");
 
 		if (!isVisible()) {
-			static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
+			static_cast<DinoDent*>(this->parent())->setIrcIconAlert(true);
 		}
 
 	});

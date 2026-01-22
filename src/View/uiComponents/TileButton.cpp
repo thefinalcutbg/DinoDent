@@ -163,7 +163,8 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
     menuButton->setIcon(QIcon(":/icons/icon_menu.png"));
     menuButton->setFixedSize(iconSize, iconSize);
     menuButton->move(width() - (iconSize + 5), 5);
-    menuButton->setToolTip("Отвори меню");
+	menuButton->setHoverColor(Theme::sectionBackground);
+    menuButton->setIconMode(IconButton::COLOR_ON_HOVER_ONLY);
     menuButton->setGraphicsEffect(nullptr);
 
     notesButton = new IconButton(this);
@@ -302,7 +303,8 @@ void PatientTile::setData(const Patient& patient, int age)
 
     }
 
-    notesButton->setMonochrome(patient.patientNotes.empty());
+
+    notesButton->setIconMode(patient.patientNotes.empty() ? IconButton::MONOCHROME : IconButton::COLOR);
 
     birthday = patient.birth.isSameDayInTheYear();
 

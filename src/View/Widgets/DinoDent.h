@@ -26,7 +26,7 @@ public:
     void exitProgram();
     bool initialized();
     void disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled);
-    void setIrcIcon(bool glow);
+    void setIrcIconAlert(bool glow);
     void setNotificationIcon(int activeNotifCount);
     void openIrc();
 

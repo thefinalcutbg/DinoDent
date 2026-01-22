@@ -73,14 +73,56 @@ void IconButton::paintEvent(QPaintEvent*)
 
     QIcon::Mode iconMode = isEnabled() ? QIcon::Mode::Normal : QIcon::Mode::Disabled;
 
-    if (m_monochrome) {
-        iconMode = QIcon::Disabled;
+    switch (m_iconMode) {
+        case MONOCHROME:
+			iconMode = QIcon::Disabled;
+			break;
+        case COLOR_ON_HOVER_ONLY:
+            if(!m_hover) {
+                iconMode = QIcon::Disabled;
+			}
+            break;
     }
 
     if (!icon().isNull()) {
         painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
         icon().paint(&painter, iconRect, Qt::AlignCenter, iconMode);
         painter.setRenderHint(QPainter::SmoothPixmapTransform, false);
+    }
+
+    if (!m_badgeText.isEmpty()) {
+
+        qreal badgeRadius = qMin(r.width(), r.height()) * 0.2;
+        qreal margin = badgeRadius * 0.06;
+
+        QPointF badgeCenter(
+            r.right() - badgeRadius,
+            r.top() + badgeRadius
+        );
+
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(220, 40, 40));
+        painter.drawEllipse(badgeCenter, badgeRadius, badgeRadius);
+
+        painter.setBrush(Qt::NoBrush);
+        painter.setPen(Qt::white);
+
+        QFont f = painter.font();
+        f.setBold(true);
+
+        int len = m_badgeText.size();
+        qreal textScale = (len <= 1) ? 1.25 : (len == 2 ? 1.05 : 0.90);
+        f.setPixelSize(int(badgeRadius * textScale));
+        painter.setFont(f);
+
+        QRectF textRect(
+            badgeCenter.x() - badgeRadius,
+            badgeCenter.y() - badgeRadius,
+            badgeRadius * 2,
+            badgeRadius * 2
+        );
+
+        painter.drawText(textRect, Qt::AlignCenter, m_badgeText);
     }
 
     if (outlineColor.isValid()) {
@@ -165,10 +207,5 @@ void IconButton::setBackgroundColor(const QColor& color)
     update();
 }
 
-void IconButton::setMonochrome(bool monochrome)
-{
-    m_monochrome = monochrome;
-    update();
-}
 
 IconButton::~IconButton() = default;

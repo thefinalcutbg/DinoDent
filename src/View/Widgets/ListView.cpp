@@ -68,13 +68,14 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
-	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.statusResultButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.addRefButton->setHoverColor(Theme::mainBackgroundColor);
     ui.declarationButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
     ui.treatmentPlanButton->setHoverColor(Theme::mainBackgroundColor);
     ui.syncButton->setHoverColor(Theme::mainBackgroundColor);
+
+	ui.nssiButton->setGraphicsEffect(nullptr);
 
     QMenu* menu = new QMenu(ui.addRefButton);
 

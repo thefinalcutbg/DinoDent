@@ -254,7 +254,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		action->setIcon(QIcon(":/icons/icon_calendar.png"));
 		main_menu->addAction(action);
 
-		action = (new QAction("Създрай напомняне", main_menu));
+		action = (new QAction("Създай напомняне", main_menu));
 		connect(action, &QAction::triggered, this, [=, this] { presenter.createNotification(); });
 		action->setIcon(QIcon(":/icons/icon_bell.png"));
 		main_menu->addAction(action);

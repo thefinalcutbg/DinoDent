@@ -159,6 +159,28 @@
           </widget>
          </item>
          <item>
+          <widget class="IconButton" name="planButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Нов лечебен план (Ctrl+L)</string>
+           </property>
+           <property name="text">
+            <string>Plan</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="IconButton" name="invoiceButton">
            <property name="minimumSize">
             <size>
@@ -177,28 +199,6 @@
            </property>
            <property name="text">
             <string>Invoice</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="planButton">
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Нов лечебен план</string>
-           </property>
-           <property name="text">
-            <string>PushButton</string>
            </property>
           </widget>
          </item>

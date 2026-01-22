@@ -24,7 +24,7 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
     action->setIcon(QIcon(":/icons/icon_calendar.png"));
     context_menu->addAction(action);
 
-    action = (new QAction("Създрай напомняне", context_menu));
+    action = (new QAction("Създай напомняне", context_menu));
     connect(action, &QAction::triggered, this, [=, this] { presenter->notificationClicked(); });
     action->setIcon(QIcon(":/icons/icon_bell.png"));
     context_menu->addAction(action);

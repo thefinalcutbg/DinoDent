@@ -111,6 +111,10 @@ DinoDent::DinoDent(QWidget* parent)
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().pdfPressed(); });
 
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_L), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newTreatmentPlan(); });
+
     //setting buttons
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));

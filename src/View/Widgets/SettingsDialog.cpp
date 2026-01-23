@@ -633,8 +633,6 @@ void SettingsDialog::setDoctorList(const std::vector<PracticeDoctor>& doctors)
 
 	ui.doctorList->setRowCount(doctors.size());
 
-	nhif ? ui.doctorList->showColumn(2) : ui.doctorList->hideColumn(2);
-
 	for (int i = 0; i < doctors.size(); i++) {
 		auto& doc = doctors[i];
 		

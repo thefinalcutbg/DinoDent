@@ -1,4 +1,5 @@
 ALTER TABLE patient ADD COLUMN email TEXT;
+ALTER TABLE amblist DROP COLUMN auto_status;
 PRAGMA foreign_keys = 0;
 CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM financial;
 DROP TABLE financial;

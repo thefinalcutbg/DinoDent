@@ -1735,7 +1735,6 @@ void ListPresenter::sendToHis(bool patientIsSigner)
         m_amblist,
         *patient,
         patientIsSigner,
-        DbAmbList::hasAutoStatus(m_amblist.nrn),
         [&](auto& procedureIdx)
         {
             m_amblist.his_updated = true;
@@ -1758,7 +1757,6 @@ void ListPresenter::sendToHis(bool patientIsSigner)
                 view->setProcedures(m_amblist.procedures.list());
             }
 
-            DbAmbList::setAutoStatus(m_amblist.nrn, false);
             ModalDialogBuilder::showMessage("Амбулаторният лист е коригиран успешно");
 
             bulkRequester.sendRequest(*patient, {BulkRequester::HISDentalHistory});

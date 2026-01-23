@@ -514,35 +514,6 @@ bool DbAmbList::importedPisSheetExists(const AmbList& list, const Patient& patie
     return false;
 }
 
-bool DbAmbList::hasAutoStatus(const std::string& nrn)
-{
-    Db db;
-    db.newStatement(
-        "SELECT auto_status FROM amblist WHERE nrn=?"
-    );
-
-    db.bind(1, nrn);
-
-    while (db.hasRows()) {
-        return db.asBool(0);
-    }
-
-    return false;
-}
-
-bool DbAmbList::setAutoStatus(const std::string& nrn, bool autoStatus)
-{
-    Db db;
-    db.newStatement(
-        "UPDATE amblist SET auto_status=? WHERE nrn=?"
-    );
-
-    db.bind(1, autoStatus);
-    db.bind(2, nrn);
-
-    return db.execute();
-}
-
 long long DbAmbList::getRowidByNRN(const std::string& nrn)
 {
     Db db;

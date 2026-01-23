@@ -155,7 +155,6 @@ bool EDental::Augment::sendRequest(
     const AmbList& ambSheet,
     const Patient& patient,
 	bool patientIsSigner,
-    bool removeAutoStatus,
     decltype(m_callback) callback,
     std::function<void(const std::vector<unsigned char>& sig_bitmap, const std::string& sig_data)> sig_callback
     )
@@ -190,7 +189,7 @@ bool EDental::Augment::sendRequest(
 		+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 		+ HisService::getMedicalStatus(patient)
 		+ resultingDocuments
-		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date, removeAutoStatus)
+		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date)
 		+ "</nhis:dentalTreatment>";
 
     //signed from previous attempt
@@ -225,7 +224,7 @@ bool EDental::Augment::sendRequest(
     return HisService::sendRequestToHis(contents, sig_data);
 }
 
-std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate, bool autoStatusRemove)
+std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate)
 {
 	
 	std::string result;
@@ -260,19 +259,6 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 		result += bind("financingSource", static_cast<int>(p.financingSource));
 		result += "</nhis:dentalProcedure>";
 
-	}
-
-	if (autoStatusRemove) {
-
-		result += "<nhis:dentalProcedure>";
-		result += bind("sequence", 9999);
-		result += bind("index", 1);
-		result += bind("code", "D-01-001");
-		result += bind("type", 1);
-		result += bind("status", 7);
-		result += bind("datePerformed", treatmentStartDate.to8601());
-		result += bind("financingSource", 4);
-		result += "</nhis:dentalProcedure>";
 	}
 	
 	return result;

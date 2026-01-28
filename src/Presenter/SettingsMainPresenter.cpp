@@ -5,7 +5,6 @@
 #include "Database/Database.h"
 #include "Database/DbPatient.h"
 #include "Database/DbAmbList.h"
-#include "Database/DbUpdateStatus.h"
 
 #include "Network/GetHSM.h" 
 #include "Network/NetworkManager.h"
@@ -111,7 +110,7 @@ void SettingsMainPresenter::setUpdateLabels() {
 
 	view->setUpdateDate(
 		DynamicNum::Medication,
-		DbUpdateStatus::lastUpdated(DynamicNum::Medication)
+		Medication::lastUpdatedDate()
 	);
 }
 
@@ -297,14 +296,45 @@ bool SettingsMainPresenter::applyChanges()
 void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 {
 
+	auto capitalizeFirstWord = [](const std::string& s) -> std::string
+	{
+			auto isSpace = [](unsigned char c) { return std::isspace(c) != 0; };
+			auto isAlpha = [](unsigned char c) { return std::isalpha(c) != 0; };
+
+			std::string out = s;
+
+			std::size_t i = 0;
+			const std::size_t n = out.size();
+
+			while (i < n && isSpace(static_cast<unsigned char>(out[i])))
+				++i;
+
+			while (i < n &&
+				(isAlpha(static_cast<unsigned char>(out[i])) || out[i] == '_'))
+			{
+				out[i] = static_cast<char>(std::toupper(static_cast<unsigned char>(out[i])));
+				++i;
+			}
+
+			return out;
+	};
+
+	auto normalized = capitalizeFirstWord(sql);
+
+	bool isQuery =
+		normalized.starts_with("SELECT") ||
+		normalized.starts_with("WITH") ||
+		(normalized.starts_with("PRAGMA") && normalized.find('=') == std::string::npos);
+
+
 	Db db(sql);
 
-	int columnCount = db.columnCount();
+	if (!isQuery) {
+		auto success = db.execute();
 
-	if (!db.columnCount()) {
+		if (!success) return;
 
-		if (!db.execute()) return;
-
+		
 		ModalDialogBuilder::showMessage(
 			"Заявката е изпълнена успешно!\n"
 			"Брой засегнати редове: " +
@@ -312,7 +342,10 @@ void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 		);
 
 		return;
+		
 	}
+
+	int columnCount = db.columnCount();
 
 	PlainTable table;
 

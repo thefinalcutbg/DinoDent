@@ -7,7 +7,6 @@
 
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
-#include "Database/DbUpdateStatus.h"
 #include "Database/DbNotification.h"
 
 #include "Network/HIS/HisToken.h"
@@ -74,7 +73,7 @@ void MainPresenter::setView(DinoDent* view)
 
     //medications update
 
-    auto lasMedUpdate = DbUpdateStatus::lastUpdated(DynamicNum::Medication);
+    auto lasMedUpdate = Date(Medication::lastUpdatedDate());
     auto currentDate = Date::currentDate();
 
     if(lasMedUpdate.isFromPreviousMonths(currentDate) ||

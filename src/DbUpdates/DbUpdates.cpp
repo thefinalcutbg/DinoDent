@@ -5,5 +5,5 @@
 
 void DbUpdates::backupDatabase()
 {
-	QFile::copy(Db::getFilePath().c_str(), GlobalSettings::getDbBackupFilepath().c_str());
+	QFile::copy(GlobalSettings::getDbSettings().sqliteFilePath.c_str(), GlobalSettings::getDbBackupFilepath().c_str());
 }

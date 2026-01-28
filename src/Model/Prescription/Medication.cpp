@@ -4,7 +4,7 @@
 #include <json/json.h>
 
 #include "Resources.h"
-#include "Database/Database.h"
+#include "GlobalSettings.h"
 
 bool Medication::initialize()
 {
@@ -23,33 +23,31 @@ bool Medication::initialize()
     }
     
 
-    //initializing 
-    Db db;
-
     s_medications.clear();
     s_medNameToIdx.clear();
 
-    db.newStatement("SELECT COUNT(*) FROM numMed");
+    Json::Value numMedJson;
+    auto jsonStr = GlobalSettings::getNumMedJson();
 
-    while (db.hasRows()) {
+    if(jsonStr.empty()) return false;
 
-        auto size = db.asInt(0);
-        s_medications.reserve(size);
-        s_medNameToIdx.reserve(size);
-    }
+    if(!reader.parse(jsonStr, numMedJson)) return false;
 
-    db.newStatement("SELECT rowid, name, form FROM numMed");
+    s_medications.reserve(numMedJson["meds"].size());
+    s_medNameToIdx.reserve(numMedJson["meds"].size());
 
-    while (db.hasRows())
+    for(auto& entity : numMedJson["meds"])
     {
-        int key = db.asInt(0);
-        std::string name = db.asString(1);
-        int form = db.asInt(2);
+        int key = entity["id"].asInt();
+        std::string name = entity["descr"].asString();
+        int form = entity["form"].asInt();
 
         s_medications[key] = std::make_pair(name, form);
 
         s_medNameToIdx[name] = key;
     }
+
+    s_last_update = numMedJson["last_updated"].asString();
 
     return s_medications.size();
 

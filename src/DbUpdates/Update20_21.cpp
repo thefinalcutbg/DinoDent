@@ -7,9 +7,9 @@
 
 void DbUpdates::update26(UpdateDialog& d) {
 
-	if (Db::version() != 25) return;
-
 	Db db;
+
+	if (db.version() != 25) return;
 
 	for (auto& query : Resources::getMigrationScript(26))
 	{
@@ -54,9 +54,9 @@ void DbUpdates::update36(UpdateDialog& d) {
 
 	//converting amblist treatmentEnd from UTC to local time:
 
-	if (Db::version() != 35) return;
-
 	Db db;
+
+	if (db.version() != 35) return;
 
 	db.newStatement("SELECT rowid, treatment_end FROM amblist WHERE treatment_end IS NOT NULL");
 

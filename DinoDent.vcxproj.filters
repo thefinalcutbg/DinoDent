@@ -24,7 +24,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Database\Database.cpp">
+    <ClCompile Include="src\Database\SqliteBackend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbAmbList.cpp">
@@ -579,9 +579,6 @@
     <ClCompile Include="src\View\SubWidgets\PatientTileInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Database\DbUpdateStatus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1074,9 +1071,21 @@
     <ClCompile Include="src\View\uiComponents\RoundedFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\ShadowBakeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\RqliteBackend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\DbSettingsDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Database\Database.h">
+    <ClInclude Include="src\Database\SqliteBackend.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbAmbList.h">
@@ -1469,9 +1478,6 @@
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Database\DbUpdateStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Network\DynamicNumenclatures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1815,6 +1821,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\TreatmentPlanPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbBackend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\RqliteBackend.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -2209,6 +2224,12 @@
     <QtMoc Include="src\View\uiComponents\RoundedFrame.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\uiComponents\ShadowBakeWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\DbSettingsDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2443,6 +2464,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\PriceInputWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\DbSettingsDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

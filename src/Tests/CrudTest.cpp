@@ -12,9 +12,9 @@ std::string Test::crudTest()
 
 	bool success = true;
 
-	Db::setFilePath("test.db");
+	DbSettings s{ .sqliteFilePath = "test.db" };
 
-	success = Db::createIfNotExist();
+	Db::setSettings(s);
 
 	if (!success) { return "Error creating database"; }
 

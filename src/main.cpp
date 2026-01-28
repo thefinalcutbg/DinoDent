@@ -76,21 +76,6 @@ bool initFunction() {
 
     SplashScreen::createAndShow();
 
-    Db::setFilePath(GlobalSettings::getDbPath());
-
-    if (!Db::createIfNotExist()) {
-
-        SplashScreen::hideAndDestroy();
-
-        ModalDialogBuilder::showError(
-            "Неуспешно създаване на базата данни."
-            "\nУверете се, че пътят към файлът е правилен и че"
-            "\nимате правомощия за модифицирането му."
-        );
-
-        return false;
-    };
-
     //Intializing static data
     SplashScreen::showMessage("Зареждане на текстурите");
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
@@ -112,9 +97,22 @@ bool initFunction() {
     Specialty::initialize();
     User::initialize();
 
+    SplashScreen::showMessage("Свързване с базата данни");
+
+    Db::setSettings(GlobalSettings::getDbSettings());
+
+    if (!Db::testConnection()) {
+
+        SplashScreen::hideAndDestroy();
+
+        ModalDialogBuilder::showError("Неуспешно конфигуриране на базата данни");
+
+        return false;
+    };
+
     Db::setShowErrors(true);
     SplashScreen::showMessage("Обновяване на база данни");
-    DbUpdater::updateDb();
+
 
     SplashScreen::showMessage("Стартиране на DinoDent...");
 

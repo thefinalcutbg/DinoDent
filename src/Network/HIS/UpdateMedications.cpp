@@ -2,11 +2,10 @@
 
 #include <TinyXML/tinyxml.h>
 
-#include "Database/Database.h"
-#include "Database/Database.h"
-#include "Database/DbUpdateStatus.h"
+#include <json/json.h>
 #include "Model/Prescription/Medication.h"
 #include "View/ModalDialogBuilder.h"
+#include "GlobalSettings.h"
 
 void UpdateMedications::update()
 {
@@ -15,7 +14,6 @@ void UpdateMedications::update()
 
 bool UpdateMedications::parseNumenclature(const std::string& reply)
 {
-
 	if (reply.empty()) return false;
 
 	auto error = getErrors(reply);
@@ -23,7 +21,7 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 	if (error.size()) {
 		ModalDialogBuilder::showError(error);
 		return false;
-	}
+    }
 
 	TiXmlDocument doc;
 
@@ -36,25 +34,15 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 		.Child(1)		//nhis::contents
 		.FirstChild();	//nhis::numenclature
 
-	//second entry
-
-	Db db;
-
-	db.execute("PRAGMA foreign_keys = OFF");
-
-	db.execute("BEGIN TRANSACTION");
-
-	db.execute("DELETE FROM numMed");
-
+    Json::Value num;
 
 	for ( int i = 1; table.Child(i).ToElement(); i++)
 	{
-		
 
 		auto entryHandle = table.Child(i);
 
-		auto rowid = entryHandle.Child(0).ToElement()->Attribute("value");
-		auto name = entryHandle.Child(1).ToElement()->Attribute("value");
+        std::string id = entryHandle.Child(0).ToElement()->Attribute("value");
+        std::string descr = entryHandle.Child(1).ToElement()->Attribute("value");
 
 		std::string form{ "0" };
 
@@ -71,33 +59,19 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 			break;
 		}
 
-		//if (form == "0") continue;
+        Json::Value entity;
+        entity["id"] = std::stoi(id);
+        entity["descr"] = descr;
+        entity["form"] = std::stoi(form);
 
-		db.newStatement("INSERT INTO numMed (rowid, name, form) VALUES (?,?,?)");
-
-
-		db.bind(1, rowid);
-		db.bind(2, name);
-		db.bind(3, form);
-
-		db.execute();
-	
+        num["meds"].append(entity);
 	}
 
-	if (!db.execute("END TRANSACTION"))
-	{
-		db.execute("ROLLBACK");
-		db.execute("PRAGMA foreign_keys = ON");
-		ModalDialogBuilder::showError("Неуспешно обновяване на номенклатурата");
-		return false;
-	}
-	
-	db.execute("PRAGMA foreign_keys = ON");
-	
-	DbUpdateStatus::setAsUpdated(DynamicNum::Medication);
+    num["last_updated"] = Date::currentDate().to8601();
 
-	Medication::initialize();
+    GlobalSettings::writeNumMedJson(Json::FastWriter().write(num));
+
+    Medication::initialize();
 
 	return true;
-
 }

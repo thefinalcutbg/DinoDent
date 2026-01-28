@@ -83,6 +83,11 @@ void GlobalSettings::createCfgIfNotExists()
         settings["db_path"] = dataFolder.filePath("database.db").toUtf8().toStdString();
     }
 
+    if (!settings.isMember("db_type")) {
+        settings["db_type"] = 0;
+        settings["db_address"] = "http://127.0.0.1:4001";
+    }
+
     if (!settings.isMember("pkcs11_path"))
     {
 
@@ -107,33 +112,9 @@ void GlobalSettings::createCfgIfNotExists()
         settings["dir_tree"].append(DirType::DOCTYPE);
     }
 
-    rewriteCfg(settings);
-}
 
-std::string GlobalSettings::getDbPath()
-{
-    QDir dir(QString::fromUtf8(getSettingsAsJson()["db_path"].asString().c_str()));
-
-    return dir.path().toStdString();
-}
-
-std::string GlobalSettings::setDbPath()
-{
-    auto str = QFileDialog::getOpenFileName(
-        nullptr, 
-        "Изберете местонахождение на бaзата данни", 
-        getDbPath().c_str(), "Файл база данни (*.db)"
-    );
-
-    if (str.isEmpty()) return std::string();
-
-    Json::Value settings = getSettingsAsJson();
-
-    settings["db_path"] = str.toUtf8().toStdString();
 
     rewriteCfg(settings);
-
-    return getDbPath();
 }
 
 std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
@@ -258,6 +239,54 @@ GlobalSettingsData GlobalSettings::getSettings()
 
     return result;
 }
+
+DbSettings GlobalSettings::getDbSettings()
+{
+    Json::Value settings = getSettingsAsJson();
+
+    return DbSettings{
+        .mode = static_cast<DbSettings::DbType>(settings["db_type"].asInt()),
+        .sqliteFilePath = settings["db_path"].asString(),
+        .rqliteUrl = settings["db_address"].asString()
+    };
+}
+
+void GlobalSettings::setDbSettings(const DbSettings& s)
+{
+    Json::Value settings = getSettingsAsJson();
+
+    settings["db_type"] = static_cast<int>(s.mode);
+    settings["db_path"] = s.sqliteFilePath;
+    settings["db_address"] = s.rqliteUrl;
+
+    rewriteCfg(settings);
+}
+
+std::string GlobalSettings::getNumMedJson()
+{
+    QFile file(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("numMed.json"));
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        return std::string();
+    };
+
+    QString text;
+
+    while (!file.atEnd()) {
+        text += file.readLine();
+    }
+
+    return text.toStdString();
+}
+
+void GlobalSettings::writeNumMedJson(const std::string& numMed)
+{
+    QFile file(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("numMed.json"));
+    file.open(QIODevice::ReadWrite);
+    file.resize(0);
+    file.write(numMed.c_str());
+}
+
 
 bool GlobalSettings::showDbDebugEnabled()
 {

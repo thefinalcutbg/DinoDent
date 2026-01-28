@@ -82,6 +82,29 @@ std::string Crypto::base64Encode(const std::vector<unsigned char>& input)
 
 }
 
+std::vector<unsigned char> Crypto::base64Decode(const std::string& input)
+{
+    if (input.empty()) return {};
+
+    BIO* b64 = BIO_new(BIO_f_base64());
+    BIO* bio = BIO_new_mem_buf(input.data(), (int)input.size());
+    bio = BIO_push(b64, bio);
+
+    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+
+    std::vector<unsigned char> out;
+    out.resize(input.size());
+
+    int decodedLen = BIO_read(bio, out.data(), (int)out.size());
+    BIO_free_all(bio);
+
+    if (decodedLen <= 0) return {};
+
+    out.resize((size_t)decodedLen);
+
+    return out;
+}
+
 std::string Crypto::base64Encode(x509_st* cert)
 {
     int length = i2d_X509(cert, 0);

@@ -6,9 +6,9 @@
 
 void DbUpdates::update11(UpdateDialog&)
 {
-	if (Db::version() != 10) return;
-
 	Db db;
+
+	if (db.version() != 10) return;
 
 	db.newStatement("SELECT practice.rzi, doctor.egn FROM practice_doctor JOIN doctor on practice_doctor.doctor_lpk = doctor.lpk JOIN practice on practice_doctor.practice_rzi = practice.rzi WHERE practice.legal_entity = 0");
 

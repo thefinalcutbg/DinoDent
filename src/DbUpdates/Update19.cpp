@@ -11,7 +11,9 @@
 
 void DbUpdates::update19(UpdateDialog& progressDialog)
 {
-	if (Db::version() != 18) return;
+	Db db("SELECT rowid, ekatte FROM patient");
+
+	if (db.version() != 18) return;
 
 	Json::Value ekatteJson;
 
@@ -28,7 +30,7 @@ void DbUpdates::update19(UpdateDialog& progressDialog)
 
 	std::vector<std::pair<long long, int>> rowid_ekatte;
 
-	Db db("SELECT rowid, ekatte FROM patient");
+
 
 	while (db.hasRows()) {
 

@@ -7,14 +7,17 @@
 
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/PracticeSelectorView.h"
-
+#include "View/Widgets/DbSettingsDialog.h"
 #include "View/Widgets/PracticeDialog.h"
+
 #include "GlobalSettings.h"
 
 #include "Presenter/DoctorDialogPresenter.h"
+#include <QFileDialog>
+
 
 PracticeManagerPresenter::PracticeManagerPresenter() :
-	practices{DbPractice::getPracticeList()}
+	practices{ DbPractice::getPracticeList() }
 {
 }
 
@@ -22,28 +25,46 @@ void PracticeManagerPresenter::setView(PracticeSelectorView* view)
 {
 	this->view = view;
 	
+	setPracticeListToView();
+	setDbPathToView();
+
+}
+
+void PracticeManagerPresenter::setDbPathToView()
+{
+	auto db_settings = GlobalSettings::getDbSettings();
+
+	auto& dbPath = db_settings.mode == DbSettings::DbType::Sqlite ? db_settings.sqliteFilePath : db_settings.rqliteUrl;
+
+	view->setDbPath(dbPath);
+}
+
+void PracticeManagerPresenter::setPracticeListToView()
+{
 	std::vector<std::string> practiceNames;
 
 	for (auto& p : practices) { practiceNames.push_back(p.name); }
 
 	view->setPracticeList(practiceNames);
-	view->setDbPath(GlobalSettings::getDbPath());
+
+	setDbPathToView();
 }
+
 
 void PracticeManagerPresenter::addClicked()
 {
 
-    PracticeDialog practiceDialog;
+	PracticeDialog practiceDialog;
 	practiceDialog.exec();
 
-    auto p_result = practiceDialog.getData();
+	auto p_result = practiceDialog.getData();
 
-    if(!p_result.has_value()) return;
+	if (!p_result.has_value()) return;
 
-    if(DbPractice::practiceExists(p_result->rzi)){
-        ModalDialogBuilder::showMessage("Практика с такъв РЗИ номер вече съществува");
-        return;
-    }
+	if (DbPractice::practiceExists(p_result->rzi)) {
+		ModalDialogBuilder::showMessage("Практика с такъв РЗИ номер вече съществува");
+		return;
+	}
 
 	ModalDialogBuilder::showMessage("Въведете администратор на практиката");
 
@@ -61,16 +82,17 @@ void PracticeManagerPresenter::addClicked()
 	p.rziCode = p_result->rzi;
 	p.bulstat = "000000000";
 
-    PracticeDoctor pd;
-    pd.lpk = d_result->LPK;
-    pd.admin = true;
+	PracticeDoctor pd;
+	pd.lpk = d_result->LPK;
+	pd.admin = true;
 
 	DbPractice::insertPractice(p);
 
-    DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
+	DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
 
 	practices = DbPractice::getPracticeList();
-    setView(view);
+
+	setPracticeListToView();
 }
 
 void PracticeManagerPresenter::removeClicked(int idx)
@@ -105,26 +127,29 @@ void PracticeManagerPresenter::removeClicked(int idx)
 
 	practices = DbPractice::getPracticeList();
 
-	setView(view);
+	setPracticeListToView();
 
 
 }
 
 void PracticeManagerPresenter::dbChangePath()
 {
-	auto pathResult = GlobalSettings::setDbPath();
+	auto og_settings = GlobalSettings::getDbSettings();
 
-	if (pathResult.size()) {
-		Db::setFilePath(pathResult);
-	}
+	DbSettingsDialog d(GlobalSettings::getDbSettings());
+	
+	auto result = d.getResult();
 
-	Db::createIfNotExist();
+	if (!result) return;
 
-	DbUpdater::updateDb();
+	Db::setSettings(result.value());
+
+	if(!Db::testConnection()) return;
 
 	practices = DbPractice::getPracticeList();
 
-	setView(view);
-}
+	setDbPathToView();
 
+	setPracticeListToView();
+}
 

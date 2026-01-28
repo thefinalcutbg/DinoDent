@@ -1,5 +1,8 @@
+PRAGMA user_version=38;
 ALTER TABLE patient ADD COLUMN email TEXT;
 ALTER TABLE amblist DROP COLUMN auto_status;
+DROP TABLE numMed;
+DROP TABLE num_update;
 PRAGMA foreign_keys = 0;
 CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM financial;
 DROP TABLE financial;
@@ -12,4 +15,3 @@ CREATE TABLE unfavourable_condition ( ekatte INTEGER NOT NULL, rzi TEXT REFERENC
 INSERT INTO unfavourable_condition ( ekatte, rzi ) SELECT ekatte, rzi FROM sqlitestudio_temp_table;
 DROP TABLE sqlitestudio_temp_table;
 PRAGMA foreign_keys = 1;
-PRAGMA user_version=38;

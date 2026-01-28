@@ -8,8 +8,9 @@
 
 void DbUpdates::update16()
 {
-	if (Db::version() != 15) return;
 	Db db;
+
+	if (db.version() != 15) return;
 
 	for (auto& query : Resources::getMigrationScript(16))
 	{
@@ -61,8 +62,9 @@ void DbUpdates::update16()
 
 void DbUpdates::update17()
 {
-	if (Db::version() != 16) return;
 	Db db;
+
+	if (db.version() != 16) return;
 
 	for (auto& query : Resources::getMigrationScript(17))
 	{
@@ -76,9 +78,11 @@ void DbUpdates::update17()
 
 void DbUpdates::update18()
 {
-	if (Db::version() != 17) return;
+	Db db;
 
-	Db::crudQuery("PRAGMA user_version=18");
+	if (db.version() != 17) return;
+
+	db.execute("PRAGMA user_version=18");
 
 	auto settings = GlobalSettings::getSettings();
 	settings.pkcs11_list = (GlobalSettings::getDefaultPkcs11Paths());

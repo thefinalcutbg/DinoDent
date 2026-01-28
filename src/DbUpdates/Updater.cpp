@@ -8,9 +8,9 @@
 
 void commonUpdate(int toVersion) {
 
-	if (Db::version() != toVersion-1) return;
-
 	Db db;
+
+	if (db.version() != toVersion-1) return;
 
 	for (auto& query : Resources::getMigrationScript(toVersion))
 	{
@@ -21,18 +21,6 @@ void commonUpdate(int toVersion) {
 
 void DbUpdater::updateDb()
 {
-	if (Db::version() == Version::dbVersion()) return;
-
-	if (Db::version() > Version::dbVersion()) {
-
-		ModalDialogBuilder::showMessage(
-			"Версията на базата данни е по-нова от тази, която се поддържа от програмата. "
-			"Задължително актуализирайте софтуера до най-последна версия, преди да го използвате!"
-		);
-
-		return;
-	}
-
 	DbUpdates::backupDatabase();
 	
 	UpdateDialog d;

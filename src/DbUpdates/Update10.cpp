@@ -5,10 +5,9 @@
 
 void DbUpdates::update10(UpdateDialog&)
 {
-
-	if (Db::version() != 9) return;
-
 	Db db;
+
+	if (db.version() != 9) return;
 
 	for (auto& query : Resources::getMigrationScript(10))
 	{

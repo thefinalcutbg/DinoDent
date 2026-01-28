@@ -20,6 +20,8 @@ namespace Crypto
 
 	std::string base64Encode(const std::vector<unsigned char>& input);
 
+    std::vector<unsigned char> base64Decode(const std::string& input);
+
     //Encode X509 to Base54
     std::string base64Encode(x509_st* cert);
 

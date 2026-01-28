@@ -22,6 +22,7 @@ private:
 	static inline std::unordered_map<std::string, int> s_medNameToIdx;
 	static inline std::vector<std::string> s_medForms;
 	static inline std::string s_dummyResult{};
+    static inline std::string s_last_update = "1900-01-01";
 
 public:
 
@@ -61,6 +62,7 @@ public:
 	static const std::string& getFormByKey(int key);
 	static const std::vector<std::string>& forms();
 	static bool initialize();
+    static const std::string& lastUpdatedDate() { return s_last_update; }
 
 };
 

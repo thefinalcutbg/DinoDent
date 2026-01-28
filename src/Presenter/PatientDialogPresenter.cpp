@@ -8,7 +8,7 @@
 #include "Model/User.h"
 #include <QString>
 #include <QRegularExpression>
-
+#include "Database/Database.h"
 
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle, std::string patientData) :
 	view(nullptr), dialogTitle(dialogTitle)

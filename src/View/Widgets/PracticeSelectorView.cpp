@@ -16,8 +16,8 @@ PracticeSelectorView::PracticeSelectorView(PracticeManagerPresenter& p, QWidget 
     connect(ui.addButton, &QPushButton::clicked, this, [&] {presenter.addClicked(); });
     connect(ui.removeButton, &QPushButton::clicked, this, [&] {presenter.removeClicked(ui.listWidget->currentIndex().row());});
     connect(ui.backButton, &QPushButton::clicked, this, [&] { close();});
-    presenter.setView(this);
 
+    presenter.setView(this);
 }
 
 void PracticeSelectorView::paintEvent(QPaintEvent*)

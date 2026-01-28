@@ -1,302 +1,163 @@
 ﻿#include "Database.h"
-#include <sqlite3.h>
+
+#include "DbBackend.h"
 #include "Resources.h"
-#include "GlobalSettings.h"
+#include "SqliteBackend.h"
+#include "RqliteBackend.h"
+#include "src/Version.h"
 #include "View/ModalDialogBuilder.h"
+#include <stdexcept>
+#include "DbUpdates/Updater.h"
+#include "View/Widgets/DbSettingsDialog.h"
+#include "GlobalSettings.h"
 
-constexpr const char* database_error_msg = 
-    "Неуспешно записване в базата данни.\n"
-    "Уверете се, че пътят към нея е правилен и\n"
-    "че сте стартирали програмата като администратор.\n"
-    ;
-
-Db::Db(Db* existingConnection)
-    :
-    m_connectionOwned{ existingConnection == nullptr },
-    stmt{nullptr}
+bool Db::testConnection()
 {
-    if(m_connectionOwned){
-        sqlite3_open(dbLocation.c_str(), &db_connection);
+    std::unique_ptr<DbBackend> db_test;
+
+    if (s_settings.mode == DbSettings::DbType::Rqlite) {
+        db_test = std::make_unique<RqliteBackend>();
     }
-    else
-    {
-        db_connection = existingConnection->db_connection;
-    }
-    
-    if (db_connection == nullptr) {
-         throw;
+    else {
+        db_test = std::make_unique<SqliteBackend>();
     }
 
-    sqlite3_exec(db_connection, "PRAGMA foreign_keys = ON", NULL, NULL, NULL);
-}
+    auto ver = version(db_test.get());
 
-Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection)
-{
-    sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
-}
+    if (ver == Version::dbVersion()) return true;
 
-bool Db::hasRows(){
+    //no connection
+    while (ver == -1) {
+        DbSettingsDialog d(s_settings);
 
-    if (total_bindings != successful_bindings) return false;
+        auto result = d.getResult();
 
-    if(GlobalSettings::showDbDebugEnabled() && debug_hasRows){
-        debug_hasRows = false;
-        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
+        if (!result) return false;
+
+        setSettings(result.value());
+
+        if (s_settings.mode == DbSettings::DbType::Rqlite) {
+            db_test = std::make_unique<RqliteBackend>();
+        }
+        else {
+            db_test = std::make_unique<SqliteBackend>();
+        }
+
+        ver = version(db_test.get());
+
+        //saving the settings, since the database is connected
+        if (ver != -1) {
+            GlobalSettings::setDbSettings(result.value());
+        }
+        else {
+            ModalDialogBuilder::showMessage("Неуспешна връзка с базата данни");
+        }
+    };
+
+    //no schema at all
+    if (ver == 0) {
+
+        for (auto& tableSchema : Resources::dbSchema()) {
+            if (!db_test->execute(tableSchema)) return false;
+        }
     }
 
-    bool result = sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
+    //higher db version.
+    if (ver > Version::dbVersion()) {
+        ModalDialogBuilder::showMessage(
+            "Версията на базата данни е по-нова от тази, която се поддържа от програмата. "
+            "Задължително актуализирайте софтуера до най-последна версия, преди да го използвате!"
+        );
 
-    if(!result){
-        debug_hasRows = true;
-        finalizeStatement();
-    }
-
-    return result;
-}
-
-int Db::asInt(int column){ 
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
-    return sqlite3_column_int(stmt, column); 
-}
-
-long long Db::asRowId(int column)
-{
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
-    return sqlite3_column_int64(stmt, column);
-}
-
-long long Db::asLongLong(int column)
-{
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
-    return sqlite3_column_int64(stmt, column);
-}
-
-bool Db::asBool(int column)
-{   
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return false;
-    return static_cast<bool>(asInt(column));
-}
-
-double Db::asDouble(int column)
-{
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
-    return sqlite3_column_double(stmt, column);
-}
-
-std::string Db::asString(int column) { 
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return "";
-    return reinterpret_cast<const char*>(sqlite3_column_text(stmt, column)); 
-}
-
-std::vector<unsigned char> Db::asBlob(int column)
-{
-    std::vector<unsigned char> result;
-
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return result;
-
-    auto ptr =  sqlite3_column_blob(stmt, column);
-
-	result.assign(
-		reinterpret_cast<const unsigned char*>(ptr),
-		reinterpret_cast<const unsigned char*>(ptr) + sqlite3_column_bytes(stmt, column)
-	);
-
-    return result;
-}
-
-
-void Db::newStatement(const std::string& query)
-{ 
-    finalizeStatement();
-    sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
-}
-
-bool Db::execute(const std::string& query)
-{
-    char* err;
-    finalizeStatement();
-
-    int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
-
-    if (err){
-        showDbError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
-    }
-
-
-    if(GlobalSettings::showDbDebugEnabled()){
-        ModalDialogBuilder::showMultilineDialog(query);
-    }
-
-    finalizeStatement();
-
-    return i == SQLITE_OK;
-        
-}
-
-int Db::columnCount() const
-{
-    if (stmt == nullptr) return 0;
-
-    return sqlite3_column_count(stmt);
-}
-
-std::string Db::columnName(int column) const
-{
-    if (stmt == nullptr) return std::string();
-
-    return sqlite3_column_name(stmt, column);
-}
-
-int Db::rowsAffected() const
-{
-    return sqlite3_changes(db_connection);
-}
-
-long long Db::lastInsertedRowID()
-{
-    return sqlite3_last_insert_rowid(db_connection);
-}
-
-std::string Db::getPreparedStatement() const
-{
-   char* ptr = sqlite3_expanded_sql(stmt);
-
-   std::string result(ptr);
-
-   sqlite3_free(ptr);
-
-   return result;
-}
-
-void Db::closeConnection()
-{
-    if (!db_connection) return;
-
-    if (stmt) sqlite3_reset(stmt);
-
-    successful_bindings = 0;
-    total_bindings = 0;
-
-     sqlite3_close_v2(db_connection);
-}
-
-
-void Db::bind(int index, const std::string& value)
-{
-    if(stmt == nullptr) return;
-
-    total_bindings++;
-    
-
-    successful_bindings +=
-        sqlite3_bind_text(stmt, index, value.c_str(), -1, SQLITE_TRANSIENT) == SQLITE_OK;
-}
-
-void Db::bind(int index, int value)
-{
-    if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_int(stmt,index,value) == SQLITE_OK;
-}
-
-void Db::bind(int index, double value)
-{
-    if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_double(stmt, index, value) == SQLITE_OK;
-}
-
-void Db::bind(int index, long long value)
-{
-    if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
-}
-
-void Db::bind(int index, const std::vector<unsigned char>& blob)
-{
-    if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_blob(stmt, index, blob.data(), blob.size(), SQLITE_STATIC) == SQLITE_OK;
-}
-
-void Db::bindNull(int index)
-{
-    if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings += sqlite3_bind_null(stmt, index) ? 0 : 1;
-}
-
-bool Db::execute()
-{
-    if (stmt == nullptr) {
-
-        showDbError("Невалидна заявка към базата данни");
         return false;
     }
 
-    if (total_bindings != successful_bindings)
-    {
-        showDbError("Невалидни параметри към базата данни");
+    //lower db version - needs migration
+    if (ver < Version::dbVersion()) { DbUpdater::updateDb(); }
 
-        finalizeStatement();
-        return false;
-    }
-
-    if(GlobalSettings::showDbDebugEnabled()){
-        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
-    }
-
-    auto result = sqlite3_step(stmt);
-    finalizeStatement();
-
-    if (result != SQLITE_DONE ) {
-        showDbError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(result));
-    }
-
-    return result == SQLITE_DONE;
+    return true;;
 }
 
-
-void Db::finalizeStatement()
+Db::Db()
 {
-    total_bindings = 0;
-    successful_bindings = 0;
+    if (s_settings.mode == DbSettings::DbType::Rqlite && !testConnection()) {
+        throw std::runtime_error("Error initializing database");
+    }
 
-    if (!stmt) return;
-
-    sqlite3_finalize(stmt);
-    stmt = nullptr;
-    
+    if (s_settings.mode == DbSettings::DbType::Rqlite) {
+        m_backend = std::make_unique<RqliteBackend>();
+    }
+    else {
+        m_backend = std::make_unique<SqliteBackend>();
+    }
 }
 
-void Db::setFilePath(const std::string& filePath)
+Db::Db(const std::string& query) : Db()
 {
-    dbLocation = filePath;
+    m_backend->newStatement(query);
+}
+
+Db::~Db()
+{}
+
+bool Db::hasRows() { return m_backend->hasRows(); }
+
+int Db::asInt(int column) { return m_backend->asInt(column); }
+
+long long Db::asRowId(int column) { return m_backend->asRowId(column); }
+
+long long Db::asLongLong(int column) { return m_backend->asLongLong(column); }
+
+bool Db::asBool(int column) { return m_backend->asBool(column); }
+
+double Db::asDouble(int column) { return m_backend->asDouble(column); }
+
+std::string Db::asString(int column) { return m_backend->asString(column); }
+
+std::vector<unsigned char> Db::asBlob(int column) { return m_backend->asBlob(column); }
+
+void Db::newStatement(const std::string& query) { m_backend->newStatement(query); }
+
+bool Db::execute(const std::string& query) { return m_backend->execute(query); }
+
+int Db::columnCount() const { return m_backend->columnCount(); }
+
+std::string Db::columnName(int column) const { return m_backend->columnName(column); }
+
+int Db::rowsAffected() const { return m_backend->rowsAffected(); }
+
+long long Db::lastInsertedRowID() { return m_backend->lastInsertedRowID(); }
+
+std::string Db::getPreparedStatement() const { return m_backend->getPreparedStatement(); }
+
+void Db::bind(int index, const std::string& value) { m_backend->bind(index, value); }
+
+void Db::bind(int index, int value) { m_backend->bind(index, value); }
+
+void Db::bind(int index, double value) { m_backend->bind(index, value); }
+
+void Db::bind(int index, long long value) { m_backend->bind(index, value); }
+
+void Db::bind(int index, const std::vector<unsigned char>& blob) { m_backend->bind(index, blob); }
+
+void Db::bindNull(int index) { m_backend->bindNull(index); }
+
+bool Db::execute() { 
+
+    if (GlobalSettings::showDbDebugEnabled()) { ModalDialogBuilder::showMultilineDialog(getPreparedStatement()); }
+
+    return m_backend->execute(); 
 }
 
 int Db::version()
 {
-    Db db("PRAGMA user_version");
+    return version(m_backend.get());
+}
 
-    while (db.hasRows()) {
-        return db.asLongLong(0);
-    }
-
+int Db::version(DbBackend* const backend)
+{
+    backend->newStatement("PRAGMA user_version");
+    while (backend->hasRows()) return backend->asInt(0);
     return -1;
 }
 
@@ -308,63 +169,13 @@ void Db::setVersion(int version)
 bool Db::crudQuery(const std::string& query)
 {
     Db db(query);
-
-    if(GlobalSettings::showDbDebugEnabled()){
-        ModalDialogBuilder::showMultilineDialog(query);
-    }
-
     return db.execute();
 }
 
-
-Db::~Db()
+void Db::setSettings(const DbSettings& settings)
 {
-    if (stmt != nullptr) {
-        sqlite3_finalize(stmt);
-    }
+    SqliteBackend::setFilePath(settings.sqliteFilePath);
+    RqliteBackend::setSettings(settings.rqliteUrl);
 
-    if (m_connectionOwned && db_connection) {
-        sqlite3_close_v2(db_connection);
-    }
-}
-
-
-#include "View/ModalDialogBuilder.h"
-
-void Db::showDbError(const std::string& msg)
-{
-    if (!s_showErrorDialog) return;
-    
-    error_count++;
-
-	if (error_count > 5) return; //prevent spamming the user with error dialogs
-
-    ModalDialogBuilder::showError(msg);
-}
-
-
-#include <QFileInfo>
-#include <QDir>
-
-bool Db::createIfNotExist()
-{
-    //if (std::filesystem::exists(dbLocation)) return true;
-    
-    QFileInfo db_path(dbLocation.c_str());
-    if (db_path.exists() && db_path.isFile()) return true;
-
-    QDir d = db_path.absoluteDir();
-    d.mkpath(d.absolutePath());
-
-    Db db;
-
-    for (auto& tableSchema : Resources::dbSchema())
-    {
-        if (!db.execute(tableSchema)) return false;
-    }
-
-    return true;
-
-  //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
-
+    s_settings = settings;
 }

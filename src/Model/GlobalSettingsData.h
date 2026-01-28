@@ -18,3 +18,11 @@ struct GlobalSettingsData {
 	std::string pdfDir{};
 	std::vector<DirType> subdirStructure;
 };
+
+struct DbSettings {
+	enum class DbType { Sqlite, Rqlite };
+
+	DbType mode{ DbType::Sqlite };
+	std::string sqliteFilePath{ "database.db" };
+	std::string rqliteUrl{ "http://127.0.0.1:4001" };
+};

@@ -222,6 +222,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\RqliteBackend.cpp" />
+    <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="src\Database\DbNotification.cpp" />
     <ClCompile Include="src\Database\DbTreatmentPlan.cpp" />
@@ -259,6 +261,7 @@
     <ClCompile Include="src\View\uiComponents\ColorPicker.cpp" />
     <ClCompile Include="src\View\uiComponents\NotesEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\RoundedFrame.cpp" />
+    <ClCompile Include="src\View\Widgets\DbSettingsDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicationTemplateDialog.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
     <ClCompile Include="src\View\SubWidgets\SnapshotViewer.cpp" />
@@ -273,7 +276,6 @@
     <ClCompile Include="src\Database\DbReferral.cpp" />
     <ClCompile Include="src\Database\DbStatistics.cpp" />
     <ClCompile Include="src\Database\DbTelemetry.cpp" />
-    <ClCompile Include="src\Database\DbUpdateStatus.cpp" />
     <ClCompile Include="src\DbUpdates\Update10.cpp" />
     <ClCompile Include="src\DbUpdates\Update11.cpp" />
     <ClCompile Include="src\DbUpdates\Update12_18.cpp" />
@@ -348,7 +350,7 @@
     <ClCompile Include="include\TinyXML\tinyxmlparser.cpp" />
     <ClCompile Include="src\Model\Prescription\Medication.cpp" />
     <ClCompile Include="src\Model\Prescription\Prescription.cpp" />
-    <ClCompile Include="src\Database\Database.cpp" />
+    <ClCompile Include="src\Database\SqliteBackend.cpp" />
     <ClCompile Include="src\Database\DbAmbList.cpp" />
     <ClCompile Include="src\Database\DbDoctor.cpp" />
     <ClCompile Include="src\Database\DbInvoice.cpp" />
@@ -575,9 +577,12 @@
     <ClCompile Include="src\View\Widgets\WelcomeWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Database\RqliteBackend.h" />
+    <ClInclude Include="src\Database\Database.h" />
     <ClInclude Include="include\json\json-forwards.h" />
     <ClInclude Include="include\json\json.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Database\DbBackend.h" />
     <ClInclude Include="src\Database\DbNotification.h" />
     <ClInclude Include="src\Database\DbTreatmentPlan.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
@@ -612,7 +617,6 @@
     <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbStatistics.h" />
     <ClInclude Include="src\Database\DbTelemetry.h" />
-    <ClInclude Include="src\Database\DbUpdateStatus.h" />
     <ClInclude Include="src\Model\Allergy.h" />
     <ClInclude Include="src\Model\Country.h" />
     <ClInclude Include="src\Model\Dental\AmbList.h" />
@@ -702,7 +706,7 @@
     <ClInclude Include="include\TinyXML\tinyxml.h" />
     <ClInclude Include="src\Model\Prescription\Medication.h" />
     <ClInclude Include="src\Model\Prescription\Prescription.h" />
-    <ClInclude Include="src\Database\Database.h" />
+    <ClInclude Include="src\Database\SqliteBackend.h" />
     <ClInclude Include="src\Database\DbAmbList.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
@@ -877,6 +881,7 @@
     <QtMoc Include="src\View\Widgets\ChatDialog.h" />
     <QtMoc Include="src\View\Widgets\ErrorDetailedDialog.h" />
     <QtMoc Include="src\View\Widgets\CertificateListDialog.h" />
+    <QtMoc Include="src\View\Widgets\DbSettingsDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
@@ -957,6 +962,7 @@
   <ItemGroup>
     <QtUic Include="src\View\SubWidgets\PriceInputWidget.ui" />
     <QtUic Include="src\View\SubWidgets\SMSTemplate.ui" />
+    <QtUic Include="src\View\Widgets\DbSettingsDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicationTemplateDialog.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
     <QtUic Include="src\View\SubWidgets\SnapshotViewer.ui" />

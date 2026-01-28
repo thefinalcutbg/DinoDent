@@ -40,7 +40,7 @@ long long DbPatient::insert(const Patient& patient)
     return 0;
 
 }
-
+#include "View/ModalDialogBuilder.h"
 bool DbPatient::update(const Patient& patient)
 {
     Db db(

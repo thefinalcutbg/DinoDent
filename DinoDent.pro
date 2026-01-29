@@ -55,6 +55,7 @@ HEADERS += \
     include/sqLite3/sqlite3ext.h \
     src/Database/Database.h \
     src/Database/DbAmbList.h \
+    src/Database/DbBackend.h \
     src/Database/DbBrowser.h \
     src/Database/DbDoctor.h \
     src/Database/DbFiscalReceipt.h \
@@ -72,8 +73,8 @@ HEADERS += \
     src/Database/DbStatistics.h \
     src/Database/DbTelemetry.h \
     src/Database/DbTreatmentPlan.h \
-    src/Database/DbUpdateStatus.h \
-    src/DbUpdates/DbUpdates.h \
+    src/Database/RqliteBackend.h \
+    src/Database/SqliteBackend.h \
     src/DbUpdates/Updater.h \
     src/GlobalSettings.h \
     src/Model/Allergy.h \
@@ -169,7 +170,6 @@ HEADERS += \
     src/Network/Base64Convert.h \
     src/Network/BulkRequester.h \
     src/Network/Calendar/CalendarJsonParser.h \
-    src/Network/Calendar/Credentials.h \
     src/Network/Calendar/Google.h \
     src/Network/DynamicNumenclatures.h \
     src/Network/GetHSM.h \
@@ -327,6 +327,7 @@ HEADERS += \
     src/View/Widgets/CalendarView.h \
     src/View/Widgets/CertificateListDialog.h \
     src/View/Widgets/ChatDialog.h \
+    src/View/Widgets/DbSettingsDialog.h \
     src/View/Widgets/DetailedStatus.h \
     src/View/Widgets/DinoDent.h \
     src/View/Widgets/DoctorSettingsDialog.h \
@@ -350,7 +351,6 @@ HEADERS += \
     src/View/Widgets/NewDocDialog.h \
     src/View/Widgets/NotesTemplateDialog.h \
     src/View/Widgets/NotificationDialog.h \
-    src/View/Widgets/NotificationListDialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
     src/View/Widgets/PerioStatusView.h \
@@ -387,6 +387,7 @@ HEADERS += \
     src/View/Widgets/UpdateDownloader.h \
     src/View/Widgets/UpdatePromptDialog.h \
     src/View/Widgets/WelcomeWidget.h \
+    src/View/Widgets/notificationlistdialog.h \
     src/View/uiComponents/AutoCompleteLineEdit.h \
     src/View/uiComponents/BigPushButton.h \
     src/View/uiComponents/CalendarTable.h \
@@ -451,8 +452,8 @@ SOURCES += \
     src/Database/DbStatistics.cpp \
     src/Database/DbTelemetry.cpp \
     src/Database/DbTreatmentPlan.cpp \
-    src/Database/DbUpdateStatus.cpp \
-    src/DbUpdates/DbUpdates.cpp \
+    src/Database/RqliteBackend.cpp \
+    src/Database/SqliteBackend.cpp \
     src/DbUpdates/Update10.cpp \
     src/DbUpdates/Update11.cpp \
     src/DbUpdates/Update12_18.cpp \
@@ -682,6 +683,7 @@ SOURCES += \
     src/View/Widgets/CalendarView.cpp \
     src/View/Widgets/CertificateListDialog.cpp \
     src/View/Widgets/ChatDialog.cpp \
+    src/View/Widgets/DbSettingsDialog.cpp \
     src/View/Widgets/DetailedStatus.cpp \
     src/View/Widgets/DinoDent.cpp \
     src/View/Widgets/DoctorSettingsDialog.cpp \
@@ -801,6 +803,7 @@ FORMS += \
     src/View/Widgets/CalendarView.ui \
     src/View/Widgets/CertificateListDialog.ui \
     src/View/Widgets/ChatDialog.ui \
+    src/View/Widgets/DbSettingsDialog.ui \
     src/View/Widgets/DetailedStatus.ui \
     src/View/Widgets/DinoDent.ui \
     src/View/Widgets/DoctorSettingsDialog.ui \
@@ -822,8 +825,6 @@ FORMS += \
     src/View/Widgets/MultilineDialog.ui \
     src/View/Widgets/NewDocDialog.ui \
     src/View/Widgets/NotesTemplateDialog.ui \
-    src/View/Widgets/NotificationDialog.ui \
-    src/View/Widgets/NotificationListDialog.ui \
     src/View/Widgets/PatientFormDialog.ui \
     src/View/Widgets/PatientHistoryDialog.ui \
     src/View/Widgets/PerioStatusView.ui \
@@ -855,7 +856,9 @@ FORMS += \
     src/View/Widgets/UpdateDialog.ui \
     src/View/Widgets/UpdateDownloader.ui \
     src/View/Widgets/UpdatePromptDialog.ui \
-    src/View/Widgets/WelcomeWidget.ui
+    src/View/Widgets/WelcomeWidget.ui \
+    src/View/Widgets/notificationdialog.ui \
+    src/View/Widgets/notificationlistdialog.ui
 
 
 

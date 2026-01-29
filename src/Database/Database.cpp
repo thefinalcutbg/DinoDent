@@ -86,7 +86,7 @@ std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
 
         if (!db_test->backup()) {
             ModalDialogBuilder::showError("Неуспешно архивиране на базата данни");
-            FreeFn::terminateApplication();
+            return {};
         }
 
         DbUpdater::updateDb(db_test.get());
@@ -100,9 +100,8 @@ Db::Db()
     auto settings = setupConnection(s_settings);
 
     if (!settings.has_value()) { 
-        ModalDialogBuilder::showError("Неуспешно конфигуриране на базата данни");
-        FreeFn::terminateApplication(); 
-        return;
+        ModalDialogBuilder::showError("Неуспешно конфигуриране на базата данни"); 
+        throw std::runtime_error("");
     }
 
     bool dbTypeChanged = User::doctor().LPK.size() && settings->mode != s_settings.mode;
@@ -114,6 +113,7 @@ Db::Db()
         if (dbTypeChanged) {
             ModalDialogBuilder::showMessage("Видът на базата данни е променен. Програмата ще се рестартира");
             FreeFn::restartApplication();
+            return;
         }
     }
 

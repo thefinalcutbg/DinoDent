@@ -103,7 +103,7 @@ bool initFunction() {
 
     Db::setSettings(GlobalSettings::getDbSettings());
 
-    { Db db; } //calls terminate if fails
+    try { Db db; } catch (...) { return false; }
 
     User::initialize();
 

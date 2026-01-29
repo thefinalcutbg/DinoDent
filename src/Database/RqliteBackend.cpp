@@ -354,9 +354,11 @@ bool RqliteBackend::execute()
         }
     }
 }
-
+//disabled for now use rqlite nodes
 bool RqliteBackend::backup()
 {
+    return true;
+
     QString outPath = QString::fromStdString(GlobalSettings::getDbBackupFilepath());
 
     QUrl url = baseUrl.resolved(QUrl("/db/backup"));

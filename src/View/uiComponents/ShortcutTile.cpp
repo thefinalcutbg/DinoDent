@@ -39,8 +39,22 @@ void ShortcutTile::paintEvent(QPaintEvent*)
    // painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
+    QPen pen(Theme::border);
+    pen.setCosmetic(true);
+    pen.setWidth(2);
+    painter.setPen(pen);
+
+    const qreal half = pen.widthF() * 0.5;
+    QRectF r = rect();
+    r.adjust(half, half, -half, -half);
+
     QPainterPath path;
-    path.addRoundedRect(rect(), Theme::radius, Theme::radius);
+    path.addRoundedRect(r, Theme::radius / 2, Theme::radius / 2);
+
+    painter.fillPath(path, hover ? Theme::inactiveTabBG : Theme::sectionBackground);
+
+     { painter.drawPath(path); }
+
 
     QColor normalBg(Theme::sectionBackground);
     QColor hoverBg(Theme::inactiveTabBG);
@@ -61,11 +75,6 @@ void ShortcutTile::paintEvent(QPaintEvent*)
 
     painter.fillPath(path, background);
 
-    QPen pen(Theme::border);
-    pen.setCosmetic(true);
-    pen.setWidth(2);
-    painter.setPen(pen);
-
     int iconRectSide = clicked ? 30 : 35;//35 : 40;
 
     if (!icon().isNull()) {
@@ -76,7 +85,6 @@ void ShortcutTile::paintEvent(QPaintEvent*)
                 iconRectSide));
     }
 
-    return;
 }
 
 bool ShortcutTile::eventFilter(QObject* o, QEvent* e)

@@ -17,6 +17,7 @@ private:
     QString m_badgeText;
     bool m_hover{ false };
     bool m_clicked{ false };
+    bool m_shring_on_click{ true };
 
     QColor hoverColor;
     QColor backgroundColor;
@@ -48,6 +49,11 @@ public:
 
     void setAlert(std::string text) {
 		m_badgeText = QString::fromStdString(text);
+        update();
+    }
+
+    void setShrinkOnClick(bool shrink) {
+        m_shring_on_click = shrink;
         update();
     }
 

@@ -11,7 +11,7 @@ class Db
 {
     int error_count{ 0 };
 
-    std::unique_ptr<DbBackend> m_backend; // shared for "existingConnection"
+    std::unique_ptr<DbBackend> m_backend;
 
     static inline DbSettings s_settings;
 

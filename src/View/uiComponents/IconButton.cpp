@@ -66,7 +66,7 @@ void IconButton::paintEvent(QPaintEvent*)
 
     painter.fillPath(path, color);
 
-    int padding = m_clicked && m_hover ? 15 : 12;
+    int padding = m_clicked && m_shring_on_click && m_hover ? 15 : 12;
 
     QRect iconRect(rect().center(), QSize(rect().width() - padding, rect().height() - padding));
     iconRect.moveCenter(rect().center());

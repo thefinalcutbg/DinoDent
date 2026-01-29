@@ -9,6 +9,8 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 
 	setWindowTitle("Настройки на база данни");
 
+	setStyleSheet("QDialog {background-color: white;}");
+
 	connect(ui->okButton, &QPushButton::clicked, this, [&] { accept(); });
 	connect(ui->cancelButton, &QPushButton::clicked, this, [&] { reject(); });
 

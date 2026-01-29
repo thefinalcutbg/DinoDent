@@ -158,6 +158,7 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
     nraButton->setIcon(QIcon(":/icons/icon_nra.png"));
     nraButton->move(5, 5);
     nraButton->setFixedSize(iconSize, iconSize);
+    nraButton->setGraphicsEffect(nullptr);
 
     menuButton = new IconButton(this);
     menuButton->setIcon(QIcon(":/icons/icon_menu.png"));
@@ -166,6 +167,7 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 	menuButton->setHoverColor(Theme::sectionBackground);
     menuButton->setIconMode(IconButton::COLOR_ON_HOVER_ONLY);
     menuButton->setGraphicsEffect(nullptr);
+    menuButton->setShrinkOnClick(false);
 
     notesButton = new IconButton(this);
     notesButton->setIcon(QIcon(":/icons/icon_notes.png"));

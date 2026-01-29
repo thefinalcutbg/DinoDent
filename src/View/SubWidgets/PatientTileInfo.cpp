@@ -105,10 +105,7 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 
     connect (ui.patientTile->menuButton, &QPushButton::clicked, this, [=, this]{
         context_menu_overPatient = true;
-
-        const QPoint globalPos = ui.patientTile->menuButton->mapToGlobal(QPoint(0, ui.patientTile->menuButton->height()));
-
-        context_menu->popup(globalPos);
+        context_menu->popup(QCursor::pos());
     });
 
     connect(ui.patientTile, &TileButton::customContextMenuRequested, this, [&](QPoint point){

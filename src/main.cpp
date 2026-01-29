@@ -103,14 +103,7 @@ bool initFunction() {
 
     Db::setSettings(GlobalSettings::getDbSettings());
 
-    if (!Db::testConnection()) {
-
-        SplashScreen::hideAndDestroy();
-
-        ModalDialogBuilder::showError("Неуспешно конфигуриране на базата данни");
-
-        return false;
-    };
+    { Db db; } //calls terminate if fails
 
     User::initialize();
 

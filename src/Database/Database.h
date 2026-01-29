@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
 #include "Model/GlobalSettingsData.h"
 
 class DbBackend;
@@ -25,7 +26,7 @@ public:
     static void setVersion(int version);
     static bool crudQuery(const std::string& query);
     static void setSettings(const DbSettings& settings);
-    static bool testConnection();
+    static std::optional<DbSettings> setupConnection(const DbSettings& settings);
 
 public:
 

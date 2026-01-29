@@ -140,9 +140,11 @@ void PracticeManagerPresenter::dbChangePath()
 
 	if (!result) return;
 
-	Db::setSettings(result.value());
+	result = Db::setupConnection(result.value());
 
-	if(!Db::testConnection()) return;
+	if (!result) return;
+	
+	Db::setSettings(result.value());
 
 	GlobalSettings::setDbSettings(result.value());
 

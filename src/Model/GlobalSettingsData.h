@@ -25,4 +25,14 @@ struct DbSettings {
 	DbType mode{ DbType::Sqlite };
 	std::string sqliteFilePath{ "database.db" };
 	std::string rqliteUrl{ "http://127.0.0.1:4001" };
+
+	bool operator==(const DbSettings& other) const noexcept {
+		return mode == other.mode
+			&& sqliteFilePath == other.sqliteFilePath
+			&& rqliteUrl == other.rqliteUrl;
+	}
+
+	bool operator!=(const DbSettings& other) const noexcept {
+		return !(*this == other);
+	}
 };

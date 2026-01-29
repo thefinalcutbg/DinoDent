@@ -20,15 +20,7 @@ QNetworkAccessManager* getDbManager() {
 	return s_manager;
 }
 
-QUrl s_baseUrl;
-
-void RqliteBackend::setSettings(const std::string& url)
-{
-    s_baseUrl = QUrl(url.c_str());
-}
-
-RqliteBackend::RqliteBackend()
-{}
+RqliteBackend::RqliteBackend(const std::string& address) : baseUrl{address.c_str()}{}
 
 void RqliteBackend::resizeToIndex(int idx)
 {
@@ -243,7 +235,7 @@ bool RqliteBackend::execute()
 
     while (true)
     {
-        const QUrl url = s_baseUrl.resolved(QUrl(queryEndpoint ? "/db/query" : "/db/execute"));
+        const QUrl url = baseUrl.resolved(QUrl(queryEndpoint ? "/db/query" : "/db/execute"));
 
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -279,7 +271,7 @@ bool RqliteBackend::execute()
         reply->deleteLater();
 
         if (timedOut || !netOk || !httpOk) {
-            ModalDialogBuilder::showError("Неуспешна връзка с базата данни");
+            ModalDialogBuilder::showError("Неуспешна връзка със сървъра на базата данни");
             return false;
         }
 
@@ -342,7 +334,7 @@ bool RqliteBackend::backup()
 {
     QString outPath = QString::fromStdString(GlobalSettings::getDbBackupFilepath());
 
-    QUrl url = s_baseUrl.resolved(QUrl("/db/backup"));
+    QUrl url = baseUrl.resolved(QUrl("/db/backup"));
 
     QNetworkRequest request(url);
     request.setRawHeader("Accept", "application/octet-stream");

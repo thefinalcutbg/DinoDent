@@ -4,6 +4,7 @@
 #include "Model/GlobalSettingsData.h"
 #include <variant>
 #include <json/json.h>
+#include <QUrl>
 
 namespace Json { class Value; }
 class QString;
@@ -27,6 +28,8 @@ class RqliteBackend final : public DbBackend
         bool hasRows() const { return !rows.empty(); }
     };
 
+    QUrl baseUrl;
+
     std::vector<BindVariant> m_bindings;
     std::string m_statement;
     RqliteResultSet m_rs;
@@ -38,9 +41,7 @@ class RqliteBackend final : public DbBackend
     Json::Value toJsonValue(const BindVariant& v) const;
 
 public:
-    static void setSettings(const std::string& url);
-
-    RqliteBackend();
+    RqliteBackend(const std::string& url);
 
     bool hasRows() override;
 

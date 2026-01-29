@@ -14,55 +14,54 @@
 #include "Model/FreeFunctions.h"
 #include "Model/User.h"
 
-bool Db::testConnection()
+std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
 {
     std::unique_ptr<DbBackend> db_test;
 
-    if (s_settings.mode == DbSettings::DbType::Rqlite) {
-        db_test = std::make_unique<RqliteBackend>();
+    auto settings = s;
+
+    if (settings.mode == DbSettings::DbType::Rqlite) {
+        db_test = std::make_unique<RqliteBackend>(settings.rqliteUrl);
     }
     else {
-        db_test = std::make_unique<SqliteBackend>();
-    }
 
-    auto prevMode = s_settings.mode;
+        if (!SqliteBackend::createDirPath(settings.sqliteFilePath)) {
+            ModalDialogBuilder::showError("Неуспешно създаване на директорията на базата данни");
+            return {};
+        }
+
+        db_test = std::make_unique<SqliteBackend>(settings.sqliteFilePath);
+    }
 
     auto ver = version(db_test.get());
 
-    if (ver == Version::dbVersion()) return true;
+    if (ver == Version::dbVersion()) return settings;
     
     //no connection
     while (ver == -1) {
-        DbSettingsDialog d(s_settings);
+        DbSettingsDialog d(settings);
 
         auto result = d.getResult();
 
-        if (!result) return false;
+        if (!result) return {};
 
-        setSettings(result.value());
+        settings = result.value();
 
-        if (s_settings.mode == DbSettings::DbType::Rqlite) {
-            db_test = std::make_unique<RqliteBackend>();
+        if (settings.mode == DbSettings::DbType::Rqlite) {
+            db_test = std::make_unique<RqliteBackend>(settings.rqliteUrl);
         }
         else {
-            db_test = std::make_unique<SqliteBackend>();
+            db_test = std::make_unique<SqliteBackend>(settings.sqliteFilePath);
         }
 
         ver = version(db_test.get());
     };
 
-    GlobalSettings::setDbSettings(s_settings);
-
-    if (User::doctor().LPK.size() && prevMode != s_settings.mode) {
-        ModalDialogBuilder::showMessage("Избрали сте различен тип база данни. Програмата ще се рестартира.");
-        FreeFn::restartApplication();
-    }
-
     //no schema at all - creating db structure
     if (ver == 0) {
 
         for (auto& tableSchema : Resources::dbSchema()) {
-            if (!db_test->execute(tableSchema)) return false;
+            if (!db_test->execute(tableSchema)) return {};
         }
     }
 
@@ -77,7 +76,7 @@ bool Db::testConnection()
 
         FreeFn::terminateApplication(0);
 
-        return false;
+        return {};
     }
 
     //lower db version - needs migration
@@ -91,20 +90,36 @@ bool Db::testConnection()
         DbUpdater::updateDb(); 
     }
 
-    return true;
+    return settings;
 }
 
 Db::Db()
 {
-    if (!testConnection()) {
-        FreeFn::terminateApplication();
+    auto settings = setupConnection(s_settings);
+
+    if (!settings.has_value()) { 
+        ModalDialogBuilder::showError("Неуспешно конфигуриране на базата данни");
+        FreeFn::terminateApplication(); 
+        return;
     }
- 
+
+    bool dbTypeChanged = User::doctor().LPK.size() && settings->mode != s_settings.mode;
+
+    if (s_settings != settings.value()) {
+        s_settings = settings.value();
+        GlobalSettings::setDbSettings(settings.value());
+
+        if (dbTypeChanged) {
+            ModalDialogBuilder::showMessage("Видът на базата данни е променен. Програмата ще се рестартира");
+            FreeFn::restartApplication();
+        }
+    }
+
     if (s_settings.mode == DbSettings::DbType::Rqlite) {
-        m_backend = std::make_unique<RqliteBackend>();
+        m_backend = std::make_unique<RqliteBackend>(s_settings.rqliteUrl);
     }
     else {
-        m_backend = std::make_unique<SqliteBackend>();
+        m_backend = std::make_unique<SqliteBackend>(s_settings.sqliteFilePath);
     }
 }
 
@@ -195,8 +210,5 @@ bool Db::crudQuery(const std::string& query)
 
 void Db::setSettings(const DbSettings& settings)
 {
-    SqliteBackend::setFilePath(settings.sqliteFilePath);
-    RqliteBackend::setSettings(settings.rqliteUrl);
-
     s_settings = settings;
 }

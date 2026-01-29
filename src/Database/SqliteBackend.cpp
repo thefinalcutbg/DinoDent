@@ -10,23 +10,18 @@ constexpr const char* database_error_msg =
     "че сте стартирали програмата като администратор.\n"
     ;
 
-SqliteBackend::SqliteBackend()
+SqliteBackend::SqliteBackend(const std::string& filepath)
     :
 
     stmt{nullptr}
 {
-    sqlite3_open(dbLocation.c_str(), &db_connection);
+    sqlite3_open(filepath.c_str(), &db_connection);
 
     if (db_connection == nullptr) {
          throw;
     }
 
     sqlite3_exec(db_connection, "PRAGMA foreign_keys = ON", NULL, NULL, NULL);
-}
-
-SqliteBackend::SqliteBackend(const std::string& query) : SqliteBackend()
-{
-    sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
 
 bool SqliteBackend::hasRows(){
@@ -224,27 +219,6 @@ void SqliteBackend::finalizeStatement()
     
 }
 
-void SqliteBackend::setFilePath(const std::string& filePath)
-{
-    dbLocation = filePath;
-}
-
-int SqliteBackend::version()
-{
-    SqliteBackend db("PRAGMA user_version");
-
-    while (db.hasRows()) {
-        return db.asLongLong(0);
-    }
-
-    return -1;
-}
-
-void SqliteBackend::setVersion(int version)
-{
-    SqliteBackend::crudQuery("PRAGMA user_version =" + std::to_string(version));
-}
-
 bool SqliteBackend::crudQuery(const std::string& query)
 {
     SqliteBackend db(query);
@@ -278,16 +252,15 @@ void SqliteBackend::showDbError(const std::string& msg)
 
 #include <QFileInfo>
 #include <QDir>
-#
-bool SqliteBackend::createDirPath()
+
+bool SqliteBackend::createDirPath(const std::string& filepath)
 {
-    QFileInfo info(QString::fromStdString(dbLocation));
+    QFileInfo info(QString::fromStdString(filepath));
 
     QDir dir = info.absoluteDir();
     if (dir.isEmpty() || !dir.mkpath(".")) return false;
 
     return true;
-
 }
 
 bool SqliteBackend::backup()

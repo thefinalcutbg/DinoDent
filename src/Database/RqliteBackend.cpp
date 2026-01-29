@@ -247,6 +247,8 @@ bool RqliteBackend::execute()
 
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                             QNetworkRequest::NoLessSafeRedirectPolicy);
 
         QNetworkReply* reply = getDbManager()->post(request, body);
 
@@ -276,7 +278,10 @@ bool RqliteBackend::execute()
 
         reply->deleteLater();
 
-        if (timedOut || !netOk || !httpOk) { return false; }
+        if (timedOut || !netOk || !httpOk) {
+            ModalDialogBuilder::showError("Неуспешна връзка с базата данни");
+            return false;
+        }
 
         Json::Value root;
         Json::Reader reader;

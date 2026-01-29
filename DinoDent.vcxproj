@@ -426,7 +426,6 @@
     <ClCompile Include="src\Presenter\TabPresenter.cpp" />
     <ClCompile Include="src\Presenter\UnusedPackagePresenter.cpp" />
     <ClCompile Include="src\Resources.cpp" />
-    <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
     <ClCompile Include="src\Tests\CrudTest.cpp" />
     <ClCompile Include="src\View\CommonIcon.cpp" />
@@ -789,7 +788,6 @@
     <ClInclude Include="src\Presenter\TabPresenter.h" />
     <ClInclude Include="src\Presenter\UnusedPackagePresenter.h" />
     <ClInclude Include="src\Resources.h" />
-    <ClInclude Include="src\DbUpdates\DbUpdates.h" />
     <ClInclude Include="src\DbUpdates\Updater.h" />
     <ClInclude Include="src\Tests\CrudTest.h" />
     <ClInclude Include="src\Version.h" />

@@ -34,9 +34,11 @@ void PracticeManagerPresenter::setDbPathToView()
 {
 	auto db_settings = GlobalSettings::getDbSettings();
 
-	auto& dbPath = db_settings.mode == DbSettings::DbType::Sqlite ? db_settings.sqliteFilePath : db_settings.rqliteUrl;
+	bool dbIsLocal = db_settings.mode == DbSettings::DbType::Sqlite;
 
-	view->setDbPath(dbPath);
+	auto& dbPath = dbIsLocal ? db_settings.sqliteFilePath : db_settings.rqliteUrl;
+
+	view->setDbPath(dbPath, dbIsLocal);
 }
 
 void PracticeManagerPresenter::setPracticeListToView()
@@ -46,8 +48,6 @@ void PracticeManagerPresenter::setPracticeListToView()
 	for (auto& p : practices) { practiceNames.push_back(p.name); }
 
 	view->setPracticeList(practiceNames);
-
-	setDbPathToView();
 }
 
 
@@ -134,8 +134,6 @@ void PracticeManagerPresenter::removeClicked(int idx)
 
 void PracticeManagerPresenter::dbChangePath()
 {
-	auto og_settings = GlobalSettings::getDbSettings();
-
 	DbSettingsDialog d(GlobalSettings::getDbSettings());
 	
 	auto result = d.getResult();
@@ -145,6 +143,8 @@ void PracticeManagerPresenter::dbChangePath()
 	Db::setSettings(result.value());
 
 	if(!Db::testConnection()) return;
+
+	GlobalSettings::setDbSettings(result.value());
 
 	practices = DbPractice::getPracticeList();
 

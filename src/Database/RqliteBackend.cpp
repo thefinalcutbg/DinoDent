@@ -7,6 +7,7 @@
 #include "GlobalSettings.h"
 #include <json/json.h>
 #include "Network/crypto.h"
+#include <QSaveFile>
 
 QNetworkAccessManager* getDbManager() {
 
@@ -330,6 +331,59 @@ bool RqliteBackend::execute()
             return true;
         }
     }
+}
+
+bool RqliteBackend::backup()
+{
+    QString outPath = QString::fromStdString(GlobalSettings::getDbBackupFilepath());
+
+    QUrl url = s_baseUrl.resolved(QUrl("/db/backup"));
+
+    QNetworkRequest request(url);
+    request.setRawHeader("Accept", "application/octet-stream");
+
+    QNetworkReply* reply = getDbManager()->get(request);
+
+    QEventLoop loop;
+    QTimer timer;
+    timer.setSingleShot(true);
+
+    bool timedOut = false;
+
+    QObject::connect(&timer, &QTimer::timeout, &loop, [&]() {
+        timedOut = true;
+        reply->abort();
+        loop.quit();
+        });
+
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+
+    timer.start(8000);
+    loop.exec(QEventLoop::ExcludeUserInputEvents);
+
+    int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    bool httpOk = (httpCode >= 200 && httpCode < 300);
+    bool netOk = (reply->error() == QNetworkReply::NoError);
+
+    QByteArray body = reply->readAll();
+    QString errStr = reply->errorString();
+
+    reply->deleteLater();
+
+    if (timedOut || !netOk || !httpOk || body.isEmpty()) {
+        return false;
+    }
+
+    QSaveFile file(outPath);
+
+    if (!file.open(QIODevice::WriteOnly) ||
+        file.write(body) != body.size() ||
+        !file.commit())
+    {
+        return false;
+    }
+
+    return true;
 }
 
 bool RqliteBackend::execute(const std::string& query)

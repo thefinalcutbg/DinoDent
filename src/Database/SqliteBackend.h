@@ -64,6 +64,8 @@ public:
     //executes already prepared statement with bindings
     bool execute();
 
+    bool backup() override;
+
     virtual ~SqliteBackend();
 
 };

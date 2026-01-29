@@ -1,5 +1,5 @@
 ﻿#include "Database/Database.h"
-#include "DbUpdates.h"
+#include "Updater.h"
 #include "Resources.h"
 #include "Database/DbPatient.h"
 #include "Model/FreeFunctions.h"

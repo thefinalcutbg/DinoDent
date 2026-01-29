@@ -15,7 +15,7 @@ class PracticeSelectorView : public QDialog
 public:
     PracticeSelectorView(PracticeManagerPresenter& p, QWidget *parent = nullptr);
 	void setPracticeList(const std::vector<std::string>& practiceList);
-	void setDbPath(const std::string& dbPath);
+	void setDbPath(const std::string& dbPath, bool isFilePath);
 	~PracticeSelectorView();
 
 private:

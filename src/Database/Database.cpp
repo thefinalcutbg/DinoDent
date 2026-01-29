@@ -81,7 +81,15 @@ bool Db::testConnection()
     }
 
     //lower db version - needs migration
-    if (ver < Version::dbVersion()) { DbUpdater::updateDb(); }
+    if (ver < Version::dbVersion()) {
+        
+        if (!db_test->backup()) {
+            ModalDialogBuilder::showError("Неуспешно архивиране на базата данни");
+            FreeFn::terminateApplication();
+        }
+
+        DbUpdater::updateDb(); 
+    }
 
     return true;
 }
@@ -149,6 +157,11 @@ void Db::bind(int index, long long value) { m_backend->bind(index, value); }
 void Db::bind(int index, const std::vector<unsigned char>& blob) { m_backend->bind(index, blob); }
 
 void Db::bindNull(int index) { m_backend->bindNull(index); }
+
+void Db::backup()
+{
+    m_backend->backup();
+}
 
 bool Db::execute() { 
 

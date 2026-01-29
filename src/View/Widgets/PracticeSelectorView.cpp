@@ -39,7 +39,8 @@ void PracticeSelectorView::setPracticeList(const std::vector<std::string>&practi
 	ui.listWidget->setCurrentItem(0);
 }
 
-void PracticeSelectorView::setDbPath(const std::string& dbPath)
+void PracticeSelectorView::setDbPath(const std::string& dbPath, bool isFilePath)
 {
+	ui.dbPathLabel->setText(isFilePath ? "Път към базата данни:" : "Адрес на базата данни:");
 	ui.dbLine->setText(dbPath.c_str());
 }

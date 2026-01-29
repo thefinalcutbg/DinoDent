@@ -215,7 +215,6 @@ bool SqliteBackend::execute()
     return result == SQLITE_DONE;
 }
 
-
 void SqliteBackend::finalizeStatement()
 {
     if (!stmt) return;
@@ -266,7 +265,6 @@ SqliteBackend::~SqliteBackend()
 
 }
 
-
 void SqliteBackend::showDbError(const std::string& msg)
 {
     if (!s_showErrorDialog) return;
@@ -280,7 +278,7 @@ void SqliteBackend::showDbError(const std::string& msg)
 
 #include <QFileInfo>
 #include <QDir>
-
+#
 bool SqliteBackend::createDirPath()
 {
     QFileInfo info(QString::fromStdString(dbLocation));
@@ -290,4 +288,9 @@ bool SqliteBackend::createDirPath()
 
     return true;
 
+}
+
+bool SqliteBackend::backup()
+{
+    return QFile::copy(GlobalSettings::getDbSettings().sqliteFilePath.c_str(), GlobalSettings::getDbBackupFilepath().c_str());
 }

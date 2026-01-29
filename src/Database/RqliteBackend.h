@@ -71,6 +71,8 @@ public:
     long long lastInsertedRowID() override { return m_lastInsertedRowID; }
     std::string getPreparedStatement() const override;
 
+    bool backup() override;
+
     virtual ~RqliteBackend() {};
 };
 

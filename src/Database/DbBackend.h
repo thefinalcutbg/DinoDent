@@ -32,6 +32,8 @@ public:
     virtual void bind(int index, const std::vector<unsigned char>& blob) = 0;
     virtual void bindNull(int index) = 0;
 
+    virtual bool backup() = 0;
+
     virtual bool execute() = 0;
 
     virtual ~DbBackend() = default;

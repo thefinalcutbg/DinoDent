@@ -1,4 +1,4 @@
-﻿#include "DbUpdates.h"
+﻿#include "Updater.h"
 #include "Resources.h"
 #include "Database/Database.h"
 #include <qstring.h>

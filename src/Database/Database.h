@@ -57,6 +57,8 @@ public:
     void bind(int index, const std::vector<unsigned char>& blob);
     void bindNull(int index);
 
+    void backup();
+
     bool execute();
 
     ~Db();

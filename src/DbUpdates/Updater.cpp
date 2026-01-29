@@ -1,59 +1,56 @@
 ﻿#include "Updater.h"
 #include "Database/Database.h"
-#include "DbUpdates.h"
+#include "Updater.h"
 #include "View/Widgets/UpdateDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "src/Version.h"
 #include "Resources.h"
 
-void commonUpdate(int toVersion) {
-
+void DbUpdates::commonUpdate(int toVersion)
+{
 	Db db;
 
-	if (db.version() != toVersion-1) return;
+	if (db.version() != toVersion - 1) return;
 
 	for (auto& query : Resources::getMigrationScript(toVersion))
 	{
 		db.execute(query);
 	}
-
 }
 
 void DbUpdater::updateDb()
 {
-	DbUpdates::backupDatabase();
-	
 	UpdateDialog d;
 
 	d.show();
 
 	DbUpdates::update10(d);
 	DbUpdates::update11(d);
-	commonUpdate(12);
-	commonUpdate(13);
-	commonUpdate(14);
-	commonUpdate(15);
+	DbUpdates::commonUpdate(12);
+	DbUpdates::commonUpdate(13);
+	DbUpdates::commonUpdate(14);
+	DbUpdates::commonUpdate(15);
 	DbUpdates::update16();
 	DbUpdates::update17();
 	DbUpdates::update18();
 	DbUpdates::update19(d);
-	commonUpdate(20);
-	commonUpdate(21);
-	commonUpdate(22);
-	commonUpdate(23);
-	commonUpdate(24);
-	commonUpdate(25);
+	DbUpdates::commonUpdate(20);
+	DbUpdates::commonUpdate(21);
+	DbUpdates::commonUpdate(22);
+	DbUpdates::commonUpdate(23);
+	DbUpdates::commonUpdate(24);
+	DbUpdates::commonUpdate(25);
 	DbUpdates::update26(d);
-	commonUpdate(27);
-    commonUpdate(28);
-	commonUpdate(29);
-	commonUpdate(30);
-	commonUpdate(31);
-	commonUpdate(32);
-	commonUpdate(33);
-    commonUpdate(34);
-	commonUpdate(35);
+	DbUpdates::commonUpdate(27);
+    DbUpdates::commonUpdate(28);
+	DbUpdates::commonUpdate(29);
+	DbUpdates::commonUpdate(30);
+	DbUpdates::commonUpdate(31);
+	DbUpdates::commonUpdate(32);
+	DbUpdates::commonUpdate(33);
+    DbUpdates::commonUpdate(34);
+	DbUpdates::commonUpdate(35);
 	DbUpdates::update36(d);
-    commonUpdate(37);
-	commonUpdate(38);
+    DbUpdates::commonUpdate(37);
+	DbUpdates::commonUpdate(38);
 }

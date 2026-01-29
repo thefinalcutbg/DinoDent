@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>651</width>
-    <height>436</height>
+    <width>621</width>
+    <height>234</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,7 +107,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="dbPathLabel">
        <property name="text">
         <string>Път към базата данни:</string>
        </property>

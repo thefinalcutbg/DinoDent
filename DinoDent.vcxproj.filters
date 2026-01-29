@@ -228,9 +228,6 @@
     <ClCompile Include="src\Presenter\TabPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DbUpdates\DbUpdates.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DbUpdates\Updater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1314,9 +1311,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\TabPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DbUpdates\DbUpdates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DbUpdates\Updater.h">

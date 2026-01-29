@@ -99,6 +99,8 @@ bool initFunction() {
 
     SplashScreen::showMessage("Свързване с базата данни");
 
+    Db::setShowErrors(true);
+
     Db::setSettings(GlobalSettings::getDbSettings());
 
     if (!Db::testConnection()) {
@@ -110,8 +112,6 @@ bool initFunction() {
         return false;
     };
 
-    Db::setShowErrors(true);
-    SplashScreen::showMessage("Обновяване на база данни");
 
 
     SplashScreen::showMessage("Стартиране на DinoDent...");

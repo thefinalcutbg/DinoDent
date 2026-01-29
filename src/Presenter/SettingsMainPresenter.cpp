@@ -345,15 +345,20 @@ void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 		
 	}
 
-	int columnCount = db.columnCount();
+
 
 	PlainTable table;
 
-	for (int i = 0; i < columnCount; i++) {
-		table.addColumn(PlainColumn(db.columnName(i)));
-	}
-
 	while (db.hasRows()) {
+
+		int columnCount = db.columnCount();
+
+		if (!table.columnCount()) {
+			for (int i = 0; i < columnCount; i++) {
+				table.addColumn(PlainColumn(db.columnName(i)));
+			}
+		}
+
 		for (int i = 0; i < columnCount; i++) {
             table.addCell(i, PlainCell{db.asString(i)});
 		}

@@ -1,13 +1,17 @@
 ﻿#include "RqliteBackend.h"
+
+#include <json/json.h>
+
+#include <QSaveFile>
+#include <QPointer>
 #include <QNetworkAccessManager>
 #include <QEventLoop>
 #include <QTimer>
 #include <QNetworkReply>
+
 #include "View/ModalDialogBuilder.h"
 #include "GlobalSettings.h"
-#include <json/json.h>
 #include "Network/crypto.h"
-#include <QSaveFile>
 
 QNetworkAccessManager* getDbManager() {
 
@@ -249,9 +253,10 @@ bool RqliteBackend::execute()
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
-                             QNetworkRequest::NoLessSafeRedirectPolicy);
+            QNetworkRequest::NoLessSafeRedirectPolicy);
 
         QNetworkReply* reply = getDbManager()->post(request, body);
+        QPointer<QNetworkReply> safeReply(reply); // <-- IMPORTANT
 
         QEventLoop loop;
         QTimer timer;
@@ -259,23 +264,26 @@ bool RqliteBackend::execute()
 
         bool timedOut = false;
 
-        QObject::connect(&timer, &QTimer::timeout, &loop, [&]() {
+        QObject::connect(&timer, &QTimer::timeout, &loop, [&, safeReply]() mutable {
             timedOut = true;
-            reply->abort();
+            if (safeReply) safeReply->abort();   // <-- won't crash if deleted
             loop.quit();
             });
 
         QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        QObject::connect(reply, &QNetworkReply::finished, &timer, &QTimer::stop); // <-- IMPORTANT
 
         timer.start(8000);
         loop.exec(QEventLoop::ExcludeUserInputEvents);
 
+        // extra safety: ensure timer can’t fire during any later nested event loop (e.g., QMessageBox)
+        timer.stop();
+
         const QByteArray responseBody = reply->readAll();
-
-        int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-
-        bool httpOk = (httpCode >= 200 && httpCode < 300);
-        bool netOk = (reply->error() == QNetworkReply::NoError);
+        const int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        const bool httpOk = (httpCode >= 200 && httpCode < 300);
+        const bool netOk = (reply->error() == QNetworkReply::NoError);
+        const QString errStr = reply->errorString(); // <-- cache before deleteLater()
 
         reply->deleteLater();
 
@@ -283,10 +291,12 @@ bool RqliteBackend::execute()
             const QString details = QString("URL: %1\nHTTP: %2\nQt: %3\nBody: %4")
                 .arg(url.toString())
                 .arg(httpCode)
-                .arg(reply->errorString())
+                .arg(errStr)
                 .arg(QString::fromUtf8(responseBody));
 
-            ModalDialogBuilder::showError("Неуспешна връзка със сървъра на базата данни\n\n" + details.toStdString());
+            ModalDialogBuilder::showError(
+                ("Неуспешна връзка със сървъра на базата данни\n\n" + details).toStdString()
+            );
             return false;
         }
 

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QProcess>
 
 std::string FreeFn::formatDouble(const double& price)
 {
@@ -213,4 +214,22 @@ void FreeFn::createNotification(long long patientRowid)
     result->patientRowid = patientRowid;
 
     DbNotification::insert(result.value());
+}
+
+void FreeFn::terminateApplication(int code)
+{
+    QCoreApplication::exit(code);
+}
+
+void FreeFn::restartApplication()
+{
+
+    QString program = QCoreApplication::applicationFilePath();
+    QStringList args = QCoreApplication::arguments().mid(1);
+
+    QProcess::startDetached(program, args);
+   
+    terminateApplication(0);
+
+    return;   
 }

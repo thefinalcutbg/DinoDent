@@ -2,6 +2,6 @@
 
 namespace UpdateService {
 	
-	bool restartForUpdate();
+	bool restartForUpdate(bool force = false);
 
 };

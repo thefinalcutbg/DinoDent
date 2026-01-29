@@ -10,7 +10,7 @@
 #include <QDesktopServices>
 #include "GlobalSettings.h"
 
-bool UpdateService::restartForUpdate()
+bool UpdateService::restartForUpdate(bool forceUpdate)
 {
 	auto m_reply = NetworkManager::simpleRequest(
         "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/ver"
@@ -71,6 +71,13 @@ bool UpdateService::restartForUpdate()
     {
         changeLog.append("<br>");
         changeLog.append(change.asString());
+    }
+
+    if (forceUpdate) {
+        UpdateDownloader d(linkAddress.c_str());
+        d.exec();
+
+        return d.installerDownloaded();
     }
 
     switch (UpdatePromptDialog(changeLog).exec())

@@ -10,6 +10,9 @@
 #include "DbUpdates/Updater.h"
 #include "View/Widgets/DbSettingsDialog.h"
 #include "GlobalSettings.h"
+#include "Network/UpdateService/UpdateService.h"
+#include "Model/FreeFunctions.h"
+#include "Model/User.h"
 
 bool Db::testConnection()
 {
@@ -22,10 +25,12 @@ bool Db::testConnection()
         db_test = std::make_unique<SqliteBackend>();
     }
 
+    auto prevMode = s_settings.mode;
+
     auto ver = version(db_test.get());
 
     if (ver == Version::dbVersion()) return true;
-
+    
     //no connection
     while (ver == -1) {
         DbSettingsDialog d(s_settings);
@@ -44,17 +49,16 @@ bool Db::testConnection()
         }
 
         ver = version(db_test.get());
-
-        //saving the settings, since the database is connected
-        if (ver != -1) {
-            GlobalSettings::setDbSettings(result.value());
-        }
-        else {
-            ModalDialogBuilder::showMessage("Неуспешна връзка с базата данни");
-        }
     };
 
-    //no schema at all
+    GlobalSettings::setDbSettings(s_settings);
+
+    if (User::doctor().LPK.size() && prevMode != s_settings.mode) {
+        ModalDialogBuilder::showMessage("Избрали сте различен тип база данни. Програмата ще се рестартира.");
+        FreeFn::restartApplication();
+    }
+
+    //no schema at all - creating db structure
     if (ver == 0) {
 
         for (auto& tableSchema : Resources::dbSchema()) {
@@ -62,12 +66,16 @@ bool Db::testConnection()
         }
     }
 
-    //higher db version.
+    //higher db version - needs update of the binary
     if (ver > Version::dbVersion()) {
         ModalDialogBuilder::showMessage(
             "Версията на базата данни е по-нова от тази, която се поддържа от програмата. "
             "Задължително актуализирайте софтуера до най-последна версия, преди да го използвате!"
         );
+
+        UpdateService::restartForUpdate(true);
+
+        FreeFn::terminateApplication(0);
 
         return false;
     }
@@ -75,15 +83,15 @@ bool Db::testConnection()
     //lower db version - needs migration
     if (ver < Version::dbVersion()) { DbUpdater::updateDb(); }
 
-    return true;;
+    return true;
 }
 
 Db::Db()
 {
-    if (s_settings.mode == DbSettings::DbType::Rqlite && !testConnection()) {
-        throw std::runtime_error("Error initializing database");
+    if (!testConnection()) {
+        FreeFn::terminateApplication();
     }
-
+ 
     if (s_settings.mode == DbSettings::DbType::Rqlite) {
         m_backend = std::make_unique<RqliteBackend>();
     }

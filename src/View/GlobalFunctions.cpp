@@ -5,6 +5,7 @@
 #include <QTableView>
 #include <QHeaderView>
 #include "Model/Date.h"
+#include <QApplication>
 
 QString roundDouble(double number)
 {
@@ -42,8 +43,6 @@ void setTableViewDefaults(QTableView* view)
 	view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 }
-
-
 
 QString priceRangeToString(const std::pair<double, double> priceRange)
 {

@@ -286,7 +286,7 @@ bool SqliteBackend::createDirPath()
     QFileInfo info(QString::fromStdString(dbLocation));
 
     QDir dir = info.absoluteDir();
-    if (!dir.mkpath(".")) return false;
+    if (dir.isEmpty() || !dir.mkpath(".")) return false;
 
     return true;
 

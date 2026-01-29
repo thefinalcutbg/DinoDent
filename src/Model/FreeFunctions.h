@@ -21,4 +21,6 @@ namespace FreeFn {
 	std::string getPhoneFromString(const std::string& text);
     bool sendSMS(long long patientRowid);
     void createNotification(long long patientRowid);
+    void terminateApplication(int code = 0);
+    void restartApplication();
 };

@@ -1,15 +1,16 @@
 #include "Updater.h"
 #include "Database/Database.h"
+#include "Database/DbBackend.h"
 #include "Resources.h"
 #include "GlobalSettings.h"
 #include "View/Widgets/UpdateDialog.h"
 #include "Model/FreeFunctions.h"
 
-void DbUpdates::update26(UpdateDialog& d) {
+void DbUpdates::update26(UpdateDialog& d, DbBackend* db_ptr)
+{
+	auto& db = *db_ptr;
 
-	Db db;
-
-	if (db.version() != 25) return;
+	if (Db::version(db_ptr) != 25) return;
 
 	for (auto& query : Resources::getMigrationScript(26))
 	{
@@ -50,13 +51,11 @@ void DbUpdates::update26(UpdateDialog& d) {
 
 }
 
-void DbUpdates::update36(UpdateDialog& d) {
+void DbUpdates::update36(UpdateDialog& d, DbBackend* db_ptr)
+{
+	auto& db = *db_ptr;
 
-	//converting amblist treatmentEnd from UTC to local time:
-
-	Db db;
-
-	if (db.version() != 35) return;
+	if (Db::version(db_ptr) != 35) return;
 
 	db.newStatement("SELECT rowid, treatment_end FROM amblist WHERE treatment_end IS NOT NULL");
 
@@ -81,5 +80,5 @@ void DbUpdates::update36(UpdateDialog& d) {
 	db.newStatement("UPDATE amblist SET treatment_end = date WHERE treatment_end IS NULL");
 	db.execute();
 
-	db.setVersion(36);
+	db.execute("PRAGMA user_version = 36");
 }

@@ -18,7 +18,7 @@ class Db
 
     static inline bool s_showErrorDialog{ false };
 
-    static int version(DbBackend* const backend);
+    
 
 public:
 
@@ -50,6 +50,8 @@ public:
     int rowsAffected() const;
     long long lastInsertedRowID();
     std::string getPreparedStatement() const;
+
+    static int version(DbBackend* const backend);
 
     void bind(int index, const std::string& value);
     void bind(int index, int value);

@@ -246,6 +246,8 @@ void MainPresenter::logOut()
     if (login.successful() == false)
     {
         view->exitProgram();
+
+        return;
     }
 
     view->setUserLabel(

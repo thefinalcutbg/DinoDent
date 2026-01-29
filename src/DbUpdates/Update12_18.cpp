@@ -4,13 +4,13 @@
 #include "Database/DbPatient.h"
 #include "Model/FreeFunctions.h"
 #include "GlobalSettings.h"
+#include "Database/DbBackend.h"
 
-
-void DbUpdates::update16()
+void DbUpdates::update16(DbBackend* db_ptr)
 {
-	Db db;
+	auto& db = *db_ptr;
 
-	if (db.version() != 15) return;
+	if (Db::version(db_ptr) != 15) return;
 
 	for (auto& query : Resources::getMigrationScript(16))
 	{
@@ -60,11 +60,11 @@ void DbUpdates::update16()
 
 }
 
-void DbUpdates::update17()
+void DbUpdates::update17(DbBackend* db_ptr)
 {
-	Db db;
+	auto& db = *db_ptr;
 
-	if (db.version() != 16) return;
+	if (Db::version(db_ptr) != 16) return;
 
 	for (auto& query : Resources::getMigrationScript(17))
 	{
@@ -76,11 +76,11 @@ void DbUpdates::update17()
 	GlobalSettings::setSettings(settings);
 }
 
-void DbUpdates::update18()
+void DbUpdates::update18(DbBackend* db_ptr)
 {
-	Db db;
+	auto& db = *db_ptr;
 
-	if (db.version() != 17) return;
+	if (Db::version(db_ptr) != 17) return;
 
 	db.execute("PRAGMA user_version=18");
 

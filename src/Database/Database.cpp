@@ -82,12 +82,14 @@ std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
     //lower db version - needs migration
     if (ver < Version::dbVersion()) {
         
+        s_settings = settings;
+
         if (!db_test->backup()) {
             ModalDialogBuilder::showError("Неуспешно архивиране на базата данни");
             FreeFn::terminateApplication();
         }
 
-        DbUpdater::updateDb(); 
+        DbUpdater::updateDb(db_test.get());
     }
 
     return settings;
@@ -195,11 +197,6 @@ int Db::version(DbBackend* const backend)
     backend->newStatement("PRAGMA user_version");
     while (backend->hasRows()) return backend->asInt(0);
     return -1;
-}
-
-void Db::setVersion(int version)
-{
-    Db::crudQuery("PRAGMA user_version =" + std::to_string(version));
 }
 
 bool Db::crudQuery(const std::string& query)

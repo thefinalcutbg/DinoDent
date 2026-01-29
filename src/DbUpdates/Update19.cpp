@@ -5,15 +5,16 @@
 #include <vector>
 
 #include "Database/Database.h"
+#include "Database/DbBackend.h"
 #include "Resources.h"
 
 #include "View/Widgets/UpdateDialog.h"
 
-void DbUpdates::update19(UpdateDialog& progressDialog)
+void DbUpdates::update19(UpdateDialog& progressDialog, DbBackend* db_ptr)
 {
-	Db db("SELECT rowid, ekatte FROM patient");
+	auto& db = *db_ptr;
 
-	if (db.version() != 18) return;
+	if (Db::version(db_ptr) != 18) return;
 
 	Json::Value ekatteJson;
 
@@ -80,6 +81,6 @@ void DbUpdates::update19(UpdateDialog& progressDialog)
 		progressDialog.increment();
 	}
 
-	db.setVersion(19);
+	db.execute("PRAGMA user_version = 19");
 
 }

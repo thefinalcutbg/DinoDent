@@ -2,13 +2,14 @@
 #include "Database/Database.h"
 #include "Resources.h"
 #include "View/Widgets/UpdateDialog.h"
+#include "Database/DbBackend.h"
 #include <json/json.h>
 
-void DbUpdates::update11(UpdateDialog&)
+void DbUpdates::update11(UpdateDialog&, DbBackend* db_ptr)
 {
-	Db db;
+	auto& db = *db_ptr;
 
-	if (db.version() != 10) return;
+	if (Db::version(db_ptr) != 10) return;
 
 	db.newStatement("SELECT practice.rzi, doctor.egn FROM practice_doctor JOIN doctor on practice_doctor.doctor_lpk = doctor.lpk JOIN practice on practice_doctor.practice_rzi = practice.rzi WHERE practice.legal_entity = 0");
 

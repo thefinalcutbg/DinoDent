@@ -1,13 +1,14 @@
 ﻿#include "Updater.h"
 #include "Resources.h"
 #include "Database/Database.h"
+#include "Database/DbBackend.h"
 #include <qstring.h>
 
-void DbUpdates::update10(UpdateDialog&)
+void DbUpdates::update10(UpdateDialog&, DbBackend* db_ptr)
 {
-	Db db;
+	auto& db =  *db_ptr;
 
-	if (db.version() != 9) return;
+	if (Db::version(db_ptr) != 9) return;
 
 	for (auto& query : Resources::getMigrationScript(10))
 	{

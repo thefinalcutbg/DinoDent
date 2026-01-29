@@ -85,7 +85,7 @@ void GlobalSettings::createCfgIfNotExists()
 
     if (!settings.isMember("db_type")) {
         settings["db_type"] = 0;
-        settings["db_address"] = "http://127.0.0.1:4001";
+        settings["db_address"] = "http://localhost:4001";
     }
 
     if (!settings.isMember("pkcs11_path"))

@@ -20,8 +20,6 @@ QNetworkAccessManager* getDbManager() {
 	return s_manager;
 }
 
-RqliteBackend::RqliteBackend(const std::string& address) : baseUrl{address.c_str()}{}
-
 void RqliteBackend::resizeToIndex(int idx)
 {
     if (idx <= 0) return;
@@ -96,6 +94,17 @@ void RqliteBackend::bindNull(int index)
 {
     resizeToIndex(index);
     m_bindings[index] = std::monostate{};
+}
+
+RqliteBackend::RqliteBackend(const std::string& address)
+{
+    QString s = QString::fromStdString(address).trimmed();
+
+    if (!s.contains("://")) s.prepend("http://");
+
+    baseUrl = QUrl(s);
+
+    if (baseUrl.path().isEmpty()) baseUrl.setPath("/");
 }
 
 bool RqliteBackend::hasRows()
@@ -271,7 +280,13 @@ bool RqliteBackend::execute()
         reply->deleteLater();
 
         if (timedOut || !netOk || !httpOk) {
-            ModalDialogBuilder::showError("Неуспешна връзка със сървъра на базата данни");
+            const QString details = QString("URL: %1\nHTTP: %2\nQt: %3\nBody: %4")
+                .arg(url.toString())
+                .arg(httpCode)
+                .arg(reply->errorString())
+                .arg(QString::fromUtf8(responseBody));
+
+            ModalDialogBuilder::showError("Неуспешна връзка със сървъра на базата данни\n\n" + details.toStdString());
             return false;
         }
 

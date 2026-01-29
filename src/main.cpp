@@ -95,7 +95,7 @@ bool initFunction() {
     WhenToTake::initialize();
     Date::initializeHolidays();
     Specialty::initialize();
-    User::initialize();
+
 
     SplashScreen::showMessage("Свързване с базата данни");
 
@@ -112,7 +112,7 @@ bool initFunction() {
         return false;
     };
 
-
+    User::initialize();
 
     SplashScreen::showMessage("Стартиране на DinoDent...");
 

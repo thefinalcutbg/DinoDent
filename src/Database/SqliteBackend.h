@@ -22,8 +22,6 @@ class SqliteBackend final : public DbBackend
 
 public:
    
-    //open new connection and execute query on the go
-    static bool crudQuery(const std::string& query); 
     static bool createDirPath(const std::string& filePath);
     static void setShowErrors(bool show) { s_showErrorDialog = show;}
 

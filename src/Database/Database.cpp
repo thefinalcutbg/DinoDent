@@ -81,8 +81,6 @@ std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
 
     //lower db version - needs migration
     if (ver < Version::dbVersion()) {
-        
-        s_settings = settings;
 
         if (!db_test->backup()) {
             ModalDialogBuilder::showError("Неуспешно архивиране на базата данни");
@@ -181,8 +179,6 @@ void Db::backup()
 }
 
 bool Db::execute() { 
-
-    if (GlobalSettings::showDbDebugEnabled()) { ModalDialogBuilder::showMultilineDialog(getPreparedStatement()); }
 
     return m_backend->execute(); 
 }

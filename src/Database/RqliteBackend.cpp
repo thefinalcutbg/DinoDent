@@ -244,6 +244,10 @@ bool RqliteBackend::execute()
 
     auto requestBody = Json::FastWriter().write(req);
 
+    if (GlobalSettings::showDbDebugEnabled()) {
+        ModalDialogBuilder::showMultilineDialog(requestBody);
+    }
+
     const QByteArray body = QByteArray::fromStdString(requestBody);
 
     while (true)
@@ -252,11 +256,9 @@ bool RqliteBackend::execute()
 
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-        request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
-            QNetworkRequest::NoLessSafeRedirectPolicy);
 
         QNetworkReply* reply = getDbManager()->post(request, body);
-        QPointer<QNetworkReply> safeReply(reply); // <-- IMPORTANT
+        QPointer<QNetworkReply> safeReply(reply);
 
         QEventLoop loop;
         QTimer timer;
@@ -266,7 +268,7 @@ bool RqliteBackend::execute()
 
         QObject::connect(&timer, &QTimer::timeout, &loop, [&, safeReply]() mutable {
             timedOut = true;
-            if (safeReply) safeReply->abort();   // <-- won't crash if deleted
+            if (safeReply) safeReply->abort();
             loop.quit();
             });
 
@@ -276,14 +278,13 @@ bool RqliteBackend::execute()
         timer.start(8000);
         loop.exec(QEventLoop::ExcludeUserInputEvents);
 
-        // extra safety: ensure timer can’t fire during any later nested event loop (e.g., QMessageBox)
         timer.stop();
 
         const QByteArray responseBody = reply->readAll();
         const int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         const bool httpOk = (httpCode >= 200 && httpCode < 300);
         const bool netOk = (reply->error() == QNetworkReply::NoError);
-        const QString errStr = reply->errorString(); // <-- cache before deleteLater()
+        const QString errStr = reply->errorString();
 
         reply->deleteLater();
 
@@ -294,7 +295,7 @@ bool RqliteBackend::execute()
                 .arg(errStr)
                 .arg(QString::fromUtf8(responseBody));
 
-            ModalDialogBuilder::showError(
+            ModalDialogBuilder::showMessage(
                 ("Неуспешна връзка със сървъра на базата данни\n\n" + details).toStdString()
             );
             return false;

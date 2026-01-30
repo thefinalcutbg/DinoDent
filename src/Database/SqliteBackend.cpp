@@ -109,6 +109,11 @@ bool SqliteBackend::execute(const std::string& query)
         showDbError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
     }
 
+    if (GlobalSettings::showDbDebugEnabled() && debug_hasRows) {
+        debug_hasRows = false;
+        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
+    }
+
     finalizeStatement();
 
     return i == SQLITE_OK;
@@ -218,14 +223,6 @@ void SqliteBackend::finalizeStatement()
     stmt = nullptr;
     
 }
-
-bool SqliteBackend::crudQuery(const std::string& query)
-{
-    SqliteBackend db(query);
-
-    return db.execute();
-}
-
 
 SqliteBackend::~SqliteBackend()
 {

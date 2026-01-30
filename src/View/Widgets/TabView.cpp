@@ -51,7 +51,7 @@ TabView::TabView(QWidget* parent)
     ui.tabBar->setStyleSheet(
         "QTabBar {"
         "  border: none;"
-        "  background: transparent;"
+        "  background: " + Theme::colorToString(Theme::mainBackgroundColor) + ";"
         "  border-bottom: 1px solid " + Theme::colorToString(Theme::border) + ";"
         "}"
 

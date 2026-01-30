@@ -111,7 +111,7 @@ bool SqliteBackend::execute(const std::string& query)
 
     if (GlobalSettings::showDbDebugEnabled() && debug_hasRows) {
         debug_hasRows = false;
-        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
+        ModalDialogBuilder::showMultilineDialog(query);
     }
 
     finalizeStatement();
@@ -203,6 +203,11 @@ bool SqliteBackend::execute()
 
         showDbError("Невалидна заявка към базата данни");
         return false;
+    }
+
+    if (GlobalSettings::showDbDebugEnabled() && debug_hasRows) {
+        debug_hasRows = false;
+        ModalDialogBuilder::showMultilineDialog(getPreparedStatement());
     }
 
     auto result = sqlite3_step(stmt);

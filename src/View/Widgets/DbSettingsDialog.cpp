@@ -14,8 +14,11 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 	connect(ui->okButton, &QPushButton::clicked, this, [&] { accept(); });
 	connect(ui->cancelButton, &QPushButton::clicked, this, [&] { reject(); });
 
-	connect(ui->localGroup, &QGroupBox::clicked, this, [&] { ui->serverGroup->setChecked(false); });
-	connect(ui->serverGroup, &QGroupBox::clicked, this, [&] { ui->localGroup->setChecked(false); });
+	connect(ui->localGroup, &QGroupBox::clicked, this, [&] { ui->serverGroup->setChecked(false); ui->rqliteLabel->setText("https://rqlite.io/"); });
+	connect(ui->serverGroup, &QGroupBox::clicked, this, [&] { 
+		ui->localGroup->setChecked(false); 
+		ui->rqliteLabel->setText("<a href=\"https://rqlite.io/\">https://rqlite.io/</a>");
+	});
 
 	connect(ui->pathButton, &QPushButton::clicked, this, [&] {
 
@@ -57,7 +60,7 @@ std::optional<DbSettings> DbSettingsDialog::getResult() {
 	s.rqlitePass = ui->passLineEdit->text().toStdString();
 
 	if (s.rqliteUrl.empty()) {
-		s.rqliteUrl = "127.0.0.1:4002";
+		s.rqliteUrl = "http://localhost:4001";
 	}
 
 	return s;

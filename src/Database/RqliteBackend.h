@@ -29,6 +29,8 @@ class RqliteBackend final : public DbBackend
     };
 
     QUrl baseUrl;
+    QString usr;
+    QString pass;
 
     std::vector<BindVariant> m_bindings;
     std::string m_statement;
@@ -41,7 +43,7 @@ class RqliteBackend final : public DbBackend
     Json::Value toJsonValue(const BindVariant& v) const;
 
 public:
-    RqliteBackend(const std::string& url);
+    RqliteBackend(const std::string& url, const std::string& usr, const std::string& pass);
 
     bool hasRows() override;
 

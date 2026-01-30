@@ -49,24 +49,37 @@ TabView::TabView(QWidget* parent)
 #endif
 
     ui.tabBar->setStyleSheet(
-        "QTabBar::tab{"
-        "background-color:" + Theme::colorToString(Theme::inactiveTabBG) +
-        "border-top-left-radius: 8px;"
-        "border-top-right-radius: 8px;"
-        "margin-right: 1px;"
+        "QTabBar {"
+        "  border: none;"
+        "  background: transparent;"
+        "  border-bottom: 1px solid " + Theme::colorToString(Theme::border) + ";"
+        "}"
+
+        "QTabBar::tab {"
+        "  background-color: " + Theme::colorToString(Theme::inactiveTabBG) + ";"
+        "  border: 1px solid transparent;"
+        "  border-top-left-radius: 8px;"
+        "  border-top-right-radius: 8px;"
+        "  padding: 1px 0px;"
+        "  margin-bottom: 0px;"
+        "  font-weight: normal;"
         "}"
 
         "QTabBar::tab:selected {"
-        "background-color: " + Theme::colorToString(Theme::background) +
+        "  background-color: " + Theme::colorToString(Theme::background) + ";"
+        "  border-top-color: " + Theme::colorToString(Theme::border) + ";"
+        "  border-left-color: " + Theme::colorToString(Theme::border) + ";"
+        "  border-right-color: " + Theme::colorToString(Theme::border) + ";"
+        "  margin-bottom: -1px;"
+        "  padding-bottom: 2px;"
+        "  border-bottom-color: " + Theme::colorToString(Theme::background) + ";"  /* masks baseline */
+        "  font-weight: normal;"
         "}"
 
         "QTabBar::tab:hover:!selected {"
-        "background-color:" + Theme::colorToString(Theme::inactiveTabBGHover) +
+        "  background-color: " + Theme::colorToString(Theme::inactiveTabBGHover) + ";"
         "}"
     );
-
-
-
 
     connect(ui.tabBar, &QTabBar::currentChanged, this,
         [=, this](int index)

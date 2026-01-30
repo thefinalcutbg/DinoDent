@@ -26,7 +26,7 @@ TabTitle::TabTitle(TabView* tabView, int tabId)
 
 	font.setPointSize(10);
 	ui.pushButton->setFont(font);
-	setFixedHeight(49); //CONSTANT HEIGHT
+	setFixedHeight(45); //CONSTANT HEIGHT
     setFixedWidth(225);
 }
 

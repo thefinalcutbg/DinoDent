@@ -85,7 +85,7 @@ void GlobalSettings::createCfgIfNotExists()
 
     if (!settings.isMember("db_type")) {
         settings["db_type"] = 0;
-        settings["db_address"] = "http://localhost:4001";
+        settings["db_url"] = "http://localhost:4001";
     }
 
     if (!settings.isMember("pkcs11_path"))
@@ -247,7 +247,9 @@ DbSettings GlobalSettings::getDbSettings()
     return DbSettings{
         .mode = static_cast<DbSettings::DbType>(settings["db_type"].asInt()),
         .sqliteFilePath = settings["db_path"].asString(),
-        .rqliteUrl = settings["db_address"].asString()
+        .rqliteUrl = settings["db_url"].asString(),
+        .rqliteUsr = settings["db_usr"].asString(),
+        .rqlitePass = settings["db_pass"].asString()
     };
 }
 
@@ -257,7 +259,9 @@ void GlobalSettings::setDbSettings(const DbSettings& s)
 
     settings["db_type"] = static_cast<int>(s.mode);
     settings["db_path"] = s.sqliteFilePath;
-    settings["db_address"] = s.rqliteUrl;
+    settings["db_url"] = s.rqliteUrl;
+    settings["db_usr"] = s.rqliteUsr;
+    settings["db_pass"] = s.rqlitePass;
 
     rewriteCfg(settings);
 }

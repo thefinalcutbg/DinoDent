@@ -8,6 +8,7 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <QNetworkReply>
+#include <QAUthenticator>
 
 #include "View/ModalDialogBuilder.h"
 #include "GlobalSettings.h"
@@ -20,7 +21,7 @@ QNetworkAccessManager* getDbManager() {
 	if (s_manager) return s_manager;
 	
 	s_manager = new QNetworkAccessManager();
-	
+
 	return s_manager;
 }
 
@@ -100,7 +101,7 @@ void RqliteBackend::bindNull(int index)
     m_bindings[index] = std::monostate{};
 }
 
-RqliteBackend::RqliteBackend(const std::string& address)
+RqliteBackend::RqliteBackend(const std::string& address, const std::string& usr, const std::string& pass)
 {
     QString s = QString::fromStdString(address).trimmed();
 
@@ -109,6 +110,9 @@ RqliteBackend::RqliteBackend(const std::string& address)
     baseUrl = QUrl(s);
 
     if (baseUrl.path().isEmpty()) baseUrl.setPath("/");
+
+    this->usr = usr.c_str();
+    this->pass = pass.c_str();
 }
 
 bool RqliteBackend::hasRows()
@@ -256,6 +260,12 @@ bool RqliteBackend::execute()
 
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        const QByteArray token = QByteArray("Basic ") + (usr + ":" + pass).toUtf8().toBase64();
+
+        if (!usr.isEmpty()) {
+            request.setRawHeader("Authorization", token);
+        }
 
         QNetworkReply* reply = getDbManager()->post(request, body);
         QPointer<QNetworkReply> safeReply(reply);

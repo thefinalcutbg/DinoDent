@@ -36,6 +36,8 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 
 	ui->pathLineEdit->setText(s.sqliteFilePath.c_str());
 	ui->addressLineEdit->setText(s.rqliteUrl.c_str());
+	ui->usrLineEdit->setText(s.rqliteUsr.c_str());
+	ui->passLineEdit->setText(s.rqlitePass.c_str());
 }
 
 std::optional<DbSettings> DbSettingsDialog::getResult() {
@@ -49,6 +51,10 @@ std::optional<DbSettings> DbSettingsDialog::getResult() {
 	s.rqliteUrl = ui->addressLineEdit->text().toStdString();
 
 	s.sqliteFilePath = ui->pathLineEdit->text().toStdString();
+
+	s.rqliteUsr = ui->usrLineEdit->text().toStdString();
+
+	s.rqlitePass = ui->passLineEdit->text().toStdString();
 
 	if (s.rqliteUrl.empty()) {
 		s.rqliteUrl = "127.0.0.1:4002";

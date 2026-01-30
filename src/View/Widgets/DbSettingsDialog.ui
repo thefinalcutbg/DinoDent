@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>211</height>
+    <width>590</width>
+    <height>283</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QGroupBox" name="localGroup">
      <property name="title">
-      <string>Локална база данни</string>
+      <string>Локална база данни (sqlite)</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -54,7 +54,7 @@
    <item>
     <widget class="QGroupBox" name="serverGroup">
      <property name="title">
-      <string>Сървърна база данни</string>
+      <string>Сървърна база данни (rqlite)</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -64,21 +64,46 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Адрес на свървъра:</string>
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="1">
          <widget class="QLineEdit" name="addressLineEdit">
-          <property name="readOnly">
-           <bool>false</bool>
-          </property>
           <property name="placeholderText">
            <string>127.0.0.1:4002</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Потребител:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="usrLineEdit">
+          <property name="echoMode">
+           <enum>QLineEdit::EchoMode::Normal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Парола:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="passLineEdit">
+          <property name="echoMode">
+           <enum>QLineEdit::EchoMode::Password</enum>
           </property>
          </widget>
         </item>

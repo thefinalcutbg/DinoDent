@@ -238,11 +238,8 @@ void DinoDent::setIrcIconAlert(bool glow)
 
 void DinoDent::paintEvent(QPaintEvent*)
 {
-    QPainter painter;
-    painter.begin(this);
+    QPainter painter(this);
     painter.fillRect(rect(), Theme::mainBackgroundColor);
-    painter.fillRect(0, height() - 21, width(), 21, QColor(240, 240, 240));
-    painter.end();
 }
 
 void DinoDent::closeEvent(QCloseEvent* event)

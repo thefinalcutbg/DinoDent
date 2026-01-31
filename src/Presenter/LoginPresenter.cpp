@@ -7,6 +7,7 @@
 #include "Network/NetworkManager.h"
 
 #include "Model/User.h"
+#include "GlobalSettings.h"
 
 #include "Presenter/PracticeManagerPresenter.h"
 
@@ -57,6 +58,11 @@ void LoginPresenter::setView(LoginView* view)
     }
 
     view->setDoctorList(names);
+    
+    if (GlobalSettings::getDbSettings().mode == DbSettings::DbType::Rqlite) {
+        view->disableRememberCheck();
+    }
+
 }
 
 void LoginPresenter::userIdxChanged(int idx)

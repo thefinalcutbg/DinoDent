@@ -69,6 +69,12 @@ void LoginView::disablePasswordField(bool disabled)
 	}
 }
 
+void LoginView::disableRememberCheck()
+{
+	ui.rememberCheck->setHidden(true);
+	ui.rememberCheck->setChecked(false);
+}
+
 void LoginView::paintEvent(QPaintEvent*)
 {
 	QPainter painter;

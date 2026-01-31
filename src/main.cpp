@@ -23,14 +23,15 @@ int main(int argc, char *argv[])
 
 //    testFn(); return 0;
 
-    //splash screen is destroyed at the end of DinoDent constructor
-    DinoDent w;
-
-    if (!w.m_loggedIn) return 0;
-
-    w.show();
-
-    return a.exec();
+    try {
+        DinoDent w;
+        if (!w.m_loggedIn) return 0;
+        w.show();
+        return a.exec();
+    }
+    catch (...) {
+        return 0;
+    }
 }
 
 #include <QFontDatabase>

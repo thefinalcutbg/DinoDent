@@ -236,6 +236,13 @@ bool RqliteBackend::execute()
     bool queryEndpoint = isQuery(m_statement);
 
     Json::Value req(Json::arrayValue);
+    
+    if (!queryEndpoint) {
+        Json::Value pragmaStmt(Json::arrayValue);
+        pragmaStmt.append("PRAGMA foreign_keys=ON");
+        req.append(pragmaStmt);
+    }
+
     Json::Value one(Json::arrayValue);
 
     one.append(m_statement);

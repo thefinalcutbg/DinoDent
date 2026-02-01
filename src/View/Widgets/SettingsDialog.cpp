@@ -380,6 +380,7 @@ void SettingsDialog::setAdminPriv(bool admin)
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::CodeList), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::SQL), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::SMS), admin);
+		ui.devBranch->setDisabled(!admin);
 		ui.localDbCheck->setDisabled(!admin);
 		ui.monthlySheets->setDisabled(!admin);
 }

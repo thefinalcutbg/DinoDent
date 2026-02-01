@@ -72,7 +72,7 @@ TabView::TabView(QWidget* parent)
         "  border-right-color: " + Theme::colorToString(Theme::border) + ";"
         "  margin-bottom: -1px;"
         "  padding-bottom: 2px;"
-        "  border-bottom-color: " + Theme::colorToString(Theme::background) + ";"  /* masks baseline */
+        "  border-bottom-color: " + Theme::colorToString(Theme::border) + ";"  /* masks baseline */
         "  font-weight: normal;"
         "}"
 

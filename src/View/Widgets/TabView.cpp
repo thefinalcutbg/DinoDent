@@ -139,6 +139,12 @@ int TabView::getTabIndex(int tabId)
 
 void TabView::setCustomStyleSheet(bool focusedTabBorder)
 {
+    const QString overlap      = focusedTabBorder ? "0px"  : "-2px";
+    const QString padBottom    = focusedTabBorder ? "1px"  : "3px";
+    const QString bottomBorder = focusedTabBorder
+        ? ("1px solid " + Theme::colorToString(Theme::border))
+        : ("1px solid " + Theme::colorToString(Theme::background));
+
     ui.tabBar->setStyleSheet(
         "QTabBar {"
         "  border: none;"
@@ -160,12 +166,13 @@ void TabView::setCustomStyleSheet(bool focusedTabBorder)
         "  border-top-color: " + Theme::colorToString(Theme::border) + ";"
         "  border-left-color: " + Theme::colorToString(Theme::border) + ";"
         "  border-right-color: " + Theme::colorToString(Theme::border) + ";"
-        "  margin-bottom: -2px;" 
-        "  padding-bottom: 3px;"   
-        "  border-bottom-color: " + Theme::colorToString(Theme::background) + ";"
+        "  margin-bottom: " + overlap + ";"
+        "  padding-bottom: " + padBottom + ";"
+        "  border-bottom: " + bottomBorder + ";"
         "}"
     );
 }
+
 
 void TabView::showTabWidget(QWidget* w)
 {

@@ -198,8 +198,7 @@ bool EDental::Augment::sendRequest(
 
     if (User::signatureTablet().getHisIdx())
     {
-        //signing for a first time
-        if(sig_data.empty() || !patientIsSigner){
+        if(sig_data.empty() || ambSheet.his_updated){
 
             auto sign_pair = HisService::generatePatientSignature(contents, patient, patientIsSigner);
 

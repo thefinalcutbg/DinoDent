@@ -1,6 +1,7 @@
 ﻿#include "TabView.h"
 #include <QAbstractScrollArea>
 #include <QScrollBar>
+#include <QWindow>
 #include "View/Theme.h"
 #include "View/SubWidgets/TabTitle.h"
 #include "Presenter/TabPresenter.h"
@@ -78,7 +79,7 @@ TabView::TabView(QWidget* parent)
             TabPresenter::get().setCurrentTab(tabId);
         });
 
-
+    ui.tabBar->setDrawBase(false);
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
 
     ui.scrollArea->setObjectName("ScrollArea");
@@ -152,7 +153,6 @@ void TabView::setCustomStyleSheet(bool focusedTabBorder)
         "  border-top-right-radius: 8px;"
         "  padding: 1px 0px;"
         "  margin-bottom: 0px;"
-        "  font-weight: normal;"
         "}"
 
         "QTabBar::tab:selected {"
@@ -160,18 +160,12 @@ void TabView::setCustomStyleSheet(bool focusedTabBorder)
         "  border-top-color: " + Theme::colorToString(Theme::border) + ";"
         "  border-left-color: " + Theme::colorToString(Theme::border) + ";"
         "  border-right-color: " + Theme::colorToString(Theme::border) + ";"
-        "  margin-bottom: -1px;"
-        "  padding-bottom: 2px;"
-        "  border-bottom-color: " + Theme::colorToString(focusedTabBorder ? Theme::border : Theme::background) + ";"  /* masks baseline */
-        "  font-weight: normal;"
-        "}"
-
-        "QTabBar::tab:hover:!selected {"
-        "  background-color: " + Theme::colorToString(Theme::inactiveTabBGHover) + ";"
+        "  margin-bottom: -2px;" 
+        "  padding-bottom: 3px;"   
+        "  border-bottom-color: " + Theme::colorToString(Theme::background) + ";"
         "}"
     );
 }
-
 
 void TabView::showTabWidget(QWidget* w)
 {

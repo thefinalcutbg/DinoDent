@@ -48,38 +48,19 @@ TabView::TabView(QWidget* parent)
     ui.tabBar->installEventFilter(new NoHScrollFilter(ui.tabBar));
 #endif
 
-    ui.tabBar->setStyleSheet(
-        "QTabBar {"
-        "  border: none;"
-        "  background: " + Theme::colorToString(Theme::mainBackgroundColor) + ";"
-        "  border-bottom: 1px solid " + Theme::colorToString(Theme::border) + ";"
-        "}"
+    setCustomStyleSheet(false);
 
-        "QTabBar::tab {"
-        "  background-color: " + Theme::colorToString(Theme::inactiveTabBG) + ";"
-        "  border: 1px solid transparent;"
-        "  border-top-left-radius: 8px;"
-        "  border-top-right-radius: 8px;"
-        "  padding: 1px 0px;"
-        "  margin-bottom: 0px;"
-        "  font-weight: normal;"
-        "}"
+    static auto showFocusedTabBorder = false;
 
-        "QTabBar::tab:selected {"
-        "  background-color: " + Theme::colorToString(Theme::background) + ";"
-        "  border-top-color: " + Theme::colorToString(Theme::border) + ";"
-        "  border-left-color: " + Theme::colorToString(Theme::border) + ";"
-        "  border-right-color: " + Theme::colorToString(Theme::border) + ";"
-        "  margin-bottom: -1px;"
-        "  padding-bottom: 2px;"
-        "  border-bottom-color: " + Theme::colorToString(Theme::border) + ";"  /* masks baseline */
-        "  font-weight: normal;"
-        "}"
+    connect(ui.scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int value)
+    {
+            if (value > 10 == showFocusedTabBorder) return;
 
-        "QTabBar::tab:hover:!selected {"
-        "  background-color: " + Theme::colorToString(Theme::inactiveTabBGHover) + ";"
-        "}"
-    );
+            showFocusedTabBorder = value > 10;
+
+            setCustomStyleSheet(showFocusedTabBorder);
+       
+    });
 
     connect(ui.tabBar, &QTabBar::currentChanged, this,
         [=, this](int index)
@@ -153,6 +134,42 @@ int TabView::getTabIndex(int tabId)
     }
 
     return -1;
+}
+
+void TabView::setCustomStyleSheet(bool focusedTabBorder)
+{
+    ui.tabBar->setStyleSheet(
+        "QTabBar {"
+        "  border: none;"
+        "  background: " + Theme::colorToString(Theme::mainBackgroundColor) + ";"
+        "  border-bottom: 1px solid " + Theme::colorToString(Theme::border) + ";"
+        "}"
+
+        "QTabBar::tab {"
+        "  background-color: " + Theme::colorToString(Theme::inactiveTabBG) + ";"
+        "  border: 1px solid transparent;"
+        "  border-top-left-radius: 8px;"
+        "  border-top-right-radius: 8px;"
+        "  padding: 1px 0px;"
+        "  margin-bottom: 0px;"
+        "  font-weight: normal;"
+        "}"
+
+        "QTabBar::tab:selected {"
+        "  background-color: " + Theme::colorToString(Theme::background) + ";"
+        "  border-top-color: " + Theme::colorToString(Theme::border) + ";"
+        "  border-left-color: " + Theme::colorToString(Theme::border) + ";"
+        "  border-right-color: " + Theme::colorToString(Theme::border) + ";"
+        "  margin-bottom: -1px;"
+        "  padding-bottom: 2px;"
+        "  border-bottom-color: " + Theme::colorToString(focusedTabBorder ? Theme::border : Theme::background) + ";"  /* masks baseline */
+        "  font-weight: normal;"
+        "}"
+
+        "QTabBar::tab:hover:!selected {"
+        "  background-color: " + Theme::colorToString(Theme::inactiveTabBGHover) + ";"
+        "}"
+    );
 }
 
 

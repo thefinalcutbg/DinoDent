@@ -32,6 +32,8 @@ class TabView : public QWidget
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
 
+	void setCustomStyleSheet(bool focusedTabBorder);
+
 public:
 
 	TabView(QWidget* parent = Q_NULLPTR);

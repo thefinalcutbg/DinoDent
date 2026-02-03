@@ -10,6 +10,90 @@
 #include "View/Widgets/GlobalWidgets.h"
 #include "Model/User.h"
 
+#include <QScrollArea>
+#include <QPropertyAnimation>
+#include <QWheelEvent>
+#include <QApplication>
+#include <QPointer>
+#include <algorithm>
+
+class SmoothWheelScroll : public QObject
+{
+public:
+    explicit SmoothWheelScroll(QScrollArea* area, QObject* parent = nullptr)
+        : QObject(parent), m_area(area)
+    {
+        auto* sb = m_area->verticalScrollBar();
+        m_anim = new QPropertyAnimation(sb, "value", this);
+        m_anim->setEasingCurve(QEasingCurve::OutCubic);
+        m_anim->setDuration(180);
+        m_target = sb->value();
+
+        connect(sb, &QScrollBar::rangeChanged, this, [this](int, int) {
+            if (!m_area) return;
+            auto* sb2 = m_area->verticalScrollBar();
+            m_anim->stop();
+            m_target = sb2->value();
+            });
+
+        qApp->installEventFilter(this);
+    }
+
+    ~SmoothWheelScroll() override
+    {
+        if (qApp) qApp->removeEventFilter(this);
+    }
+
+    void setPixelsPerStep(int px) { m_pxPerStep = std::max(1, px); }
+    void setDurationMs(int ms) { m_anim->setDuration(std::max(1, ms)); }
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* ev) override
+    {
+        if (!m_area) return QObject::eventFilter(obj, ev);
+        if (ev->type() != QEvent::Wheel) return QObject::eventFilter(obj, ev);
+
+        auto* w = qobject_cast<QWidget*>(obj);
+        if (!w) return QObject::eventFilter(obj, ev);
+
+        auto* vp = m_area->viewport();
+        if (!(w == vp || vp->isAncestorOf(w))) return QObject::eventFilter(obj, ev);
+
+        auto* we = static_cast<QWheelEvent*>(ev);
+
+        const QPoint pd = we->pixelDelta();
+        const QPoint ad = we->angleDelta();
+
+        if (!pd.isNull()) return QObject::eventFilter(obj, ev);
+        if (ad.y() == 0) return QObject::eventFilter(obj, ev);
+
+        auto* sb = m_area->verticalScrollBar();
+
+        if (m_anim->state() != QAbstractAnimation::Running)
+            m_target = sb->value();
+
+        const double steps = ad.y() / 120.0;
+        m_target -= int(steps * m_pxPerStep);
+
+        m_target = std::clamp(m_target, sb->minimum(), sb->maximum());
+
+        m_anim->stop();
+        m_anim->setStartValue(sb->value());
+        m_anim->setEndValue(m_target);
+        m_anim->start();
+
+        we->accept();
+        return true;
+    }
+
+private:
+    QPointer<QScrollArea> m_area;
+    QPropertyAnimation* m_anim = nullptr;
+    int m_target = 0;
+    int m_pxPerStep = 60;
+};
+
+
 class NoHScrollFilter : public QObject {
 public:
     using QObject::QObject;
@@ -38,6 +122,10 @@ TabView::TabView(QWidget* parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
+
+    auto* smooth = new SmoothWheelScroll(ui.scrollArea, ui.scrollArea);
+    smooth->setPixelsPerStep(3 * fontMetrics().height());
+    smooth->setDurationMs(120);
 
     ui.tabBar->setExpanding(false);
     ui.tabBar->setMovable(true);

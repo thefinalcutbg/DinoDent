@@ -28,10 +28,10 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 		});
 	};
 
-	connectButtonToLineEdit(ui->pathButton, ui->pathLineEdit, "Изберете местонахождение на бaзата данни", "Файл база данни (*.db)");
-	connectButtonToLineEdit(ui->certPathButton, ui->certPathLine, "Избор на клиентски сертификат", "Клиентски сертификат (*.crt *.pem);;Всички файлове (*)");
-	connectButtonToLineEdit(ui->prvKeyButton, ui->prvKeyLineEdit, "Избор на таен ключ", "Таен ключ (*.key *.pem);;PKCS#12 (*.p12 *.pfx);;Всички файлове (*)");
-	connectButtonToLineEdit(ui->caPathButton, ui->caPathLine, "Избор на CA сертификат", "CA сертификат (*.crt *.pem *.cer);;Всички файлове (*)");
+	connectButtonToLineEdit(ui->pathButton, ui->pathLineEdit, "Изберете местоположение на базата данни", "База данни (*.db);;Всички файлове (*)");
+	connectButtonToLineEdit(ui->certPathButton, ui->certPathLine, "Изберете PEM клиентски сертификат", "PEM сертификати (*.pem *.crt *.cer);;Всички файлове (*)");
+	connectButtonToLineEdit(ui->prvKeyButton, ui->prvKeyLineEdit, "Изберете PEM частен ключ", "PEM частен ключ (*.key *.pem);;Всички файлове (*)");
+	connectButtonToLineEdit(ui->caPathButton, ui->caPathLine, "Изберете PEM CA сертификат", "PEM CA сертификати (*.pem *.crt *.cer);;Всички файлове (*)");
 
 	connect(ui->removeCAButton, &QPushButton::clicked, [&] { ui->caPathLine->clear(); });
 

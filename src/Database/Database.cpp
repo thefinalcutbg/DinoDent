@@ -21,7 +21,7 @@ std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
     auto settings = s;
 
     if (settings.mode == DbSettings::DbType::Rqlite) {
-        db_test = std::make_unique<RqliteBackend>(settings.rqliteUrl, settings.rqliteUsr, settings.rqlitePass);
+        db_test = std::make_unique<RqliteBackend>(settings.rqliteUrl, settings.rqliteUsr, settings.rqlitePass, settings.sslConfig);
     }
     else {
 
@@ -48,7 +48,7 @@ std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
         settings = result.value();
 
         if (settings.mode == DbSettings::DbType::Rqlite) {
-            db_test = std::make_unique<RqliteBackend>(settings.rqliteUrl, settings.rqliteUsr, settings.rqlitePass);
+            db_test = std::make_unique<RqliteBackend>(settings.rqliteUrl, settings.rqliteUsr, settings.rqlitePass, settings.sslConfig);
         }
         else {
             db_test = std::make_unique<SqliteBackend>(settings.sqliteFilePath);
@@ -116,7 +116,7 @@ Db::Db()
     }
 
     if (s_settings.mode == DbSettings::DbType::Rqlite) {
-        m_backend = std::make_unique<RqliteBackend>(s_settings.rqliteUrl, s_settings.rqliteUsr, s_settings.rqlitePass);
+        m_backend = std::make_unique<RqliteBackend>(s_settings.rqliteUrl, s_settings.rqliteUsr, s_settings.rqlitePass, s_settings.sslConfig);
     }
     else {
         m_backend = std::make_unique<SqliteBackend>(s_settings.sqliteFilePath);

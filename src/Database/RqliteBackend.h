@@ -5,6 +5,7 @@
 #include <variant>
 #include <json/json.h>
 #include <QUrl>
+#include <QSslConfiguration>
 
 namespace Json { class Value; }
 class QString;
@@ -32,6 +33,10 @@ class RqliteBackend final : public DbBackend
     QString usr;
     QString pass;
 
+    static inline QSslConfiguration s_ssl_cfg;
+    
+    std::optional<DbSslConfig> ssl_paths;
+
     std::vector<BindVariant> m_bindings;
     std::string m_statement;
     RqliteResultSet m_rs;
@@ -43,7 +48,13 @@ class RqliteBackend final : public DbBackend
     Json::Value toJsonValue(const BindVariant& v) const;
 
 public:
-    RqliteBackend(const std::string& url, const std::string& usr, const std::string& pass);
+
+    RqliteBackend(
+        const std::string& url,
+        const std::string& usr,
+        const std::string& pass,
+        std::optional<DbSslConfig>
+    );
 
     bool hasRows() override;
 

@@ -1,5 +1,6 @@
 ﻿#include "DbSettingsDialog.h"
 #include <QFileDialog>
+#include "View/CommonIcon.h"
 
 DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 	: QDialog(parent)
@@ -7,31 +8,51 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 {
 	ui->setupUi(this);
 
+	ui->mTLSFrame->hide();
+	
 	setWindowTitle("Настройки на база данни");
 
 	setStyleSheet("QDialog {background-color: white;}");
 
-	connect(ui->okButton, &QPushButton::clicked, this, [&] { accept(); });
+	ui->caPathButton->setIcon(CommonIcon::getPixmap(CommonIcon::OPEN));
+	ui->prvKeyButton->setIcon(CommonIcon::getPixmap(CommonIcon::OPEN));
+	ui->certPathButton->setIcon(CommonIcon::getPixmap(CommonIcon::OPEN));
+	ui->removeCAButton->setIcon(CommonIcon::getPixmap(CommonIcon::REMOVE));
+
+	auto connectButtonToLineEdit = [this](QPushButton* b, QLineEdit* l, const QString& title, const QString& fileType)
+	{
+		connect(b, &QPushButton::clicked, this, [this, l, title, fileType]() {
+			auto str = QFileDialog::getOpenFileName(this, title, l->text(), fileType);
+			if (str.isEmpty()) return;
+			l->setText(str);
+		});
+	};
+
+	connectButtonToLineEdit(ui->pathButton, ui->pathLineEdit, "Изберете местонахождение на бaзата данни", "Файл база данни (*.db)");
+	connectButtonToLineEdit(ui->certPathButton, ui->certPathLine, "Избор на клиентски сертификат", "Клиентски сертификат (*.crt *.pem);;Всички файлове (*)");
+	connectButtonToLineEdit(ui->prvKeyButton, ui->prvKeyLineEdit, "Избор на таен ключ", "Таен ключ (*.key *.pem);;PKCS#12 (*.p12 *.pfx);;Всички файлове (*)");
+	connectButtonToLineEdit(ui->caPathButton, ui->caPathLine, "Избор на CA сертификат", "CA сертификат (*.crt *.pem *.cer);;Всички файлове (*)");
+
+	connect(ui->removeCAButton, &QPushButton::clicked, [&] { ui->caPathLine->clear(); });
+
+	connect(ui->okButton, &QPushButton::clicked, this, [&] { 
+		
+		if (!ui->certPathLine->validateInput()) { return; };
+		if (!ui->prvKeyLineEdit->validateInput()) { return; };
+
+		accept();
+
+	});
 	connect(ui->cancelButton, &QPushButton::clicked, this, [&] { reject(); });
 
-	connect(ui->localGroup, &QGroupBox::clicked, this, [&] { ui->serverGroup->setChecked(false); ui->rqliteLabel->setText("https://rqlite.io/"); });
-	connect(ui->serverGroup, &QGroupBox::clicked, this, [&] { 
-		ui->localGroup->setChecked(false); 
-		ui->rqliteLabel->setText("<a href=\"https://rqlite.io/\">https://rqlite.io/</a>");
-	});
+	connect(ui->localGroup, &QGroupBox::clicked, this, [&](bool clicked) { setDbBackend(!clicked); });
+	connect(ui->serverGroup, &QGroupBox::clicked, this, [&](bool clicked) { setDbBackend(clicked); });
 
-	connect(ui->pathButton, &QPushButton::clicked, this, [&] {
 
-		auto str = QFileDialog::getOpenFileName(
-			nullptr,
-			"Изберете местонахождение на бaзата данни",
-			ui->pathLineEdit->text(), "Файл база данни (*.db)"
-		);
-
-		if (str.isEmpty()) return;
-
-		ui->pathLineEdit->setText(str);
-
+	connect(ui->mTLScheck, &QCheckBox::clicked, this, [this](bool checked) {
+		ui->mTLSFrame->setHidden(!checked);
+		ui->certPathLine->setInputValidator(checked ? &notEmptyValidator : nullptr);
+		ui->prvKeyLineEdit->setInputValidator(checked ? &notEmptyValidator : nullptr);
 	});
 
 	ui->localGroup->setChecked(s.mode == DbSettings::DbType::Sqlite);
@@ -41,6 +62,16 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 	ui->addressLineEdit->setText(s.rqliteUrl.c_str());
 	ui->usrLineEdit->setText(s.rqliteUsr.c_str());
 	ui->passLineEdit->setText(s.rqlitePass.c_str());
+
+	ui->mTLScheck->setChecked(s.sslConfig.has_value());
+
+	if (!s.sslConfig) return;
+
+	ui->certPathLine->setText(s.sslConfig->clientCertPath.c_str());
+	ui->prvKeyLineEdit->setText(s.sslConfig->clientKeyPath.c_str());
+	ui->prvPassLineEdit->setText(s.sslConfig->clientKeyPass.c_str());
+	ui->caPathLine->setText(s.sslConfig->caCertPath.c_str());
+
 }
 
 std::optional<DbSettings> DbSettingsDialog::getResult() {
@@ -63,8 +94,27 @@ std::optional<DbSettings> DbSettingsDialog::getResult() {
 		s.rqliteUrl = "http://localhost:4001";
 	}
 
+	if (!ui->mTLScheck->isChecked()) return s;
+
+	DbSslConfig cfg;
+
+	cfg.clientCertPath = ui->certPathLine->text().toStdString();
+	cfg.clientKeyPath = ui->prvKeyLineEdit->text().toStdString();
+	cfg.clientKeyPass = ui->prvPassLineEdit->text().toStdString();
+	cfg.caCertPath = ui->caPathLine->text().toStdString();
+
+	s.sslConfig = cfg;
+
 	return s;
 }
+
+void DbSettingsDialog::setDbBackend(bool server)
+{
+	ui->serverGroup->setChecked(server);
+	ui->localGroup->setChecked(!server);
+	ui->rqliteLabel->setText(server ? "<a href=\"https://rqlite.io/\">https://rqlite.io/</a>" : "https://rqlite.io/");
+}
+
 
 DbSettingsDialog::~DbSettingsDialog()
 {

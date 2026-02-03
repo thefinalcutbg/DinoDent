@@ -249,7 +249,13 @@ DbSettings GlobalSettings::getDbSettings()
         .sqliteFilePath = settings["db_path"].asString(),
         .rqliteUrl = settings["db_url"].asString(),
         .rqliteUsr = settings["db_usr"].asString(),
-        .rqlitePass = settings["db_pass"].asString()
+        .rqlitePass = settings["db_pass"].asString(),
+        .sslConfig = settings.isMember("mTLS") ? DbSslConfig{
+            .clientCertPath = settings["mTLS"]["cert"].asString(),
+            .clientKeyPath = settings["mTLS"]["prv"].asString(),
+            .clientKeyPass = settings["mTLS"]["pass"].asString(),
+            .caCertPath = settings["mTLS"]["ca"].asString()
+        } : std::optional<DbSslConfig>{}
     };
 }
 
@@ -262,6 +268,16 @@ void GlobalSettings::setDbSettings(const DbSettings& s)
     settings["db_url"] = s.rqliteUrl;
     settings["db_usr"] = s.rqliteUsr;
     settings["db_pass"] = s.rqlitePass;
+
+    if (s.sslConfig) {
+        Json::Value mTLS;
+        mTLS["cert"] = s.sslConfig->clientCertPath;
+        mTLS["prv"] = s.sslConfig->clientKeyPath;
+        mTLS["pass"] = s.sslConfig->clientKeyPass;
+        mTLS["ca"] = s.sslConfig->caCertPath;
+
+        settings["mTLS"] = mTLS;
+    }
 
     rewriteCfg(settings);
 }

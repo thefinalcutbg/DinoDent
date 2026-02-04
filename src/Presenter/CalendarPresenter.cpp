@@ -342,6 +342,8 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
     if (d.exec() != QDialog::Accepted) return;
 
+    clipboard_event = d.result(); //in case the summary has been changed
+
     sendEventQuery(d.result());
 }
 

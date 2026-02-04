@@ -41,7 +41,7 @@ TabView::TabView(QWidget* parent)
     ui.setupUi(this);
 
     auto* smooth = new SmoothWheelScroll(ui.scrollArea, ui.scrollArea);
-    smooth->setPixelsPerStep(3 * fontMetrics().height());
+    smooth->setPixelsPerStep(3.5 * fontMetrics().height());
 
     ui.tabBar->setExpanding(false);
     ui.tabBar->setMovable(true);

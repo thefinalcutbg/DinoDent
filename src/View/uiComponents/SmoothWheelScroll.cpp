@@ -68,17 +68,23 @@ bool SmoothWheelScroll::eventFilter(QObject* obj, QEvent* ev)
 
     auto* we = static_cast<QWheelEvent*>(ev);
 
-    const QPoint pd = we->pixelDelta();
     const QPoint ad = we->angleDelta();
+    const int ay = ad.y();
 
-    if (!pd.isNull()) return QObject::eventFilter(obj, ev);
-    if (ad.y() == 0) return QObject::eventFilter(obj, ev);
+    if (ay == 0) return QObject::eventFilter(obj, ev);
+
+    if (we->phase() != Qt::NoScrollPhase)
+        return QObject::eventFilter(obj, ev);
+
+    const int absAy = std::abs(ay);
+    if (absAy < 120 || (absAy % 120) != 0)
+        return QObject::eventFilter(obj, ev);
 
     if (m_anim->state() != QAbstractAnimation::Running)
         m_target = sb->value();
 
-    const double steps = ad.y() / 120.0;
-    m_target -= int(steps * m_pxPerStep);
+    const int steps = ay / 120;
+    m_target -= steps * m_pxPerStep;
 
     m_target = std::clamp(m_target, sb->minimum(), sb->maximum());
 

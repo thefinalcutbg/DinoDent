@@ -9,7 +9,9 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 	ui->setupUi(this);
 
 	ui->mTLSFrame->hide();
-	
+
+    resize(width(), 320);
+
 	setWindowTitle("Настройки на база данни");
 
 	setStyleSheet("QDialog {background-color: white;}");
@@ -112,7 +114,9 @@ void DbSettingsDialog::setDbBackend(bool server)
 {
 	ui->serverGroup->setChecked(server);
 	ui->localGroup->setChecked(!server);
-	ui->rqliteLabel->setText(server ? "<a href=\"https://rqlite.io/\">https://rqlite.io/</a>" : "https://rqlite.io/");
+    ui->rqliteLabel->setText(server ?
+        "За повече информация: <a href=\"https://rqlite.io/\">https://rqlite.io/</a>" :
+        "За повече информация: https://rqlite.io/");
 }
 
 

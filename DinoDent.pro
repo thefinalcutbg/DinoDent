@@ -417,6 +417,7 @@ HEADERS += \
     src/View/uiComponents/RoundedFrame.h \
     src/View/uiComponents/ShadowBakeWidget.h \
     src/View/uiComponents/ShortcutTile.h \
+    src/View/uiComponents/SmoothWheelScroll.h \
     src/View/uiComponents/SpinBox.h \
     src/View/uiComponents/StatusButton.h \
     src/View/uiComponents/StatusMultiButton.h \
@@ -769,6 +770,7 @@ SOURCES += \
     src/View/uiComponents/RoundedFrame.cpp \
     src/View/uiComponents/ShadowBakeWidget.cpp \
     src/View/uiComponents/ShortcutTile.cpp \
+    src/View/uiComponents/SmoothWheelScroll.cpp \
     src/View/uiComponents/SpinBox.cpp \
     src/View/uiComponents/StatusButton.cpp \
     src/View/uiComponents/StatusMultiButton.cpp \

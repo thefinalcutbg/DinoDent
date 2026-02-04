@@ -1,4 +1,5 @@
 ﻿#include "PisDialog.h"
+#include "Model/User.h"
 
 PisDialog::PisDialog(QWidget *parent)
 	: QDialog(parent)
@@ -17,6 +18,11 @@ PisDialog::PisDialog(QWidget *parent)
 	ui.tabWidget->tabBar()->setTabIcon(3, QIcon(":/icons/icon_nssi.png"));
 	ui.tabWidget->tabBar()->setTabIcon(4, QIcon(":/icons/icon_db.png"));
 	ui.tabWidget->tabBar()->setTabIcon(5, QIcon(":/icons/icon_nhif.png"));
+
+	if (!User::hasNhifContract() ||
+		User::practice().nhif_contract->nssi_pass.empty()) {
+		ui.tabWidget->removeTab(3);
+	}
 
 	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [=](int index) {
 

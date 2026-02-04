@@ -65,7 +65,7 @@ public:
     void setSelectedTeeth(const std::vector<int>& selectedTeeth);
     void setProcedures(const std::vector<Procedure>& m);
     void hideNhifSheetData();
-    void setNhifData(const NhifSheetData& data, bool showUnfav);
+    void setNhifData(const NhifSheetData& data, bool showUnfav, bool showNSSI);
     void setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices);
     void setHisButtonText(const HisButtonProperties& prop);
     void showAddPlannedButton(bool show);

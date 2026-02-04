@@ -509,7 +509,11 @@ void ListPresenter::dynamicNhifConversion()
 {
     if (User::hasNhifContract()) {
 
-        view->setNhifData(m_amblist.nhifData, User::practice().isUnfavourable());
+        view->setNhifData(
+            m_amblist.nhifData, 
+            User::practice().isUnfavourable(), 
+            User::practice().nhif_contract->nssi_pass.size()
+        );
     }
     else
     {
@@ -527,7 +531,7 @@ void ListPresenter::patientDataChanged()
     m_amblist.nhifData.isUnfavourable = !m_amblist.nhifData.isUnfavourable;
 
     //marking the list as edited only if the unfavourable condition has been changed
-    view->setNhifData(m_amblist.nhifData, true);
+    dynamicNhifConversion();
     makeEdited();
 }
 

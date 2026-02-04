@@ -7,15 +7,19 @@
 #include <QWheelEvent>
 #include <QApplication>
 #include <QWidget>
+#include <QEasingCurve>
 #include <algorithm>
+#include <cmath>
 
 SmoothWheelScroll::SmoothWheelScroll(QScrollArea* area, QObject* parent)
     : QObject(parent), m_area(area)
 {
     auto* sb = m_area->verticalScrollBar();
+
     m_anim = new QPropertyAnimation(sb, "value", this);
-    m_anim->setEasingCurve(QEasingCurve::OutCubic);
+    m_anim->setEasingCurve(QEasingCurve::OutSine);
     m_anim->setDuration(180);
+
     m_target = sb->value();
 
     connect(sb, &QScrollBar::rangeChanged, this, [this](int, int) {
@@ -38,10 +42,20 @@ void SmoothWheelScroll::setPixelsPerStep(int px)
     m_pxPerStep = std::max(1, px);
 }
 
-void SmoothWheelScroll::setDurationMs(int ms)
+void SmoothWheelScroll::setDurationRangeMs(int minMs, int maxMs)
 {
-    if (m_anim)
-        m_anim->setDuration(std::max(1, ms));
+    m_minMs = std::max(1, minMs);
+    m_maxMs = std::max(m_minMs, maxMs);
+}
+
+void SmoothWheelScroll::setBaseDurationMs(int baseMs)
+{
+    m_baseMs = std::max(1, baseMs);
+}
+
+void SmoothWheelScroll::setDistanceDivisor(int divisor)
+{
+    m_distDiv = std::max(1, divisor);
 }
 
 bool SmoothWheelScroll::eventFilter(QObject* obj, QEvent* ev)
@@ -68,13 +82,13 @@ bool SmoothWheelScroll::eventFilter(QObject* obj, QEvent* ev)
 
     auto* we = static_cast<QWheelEvent*>(ev);
 
-    const QPoint ad = we->angleDelta();
-    const int ay = ad.y();
-
+    const int ay = we->angleDelta().y();
     if (ay == 0) return QObject::eventFilter(obj, ev);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
     if (we->phase() != Qt::NoScrollPhase)
         return QObject::eventFilter(obj, ev);
+#endif
 
     const int absAy = std::abs(ay);
     if (absAy < 120 || (absAy % 120) != 0)
@@ -85,12 +99,19 @@ bool SmoothWheelScroll::eventFilter(QObject* obj, QEvent* ev)
 
     const int steps = ay / 120;
     m_target -= steps * m_pxPerStep;
-
     m_target = std::clamp(m_target, sb->minimum(), sb->maximum());
 
+    const int current = (m_anim->state() == QAbstractAnimation::Running)
+        ? m_anim->currentValue().toInt()
+        : sb->value();
+
+    const int dist = std::abs(m_target - current);
+    const int dur = std::clamp(m_baseMs + dist / m_distDiv, m_minMs, m_maxMs);
+
     m_anim->stop();
-    m_anim->setStartValue(sb->value());
+    m_anim->setStartValue(current);
     m_anim->setEndValue(m_target);
+    m_anim->setDuration(dur);
     m_anim->start();
 
     we->accept();

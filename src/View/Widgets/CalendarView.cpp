@@ -19,8 +19,7 @@ CalendarView::CalendarView(QWidget* parent)
 
     auto* smooth = new SmoothWheelScroll(ui.scrollArea, ui.scrollArea);
     smooth->setPixelsPerStep(3 * fontMetrics().height());
-    smooth->setDurationMs(120);
-
+ 
     ui.calendarButton->setGraphicsEffect(nullptr);
 
     calendarWidget = new CalendarWidget();

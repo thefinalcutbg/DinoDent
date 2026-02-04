@@ -261,6 +261,7 @@
     <ClCompile Include="src\View\uiComponents\ColorPicker.cpp" />
     <ClCompile Include="src\View\uiComponents\NotesEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\RoundedFrame.cpp" />
+    <ClCompile Include="src\View\uiComponents\SmoothWheelScroll.cpp" />
     <ClCompile Include="src\View\Widgets\DbSettingsDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicationTemplateDialog.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
@@ -860,6 +861,7 @@
     <QtMoc Include="src\View\uiComponents\RoundedFrame.h" />
     <ClInclude Include="src\View\uiComponents\ShortcutTile.h" />
     <QtMoc Include="src\View\uiComponents\TextBrowser.h" />
+    <QtMoc Include="src\View\uiComponents\SmoothWheelScroll.h" />
     <ClInclude Include="src\View\uiComponents\TileButton.h" />
     <QtMoc Include="src\View\Widgets\PrescriptionView.h" />
     <QtMoc Include="src\View\Widgets\MedicationDialog.h" />

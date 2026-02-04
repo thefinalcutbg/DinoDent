@@ -10,11 +10,16 @@
 #include <QShortcut>
 #include "Presenter/CalendarPresenter.h"
 #include "View/uiComponents/CalendarWidget.h"
+#include "View/uiComponents/SmoothWheelScroll.h"
 
 CalendarView::CalendarView(QWidget* parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
+
+    auto* smooth = new SmoothWheelScroll(ui.scrollArea, ui.scrollArea);
+    smooth->setPixelsPerStep(3 * fontMetrics().height());
+    smooth->setDurationMs(120);
 
     ui.calendarButton->setGraphicsEffect(nullptr);
 

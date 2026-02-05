@@ -16,9 +16,14 @@
 #include "GlobalSettings.h"
 #include "Network/crypto.h"
 
-QNetworkAccessManager* getDbManager() {
+QNetworkAccessManager* getDbManager(bool reinit = false) {
 
 	static QNetworkAccessManager* s_manager = nullptr;
+
+    if (reinit) {
+        delete s_manager;
+        s_manager = nullptr;
+    }
 
 	if (s_manager) return s_manager;
 	
@@ -103,14 +108,17 @@ void RqliteBackend::bindNull(int index)
     m_bindings[index] = std::monostate{};
 }
 
-RqliteBackend::RqliteBackend(
-    const std::string& address, 
-    const std::string& usr, 
-    const std::string& pass,
-    std::optional<DbSslConfig> sslCfg
-)
+RqliteBackend::RqliteBackend(const DbServerConfig& cfg)
 {
-    QString s = QString::fromStdString(address).trimmed();
+    if (s_cfg == cfg) {
+        return;
+    }
+
+    getDbManager(true);
+
+    s_cfg = cfg;
+
+    QString s = QString::fromStdString(cfg.rqliteUrl).trimmed();
 
     if (!s.contains("://")) s.prepend("http://");
 
@@ -118,18 +126,10 @@ RqliteBackend::RqliteBackend(
 
     if (baseUrl.path().isEmpty()) baseUrl.setPath("/");
 
-    this->usr = usr.c_str();
-    this->pass = pass.c_str();
-
-    if (sslCfg == ssl_paths) return;
-
-    ssl_paths = sslCfg;
-
-    //building mTLS 
+    usr = cfg.rqliteUsr.c_str();
+    pass = cfg.rqlitePass.c_str();
 
     s_ssl_cfg = QSslConfiguration::defaultConfiguration();
-
-    if (!sslCfg) return;
 
     if (baseUrl.scheme().compare("https", Qt::CaseInsensitive) != 0) return;
 
@@ -137,22 +137,28 @@ RqliteBackend::RqliteBackend(
         QFile f(path);
         if (!f.open(QIODevice::ReadOnly)) return {};
         return f.readAll();
-        };
+    };
 
     QList<QSslCertificate> customCAs;
-    if (!sslCfg->caCertPath.empty()) {
 
-        const QByteArray caData = readAll(QString::fromStdString(sslCfg->caCertPath));
+    if (!cfg.caCertPath.empty()) {
 
-        if (caData.isEmpty()) { return; }
+        const QByteArray caData = readAll(QString::fromStdString(cfg.caCertPath));
 
-        customCAs = QSslCertificate::fromData(caData, QSsl::Pem);
-        if (customCAs.isEmpty()) return; 
+        if (caData.size()) {
+            customCAs = QSslCertificate::fromData(caData, QSsl::Pem);
+            
+            if (customCAs.size()) {
+                auto osCert = s_ssl_cfg.caCertificates();
+                osCert.append(customCAs);
+                s_ssl_cfg.setCaCertificates(osCert);
+            }
+        }
     }
 
-    if (sslCfg->clientCertPath.empty()) return;
+    if (cfg.clientCertPath.empty()) return;
 
-    QByteArray certData = readAll(QString::fromStdString(sslCfg->clientCertPath));
+    QByteArray certData = readAll(QString::fromStdString(cfg.clientCertPath));
 
     if (certData.isEmpty()) return;
 
@@ -160,16 +166,16 @@ RqliteBackend::RqliteBackend(
     
     if (clientChain.isEmpty()) return;
 
-    if (sslCfg->clientKeyPath.empty()) return;
+    if (cfg.clientKeyPath.empty()) return;
     
-    QByteArray keyData = readAll(QString::fromStdString(sslCfg->clientKeyPath));
+    QByteArray keyData = readAll(QString::fromStdString(cfg.clientKeyPath));
 
     if (keyData.isEmpty()) return;
     
     QByteArray passPhrase;
 
-    if (!sslCfg->clientKeyPass.empty()) {
-        passPhrase = QByteArray::fromStdString(sslCfg->clientKeyPass);
+    if (!cfg.clientKeyPass.empty()) {
+        passPhrase = QByteArray::fromStdString(cfg.clientKeyPass);
     }
         
     QSslKey key(keyData, QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, passPhrase);
@@ -178,16 +184,10 @@ RqliteBackend::RqliteBackend(
 
     if (key.isNull()) return;
 
-    s_ssl_cfg.setPeerVerifyMode(QSslSocket::VerifyPeer);
     s_ssl_cfg.setProtocol(QSsl::SecureProtocols);
+    s_ssl_cfg.setPeerVerifyMode(QSslSocket::VerifyPeer);
     s_ssl_cfg.setLocalCertificateChain(clientChain);
     s_ssl_cfg.setPrivateKey(key);
-
-    if (!customCAs.isEmpty()) {
-        auto cas = s_ssl_cfg.caCertificates();
-        cas.append(customCAs);
-        s_ssl_cfg.setCaCertificates(cas);
-    }
 }
 
 bool RqliteBackend::hasRows()

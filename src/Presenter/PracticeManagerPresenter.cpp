@@ -36,7 +36,7 @@ void PracticeManagerPresenter::setDbPathToView()
 
 	bool dbIsLocal = db_settings.mode == DbSettings::DbType::Sqlite;
 
-	auto& dbPath = dbIsLocal ? db_settings.sqliteFilePath : db_settings.rqliteUrl;
+	auto& dbPath = dbIsLocal ? db_settings.sqliteFilePath : db_settings.dbServerConfig.rqliteUrl;
 
 	view->setDbPath(dbPath, dbIsLocal);
 }

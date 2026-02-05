@@ -83,10 +83,7 @@ void GlobalSettings::createCfgIfNotExists()
         settings["db_path"] = dataFolder.filePath("database.db").toUtf8().toStdString();
     }
 
-    if (!settings.isMember("db_type")) {
-        settings["db_type"] = 0;
-        settings["db_url"] = "http://localhost:4001";
-    }
+    if (!settings.isMember("db_type")) { settings["db_type"] = 0;}
 
     if (!settings.isMember("pkcs11_path"))
     {
@@ -247,15 +244,15 @@ DbSettings GlobalSettings::getDbSettings()
     return DbSettings{
         .mode = static_cast<DbSettings::DbType>(settings["db_type"].asInt()),
         .sqliteFilePath = settings["db_path"].asString(),
-        .rqliteUrl = settings["db_url"].asString(),
-        .rqliteUsr = settings["db_usr"].asString(),
-        .rqlitePass = settings["db_pass"].asString(),
-        .sslConfig = settings.isMember("mTLS") ? DbSslConfig{
-            .clientCertPath = settings["mTLS"]["cert"].asString(),
-            .clientKeyPath = settings["mTLS"]["prv"].asString(),
-            .clientKeyPass = settings["mTLS"]["pass"].asString(),
-            .caCertPath = settings["mTLS"]["ca"].asString()
-        } : std::optional<DbSslConfig>{}
+        .dbServerConfig = settings.isMember("server") ? DbServerConfig{
+        .rqliteUrl = settings["server"]["url"].asString(),
+        .rqliteUsr = settings["server"]["usr"].asString(),
+        .rqlitePass = settings["server"]["pass"].asString(),
+        .clientCertPath = settings["server"]["cert"].asString(),
+        .clientKeyPath = settings["server"]["prv"].asString(),
+        .clientKeyPass = settings["server"]["prv_pass"].asString(),
+        .caCertPath = settings["server"]["ca"].asString()
+        } : DbServerConfig{}
     };
 }
 
@@ -265,19 +262,17 @@ void GlobalSettings::setDbSettings(const DbSettings& s)
 
     settings["db_type"] = static_cast<int>(s.mode);
     settings["db_path"] = s.sqliteFilePath;
-    settings["db_url"] = s.rqliteUrl;
-    settings["db_usr"] = s.rqliteUsr;
-    settings["db_pass"] = s.rqlitePass;
 
-    if (s.sslConfig) {
-        Json::Value mTLS;
-        mTLS["cert"] = s.sslConfig->clientCertPath;
-        mTLS["prv"] = s.sslConfig->clientKeyPath;
-        mTLS["pass"] = s.sslConfig->clientKeyPass;
-        mTLS["ca"] = s.sslConfig->caCertPath;
+    Json::Value server;
+    server["url"] = s.dbServerConfig.rqliteUrl;
+    server["usr"] = s.dbServerConfig.rqliteUsr;
+    server["pass"] = s.dbServerConfig.rqlitePass;
+    server["cert"] = s.dbServerConfig.clientCertPath;
+    server["prv"] = s.dbServerConfig.clientKeyPath;
+    server["prv_pass"] = s.dbServerConfig.clientKeyPass;
+    server["ca"] = s.dbServerConfig.caCertPath;
 
-        settings["mTLS"] = mTLS;
-    }
+    settings["server"] = server;
 
     rewriteCfg(settings);
 }

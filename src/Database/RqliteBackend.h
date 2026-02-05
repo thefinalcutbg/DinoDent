@@ -29,13 +29,12 @@ class RqliteBackend final : public DbBackend
         bool hasRows() const { return !rows.empty(); }
     };
 
-    QUrl baseUrl;
-    QString usr;
-    QString pass;
-
+    static inline QUrl baseUrl;
+    static inline QString usr;
+    static inline QString pass;
     static inline QSslConfiguration s_ssl_cfg;
     
-    std::optional<DbSslConfig> ssl_paths;
+    static inline DbServerConfig s_cfg;
 
     std::vector<BindVariant> m_bindings;
     std::string m_statement;
@@ -49,12 +48,7 @@ class RqliteBackend final : public DbBackend
 
 public:
 
-    RqliteBackend(
-        const std::string& url,
-        const std::string& usr,
-        const std::string& pass,
-        std::optional<DbSslConfig>
-    );
+    RqliteBackend(const DbServerConfig& cfg);
 
     bool hasRows() override;
 

@@ -17,8 +17,6 @@ class DbSettingsDialog : protected QDialog
 {
 	Q_OBJECT
 
-	NotEmptyValidator notEmptyValidator;
-
 	void setDbBackend(bool server);
 
 public:

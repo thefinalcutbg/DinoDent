@@ -8,8 +8,6 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 {
 	ui->setupUi(this);
 
-	ui->mTLSFrame->hide();
-
     resize(width(), 320);
 
 	setWindowTitle("Настройки на база данни");
@@ -20,6 +18,8 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 	ui->prvKeyButton->setIcon(CommonIcon::getPixmap(CommonIcon::OPEN));
 	ui->certPathButton->setIcon(CommonIcon::getPixmap(CommonIcon::OPEN));
 	ui->removeCAButton->setIcon(CommonIcon::getPixmap(CommonIcon::REMOVE));
+	ui->removeCertButton->setIcon(CommonIcon::getPixmap(CommonIcon::REMOVE));
+	ui->removeKeyButton->setIcon(CommonIcon::getPixmap(CommonIcon::REMOVE));
 
 	auto connectButtonToLineEdit = [this](QPushButton* b, QLineEdit* l, const QString& title, const QString& fileType)
 	{
@@ -35,77 +35,56 @@ DbSettingsDialog::DbSettingsDialog(const DbSettings& s, QWidget *parent)
 	connectButtonToLineEdit(ui->prvKeyButton, ui->prvKeyLineEdit, "Изберете PEM частен ключ", "PEM частен ключ (*.key *.pem);;Всички файлове (*)");
 	connectButtonToLineEdit(ui->caPathButton, ui->caPathLine, "Изберете PEM CA сертификат", "PEM CA сертификати (*.pem *.crt *.cer);;Всички файлове (*)");
 
-	connect(ui->removeCAButton, &QPushButton::clicked, [&] { ui->caPathLine->clear(); });
+	auto connectButtonToRemove = [this](QPushButton* b, QLineEdit* l) {
+		connect(b, &QPushButton::clicked, this, [this, l]() {l->clear(); });
+	};
 
-	connect(ui->okButton, &QPushButton::clicked, this, [&] { 
-		
-		if (!ui->certPathLine->validateInput()) { return; };
-		if (!ui->prvKeyLineEdit->validateInput()) { return; };
+	connectButtonToRemove(ui->removeCAButton, ui->caPathLine);
+	connectButtonToRemove(ui->removeCertButton, ui->certPathLine);
+	connectButtonToRemove(ui->removeKeyButton, ui->prvKeyLineEdit);
 
-		accept();
-
-	});
+	connect(ui->okButton, &QPushButton::clicked, this, [&] { accept(); });
 	connect(ui->cancelButton, &QPushButton::clicked, this, [&] { reject(); });
 
-	connect(ui->localGroup, &QGroupBox::clicked, this, [&](bool clicked) { setDbBackend(!clicked); });
-	connect(ui->serverGroup, &QGroupBox::clicked, this, [&](bool clicked) { setDbBackend(clicked); });
+	connect(ui->localGroup, &QGroupBox::toggled, this, [&](bool clicked) { setDbBackend(!clicked); });
+	connect(ui->serverGroup, &QGroupBox::toggled, this, [&](bool clicked) { setDbBackend(clicked); });
 
-
-	connect(ui->mTLScheck, &QCheckBox::clicked, this, [this](bool checked) {
-		ui->mTLSFrame->setHidden(!checked);
-		ui->certPathLine->setInputValidator(checked ? &notEmptyValidator : nullptr);
-		ui->prvKeyLineEdit->setInputValidator(checked ? &notEmptyValidator : nullptr);
-	});
 
 	ui->localGroup->setChecked(s.mode == DbSettings::DbType::Sqlite);
 	ui->serverGroup->setChecked(s.mode == DbSettings::DbType::Rqlite);
 
 	ui->pathLineEdit->setText(s.sqliteFilePath.c_str());
-	ui->addressLineEdit->setText(s.rqliteUrl.c_str());
-	ui->usrLineEdit->setText(s.rqliteUsr.c_str());
-	ui->passLineEdit->setText(s.rqlitePass.c_str());
-
-	ui->mTLScheck->setChecked(s.sslConfig.has_value());
-
-	if (!s.sslConfig) return;
-
-	ui->certPathLine->setText(s.sslConfig->clientCertPath.c_str());
-	ui->prvKeyLineEdit->setText(s.sslConfig->clientKeyPath.c_str());
-	ui->prvPassLineEdit->setText(s.sslConfig->clientKeyPass.c_str());
-	ui->caPathLine->setText(s.sslConfig->caCertPath.c_str());
-
+	ui->addressLineEdit->setText(s.dbServerConfig.rqliteUrl.c_str());
+	ui->usrLineEdit->setText(s.dbServerConfig.rqliteUsr.c_str());
+	ui->passLineEdit->setText(s.dbServerConfig.rqlitePass.c_str());
+	ui->certPathLine->setText(s.dbServerConfig.clientCertPath.c_str());
+	ui->prvKeyLineEdit->setText(s.dbServerConfig.clientKeyPath.c_str());
+	ui->prvPassLineEdit->setText(s.dbServerConfig.clientKeyPass.c_str());
+	ui->caPathLine->setText(s.dbServerConfig.caCertPath.c_str());
 }
 
 std::optional<DbSettings> DbSettingsDialog::getResult() {
 
 	if (exec() != QDialog::Accepted) return {};
-
+	
 	DbSettings s;
 
 	s.mode = ui->localGroup->isChecked() ? DbSettings::DbType::Sqlite : DbSettings::DbType::Rqlite;
 
-	s.rqliteUrl = ui->addressLineEdit->text().toStdString();
-
 	s.sqliteFilePath = ui->pathLineEdit->text().toStdString();
 
-	s.rqliteUsr = ui->usrLineEdit->text().toStdString();
+	s.dbServerConfig.rqliteUrl = ui->addressLineEdit->text().toStdString();
+	s.dbServerConfig.rqliteUsr = ui->usrLineEdit->text().toStdString();
+	s.dbServerConfig.rqlitePass = ui->passLineEdit->text().toStdString();
 
-	s.rqlitePass = ui->passLineEdit->text().toStdString();
-
-	if (s.rqliteUrl.empty()) {
-		s.rqliteUrl = "http://localhost:4001";
+	if (s.dbServerConfig.rqliteUrl.empty()) {
+		s.dbServerConfig.rqliteUrl = "http://localhost:4001";
 	}
 
-	if (!ui->mTLScheck->isChecked()) return s;
-
-	DbSslConfig cfg;
-
-	cfg.clientCertPath = ui->certPathLine->text().toStdString();
-	cfg.clientKeyPath = ui->prvKeyLineEdit->text().toStdString();
-	cfg.clientKeyPass = ui->prvPassLineEdit->text().toStdString();
-	cfg.caCertPath = ui->caPathLine->text().toStdString();
-
-	s.sslConfig = cfg;
+	s.dbServerConfig.clientCertPath = ui->certPathLine->text().toStdString();
+	s.dbServerConfig.clientKeyPath = ui->prvKeyLineEdit->text().toStdString();
+	s.dbServerConfig.clientKeyPass = ui->prvPassLineEdit->text().toStdString();
+	s.dbServerConfig.caCertPath = ui->caPathLine->text().toStdString();
 
 	return s;
 }

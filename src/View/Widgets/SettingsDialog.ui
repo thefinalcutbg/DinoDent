@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>7</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -845,7 +845,7 @@
            <item>
             <widget class="QLabel" name="label_28">
              <property name="text">
-              <string>*Парола:</string>
+              <string>Парола:*</string>
              </property>
             </widget>
            </item>
@@ -2162,7 +2162,7 @@
        <item>
         <widget class="QCheckBox" name="weekendCheck">
          <property name="text">
-          <string>Проверка за извършени манипулации или издадени направления по НЗОК в почивен ден</string>
+          <string>Проверка за извършени процедури или издадени направления по НЗОК в почивен ден</string>
          </property>
         </widget>
        </item>

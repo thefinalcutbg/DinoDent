@@ -21,7 +21,7 @@ struct GlobalSettingsData {
 };
 
 struct DbServerConfig {
-	std::string rqliteUrl{ "http://127.0.0.1:4001" };
+	std::string rqliteUrl{ "http://localhost:4001" };
 	std::string rqliteUsr{};
 	std::string rqlitePass{};
 	std::string clientCertPath;

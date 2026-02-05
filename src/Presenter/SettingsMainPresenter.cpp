@@ -54,6 +54,8 @@ void SettingsMainPresenter::setView(SettingsDialog* view)
 
 void SettingsMainPresenter::priceEditRequested(const std::string& code)
 {
+	if (!User::isAdmin()) return;
+
 	auto procedureCode = ProcedureCode(code);
 
     if(!procedureCode.isValid()) return;

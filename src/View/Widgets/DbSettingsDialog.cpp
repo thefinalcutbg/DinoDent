@@ -94,8 +94,8 @@ void DbSettingsDialog::setDbBackend(bool server)
 	ui->serverGroup->setChecked(server);
 	ui->localGroup->setChecked(!server);
     ui->rqliteLabel->setText(server ?
-        "За повече информация: <a href=\"https://rqlite.io/\">https://rqlite.io/</a>" :
-        "За повече информация: https://rqlite.io/");
+        "За повече информация: <a href=\"https://www.dinodent.bg/rqlite\">dinodent.bg/rqlite</a>" :
+        "За повече информация: dinodent.bg/rqlite");
 }
 
 

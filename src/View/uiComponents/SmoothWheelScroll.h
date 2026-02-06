@@ -21,6 +21,8 @@ public:
     void setDurationRangeMs(int minMs, int maxMs);
     void setBaseDurationMs(int baseMs);
     void setDistanceDivisor(int divisor);
+    void setEnabled(bool on);
+    bool isEnabled() const;
 
 protected:
     bool eventFilter(QObject* obj, QEvent* ev) override;
@@ -36,6 +38,8 @@ private:
 private:
     QPointer<QScrollArea> m_area;
     QPropertyAnimation* m_anim = nullptr;
+
+    bool m_enabled = true;
 
     int m_target = 0;
     int m_pxPerWheelStep = 60;

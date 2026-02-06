@@ -7,6 +7,7 @@
 #include "View/Widgets/FinancialView.h"
 #include "View/Widgets/PrescriptionView.h"
 #include "View/uiComponents/PixmapLabel.h"
+#include "View/uiComponents/SmoothWheelScroll.h"
 #include "View/Widgets/WelcomeWidget.h"
 #include "View/Widgets/CalendarView.h"
 #include "View/Widgets/TreatmentPlanView.h"
@@ -26,6 +27,8 @@ class TabView : public QWidget
 	CalendarView m_calendarView;
 
 	WelcomeWidget welcomeScreen{ nullptr };
+
+	SmoothWheelScroll* smoothScroll;
 
 	void showTabWidget(QWidget* w);
 

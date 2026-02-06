@@ -8,7 +8,6 @@
 #include "View/CommonIcon.h"
 #include "View/Widgets/DinoDent.h"
 #include "View/Widgets/GlobalWidgets.h"
-#include "View/uiComponents/SmoothWheelScroll.h"
 #include "Model/User.h"
 
 class NoHScrollFilter : public QObject {
@@ -40,8 +39,8 @@ TabView::TabView(QWidget* parent)
 {
     ui.setupUi(this);
 
-    auto* smooth = new SmoothWheelScroll(ui.scrollArea, ui.scrollArea);
-    smooth->setPixelsPerWheelStep(3.5 * fontMetrics().height());
+    smoothScroll = new SmoothWheelScroll(ui.scrollArea, ui.scrollArea);
+    smoothScroll->setPixelsPerWheelStep(3.5 * fontMetrics().height());
 
     ui.tabBar->setExpanding(false);
     ui.tabBar->setMovable(true);

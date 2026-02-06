@@ -43,13 +43,17 @@ SmoothWheelScroll::SmoothWheelScroll(QScrollArea* area, QObject* parent)
         animateToTarget();
         });
 
-    qApp->installEventFilter(this);
+    m_area->viewport()->installEventFilter(this);
     sb->installEventFilter(this);
+
 }
+
+void SmoothWheelScroll::setEnabled(bool on) { m_enabled = on; }
+bool SmoothWheelScroll::isEnabled() const { return m_enabled; }
 
 SmoothWheelScroll::~SmoothWheelScroll()
 {
-    if (qApp) qApp->removeEventFilter(this);
+
 }
 
 void SmoothWheelScroll::setPixelsPerWheelStep(int px)
@@ -75,6 +79,8 @@ void SmoothWheelScroll::setDistanceDivisor(int divisor)
 
 bool SmoothWheelScroll::eventFilter(QObject* obj, QEvent* ev)
 {
+    if (!m_enabled) return QObject::eventFilter(obj, ev);
+
     if (!m_area) return QObject::eventFilter(obj, ev);
 
     auto* sb = m_area->verticalScrollBar();

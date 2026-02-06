@@ -1,14 +1,15 @@
 ﻿#include "TabView.h"
-#include <QAbstractScrollArea>
+
 #include <QScrollBar>
-#include <QWindow>
-#include "View/Theme.h"
-#include "View/SubWidgets/TabTitle.h"
+
+#include "Model/User.h"
 #include "Presenter/TabPresenter.h"
+#include "View/Theme.h"
 #include "View/CommonIcon.h"
+#include "View/SubWidgets/TabTitle.h"
 #include "View/Widgets/DinoDent.h"
 #include "View/Widgets/GlobalWidgets.h"
-#include "Model/User.h"
+#include "View/uiComponents/SmoothWheelScroll.h"
 
 class NoHScrollFilter : public QObject {
 public:

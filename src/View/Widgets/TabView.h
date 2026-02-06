@@ -7,13 +7,13 @@
 #include "View/Widgets/FinancialView.h"
 #include "View/Widgets/PrescriptionView.h"
 #include "View/uiComponents/PixmapLabel.h"
-#include "View/uiComponents/SmoothWheelScroll.h"
 #include "View/Widgets/WelcomeWidget.h"
 #include "View/Widgets/CalendarView.h"
 #include "View/Widgets/TreatmentPlanView.h"
 #include "ui_TabView.h"
 
 class TabTitle;
+class SmoothWheelScroll;
 
 class TabView : public QWidget
 {

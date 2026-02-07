@@ -124,7 +124,11 @@ void PracticeManagerPresenter::removeClicked(int idx)
 		}
 	}
 
-	DbPractice::deletePractice(practices[idx].rzi);
+	bool success = DbPractice::deletePractice(practices[idx].rzi);
+
+	if (!success) {
+		ModalDialogBuilder::showMessage("Практиката съдържа издадени медицински документи и не може да бъде изтрита");
+	}
 
 	practices = DbPractice::getPracticeList();
 

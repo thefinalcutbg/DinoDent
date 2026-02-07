@@ -85,6 +85,7 @@ void PracticeManagerPresenter::addClicked()
 	PracticeDoctor pd;
 	pd.lpk = d_result->LPK;
 	pd.admin = true;
+	pd.specialty = NhifSpecialty::None;
 
 	DbPractice::insertPractice(p);
 

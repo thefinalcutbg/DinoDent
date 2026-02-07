@@ -24,8 +24,8 @@ struct PracticeDoctor
 {
 	std::string lpk;
 	std::string name;
-	bool admin;
-	NhifSpecialty specialty;
+	bool admin = true;
+	NhifSpecialty specialty = NhifSpecialty::None;
 };
 
 struct Doctor

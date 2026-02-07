@@ -110,9 +110,7 @@ void RqliteBackend::bindNull(int index)
 
 RqliteBackend::RqliteBackend(const DbServerConfig& cfg)
 {
-    if (s_cfg == cfg) {
-        return;
-    }
+    if (s_cfg == cfg && baseUrl.isValid()) return;
 
     getDbManager(true);
 
@@ -128,7 +126,7 @@ RqliteBackend::RqliteBackend(const DbServerConfig& cfg)
 
     usr = cfg.rqliteUsr.c_str();
     pass = cfg.rqlitePass.c_str();
-
+    
     s_ssl_cfg = QSslConfiguration::defaultConfiguration();
 
     if (baseUrl.scheme().compare("https", Qt::CaseInsensitive) != 0) return;

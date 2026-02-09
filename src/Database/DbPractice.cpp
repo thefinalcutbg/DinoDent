@@ -218,6 +218,10 @@ std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZ
                 static_cast<NhifSpecialty>(db.asInt(4))
             }
         );
+
+        if (result.back().specialty >= NhifSpecialty::MaxValue) {
+            result.back().specialty = NhifSpecialty::None;
+        }
     }
 
     return result;

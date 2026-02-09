@@ -11,7 +11,7 @@
 
 constexpr const char* doctorPrefix = "д-р ";
 
-enum class NhifSpecialty {None, General, Pediatric, OralSurgeon, Maxillofacial};
+enum class NhifSpecialty {None, General, Pediatric, OralSurgeon, Maxillofacial, MaxValue};
 
 struct PracticePair
 {

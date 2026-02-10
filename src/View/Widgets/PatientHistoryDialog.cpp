@@ -79,7 +79,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 		}
 
 		auto currentRow = *rows.begin();
-
+		
 		doc_details_model.setTableData(details_data[currentRow]);
 
 		for (int i = 0; i < details_data[currentRow].size(); i++) {

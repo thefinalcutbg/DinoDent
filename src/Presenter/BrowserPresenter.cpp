@@ -117,24 +117,22 @@ void BrowserPresenter::refreshPreview()
 			view->setPreview({ DbProcedure::getProcedures(rowid), false }); break;
 		case TabType::Financial: view->setPreview(DbInvoice::getInvoice(rowid).businessOperations); break;
 		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
-		case TabType::PerioStatus: view->setPreview(PlainTable{}); break;
         case TabType::TreatmentPlan: view->setPreview(DbTreatmentPlan::getProcedureSummary(rowid)); break;
 		case TabType::PatientSummary: 
 			if (ui_state.showProcedures) {
 				view->setPreview({ DbProcedure::getPatientProcedures(rowid), false });
 				return;
 			}
+			{
+				PlainTable temp;
 
-			PlainTable temp;
+				std::tie(patientDocRowid, temp) = DbBrowser::getPatientDocuments(rowid);
 
-			std::tie(patientDocRowid, temp) = DbBrowser::getPatientDocuments(rowid);
-
-			view->setPreview(temp);
-
+				view->setPreview(temp);
+			}
 			break;
-
+		default: view->setPreview(PlainTable{});
 	}
-
 }
 
 

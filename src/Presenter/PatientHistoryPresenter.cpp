@@ -6,6 +6,7 @@
 #include "Database/DbBrowser.h"
 #include "Database/DbPatient.h"
 #include "Database/DbPatientSummary.h"
+#include "Database/DbTreatmentPlan.h"
 
 #include "View/ModalDialogBuilder.h"
 
@@ -37,7 +38,8 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 			case TabType::AmbList: doc_details.emplace_back(DbProcedure::getProcedures(docRowid)); break;
 			case TabType::Financial: doc_details.emplace_back(DbInvoice::getInvoice(docRowid).businessOperations); break;
 			case TabType::Prescription: doc_details.emplace_back(DbPrescription::get(docRowid).medicationGroup); break;
-			case TabType::PerioStatus: doc_details.emplace_back(PlainTable{}); break;
+			case TabType::TreatmentPlan: doc_details.emplace_back(DbTreatmentPlan::getProcedureSummary(docRowid)); break;
+			default: doc_details.emplace_back(PlainTable{}); break;
 		}
 	}
 

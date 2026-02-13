@@ -59,6 +59,8 @@ ListView::ListView(QWidget* parent)
 	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.treatmentPlanButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.declarationButton->setIcon(QIcon(":/icons/icon_print.png"));
+	ui.simpleGraphicsButton->setBackgroundColor(Theme::border);
+	ui.simpleGraphicsButton->setHoverColor(Theme::inactiveTabBG);
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -105,6 +107,8 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
+
+	connect(ui.simpleGraphicsButton, &QPushButton::clicked, this, [=, this] { teethViewScene->setSimpleView(!teethViewScene->isSimpleView()); });
 
 	ui.procedureTable->setMinimumWidth(ui.teethView->width() + ui.controlPanel->width());
 

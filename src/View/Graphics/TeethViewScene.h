@@ -10,6 +10,7 @@ class ToothGraphicsItem;
 class SimpleToothItem;
 class ListPresenter;
 class SelectableGraphicsItem;
+class QGraphicsTextItem;
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -21,10 +22,12 @@ class TeethViewScene : public QGraphicsScene
 	SelectableGraphicsItem* selectableItems[32]{ nullptr };
 	SelectionBox* selectionBox[32];
 	SimpleToothItem* simpleTooth[32];
+	QGraphicsTextItem* title;
+	QGraphicsTextItem* legend[3]{ nullptr };
 
 	ListPresenter* presenter;
 
-	bool m_simpleView = false;
+	bool m_simple_view = false;
 
 	ContextMenu* contextMenu;
     //WORKS ONLY ON PHONETIC
@@ -34,7 +37,7 @@ class TeethViewScene : public QGraphicsScene
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event) override;
-
+	void initStatusLegend();
 public:
 
 	TeethViewScene(QObject *parent = 0);
@@ -49,6 +52,7 @@ public:
     void drawFocused(bool focused);
     
 	void setSimpleView(bool simple);
+	bool isSimpleView() { return m_simple_view; }
 	~TeethViewScene();
 
 signals:

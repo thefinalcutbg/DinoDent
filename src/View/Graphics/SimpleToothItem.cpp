@@ -15,8 +15,8 @@ namespace
     static constexpr qreal kStatusPadX = 3.0;
     static constexpr qreal kStatusPadY = 2.0;
 
-    static constexpr qreal kThinW = 1.0;
-    static constexpr qreal kThickW = 2.5;
+    static constexpr qreal kThinW = 2.0;
+    static constexpr qreal kThickW = 4;
 }
 
 SimpleToothItem::SimpleToothItem(int idx)
@@ -124,10 +124,19 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, false);
 
+    bool is_selected = option && (option->state & QStyle::State_Selected);
+
+    //drawing boxes
+
     QPen pen = Theme::fontTurquoiseClicked;
-    pen.setWidthF((option && (option->state & QStyle::State_Selected)) ? 2.0 : 1.0);
+    pen.setCosmetic(true);
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
+
+    if (hovered || is_selected) {
+        QBrush hoverBrush(QColor(120, 120, 120, 30));
+        painter->setBrush(hoverBrush);
+    }
 
     const bool upper = (m_idx >= 0 && m_idx < 16);
 
@@ -156,12 +165,30 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->drawRect(numRect);
     }
 
+    QFont f = painter->font();
+    f.setBold(true);
+
+    painter->setFont(f);
+
+    //drawing tooth number
+
+    pen = painter->pen();
+
+    pen.setColor(m_focused ? Theme::fontTurquoise : Theme::fontTurquoiseClicked);
+
+    painter->setPen(pen);
+
+    painter->drawText(numRect.adjusted(kNumPadX, 0.0, -kNumPadX, 0.0), Qt::AlignCenter, m_num);
+
+    //drawing tick lines
+
     const bool midV = (m_idx == 7 || m_idx == 24);
     const bool midH = (m_idx >= 0 && m_idx < 16);
 
     if (midV || midH)
     {
         QPen thick = painter->pen();
+
         thick.setWidthF(kThickW);
         painter->setPen(thick);
 
@@ -174,26 +201,20 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->setPen(pen);
     }
 
-    {
-        QFont f = painter->font();
-        f.setBold(true);
-        painter->setFont(f);
-        painter->drawText(numRect.adjusted(kNumPadX, 0.0, -kNumPadX, 0.0), Qt::AlignCenter, m_num);
-        painter->setPen(Theme::fontTurquoise);
-    }
+    //drawing status
+
+    pen.setColor(Theme::fontTurquoiseClicked);
+    painter->setPen(pen);
+
+    f.setBold(is_selected);
 
     const QString statusText = m_stat_list.join(' ');
     QRectF r = statusRect.adjusted(kStatusPadX, kStatusPadY, -kStatusPadX, -kStatusPadY);
-
-    QFont f = painter->font();
-    f.setBold(false);
 
     f = fitFontToRectWrapped(statusText, f, r, 7);
 
     painter->setFont(f);
     painter->drawText(r, Qt::AlignCenter | Qt::TextWordWrap, statusText);
 
-
     painter->restore();
-
 }

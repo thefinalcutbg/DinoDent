@@ -26,6 +26,22 @@ SelectionBox::SelectionBox(int index)
         });
 }
 
+void SelectionBox::resetHoverState()
+{
+    hovered = false;
+
+    if (m_hoverAnimation) {
+        m_hoverAnimation->stop();
+        m_hoverAnimation->setStartValue(0.0);
+        m_hoverAnimation->setEndValue(0.0);
+    }
+
+    if (!qFuzzyIsNull(m_hoverProgress)) {
+        m_hoverProgress = 0.0;
+        update();
+    }
+}
+
 SelectionBox::~SelectionBox()
 {
 }

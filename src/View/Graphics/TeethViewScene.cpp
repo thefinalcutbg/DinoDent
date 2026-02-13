@@ -1,19 +1,26 @@
 ﻿#include "TeethViewScene.h"
 
+#include <algorithm>
+#include <vector>
+
 #include <QApplication>
 #include <QGuiApplication>
 #include <QtGlobal>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsTextItem>
 #include <QKeyEvent>
 #include <QGraphicsView>
 
+#include "Model/Dental/Dental.h"
 #include "Presenter/ListPresenter.h"
 #include "View/Graphics/ToothPainter.h"
 #include "View/SubWidgets/ContextMenu.h"
+#include "View/Graphics/SimpleToothItem.h"
+#include "View/Theme.h"
+
 #include "ToothGraphicsItem.h"
 #include "SelectionBox.h"
-#include "View/Graphics/SimpleToothItem.h"
 
 using namespace Dental;
 
@@ -73,8 +80,8 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
     //INIT simple tooth
     {
-        posY = 185;
-        posX = 15;
+        posY = 90;
+        posX = 8;
 
         for (int i = 0; i < 32; i++)
         {
@@ -86,14 +93,29 @@ TeethViewScene::TeethViewScene(QObject *parent)
             simpleTooth[i]->setPos(posX, posY);
             addItem(simpleTooth[i]);
 
-            const qreal stepX = simpleTooth[i]->boundingRect().width();
+            const qreal stepX = simpleTooth[i]->boundingRect().width()+1;
 
             if (i < 15)
                 posX += stepX;
-            else if (i > 15)
+            else if (i > 15 )
                 posX -= stepX;
         }
     }
+    
+    title = new QGraphicsTextItem(QStringLiteral("Дентален статус"));
+    QFont f = title->font();
+    f.setBold(true);
+    f.setPointSize(18);
+    title->setFont(f);
+    title->setDefaultTextColor(Theme::fontRed);
+
+    const qreal titleY = 20;
+    const qreal titleX = 255;
+
+    title->setPos(titleX, titleY);
+    addItem(title);
+    
+    initStatusLegend();
 
     connect(this, &QGraphicsScene::selectionChanged, [=, this]
     {
@@ -134,8 +156,8 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
     selectionBox[31]->setNeighbours(nullptr, selectionBox[30]);
 
-    m_simpleView = true;
-    setSimpleView(false);
+    setSimpleView(m_simple_view);
+    drawFocused(false);
 }
 
 void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
@@ -254,6 +276,86 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
     }
 }
 
+void TeethViewScene::initStatusLegend()
+{
+    using Item = std::pair<QString, QString>;
+
+    std::vector<Item> items;
+    items.reserve(Dental::status_symbols.size());
+    for (const auto& kv : Dental::status_symbols)
+        items.emplace_back(QString::fromStdString(kv.first),
+            QString::fromStdString(kv.second));
+
+    int cols = 3;
+    int rows = int((items.size() + cols - 1) / cols);
+
+    int keyMax = 0;
+    for (const auto& it : items)
+        keyMax = std::max(keyMax, int(it.first.size()));
+
+    constexpr int kCol0Count = 10;
+    constexpr int kCol1Count = 10;
+    constexpr int kCol2Count = 7;
+
+    QString colText[3];
+
+    int start = 0;
+    int colCounts[3] = { 10, 10, 7 };
+
+    for (int c = 0; c < 3; ++c)
+    {
+        const int count = colCounts[c];
+
+        QStringList lines;
+        lines.reserve(count);
+
+        int end = std::min(start + count, int(items.size()));
+        for (int i = start; i < end; ++i)
+        {
+            QString k = items[i].first;
+            if (k.size() < keyMax)
+                k += QString(keyMax - k.size(), QLatin1Char(' '));
+
+            lines << ("<b>" + k + "</b> - " + items[i].second + "<br>");
+        }
+
+        colText[c] = lines.join(QLatin1Char('\n'));
+        start += count;
+    }
+
+    qreal gridX = 15.0;
+    qreal gridY = 15.0;
+    qreal cellW = 43.0;
+    qreal cellH = 70.0;
+    qreal gapY = 115.0;
+
+    qreal gridW = 16.0 * cellW;
+    qreal gridH = cellH + gapY + cellH;
+
+    qreal legendY = gridY + gridH + 25.0;
+    qreal colW = gridW / 3.0;
+
+    for (int c = 0; c < 3; ++c)
+    {
+        if (!legend[c])
+        {
+            legend[c] = new QGraphicsTextItem();
+            legend[c]->setZValue(60);
+
+            QFont f = legend[c]->font();
+            f.setPointSize(9);
+            legend[c]->setFont(f);
+
+            legend[c]->setDefaultTextColor(Theme::fontTurquoise);
+
+            addItem(legend[c]);
+        }
+
+        legend[c]->setHtml(colText[c]);
+        legend[c]->setTextWidth(colW - 10.0);
+        legend[c]->setPos(gridX + c * colW, legendY);
+    }
+}
 
 int TeethViewScene::keyCodeMapper(QKeyEvent *e)
 {
@@ -371,7 +473,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
             break;
         case Qt::Key_Space:
         {
-            setSimpleView(!m_simpleView);
+            setSimpleView(!m_simple_view);
             break;
         }
 
@@ -470,19 +572,20 @@ void TeethViewScene::drawFocused(bool focused)
     for(auto selBox : selectableItems){
         selBox->drawFocused(focused);
     }
+
+    for (auto l : legend) {
+        l->setDefaultTextColor(focused ? Theme::fontTurquoise : Theme::fontTurquoiseClicked);
+    }
 }
 
 void TeethViewScene::setSimpleView(bool simple)
 {
-    if (m_simpleView == simple)
-        return;
-
     std::vector<int> selected;
     selected.reserve(32);
 
     for (int i = 0; i < 32; ++i)
     {
-        if (selectableItems[i] && selectableItems[i]->isSelected())
+        if (selectableItems[i]->isSelected())
             selected.push_back(i);
     }
 
@@ -491,7 +594,14 @@ void TeethViewScene::setSimpleView(bool simple)
         toothGraphic[i]->setVisible(!simple);
         dsnToothGraphic[i]->setVisible(!simple);
         selectionBox[i]->setVisible(!simple);
+        selectionBox[i]->resetHoverState();
         simpleTooth[i]->setVisible(simple);
+        simpleTooth[i]->resetHoverState();
+        title->setVisible(simple);
+        
+        for (auto l : legend) {
+            l->setVisible(simple);
+        }
 
         selectableItems[i] = simple
             ? static_cast<SelectableGraphicsItem*>(simpleTooth[i])
@@ -504,7 +614,9 @@ void TeethViewScene::setSimpleView(bool simple)
         if (selectableItems[idx])
             selectableItems[idx]->setSelected(true);
 
-    m_simpleView = simple;
+    m_simple_view = simple;
+
+    drawFocused(true);
 }
 
 TeethViewScene::~TeethViewScene()

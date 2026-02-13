@@ -21,5 +21,4 @@ public:
 		m_focused = focused;
 		update();
 	}
-
 };

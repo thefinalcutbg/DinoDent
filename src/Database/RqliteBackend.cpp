@@ -34,7 +34,7 @@ QNetworkAccessManager* getDbManager(bool reinit = false) {
 
 QSslConfiguration& getSslConfig() {
 
-    QSslConfiguration s_ssl_cfg = QSslConfiguration::defaultConfiguration();
+    static QSslConfiguration s_ssl_cfg = QSslConfiguration::defaultConfiguration();
 
     return s_ssl_cfg;
 }

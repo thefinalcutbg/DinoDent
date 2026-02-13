@@ -26,6 +26,7 @@ class SelectionBox : public SelectableGraphicsItem
 public:
     SelectionBox(int index);
     void setNeighbours(SelectionBox* left, SelectionBox* right) { left_ptr = left; right_ptr = right; }
+    void resetHoverState();
     ~SelectionBox();
 
 };

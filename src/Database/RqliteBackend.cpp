@@ -32,6 +32,13 @@ QNetworkAccessManager* getDbManager(bool reinit = false) {
 	return s_manager;
 }
 
+QSslConfiguration& getSslConfig() {
+
+    QSslConfiguration s_ssl_cfg = QSslConfiguration::defaultConfiguration();
+
+    return s_ssl_cfg;
+}
+
 void RqliteBackend::resizeToIndex(int idx)
 {
     if (idx <= 0) return;
@@ -127,7 +134,7 @@ RqliteBackend::RqliteBackend(const DbServerConfig& cfg)
     usr = cfg.rqliteUsr.c_str();
     pass = cfg.rqlitePass.c_str();
     
-    s_ssl_cfg = QSslConfiguration::defaultConfiguration();
+    getSslConfig() = QSslConfiguration::defaultConfiguration();
 
     if (baseUrl.scheme().compare("https", Qt::CaseInsensitive) != 0) return;
 
@@ -147,9 +154,9 @@ RqliteBackend::RqliteBackend(const DbServerConfig& cfg)
             customCAs = QSslCertificate::fromData(caData, QSsl::Pem);
             
             if (customCAs.size()) {
-                auto osCert = s_ssl_cfg.caCertificates();
+                auto osCert = getSslConfig().caCertificates();
                 osCert.append(customCAs);
-                s_ssl_cfg.setCaCertificates(osCert);
+                getSslConfig().setCaCertificates(osCert);
             }
         }
     }
@@ -182,10 +189,10 @@ RqliteBackend::RqliteBackend(const DbServerConfig& cfg)
 
     if (key.isNull()) return;
 
-    s_ssl_cfg.setProtocol(QSsl::SecureProtocols);
-    s_ssl_cfg.setPeerVerifyMode(QSslSocket::VerifyPeer);
-    s_ssl_cfg.setLocalCertificateChain(clientChain);
-    s_ssl_cfg.setPrivateKey(key);
+    getSslConfig().setProtocol(QSsl::SecureProtocols);
+    getSslConfig().setPeerVerifyMode(QSslSocket::VerifyPeer);
+    getSslConfig().setLocalCertificateChain(clientChain);
+    getSslConfig().setPrivateKey(key);
 }
 
 bool RqliteBackend::hasRows()
@@ -347,7 +354,7 @@ bool RqliteBackend::execute()
             request.setRawHeader("Authorization", token);
         }
 
-        request.setSslConfiguration(s_ssl_cfg);
+        request.setSslConfiguration(getSslConfig());
         
         QNetworkReply* reply = getDbManager()->post(request, body);
         QPointer<QNetworkReply> safeReply(reply);

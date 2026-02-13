@@ -32,6 +32,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     idx = tooth.index();
     temp = tooth[Temporary];
     num = ToothUtils::getNhifNumber(tooth.toothIndex());
+    statuses = tooth.getDetailedPrintStatus();
 
     //the tooth hint:
     if (tooth.noData()) {

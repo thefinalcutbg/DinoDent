@@ -13,7 +13,7 @@
 #include "View/SubWidgets/ContextMenu.h"
 #include "ToothGraphicsItem.h"
 #include "SelectionBox.h"
-
+#include "View/Graphics/SimpleToothItem.h"
 
 using namespace Dental;
 
@@ -55,6 +55,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
         {
 
             selectionBox[i] = new SelectionBox(i);
+            selectableItems[i] = selectionBox[i];
             selectionBox[i]->setZValue(2);
             selectionBox[i]->setPos(posX, selectionBox_posY);
             addItem(selectionBox[i]);
@@ -68,6 +69,30 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
         if (i == 18) posX += 18;
         else if (i == 28) posX -= 18;
+    }
+
+    //INIT simple tooth
+    {
+        posY = 185;
+        posX = 15;
+
+        for (int i = 0; i < 32; i++)
+        {
+            if (i == 16)
+                posY += simpleTooth[15]->boundingRect().height();
+
+            simpleTooth[i] = new SimpleToothItem(i);
+            simpleTooth[i]->setZValue(3);
+            simpleTooth[i]->setPos(posX, posY);
+            addItem(simpleTooth[i]);
+
+            const qreal stepX = simpleTooth[i]->boundingRect().width();
+
+            if (i < 15)
+                posX += stepX;
+            else if (i > 15)
+                posX -= stepX;
+        }
     }
 
     connect(this, &QGraphicsScene::selectionChanged, [=, this]
@@ -108,6 +133,9 @@ TeethViewScene::TeethViewScene(QObject *parent)
     }
 
     selectionBox[31]->setNeighbours(nullptr, selectionBox[30]);
+
+    m_simpleView = true;
+    setSimpleView(false);
 }
 
 void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
@@ -292,7 +320,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
     for (int i = 0; i < 32; i++)
     {
-        if (selectionBox[i]->isSelected())
+        if (selectableItems[i]->isSelected())
         {
             if (!firstSelectedFound) { firstSelected = i; firstSelectedFound = 1; }
             lastSelected = i;
@@ -306,47 +334,44 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Right:
             if (event->modifiers() & Qt::ShiftModifier)
             {
-                if (lastSelected < 15) selectionBox[lastSelected + 1]->setSelected(1);
-                else if (lastSelected == 15 || firstSelected == 16) selectionBox[lastSelected]->setSelected(1);
-                else if (lastSelected > 15 && firstSelected > 15) selectionBox[firstSelected - 1]->setSelected(1);
-                else selectionBox[std::max(lastSelected - 1, 0)]->setSelected(1);
+                if (lastSelected < 15) selectableItems[lastSelected + 1]->setSelected(1);
+                else if (lastSelected == 15 || firstSelected == 16) selectableItems[lastSelected]->setSelected(1);
+                else if (lastSelected > 15 && firstSelected > 15) selectableItems[firstSelected - 1]->setSelected(1);
+                else selectableItems[std::max(lastSelected - 1, 0)]->setSelected(1);
                 break;
             }
             clearSelection();
-            if (lastSelected < 15) selectionBox[lastSelected + 1]->setSelected(1);
-            else if (lastSelected == 15 || firstSelected == 16) selectionBox[lastSelected]->setSelected(1);
-            else if (lastSelected > 15 && firstSelected > 15) selectionBox[firstSelected - 1]->setSelected(1);
-            else selectionBox[std::max(lastSelected - 1, 0)]->setSelected(1);
+            if (lastSelected < 15) selectableItems[lastSelected + 1]->setSelected(1);
+            else if (lastSelected == 15 || firstSelected == 16) selectableItems[lastSelected]->setSelected(1);
+            else if (lastSelected > 15 && firstSelected > 15) selectableItems[firstSelected - 1]->setSelected(1);
+            else selectableItems[std::max(lastSelected - 1, 0)]->setSelected(1);
             break;
 
         case Qt::Key_Left:
             if (event->modifiers() & Qt::ShiftModifier)
             {
-                if (lastSelected < 16) selectionBox[std::max(firstSelected - 1, 0)]->setSelected(1);
-                else selectionBox[std::min(lastSelected + 1, 31)]->setSelected(1);
+                if (lastSelected < 16) selectableItems[std::max(firstSelected - 1, 0)]->setSelected(1);
+                else selectableItems[std::min(lastSelected + 1, 31)]->setSelected(1);
                 break;
             }
             clearSelection();
-            if (lastSelected < 16) selectionBox[std::max(firstSelected - 1, 0)]->setSelected(1);
-            else selectionBox[std::min(lastSelected + 1, 31)]->setSelected(1);
+            if (lastSelected < 16) selectableItems[std::max(firstSelected - 1, 0)]->setSelected(1);
+            else selectableItems[std::min(lastSelected + 1, 31)]->setSelected(1);
             break;
 
         case Qt::Key_Down:
             clearSelection();
-            if (lastSelected < 16) selectionBox[31 - lastSelected]->setSelected(1);
-            else selectionBox[lastSelected]->setSelected(1);
+            if (lastSelected < 16) selectableItems[31 - lastSelected]->setSelected(1);
+            else selectableItems[lastSelected]->setSelected(1);
             break;
         case Qt::Key_Up:
             clearSelection();;
-            if (lastSelected > 15) selectionBox[31 - lastSelected]->setSelected(1);
-            else selectionBox[lastSelected]->setSelected(1);
+            if (lastSelected > 15) selectableItems[31 - lastSelected]->setSelected(1);
+            else selectableItems[lastSelected]->setSelected(1);
             break;
         case Qt::Key_Space:
         {
-            clearSelection();
-            if (selection_length == 0) selectionBox[0]->setSelected(1);
-            else if (lastSelected < 31) selectionBox[lastSelected + 1]->setSelected(1);
-            else selectionBox[0]->setSelected(1);
+            setSimpleView(!m_simpleView);
             break;
         }
 
@@ -388,7 +413,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_V: presenter->setToothStatus(StatusType::General, Calculus); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
-              for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);
+              for (int i = 0; i < 32; i++) selectableItems[i]->setSelected(1);
           break;
       default: return;
    }
@@ -397,6 +422,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 void TeethViewScene::display(const ToothPaintHint& tooth)
 {
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
+    simpleTooth[tooth.idx]->setData(tooth.num, tooth.statuses);
 
     if (tooth.dsn)
     {
@@ -407,7 +433,7 @@ void TeethViewScene::display(const ToothPaintHint& tooth)
         dsnToothGraphic[tooth.idx]->drawEmpty();
     }
 
-    selectionBox[tooth.idx]->setToolTip(tooth.toolTip.c_str());
+    selectableItems[tooth.idx]->setToolTip(tooth.toolTip.c_str());
 }
 
 
@@ -416,7 +442,7 @@ void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
     clearSelection();
 
     for (int i : selectedTeeth){ //read access violation ???
-        selectionBox[i]->setSelected(1);
+        selectableItems[i]->setSelected(1);
     }
 }
 
@@ -441,10 +467,44 @@ void TeethViewScene::setNotes(const std::array<std::string, 32>& notes)
 
 void TeethViewScene::drawFocused(bool focused)
 {
-    for(auto selBox : selectionBox){
+    for(auto selBox : selectableItems){
         selBox->drawFocused(focused);
     }
+}
 
+void TeethViewScene::setSimpleView(bool simple)
+{
+    if (m_simpleView == simple)
+        return;
+
+    std::vector<int> selected;
+    selected.reserve(32);
+
+    for (int i = 0; i < 32; ++i)
+    {
+        if (selectableItems[i] && selectableItems[i]->isSelected())
+            selected.push_back(i);
+    }
+
+    for (int i = 0; i < 32; ++i)
+    {
+        toothGraphic[i]->setVisible(!simple);
+        dsnToothGraphic[i]->setVisible(!simple);
+        selectionBox[i]->setVisible(!simple);
+        simpleTooth[i]->setVisible(simple);
+
+        selectableItems[i] = simple
+            ? static_cast<SelectableGraphicsItem*>(simpleTooth[i])
+            : static_cast<SelectableGraphicsItem*>(selectionBox[i]);
+    }
+
+    clearSelection();
+
+    for (int idx : selected)
+        if (selectableItems[idx])
+            selectableItems[idx]->setSelected(true);
+
+    m_simpleView = simple;
 }
 
 TeethViewScene::~TeethViewScene()

@@ -1083,6 +1083,9 @@
     <ClCompile Include="src\View\uiComponents\SmoothWheelScroll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Graphics\SimpleToothItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\SqliteBackend.h">
@@ -1827,6 +1830,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\RqliteBackend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Graphics\SimpleToothItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Graphics\SelectableGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

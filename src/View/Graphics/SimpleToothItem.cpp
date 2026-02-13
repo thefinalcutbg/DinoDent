@@ -1,0 +1,199 @@
+#include "SimpleToothItem.h"
+
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QTextLayout>
+#include "View/Theme.h"
+
+namespace
+{
+    static constexpr qreal kCellW = 43.0;
+    static constexpr qreal kCellH = 70.0;
+    static constexpr qreal kNumBoxH = kCellH - kCellW;
+
+    static constexpr qreal kNumPadX = 2.0;
+    static constexpr qreal kStatusPadX = 3.0;
+    static constexpr qreal kStatusPadY = 2.0;
+
+    static constexpr qreal kThinW = 1.0;
+    static constexpr qreal kThickW = 2.5;
+}
+
+SimpleToothItem::SimpleToothItem(int idx)
+    : SelectableGraphicsItem(idx)
+{
+}
+
+SimpleToothItem::~SimpleToothItem() = default;
+
+void SimpleToothItem::setData(const std::string& num, const std::set<std::string>& statuses)
+{
+    m_num = QString::fromStdString(num);
+
+    m_stat_list.clear();
+    m_stat_list.reserve(static_cast<int>(statuses.size()));
+    for (const auto& s : statuses)
+        m_stat_list << QString::fromStdString(s);
+
+    update();
+}
+
+QRectF SimpleToothItem::boundingRect() const
+{
+    return QRectF(0.0, 0.0, kCellW, kCellH);
+}
+
+static QPainterPath makeOuterPath(const QRectF& r, qreal rad, bool tl, bool tr, bool br, bool bl)
+{
+    const qreal x = r.x();
+    const qreal y = r.y();
+    const qreal w = r.width();
+    const qreal h = r.height();
+    const qreal rr = std::min(rad, std::min(w, h) * 0.5);
+
+    QPainterPath p;
+
+    p.moveTo(x + (tl ? rr : 0.0), y);
+
+    p.lineTo(x + w - (tr ? rr : 0.0), y);
+    if (tr) p.quadTo(x + w, y, x + w, y + rr);
+    else    p.lineTo(x + w, y);
+
+    p.lineTo(x + w, y + h - (br ? rr : 0.0));
+    if (br) p.quadTo(x + w, y + h, x + w - rr, y + h);
+    else    p.lineTo(x + w, y + h);
+
+    p.lineTo(x + (bl ? rr : 0.0), y + h);
+    if (bl) p.quadTo(x, y + h, x, y + h - rr);
+    else    p.lineTo(x, y + h);
+
+    p.lineTo(x, y + (tl ? rr : 0.0));
+    if (tl) p.quadTo(x, y, x + rr, y);
+    else    p.lineTo(x, y);
+
+    p.closeSubpath();
+    return p;
+}
+
+static qreal wrappedTextHeight(const QString& text, const QFont& font, qreal width)
+{
+    QTextLayout layout(text, font);
+    layout.beginLayout();
+    qreal h = 0.0;
+
+    while (true)
+    {
+        QTextLine line = layout.createLine();
+        if (!line.isValid())
+            break;
+        line.setLineWidth(width);
+        line.setPosition(QPointF(0.0, h));
+        h += line.height();
+    }
+
+    layout.endLayout();
+    return h;
+}
+
+static QFont fitFontToRectWrapped(const QString& text,
+    QFont base,
+    const QRectF& rect,
+    int minPointSize)
+{
+    if (text.isEmpty())
+        return base;
+
+    int pt = base.pointSize();
+    if (pt <= 0)
+        pt = 10;
+
+    for (int cur = pt; cur >= minPointSize; --cur)
+    {
+        base.setPointSize(cur);
+        const qreal h = wrappedTextHeight(text, base, rect.width());
+        if (h <= rect.height())
+            return base;
+    }
+
+    base.setPointSize(minPointSize);
+    return base;
+}
+
+void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*)
+{
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing, false);
+
+    QPen pen = Theme::fontTurquoiseClicked;
+    pen.setWidthF((option && (option->state & QStyle::State_Selected)) ? 2.0 : 1.0);
+    painter->setPen(pen);
+    painter->setBrush(Qt::NoBrush);
+
+    const bool upper = (m_idx >= 0 && m_idx < 16);
+
+    const QRectF numRect = upper
+        ? QRectF(0.0, 0.0, kCellW, kNumBoxH)
+        : QRectF(0.0, kCellH - kNumBoxH, kCellW, kNumBoxH);
+
+    const QRectF statusRect = upper
+        ? QRectF(0.0, kNumBoxH, kCellW, kCellH - kNumBoxH)
+        : QRectF(0.0, 0.0, kCellW, kCellH - kNumBoxH);
+
+    const bool tl = (m_idx == 0);
+    const bool tr = (m_idx == 15);
+    const bool br = (m_idx == 16);
+    const bool bl = (m_idx == 31);
+
+    if (tl || tr || br || bl)
+    {
+        painter->drawPath(makeOuterPath(QRectF(0.0, 0.0, kCellW, kCellH), 6.0, tl, tr, br, bl));
+        const qreal splitY = upper ? kNumBoxH : (kCellH - kNumBoxH);
+        painter->drawLine(QPointF(0.0, splitY), QPointF(kCellW, splitY));
+    }
+    else
+    {
+        painter->drawRect(statusRect);
+        painter->drawRect(numRect);
+    }
+
+    const bool midV = (m_idx == 7 || m_idx == 24);
+    const bool midH = (m_idx >= 0 && m_idx < 16);
+
+    if (midV || midH)
+    {
+        QPen thick = painter->pen();
+        thick.setWidthF(kThickW);
+        painter->setPen(thick);
+
+        if (midV)
+            painter->drawLine(QPointF(kCellW, 0.0), QPointF(kCellW, kCellH));
+
+        if (midH)
+            painter->drawLine(QPointF(0.0, kCellH), QPointF(kCellW, kCellH));
+
+        painter->setPen(pen);
+    }
+
+    {
+        QFont f = painter->font();
+        f.setBold(true);
+        painter->setFont(f);
+        painter->drawText(numRect.adjusted(kNumPadX, 0.0, -kNumPadX, 0.0), Qt::AlignCenter, m_num);
+        painter->setPen(Theme::fontTurquoise);
+    }
+
+    const QString statusText = m_stat_list.join(' ');
+    QRectF r = statusRect.adjusted(kStatusPadX, kStatusPadY, -kStatusPadX, -kStatusPadY);
+
+    QFont f = painter->font();
+    f.setBold(false);
+
+    f = fitFontToRectWrapped(statusText, f, r, 7);
+
+    painter->setFont(f);
+    painter->drawText(r, Qt::AlignCenter | Qt::TextWordWrap, statusText);
+
+
+    painter->restore();
+
+}

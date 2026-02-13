@@ -32,7 +32,6 @@ class RqliteBackend final : public DbBackend
     static inline QUrl baseUrl;
     static inline QString usr;
     static inline QString pass;
-    static inline QSslConfiguration s_ssl_cfg;
     
     static inline DbServerConfig s_cfg;
 

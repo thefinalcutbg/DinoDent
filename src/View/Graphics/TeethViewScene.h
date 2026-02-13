@@ -7,7 +7,9 @@ class ContextMenu;
 class SelectionBox;
 class BridgeItem;
 class ToothGraphicsItem;
+class SimpleToothItem;
 class ListPresenter;
+class SelectableGraphicsItem;
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -16,9 +18,13 @@ class TeethViewScene : public QGraphicsScene
 
 	ToothGraphicsItem* toothGraphic[32];
 	ToothGraphicsItem* dsnToothGraphic[32];
+	SelectableGraphicsItem* selectableItems[32]{ nullptr };
 	SelectionBox* selectionBox[32];
+	SimpleToothItem* simpleTooth[32];
 
 	ListPresenter* presenter;
+
+	bool m_simpleView = false;
 
 	ContextMenu* contextMenu;
     //WORKS ONLY ON PHONETIC
@@ -41,7 +47,9 @@ public:
 	void setProcedures(std::vector<int> teeth_procedures);
 	void setNotes(const std::array<std::string, 32>& notes);
     void drawFocused(bool focused);
-    ~TeethViewScene();
+    
+	void setSimpleView(bool simple);
+	~TeethViewScene();
 
 signals:
     void returnPressed();

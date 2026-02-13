@@ -2,6 +2,8 @@
 #include <array>
 #include <string>
 #include <memory>
+#include <set>
+
 enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m, unknown};
 enum class SurfaceColor {none, red, blue, green, orange};
 enum class EndoHint {none, red, darkred, blue, green};
@@ -50,6 +52,6 @@ struct ToothPaintHint
 
 	std::string toolTip;
 	 
-	
+	std::set<std::string> statuses;
 
 };

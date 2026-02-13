@@ -4,13 +4,8 @@
 #include <QEasingCurve>
 
 SelectionBox::SelectionBox(int index)
-    : QGraphicsObject(nullptr)
-    , index(index)
-    , hovered(false)
+    : SelectableGraphicsItem(index)
 {
-    setFlag(QGraphicsItem::ItemIsSelectable);
-    setAcceptHoverEvents(true);
-
     bounds.setHeight(200);
     if ((index > 2 && index < 13) || (index > 18 && index < 29)) {
         bounds.setWidth(36);
@@ -133,15 +128,4 @@ void SelectionBox::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
         m_hoverProgress = 0.0;
         update();
     }
-}
-
-int SelectionBox::getIndex()
-{
-    return this->index;
-}
-
-void SelectionBox::drawFocused(bool focused)
-{
-    m_focused = focused;
-    update();
 }

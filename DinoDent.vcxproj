@@ -254,6 +254,7 @@
     <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
+    <ClCompile Include="src\View\Graphics\SimpleToothItem.cpp" />
     <ClCompile Include="src\View\SubWidgets\PriceInputWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\SMSTemplate.cpp" />
     <ClCompile Include="src\View\TableModels\NotificationTableModel.cpp" />
@@ -803,6 +804,8 @@
     <ClInclude Include="src\View\Graphics\PerioGraphicsButton.h" />
     <ClInclude Include="src\View\Graphics\PerioScene.h" />
     <QtMoc Include="src\View\Graphics\SelectionBox.h" />
+    <ClInclude Include="src\View\Graphics\SelectableGraphicsItem.h" />
+    <ClInclude Include="src\View\Graphics\SimpleToothItem.h" />
     <ClInclude Include="src\View\Graphics\SpriteRect.h" />
     <ClInclude Include="src\View\Graphics\SpriteSheets.h" />
     <ClInclude Include="src\View\Graphics\ToothGraphicsItem.h" />

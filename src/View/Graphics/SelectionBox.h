@@ -1,21 +1,19 @@
 #pragma once
 
-#include <QGraphicsObject>
+#include "SelectableGraphicsItem.h"
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
 class QVariantAnimation;
 
-class SelectionBox : public QGraphicsObject
+class SelectionBox : public SelectableGraphicsItem
 {
     Q_OBJECT
 
-    int index;
-    bool m_focused = false;
     SelectionBox* left_ptr = nullptr;
     SelectionBox* right_ptr = nullptr;
 
-    bool hovered;
+
     QRectF bounds;
     qreal m_hoverProgress{ 0.0 };
     QVariantAnimation* m_hoverAnimation{ nullptr };
@@ -28,8 +26,6 @@ class SelectionBox : public QGraphicsObject
 public:
     SelectionBox(int index);
     void setNeighbours(SelectionBox* left, SelectionBox* right) { left_ptr = left; right_ptr = right; }
-    int getIndex();
-    void drawFocused(bool focused);
     ~SelectionBox();
 
 };

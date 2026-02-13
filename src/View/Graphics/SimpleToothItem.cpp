@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QTextLayout>
+#include <QFontMetrics>
 #include "View/Theme.h"
 
 namespace
@@ -17,6 +18,13 @@ namespace
 
     static constexpr qreal kThinW = 2.0;
     static constexpr qreal kThickW = 4;
+
+    static bool needsCircle(const QString& num)
+    {
+        bool ok = false;
+        const int n = num.trimmed().toInt(&ok);
+        return ok && (n > 48); // your rule: circle if number > 48
+    }
 }
 
 SimpleToothItem::SimpleToothItem(int idx)
@@ -126,8 +134,7 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     bool is_selected = option && (option->state & QStyle::State_Selected);
 
-    //drawing boxes
-
+    // drawing boxes
     QPen pen = Theme::fontTurquoiseClicked;
     pen.setCosmetic(true);
     painter->setPen(pen);
@@ -178,28 +185,53 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     QFont f = painter->font();
     f.setBold(true);
-
     painter->setFont(f);
 
-    //drawing tooth number
-
+    // drawing tooth number
     pen = painter->pen();
-
     pen.setColor(m_focused ? Theme::fontTurquoise : Theme::fontTurquoiseClicked);
-
     painter->setPen(pen);
+
+    // circle/ellipse around the number when number > 48
+    if (needsCircle(m_num))
+    {
+        painter->save();
+        painter->setRenderHint(QPainter::Antialiasing, true);
+
+        QPen circlePen = pen;
+        circlePen.setWidthF(2.0);
+        circlePen.setCosmetic(true);
+        painter->setPen(circlePen);
+        painter->setBrush(Qt::NoBrush);
+
+        const QFontMetrics fm(painter->font());
+        const QRect textRect = fm.boundingRect(m_num);
+
+        const qreal padX = 6.0;
+        const qreal padY = 3.0;
+
+        QRectF ellipseRect(
+            numRect.center().x() - textRect.width() * 0.5 - padX,
+            numRect.center().y() - textRect.height() * 0.5 - padY,
+            textRect.width() + 2.0 * padX,
+            textRect.height() + 2.0 * padY
+        );
+
+        ellipseRect = ellipseRect.intersected(numRect.adjusted(2.0, 2.0, -2.0, -2.0));
+
+        painter->drawEllipse(ellipseRect);
+        painter->restore();
+    }
 
     painter->drawText(numRect.adjusted(kNumPadX, 0.0, -kNumPadX, 0.0), Qt::AlignCenter, m_num);
 
-    //drawing tick lines
-
+    // drawing tick lines
     const bool midV = (m_idx == 7 || m_idx == 24);
     const bool midH = (m_idx >= 0 && m_idx < 16);
 
     if (midV || midH)
     {
         QPen thick = painter->pen();
-
         thick.setWidthF(kThickW);
         painter->setPen(thick);
 
@@ -212,8 +244,7 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->setPen(pen);
     }
 
-    //drawing status
-
+    // drawing status
     pen.setColor(Theme::fontTurquoiseClicked);
     painter->setPen(pen);
 

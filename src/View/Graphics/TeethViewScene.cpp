@@ -81,7 +81,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
     //INIT simple tooth
     {
         posY = 90;
-        posX = 8;
+        posX = 12;
 
         for (int i = 0; i < 32; i++)
         {

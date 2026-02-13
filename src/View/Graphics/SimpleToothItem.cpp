@@ -159,6 +159,7 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
         if (m_hasProcedure) {
             painter->fillPath(path, Theme::inactiveTabBG);
+            painter->fillRect(statusRect, Qt::white);
         }
 
         painter->drawPath(path);

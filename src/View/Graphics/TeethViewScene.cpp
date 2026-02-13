@@ -109,7 +109,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
     title->setFont(f);
     title->setDefaultTextColor(Theme::fontRed);
 
-    const qreal titleY = 20;
+    const qreal titleY = 16;
     const qreal titleX = 255;
 
     title->setPos(titleX, titleY);

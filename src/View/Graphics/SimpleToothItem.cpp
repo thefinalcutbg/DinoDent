@@ -155,12 +155,22 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     if (tl || tr || br || bl)
     {
-        painter->drawPath(makeOuterPath(QRectF(0.0, 0.0, kCellW, kCellH), 6.0, tl, tr, br, bl));
+        auto path = makeOuterPath(QRectF(0.0, 0.0, kCellW, kCellH), 6.0, tl, tr, br, bl);
+
+        if (m_hasProcedure) {
+            painter->fillPath(path, Theme::inactiveTabBG);
+        }
+
+        painter->drawPath(path);
         const qreal splitY = upper ? kNumBoxH : (kCellH - kNumBoxH);
         painter->drawLine(QPointF(0.0, splitY), QPointF(kCellW, splitY));
     }
     else
     {
+        if (m_hasProcedure) {
+            painter->fillRect(numRect, Theme::inactiveTabBG);
+        }
+
         painter->drawRect(statusRect);
         painter->drawRect(numRect);
     }

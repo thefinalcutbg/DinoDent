@@ -156,7 +156,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
     selectionBox[31]->setNeighbours(nullptr, selectionBox[30]);
 
-    setSimpleView(m_simple_view);
+    setSimpleView(s_default_simple_view);
     drawFocused(false);
 }
 
@@ -327,7 +327,7 @@ void TeethViewScene::initStatusLegend()
     qreal gridY = 15.0;
     qreal cellW = 43.0;
     qreal cellH = 70.0;
-    qreal gapY = 110.0;
+    qreal gapY = 100.0;
 
     qreal gridW = 16.0 * cellW;
     qreal gridH = cellH + gapY + cellH;
@@ -413,7 +413,7 @@ int TeethViewScene::keyCodeMapper(QKeyEvent *e)
 
 void TeethViewScene::keyPressEvent(QKeyEvent* event)
 {
-
+    qDebug() << event;
     int lastSelected = 0;
     int firstSelected = 0;
     int selection_length = this->selectedItems().size();
@@ -427,7 +427,6 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
             if (!firstSelectedFound) { firstSelected = i; firstSelectedFound = 1; }
             lastSelected = i;
         }
-
     }
 
     switch (event->key())
@@ -550,11 +549,15 @@ void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
 
 void TeethViewScene::setProcedures(std::vector<int> teeth_procedures)
 {
-    for (auto& t : toothGraphic)
-        t->setProcedure(false);
+    for (auto& t : toothGraphic) t->setProcedure(false);
 
-    for (auto& p : teeth_procedures)
-        if (p != -1) toothGraphic[p]->setProcedure(true);
+    for (auto& t : simpleTooth) t->setProcedure(false);
+
+    for (auto& p : teeth_procedures) {
+        if (p == -1) continue;
+        simpleTooth[p]->setProcedure(true);
+        toothGraphic[p]->setProcedure(true);
+    }
        
 }
 
@@ -580,6 +583,8 @@ void TeethViewScene::drawFocused(bool focused)
 
 void TeethViewScene::setSimpleView(bool simple)
 {
+    s_default_simple_view = simple;
+
     std::vector<int> selected;
     selected.reserve(32);
 

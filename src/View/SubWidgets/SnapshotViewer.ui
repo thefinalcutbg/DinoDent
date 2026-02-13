@@ -58,7 +58,7 @@
            </size>
           </property>
           <property name="focusPolicy">
-           <enum>Qt::FocusPolicy::TabFocus</enum>
+           <enum>Qt::FocusPolicy::ClickFocus</enum>
           </property>
           <property name="frameShape">
            <enum>QFrame::Shape::NoFrame</enum>
@@ -95,7 +95,7 @@
              <bool>false</bool>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::StrongFocus</enum>
+             <enum>Qt::FocusPolicy::WheelFocus</enum>
             </property>
             <property name="maximum">
              <number>0</number>

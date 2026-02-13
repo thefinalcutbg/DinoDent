@@ -27,6 +27,8 @@ class TeethViewScene : public QGraphicsScene
 
 	ListPresenter* presenter;
 
+	static inline bool s_default_simple_view = false;
+
 	bool m_simple_view = false;
 
 	ContextMenu* contextMenu;

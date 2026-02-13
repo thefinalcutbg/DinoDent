@@ -10,7 +10,7 @@ SnapshotViewer::SnapshotViewer(QWidget *parent)
 	ui.graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	teeth_scene = new TeethViewScene();
-
+    teeth_scene->drawFocused(true);
 	ui.graphicsView->setScene(teeth_scene);
     ui.graphicsView->disableMultiSelection();
 

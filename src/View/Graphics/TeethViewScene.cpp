@@ -93,7 +93,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
             simpleTooth[i]->setPos(posX, posY);
             addItem(simpleTooth[i]);
 
-            const qreal stepX = simpleTooth[i]->boundingRect().width()+1;
+            const qreal stepX = simpleTooth[i]->boundingRect().width();
 
             if (i < 15)
                 posX += stepX;
@@ -327,7 +327,7 @@ void TeethViewScene::initStatusLegend()
     qreal gridY = 15.0;
     qreal cellW = 43.0;
     qreal cellH = 70.0;
-    qreal gapY = 115.0;
+    qreal gapY = 110.0;
 
     qreal gridW = 16.0 * cellW;
     qreal gridH = cellH + gapY + cellH;

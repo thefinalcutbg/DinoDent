@@ -160,13 +160,13 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     const bool br = (m_idx == 16);
     const bool bl = (m_idx == 31);
 
+
+
     if (tl || tr || br || bl)
     {
         auto path = makeOuterPath(QRectF(0.0, 0.0, kCellW, kCellH), 6.0, tl, tr, br, bl);
 
         painter->drawPath(path);
-        const qreal splitY = upper ? kNumBoxH : (kCellH - kNumBoxH);
-        painter->drawLine(QPointF(0.0, splitY), QPointF(kCellW, splitY));
 
         if (m_hasProcedure) {
             painter->fillPath(path, Theme::inactiveTabBG);
@@ -180,8 +180,12 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
         if (m_hasProcedure) {
             painter->fillRect(numRect, Theme::inactiveTabBG);
+
         }
     }
+
+    const qreal splitY = upper ? kNumBoxH : (kCellH - kNumBoxH);
+    painter->drawLine(QPointF(0.0, splitY), QPointF(kCellW, splitY));
 
     QFont f = painter->font();
     f.setBold(true);

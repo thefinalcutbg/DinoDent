@@ -60,7 +60,7 @@ ListView::ListView(QWidget* parent)
     ui.treatmentPlanButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.declarationButton->setIcon(QIcon(":/icons/icon_print.png"));
 	ui.simpleGraphicsButton->setBackgroundColor(Theme::border);
-	ui.simpleGraphicsButton->setHoverColor(Theme::inactiveTabBG);
+	ui.simpleGraphicsButton->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);

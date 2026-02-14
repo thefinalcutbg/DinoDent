@@ -12,6 +12,7 @@ StatusMultiButton::StatusMultiButton(QWidget* parent)
 	: QPushButton(parent)
 {
 	installEventFilter(this);
+	setFocusPolicy(Qt::NoFocus);
 
 	m_checkAnimation = new QVariantAnimation(this);
 	m_checkAnimation->setDuration(150);

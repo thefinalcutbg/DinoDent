@@ -140,11 +140,6 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
 
-    if (hovered || is_selected) {
-        QBrush hoverBrush(Theme::background);
-        painter->setBrush(hoverBrush);
-    }
-
     const bool upper = (m_idx >= 0 && m_idx < 16);
 
     const QRectF numRect = upper
@@ -166,26 +161,35 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     {
         auto path = makeOuterPath(QRectF(0.0, 0.0, kCellW, kCellH), 6.0, tl, tr, br, bl);
 
-        painter->drawPath(path);
-
         if (m_hasProcedure) {
             painter->fillPath(path, Theme::inactiveTabBG);
             painter->fillRect(statusRect, hovered || is_selected ? Theme::background : Theme::sectionBackground);
-        }
+        }else if(hovered || is_selected) {
+            painter->fillPath(path, Theme::background);
+		}
+
+        const qreal splitY = upper ? kNumBoxH : (kCellH - kNumBoxH);
+        painter->drawLine(QPointF(0.0, splitY), QPointF(kCellW, splitY));
+        painter->drawPath(path);
+
     }
     else
     {
-        painter->drawRect(statusRect);
-        painter->drawRect(numRect);
+        if (hovered || is_selected) {
+            painter->fillRect(numRect, Theme::background);
+            painter->fillRect(statusRect, Theme::background);
+        }
 
         if (m_hasProcedure) {
             painter->fillRect(numRect, Theme::inactiveTabBG);
 
         }
+
+        painter->drawRect(statusRect);
+        painter->drawRect(numRect);
     }
 
-    const qreal splitY = upper ? kNumBoxH : (kCellH - kNumBoxH);
-    painter->drawLine(QPointF(0.0, splitY), QPointF(kCellW, splitY));
+
 
     QFont f = painter->font();
     f.setBold(true);

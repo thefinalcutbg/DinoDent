@@ -170,6 +170,7 @@ HEADERS += \
     src/Network/Base64Convert.h \
     src/Network/BulkRequester.h \
     src/Network/Calendar/CalendarJsonParser.h \
+    src/Network/Calendar/Credentials.h \
     src/Network/Calendar/Google.h \
     src/Network/DynamicNumenclatures.h \
     src/Network/GetHSM.h \
@@ -266,7 +267,9 @@ HEADERS += \
     src/View/Graphics/PerioChartItem.h \
     src/View/Graphics/PerioGraphicsButton.h \
     src/View/Graphics/PerioScene.h \
+    src/View/Graphics/SelectableGraphicsItem.h \
     src/View/Graphics/SelectionBox.h \
+    src/View/Graphics/SimpleToothItem.h \
     src/View/Graphics/SpriteRect.h \
     src/View/Graphics/SpriteSheets.h \
     src/View/Graphics/TeethBuccalScene.h \
@@ -630,6 +633,7 @@ SOURCES += \
     src/View/Graphics/PerioGraphicsButton.cpp \
     src/View/Graphics/PerioScene.cpp \
     src/View/Graphics/SelectionBox.cpp \
+    src/View/Graphics/SimpleToothItem.cpp \
     src/View/Graphics/SpriteRect.cpp \
     src/View/Graphics/SpriteSheets.cpp \
     src/View/Graphics/TeethBuccalScene.cpp \

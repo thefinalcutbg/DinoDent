@@ -106,6 +106,9 @@ TeethViewScene::TeethViewScene(QObject *parent)
     QFont f = title->font();
     f.setBold(true);
     f.setPointSize(18);
+#ifdef Q_OS_OSX
+    f.setPointSize(24);
+#endif
     title->setFont(f);
     title->setDefaultTextColor(Theme::fontRed);
 
@@ -344,6 +347,9 @@ void TeethViewScene::initStatusLegend()
 
             QFont f = legend[c]->font();
             f.setPointSize(9);
+#ifdef Q_OS_OSX
+            f.setPointSize(13);
+#endif
             legend[c]->setFont(f);
 
             legend[c]->setDefaultTextColor(Theme::fontTurquoise);

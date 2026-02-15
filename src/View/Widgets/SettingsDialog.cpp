@@ -4,6 +4,7 @@
 #include "GlobalSettings.h"
 #include "TableViewDialog.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/Widgets/NotesTemplateDialog.h"
 #include "View/Theme.h"
 
 #include <QtGlobal>
@@ -47,7 +48,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.removeSubdir->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.addDoctor->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.removeDoctor->setIcon(QIcon(":/icons/icon_remove.png"));
-
+	ui.sqlTemplateButton->setIcon(QIcon(":/icons/icon_template.png"));
 	ui.printEmptyDocs->setIcon(CommonIcon::getPixmap(CommonIcon::PRINT));
 	ui.hisImport->setIcon(CommonIcon::getPixmap(CommonIcon::HIS));
 	ui.updateMedButton->setIcon(CommonIcon::getPixmap(CommonIcon::PRESCR));
@@ -62,6 +63,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.sqlTable->hide();
 	ui.sqlButton->hide();
 	ui.sqlEdit->hide();
+	ui.sqlTemplateButton->hide();
 
 	ui.tabletErrorLabel->setStyleSheet("color: red;");
 
@@ -324,6 +326,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.sqlButton->show();
 		ui.sqlEdit->show();
 		ui.sqlTable->show();
+		ui.sqlTemplateButton->show();
 		ui.okButton->setDefault(false);
 		ui.sqlButton->setDefault(true);
 		ui.sqlWarning->hide();
@@ -365,6 +368,14 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	presenter.setView(this);
 	
+	connect(ui.sqlTemplateButton, &QPushButton::clicked, this, [&] {
+		NotesTemplateDialog d(DbNotes::TemplateType::SQL);
+		auto result = d.getResult();
+
+		if (!result.size()) return;
+
+		ui.sqlEdit->setText(result);
+	});
 }
 
 void SettingsDialog::focusTab(Tab tab)

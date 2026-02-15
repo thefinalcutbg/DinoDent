@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>9</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -2267,6 +2267,19 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
+          <widget class="QPushButton" name="sqlTemplateButton">
+           <property name="toolTip">
+            <string>Зареди шаблон</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QLineEdit" name="sqlEdit">
            <property name="enabled">

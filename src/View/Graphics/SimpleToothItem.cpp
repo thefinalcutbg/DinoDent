@@ -140,22 +140,20 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
 
-    const bool upper = (m_idx >= 0 && m_idx < 16);
+    bool upper = (m_idx >= 0 && m_idx < 16);
 
-    const QRectF numRect = upper
+    QRectF numRect = upper
         ? QRectF(0.0, 0.0, kCellW, kNumBoxH)
         : QRectF(0.0, kCellH - kNumBoxH, kCellW, kNumBoxH);
 
-    const QRectF statusRect = upper
+    QRectF statusRect = upper
         ? QRectF(0.0, kNumBoxH, kCellW, kCellH - kNumBoxH)
         : QRectF(0.0, 0.0, kCellW, kCellH - kNumBoxH);
 
-    const bool tl = (m_idx == 0);
-    const bool tr = (m_idx == 15);
-    const bool br = (m_idx == 16);
-    const bool bl = (m_idx == 31);
-
-
+    bool tl = (m_idx == 0);
+    bool tr = (m_idx == 15);
+    bool br = (m_idx == 16);
+    bool bl = (m_idx == 31);
 
     if (tl || tr || br || bl)
     {
@@ -188,8 +186,6 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->drawRect(statusRect);
         painter->drawRect(numRect);
     }
-
-
 
     QFont f = painter->font();
     f.setBold(true);
@@ -248,9 +244,6 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->drawText(r, Qt::AlignCenter | Qt::TextWordWrap, statusText);
 
     // drawing tick lines
-    const bool midV = (m_idx == 7 || m_idx == 24);
-    const bool midH = (m_idx >= 0 && m_idx < 16);
-
     QPen thick = painter->pen();
     thick.setWidthF(kThickW);
     painter->setPen(thick);

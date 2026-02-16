@@ -736,7 +736,7 @@
                  <enum>QFrame::Shadow::Plain</enum>
                 </property>
                 <property name="text">
-                 <string>Знаете ли че:</string>
+                 <string>Знаете ли, че:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignmentFlag::AlignCenter</set>

@@ -233,25 +233,6 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     painter->drawText(numRect.adjusted(kNumPadX, 0.0, -kNumPadX, 0.0), Qt::AlignCenter, m_num);
 
-    // drawing tick lines
-    const bool midV = (m_idx == 7 || m_idx == 24);
-    const bool midH = (m_idx >= 0 && m_idx < 16);
-
-    if (midV || midH)
-    {
-        QPen thick = painter->pen();
-        thick.setWidthF(kThickW);
-        painter->setPen(thick);
-
-        if (midV)
-            painter->drawLine(QPointF(kCellW, 0.0), QPointF(kCellW, kCellH));
-
-        if (midH)
-            painter->drawLine(QPointF(0.0, kCellH), QPointF(kCellW, kCellH));
-
-        painter->setPen(pen);
-    }
-
     // drawing status
     pen.setColor(Theme::fontTurquoiseClicked);
     painter->setPen(pen);
@@ -265,6 +246,27 @@ void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     painter->setFont(f);
     painter->drawText(r, Qt::AlignCenter | Qt::TextWordWrap, statusText);
+
+    // drawing tick lines
+    const bool midV = (m_idx == 7 || m_idx == 24);
+    const bool midH = (m_idx >= 0 && m_idx < 16);
+
+    QPen thick = painter->pen();
+    thick.setWidthF(kThickW);
+    painter->setPen(thick);
+
+    if (m_idx == 7 || m_idx == 24) {
+       painter->drawLine(QPointF(kCellW, 0.0), QPointF(kCellW, kCellH));
+    } else if (m_idx == 8 || m_idx == 23) {
+        painter->drawLine(QPointF(0.0, 0.0), QPointF(0.0, kCellH));
+	}
+
+    if (m_idx >= 0 && m_idx < 16) {
+        painter->drawLine(QPointF(0.0, kCellH), QPointF(kCellW, kCellH));
+    }
+    else {
+        painter->drawLine(QPointF(0.0, 0), QPointF(kCellW, 0));
+    }
 
     painter->restore();
 }

@@ -540,7 +540,8 @@ void TeethViewScene::display(const ToothPaintHint& tooth)
         dsnToothGraphic[tooth.idx]->drawEmpty();
     }
 
-    selectableItems[tooth.idx]->setToolTip(tooth.toolTip.c_str());
+	simpleTooth[tooth.idx]->setToolTip(tooth.toolTip.c_str());
+	selectionBox[tooth.idx]->setToolTip(tooth.toolTip.c_str());
 }
 
 

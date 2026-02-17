@@ -172,9 +172,11 @@ ListView::ListView(QWidget* parent)
 
 	connect(ui.nrnButton, &QPushButton::customContextMenuRequested, [=, this](const QPoint& pos) {
 
-        QMenu* hisMenu = new QMenu(this);
-
 		auto text = ui.nrnButton->text();
+
+		if (text == "Изпрати към НЗИС") return;
+
+		QMenu* hisMenu = new QMenu(this);
 
 		//if signature tablet is configured
 		if (User::signatureTablet().getHisIdx()) {
@@ -200,27 +202,26 @@ ListView::ListView(QWidget* parent)
 			hisMenu->addAction(action);
 		}
 
-        if(text != "Изпрати към НЗИС"){
-            QAction* action = new QAction("Синхронизирай с НЗИС", hisMenu);
+        QAction* action = new QAction("Синхронизирай с НЗИС", hisMenu);
 
-            action->setIcon(QIcon(":/icons/icon_sync.png"));
+        action->setIcon(QIcon(":/icons/icon_sync.png"));
 
-            connect(action, &QAction::triggered, this, [=, this] {
-                presenter->syncWithHis();
-            });
+        connect(action, &QAction::triggered, this, [=, this] {
+            presenter->syncWithHis();
+        });
 
-            hisMenu->addAction(action);
+        hisMenu->addAction(action);
 
-            action = new QAction("Анулирай", hisMenu);
+        action = new QAction("Анулирай", hisMenu);
 
-            action->setIcon(QIcon(":/icons/icon_remove.png"));
+        action->setIcon(QIcon(":/icons/icon_remove.png"));
 
-            connect(action, &QAction::triggered, this, [=, this] {
-                presenter->cancelHisAmbList();
-            });
+        connect(action, &QAction::triggered, this, [=, this] {
+            presenter->cancelHisAmbList();
+        });
 
-            hisMenu->addAction(action);
-        }
+        hisMenu->addAction(action);
+        
 	
 		hisMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
 

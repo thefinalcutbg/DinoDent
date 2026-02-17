@@ -192,7 +192,7 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
     while (dialogResult == 1)
     {
         dialogResult = ModalDialogBuilder::openButtonDialog(
-            { "OK", "Повтори", "Отказ" }, "Подписване с пен таблет", "Натиснете ОК за да потвърдите подписа от пен таблета"
+            { "OK", "Повтори", "Отказ" }, "Подписване с пен таблет", "Положете подписа върху таблета и натиснете ОК"
         );
 
         if (dialogResult == 0) break;
@@ -249,11 +249,11 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
 
     //GETTING BITMAP
 
-    STSignatureSaveAsStreamEx(nullptr, &size, 125, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
+    STSignatureSaveAsStreamEx(nullptr, &size, 160, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
 
     ps.bitmap.resize(size);
 
-    STSignatureSaveAsStreamEx(ps.bitmap.data(), &size, 125, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
+    STSignatureSaveAsStreamEx(ps.bitmap.data(), &size, 160, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
 
     STDeviceClose(0);
     STControlExit();

@@ -16,14 +16,14 @@ namespace
     static constexpr qreal kStatusPadX = 3.0;
     static constexpr qreal kStatusPadY = 2.0;
 
-    static constexpr qreal kThinW = 2.0;
-    static constexpr qreal kThickW = 4;
+    static constexpr qreal kThinW = 1.0;
+    static constexpr qreal kThickW = 3;
 
     static bool needsCircle(const QString& num)
     {
         bool ok = false;
         const int n = num.trimmed().toInt(&ok);
-        return ok && (n > 48); // your rule: circle if number > 48
+        return ok && (n > 48);
     }
 }
 
@@ -130,7 +130,7 @@ static QFont fitFontToRectWrapped(const QString& text,
 void SimpleToothItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*)
 {
     painter->save();
-    painter->setRenderHint(QPainter::Antialiasing, false);
+    painter->setRenderHint(QPainter::Antialiasing, true);
 
     bool is_selected = option && (option->state & QStyle::State_Selected);
 

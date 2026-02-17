@@ -48,17 +48,17 @@ void DetailedStatusPresenter::setView(DetailedStatus* view)
 
 	for (auto& p : m_procedures)
 	{
-		if (p.db_source == Procedure::DatabaseSource::PIS){
-			tableOptionChanged(false, false, true);
-			return;
+		if (p.db_source == Procedure::DatabaseSource::HIS){
+			tableOptionChanged(false, true, false);
+		return;
 		}
 	}
 
 	for (auto& p : m_procedures)
 	{
-		if (p.db_source == Procedure::DatabaseSource::HIS){
-			tableOptionChanged(false, true, false);
-		return;
+		if (p.db_source == Procedure::DatabaseSource::PIS) {
+			tableOptionChanged(false, false, true);
+			return;
 		}
 	}
 

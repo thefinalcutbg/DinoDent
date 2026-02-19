@@ -1,13 +1,17 @@
-#include "WelcomeWidget.h"
-#include "View/Theme.h"
-#include "Presenter/MainPresenter.h"
-#include "View/Widgets/AboutDialog.h"
-#include "View/Widgets/DinoDent.h"
+﻿#include "WelcomeWidget.h"
+
 #include <QDate>
 #include <QDesktopServices>
 #include <QPainter>
 #include <QFile>
 #include <QRandomGenerator>
+#include <QNetworkReply>
+
+#include "Network/NetworkManager.h"
+#include "Presenter/MainPresenter.h"
+#include "View/Widgets/AboutDialog.h"
+#include "View/Widgets/DinoDent.h"
+#include "View/Theme.h"
 
 void WelcomeWidget::paintEvent(QPaintEvent* event)
 {
@@ -19,8 +23,6 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-
-    setStyleSheet("color: " + Theme::colorToString(Theme::fontTurquoise));
 
     ui.tipLabel->setStyleSheet("color:rgb(68,68,68)");
 
@@ -89,17 +91,54 @@ void WelcomeWidget::refreshTip()
     if (m_tips.isEmpty())
         return;
 
+    ui.label_13->setText("Знаете ли, че... ");
+    ui.label_13->setStyleSheet("color: " + Theme::colorToString(Theme::fontTurquoise));
+
     static int s_hour = -1;
 
     auto currentHour = QTime::currentTime().hour();
 
-    if (currentHour == s_hour) return;
-        
+    if (currentHour == s_hour) {
+        checkForGlobalMessage();
+        return;
+    }
+
     s_hour = currentHour;
     
     int idx = QRandomGenerator::global()->bounded(m_tips.size());
     ui.tipLabel->setText(m_tips.at(idx));
+
+    checkForGlobalMessage();
 }
+
+void WelcomeWidget::checkForGlobalMessage()
+{
+    auto reply = NetworkManager::simpleRequest(
+        "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/msg"
+    );
+
+    QObject::connect(reply, &QNetworkReply::finished, this, [=] {
+        
+        QString msg = reply->readAll();
+        
+        if (msg.isEmpty() || reply->error() != QNetworkReply::NoError) {
+            reply->deleteLater();
+            return;
+        }
+		
+        QStringList lines = msg.split(QRegularExpression("\r?\n"));
+
+        if (lines.size() < 2) return;
+
+        ui.label_13->setText(lines.value(0).trimmed());
+        ui.label_13->setStyleSheet("color: " + Theme::colorToString(Theme::fontRed));
+
+        ui.tipLabel->setText(lines.value(1).trimmed());
+
+		reply->deleteLater();
+    });
+}
+
 
 WelcomeWidget::~WelcomeWidget()
 {}

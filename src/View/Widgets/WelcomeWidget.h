@@ -11,7 +11,7 @@ class WelcomeWidget : public QWidget
 
 	void paintEvent(QPaintEvent* event) override;
 	QStringList m_tips;
-	void checkForGlobalMessage();
+
 public:
 	WelcomeWidget(QWidget *parent = nullptr);
 	void refreshTip();

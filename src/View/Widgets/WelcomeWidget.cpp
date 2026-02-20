@@ -24,6 +24,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
+    setStyleSheet("color: " + Theme::colorToString(Theme::fontTurquoise));
     ui.tipLabel->setStyleSheet("color:rgb(68,68,68)");
 
     auto date = Date::currentDate();
@@ -91,54 +92,58 @@ void WelcomeWidget::refreshTip()
     if (m_tips.isEmpty())
         return;
 
-    ui.label_13->setText("Знаете ли, че... ");
-    ui.label_13->setStyleSheet("color: " + Theme::colorToString(Theme::fontTurquoise));
-
-    static int s_hour = -1;
+    ui.titleLabel->setText("Знаете ли, че... ");
+    ui.titleLabel->setStyleSheet("color: " + Theme::colorToString(Theme::fontTurquoise));
+	ui.tipLabel->show();
 
     auto currentHour = QTime::currentTime().hour();
-
-    if (currentHour == s_hour) {
-        checkForGlobalMessage();
-        return;
-    }
-
-    s_hour = currentHour;
     
     int idx = QRandomGenerator::global()->bounded(m_tips.size());
     ui.tipLabel->setText(m_tips.at(idx));
 
-    checkForGlobalMessage();
-}
+    //checking for dynamic message
 
-void WelcomeWidget::checkForGlobalMessage()
-{
     auto reply = NetworkManager::simpleRequest(
-        "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/msg"
+        "https://www.dinodent.bg/msg"
     );
 
     QObject::connect(reply, &QNetworkReply::finished, this, [=] {
-        
+
         QString msg = reply->readAll();
-        
+
         if (msg.isEmpty() || reply->error() != QNetworkReply::NoError) {
             reply->deleteLater();
             return;
         }
-		
-        QStringList lines = msg.split(QRegularExpression("\r?\n"));
 
-        if (lines.size() < 2) return;
+        int n = msg.indexOf('\n');
 
-        ui.label_13->setText(lines.value(0).trimmed());
-        ui.label_13->setStyleSheet("color: " + Theme::colorToString(Theme::fontRed));
+        QString title;
+        QString body;
 
-        ui.tipLabel->setText(lines.value(1).trimmed());
+        if (n < 0) {
+            title = msg.trimmed();
+            body = QString();
+        }
+        else {
+            title = msg.left(n).trimmed();
+            int start = n + 1;
+            if (n > 0 && msg[n - 1] == '\r')
+                title = msg.left(n - 1).trimmed();
 
-		reply->deleteLater();
-    });
+            body = msg.mid(start).trimmed();
+        }
+
+        ui.titleLabel->setStyleSheet("color: " + Theme::colorToString(Theme::fontRed));
+
+        if (body.isEmpty()) {
+            ui.tipLabel->hide();
+        }
+
+        ui.titleLabel->setText(title);
+        ui.tipLabel->setText(body);
+        });
 }
-
 
 WelcomeWidget::~WelcomeWidget()
 {}

@@ -703,6 +703,12 @@
          </item>
          <item>
           <widget class="RoundedFrame" name="tipFrame">
+           <property name="maximumSize">
+            <size>
+             <width>459</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::Shape::NoFrame</enum>
            </property>
@@ -713,20 +719,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_13">
+               <widget class="QLabel" name="titleLabel">
                 <property name="font">
                  <font>
                   <bold>true</bold>
@@ -741,20 +734,10 @@
                 <property name="alignment">
                  <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
                </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </item>
@@ -770,12 +753,15 @@
                <string/>
               </property>
               <property name="textFormat">
-               <enum>Qt::TextFormat::PlainText</enum>
+               <enum>Qt::TextFormat::AutoText</enum>
               </property>
               <property name="alignment">
                <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
               </property>
               <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>

@@ -628,9 +628,13 @@ bool ListPresenter::isValid()
 
     }
 
-    if (m_amblist.isNhifSheet() && !patient->PISHistory.has_value()) {
+    if (m_amblist.isNhifSheet() && 
+        !patient->PISHistory.has_value() &&
+        !patient->HISHistory.has_value()
+        ) 
+    {
         ModalDialogBuilder::showMessage(
-            "Не са заредени данни от ПИС. "
+            "Не са заредени данни от ПИС и НЗИС. "
             "Листът ще бъде валидиран само "
             "спрямо съществуващите записи в локалната база данни");
     }

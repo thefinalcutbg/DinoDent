@@ -208,6 +208,8 @@ void PatientHistoryPresenter::statusRefreshRequested()
 	his_service.sendRequest(patient, true,
 		[&](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshots) {
 
+			if (!procedures) return;
+
 			if (snapshots.empty()) {
 				ModalDialogBuilder::showMessage(
 					"За този пациент не са намерени данни в НЗИС"
@@ -218,11 +220,8 @@ void PatientHistoryPresenter::statusRefreshRequested()
 			his_snapshots = snapshots;
 
 			view.setSnapshots(snapshots, Procedure::HIS);
-
-			if(procedures){
-				HISHistory = procedures;
-				patient.HISHistory = procedures;
-			}
+			HISHistory = procedures;
+			patient.HISHistory = procedures;
 		}
 	);
 

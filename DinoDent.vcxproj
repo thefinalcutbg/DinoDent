@@ -113,7 +113,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\include\libp11;$(SolutionDir)\include\libxml2;$(SolutionDir)\include\sqLite3;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/;$(SolutionDir)\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
@@ -126,7 +126,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\include\libp11;$(SolutionDir)\include\libxml2;$(SolutionDir)\include\sqLite3;$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <LanguageStandard_C>Default</LanguageStandard_C>

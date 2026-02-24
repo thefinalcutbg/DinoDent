@@ -4,12 +4,13 @@
 #include <QAbstractItemView>
 
 #include <json/json.h>
-#include "View/Widgets/TableViewDialog.h"
-#include "Presenter/ProcedureCreator.h"
 #include "Resources.h"
+#include "Database/DbNotes.h"
+#include "Presenter/ProcedureCreator.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ICD10Dialog.h"
 #include "View/Widgets/NotesTemplateDialog.h"
+#include "View/Widgets/TableViewDialog.h"
 
 ProcedureInput::ProcedureInput(QWidget* parent)
 	: QWidget(parent)
@@ -81,6 +82,8 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
 		auto result = d.getResult();
 
+		ui.notesEdit->setCompletions(DbNotes::getTemplateNotes(DbNotes::TemplateType::ProcedureNote));
+
 		if (result.isEmpty()) return;
 
 		auto currentText = ui.notesEdit->toPlainText();
@@ -142,6 +145,8 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 	ui.templateButton->setIcon(QPixmap(":/icons/icon_template.png"));
 	ui.icdEdit->setCompletions(completionList);
 	ui.icdEdit->completer()->setFilterMode(Qt::MatchContains);
+
+	ui.notesEdit->setCompletions(DbNotes::getTemplateNotes(DbNotes::TemplateType::ProcedureNote));
 
     ui.errorLabel->setStyleSheet("color:red");
 }

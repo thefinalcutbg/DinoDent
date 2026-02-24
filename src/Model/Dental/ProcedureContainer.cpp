@@ -168,34 +168,26 @@ void ProcedureContainer::replaceProcedure(const Procedure& p, int idx)
 
 bool ProcedureContainer::moveProcedure(int from, int to)
 {
-    if (from == to) return false;
-    if (m_proc.empty()) return false;
-    if (m_proc.size() == 1) return false;
+    int n = static_cast<int>(m_proc.size());
 
-    if (to == m_proc.size()) {
-        auto temp = m_proc[from];
-        m_proc.erase(m_proc.begin() + from);
-        m_proc.push_back(temp);
-    }
-    else
-    {
-        auto temp = m_proc;
+    if (n < 2) return false;
 
-        m_proc.clear();
+    if (from < 0 || from >= n) return false;
+    if (to < 0 || to > n) return false;
 
-        for (int i = 0; i < temp.size(); i++)
-        {
-            if (i == from) continue;
+    if (from == to || (to == n && from == n - 1)) return false;
 
-            if (i == to) {
-                m_proc.push_back(temp[from]);
-            }
+    Procedure item = m_proc[from];
+    m_proc.erase(m_proc.begin() + from);
 
-            m_proc.push_back(temp[i]);
-        }
-    }
+    if (to > from) --to;
 
-    std::sort(m_proc.begin(), m_proc.end(), [](const Procedure& first, const Procedure& second) { return first.date < second.date; });
+    m_proc.insert(m_proc.begin() + to, std::move(item));
+
+    std::sort(m_proc.begin(), m_proc.end(),
+        [](const Procedure& a, const Procedure& b) {
+            return a.date < b.date;
+        });
 
     return true;
 }

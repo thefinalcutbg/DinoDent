@@ -563,11 +563,17 @@ bool ListPresenter::isValid()
 
                 if (nonExamProcedureFound) {
 
-                    ModalDialogBuilder::showError(
+                    bool answer = ModalDialogBuilder::askDialog(
                         "С оглед на правилната хронология на пациентското досие в НЗИС, "
                         "процедурата отразяваща зъбния статус трябва да бъде винаги първа по ред. "
-                        "Преместете я (при необходимост - редактирайте датата ѝ)."
+                        "Желаете ли да я преместя автоматично?"
                     );
+
+                    if(answer) {
+                        putExamFirst();
+                        refreshProcedureView();
+                        break;
+					}
 
                     return false;
                 }
@@ -650,6 +656,27 @@ bool ListPresenter::isValid()
             "\nЖелаете ли да запазите листа въпреки това?" 
     );
 
+}
+
+void ListPresenter::putExamFirst()
+{
+	if (m_amblist.procedures.size() < 2) return;
+
+	auto date = m_amblist.procedures[0].date;
+
+    for (size_t i = 1; i < m_amblist.procedures.size(); i++)
+    {
+        if (m_amblist.procedures[i].code.type() == ProcedureType::FullExam)
+        {
+			m_amblist.procedures[i].date = date;
+        }
+	}
+
+    std::stable_partition(
+        m_amblist.procedures.begin(),
+        m_amblist.procedures.end(),
+        [](const auto& p) { return p.code.type() == ProcedureType::FullExam; }
+    );
 }
 
 

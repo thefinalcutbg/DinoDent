@@ -59,6 +59,7 @@ class ListPresenter : public TabInstance
     }
 
     bool isValid();
+    void putExamFirst();
     void refreshProcedureView();
     void statusChanged();
     void setHisButtonToView();

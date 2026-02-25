@@ -28,7 +28,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -50,12 +50,15 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QTextBrowser" name="textBrowser">
        <property name="readOnly">
         <bool>true</bool>
        </property>
        <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+        <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextSelectableByMouse</set>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -123,7 +126,7 @@
         <string>Powered by: &lt;a href=&quot;https://bgirc.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;BgIrc Network&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;</string>
        </property>
        <property name="textFormat">
-        <enum>Qt::MarkdownText</enum>
+        <enum>Qt::TextFormat::MarkdownText</enum>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
@@ -142,7 +145,7 @@
         <string>Няма връзка със сървъра</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
        </property>
       </widget>
      </item>

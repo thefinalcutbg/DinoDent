@@ -8,6 +8,7 @@
 #include "Model/User.h"
 #include <QDir>
 #include <QStandardPaths>
+#include <QRegularExpression>
 
 ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
@@ -44,7 +45,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	}
 
 	while (!log.atEnd()) {
-		ui.textEdit->append(log.readLine());
+		ui.textBrowser->append(log.readLine());
 	}
 
 	scrollToBottom();
@@ -116,9 +117,9 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		QString result = "<font color=\"";
 		result += colorTable[nick.hash()];
 		result += "\"><b>";
-		result += nick.parsedName();
+		result += nick.parsedName().toHtmlEscaped();
 		result += "</b>: ";
-		result += msg;
+		result += linkify(msg);
 		result += "</font>";
 
 		appendText(result);
@@ -144,6 +145,35 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	ui.lineEdit->setFocus();
 }
 
+QString ChatDialog::linkify(const QString& plain)
+{
+	static const QRegularExpression re(R"((https?://\S+|www\.\S+))");
+
+	QString out;
+	int last = 0;
+
+	auto it = re.globalMatch(plain);
+
+	while (it.hasNext())
+	{
+		auto m = it.next();
+
+		out += plain.mid(last, m.capturedStart() - last).toHtmlEscaped();
+
+		QString raw = m.captured(0);
+		QUrl url = QUrl::fromUserInput(raw);
+
+		out += QString("<a href=\"%1\">%2</a>")
+			.arg(url.toString(QUrl::FullyEncoded),
+				raw.toHtmlEscaped());
+
+		last = m.capturedEnd();
+	}
+
+	out += plain.mid(last).toHtmlEscaped();
+	return out;
+}
+
 void ChatDialog::openAndConnect()
 {
 	if (!ui.usrList->count()) {
@@ -155,16 +185,16 @@ void ChatDialog::openAndConnect()
 
 void ChatDialog::appendText(const QString& text)
 {
-	ui.textEdit->append(text);
+	ui.textBrowser->append(text);
 
 	scrollToBottom();
 }
 
 void ChatDialog::scrollToBottom()
 {
-	if (ui.textEdit->verticalScrollBar()) {
-		ui.textEdit->verticalScrollBar()->setValue(
-			ui.textEdit->verticalScrollBar()->maximum());
+	if (ui.textBrowser->verticalScrollBar()) {
+		ui.textBrowser->verticalScrollBar()->setValue(
+			ui.textBrowser->verticalScrollBar()->maximum());
 	}
 }
 

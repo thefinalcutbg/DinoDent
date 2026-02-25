@@ -111,7 +111,7 @@ void WelcomeWidget::refreshTip()
 
         QString msg = reply->readAll();
 
-        if (msg.isEmpty() || reply->error() != QNetworkReply::NoError) {
+        if (msg.trimmed().isEmpty() || reply->error() != QNetworkReply::NoError) {
             reply->deleteLater();
             return;
         }

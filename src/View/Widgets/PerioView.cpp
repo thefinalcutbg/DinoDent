@@ -225,9 +225,13 @@ void PerioView::setMeasurment(int index, int pd, int cal, int gm, int recession)
 	QSignalBlocker g(m_GM[index]);
 
 	m_PD[index]->setValue(pd);
+	m_PD[index]->colorCodeChange();
 	m_CAL[index]->setValue(cal);
+	m_CAL[index]->colorCodeChange();
 	m_GM[index]->setValue(gm);
+	m_GM[index]->colorCodeChange();
 	m_Rec[index / 3]->setValue(recession);
+	m_Rec[index / 3]->colorCodeChange();
 
 	refreshChartMeasurment(index);
 }

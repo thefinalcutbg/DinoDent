@@ -14,17 +14,17 @@ class PerioSpinBox : public QSpinBox
 	void paintEvent(QPaintEvent* event) override;
 	bool eventFilter(QObject* obj, QEvent* e) override;
 
-	void colorCodeChange();
-
 	bool isRed{ false };
 
 public:
+
+	PerioSpinBox(QWidget* parent);
 
 	int redValue{ 20 };
 
 	void disable(bool disabled);
 	void setValueCustom(int value);
+	void colorCodeChange();
 
-	PerioSpinBox(QWidget *parent);
 	~PerioSpinBox();
 };

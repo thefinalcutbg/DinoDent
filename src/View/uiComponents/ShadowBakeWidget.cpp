@@ -30,6 +30,11 @@ void ShadowBakeWidget::setShadowTargets(const std::vector<QWidget*>& targets)
     update();
 }
 
+void ShadowBakeWidget::disableBaking(bool disabled)
+{
+	m_bakeDisabled = disabled;
+}
+
 void ShadowBakeWidget::installFiltersFor(QWidget* w)
 {
     if (!w) return;
@@ -52,9 +57,9 @@ void ShadowBakeWidget::removeDeadTargets()
 
 void ShadowBakeWidget::scheduleBake()
 {
-
-    if (m_bakeScheduled || !s_bakingEnabled)
-        return;
+    if (m_bakeScheduled || !s_bakingEnabled || m_bakeDisabled) {
+            return;
+    }
 
     m_bakeScheduled = true;
 
@@ -194,9 +199,7 @@ bool ShadowBakeWidget::event(QEvent* e)
     case QEvent::PaletteChange:
     case QEvent::ContentsRectChange:
     case QEvent::ScreenChangeInternal:
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     case QEvent::DevicePixelRatioChange:
-#endif
         if (!m_targets.empty()) {
             scheduleBake();
         }

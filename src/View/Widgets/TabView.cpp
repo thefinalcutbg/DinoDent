@@ -294,6 +294,9 @@ void TabView::showPerioView()
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
     m_treatmentView.setPresenter(nullptr);
+
+	//prevent unnecessary updates because of performance issues
+    m_perioView.disableBaking(true);
 }
 
 

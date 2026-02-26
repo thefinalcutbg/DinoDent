@@ -13,7 +13,7 @@ public:
     
     void scheduleBake();
     void setShadowTargets(const std::vector<QWidget*>& targets);
-
+    void disableBaking(bool disabled);
 protected:
     void paintEvent(QPaintEvent* e) override;
     void resizeEvent(QResizeEvent* e) override;
@@ -31,7 +31,7 @@ private:
 private:
     std::vector<QWidget*> m_targets;
     QPixmap m_baked;
-
+	bool m_bakeDisabled = false;
     bool m_bakeScheduled = false;
     int  m_debounceMs = 0;
 };

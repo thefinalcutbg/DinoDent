@@ -21,8 +21,6 @@ class ChatDialog : public QDialog
 
 	bool event(QEvent* e) override;
 
-	static QString linkify(const QString& plain);
-
 public:
 	ChatDialog(DinoDent *parent);
 	

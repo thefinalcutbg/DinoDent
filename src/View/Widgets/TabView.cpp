@@ -286,6 +286,7 @@ void TabView::showListView()
 
 void TabView::showPerioView()
 {
+    m_perioView.disableBaking(false);
     GlobalWidgets::mainWindow->disableButtons(true, false, true);
     showTabWidget(&m_perioView);
 	m_perioView.scheduleBake();

@@ -12,6 +12,7 @@
 #include "View/Widgets/AboutDialog.h"
 #include "View/Widgets/DinoDent.h"
 #include "View/Theme.h"
+#include "View/GlobalFunctions.h"
 
 void WelcomeWidget::paintEvent(QPaintEvent* event)
 {
@@ -141,7 +142,7 @@ void WelcomeWidget::refreshTip()
         }
 
         ui.titleLabel->setText(title);
-        ui.tipLabel->setText(body);
+        ui.tipLabel->setText(linkify(body));
         });
 }
 

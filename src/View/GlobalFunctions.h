@@ -9,4 +9,5 @@ QString priceRangeToString(const std::pair<double, double> priceRange);
 QString roundDouble(double number);
 QString formatDoubleWithDecimal(const double& price);
 void setTableViewDefaults(QTableView* view);
+QString linkify(const QString& plain);
 

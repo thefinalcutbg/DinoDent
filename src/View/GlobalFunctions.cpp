@@ -1,6 +1,7 @@
 ﻿#include "GlobalFunctions.h"
 #include <string>
 #include "QString"
+#include <QUrl>
 #include <cmath>
 #include <QTableView>
 #include <QHeaderView>
@@ -42,6 +43,35 @@ void setTableViewDefaults(QTableView* view)
 	//view->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+}
+
+QString linkify(const QString& plain)
+{
+	static const QRegularExpression re(R"((https?://\S+|www\.\S+))");
+
+	QString out;
+	int last = 0;
+
+	auto it = re.globalMatch(plain);
+
+	while (it.hasNext())
+	{
+		auto m = it.next();
+
+		out += plain.mid(last, m.capturedStart() - last).toHtmlEscaped();
+
+		QString raw = m.captured(0);
+		QUrl url = QUrl::fromUserInput(raw);
+
+		out += QString("<a href=\"%1\">%2</a>")
+			.arg(url.toString(QUrl::FullyEncoded),
+				raw.toHtmlEscaped());
+
+		last = m.capturedEnd();
+	}
+
+	out += plain.mid(last).toHtmlEscaped();
+	return out;
 }
 
 QString priceRangeToString(const std::pair<double, double> priceRange)

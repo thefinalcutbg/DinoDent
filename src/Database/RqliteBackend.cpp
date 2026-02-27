@@ -316,13 +316,13 @@ bool RqliteBackend::execute()
     bool queryEndpoint = isQuery(m_statement);
 
     Json::Value req(Json::arrayValue);
-    /*
+ 
     if (!queryEndpoint) {
         Json::Value pragmaStmt(Json::arrayValue);
         pragmaStmt.append("PRAGMA foreign_keys=ON");
         req.append(pragmaStmt);
     }
-    */
+
     Json::Value one(Json::arrayValue);
 
     one.append(m_statement);
@@ -405,13 +405,13 @@ bool RqliteBackend::execute()
 
         if (!reader.parse(responseBody.constData(), responseBody.constData() + responseBody.size(), root, false)) {
              return false;
+
         }
 
         if (!root.isMember("results") || root["results"].empty()) return false;
 
-        const Json::Value& replyValue = root["results"][0];
+        const Json::Value& replyValue = root["results"][queryEndpoint ? 0 : 1];
 
-      
         if (replyValue.isMember("error")) {
             ModalDialogBuilder::showError(replyValue["error"].asString());
             return false;

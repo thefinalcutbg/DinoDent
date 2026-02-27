@@ -78,9 +78,13 @@ ProcedureInput::ProcedureInput(QWidget* parent)
         auto templateType = m_treatmentPlanMode ? DbNotes::TemplateType::PlannedProcedure
                                                 : DbNotes::TemplateType::ProcedureNote;
 
-        NotesTemplateDialog d(templateType);
+		QString result;
 
-		auto result = d.getResult();
+		{
+			//inner scope, since template notes are updated in dialog destructor
+			NotesTemplateDialog d(templateType);
+			result = d.getResult();
+		}
 
 		ui.notesEdit->setCompletions(DbNotes::getTemplateNotes(DbNotes::TemplateType::ProcedureNote));
 

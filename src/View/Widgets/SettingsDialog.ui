@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>9</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -1321,6 +1321,15 @@
                 <width>0</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::EditTrigger::AnyKeyPressed</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
               </property>
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>

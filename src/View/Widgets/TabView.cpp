@@ -342,6 +342,7 @@ void TabView::showListView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
 	showView(TabType::AmbList);
+
     m_perioView->setPresenter(nullptr);
     m_prescriptionView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
@@ -353,6 +354,7 @@ void TabView::showPerioView()
 {
     GlobalWidgets::mainWindow->disableButtons(true, false, true);
     showView(TabType::PerioStatus);
+
     m_listView->setPresenter(nullptr);
     m_prescriptionView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
@@ -364,6 +366,7 @@ void TabView::showFinancialView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showView(TabType::Financial);
+
     m_listView->setPresenter(nullptr);
     m_perioView->setPresenter(nullptr);
     m_prescriptionView->setPresenter(nullptr);
@@ -375,7 +378,7 @@ void TabView::showPerscriptionView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
 	showView(TabType::Prescription);
-    m_prescriptionView->scheduleBake();
+
     m_listView->setPresenter(nullptr);
     m_perioView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);
@@ -397,8 +400,8 @@ void TabView::showCalendarView()
 void TabView::showWelcomeScreen()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true, true);
-	showView(TabType::PatientSummary);
     welcomeScreen->refreshTip();
+	showView(TabType::PatientSummary);
 
     m_listView->setPresenter(nullptr);
     m_perioView->setPresenter(nullptr);
@@ -412,7 +415,8 @@ void TabView::showTreatmentPlanView()
 {
     GlobalWidgets::mainWindow->disableButtons(false, false, false);
 	showView(TabType::TreatmentPlan);
-    m_treatmentView->scheduleBake();
+
+
     m_listView->setPresenter(nullptr);
     m_perioView->setPresenter(nullptr);
     m_financialView->setPresenter(nullptr);

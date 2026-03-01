@@ -48,7 +48,7 @@ void TabInstance::setCurrent()
 {
 	is_current = true;
 
-	_tabView->disableViewportUpdates();
+	_tabView->disableViewportUpdates(type);
 
 	setDataToView();
 	
@@ -64,7 +64,7 @@ void TabInstance::setCurrent()
 		}
 
 		setScrollPosition();
-		_tabView->enableViewportUpdates();
+		_tabView->enableViewportUpdates(type);
 	});
 }
 

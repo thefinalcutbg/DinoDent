@@ -19,31 +19,30 @@ class TabView : public QWidget
 {
 	Q_OBJECT
 
-	PerioView m_perioView;
-	ListView m_listView;
-	FinancialView m_financialView;
-	PrescriptionView m_prescriptionView;
-	TreatmentPlanView m_treatmentView;
-	CalendarView m_calendarView;
+	WelcomeWidget* welcomeScreen{ nullptr };
+	PerioView* m_perioView{ nullptr };
+	ListView* m_listView{ nullptr };
+	FinancialView* m_financialView{ nullptr };
+	PrescriptionView* m_prescriptionView{ nullptr };
+	TreatmentPlanView* m_treatmentView{ nullptr };
+	CalendarView* m_calendarView{ nullptr };
 
-	WelcomeWidget welcomeScreen{ nullptr };
-
-	SmoothWheelScroll* smoothScroll;
-
-	void showTabWidget(QWidget* w);
+    bool showFocusedTabBorder = true;
 
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
 
-	void setCustomStyleSheet(bool focusedTabBorder);
+	void refreshTabBorder(QScrollArea* sa);
+
+	void initTabs();
 
 public:
 
 	TabView(QWidget* parent = Q_NULLPTR);
 	~TabView();
 
-	void enableViewportUpdates();
-	void disableViewportUpdates();
+	void enableViewportUpdates(TabType t);
+	void disableViewportUpdates(TabType t);
 
 	void requestClose(int tabId);
 
@@ -59,6 +58,8 @@ public:
 	std::pair<int, int> getScrollPos();
 	void setScrollPos(std::pair<int, int> scrollPos);
 
+	void showView(TabType t);
+
 	void showListView();
 	void showPerioView();
 	void showFinancialView();
@@ -67,13 +68,13 @@ public:
 	void showTreatmentPlanView();
 	void showCalendarView();
 
-	ListView* listView() { return &m_listView; }
-	PerioView* perioView() { return &m_perioView; }
-	FinancialView* financialView() { return &m_financialView; }
-	PrescriptionView* prescriptionView() { return &m_prescriptionView; }
-	TreatmentPlanView* treatmentPlanView() { return &m_treatmentView; }
-	CalendarView* calendarView() { return &m_calendarView; }
-	QScrollArea* scrollArea() { return ui.scrollArea; }
+	ListView* listView() { return m_listView; }
+	PerioView* perioView() { return m_perioView; }
+	FinancialView* financialView() { return m_financialView; }
+	PrescriptionView* prescriptionView() { return m_prescriptionView; }
+	TreatmentPlanView* treatmentPlanView() { return m_treatmentView; }
+	CalendarView* calendarView() { return m_calendarView; }
+	QScrollArea* scrollArea();
 signals:
 	void closeRequested(int mapIndex);
 

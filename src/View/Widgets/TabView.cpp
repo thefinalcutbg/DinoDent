@@ -77,6 +77,10 @@ TabView::TabView(QWidget* parent)
 
 void TabView::disableViewportUpdates(TabType t)
 {
+    auto scrollArea = qobject_cast<QScrollArea*>(ui.stackedWidget->widget(static_cast<int>(t)));
+
+    refreshTabBorder(scrollArea);
+
 	static_cast<QScrollArea*>(ui.stackedWidget->widget(static_cast<int>(t)))->viewport()->setUpdatesEnabled(false);
 }
 
@@ -128,7 +132,6 @@ int TabView::getTabIndex(int tabId)
 
 void TabView::refreshTabBorder(QScrollArea* sa)
 {
-
     bool value = false;
     
     if (sa) {
@@ -227,6 +230,8 @@ void TabView::showView(TabType t)
     ShadowBakeWidget* shadowWidget = nullptr;
 
     auto scrollArea = qobject_cast<QScrollArea*>(ui.stackedWidget->widget(static_cast<int>(t)));
+    
+    refreshTabBorder(scrollArea);
 
     if (t != TabType::PatientSummary && t != TabType::Calendar) {
 
@@ -235,8 +240,6 @@ void TabView::showView(TabType t)
     }
 
     if (shadowWidget) shadowWidget->scheduleBake();
-    
-    refreshTabBorder(scrollArea);
 
     ui.stackedWidget->setCurrentIndex(static_cast<int>(t));
 

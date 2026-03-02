@@ -177,7 +177,7 @@ void TabView::refreshTabBorder(QScrollArea* sa)
 
 void TabView::initTabs()
 {
-    auto addPage = [this](TabType type, QWidget* view)
+    auto addPage = [this](QWidget* view)
     {
             auto sa = new QScrollArea(ui.stackedWidget);
             sa->setWidgetResizable(true);
@@ -215,13 +215,13 @@ void TabView::initTabs()
 	m_calendarView = new CalendarView(nullptr);
 	welcomeScreen = new WelcomeWidget(nullptr);
 
-	addPage(TabType::PatientSummary, welcomeScreen);
-	addPage(TabType::AmbList, m_listView);
-    addPage(TabType::Prescription, m_prescriptionView);
-	addPage(TabType::PerioStatus, m_perioView);
-    addPage(TabType::TreatmentPlan, m_treatmentView);
-	addPage(TabType::Financial, m_financialView);
-	addPage(TabType::Calendar, m_calendarView);
+	addPage(welcomeScreen);
+	addPage( m_listView);
+    addPage(m_prescriptionView);
+	addPage(m_perioView);
+    addPage(m_treatmentView);
+	addPage(m_financialView);
+	addPage(m_calendarView);
   
 }
 

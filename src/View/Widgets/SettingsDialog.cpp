@@ -271,7 +271,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		if (str.isEmpty()) return;
 
-		ui.pkcs11list->insertItem(0, str.toUtf8());
+		auto item = new QListWidgetItem(str.toUtf8());
+		item->setIcon(QIcon(":/icons/icon_apply.png"));
+
+		ui.pkcs11list->insertItem(0, item);
 
 		});
 
@@ -292,7 +295,18 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		auto paths = GlobalSettings::getDefaultPkcs11Paths();
 
-		for (auto& p : paths) ui.pkcs11list->addItem(p.c_str());
+		for (auto& p : paths) {
+
+			QString qpath = QString::fromStdString(p);
+
+			bool pathExists = QFileInfo::exists(qpath);
+
+			QListWidgetItem* i = new QListWidgetItem(qpath);
+
+			i->setIcon(pathExists ? QIcon(":/icons/icon_apply.png") : QIcon(":/icons/icon_remove.png"));
+
+			ui.pkcs11list->addItem(i);
+		}
 
 	});
 
@@ -467,7 +481,16 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 	ui.pkcs11list->clear();
 
 	for (auto& path : data.pkcs11_list) {
-		ui.pkcs11list->addItem(path.c_str());
+
+		QString qpath = QString::fromStdString(path);
+
+		bool pathExists = QFileInfo::exists(qpath);
+
+		QListWidgetItem* i = new QListWidgetItem(qpath);
+		
+		i->setIcon(pathExists ? QIcon(":/icons/icon_apply.png") : QIcon(":/icons/icon_remove.png"));
+		
+		ui.pkcs11list->addItem(i);
 	}
 
 	QSignalBlocker b1(ui.requestsCheck);

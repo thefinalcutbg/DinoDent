@@ -63,7 +63,7 @@ X509Details::X509Details(x509_st* cert, const std::string& driverPath) :
 
 	x509_pem = std::string(data, length);
 
-	OPENSSL_free(bio);
+	BIO_free(bio);
 
 	//getting subject name
 	X509_NAME* subjectName = X509_get_subject_name(cert);
@@ -180,9 +180,6 @@ PKCS11_cert_st* PKCS11::loadCertificate(const X509Details& cert){
 		unsigned int ncerts{ 0 };
 
 		PKCS11_enumerate_certs(current_slot->token, &certs, &ncerts);
-
-		//finding a valid x509_pem
-		if (ncerts == 0) continue;
 
 		//iterrating certificates
 		for (unsigned int i = 0; i < ncerts; i++)

@@ -41,7 +41,7 @@ class PKCS11
 {
 
 public:
-	enum State { NoCertificate, NoCertificateChosen, LoginAborted, LoginFailed, JustLoggedIn, LoggedIn };
+	enum State { NoCertificate, NoCertificateChosen, LoginAborted, LoginFailed, JustLoggedIn, LoggedIn, NoPrvKey };
 
 private:
 	unsigned int nslots{ 0 };

@@ -344,12 +344,24 @@ PKCS11::PKCS11(
 
 	if (PKCS11_login(current_slot, 0, pass.data()) == 0) {
 
-		//caching the last used certificate
-		s_lastCred = std::make_pair(m_cert_details, pass);
+		auto key = PKCS11_find_key(m_certificate);
 
-		m_prv_key = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
+		if (!key) {
+			m_state = State::NoPrvKey;
+			return;
+		}
+
+		m_prv_key = PKCS11_get_private_key(key);
+
+		if (!m_prv_key) {
+			m_state = State::NoPrvKey;
+			return;
+		}
 
 		m_state = State::JustLoggedIn;
+
+		//caching the last used certificate
+		s_lastCred = std::make_pair(m_cert_details, pass);
 
 		return;
 	}

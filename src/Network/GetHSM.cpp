@@ -36,11 +36,12 @@ std::optional<PKCS11> GetHSM::get(bool showDialogs)
 		case PKCS11::LoginFailed:
 			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
 			return {};
+		case PKCS11::NoPrvKey:
+			ModalDialogBuilder::showError("Невалиден сертификат - липсващ частен ключ");
+			return {};
 		case PKCS11::JustLoggedIn:
-
 			NetworkManager::clearAccessCache();
 			return hsm;
-
 		case PKCS11::LoggedIn:
 			return hsm;
 	}

@@ -18,5 +18,6 @@ struct QProcedure
 	QString doctor;
 	QString notes;
 	Procedure::DatabaseSource db_source;
+	bool is_planned{ false };
 };
 

@@ -13,7 +13,8 @@ QProcedure::QProcedure(const Procedure& p) :
     fsource(p.financingSource),
 	doctor(QString::fromStdString(User::getNameFromLPKorRHIF(p.LPK))),
 	notes(QString::fromStdString(p.notes)),
-	db_source(p.db_source)
+	db_source(p.db_source),
+	is_planned(p.planned_procedure_idx != 0)
 {
 	if (p.his_index) db_source = Procedure::HIS;
 }

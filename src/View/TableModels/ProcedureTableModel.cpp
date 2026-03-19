@@ -163,6 +163,12 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                     case Procedure::HIS:  return QIcon(":/icons/icon_his.png");
                 }
                 break;
+            case 4:
+                if (m_procedures[row].is_planned) {
+                    return QIcon(":/icons/icon_plan.png");
+                }
+				return QVariant();
+                break;
             default:
                 return QVariant();
             }

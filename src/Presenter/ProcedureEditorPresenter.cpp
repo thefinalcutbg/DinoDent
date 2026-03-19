@@ -19,6 +19,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	m_tooth_index = p.getToothIndex();
 	m_hisIndex = p.his_index;
 	his_fetch_result = p.HIS_fetched_result;
+	planned_procedure_idx = p.planned_procedure_idx;
 
 	//parameters which are set to view
 	result->code = p.code;
@@ -149,6 +150,7 @@ void ProcedureEditorPresenter::okPressed()
 	result->diagnosis = data.diagnosis;
 	result->financingSource = data.financingSource;
 	result->LPK = User::doctor().LPK;
+	result->planned_procedure_idx = planned_procedure_idx;
 
 	if (his_fetch_result) {
 		result->HIS_fetched_result = his_fetch_result;

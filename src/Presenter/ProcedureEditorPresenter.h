@@ -19,6 +19,7 @@ class ProcedureEditorPresenter
 	ToothIndex m_tooth_index;
 	int m_hisIndex;
 	std::optional<HISProcedureResult> his_fetch_result;
+	long long planned_procedure_idx{ 0 };
 
 public:
 	ProcedureEditorPresenter(const Procedure& m, const Date& patientBirth);

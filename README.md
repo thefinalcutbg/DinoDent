@@ -1,5 +1,4 @@
 # DinoDent
-From dentists for dentists
 
 For an international version without the Bulgarian healthcare functionalities, check out [QDento](https://github.com/thefinalcutbg/QDento)
 

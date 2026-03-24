@@ -57,7 +57,11 @@ void ProcedureEditorPresenter::setView(ProcedureEditDialog* view)
 
 	auto inputView = view->procedureInput();
 
-    inputView->setCommonData(data, result->financingSource == FinancingSource::NHIF);
+	bool enableNhif =
+		result->financingSource == FinancingSource::NHIF ||
+		(m_code.nhifCode() != 0 && User::hasNhifContract());
+
+    inputView->setCommonData(data, enableNhif);
 	
 	view->procedureInput()->dateEdit()->validateInput();
 

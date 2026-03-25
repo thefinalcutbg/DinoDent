@@ -31,7 +31,7 @@ void TextEdit::setCompletions(const std::vector<std::string>& completions)
 	list.reserve(static_cast<qsizetype>(completions.size()));
 
 	for (const auto& s : completions) {
-		if (s.size() > 100) continue; // skip long completions
+		if (s.size() > 50) continue; // skip long completions
 		list << QString::fromStdString(s);
 	}
 

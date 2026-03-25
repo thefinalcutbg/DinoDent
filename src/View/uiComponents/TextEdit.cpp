@@ -30,8 +30,10 @@ void TextEdit::setCompletions(const std::vector<std::string>& completions)
 	QStringList list;
 	list.reserve(static_cast<qsizetype>(completions.size()));
 
-	for (const auto& s : completions)
+	for (const auto& s : completions) {
+		if (s.size() > 100) continue; // skip long completions
 		list << QString::fromStdString(s);
+	}
 
 	if (!completer)
 	{
@@ -39,7 +41,7 @@ void TextEdit::setCompletions(const std::vector<std::string>& completions)
 		completer->setWidget(this);
 		completer->setCaseSensitivity(Qt::CaseInsensitive);
 		completer->setCompletionMode(QCompleter::PopupCompletion);
-		completer->setFilterMode(Qt::MatchContains);
+		completer->setFilterMode(Qt::MatchFlag::MatchStartsWith);
 
 		connect(completer, QOverload<const QString&>::of(&QCompleter::activated),
 			this, &TextEdit::insertCompletion);

@@ -281,6 +281,11 @@ void CalendarTable::menuRequested(int column, int row)
             action->setIcon(QIcon(":/icons/icon_prescr.png"));
             subMenu->addAction(action);
 
+            action = (new QAction("Нов лечебен план", subMenu));
+            connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::TreatmentPlan); });
+            action->setIcon(QIcon(":/icons/icon_plan.png"));
+            subMenu->addAction(action);
+
             action = (new QAction("Нова фактура", subMenu));
             connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::Financial); });
             action->setIcon(QIcon(":/icons/icon_invoice.png"));

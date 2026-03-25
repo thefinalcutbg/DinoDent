@@ -10,7 +10,7 @@ std::string TimeFrame::getFrameName() const
         result += "Амбулаторен лист №" + number + " (изходен статус)";
         break;
     case TimeFrameType::Procedures:
-        result += "Амбулаторен лист №" + number + " (манипулации)";
+        result += "Амбулаторен лист №" + number + " (процедури)";
         break;
     case TimeFrameType::Perio:
         result += "Пародонтално измерване";

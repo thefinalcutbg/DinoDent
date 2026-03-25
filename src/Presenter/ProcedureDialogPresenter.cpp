@@ -67,7 +67,7 @@ void ProcedureDialogPresenter::setView(ProcedureDialog* view)
     if(!User::practice().generateMonthlySheets()){
         view->procedureInput()->hideDate();
     }
-
+	
 	if (User::settings().showProcedurePrices) {
 		view->procedureList()->showPrices();
 	}
@@ -94,12 +94,26 @@ void ProcedureDialogPresenter::setView(ProcedureDialog* view)
 
 void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif)
 {
+	//if it is possible to have nhif as financing source
 	if (code.nhifCode()) {
 		date_validator.setProcedure(code.nhifCode(), nhif);
 		view->procedureInput()->dateEdit()->validateInput();
 	}
 
-    procedure_creator.setProcedureCode(code, nhif);
+	FinancingSource source = FinancingSource::None;
+
+	//if user selected a nhif procedure explicitly
+	if (nhif) {
+		source = FinancingSource::NHIF;
+	}
+	else if (	//if the procedure has a price
+		!User::settings().forceNoFinancingSource &&
+		list_presenter.getPriceRange(code.code()).first != 0
+	) {
+		source = FinancingSource::Patient;
+	}
+
+    procedure_creator.setProcedureCode(code, source);
 }
 
 void ProcedureDialogPresenter::formAccepted()

@@ -423,6 +423,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.autoClinicalCheck->setChecked(settings.getClinicalConditionsAuto);
 	ui.autoHospitalCheck->setChecked(settings.getHospitalizationAuto);
 	ui.showPricesCheck->setChecked(settings.showProcedurePrices);
+	ui.noFinancingForceCheck->setChecked(settings.forceNoFinancingSource);
 	ui.monthlySheets->setChecked(settings.preferMonthlySheets);
 	ui.smsUsrEdit->setText(settings.sms_settings.usr.c_str());
 	ui.smsPassEdit->setText(settings.sms_settings.pass.c_str());
@@ -449,6 +450,7 @@ Settings SettingsDialog::getSettings()
 		.getAllergiesAuto = ui.autoAllergyCheck->isChecked(),
 		.getClinicalConditionsAuto = ui.autoClinicalCheck->isChecked(),
 		.showProcedurePrices = ui.showPricesCheck->isChecked(),
+		.forceNoFinancingSource = ui.noFinancingForceCheck->isChecked(),
 		.timeout = ui.timeoutSpin->value(),
 		.sms_settings = {
 			.usr = ui.smsUsrEdit->text().toStdString(),

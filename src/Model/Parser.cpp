@@ -400,6 +400,7 @@ std::string Parser::write(const Settings& settings)
 	json["allergiesCheck"] = settings.getAllergiesAuto;
 	json["clinicalCheck"] = settings.getClinicalConditionsAuto;
 	json["showPrices"] = settings.showProcedurePrices;
+	json["forceNoFinancingSource"] = settings.forceNoFinancingSource;
 	json["timeout"] = settings.timeout;
 	json["sms_usr"] = settings.sms_settings.usr;
 	json["sms_pass"] = settings.sms_settings.pass;
@@ -435,6 +436,7 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.getAllergiesAuto = json["allergiesCheck"].asBool(),
 		.getClinicalConditionsAuto = json["clinicalCheck"].asBool(),
 		.showProcedurePrices = json["showPrices"].asBool(),
+		.forceNoFinancingSource = json["forceNoFinancingSource"].asBool(),
 		.timeout = json["timeout"].asInt(),
 		.sms_settings = json.isMember("sms_usr") ? Settings::SMSSettings{
 			.usr = json["sms_usr"].asString(),

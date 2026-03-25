@@ -33,6 +33,7 @@ struct Settings //only practice-specific settings
 	bool getAllergiesAuto{ false };
 	bool getClinicalConditionsAuto{ false };
 	bool showProcedurePrices{ false };
+	bool forceNoFinancingSource{ false };
 	int timeout{ 15 }; //in seconds!
 	SMSSettings sms_settings{};
 };

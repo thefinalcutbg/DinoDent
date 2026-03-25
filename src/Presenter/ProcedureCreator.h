@@ -18,8 +18,6 @@ class ProcedureCreator
 
 	const std::vector<const Tooth*> m_selectedTeeth;
 
-	static inline FinancingSource s_preferred_financing = FinancingSource::None;
-
 	NotEmptyValidator notEmpty_validator;
 	Diagnosis getDiagnosis(const Tooth* tooth, ProcedureType type);
 	RestorationData autoSurfaces(const Tooth& tooth);
@@ -32,7 +30,7 @@ public:
 
 	void diagnosisChanged(int idx);
 
-    void setProcedureCode(const ProcedureCode& m, bool nhif);
+    void setProcedureCode(const ProcedureCode& m, FinancingSource s);
 
 	std::vector<Procedure> getProcedures();
 	

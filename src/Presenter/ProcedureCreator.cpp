@@ -16,7 +16,7 @@ ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeet
 
 }
 
-void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif)
+void ProcedureCreator::setProcedureCode(const ProcedureCode& code, FinancingSource financingSource)
 {
 	view->setCurrentPresenter(this);
 
@@ -50,7 +50,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif)
 	}
 	
 
-	commonData.financingSource = nhif ? FinancingSource::NHIF : s_preferred_financing;
+	commonData.financingSource = financingSource;
 
 	//setting parameter data
 	if (code.type() == ProcedureType::Anesthesia) {
@@ -111,8 +111,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif)
 		view->setParameterData(false, range, RestorationData{ {1,0,0,1,0},0 }, preferredIdx);
 	}
 
-
-    view->setCommonData(commonData, nhif);
+    view->setCommonData(commonData, financingSource == FinancingSource::NHIF);
 }
 
 std::vector<Procedure> ProcedureCreator::getProcedures()
@@ -134,10 +133,6 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
     procedure.date = view->dateEdit()->getDate();
 
 	auto data = view->getResult();
-
-	if (data.financingSource != FinancingSource::NHIF) {
-		s_preferred_financing = data.financingSource;
-	}
 
     if (m_code.isNhifOnly()
 		&& data.financingSource != FinancingSource::NHIF

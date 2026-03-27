@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
+
 #include "ui_PatientHistoryDialog.h"
 #include "Model/Dental/HisSnapshot.h"
 #include "Model/PlainTable.h"
@@ -27,6 +29,8 @@ class PatientHistoryDialog : public QDialog
 	
 	HospitalizationTableModel hospi_model;
 	ProcedureTableModel procedure_model;
+
+	QSortFilterProxyModel procedure_proxy;
 
 	void tabChanged(int idx);
 	Procedure::DatabaseSource getProcedureSrc();

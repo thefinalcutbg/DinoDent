@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
 #include "ui_BrowserDialog.h"
 #include "View/TableModels/PlainTableModel.h"
 #include "View/TableModels/NameFilterProxyModel.h"
@@ -23,6 +24,8 @@ private:
 
 	PlainTableModel table_model;
 	PlainTableModel preview_model;
+
+	QSortFilterProxyModel procedure_proxy;
 
 	void setCountLabel();
 	void calculateUiState();

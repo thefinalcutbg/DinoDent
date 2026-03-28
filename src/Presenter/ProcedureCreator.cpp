@@ -310,7 +310,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 
 	case ProcedureType::RemovePost:
-		statusSearch = { ApicalLesion, Root, Fracture, RootCanal };
+		statusSearch = { ApicalLesion, Root, Fracture };
 		break;
 
 	case ProcedureType::PostCore:
@@ -318,17 +318,16 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 
 	case ProcedureType::PostCrown:
-		statusSearch = { ApicalLesion, Root, Fracture, RootCanal };
+		statusSearch = { ApicalLesion, Root, Fracture };
 		break;
 		
 	case ProcedureType::Crown:
-		icdSimple[Implant] = "Z96.5";
-		statusSearch = {Implant, Fracture, RootCanal};
+		statusSearch = {Implant, Fracture};
 		break;
 	case ProcedureType::CrownOrBridgeOrVeneer:
 		break;
 	case ProcedureType::RemoveCrownOrBridge:
-		statusSearch = { Pulpitis, ApicalLesion, Root, Fracture, Periodontitis, RootCanal };
+		statusSearch = { Pulpitis, ApicalLesion, Root, Fracture, Periodontitis };
 		break;
 	case ProcedureType::MultipleExtraction:
 		break;

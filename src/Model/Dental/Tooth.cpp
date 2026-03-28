@@ -531,7 +531,7 @@ std::vector<std::string> Tooth::getNhifStatus() const
 	statusLegend[Fracture] = "F";
 	statusLegend[Implant] = "Impl.";
 	statusLegend[HasSupernumeral] = isSupernumeral() ? "Dsn" : "";
-	statusLegend[Splint] = isPontic() ? "X" : "O";
+	statusLegend[Splint] = isPontic() ? "X" : "";
 
 	std::vector<std::string> simpleStatus;
 

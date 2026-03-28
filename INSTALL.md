@@ -54,4 +54,4 @@ If you have followed everything  as described, you'll have all of the required b
 
 ## Building DinoDent itself
 
-Generate the project file with your IDE of choice, by running the CMakeLists.txt (be sure to modify the Qt directory at line 14 of the CMakeLists file, so it can point to your Qt library folder) or use the included MS Visual Studio project. Configure the Linker Additional Directories, so that they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. lib/debug/limereport and lib/release/limereport). Build DinoDent and place the binaries in the folder of the executable.
+On Windows use the included MS Visual Studio project file. Configure your Qt version. Configure the Linker Additional Directories, so that they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. lib/debug/limereport and lib/release/limereport).

@@ -51,7 +51,7 @@ public:
 
     ListView(QWidget* parent = Q_NULLPTR);
     void setPresenter(ListPresenter* presenter);
-    void focusTeethView();
+    void focusTeethView(bool focus);
     void setDateTime(const std::string& time8601);
     void setTreatmentEnd(const std::string& time8601);
 	void setSignature(const std::vector<unsigned char>& s);

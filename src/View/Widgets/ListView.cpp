@@ -272,9 +272,9 @@ void ListView::nhifChanged()
 	presenter->setNhifData(data);
 }
 
-void ListView::focusTeethView()
+void ListView::focusTeethView(bool focus)
 {
-	ui.teethView->setFocus();
+	focus ? ui.teethView->setFocus() : ui.teethView->clearFocus();
 }
 
 void ListView::setDateTime(const std::string& time8601)

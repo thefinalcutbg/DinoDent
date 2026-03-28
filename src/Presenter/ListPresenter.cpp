@@ -340,9 +340,9 @@ void ListPresenter::setDataToView()
     refreshProcedureView();
     dynamicNhifConversion();
 
-    view->setSelectedTeeth(m_selectedIndexes);
+    view->focusTeethView(m_selectedIndexes.size());
 
-    view->focusTeethView();
+    view->setSelectedTeeth(m_selectedIndexes);
 
     if (!firstFocus){ return; }
 

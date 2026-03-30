@@ -18,7 +18,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	ui.tabWidget->setCurrentIndex(0);
 
 	ui.perioTab->hide();
-
+	
 	procedure_proxy.setSourceModel(&procedure_model);
 	ui.procedureTable->setModel(&procedure_proxy);
 	ui.procedureTable->setSortingEnabled(true);
@@ -177,13 +177,20 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx) { tabChanged(idx);});
 }
 
-void PatientHistoryDialog::setProcedures(const std::vector<Procedure> procedures, Procedure::DatabaseSource source)
+void PatientHistoryDialog::setProcedures(const std::vector<Procedure> proc, Procedure::DatabaseSource source)
 {
 	std::map<Procedure::DatabaseSource, QRadioButton*> radioSrcMap{
 		{ Procedure::PIS, ui.pisProcRadio, },
 		{ Procedure::HIS, ui.hisProcRadio },
 		{ Procedure::Local, ui.localProcRadio }
 	};
+
+	auto procedures = decltype(proc){};
+	procedures.reserve(proc.size());
+
+	for(int i = proc.size() - 1; i >= 0; i--){
+		procedures.push_back(proc[i]);
+	}
 
 	if (!radioSrcMap[source]->isChecked()) return;
 

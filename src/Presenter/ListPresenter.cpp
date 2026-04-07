@@ -1076,7 +1076,11 @@ void ListPresenter::addPlannedProcedure()
     for(auto& p : planned){
         p.date = Date::currentDate();
         p.LPK = User::doctor().LPK;
-    }
+
+        if (User::settings().forceNoFinancingSource) {
+            p.financingSource = FinancingSource::None;
+        }
+	 }
 
     auto selected = ModalDialogBuilder::selectProcedures(planned, FinancingSource::University);
 

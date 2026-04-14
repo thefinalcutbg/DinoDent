@@ -166,8 +166,7 @@ void FinancialPresenter::saveAsXML()
         return;
     }
 
-    ModalDialogBuilder::saveFile(XML::getInvoice(m_invoice), m_invoice.getFileName());
- 
+    XML::signAndSaveToFile(XML::getInvoice(m_invoice), m_invoice.getFileName());
 }
 
 void FinancialPresenter::sendToPis()

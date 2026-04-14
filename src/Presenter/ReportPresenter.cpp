@@ -11,6 +11,9 @@
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/NhifProcedures.h"
 
+#include "Network/GetHSM.h"
+#include "Network/signer.h"
+
 #include "Presenter/TabPresenter.h"
 
 #include "View/Widgets/ReportView.h"
@@ -184,23 +187,26 @@ void ReportPresenter::checkNext()
 
 void ReportPresenter::saveToXML()
 {
-	if (m_hasErrors && 
+    if (!m_report || (
+        m_hasErrors &&
 		!ModalDialogBuilder::askDialog(
 		"Отчетът е генериран с грешки. "
 		"Сигурни ли сте, че искате да го запазите?")
+    )
 	) 
 	{
 		return;
 	}
 
-	auto fileName = "STOM_"
+    auto filename = "STOM_"
 		+ User::practice().rziCode + "_"
 		+ User::doctor().LPK + "_"
 		+ std::to_string(User::doctor().specialtyAsInt()) + "_"
 		+ Date(1, month, year).toXMLReportFileName()
 		+ "_01.xml";
 
-	ModalDialogBuilder::saveFile(m_report.value(), fileName);
+    XML::signAndSaveToFile(m_report.value(), filename);
+
 }
 
 void ReportPresenter::setDate(int month, int year)

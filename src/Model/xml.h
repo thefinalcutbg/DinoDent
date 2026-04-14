@@ -19,6 +19,6 @@ namespace XML
 	//ReportResult getXMLReport(int month, int year);
 	std::string getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients);
 	std::string getInvoice(const Invoice& invoice);
+    void signAndSaveToFile(const std::string& xml, const std::string& filename);
 
-	
 };

@@ -1,14 +1,13 @@
 ﻿#include "xml.h"
 #include <TinyXML/tinyxml.h>
 
-#include <unordered_set>
-#include <cmath>
-
-#include "Model/Dental/NhifProcedures.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Model/User.h"
 #include "Model/Financial/Invoice.h"
+#include "Network/GetHSM.h"
+#include "Network/signer.h"
+#include "View/ModalDialogBuilder.h"
 
 std::string XML::getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients)
 {
@@ -496,4 +495,27 @@ std::string XML::getInvoice(const Invoice& invoice)
     doc.Accept(&printer);
 
     return printer.Str();
+}
+
+void XML::signAndSaveToFile(const std::string &xml, const std::string &filename)
+{
+    if(!ModalDialogBuilder::askDialog("Желаете ли да подпишете файла с КЕП?")){
+        ModalDialogBuilder::saveFile(xml, filename);
+        return;
+    }
+
+    auto hsm = GetHSM::get(true);
+
+    std::string result;
+
+    if (hsm) {
+        result = Signer::signEnveloped(xml, hsm->takePrivateKey(), hsm->x509ptr(), true);
+    }
+
+    if(result.empty()){
+        ModalDialogBuilder::showMessage("Неуспешно подписване. Файлът ще бъде записан без подпис.");
+        result = xml;
+    }
+
+    ModalDialogBuilder::saveFile(result, filename);
 }

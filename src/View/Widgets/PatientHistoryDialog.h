@@ -11,6 +11,7 @@
 #include "View/TableModels/PlainTableModel.h"
 #include "View/TableModels/ProcedureTableModel.h"
 #include "View/TableModels/HospitalizationTableModel.h"
+#include "View/TableModels/NameFilterProxyModel.h"
 
 class PatientHistoryPresenter;
 
@@ -30,7 +31,7 @@ class PatientHistoryDialog : public QDialog
 	HospitalizationTableModel hospi_model;
 	ProcedureTableModel procedure_model;
 
-	QSortFilterProxyModel procedure_proxy;
+    DateSortProxyModel procedure_proxy;
 
 	void tabChanged(int idx);
 	Procedure::DatabaseSource getProcedureSrc();

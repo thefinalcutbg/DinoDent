@@ -18,7 +18,9 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	ui.tabWidget->setCurrentIndex(0);
 
 	ui.perioTab->hide();
-	
+
+    procedure_proxy.setDateColumn(1);
+
 	procedure_proxy.setSourceModel(&procedure_model);
 	ui.procedureTable->setModel(&procedure_proxy);
 	ui.procedureTable->setSortingEnabled(true);

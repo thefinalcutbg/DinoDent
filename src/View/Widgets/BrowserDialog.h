@@ -25,7 +25,7 @@ private:
 	PlainTableModel table_model;
 	PlainTableModel preview_model;
 
-	QSortFilterProxyModel procedure_proxy;
+    DateSortProxyModel date_proxy;
 
 	void setCountLabel();
 	void calculateUiState();
@@ -36,7 +36,7 @@ public:
     BrowserDialog();
 
 	void setUiState(const BrowserUiState& state) ;
-	void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn);
+    void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn, int dateColumn);
 	void setPreview(const PlainTable& t) ;
 	void focus();
 	void close();

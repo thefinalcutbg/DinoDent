@@ -79,11 +79,11 @@ void BrowserPresenter::refreshModel()
 
 	if (view == nullptr) return;
 
-	int id{ 0 }, name{ 0 }, phone{ 0 };
+    int id{ 0 }, name{ 0 }, phone{ 0 }, date {1};
 
 	switch (ui_state.model_type) {
 		case TabType::PatientSummary:
-			id = 1; name = 2; phone = 3; break;
+            id = 1; name = 2; phone = 3; date = -1; break;
 		case TabType::AmbList:
 		case TabType::Prescription:
 		case TabType::Financial:
@@ -91,10 +91,10 @@ void BrowserPresenter::refreshModel()
         case TabType::TreatmentPlan:
 		case TabType::PerioStatus:
 			id = 2; name = 3; phone = 4; break;
+        default: return;
 	}
 
-
-	view->setTable(tableView, id, name, phone);
+    view->setTable(tableView, id, name, phone, date);
 	
 	selectionChanged(std::set<int>());
 	

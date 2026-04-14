@@ -21,12 +21,13 @@ BrowserDialog::BrowserDialog()
 	ui.tableView->horizontalHeader()->setStretchLastSection(false);
 	ui.tableView->setSortingEnabled(true);
 
-	procedure_proxy.setSourceModel(&table_model);
+    date_proxy.setSourceModel(&table_model);
 
-	idFilter.setSourceModel(&procedure_proxy);
+    idFilter.setSourceModel(&table_model);
 	nameFilter.setSourceModel(&idFilter);
 	phoneFilter.setSourceModel(&nameFilter);
-	ui.tableView->setModel(&phoneFilter);
+    date_proxy.setSourceModel(&phoneFilter);
+    ui.tableView->setModel(&date_proxy);
 	ui.preView->setModel(&preview_model);
 
     ui.idSearchEdit->installEventFilter(this);
@@ -183,7 +184,7 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 	
 }
 
-void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn)
+void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn, int dateColumn)
 {
     table_model.setTableData(t);
 	ui.tableView->horizontalHeader()->setSortIndicator(-1, Qt::AscendingOrder);
@@ -202,6 +203,8 @@ void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, 
 	ui.tableView->horizontalHeader()->setSectionResizeMode(nameColumn, QHeaderView::ResizeMode::Stretch);
 
 	setCountLabel();
+
+    date_proxy.setDateColumn(dateColumn);
 
 	idFilter.setFilterKeyColumn(idColumn);
 	nameFilter.setFilterKeyColumn(nameColumn);

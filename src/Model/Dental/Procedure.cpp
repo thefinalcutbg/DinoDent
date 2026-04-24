@@ -394,6 +394,8 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 		case ProcedureType::MultipleExtraction:
 			changes.push_back({ StatusType::General, Missing, true, Missing });
 			break;
+		case ProcedureType::RangedStatus:
+			break;
 		case ProcedureType::MaxCount:
 			break;
 		default:

@@ -79,8 +79,9 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, FinancingSour
 	else if (code.getScope() == ProcedureScope::Range) {
 
 		bool allowSingleRange =
-			code.type() == ProcedureType::RemoveCrownOrBridge
-			|| code.type() == ProcedureType::Denture;
+			code.type() == ProcedureType::RemoveCrownOrBridge ||
+			code.type() == ProcedureType::Denture ||
+			code.type() == ProcedureType::RangedStatus;
 
 		view->setParameterData(autoRange(m_selectedTeeth, m_code), allowSingleRange);
 	}
@@ -331,6 +332,9 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 	case ProcedureType::MultipleExtraction:
 		break;
+	case ProcedureType::RangedStatus:
+		icd = "Z01.2";
+		statusSearch = { ApicalLesion, Pulpitis, Caries, Root, Fracture, Periodontitis, Mobility };
 	}
 
 	for (auto s : statusSearch) {

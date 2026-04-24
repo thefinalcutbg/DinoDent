@@ -78,7 +78,7 @@ std::optional<DbSettings> Db::setupConnection(const DbSettings& s)
 
         return {};
     }
-
+	qDebug() << ver << " " << Version::dbVersion();
     //lower db version - needs migration
     if (ver < Version::dbVersion()) {
 

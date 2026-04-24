@@ -1,0 +1,2 @@
+PRAGMA user_version=39;
+UPDATE procedure SET from_tooth_index = at_tooth_index, to_tooth_index = at_tooth_index, at_tooth_index = NULL, temporary = NULL, supernumeral = NULL WHERE code = '97022-00'

@@ -230,7 +230,7 @@ ProcedureScope ProcedureCode::getScope(ProcedureType t)
 	{ ProcedureType::Splint, ProcedureScope::Range},
 	{ ProcedureType::DepuratioQuadrant, ProcedureScope::Range},
 	{ ProcedureType::MultipleExtraction, ProcedureScope::Range},
-
+	{ ProcedureType::RangedStatus, ProcedureScope::Range},
 	{ ProcedureType::Crown, ProcedureScope::Ambi},
 	{ ProcedureType::CrownOrBridgeOrVeneer, ProcedureScope::Ambi}
 	};

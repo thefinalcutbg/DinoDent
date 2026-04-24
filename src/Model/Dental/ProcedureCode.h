@@ -30,6 +30,7 @@ enum class ProcedureType
     Splint,
     DepuratioQuadrant,
     MultipleExtraction,
+    RangedStatus,
     MaxCount
 
 };

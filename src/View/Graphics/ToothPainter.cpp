@@ -689,12 +689,12 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
     toothPx.fill(Qt::transparent);
 
     QPainter toothPainter(&toothPx);
-/*
+
     if (tooth.calculus)
     {
         toothPainter.drawPixmap(coords.crownRect, *currentTexture.calculus);
     }
-*/
+
     toothPainter.drawPixmap(0, 0, *currentTexture.tooth);
 
     toothPainter.setOpacity(0.35);

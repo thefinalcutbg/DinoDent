@@ -259,7 +259,7 @@ void BrowserPresenter::deleteCurrentSelection()
 	static const std::map<TabType, const char*> endString = {
 		{TabType::AmbList, "амбулаторни листoве?"},
 		{TabType::PerioStatus, "пародонтални измервания?"},
-		{TabType::PatientSummary, "пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!"},
+		{TabType::PatientSummary, "пацинети? Всичките свързани медицински документи ще бъдат изтрити!"},
         {TabType::TreatmentPlan, "лечебни планове?"},
 		{TabType::Financial, "финансови документи?"},
 		{TabType::Prescription, "рецепти?"}

@@ -631,6 +631,10 @@ void TeethViewScene::setSimpleView(bool simple)
     m_simple_view = simple;
 
     drawFocused(true);
+
+	auto parent = views().isEmpty() ? nullptr : views().at(0);
+
+    if(parent) parent->setFocus();
 }
 
 TeethViewScene::~TeethViewScene()

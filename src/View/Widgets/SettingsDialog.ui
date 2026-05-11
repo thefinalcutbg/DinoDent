@@ -232,19 +232,16 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_42">
-            <property name="topMargin">
-             <number>0</number>
-            </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_48">
             <item>
-             <widget class="QPushButton" name="printEmptyDocs">
+             <widget class="QPushButton" name="exportDbButton">
               <property name="text">
-               <string>Печат на празни бланки</string>
+               <string>Експортиране на база данни</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_35">
+             <spacer name="horizontalSpacer_34">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
               </property>
@@ -259,16 +256,19 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_48">
+           <layout class="QHBoxLayout" name="horizontalLayout_42">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
             <item>
-             <widget class="QPushButton" name="exportDbButton">
+             <widget class="QPushButton" name="printEmptyDocs">
               <property name="text">
-               <string>Експортиране на база данни</string>
+               <string>Печат на празни бланки</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_34">
+             <spacer name="horizontalSpacer_35">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
               </property>

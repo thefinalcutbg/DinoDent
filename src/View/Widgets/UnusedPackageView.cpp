@@ -11,7 +11,9 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	ui.setupUi(this);
 
 	ui.csvButton->setIcon(QIcon(":/icons/icon_csv.png"));
-	
+	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
+	ui.nraCheck->setIcon(QIcon(":/icons/icon_nra.png"));
+
 	Date date = Date::currentDate();
 	date.year--;
 	date.day = 1;
@@ -20,7 +22,14 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	ui.dateEdit->set_Date(date);
 
 	connect(ui.button, &QPushButton::clicked, this, [&] {
-		presenter.buttonPressed(ui.dateEdit->getDate());
+
+		auto date = ui.lastVisitCheck->isChecked() ? ui.dateEdit->getDate() : Date();	
+		presenter.buttonPressed(
+			date, 
+			ui.pisCheck->isChecked(), 
+			ui.nraCheck->isChecked(),
+			ui.excludeNonNhifCheck->isChecked()
+		);
 	});
 
 	connect(ui.dateEdit, &QDateEdit::dateChanged, this, [&] {
@@ -37,11 +46,19 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 			presenter.newAmbList(ui.tableWidget->item(index.row(), 0)->data(0).toLongLong());
 	});
 
+	connect(ui.lastVisitCheck, &QCheckBox::stateChanged, this, [&] {
+		ui.dateEdit->setDisabled(!ui.lastVisitCheck->isChecked());
+	});
+
 	connect(ui.csvButton, &QPushButton::clicked, this, [&] { exportToCSV();});
 
 	ui.tableWidget->hideColumn(0);
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
 	ui.tableWidget->setColumnWidth(4, 150);
+
+	ui.lastVisitCheck->setChecked(true);
+	ui.pisCheck->setChecked(true);
+	ui.nraCheck->setChecked(true);
 
 	presenter.setView(this);
 

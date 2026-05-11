@@ -52,15 +52,22 @@ void UnusedPackagePresenter::setView(UnusedPackageView* view)
 	view->setSumLabel(m_sum);
 }
 
-void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore)
+void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore,  bool pisCheck, bool nraCheck, bool nhifCurrentDentistOnly)
 {
 	if (m_in_progress) {
 		stop();
 		return;
 	}
+	
+	pisCheckEnabled = pisCheck;
+	nraCheckEnabled = nraCheck;
+	this->nhifCurrentDentistOnly = nhifCurrentDentistOnly;
 
-	if (!User::hasNhifContract() ||
+	if (
+		nraCheckEnabled && (
+		!User::hasNhifContract() ||
 		User::practice().nhif_contract->nra_pass.empty()
+	)
 	) 
 	{
 		ModalDialogBuilder::showMessage("Не е въведена парола за НАП");
@@ -92,6 +99,12 @@ void UnusedPackagePresenter::step1_localDbCheck()
 
 		auto& patient = m_queue.front();
 
+		if(nhifCurrentDentistOnly && !DbPatient::hasNhifProceduresFromDentist(patient.rowid, User::practice().rziCode, User::doctor().LPK))
+		{
+			popQueue();
+			continue;
+		}
+
 		auto summary = DbProcedure::getNhifSummary(
 			patient.rowid,
 			0,
@@ -114,8 +127,9 @@ void UnusedPackagePresenter::step1_localDbCheck()
 			popQueue();
 			continue;
 		}
-		else
+		else if (nraCheckEnabled)
 		{
+
 			nraService.sendRequest(
 				patient,
 				[&](auto result) { this->step2_insuranceCheck(result); },
@@ -124,6 +138,11 @@ void UnusedPackagePresenter::step1_localDbCheck()
 
 			return;
 			
+		}
+		else {
+			step2_insuranceCheck(std::optional<InsuranceStatus>{InsuranceStatus{Insured::Yes, {}}});
+
+			if(pisCheckEnabled) return;
 		}
 		
 	}
@@ -142,6 +161,12 @@ void UnusedPackagePresenter::step2_insuranceCheck(const std::optional<InsuranceS
 	if (status.value().status != Insured::Yes) {
 		popQueue();
 		step1_localDbCheck();
+		return;
+	}
+	
+	if(!pisCheckEnabled)
+	{
+		step3_pisCheck(std::vector<Procedure>{});
 		return;
 	}
 
@@ -233,7 +258,9 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	if (procedure_counter >= max_procedures) {
 		popQueue();
-		step1_localDbCheck();
+		if (pisCheckEnabled || nraCheckEnabled) { 
+			step1_localDbCheck(); //async
+		}
 		return;
 	}
 
@@ -245,7 +272,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	auto row = PackageRowData{
 		.rowid = patient.rowid,
-		.patientName =patient.firstLastName(),
+		.patientName =patient.fullName(),
 		.age = patient.getAge(),
 		.patientPhone = patient.phone,
 		.lastVisit = lastVisit.isDefault() ? "" : lastVisit.to8601(),
@@ -266,7 +293,10 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 	view->setSumLabel(m_sum);
 
 	popQueue();
-	step1_localDbCheck();
+
+	if (pisCheckEnabled || nraCheckEnabled) {
+		step1_localDbCheck(); //async
+	}
 }
 
 

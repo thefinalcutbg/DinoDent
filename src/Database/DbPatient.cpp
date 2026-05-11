@@ -318,7 +318,7 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
 std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
 {
     std::string query =
-        "SELECT patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone, patient.birth, patient.color "
+        "SELECT patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone, patient.birth, patient.color, patient.mname "
         "FROM patient LEFT JOIN amblist ON patient.rowid = amblist.patient_rowid "
         "WHERE date(amblist.date)>=? "
         "AND amblist.rzi = ? "
@@ -345,6 +345,7 @@ std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std
         p.phone = db.asString(5);
         p.birth = db.asString(6);
         p.colorNameRgb = db.asString(7);
+		p.MiddleName = db.asString(8);
         result.push(p);
     }
 
@@ -442,6 +443,32 @@ std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
     }
 
     return result;
+}
+
+bool DbPatient::hasNhifProceduresFromDentist(long long patientRowid, const std::string& rzi, const std::string& lpk)
+{
+    std::string query = R"(
+SELECT procedure.code FROM procedure 
+LEFT JOIN amblist ON amblist.rowid = procedure.amblist_rowid 
+LEFT JOIN patient ON amblist.patient_rowid = patient.rowid
+WHERE patient.rowid = ?
+AND amblist.rzi = ?
+AND amblist.lpk = ?
+AND procedure.financing_source = 2 
+LIMIT 1
+)";
+
+	Db db(query);
+
+	db.bind(1, patientRowid);
+	db.bind(2, rzi);
+	db.bind(3, lpk);
+
+	while (db.hasRows()) {
+		return true;
+	}
+
+    return false;
 }
 
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)

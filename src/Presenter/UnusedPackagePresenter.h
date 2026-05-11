@@ -35,6 +35,9 @@ class UnusedPackagePresenter
 
 	bool m_in_progress{ false };
 	int m_year = Date::currentDate().year;
+	bool pisCheckEnabled{ false };
+	bool nraCheckEnabled{ false };
+	bool nhifCurrentDentistOnly{ false };
 
 	ProcedureSummary currentProcedures;
 
@@ -48,7 +51,7 @@ class UnusedPackagePresenter
 public:
 	UnusedPackagePresenter();
 	void setView(UnusedPackageView* view);
-	void buttonPressed(const Date& excludeBefore);
+	void buttonPressed(const Date& excludeBefore, bool pisCheck, bool nraCheck, bool nhifCurrentDentistOnly);
 	void stop(const std::string& reason = "");
 	void resetQueue();
 	void newAmbList(long long patientRowid);

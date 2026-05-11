@@ -20,9 +20,16 @@
       <number>0</number>
      </property>
      <item>
+      <widget class="QCheckBox" name="lastVisitCheck">
+       <property name="text">
+        <string>Да не се включват пациенти с последно посещение преди:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Не се включват пациенти с последно посещение преди</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -35,14 +42,14 @@
         </size>
        </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::NoButtons</enum>
+        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
        </property>
        <property name="showGroupSeparator" stdset="0">
         <bool>false</bool>
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>19</hour>
+         <hour>5</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -72,7 +79,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -92,15 +99,53 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="excludeNonNhifCheck">
+     <property name="text">
+      <string>Да не се включват пациенти, които никога не са ползвали пакета си по НЗОК при текущия лекар</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QCheckBox" name="pisCheck">
+       <property name="text">
+        <string>Проверка спрямо ПИС</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="nraCheck">
+       <property name="text">
+        <string>Проверка спрамо НАП</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QTableWidget" name="tableWidget">
      <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::ExtendedSelection</enum>
+      <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
      </property>
      <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
      <property name="sortingEnabled">
       <bool>true</bool>
@@ -164,7 +209,7 @@
       <number>0</number>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="textVisible">
       <bool>false</bool>
@@ -186,7 +231,7 @@
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

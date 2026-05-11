@@ -38,6 +38,8 @@ namespace DbPatient
     long long getPatientRowid(const std::string& id, int type);
     std::vector<PatientRecord> getPatientList();
 
+	bool hasNhifProceduresFromDentist(long long patientRowid, const std::string& rzi, const std::string& lpk);
+
     TeethNotes getToothNotes(long long patientRowId);
 };
 

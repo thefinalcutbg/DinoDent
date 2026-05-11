@@ -1,15 +1,17 @@
 ﻿#include "SettingsDialog.h"
 #include <QPainter>
 #include <QFileDialog>
+#include <QtGlobal>
+#include <QInputDialog>
+#include <QStandardPaths>
+
 #include "GlobalSettings.h"
 #include "TableViewDialog.h"
+#include "Model/User.h"
+
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/NotesTemplateDialog.h"
 #include "View/Theme.h"
-
-#include <QtGlobal>
-#include <QInputDialog>
-#include "Model/User.h"
 #include "View/Widgets/UnfavourableDialog.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
@@ -50,6 +52,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.removeDoctor->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.sqlTemplateButton->setIcon(QIcon(":/icons/icon_template.png"));
 	ui.printEmptyDocs->setIcon(CommonIcon::getPixmap(CommonIcon::PRINT));
+	ui.exportDbButton->setIcon(CommonIcon::getPixmap(CommonIcon::DATABASE));
 	ui.hisImport->setIcon(CommonIcon::getPixmap(CommonIcon::HIS));
 	ui.updateMedButton->setIcon(CommonIcon::getPixmap(CommonIcon::PRESCR));
 	ui.sqlTable->setModel(&sql_table_model);
@@ -361,6 +364,33 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	connect(ui.hisImport, &QPushButton::clicked, this, [&] { presenter.hisImport(); });
 
+	connect(ui.exportDbButton, &QPushButton::clicked, this, [&] { 
+		
+		if(GlobalSettings::getDbSettings().mode != DbSettings::DbType::Sqlite) {
+			ModalDialogBuilder::showMessage("Експортирането на базата данни е възможно само при използване на локална SQLite база данни.");
+			return;
+		}
+
+		QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+		QString defaultFilePath = QDir(desktopPath).filePath("database.db");
+
+		auto path = QFileDialog::getSaveFileName(
+			this,
+			"Експортиране на базата данни",
+			defaultFilePath,
+			"SQLite3 Database (*.db)"
+		);
+
+		if (path.isEmpty()) return;
+
+		QFile::remove(path);
+		QFile::copy(GlobalSettings::getDbSettings().sqliteFilePath.c_str(), path);
+		
+		QDir dir(path);
+
+		ModalDialogBuilder::openExplorer(dir.path().toStdString());
+	});
+
     connect(ui.priceListView, &ProcedureListView::codeDoubleClicked, this, [&](const std::string& code) {
         presenter.priceEditRequested(code);
     });
@@ -408,6 +438,7 @@ void SettingsDialog::setAdminPriv(bool admin)
 		ui.devBranch->setDisabled(!admin);
 		ui.localDbCheck->setDisabled(!admin);
 		ui.monthlySheets->setDisabled(!admin);
+		ui.exportDbButton->setDisabled(!admin);
 }
 
 void SettingsDialog::setSettings(const Settings& settings)

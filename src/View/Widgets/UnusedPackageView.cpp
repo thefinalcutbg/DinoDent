@@ -2,7 +2,6 @@
 
 #include <QFileDialog>
 #include <QPainter>
-
 #include "View/GlobalFunctions.h"
 
 UnusedPackageView::UnusedPackageView(QWidget *parent)
@@ -14,21 +13,17 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
 	ui.nraCheck->setIcon(QIcon(":/icons/icon_nra.png"));
 
-	Date date = Date::currentDate();
-	date.year--;
-	date.day = 1;
-	date.month = 1;
-
-	ui.dateEdit->set_Date(date);
 
 	connect(ui.button, &QPushButton::clicked, this, [&] {
 
 		auto date = ui.lastVisitCheck->isChecked() ? ui.dateEdit->getDate() : Date();	
 		presenter.buttonPressed(
-			date, 
-			ui.pisCheck->isChecked(), 
-			ui.nraCheck->isChecked(),
-			ui.excludeNonNhifCheck->isChecked()
+			UnusedPackageSettings{
+				.excludeBefore = date,
+				.pisCheckEnabled = ui.pisCheck->isChecked(),
+				.nraCheckEnabled = ui.nraCheck->isChecked(),
+				.nhifCurrentDentistOnly = ui.excludeNonNhifCheck->isChecked()
+			}
 		);
 	});
 
@@ -55,10 +50,6 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	ui.tableWidget->hideColumn(0);
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
 	ui.tableWidget->setColumnWidth(4, 150);
-
-	ui.lastVisitCheck->setChecked(true);
-	ui.pisCheck->setChecked(true);
-	ui.nraCheck->setChecked(true);
 
 	presenter.setView(this);
 
@@ -163,6 +154,10 @@ void UnusedPackageView::setProgressCount(int count)
 	ui.button->setText("Спри");
 	ui.csvButton->setDisabled(true);
 	ui.dateEdit->setDisabled(true);
+	ui.pisCheck->setDisabled(true);
+	ui.nraCheck->setDisabled(true);
+	ui.excludeNonNhifCheck->setDisabled(true);
+	ui.lastVisitCheck->setDisabled(true);
 }
 
 
@@ -173,6 +168,8 @@ void UnusedPackageView::increment()
 
 void UnusedPackageView::setSumLabel(double price)
 {
+	QApplication::processEvents();
+
 	if (!price) {
 		ui.sumLabel->clear();
 		return;
@@ -181,11 +178,27 @@ void UnusedPackageView::setSumLabel(double price)
 	ui.sumLabel->setText("Обща сума: " + formatDoubleWithDecimal(price) +" €");
 }
 
+void UnusedPackageView::setSettings(const UnusedPackageSettings& settings)
+{
+	ui.pisCheck->setChecked(settings.pisCheckEnabled);
+	ui.nraCheck->setChecked(settings.nraCheckEnabled);
+	ui.excludeNonNhifCheck->setChecked(settings.nhifCurrentDentistOnly);
+	ui.lastVisitCheck->setChecked(!settings.excludeBefore.isDefault());
+
+	if (!settings.excludeBefore.isDefault()) {
+		ui.dateEdit->set_Date(settings.excludeBefore);
+	}
+}
+
 void UnusedPackageView::reset()
 {
 	ui.button->setText("Генерирай списък");
 	ui.csvButton->setDisabled(!ui.tableWidget->rowCount());
-	ui.dateEdit->setDisabled(false);
+	ui.dateEdit->setDisabled(!ui.lastVisitCheck->isChecked());
+	ui.pisCheck->setDisabled(false);
+	ui.nraCheck->setDisabled(false);
+	ui.excludeNonNhifCheck->setDisabled(false);
+	ui.lastVisitCheck->setDisabled(false);
 }
 
 void UnusedPackageView::exportToCSV()

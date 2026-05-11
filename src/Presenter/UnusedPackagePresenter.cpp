@@ -8,6 +8,8 @@
 #include "Model/TableRows.h"
 #include "Model/Dental/NhifProcedures.h"
 
+UnusedPackageSettings UnusedPackagePresenter::s_settings;
+
 void UnusedPackagePresenter::stop(const std::string& reason)
 {
 	if (reason.size()) {
@@ -43,28 +45,45 @@ void UnusedPackagePresenter::popQueue()
 	}
 }
 
-UnusedPackagePresenter::UnusedPackagePresenter(){}
+UnusedPackagePresenter::UnusedPackagePresenter(){
+	
+	if (!s_settings.excludeBefore.isDefault()) return;
+
+	//init static settings
+
+	s_settings = UnusedPackageSettings{
+	  .excludeBefore = Date(1, 1, Date::currentDate().year - 1),
+	  .pisCheckEnabled = false,
+	  .nraCheckEnabled = User::hasNhifContract() && User::practice().nhif_contract->nra_pass.size(),
+	  .nhifCurrentDentistOnly = true
+	};
+
+}
 
 void UnusedPackagePresenter::setView(UnusedPackageView* view)
 {
 	this->view = view;
 	view->addTable(s_data);
 	view->setSumLabel(m_sum);
+	view->setSettings(s_settings);
 }
 
-void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore,  bool pisCheck, bool nraCheck, bool nhifCurrentDentistOnly)
+void UnusedPackagePresenter::buttonPressed(const UnusedPackageSettings& s)
 {
 	if (m_in_progress) {
 		stop();
 		return;
 	}
-	
-	pisCheckEnabled = pisCheck;
-	nraCheckEnabled = nraCheck;
-	this->nhifCurrentDentistOnly = nhifCurrentDentistOnly;
+
+	if (s_settings.excludeBefore != s.excludeBefore)
+	{
+		resetQueue();
+	}
+
+	s_settings = s;
 
 	if (
-		nraCheckEnabled && (
+		s.nraCheckEnabled && (
 		!User::hasNhifContract() ||
 		User::practice().nhif_contract->nra_pass.empty()
 	)
@@ -82,7 +101,7 @@ void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore,  bool pisC
 		view->setSumLabel(0);
 		view->addTable(s_data);
 
-		m_queue = DbPatient::getPatientList(excludeBefore, User::practice().rziCode, User::doctor().LPK);
+		m_queue = DbPatient::getPatientList(s_settings.excludeBefore, User::practice().rziCode, User::doctor().LPK);
 	}
 
 	m_in_progress = true;
@@ -99,7 +118,7 @@ void UnusedPackagePresenter::step1_localDbCheck()
 
 		auto& patient = m_queue.front();
 
-		if(nhifCurrentDentistOnly && !DbPatient::hasNhifProceduresFromDentist(patient.rowid, User::practice().rziCode, User::doctor().LPK))
+		if(s_settings.nhifCurrentDentistOnly && !DbPatient::hasNhifProceduresFromDentist(patient.rowid, User::practice().rziCode, User::doctor().LPK))
 		{
 			popQueue();
 			continue;
@@ -127,7 +146,7 @@ void UnusedPackagePresenter::step1_localDbCheck()
 			popQueue();
 			continue;
 		}
-		else if (nraCheckEnabled)
+		else if (s_settings.nraCheckEnabled)
 		{
 
 			nraService.sendRequest(
@@ -142,7 +161,7 @@ void UnusedPackagePresenter::step1_localDbCheck()
 		else {
 			step2_insuranceCheck(std::optional<InsuranceStatus>{InsuranceStatus{Insured::Yes, {}}});
 
-			if(pisCheckEnabled) return;
+			if(s_settings.pisCheckEnabled) return;
 		}
 		
 	}
@@ -164,7 +183,7 @@ void UnusedPackagePresenter::step2_insuranceCheck(const std::optional<InsuranceS
 		return;
 	}
 	
-	if(!pisCheckEnabled)
+	if(!s_settings.pisCheckEnabled)
 	{
 		step3_pisCheck(std::vector<Procedure>{});
 		return;
@@ -258,7 +277,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	if (procedure_counter >= max_procedures) {
 		popQueue();
-		if (pisCheckEnabled || nraCheckEnabled) { 
+		if (s_settings.pisCheckEnabled || s_settings.nraCheckEnabled) {
 			step1_localDbCheck(); //async
 		}
 		return;
@@ -294,7 +313,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	popQueue();
 
-	if (pisCheckEnabled || nraCheckEnabled) {
+	if (s_settings.pisCheckEnabled || s_settings.nraCheckEnabled) {
 		step1_localDbCheck(); //async
 	}
 }

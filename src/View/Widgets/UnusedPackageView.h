@@ -21,6 +21,7 @@ public:
 	void reset();
 	void increment();
 	void setSumLabel(double price);
+	void setSettings(const UnusedPackageSettings& settings);
 	~UnusedPackageView();
 
 private:

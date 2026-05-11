@@ -23,6 +23,13 @@ struct PackageRowData {
 	std::string color_indicator;
 };
 
+struct UnusedPackageSettings{
+	Date excludeBefore;
+	bool pisCheckEnabled{ false };
+	bool nraCheckEnabled{ false };
+	bool nhifCurrentDentistOnly{ false };
+};
+
 class UnusedPackagePresenter
 {
 	UnusedPackageView* view = nullptr;
@@ -35,9 +42,8 @@ class UnusedPackagePresenter
 
 	bool m_in_progress{ false };
 	int m_year = Date::currentDate().year;
-	bool pisCheckEnabled{ false };
-	bool nraCheckEnabled{ false };
-	bool nhifCurrentDentistOnly{ false };
+
+	static UnusedPackageSettings s_settings;
 
 	ProcedureSummary currentProcedures;
 
@@ -51,7 +57,7 @@ class UnusedPackagePresenter
 public:
 	UnusedPackagePresenter();
 	void setView(UnusedPackageView* view);
-	void buttonPressed(const Date& excludeBefore, bool pisCheck, bool nraCheck, bool nhifCurrentDentistOnly);
+	void buttonPressed(const UnusedPackageSettings& settings);
 	void stop(const std::string& reason = "");
 	void resetQueue();
 	void newAmbList(long long patientRowid);

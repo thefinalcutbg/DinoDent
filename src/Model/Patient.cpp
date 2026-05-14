@@ -33,6 +33,17 @@ Date Patient::turns18At() const
 	return Date{ birth.day, birth.month, birth.year + 18 };
 }
 
+const std::string& Patient::nationality() const
+{
+	static const std::string bg = "BG";
+
+	if(foreigner){
+		return foreigner->country.getCode();
+	}
+
+	return bg;
+}
+
 std::string Patient::fullName() const
 {
 	std::string fullName;

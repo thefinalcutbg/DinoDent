@@ -117,11 +117,7 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 
 	int patientType = p.type == Patient::EU ? 5 : p.type;
 
-	std::string nationality = "BG";
-
-	if (p.foreigner) {
-		nationality = p.foreigner->country.getCode();
-	}
+	bool foreignCity = p.nationality() != "BG"; //nationality is also used as current city
 
 	std::string subject =
 	"<nhis:subject>"
@@ -130,17 +126,17 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 		+ bind("nhifInsuranceNumber", p.HIRBNo)
 		+ bind("birthDate", p.birth.to8601())
 		+ bind("gender", p.sex + 1)
-		+ bind("nationality", nationality)
+		+ bind("nationality", p.nationality())
 		+"<nhis:name>"
 			+ bind("given", p.FirstName, true)
 			+ bind("middle", p.MiddleName, true)
 			+ bind("family", p.LastName, true)
 		+"</nhis:name>"
 		 "<nhis:address>"
-			+ bind("country", p.foreigner ? p.foreigner->country.getCode() : "BG" )
-			+ bind("county", p.foreigner ? "" : p.city.getRegionCode())
-			+ bind("ekatte", p.foreigner ? "" : p.city.ekatte())
-			+ bind("city", p.foreigner ? p.foreigner->city : p.city.getString(), true)
+			+ bind("country",p.nationality() )
+			+ bind("county", foreignCity ? "" : p.city.getRegionCode())
+			+ bind("ekatte", foreignCity ? "" : p.city.ekatte())
+			+ bind("city", foreignCity ? p.foreigner->city : p.city.getString(), true)
 			+ bind("line", FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)

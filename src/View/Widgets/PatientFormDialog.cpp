@@ -76,6 +76,9 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
                 ui.typeComboBox->currentIndex() + 1, text.toStdString());
         }
     });
+
+	connect(ui.countryCombo, &QComboBox::currentIndexChanged, this, [&] { nationalityAddressDynamicChange(); });
+
     connect(ui.hirbnoButton, &QPushButton::clicked, this, [&] { presenter.checkHirbno();});
 
     patientFields[id] = ui.idLineEdit;
@@ -126,19 +129,9 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         20
     );
 
-    if (patientType == Patient::EU) {
-		ui.cityLineEdit->setCompleter(nullptr);
-		ui.cityLineEdit->setInputValidator(&notEmpty_validator);
-    }
-    else {
-
-		ui.cityLineEdit->setInputValidator(&city_validator);
-
-        if (ui.cityLineEdit->completer() == nullptr) {
-            ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
-        }
-    }
     ui.foreignerGroup->setHidden(patientType != Patient::EU);
+
+    nationalityAddressDynamicChange();
 
     switch (patientType)
     {
@@ -184,6 +177,19 @@ void PatientFormDialog::patientTypeChanged(int patientType)
         break;
 
     }
+}
+
+void PatientFormDialog::nationalityAddressDynamicChange()
+{
+    if(ui.countryCombo->isVisible() && !ui.countryCombo->currentText().startsWith("BG")){
+        ui.cityLineEdit->setCompleter(nullptr);
+        ui.cityLineEdit->setInputValidator(&notEmpty_validator);
+    }
+    else
+    {
+        ui.cityLineEdit->setInputValidator(&city_validator);
+        ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
+	}
 }
 
 PatientFormDialog::~PatientFormDialog()
@@ -295,8 +301,7 @@ Patient PatientFormDialog::getPatient()
 
     auto colorName = color.isValid() ? color.name().toStdString() : std::string();
 
-    return Patient
-    {
+    Patient p = Patient{
         .rowid = 0,
         .type = Patient::Type(ui.typeComboBox->currentIndex() + 1),
         .id = ui.idLineEdit->text().toStdString(),
@@ -305,7 +310,7 @@ Patient PatientFormDialog::getPatient()
         .FirstName = ui.fNameEdit->text().toStdString(),
         .MiddleName = ui.mNameEdit->text().toStdString(),
         .LastName = ui.lNameEdit->text().toStdString(),
-        .city = f ? User::practice().practice_address : ui.cityLineEdit->getText(),
+        .city = ui.cityLineEdit->getText(),
         .address = ui.addressEdit->text().toStdString(),
         .HIRBNo = ui.HIRBNoEdit->text().toStdString(),
         .phone = ui.phoneEdit->text().toStdString(),
@@ -313,6 +318,13 @@ Patient PatientFormDialog::getPatient()
         .foreigner = f,
         .colorNameRgb = colorName
     };
+
+    if(p.nationality() != "BG")
+    {
+        p.city = User::practice().practice_address;
+	}
+
+    return p;
 }
 
 void PatientFormDialog::setHirbno(const std::string& hirbno)

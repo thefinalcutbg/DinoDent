@@ -49,7 +49,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>3</hour>
+         <hour>1</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -108,16 +108,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QCheckBox" name="pisCheck">
+      <widget class="QCheckBox" name="nraCheck">
        <property name="text">
-        <string>Проверка спрямо ПИС</string>
+        <string>Проверка спрямо НАП</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="nraCheck">
+      <widget class="QCheckBox" name="pisCheck">
        <property name="text">
-        <string>Проверка спрямо НАП</string>
+        <string>Проверка спрямо ПИС</string>
        </property>
       </widget>
      </item>

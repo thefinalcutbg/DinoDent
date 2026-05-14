@@ -56,6 +56,7 @@ struct Patient
 	int getAge(const Date& currentDate = Date::currentDate())  const;
 	bool isAdult(const Date& currentDate = Date::currentDate())  const;
 	Date turns18At() const;
+	const std::string& nationality() const;
 	std::string fullName() const;
 	std::string firstLastName() const;
 	std::string getFullAddress() const;

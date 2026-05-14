@@ -60,8 +60,8 @@ bool initFunction() {
 
     auto args = QApplication::arguments();
 
-    if (args.count() > 1 && args.at(1) == "-histest") {
-
+    if (args.count() > 1 && args.at(1) == "-histest")
+    {
         HisService::hisUrl = "https://ptest-api.his.bg";
 		ModalDialogBuilder::showMessage("Програмата ще работи с тестовата версия на НЗИС API.\n"
 			"Не използвайте реални данни!");

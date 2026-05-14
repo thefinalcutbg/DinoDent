@@ -36,6 +36,7 @@ struct PatientFormDialog : public QDialog
     void paintEvent(QPaintEvent* event) override;
 
     void patientTypeChanged(int patientType);
+    void nationalityAddressDynamicChange();
 
     PatientDialogPresenter& presenter;
 

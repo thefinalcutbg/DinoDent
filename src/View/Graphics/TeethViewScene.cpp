@@ -419,7 +419,6 @@ int TeethViewScene::keyCodeMapper(QKeyEvent *e)
 
 void TeethViewScene::keyPressEvent(QKeyEvent* event)
 {
-    qDebug() << event;
     int lastSelected = 0;
     int firstSelected = 0;
     int selection_length = this->selectedItems().size();

@@ -27,7 +27,7 @@ public:
     void showCalendar(bool show);
     void setCalendarPresenter(CalendarPresenter* p);
     void setCalendarList(const std::vector<Calendar>& list, int currentCalendar);
-    void setEventList(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard);
+    void setEvents(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard);
     void updateWeekView(QDate from, QDate to, int currentDayColumn);
 
     ~CalendarView();

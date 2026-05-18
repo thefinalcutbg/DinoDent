@@ -35,6 +35,7 @@ namespace DbPatient
     Date getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk);
 
     long long getPatientRowid(const std::string& firstName, const std::string& birth);
+	std::unordered_map<std::string, std::string> getBirthNameColorMap(); //for calendar coloring
     long long getPatientRowid(const std::string& id, int type);
     std::vector<PatientRecord> getPatientList();
 

@@ -306,7 +306,7 @@ void CalendarView::setCalendarList(const std::vector<Calendar>& list, int curren
     ui.calendarCombo->blockSignals(false);
 }
 
-void CalendarView::setEventList(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard_event)
+void CalendarView::setEvents(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard_event)
 {
     ui.calendarTable->setEvents(list, clipboard_event);
 }

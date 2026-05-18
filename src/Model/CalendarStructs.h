@@ -28,4 +28,7 @@ struct CalendarEvent
 	//app specific properties:
 	std::string patientBirth;
 	std::string patientFname;
+
+	//color from the local db
+	std::string colorRgb;
 };

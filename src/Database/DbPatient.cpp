@@ -395,6 +395,21 @@ long long DbPatient::getPatientRowid(const std::string& firstName, const std::st
     return 0;
 }
 
+std::unordered_map<std::string, std::string> DbPatient::getBirthNameColorMap()
+{
+    std::unordered_map<std::string, std::string> result;
+
+	Db db("SELECT birth, fname, color FROM patient WHERE color IS NOT NULL AND color != ''");
+
+    while (db.hasRows()) 
+    {
+		result[db.asString(0) + db.asString(1)] = db.asString(2);
+    }
+
+	return result;
+}
+
+
 long long DbPatient::getPatientRowid(const std::string& id, int type)
 {
     Db db;

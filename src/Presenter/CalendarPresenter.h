@@ -41,6 +41,8 @@ class CalendarPresenter : public TabInstance
 
 	std::vector<Calendar> m_calendars;
 
+	std::unordered_map<std::string, std::string> birthName_color_map;
+
 	std::unordered_map<CalendarCacheKey, std::vector<CalendarEvent>> m_cache;
 
 	int currentCalendar = -1;
@@ -68,6 +70,8 @@ class CalendarPresenter : public TabInstance
 
 	Mobica::SendSMS m_smsService;
 	void cancelEventSmsNofifyLogic(const CalendarEvent& e);
+
+	void setEventsToView(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard);
 
 public:
 

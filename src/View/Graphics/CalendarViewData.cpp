@@ -29,6 +29,8 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 
 		entity->hasPatient = event.patientBirth.size();
 		
+		entity->patient_color = QColor(event.colorRgb.c_str());
+
 		if (entity->hasPatient) {
 
 			entity->text += "• ";
@@ -228,6 +230,12 @@ void CalendarViewData::EventEntity::paintPixmap()
 	p.setRenderHint(QPainter::RenderHint::TextAntialiasing);
 
 	p.drawText(textRect, text);
+
+	if (patient_color.isValid()) {
+		p.setBrush(patient_color);
+		p.setPen(Theme::mainBackgroundColor);
+		p.drawEllipse(QRectF(4, 8, 7, 7));
+	}
 }
 
 QPixmap CalendarViewData::EventEntity::getPixmapPart(int row) const

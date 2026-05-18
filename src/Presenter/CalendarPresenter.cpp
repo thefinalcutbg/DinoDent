@@ -53,7 +53,7 @@ void CalendarPresenter::newAppointment(const CalendarEvent& event)
         auto e = getEvents();
 
         if (e) {
-            view->setEventList(*e, clipboard_event);
+            setEventsToView(*e, clipboard_event);
         }
     }
 }
@@ -67,6 +67,8 @@ void CalendarPresenter::grantAccessRequested()
 
 void CalendarPresenter::setDataToView()
 {
+	birthName_color_map = DbPatient::getBirthNameColorMap();
+
     view->setCalendarPresenter(this);
 }
 
@@ -142,7 +144,7 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
         m_cache[key] = CalendarJsonParser::parseEventList(reply);
         
-        view->setEventList(m_cache[key], clipboard_event);
+        setEventsToView(m_cache[key], clipboard_event);
 
         break;
 
@@ -173,7 +175,7 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
             clipboard_event = CalendarEvent();
         }
 
-        view->setEventList(m_cache[key], clipboard_event);
+        setEventsToView(m_cache[key], clipboard_event);
     }
 
     break;
@@ -193,7 +195,7 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
                 m_events.erase(m_events.begin() + i);
 
-                view->setEventList(m_events, clipboard_event);
+                setEventsToView(m_events, clipboard_event);
 
                 return;
             }
@@ -259,7 +261,7 @@ void CalendarPresenter::dateRequested(QDate date)
 void CalendarPresenter::refresh()
 {
     disconnected();
-    view->setEventList({}, clipboard_event);
+    setEventsToView({}, clipboard_event);
     m_cache.clear();
     m_calendars.clear();
     currentCalendar = -1;
@@ -393,7 +395,7 @@ void CalendarPresenter::clearClipboard()
 
     auto e = getEvents();
 
-    view->setEventList(*e, clipboard_event);
+    setEventsToView(*e, clipboard_event);
 }
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
@@ -432,13 +434,13 @@ void CalendarPresenter::requestEvents(bool searchCache)
     auto key = getCacheKey();
 
     if (m_cache.count(key) && searchCache) {
-        view->setEventList(m_cache[key], clipboard_event);
+        setEventsToView(m_cache[key], clipboard_event);
         return;
     }
 
     view->setDisabled(true);
 
-    view->setEventList({}, clipboard_event);
+    setEventsToView({}, clipboard_event);
 
     auto& calendar = m_calendars[currentCalendar];
 
@@ -467,7 +469,7 @@ void CalendarPresenter::setClipboard(const CalendarEvent& e)
         }
     );
 
-    view->setEventList(events, clipboard_event);
+    setEventsToView(events, clipboard_event);
 }
 
 void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
@@ -570,4 +572,22 @@ void CalendarPresenter::cancelEventSmsNofifyLogic(const CalendarEvent& e)
             User::settings().sms_settings.cancelTemplate,
 			e.start.toString(SMSMessage::expectedFormat).toStdString())  
        });
+}
+
+void CalendarPresenter::setEventsToView(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard)
+{
+	auto events = list;
+
+    for (auto& e : events) {
+        if(e.colorRgb.empty() && e.patientBirth.size()){
+
+			auto key = e.patientBirth + e.patientFname;
+
+            if(birthName_color_map.count(key)) {
+                e.colorRgb = birthName_color_map[key];
+            }
+		}
+    }
+
+    view->setEvents(events, clipboard);
 }

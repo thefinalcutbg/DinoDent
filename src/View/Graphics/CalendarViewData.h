@@ -23,6 +23,7 @@ private:
 		int event_list_index = -1;
 
 		bool hasPatient = false;
+		QColor patient_color;
 
 		QPixmap px = {};
 

@@ -233,7 +233,7 @@ void CalendarViewData::EventEntity::paintPixmap()
 
 	if (patient_color.isValid()) {
 		p.setBrush(patient_color);
-		p.setPen(Theme::mainBackgroundColor);
+		p.setPen(Theme::fontTurquoise);
 		p.drawEllipse(QRectF(4, 8, 7, 7));
 	}
 }

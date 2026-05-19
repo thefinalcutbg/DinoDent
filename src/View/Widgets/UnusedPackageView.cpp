@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QPainter>
 #include "View/GlobalFunctions.h"
+#include "Model/FreeFunctions.h"
 
 UnusedPackageView::UnusedPackageView(QWidget *parent)
 	: QWidget(parent)
@@ -203,35 +204,19 @@ void UnusedPackageView::reset()
 
 void UnusedPackageView::exportToCSV()
 {
-	if (!ui.tableWidget->rowCount()) return;
-
-	QString filename = QFileDialog::getSaveFileName(
-		this, "Запази като CSV", "patients.csv", "CSV files (*.csv)"
-	);
-
-	QFile data(filename);
-
-	if (data.open(QFile::WriteOnly | QFile::Truncate))
-	{
-		QTextStream output(&data);
-
-		auto cCount = ui.tableWidget->columnCount();
-		auto rCount = ui.tableWidget->rowCount();
-
-		for (int r = 0; r < rCount; r++) {
-
-			for (int c = 1; c < PackageRowData::columnCount; c++) {
-
-				output << ui.tableWidget->item(r, c)->data(0).toString();
-				
-				if (c == cCount - 1) break;
-				
-				output << ",";
+	FreeFn::exportToCSV(
+		[&]() -> std::vector<std::string>
+		{
+			std::vector<std::string> data;
+			for (int i = 0; i < ui.tableWidget->rowCount(); ++i) {
+				for (int j = 1; j < ui.tableWidget->columnCount(); ++j) {
+					data.push_back(ui.tableWidget->item(i, j)->text().toStdString());
+				}
 			}
-
-			output << "\n";
-		}
-	}
+			return data;
+		}(),
+		ui.tableWidget->columnCount() -1
+	);
 }
 
 UnusedPackageView::~UnusedPackageView()

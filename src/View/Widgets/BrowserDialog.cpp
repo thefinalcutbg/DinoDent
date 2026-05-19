@@ -43,6 +43,7 @@ BrowserDialog::BrowserDialog()
 
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
+	ui.csvButton->setIcon(QIcon(":/icons/icon_csv.png"));
 
 	ui.tabBar->setExpanding(false);
 	ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
@@ -145,6 +146,8 @@ BrowserDialog::BrowserDialog()
 
 	});
 
+	connect(ui.csvButton, &QPushButton::clicked, this, [&] { presenter.exportToCsv(); });
+
 	ui.nameSearchEdit->setFocus();
 
 	presenter.setView(this);
@@ -179,7 +182,7 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 	ui.toDateEdit->setDate(QDate(state.to.year, state.to.month, state.to.day));
 	ui.detailsCombo->setCurrentIndex(state.showProcedures);
 	ui.tabBar->setCurrentIndex(static_cast<int>(state.model_type));
-	
+	ui.csvButton->setVisible(state.model_type == TabType::Financial);
 	calculateUiState();
 	
 }
@@ -335,6 +338,7 @@ void BrowserDialog::setCountLabel()
 void BrowserDialog::calculateUiState()
 {
 	bool patientSection = ui.tabBar->currentIndex() == 0;
+	bool financialSection = ui.tabBar->currentIndex() == 5;
 
 	ui.detailsCombo->setHidden(!patientSection);
     ui.openDocButton->setHidden(!patientSection);
@@ -342,7 +346,7 @@ void BrowserDialog::calculateUiState()
 	ui.toLabel->setHidden(patientSection);
 	ui.fromDateEdit->setHidden(patientSection);
 	ui.toDateEdit->setHidden(patientSection);
-
+	ui.csvButton->setHidden(!financialSection);
 }
 
 bool BrowserDialog::eventFilter(QObject *obj, QEvent *e)

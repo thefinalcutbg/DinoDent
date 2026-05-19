@@ -23,4 +23,5 @@ namespace FreeFn {
     void createNotification(long long patientRowid);
     void terminateApplication(int code = 0);
     void restartApplication();
+	void exportToCSV(const std::vector<std::string>& data, int columnCount);
 };

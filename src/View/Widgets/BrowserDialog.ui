@@ -237,6 +237,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="csvButton">
+              <property name="text">
+               <string>Запази като CSV</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>

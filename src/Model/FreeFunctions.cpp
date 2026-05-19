@@ -5,6 +5,11 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QProcess>
+#include <QFile>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QStringConverter>
+#include <QStandardPaths>
 
 std::string FreeFn::formatDouble(const double& price)
 {
@@ -232,4 +237,69 @@ void FreeFn::restartApplication()
     terminateApplication(0);
 
     return;   
+}
+
+void FreeFn::exportToCSV(const std::vector<std::string>& data, int columnCount)
+{
+    if (data.empty() || columnCount <= 0) return;
+
+    if(data.size()% columnCount != 0) return;
+
+    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    QString defaultFilePath = QDir(desktopPath).filePath("export.csv");
+
+
+    QString filename = QFileDialog::getSaveFileName(
+        nullptr,
+        "Запази като CSV",
+        defaultFilePath,
+        "CSV files (*.csv)"
+    );
+
+    if (filename.isEmpty()) return;
+
+    if (!filename.endsWith(".csv", Qt::CaseInsensitive))  filename += ".csv";
+
+    QFile file(filename);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) return;
+
+    QTextStream output(&file);
+    output.setEncoding(QStringConverter::Utf8);
+    output.setGenerateByteOrderMark(true);
+
+    const QChar separator = ',';
+
+    auto escapeCsvValue = [separator](QString value) -> QString
+        {
+            value.replace("\"", "\"\"");
+
+            bool mustQuote =
+                value.contains(separator) ||
+                value.contains('"') ||
+                value.contains('\n') ||
+                value.contains('\r');
+
+            if (mustQuote)
+                value = "\"" + value + "\"";
+
+            return value;
+        };
+
+    for (int i = 0; i < static_cast<int>(data.size()); ++i)
+    {
+        output << escapeCsvValue(QString::fromStdString(data[i]));
+
+        bool lastColumn = ((i + 1) % columnCount == 0);
+        bool lastValue = (i == static_cast<int>(data.size()) - 1);
+
+        if (lastColumn) {
+            if (!lastValue) output << '\n';
+        }
+        else {
+            output << separator;
+        }
+    }
+
+	ModalDialogBuilder::openExplorer(file.fileName().toStdString());
 }

@@ -51,5 +51,6 @@ public:
 	void editPatientData();
 	void sendSms();
 	void createNotification();
+	void exportToCsv();
 };
 

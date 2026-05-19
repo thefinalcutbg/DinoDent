@@ -342,6 +342,79 @@ void BrowserPresenter::createNotification()
 	FreeFn::createNotification(m_selectedInstances[0]->patientRowId);
 }
 
+void BrowserPresenter::exportToCsv()
+{
+	if (ui_state.model_type != TabType::Financial) return;
+
+	constexpr int columnCount = 11;
+
+	std::vector<std::string> csvTable{
+		"Тип документ", 
+		"Номер", 
+		"Дата", 
+		"Дата на дан. събитие", 
+		"Получател",
+		"ЕИК",
+		"Начин на плащане", 
+		"Данъчна основа",
+		"ДДС" ,
+		"Общо",
+		"Валута"
+	};
+
+	double amount, vatAmount, totalAmount = 0;
+
+	for(auto& row : rowidData) {
+		auto i = DbInvoice::getInvoice(row.rowID);
+
+		switch(i.type) {
+			case FinancialDocType::Invoice: csvTable.push_back("Фактура"); break;
+			case FinancialDocType::Credit: csvTable.push_back("Кредитно известие"); break;
+			case FinancialDocType::Debit: csvTable.push_back("Дебитно известие"); break;
+			default: csvTable.push_back("Невалиден документ");
+		}
+
+		csvTable.push_back(FreeFn::leadZeroes(i.number, 10));
+		csvTable.push_back(i.date.toBgStandard());
+		csvTable.push_back(i.taxEventDate.toBgStandard());
+		csvTable.push_back(i.recipient.name);
+		csvTable.push_back(i.recipient.identifier);
+		
+		switch(i.paymentType) {
+			case PaymentType::Cash: csvTable.push_back("В брой"); break;
+			case PaymentType::Bank: csvTable.push_back("По банков път"); break;
+			case PaymentType::POS: csvTable.push_back("С ПОС терминал"); break;
+			case PaymentType::Combined: csvTable.push_back("Комбинирано плащане"); break;
+		}
+
+		
+		amount += i.amount();
+		vatAmount += i.VATamount();
+		totalAmount += amount + vatAmount;
+
+		csvTable.push_back(FreeFn::formatDouble(amount));
+		csvTable.push_back(FreeFn::formatDouble(i.VATamount()));
+		csvTable.push_back(FreeFn::formatDouble(amount + i.VATamount()));
+
+		csvTable.push_back(i.taxEventDate < Date(1, 1, 2026) ? "BGN" : "€");
+
+		i.type == FinancialDocType::Credit ? totalAmount -= amount : totalAmount += amount;
+	}
+
+	for(int i = 0; i < columnCount - 5; i++) {
+		csvTable.push_back("");
+	}
+
+	csvTable.push_back("ОБЩО:");
+	csvTable.push_back(FreeFn::formatDouble(amount));
+	csvTable.push_back(FreeFn::formatDouble(vatAmount));
+	csvTable.push_back(FreeFn::formatDouble(totalAmount));
+	csvTable.push_back("");
+	
+	FreeFn::exportToCSV(csvTable, columnCount);
+
+}
+
 void BrowserPresenter::sendSms()
 {
 	if (m_selectedInstances.empty()) return;

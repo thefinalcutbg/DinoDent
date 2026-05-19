@@ -89,6 +89,8 @@ PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
     addColumn({"Кол-во", 70, PlainColumn::Center });
     addColumn({"Ед. цена", 70, PlainColumn::Center });
     addColumn({"Сума", 70, PlainColumn::Center });
+    
+	double total = 0;
 
     for (auto& op : bList)
     {
@@ -97,8 +99,23 @@ PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
         addCell(2, { std::to_string(op.quantity) });
         addCell(3, { FreeFn::formatDouble(op.unit_price) });
         addCell(4, { FreeFn::formatDouble(op.value_price) });
+
+		total += op.value_price;
     }
 
+    for(int i = 0; i < 5; i++) {
+        
+        if(i == 1) {
+            addCell(i, { "ОБЩО:" });
+        }
+        else if(i == 4) {
+            addCell(i, { FreeFn::formatDouble(total) });
+        }
+        else {
+            addCell(i, { "" });
+		}
+
+	}
 }
 
 PlainTable::PlainTable(const std::vector<Medication>& mList)

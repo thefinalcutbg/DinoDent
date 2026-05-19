@@ -362,7 +362,7 @@ void BrowserPresenter::exportToCsv()
 		"Валута"
 	};
 
-	double amount, vatAmount, totalAmount = 0;
+	double amount{ 0 }, vatAmount{ 0 };
 
 	for(auto& row : rowidData) {
 		auto i = DbInvoice::getInvoice(row.rowID);
@@ -387,18 +387,20 @@ void BrowserPresenter::exportToCsv()
 			case PaymentType::Combined: csvTable.push_back("Комбинирано плащане"); break;
 		}
 
-		
-		amount += i.amount();
-		vatAmount += i.VATamount();
-		totalAmount += amount + vatAmount;
+		if (i.type != FinancialDocType::Credit) {
+			amount += i.amount();
+			vatAmount += i.VATamount();
+		}
+		else {
+			amount -= i.amount();
+			vatAmount -= i.VATamount();
+		}
 
-		csvTable.push_back(FreeFn::formatDouble(amount));
+		csvTable.push_back(FreeFn::formatDouble(i.amount()));
 		csvTable.push_back(FreeFn::formatDouble(i.VATamount()));
-		csvTable.push_back(FreeFn::formatDouble(amount + i.VATamount()));
+		csvTable.push_back(FreeFn::formatDouble(i.amount() + i.VATamount()));
 
-		csvTable.push_back(i.taxEventDate < Date(1, 1, 2026) ? "BGN" : "€");
-
-		i.type == FinancialDocType::Credit ? totalAmount -= amount : totalAmount += amount;
+		csvTable.push_back(i.date < Date(1, 1, 2026) ? "BGN" : "€");
 	}
 
 	for(int i = 0; i < columnCount - 5; i++) {
@@ -408,7 +410,7 @@ void BrowserPresenter::exportToCsv()
 	csvTable.push_back("ОБЩО:");
 	csvTable.push_back(FreeFn::formatDouble(amount));
 	csvTable.push_back(FreeFn::formatDouble(vatAmount));
-	csvTable.push_back(FreeFn::formatDouble(totalAmount));
+	csvTable.push_back(FreeFn::formatDouble(amount + vatAmount));
 	csvTable.push_back("");
 	
 	FreeFn::exportToCSV(csvTable, columnCount);

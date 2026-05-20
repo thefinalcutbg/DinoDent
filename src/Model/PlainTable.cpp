@@ -82,8 +82,10 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList, bool keepNotes)
     }
 }
 
-PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
+PlainTable::PlainTable(const std::vector<BusinessOperation>& bList, bool vat)
 {
+	if (bList.empty()) return;
+
     addColumn({"Код",100,PlainColumn::Center });
     addColumn({"Наименование", 400 });
     addColumn({"Кол-во", 70, PlainColumn::Center });
@@ -105,11 +107,11 @@ PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
 
     for(int i = 0; i < 5; i++) {
         
-        if(i == 1) {
-            addCell(i, { "ОБЩО:" });
+        if(i == 3) {
+            addCell(i, { "Общо:" });
         }
         else if(i == 4) {
-            addCell(i, { FreeFn::formatDouble(total) });
+            addCell(i, { FreeFn::formatDouble(vat ? total * 1.2 : total) });
         }
         else {
             addCell(i, { "" });

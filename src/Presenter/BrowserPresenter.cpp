@@ -115,7 +115,11 @@ void BrowserPresenter::refreshPreview()
 	{
 		case TabType::AmbList: 
 			view->setPreview({ DbProcedure::getProcedures(rowid), false }); break;
-		case TabType::Financial: view->setPreview(DbInvoice::getInvoice(rowid).businessOperations); break;
+		case TabType::Financial: {
+			auto inv = DbInvoice::getInvoice(rowid);
+			view->setPreview(PlainTable{ inv.businessOperations, inv.isVAT });
+		}
+		break;
 		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
         case TabType::TreatmentPlan: view->setPreview(DbTreatmentPlan::getProcedureSummary(rowid)); break;
 		case TabType::PatientSummary: 

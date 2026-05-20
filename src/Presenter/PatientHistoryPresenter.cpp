@@ -36,7 +36,11 @@ PatientHistoryPresenter::PatientHistoryPresenter(Patient& patient) :
 		switch (documents[i].type)
 		{
 			case TabType::AmbList: doc_details.emplace_back(DbProcedure::getProcedures(docRowid)); break;
-			case TabType::Financial: doc_details.emplace_back(DbInvoice::getInvoice(docRowid).businessOperations); break;
+			case TabType::Financial: {
+				auto inv = DbInvoice::getInvoice(docRowid);
+				doc_details.emplace_back(PlainTable{ inv.businessOperations, inv.isVAT });
+			}
+			break;
 			case TabType::Prescription: doc_details.emplace_back(DbPrescription::get(docRowid).medicationGroup); break;
 			case TabType::TreatmentPlan: doc_details.emplace_back(DbTreatmentPlan::getProcedureSummary(docRowid)); break;
 			default: doc_details.emplace_back(PlainTable{}); break;

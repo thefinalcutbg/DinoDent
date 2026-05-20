@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>648</width>
-    <height>400</height>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,12 +49,12 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>1</hour>
+         <hour>23</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
          <month>12</month>
-         <day>24</day>
+         <day>23</day>
         </datetime>
        </property>
        <property name="minimumDate">
@@ -106,35 +106,18 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QCheckBox" name="nraCheck">
-       <property name="text">
-        <string>Проверка спрямо НАП</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="pisCheck">
-       <property name="text">
-        <string>Проверка спрямо ПИС</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    <widget class="QCheckBox" name="nraCheck">
+     <property name="text">
+      <string>Проверка за здравноосигурителни права в НАП</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="pisCheck">
+     <property name="text">
+      <string>Извличане на отчетени дейности от ПИС (отнема по-дълго време)</string>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QTableWidget" name="tableWidget">

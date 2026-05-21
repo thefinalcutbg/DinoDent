@@ -26,7 +26,8 @@ ListView::ListView(QWidget* parent)
 	teethViewScene->setContextMenu(contextMenu);
     ui.sigButton->setGraphicsEffect(nullptr);
     ui.frame->addVerticalSeparator(ui.teethView->width());
-
+	ui.packageFrame->setDynamicFocusBorderChange();
+	Theme::applyShadow(ui.packageFrame);
     ui.procedureFrame->setDynamicFocusBorderChange();
     ui.frame->setDynamicFocusBorderChange();
 
@@ -407,13 +408,10 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 	ui.procedureFrame
 	};
 	
-
-
 	while (ui.docsLayout->count())
 	{
 		ui.docsLayout->takeAt(0)->widget()->deleteLater();
 	}
-
 
     for (std::size_t i = 0; i < referrals.size(); i++) {
 		ReferralTile* refWidget = new ReferralTile(referrals[i], i, this);
@@ -452,6 +450,51 @@ void ListView::showAddPlannedButton(bool show)
     ui.plannedProcedure->setHidden(!show);
 }
 
+void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool lowDent)
+{
+	if(max == 0) {
+		ui.packageLabel->setText("");
+		ui.packageFrame->hide();
+		return;
+	}
+
+	ui.packageFrame->show();
+
+	QString text;
+
+	const QString separator = "<b style='color: " + Theme::colorToString(Theme::border) + ";'> | </b>";
+	
+	if (exam) {
+		text += "НЗОК преглед:<b> ✓101</b>" + separator;
+	}
+	else if(count > 0) {
+		text += "НЗОК преглед:<b style='color:red;'> Няма</b>" + separator;
+	}
+	else {
+		text += "НЗОК преглед: Няма" + separator;
+	}
+
+	text += "Дейности: ";
+
+	if (count > max) {
+		text += " <b style='color:red;'>";
+	}
+
+	if (count) {
+		text += "<b>";
+	}
+
+	text += QString::number(count) + "/" + QString::number(max);
+
+	if (count) {
+		text += "</b>";
+	}
+
+	if (upDenture) text += separator + " <b>✓832</b>  ";
+	if (lowDent) text += separator; + "<b>✓832</b> ";
+
+	ui.packageLabel->setText(text);
+}
 
 ListView::~ListView()
 {

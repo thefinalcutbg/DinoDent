@@ -69,7 +69,7 @@ public:
     void setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices);
     void setHisButtonText(const HisButtonProperties& prop);
     void showAddPlannedButton(bool show);
-
+	void setNhifPackage(int exam, int max, int count, bool upDenture, bool lowDent);
     ~ListView();
 
 private:

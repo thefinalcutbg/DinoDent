@@ -478,6 +478,7 @@ void ListPresenter::handleBulkRequestResult(const BulkRequester::Result& result)
 
     if (isCurrent()) {
         patient_info.refreshPatientData();
+        calculateNhifPackage();
     }
 }
 
@@ -533,6 +534,99 @@ void ListPresenter::patientDataChanged()
     //marking the list as edited only if the unfavourable condition has been changed
     dynamicNhifConversion();
     makeEdited();
+}
+
+void ListPresenter::calculateNhifPackage()
+{
+	auto currentDate = Date::currentDate(); 
+
+    if (!User::hasNhifContract() ||
+        m_amblist.getDate().isFromPreviousMonths(currentDate) ||
+		(patient->insuranceStatus &&
+        patient->insuranceStatus->status == Insured::NoData) ||
+        !patient->PISHistory
+        ) {
+
+        view->setNhifPackage(0, 0, 0, 0, 0);
+        return;
+    }
+
+    auto nhifProcedrues = *patient->PISHistory;
+
+    if(patient->HISHistory && m_amblist.his_updated) {
+        
+        for(auto& p : *patient->HISHistory) {
+            if (p.isNhif() && 
+                p.date.month == currentDate.month && 
+                p.date.year == currentDate.year
+                ) 
+            {
+                nhifProcedrues.push_back(p);
+            }
+		}
+    }
+    
+    if(m_amblist.nrn.empty() || !m_amblist.his_updated)
+    {
+        Date pisDate = Date();
+
+        for (auto& p : m_amblist.procedures) {
+            if (p.isNhif()) {
+                nhifProcedrues.push_back(p);
+            }
+        }
+    }
+
+    bool exam = false;
+    int maxProcedures = 0;
+    int performedProcedures = 0;
+    bool upperDenture = false;
+    bool lowerDenture = false;
+
+    maxProcedures = patient->isAdult(m_amblist.getDate()) ? 3 : 4;
+
+    static const std::set<int> packageCodes{ 301, 332, 333, 508, 509 };
+
+    static const std::set<int> dentureCodes{ 832, 833 };
+
+    for (auto& p : nhifProcedrues) {
+
+        auto nhifCode = p.code.nhifCode();
+
+        if (dentureCodes.contains(nhifCode)) {
+
+            auto dueDate = Date(p.date);
+
+            dueDate.year += 4;
+
+            if (dueDate < currentDate) continue;
+
+            if (nhifCode == 832) { upperDenture = true; }
+            if (nhifCode == 833) { lowerDenture = true; }
+
+            continue;
+        }
+
+        if (p.date.year != currentDate.year) continue;
+
+        if (p.code.type() == ProcedureType::FullExam) {
+            exam = true;
+            continue;
+        }
+
+        if (packageCodes.contains(nhifCode)) {
+            performedProcedures++;
+        }
+
+    }
+
+    view->setNhifPackage(
+        exam,
+        maxProcedures,
+        performedProcedures,
+        upperDenture,
+        lowerDenture
+	);
 }
 
 void ListPresenter::setSignature(const std::vector<unsigned char> sig_bitmap, const std::string sig_data)
@@ -967,6 +1061,8 @@ void ListPresenter::historyRequested()
 
 	view->setNotes(patient->teethNotes);
 
+    calculateNhifPackage();
+
     if (std::holds_alternative<std::monostate>(result)) {
         return;
     }
@@ -1016,6 +1112,8 @@ void ListPresenter::refreshProcedureView()
     if (view == nullptr) return;
 
     m_amblist.procedures.refreshTeethTemporary(m_amblist.teeth);
+
+    calculateNhifPackage();
 
     view->setProcedures(m_amblist.procedures.list());
 }

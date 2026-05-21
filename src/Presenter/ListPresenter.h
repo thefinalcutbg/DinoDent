@@ -75,6 +75,8 @@ class ListPresenter : public TabInstance
     //when changing the patient data from the current list
     void patientDataChanged() override;
 
+    void calculateNhifPackage();
+
     void setSignature(const std::vector<unsigned char> sig_bitmap, const std::string sig_data);
 public:
 

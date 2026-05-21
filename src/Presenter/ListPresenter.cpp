@@ -543,7 +543,7 @@ void ListPresenter::calculateNhifPackage()
     if (!User::hasNhifContract() ||
         m_amblist.getDate().isFromPreviousMonths(currentDate) ||
 		(patient->insuranceStatus &&
-        patient->insuranceStatus->status == Insured::NoData) ||
+        patient->insuranceStatus->status != Insured::Yes) ||
         !patient->PISHistory
         ) {
 

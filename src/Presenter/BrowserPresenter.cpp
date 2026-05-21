@@ -362,11 +362,13 @@ void BrowserPresenter::exportToCsv()
 		"Начин на плащане", 
 		"Данъчна основа",
 		"ДДС" ,
-		"Общо",
+		"Сума за плащане",
 		"Валута"
 	};
 
 	double amount{ 0 }, vatAmount{ 0 };
+
+	csvTable.reserve((rowidData.size() + 2) * columnCount);
 
 	for(auto& row : rowidData) {
 		auto i = DbInvoice::getInvoice(row.rowID);
@@ -417,8 +419,20 @@ void BrowserPresenter::exportToCsv()
 	csvTable.push_back(FreeFn::formatDouble(amount + vatAmount));
 	csvTable.push_back("");
 	
-	FreeFn::exportToCSV(csvTable, columnCount);
+	if (vatAmount == 0) {
+		auto csvTemp = csvTable;
 
+		csvTable.clear();
+
+		for(int i = 0; i < csvTemp.size(); i++) {
+
+			if (i % 11 == 7 || i % 11 == 8) continue;
+
+			csvTable.push_back(csvTemp[i]);
+		}
+	}
+
+	FreeFn::exportToCSV(csvTable, vatAmount ? columnCount : columnCount - 2);
 }
 
 void BrowserPresenter::sendSms()

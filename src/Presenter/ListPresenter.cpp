@@ -542,12 +542,12 @@ void ListPresenter::calculateNhifPackage()
 
     if (!User::hasNhifContract() ||
         m_amblist.getDate().isFromPreviousMonths(currentDate) ||
-		(patient->insuranceStatus &&
-        patient->insuranceStatus->status != Insured::Yes) ||
+		!patient->insuranceStatus ||
+        patient->insuranceStatus->status == Insured::NoData ||
         !patient->PISHistory
         ) {
 
-        view->setNhifPackage(0, 0, 0, 0, 0);
+        view->setNhifPackage(0, 0, 0, 0, 0, 0);
         return;
     }
 
@@ -620,12 +620,19 @@ void ListPresenter::calculateNhifPackage()
 
     }
 
+    if (patient->insuranceStatus->status == Insured::No &&
+        !exam && !performedProcedures && !upperDenture && !lowerDenture) {
+		view->setNhifPackage(0, 0, 0, 0, 0, 0);
+        return;
+    }
+
     view->setNhifPackage(
         exam,
         maxProcedures,
         performedProcedures,
         upperDenture,
-        lowerDenture
+        lowerDenture,
+        patient->insuranceStatus->status == Insured::Yes
 	);
 }
 

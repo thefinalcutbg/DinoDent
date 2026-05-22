@@ -450,7 +450,7 @@ void ListView::showAddPlannedButton(bool show)
     ui.plannedProcedure->setHidden(!show);
 }
 
-void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool lowDent)
+void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool lowDent, bool hasInsurance)
 {
 	if(max == 0) {
 		ui.packageLabel->setText("");
@@ -463,7 +463,32 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 	QString text;
 
 	const QString separator = "<b style='color: " + Theme::colorToString(Theme::border) + ";'> | </b>";
-	
+
+	if (!hasInsurance) {
+		text += "<span style='color:red;'> НЗОК преглед:" ;
+		if (exam) {
+			text += "<b> ✓101</b>";
+		} else {
+			text += "<b> Няма</b>";
+		}
+		
+		text += separator;
+
+		text += "Дейности: ";
+
+		text += "<b>" + QString::number(count) + "/" + QString::number(max) + "</b>";
+
+		if (upDenture) text += separator + " <b>✓832</b>  ";
+		if (lowDent) text += separator +"<b>✓832</b> ";
+		
+		text += "</span>";
+
+		ui.packageLabel->setText(text);
+
+		return;
+	}
+
+
 	if (exam) {
 		text += "НЗОК преглед:<b> ✓101</b>" + separator;
 	}

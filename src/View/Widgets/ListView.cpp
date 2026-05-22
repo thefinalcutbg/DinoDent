@@ -516,7 +516,7 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 	}
 
 	if (upDenture) text += separator + " <b>✓832</b>  ";
-	if (lowDent) text += separator; + "<b>✓832</b> ";
+	if (lowDent) text += separator + "<b>✓832</b> ";
 
 	ui.packageLabel->setText(text);
 }

@@ -1155,10 +1155,9 @@ void ListPresenter::addProcedure()
 
     dynamicNhifConversion();
 
-    refreshProcedureView();
-
     makeEdited();
 
+    refreshProcedureView();
 }
 
 void ListPresenter::addPlannedProcedure()
@@ -1220,22 +1219,20 @@ void ListPresenter::editProcedure(int index)
 
     dynamicNhifConversion();
 
-    refreshProcedureView();
-
     makeEdited();
 
+    refreshProcedureView();
 }
 
 void ListPresenter::deleteProcedure(int index)
 {
     m_amblist.procedures.removeProcedure(index);
 
-    refreshProcedureView();
-
     dynamicNhifConversion();
 
-
     makeEdited();
+
+    refreshProcedureView();
 }
 
 void ListPresenter::moveProcedure(int from, int to)

@@ -26,8 +26,6 @@ ListView::ListView(QWidget* parent)
 	teethViewScene->setContextMenu(contextMenu);
     ui.sigButton->setGraphicsEffect(nullptr);
     ui.frame->addVerticalSeparator(ui.teethView->width());
-	ui.packageFrame->setDynamicFocusBorderChange();
-	Theme::applyShadow(ui.packageFrame);
     ui.procedureFrame->setDynamicFocusBorderChange();
     ui.frame->setDynamicFocusBorderChange();
 
@@ -453,47 +451,22 @@ void ListView::showAddPlannedButton(bool show)
 void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool lowDent, bool hasInsurance)
 {
 	if(max == 0) {
-		ui.packageLabel->setText("");
-		ui.packageFrame->hide();
+		ui.historyButton->setNormalText("Онлайн пациентско досие");
 		return;
 	}
-
-	ui.packageFrame->show();
-
 	QString text;
 
 	const QString separator = "<b style='color: " + Theme::colorToString(Theme::border) + ";'> | </b>";
 
 	if (!hasInsurance) {
-		text += "<span style='color:red;'> НЗОК преглед:" ;
-		if (exam) {
-			text += "<b> ✓101</b>";
-		} else {
-			text += "<b> Няма</b>";
-		}
-		
-		text += separator;
-
-		text += "Дейности: ";
-
-		text += "<b>" + QString::number(count) + "/" + QString::number(max) + "</b>";
-
-		if (upDenture) text += separator + " <b>✓832</b>  ";
-		if (lowDent) text += separator +"<b>✓832</b> ";
-		
-		text += "</span>";
-
-		ui.packageLabel->setText(text);
-
-		return;
+		text += "<span style='color:darkRed;'>";
 	}
-
 
 	if (exam) {
 		text += "НЗОК преглед:<b> ✓101</b>" + separator;
 	}
 	else if(count > 0) {
-		text += "НЗОК преглед:<b style='color:red;'> Няма</b>" + separator;
+		text += "НЗОК преглед:<b style='color:darkRed;'> Няма</b>" + separator;
 	}
 	else {
 		text += "НЗОК преглед: Няма" + separator;
@@ -502,10 +475,8 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 	text += "Дейности: ";
 
 	if (count > max) {
-		text += " <b style='color:red;'>";
-	}
-
-	if (count) {
+		text += " <b style='color:darkRed;'>";
+	} else if (count) {
 		text += "<b>";
 	}
 
@@ -518,7 +489,9 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 	if (upDenture) text += separator + " <b>✓832</b>  ";
 	if (lowDent) text += separator + "<b>✓832</b> ";
 
-	ui.packageLabel->setText(text);
+	if(!hasInsurance) text += "</span>";
+
+	ui.historyButton->setRichText(text);
 }
 
 ListView::~ListView()

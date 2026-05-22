@@ -8,6 +8,7 @@
 #include <QMenu>
 #include <QVariantAnimation>
 #include <QEasingCurve>
+#include <QLabel>
 
 BigPushButton::BigPushButton(QWidget* parent) :
     QPushButton(parent),
@@ -51,6 +52,23 @@ void BigPushButton::setNormalColor(const QColor& color)
     update();
 }
 
+void BigPushButton::setRichText(const QString& text)
+{
+    if (richTextLabel == nullptr) {
+        richTextLabel = new QLabel(this);
+        richTextLabel->setAlignment(Qt::AlignCenter);
+        richTextLabel->move(icon().isNull() ? 0 : 35, 0);
+        richTextLabel->setTextFormat(Qt::RichText);
+        richTextLabel->show();
+    }
+
+	richTextLabel->setText(text);
+    setMinimumWidth(richTextLabel->minimumSizeHint().width() + (icon().isNull() ? 20 : 50));
+    richTextLabel->adjustSize();
+    richTextLabel->setMinimumHeight(height());
+    setText("");
+}
+
 void BigPushButton::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
@@ -83,6 +101,8 @@ void BigPushButton::paintEvent(QPaintEvent*)
 
     if (!icon().isNull())
         icon().paint(&painter, iconRect);
+
+    if (richTextLabel) return;
 
     painter.setFont(font());
     painter.setPen(QPen(m_hover ? Theme::fontTurquoise : Theme::fontTurquoiseClicked));
@@ -157,6 +177,19 @@ QSize BigPushButton::minimumSizeHint() const
     size.setWidth(size.width() + 18);
 
     return size;
+}
+
+void BigPushButton::setNormalText(const QString& text)
+{
+    if (richTextLabel) {
+        delete richTextLabel;
+		richTextLabel = nullptr;
+    }
+
+    QPushButton::setText(text);
+    setMinimumWidth(0);
+    adjustSize();
+
 }
 
 BigPushButton::~BigPushButton()

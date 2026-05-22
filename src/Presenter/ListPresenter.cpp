@@ -1647,7 +1647,12 @@ void ListPresenter::createInvoice()
             :
             User::getPrice(p.code.code());
 
-        p.price = p.getPriceMultiplier() * price.second;
+
+        p.price = p.planned_procedure_idx == 0 ?
+            p.getPriceMultiplier() * price.second
+            :
+			price.second;
+
     }
 
     TabPresenter::get().openInvoice(patient->rowid, selectedProcedures.value());

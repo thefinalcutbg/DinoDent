@@ -7,7 +7,36 @@
 #include <QPainter>
 #include <QStyledItemDelegate>
 #include <QMenu>
+#include <QLayout>
+#include <QSignalBlocker>
 
+namespace
+{
+    class UpdatesBlocker
+    {
+    public:
+        explicit UpdatesBlocker(QWidget* w)
+            : widget(w),
+            wasEnabled(w ? w->updatesEnabled() : true)
+        {
+            if (widget)
+                widget->setUpdatesEnabled(false);
+        }
+
+        ~UpdatesBlocker()
+        {
+            if (widget) {
+                widget->setUpdatesEnabled(wasEnabled);
+                if (wasEnabled)
+                    widget->update();
+            }
+        }
+
+    private:
+        QWidget* widget = nullptr;
+        bool wasEnabled = true;
+    };
+}
 
 class NoFocusDelegate : public QStyledItemDelegate
 {
@@ -196,18 +225,55 @@ void TableView::setPISActivitiesLayout()
     setShowGrid(false);
 }
 
-void TableView::fitToModel() //not working correctly yet
+void TableView::fitToModel()
 {
-    auto rows = model()->rowCount();
+    if (!model()) return;
 
-    int tableHeight = rows*50 + horizontalHeader()->height() + 10;
+    // Freeze a common ancestor so no intermediate layout state is painted.
+    QWidget* freezeRoot = window();
+    UpdatesBlocker blocker(freezeRoot);
 
-    if (!rows) {
-        tableHeight += 50;
-    }
-    
+    const int rows = model()->rowCount();
+
+    const int rowH = verticalHeader()->defaultSectionSize() > 0
+        ? verticalHeader()->defaultSectionSize()
+        : 50;
+
+    int tableHeight = horizontalHeader()->height();
+
+    if (rows > 0)
+        tableHeight += rows * rowH;
+    else
+        tableHeight += rowH;
+
+    tableHeight += 2 * frameWidth() + 2;
+
     setFixedHeight(tableHeight);
+    updateGeometry();
 
+    // Resize / refresh the parent RoundedFrame too.
+    QWidget* frame = parentWidget();
+
+    if (frame && frame->layout()) {
+        frame->layout()->invalidate();
+
+        const int frameHeight = frame->layout()->sizeHint().height();
+
+        frame->setMinimumHeight(frameHeight);
+        frame->updateGeometry();
+    }
+
+    // Force parent layouts to settle before painting is re-enabled.
+    QWidget* p = this;
+    while (p) {
+        if (p->layout()) {
+            p->layout()->invalidate();
+            p->layout()->activate();
+        }
+
+        p->updateGeometry();
+        p = p->parentWidget();
+    }
 }
 
 void TableView::enableContextMenu(bool enabled)
@@ -237,12 +303,12 @@ void TableView::paintEvent(QPaintEvent* e)
     if (!m) return;
 
     // During model resets/layout, header counts can lag model counts
-    const int colCount = qMin(m->columnCount(), horizontalHeader()->count());
-    const int rowCount = qMin(m->rowCount(),    verticalHeader()->count());
+    int colCount = qMin(m->columnCount(), horizontalHeader()->count());
+    int rowCount = qMin(m->rowCount(),    verticalHeader()->count());
     if (colCount <= 0 || rowCount <= 0) return;
 
-    const int h = viewport()->height() - 10;
-    const int w = viewport()->width();
+    int h = viewport()->height();
+    int w = viewport()->width();
 
     QPainter painter(viewport());
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -258,7 +324,7 @@ void TableView::paintEvent(QPaintEvent* e)
     for (int i = 0; i < colCount; ++i) {
         if (horizontalHeader()->isSectionHidden(i)) continue;
 
-        const int sz = horizontalHeader()->sectionSize(i);
+        int sz = horizontalHeader()->sectionSize(i);
         if (firstVisible) {
             firstVisible = false;
             xPos += sz;
@@ -273,7 +339,7 @@ void TableView::paintEvent(QPaintEvent* e)
     for (int i = 0; i < rowCount; ++i) {
         if (verticalHeader()->isSectionHidden(i)) continue;
 
-        const int prevSz = verticalHeader()->sectionSize(i - 1);
+        int prevSz = verticalHeader()->sectionSize(i - 1);
         yPos += prevSz;
         painter.drawLine(QPointF(1, yPos), QPointF(w - 1, yPos));
     }

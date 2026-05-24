@@ -29,6 +29,8 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
 
     setShadowTargets({ ui->frameOut, ui->patientInfoTile });
 
+	installEventFilter(this);
+
     ui->frameOut->addVerticalSeparator(ui->teethView->width()+3);
     ui->frameOut->setDynamicFocusBorderChange();
 
@@ -127,6 +129,28 @@ void TreatmentPlanView::disableEditFileds(bool disabled)
     ui->addProcedure->setHidden(disabled);
     ui->addStage->setHidden(disabled);
     ui->addConclusion->setHidden(disabled);
+}
+
+bool TreatmentPlanView::eventFilter(QObject* obj, QEvent* event)
+{
+    if (obj == ui->stageList && event->type() == QEvent::KeyPress)
+    {
+        auto* keyEvent = static_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_Delete)
+        {
+            auto* item = ui->stageList->currentItem();
+
+            if (item)
+            {
+                 presenter->removePressed();
+            }
+
+            return true;
+        }
+    }
+
+    return QWidget::eventFilter(obj, event);
 }
 
 void TreatmentPlanView::setPresenter(TreatmentPlanPresenter *p)

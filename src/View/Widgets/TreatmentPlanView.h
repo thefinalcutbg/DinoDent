@@ -21,7 +21,7 @@ class TreatmentPlanView : public ShadowBakeWidget
 
     std::pair<int,int> getSelection() const;
     void disableEditFileds(bool disabled);
-
+	bool eventFilter(QObject* obj, QEvent* event) override;
 public:
     explicit TreatmentPlanView(QWidget *parent = nullptr);
     void setPresenter(TreatmentPlanPresenter* p);

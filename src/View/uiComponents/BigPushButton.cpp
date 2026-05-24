@@ -188,8 +188,6 @@ void BigPushButton::setNormalText(const QString& text)
 
     QPushButton::setText(text);
     setMinimumWidth(0);
-    adjustSize();
-
 }
 
 BigPushButton::~BigPushButton()

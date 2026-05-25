@@ -49,7 +49,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>23</hour>
+         <hour>21</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -115,7 +115,7 @@
    <item>
     <widget class="QCheckBox" name="pisCheck">
      <property name="text">
-      <string>Извличане на отчетени дейности от ПИС (отнема по-дълго време)</string>
+      <string>Проверка за отчетени дейности в ПИС (отнема по-дълго време)</string>
      </property>
     </widget>
    </item>

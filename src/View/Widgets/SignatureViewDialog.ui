@@ -102,6 +102,9 @@
        <property name="text">
         <string>Премахни</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>

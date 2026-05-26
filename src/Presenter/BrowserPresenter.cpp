@@ -68,7 +68,7 @@ void BrowserPresenter::refreshModel()
 		//tracking the rowids of the sheets sent to his
 		if(
 			ui_state.model_type == TabType::AmbList &&
-			tableView.data[2].rows[i].icon == CommonIcon::HIS
+			tableView.data[2].rows[i].data.size() == 12
 		)
 		{
 			sentToHis.insert(rowidData[i].rowID);
@@ -253,7 +253,7 @@ void BrowserPresenter::deleteCurrentSelection()
 	{
 		if (sentToHis.count(ptr->rowID))
 		{
-			ModalDialogBuilder::showMessage("Не можете да изтриете амбулаторен лист, който е отворен в НЗИС. Първо го анулирайте.");
+			ModalDialogBuilder::showMessage("Не можете да изтриете амбулаторен лист, който е изпратен към НЗИС. Първо го анулирайте.");
 			return;
 		}
 	}

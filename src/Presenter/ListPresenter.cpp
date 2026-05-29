@@ -1466,9 +1466,9 @@ void ListPresenter::addReferral(ReferralType type)
             }
         }
 
-        if(patient->insuranceStatus && patient->insuranceStatus->status == Insured::No) {
+        if(patient->insuranceStatus && patient->insuranceStatus->status != Insured::Yes) {
             bool answer = ModalDialogBuilder::askDialog(
-                "Пациентът не е осигурен. Желаете ли да издадете направление за СИДП въпреки това?"
+                "Пациентът не е здравноосигурен. Желаете ли да издадете направление за СИДП въпреки това?"
 			);
 
 			if (!answer) return;

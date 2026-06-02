@@ -463,7 +463,9 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 	}
 
 	if (exam) {
-		text += "НЗОК преглед:<b> ✓101</b>" + separator;
+		text += "НЗОК преглед:";
+		text += exam > 1 ? "<b style='color:darkRed;'> 101+</b>" : "<b> ✓101</b>";
+		text += separator;
 	}
 	else if(count > 0) {
 		text += "НЗОК преглед:<b style='color:darkRed;'> Няма</b>" + separator;

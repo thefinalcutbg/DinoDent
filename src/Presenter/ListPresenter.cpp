@@ -577,7 +577,7 @@ void ListPresenter::calculateNhifPackage()
         }
     }
 
-    bool exam = false;
+    int exam = 0;
     int maxProcedures = 0;
     int performedProcedures = 0;
     bool upperDenture = false;
@@ -609,8 +609,8 @@ void ListPresenter::calculateNhifPackage()
 
         if (p.date.year != currentDate.year) continue;
 
-        if (p.code.type() == ProcedureType::FullExam) {
-            exam = true;
+        if (p.code.nhifCode() == 101) {
+            exam ++;
             continue;
         }
 

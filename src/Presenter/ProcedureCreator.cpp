@@ -333,7 +333,6 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	case ProcedureType::MultipleExtraction:
 		break;
 	case ProcedureType::RangedStatus:
-		icd = "Z01.2";
 		statusSearch = { ApicalLesion, Pulpitis, Caries, Root, Fracture, Periodontitis, Mobility };
 	}
 

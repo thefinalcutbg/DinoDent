@@ -334,6 +334,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 	case ProcedureType::RangedStatus:
 		statusSearch = { ApicalLesion, Pulpitis, Caries, Root, Fracture, Periodontitis, Mobility };
+		break;
 	}
 
 	for (auto s : statusSearch) {

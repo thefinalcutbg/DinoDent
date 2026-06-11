@@ -124,29 +124,7 @@ void UnusedPackagePresenter::step1_localDbCheck()
 			continue;
 		}
 
-		auto summary = DbProcedure::getNhifSummary(
-			patient.rowid,
-			0,
-			Date(1, 1, m_year),
-			Date(31, 12, m_year)
-		);
-
-		int procedure_counter = 0;
-
-		for (auto &p : summary) {
-
-			if (code_set.count(p.code)) {
-				procedure_counter++;
-			}
-		}
-
-		int max_procedures = patient.isAdult() ? 3 : 4;
-
-		if (procedure_counter >= max_procedures) {
-			popQueue();
-			continue;
-		}
-		else if (s_settings.nraCheckEnabled)
+		if (s_settings.nraCheckEnabled)
 		{
 
 			nraService.sendRequest(
@@ -247,6 +225,11 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		Date(31, 12, m_year)
 	);
 
+	if (!s_settings.pisCheckEnabled) {
+		upperDenture = DbProcedure::getLastNhifDentureDate(patient.rowid, false);
+		lowerDenture = DbProcedure::getLastNhifDentureDate(patient.rowid, true);
+	}
+
 	procedures.insert(procedures.end(), dbProcedures.begin(), dbProcedures.end());
 
 	int max_procedures = patient.isAdult() ? 3 : 4;
@@ -275,7 +258,10 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		}
 	}
 
-	if (procedure_counter >= max_procedures) {
+	bool noPackage = procedure_counter >= max_procedures;
+	bool noDentures = s_settings.dentureListOnly && upperDenture.isDefault() && lowerDenture.isDefault();
+
+	if (noPackage || noDentures) {
 		popQueue();
 		if (s_settings.pisCheckEnabled || s_settings.nraCheckEnabled) {
 			step1_localDbCheck(); //async

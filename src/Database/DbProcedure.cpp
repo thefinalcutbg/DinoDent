@@ -270,6 +270,34 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 
 }
 
+Date DbProcedure::getLastNhifDentureDate(long long patientRowId, bool lower)
+{
+	auto dentureCode = lower ? "97710-01" : "97710-00";
+	auto legacyDentureCode = lower ? "D-09-003" : "D-09-002";
+
+	std::string query =
+		"SELECT MAX(procedure.date) "
+		"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+		"WHERE procedure.financing_source=? "
+		"AND procedure.removed = 0 "
+		"AND amblist.patient_rowid = ? "
+		"AND (procedure.code = ? "
+		"OR procedure.code = ?)";
+
+	Db db;
+	db.newStatement(query);
+	db.bind(1, static_cast<int>(FinancingSource::NHIF));
+	db.bind(2, patientRowId);
+	db.bind(3, dentureCode);
+	db.bind(4, legacyDentureCode);
+
+	if (db.hasRows()) {
+		return Date{ db.asString(0) };
+	}
+
+	return Date{};
+}
+
 std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =

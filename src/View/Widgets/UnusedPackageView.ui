@@ -49,7 +49,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>21</hour>
+         <hour>17</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -102,6 +102,13 @@
     <widget class="QCheckBox" name="excludeNonNhifCheck">
      <property name="text">
       <string>Да не се включват пациенти, които никога не са ползвали пакета си по НЗОК при текущия лекар</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="dentureCheck">
+     <property name="text">
+      <string>Да се включват само пациенти използвали правото си на тотална плакова протеза по НЗОК</string>
      </property>
     </widget>
    </item>

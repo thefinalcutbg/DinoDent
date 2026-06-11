@@ -23,7 +23,8 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 				.excludeBefore = date,
 				.pisCheckEnabled = ui.pisCheck->isChecked(),
 				.nraCheckEnabled = ui.nraCheck->isChecked(),
-				.nhifCurrentDentistOnly = ui.excludeNonNhifCheck->isChecked()
+				.nhifCurrentDentistOnly = ui.excludeNonNhifCheck->isChecked(),
+				.dentureListOnly = ui.dentureCheck->isChecked()
 			}
 		);
 	});
@@ -127,10 +128,37 @@ void UnusedPackageView::addRow(const PackageRowData& row)
 	item = new QTableWidgetItem(row.upperDenture.c_str());
 	item->setTextAlignment(Qt::AlignCenter);
 	ui.tableWidget->setItem(rowIdx, 7, item);
+	
+	auto setBoldGreen = [&](QTableWidgetItem* item, std::string date) {
+
+		if (!item) return;
+		if (date.empty()) return;
+
+		QDate itemDate = QDate::fromString(QString::fromStdString(date), "yyyy-MM-dd");
+
+		if (!itemDate.isValid()) return;
+
+		QDate currentDate = QDate::currentDate();
+		QDate fourYearsAgo = currentDate.addYears(-4);
+
+		// only continue if date is before 4 years or more
+		if (itemDate >= fourYearsAgo) return;
+
+		item->setForeground(QBrush(Qt::darkGreen));
+
+		QFont font = item->font();
+		font.setBold(true);
+		item->setFont(font);
+	};
+
+	setBoldGreen(ui.tableWidget->item(rowIdx, 7), row.upperDenture);
 
 	item = new QTableWidgetItem(row.lowerDenture.c_str());
 	item->setTextAlignment(Qt::AlignCenter);
 	ui.tableWidget->setItem(rowIdx, 8, item);
+
+	setBoldGreen(ui.tableWidget->item(rowIdx, 8), row.lowerDenture);
+
 
 	ui.tableWidget->scrollToBottom();
 
@@ -159,6 +187,7 @@ void UnusedPackageView::setProgressCount(int count)
 	ui.nraCheck->setDisabled(true);
 	ui.excludeNonNhifCheck->setDisabled(true);
 	ui.lastVisitCheck->setDisabled(true);
+	ui.dentureCheck->setDisabled(true);
 }
 
 
@@ -185,6 +214,7 @@ void UnusedPackageView::setSettings(const UnusedPackageSettings& settings)
 	ui.nraCheck->setChecked(settings.nraCheckEnabled);
 	ui.excludeNonNhifCheck->setChecked(settings.nhifCurrentDentistOnly);
 	ui.lastVisitCheck->setChecked(!settings.excludeBefore.isDefault());
+	ui.dentureCheck->setChecked(settings.dentureListOnly);
 
 	if (!settings.excludeBefore.isDefault()) {
 		ui.dateEdit->set_Date(settings.excludeBefore);
@@ -200,6 +230,7 @@ void UnusedPackageView::reset()
 	ui.nraCheck->setDisabled(false);
 	ui.excludeNonNhifCheck->setDisabled(false);
 	ui.lastVisitCheck->setDisabled(false);
+	ui.dentureCheck->setDisabled(false);
 }
 
 void UnusedPackageView::exportToCSV()

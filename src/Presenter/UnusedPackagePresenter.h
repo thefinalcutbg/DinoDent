@@ -28,6 +28,7 @@ struct UnusedPackageSettings{
 	bool pisCheckEnabled{ false };
 	bool nraCheckEnabled{ false };
 	bool nhifCurrentDentistOnly{ false };
+	bool dentureListOnly{ false };
 };
 
 class UnusedPackagePresenter

@@ -16,7 +16,7 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <property name="topMargin">
+     <property name="spacing">
       <number>0</number>
      </property>
      <item>
@@ -49,7 +49,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>17</hour>
+         <hour>15</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>

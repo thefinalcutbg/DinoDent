@@ -352,14 +352,14 @@ std::string XML::getInvoice(const Invoice& invoice)
 
 
     auto addElementWithText = [](TiXmlElement* parent, const char* name, const std::string& value)
-    {
-        TiXmlElement* element = new TiXmlElement(name);
-        TiXmlText* text = new TiXmlText(value);
+        {
+            TiXmlElement* element = new TiXmlElement(name);
+            TiXmlText* text = new TiXmlText(value);
 
-        element->LinkEndChild(text);
+            element->LinkEndChild(text);
 
-        parent->LinkEndChild(element);
-    };
+            parent->LinkEndChild(element);
+        };
 
     addElementWithText(el_invoice, "fin_document_type_code", invoice.nhifDocumentTypeCode());
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
@@ -426,9 +426,9 @@ std::string XML::getInvoice(const Invoice& invoice)
 
     addElementWithText(issuerXml, "address_by_contract", issuer.address_by_contract);
 
-
-    addElementWithText(issuerXml, "address_by_activity", issuer.address_by_activity);
-
+    if (issuer.address_by_activity.size()) {
+        addElementWithText(issuerXml, "address_by_activity", issuer.address_by_activity);
+    }
 
     auto vat = issuer.vat();
 

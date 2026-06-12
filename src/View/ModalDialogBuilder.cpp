@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QGuiApplication>
 #include <QProcess>
-
+#include <QStandardPaths>
 #include "View/Widgets/BrowserDialog.h"
 
 void ModalDialogBuilder::openBrowserDialog()
@@ -259,9 +259,11 @@ std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string
 */
 void ModalDialogBuilder::saveFile(const std::string& data, const std::string& filename)
 {
-	
+	QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+	QString defaultFilePath = QDir(desktopPath).filePath(filename.c_str());
+
 	QString dirPath = QFileDialog::getSaveFileName(nullptr, "Запазване на финансовия документ",
-		QString::fromStdString(filename),
+		defaultFilePath,
 		"XML (*xml)");
 		
 	if (dirPath.isEmpty()) return;

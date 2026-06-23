@@ -21,6 +21,9 @@
        <property name="text">
         <string>Зареди шаблон</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>

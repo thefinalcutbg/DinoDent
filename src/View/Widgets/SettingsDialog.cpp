@@ -430,7 +430,6 @@ void SettingsDialog::focusTab(Tab tab)
 void SettingsDialog::setAdminPriv(bool admin)
 {
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::Practice), admin);
-		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::Company), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::NhifContract), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::CodeList), admin);
 		ui.tabWidget->setTabEnabled(static_cast<int>(Tab::SQL), admin);
@@ -811,8 +810,7 @@ bool SettingsDialog::allFieldsAreValid()
 
 		if(!field->validateInput()) {
 
-			if (i < 3) ui.tabWidget->setCurrentWidget(ui.practiceSettings);
-			else if (i < 8) ui.tabWidget->setCurrentWidget(ui.companySettings);
+			if (i < 8) ui.tabWidget->setCurrentWidget(ui.practiceSettings);
 			else if (i < 13) ui.tabWidget->setCurrentWidget(ui.doctorSettings);
 			else ui.tabWidget->setCurrentWidget(ui.nhifSettings);
 

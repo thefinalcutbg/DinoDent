@@ -72,7 +72,7 @@ class SettingsDialog : public QDialog
 
 public:
 
-	enum class Tab { General, PKCS, PenTablet, SMS, Doctor, Practice, Company, NhifContract, CodeList, SQL };
+	enum class Tab { General, PKCS, PenTablet, SMS, Doctor, Practice, CodeList, NhifContract, SQL };
 
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 

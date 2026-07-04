@@ -281,8 +281,8 @@ void PatientTile::setData(const Patient& patient, int age)
         switch (patient.insuranceStatus->status)
         {
         case Insured::Yes:
-            nraButton->setBackgroundColor(QColor(101, 199, 208));
-            nraButton->setHoverColor(QColor(80, 152, 154));
+            nraButton->setBackgroundColor(Theme::mainBackgroundColor);
+            nraButton->setHoverColor(Theme::fontTurquoiseClicked);
             nraButton->setToolTip("Пациентът е здравноосигурен");
             break;
         case Insured::No:

@@ -52,7 +52,7 @@ void ShortcutTile::paintEvent(QPaintEvent*)
     path.addRoundedRect(r, Theme::radius / 2, Theme::radius / 2);
 
     QColor normalBg(Theme::sectionBackground);
-    QColor hoverBg(Theme::inactiveTabBG);
+    QColor hoverBg(248, 250, 253);
 
     auto mixChannel = [](int a, int b, qreal t) -> int {
         return a + qRound((b - a) * t);

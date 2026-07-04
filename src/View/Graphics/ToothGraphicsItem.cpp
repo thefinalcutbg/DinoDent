@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainterPath>
 #include "View/Theme.h"
+
 ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), hasNote(false), m_tooth(180, 500)
 {
 
@@ -64,7 +65,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
         QPainterPath path;
         path.addRoundedRect(r, 5, 5);
-        painter->fillPath(path, QColor(0, 255, 110));
+        painter->fillPath(path, Theme::buttonFrame);
 
         painter->setOpacity(1);
     }

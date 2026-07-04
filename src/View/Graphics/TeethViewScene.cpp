@@ -527,8 +527,10 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
 void TeethViewScene::display(const ToothPaintHint& tooth)
 {
+    toothGraphic[tooth.idx]->setToothNumber(tooth.num.c_str());
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
     simpleTooth[tooth.idx]->setData(tooth.num, tooth.statuses);
+
 
     if (tooth.dsn)
     {

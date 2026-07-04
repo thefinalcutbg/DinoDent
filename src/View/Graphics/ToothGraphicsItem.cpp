@@ -46,6 +46,24 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 {
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
 
+    if (hasNote)
+    { 
+        QRect noteRect(2, procedureMarkerHeight, 10, 10);
+        painter->drawPixmap(noteRect, {":/icons/icon_note.png" });
+    }
+
+    int xPos = (bounds.width() / 2) - (pxWidth / 2);
+
+    painter->drawPixmap(xPos, 0, pxWidth, pxHeight, m_tooth);
+    
+    if (bounds.width() > pxWidth)
+    {
+        painter->drawPixmap(QRect(0, 0, xPos, pxHeight), m_tooth, QRect(0, 0, 1, m_tooth.height()));
+        
+        painter->drawPixmap(QRect(xPos+pxWidth, 0, xPos, pxHeight), m_tooth, QRect(m_tooth.width() - 1, 0, 1, m_tooth.height()));
+    }
+
+
     if (hasProcedure)
     {
         painter->setOpacity(0.3);
@@ -65,34 +83,18 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
         QPainterPath path;
         path.addRoundedRect(r, 5, 5);
-        painter->fillPath(path, Theme::buttonFrame);
+        painter->fillPath(path, Theme::mainBackgroundColor);
 
         painter->setOpacity(1);
-    }
 
-    if (hasNote)
-    { 
-        QRect noteRect(2, procedureMarkerHeight, 10, 10);
-        painter->drawPixmap(noteRect, {":/icons/icon_note.png" });
-    }
-
-    int xPos = (bounds.width() / 2) - (pxWidth / 2);
-
-    painter->drawPixmap(xPos, 0, pxWidth, pxHeight, m_tooth);
-    
-    if (bounds.width() > pxWidth)
-    {
-        painter->drawPixmap(QRect(0, 0, xPos, pxHeight), m_tooth, QRect(0, 0, 1, m_tooth.height()));
+        painter->setPen(Theme::fontTurquoiseClicked);
         
-        painter->drawPixmap(QRect(xPos+pxWidth, 0, xPos, pxHeight), m_tooth, QRect(m_tooth.width() - 1, 0, 1, m_tooth.height()));
+		QFont font = painter->font();
+		font.setBold(true);
+        painter->setFont(font);
+
+		painter->drawText(r, Qt::AlignCenter, toothNumber);
     }
-
-   // QColor color(Qt::GlobalColor::black);
-   // painter->setPen(color);
-   // painter->drawRect(bounds);
-
-    //painter->setOpacity(0.3);
-    //painter->fillRect(bounds, QBrush(Qt::green));
 
 }
 
@@ -121,6 +123,11 @@ void ToothGraphicsItem::setWidth(int width)
 
     bounds.setWidth(width);
     update();
+}
+
+void ToothGraphicsItem::setToothNumber(const QString& number)
+{
+    toothNumber = number;
 }
 
 

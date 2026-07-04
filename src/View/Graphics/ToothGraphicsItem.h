@@ -7,6 +7,7 @@ class ToothGraphicsItem : public QGraphicsItem
     QRectF bounds;
     int index;
 
+	QString toothNumber;
 
     int pxWidth;
     int pxHeight;
@@ -29,6 +30,8 @@ public:
     void setProcedure(bool hasProcedure);
     void setNote(bool hasNote);
     void setWidth(int width);
+	void setToothNumber(const QString& number);
+
     QRectF boundingRect() const override;
 
     //not working:

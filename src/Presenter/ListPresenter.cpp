@@ -553,7 +553,7 @@ void ListPresenter::calculateNhifPackage()
 
     auto nhifProcedures = *patient->PISHistory;
 
-    if(patient->HISHistory && m_amblist.his_updated) {
+    if(patient->HISHistory && m_amblist.nrn.size() && m_amblist.his_updated) {
         
         for(auto& p : *patient->HISHistory) {
             if (p.isNhif() && 
@@ -570,27 +570,35 @@ void ListPresenter::calculateNhifPackage()
     {
         //in case the monthly report from the last month is not yet sent to NHIF
 
-		std::vector<Procedure> lastMonthProceduresDb;
+        if (currentDate.day < 7) //last month report has to be sent by the 5th workday of the month
+        { 
+            std::vector<Procedure> lastMonthProceduresNhif;
 
-        for (auto& p : DbProcedure::getPatientProcedures(patient->rowid)) {
-            if (p.date.isFromLastMonth(currentDate) && p.isNhif()) {
-                lastMonthProceduresDb.push_back(p);
+            for (auto& p : nhifProcedures) {
+                if (p.date.isFromLastMonth(currentDate)) {
+                    lastMonthProceduresNhif.push_back(p);
+                }
             }
-        }
 
-		std::vector<Procedure> lastMonthProceduresNhif;
+            std::vector<Procedure> lastMonthProceduresOtherDb; 
 
-        for(auto& p : nhifProcedures) {
-            if (p.date.isFromLastMonth(currentDate)) {
-                lastMonthProceduresNhif.push_back(p);
+            //usiong either HIS history or local database
+            for (auto& p : patient->HISHistory ? 
+                *patient->HISHistory 
+                : 
+                DbProcedure::getPatientProcedures(patient->rowid))
+            {
+                    if (p.date.isFromLastMonth(currentDate) && p.isNhif()) {
+                        lastMonthProceduresOtherDb.push_back(p);
+                    }
             }
-		}
-
-		//it means the report hasn't been sent to NHIF yet, so we need to add the procedures from the database
-        if (lastMonthProceduresDb.size() > lastMonthProceduresNhif.size()) {
-            for(auto& p : lastMonthProceduresDb) {
-                nhifProcedures.push_back(p);
-			}
+            
+            //it means the report hasn't been sent to NHIF yet, so we need to add the procedures from the database
+            if (lastMonthProceduresOtherDb.size() > lastMonthProceduresNhif.size()) {
+                for (auto& p : lastMonthProceduresOtherDb) {
+                    nhifProcedures.push_back(p);
+                }
+            }
         }
 
         //getting procedures from the current ambulatory sheet

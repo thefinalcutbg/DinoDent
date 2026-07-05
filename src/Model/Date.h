@@ -33,6 +33,7 @@ public:
     std::string toXMLInvoiceFileName() const;
     std::string getMonthName() const;
     bool isFromPreviousMonths(const Date& other) const;
+	bool isFromLastMonth(const Date& currentDate) const;
     static Date currentDate();
 
     static int currentDay();

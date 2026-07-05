@@ -64,37 +64,37 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     }
 
 
-    if (hasProcedure)
-    {
-        painter->setOpacity(0.3);
+    if (!hasProcedure) return;
+    
+    painter->setOpacity(1);
 
-        const int areaX = 0;
-        const int areaY = procedureMarkerHeight;
-        const int areaW = bounds.width();
-        const int areaH = 15;
+    int areaX = 0;
+    int areaY = procedureMarkerHeight;
+    int areaW = bounds.width();
+    int areaH = 15;
 
-        const int rw = areaW-4;
-        const int rh = qMin(areaH, 15);
+    int rw = areaW-4;
+    int rh = qMin(areaH, 15);
 
-        const int x = areaX + (areaW - rw) / 2;
-        const int y = areaY + (areaH - rh) / 2;
+    int x = areaX + (areaW - rw) / 2;
+    int y = areaY + (areaH - rh) / 2;
 
-        QRectF r(x, y, rw, rh);
+    QRectF r(x, y, rw, rh);
 
-        QPainterPath path;
-        path.addRoundedRect(r, 5, 5);
-        painter->fillPath(path, Theme::mainBackgroundColor);
+    QPainterPath path;
+    path.addRoundedRect(r, 5, 5);
+    painter->fillPath(path, Theme::mainBackgroundColor);
 
-        painter->setOpacity(1);
+    painter->setOpacity(1);
 
-        painter->setPen(Theme::fontTurquoiseClicked);
+    painter->setPen(Theme::sectionBackground);
         
-		QFont font = painter->font();
-		font.setBold(true);
-        painter->setFont(font);
+	QFont font = painter->font();
+	font.setBold(true);
+    painter->setFont(font);
 
-		painter->drawText(r, Qt::AlignCenter, toothNumber);
-    }
+	painter->drawText(r, Qt::AlignCenter, toothNumber);
+    
 
 }
 

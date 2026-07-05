@@ -551,7 +551,7 @@ void ListPresenter::calculateNhifPackage()
         return;
     }
 
-    auto nhifProcedrues = *patient->PISHistory;
+    auto nhifProcedures = *patient->PISHistory;
 
     if(patient->HISHistory && m_amblist.his_updated) {
         
@@ -561,22 +561,47 @@ void ListPresenter::calculateNhifPackage()
                 p.date.year == currentDate.year
                 ) 
             {
-                nhifProcedrues.push_back(p);
+                nhifProcedures.push_back(p);
             }
 		}
     }
     
     if(m_amblist.nrn.empty() || !m_amblist.his_updated)
     {
-        Date pisDate = Date();
+        //in case the monthly report from the last month is not yet sent to NHIF
+
+		std::vector<Procedure> lastMonthProceduresDb;
+
+        for (auto& p : DbProcedure::getPatientProcedures(patient->rowid)) {
+            if (p.date.isFromLastMonth(currentDate) && p.isNhif()) {
+                lastMonthProceduresDb.push_back(p);
+            }
+        }
+
+		std::vector<Procedure> lastMonthProceduresNhif;
+
+        for(auto& p : nhifProcedures) {
+            if (p.date.isFromLastMonth(currentDate)) {
+                lastMonthProceduresNhif.push_back(p);
+            }
+		}
+
+		//it means the report hasn't been sent to NHIF yet, so we need to add the procedures from the database
+        if (lastMonthProceduresDb.size() > lastMonthProceduresNhif.size()) {
+            for(auto& p : lastMonthProceduresDb) {
+                nhifProcedures.push_back(p);
+			}
+        }
+
+        //getting procedures from the current ambulatory sheet
 
         for (auto& p : m_amblist.procedures) {
             if (p.isNhif()) {
-                nhifProcedrues.push_back(p);
+                nhifProcedures.push_back(p);
             }
         }
     }
-
+        
     int exam = 0;
     int maxProcedures = 0;
     int performedProcedures = 0;
@@ -589,7 +614,7 @@ void ListPresenter::calculateNhifPackage()
 
     static const std::set<int> dentureCodes{ 832, 833 };
 
-    for (auto& p : nhifProcedrues) {
+    for (auto& p : nhifProcedures) {
 
         auto nhifCode = p.code.nhifCode();
 

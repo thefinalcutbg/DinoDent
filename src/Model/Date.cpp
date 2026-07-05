@@ -198,6 +198,16 @@ bool Date::isFromPreviousMonths(const Date& other) const
     return false;
 }
 
+bool Date::isFromLastMonth(const Date& currentDate) const
+{
+    if(currentDate.month == 1)
+    {
+        return month == 12 && year == currentDate.year - 1;
+	}
+
+	return month == currentDate.month - 1 && year == currentDate.year;
+}
+
 bool Date::Date::operator == (const Date& other) const
 {
     if (year == other.year)
@@ -318,6 +328,7 @@ int Date::getWorkdaysOfMonth(int month, int year)
 
     return workDays;
 }
+
 
 bool Date::isInitialized() const
 {

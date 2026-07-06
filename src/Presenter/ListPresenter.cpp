@@ -1259,7 +1259,9 @@ void ListPresenter::editProcedure(int index)
 
 void ListPresenter::deleteProcedure(int index)
 {
-    m_amblist.procedures.removeProcedure(index);
+    auto success = m_amblist.procedures.removeProcedure(index);
+
+	if (!success) return;
 
     dynamicNhifConversion();
 

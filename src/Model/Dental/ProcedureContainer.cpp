@@ -136,9 +136,9 @@ void ProcedureContainer::refreshTeethTemporary(const ToothContainer& teeth)
     }
 }
 
-void ProcedureContainer::removeProcedure(int idx)
+bool ProcedureContainer::removeProcedure(int idx)
 {
-    if (idx < 0 || idx >= m_proc.size()) return;
+    if (idx < 0 || idx >= m_proc.size()) return false;
 
     if (m_proc[idx].his_index) {
         m_removed.push_back(m_proc[idx]);
@@ -146,7 +146,7 @@ void ProcedureContainer::removeProcedure(int idx)
 
     m_proc.erase(m_proc.begin() + idx);
 
-    
+    return true;
 }
 
 void ProcedureContainer::replaceProcedure(const Procedure& p, int idx)

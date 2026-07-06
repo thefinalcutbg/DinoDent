@@ -22,7 +22,7 @@ public:
 	bool hasDentalExam() const;
 	const std::vector<Procedure>& list() const { return m_proc; }
 	void refreshTeethTemporary(const ToothContainer& teeth);
-	void removeProcedure(int idx);
+	bool removeProcedure(int idx);
 	void replaceProcedure(const Procedure& p, int idx);
 	//returns true if move is successful
 	bool moveProcedure(int from, int to);

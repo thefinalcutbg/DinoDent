@@ -585,7 +585,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Изтрий процедура</string>
+            <string>Премахни процедура</string>
            </property>
            <property name="text">
             <string>Изтрий</string>

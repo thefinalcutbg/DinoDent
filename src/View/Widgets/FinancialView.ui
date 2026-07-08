@@ -568,7 +568,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Добави</string>
+               <string>Добави услуга</string>
               </property>
               <property name="text">
                <string>Добави</string>
@@ -596,7 +596,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Редактирай</string>
+               <string>Редактирай услуга</string>
               </property>
               <property name="text">
                <string>Редактирай</string>
@@ -624,7 +624,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Изтрий</string>
+               <string>Премахни услуга</string>
               </property>
               <property name="text">
                <string>Изтрий</string>

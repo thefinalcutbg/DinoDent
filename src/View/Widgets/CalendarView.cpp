@@ -37,7 +37,7 @@ CalendarView::CalendarView(QWidget* parent)
     ui.currentWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.prevWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.nextWeekButton->setHoverColor(Theme::mainBackgroundColor);
-    ui.exitButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.exitButton->setHoverColor(Theme::fontRedClicked);
     ui.refreshButton->setHoverColor(Theme::mainBackgroundColor);
 
     ui.authButton->setIcon(QIcon(":/icons/icon_google.png"));

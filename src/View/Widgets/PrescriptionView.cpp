@@ -21,7 +21,7 @@ PrescriptionView::PrescriptionView(QWidget* parent)
     ui.supTemplateButton->setIcon(QIcon(":/icons/icon_template.png"));
 
 	ui.addButton->setHoverColor(Theme::mainBackgroundColor);
-	ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.deleteButton->setHoverColor(Theme::fontRedClicked);
 	ui.editButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.eRxButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.templateButton->setHoverColor(Theme::mainBackgroundColor);

@@ -30,7 +30,7 @@ FinancialView::FinancialView(QWidget *parent)
 
     ui.saveXMLButton->setHoverColor(Theme::mainBackgroundColor);
     ui.addButton->setHoverColor(Theme::mainBackgroundColor);
-    ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.deleteButton->setHoverColor(Theme::fontRedClicked);
     ui.editButton->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.operationsTable->setModel(&m_model);

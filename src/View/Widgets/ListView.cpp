@@ -66,7 +66,7 @@ ListView::ListView(QWidget* parent)
 	ui.prescrButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
     ui.plannedProcedure->setHoverColor(Theme::mainBackgroundColor);
-	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
+	ui.deleteProcedure->setHoverColor(Theme::fontRedClicked);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.statusResultButton->setHoverColor(Theme::mainBackgroundColor);

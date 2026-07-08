@@ -49,7 +49,7 @@ TreatmentPlanView::TreatmentPlanView(QWidget *parent)
     ui->addProcedure->setHoverColor(Theme::mainBackgroundColor);
     ui->addStage->setHoverColor(Theme::mainBackgroundColor);
     ui->addConclusion->setHoverColor(Theme::mainBackgroundColor);
-    ui->deleteButton->setHoverColor(Theme::mainBackgroundColor);
+    ui->deleteButton->setHoverColor(Theme::fontRedClicked);
     ui->editButton->setHoverColor(Theme::mainBackgroundColor);
 
     teethViewScene = new TeethViewScene(ui->teethView);

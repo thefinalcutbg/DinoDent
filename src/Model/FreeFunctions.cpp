@@ -268,7 +268,7 @@ void FreeFn::exportToCSV(const std::vector<std::string>& data, int columnCount)
     output.setEncoding(QStringConverter::Utf8);
     output.setGenerateByteOrderMark(true);
 
-    const QChar separator = ',';
+    QChar separator = QLocale::system().decimalPoint() == ',' ? ';' : ',';
 
     auto escapeCsvValue = [separator](QString value) -> QString
         {

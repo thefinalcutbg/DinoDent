@@ -13,6 +13,7 @@
 #include "View/Widgets/NotesTemplateDialog.h"
 #include "View/Theme.h"
 #include "View/Widgets/UnfavourableDialog.h"
+#include "Model/FreeFunctions.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -67,6 +68,8 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.sqlButton->hide();
 	ui.sqlEdit->hide();
 	ui.sqlTemplateButton->hide();
+	ui.sqlCsvButton->hide();
+	ui.sqlCsvButton->setIcon(QIcon(":/icons/icon_csv.png"));
 
 	ui.tabletErrorLabel->setStyleSheet("color: red;");
 
@@ -348,6 +351,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.sqlButton->setDefault(true);
 		ui.sqlWarning->hide();
 		ui.sqlAgree->hide();
+		ui.sqlCsvButton->show();
 		ui.sqlEdit->setFocus();
 		
 		ui.sql->layout()->removeItem(ui.sqlSpacer1);
@@ -358,6 +362,22 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		presenter.sqlCommandExec("SELECT * FROM sqlite_master");
 
+	});
+
+	connect(ui.sqlCsvButton, &QPushButton::clicked, this, [&] {
+
+		//convert the model to a vector of strings and export it to csv
+		std::vector<std::string> data;
+		int colCount = sql_table_model.columnCount();
+
+		for(int row = 0; row < sql_table_model.rowCount(); row++) {
+			for(int col = 0; col < colCount; col++) {
+				auto index = sql_table_model.index(row, col);
+				data.push_back(sql_table_model.data(index).toString().toStdString());
+			}
+		}
+
+		FreeFn::exportToCSV(data, colCount);
 	});
 
 	connect(ui.printEmptyDocs, &QPushButton::clicked, this, [&] { presenter.printEmptyDocs(); });
@@ -615,6 +635,7 @@ void SettingsDialog::setSqlTable(const PlainTable& table)
 	sql_table_model.setTableData(table);
 	ui.sqlEdit->clear();
 	ui.sqlEdit->setFocus();
+	ui.sqlCsvButton->setDisabled(table.columnCount() == 0);
 }
 
 void SettingsDialog::refreshDirStructureUI()

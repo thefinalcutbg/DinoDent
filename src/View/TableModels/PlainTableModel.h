@@ -14,7 +14,6 @@ class PlainTableModel : public QAbstractTableModel
     bool removeRows(int, int, const QModelIndex& = QModelIndex()) override { return false; }
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 public:
     PlainTableModel(QObject* parent = nullptr) : QAbstractTableModel(parent) {};
@@ -23,6 +22,8 @@ public:
 	int columnCount(const QModelIndex & = QModelIndex()) const override;
 
     void setTableData(const PlainTable& t);
+
+	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 	~PlainTableModel() {};
 };

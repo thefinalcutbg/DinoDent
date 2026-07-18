@@ -12,7 +12,6 @@ class PlainTableModel : public QAbstractTableModel
 
     bool insertRows(int, int, const QModelIndex& = QModelIndex()) override { return false; }
     bool removeRows(int, int, const QModelIndex& = QModelIndex()) override { return false; }
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 
 public:
@@ -24,6 +23,7 @@ public:
     void setTableData(const PlainTable& t);
 
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 	~PlainTableModel() {};
 };

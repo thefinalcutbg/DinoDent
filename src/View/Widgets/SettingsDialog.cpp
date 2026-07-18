@@ -370,6 +370,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		std::vector<std::string> data;
 		int colCount = sql_table_model.columnCount();
 
+        for(int col = 0; col < colCount; col++){
+            data.push_back(sql_table_model.headerData(col, Qt::Horizontal).toString().toStdString());
+        }
+
 		for(int row = 0; row < sql_table_model.rowCount(); row++) {
 			for(int col = 0; col < colCount; col++) {
 				auto index = sql_table_model.index(row, col);

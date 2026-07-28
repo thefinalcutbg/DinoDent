@@ -637,7 +637,6 @@ ProcedureListView* SettingsDialog::getPriceListView()
 void SettingsDialog::setSqlTable(const PlainTable& table)
 {
 	sql_table_model.setTableData(table);
-	ui.sqlEdit->clear();
 	ui.sqlEdit->setFocus();
 	ui.sqlCsvButton->setDisabled(table.columnCount() == 0);
 }

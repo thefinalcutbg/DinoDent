@@ -432,3 +432,44 @@ std::string Crypto::get8601timestamp()
 
     return std::string(buf);
 }
+
+std::string Crypto::hmacSha256(const std::string &input, const std::string &secret)
+{
+    if (secret.empty()) return std::string();
+
+    std::array<unsigned char, 32> mac{};
+    std::size_t macLength = 0;
+
+    const auto* inputData =
+        reinterpret_cast<const unsigned char*>(input.data());
+
+    if (EVP_Q_mac(
+            nullptr,
+            "HMAC",
+            nullptr,
+            "SHA256",
+            nullptr,
+            secret.data(),
+            secret.size(),
+            inputData,
+            input.size(),
+            mac.data(),
+            mac.size(),
+            &macLength) == nullptr ||
+        macLength != mac.size())
+    {
+        return std::string();
+    }
+
+    constexpr char hex[] = "0123456789abcdef";
+
+    std::string result(macLength * 2, '\0');
+
+    for (std::size_t i = 0; i < macLength; ++i) {
+        result[i * 2] = hex[mac[i] >> 4];
+        result[i * 2 + 1] = hex[mac[i] & 0x0F];
+    }
+
+    return result;
+
+}

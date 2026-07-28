@@ -21,10 +21,15 @@ DbTelemetry::Data DbTelemetry::getData(const std::string practiceRzi, const std:
       };
 
     result.ambCount = dbGetFn("SELECT COUNT(*) FROM amblist WHERE amblist.rzi=? AND amblist.lpk=?");
+    result.ambHISCount = dbGetFn("SELECT COUNT(*) FROM amblist WHERE nrn != '' AND nrn IS NOT NULL AND amblist.rzi=? AND amblist.lpk=?");
     result.perioCount = dbGetFn("SELECT COUNT(*) FROM periostatus WHERE periostatus.rzi=? AND periostatus.lpk=?");
     result.prescrCount = dbGetFn("SELECT COUNT(*) FROM prescription WHERE prescription.rzi=? AND prescription.lpk=?");
     result.noticeCount = dbGetFn("SELECT COUNT(*) FROM medical_notice LEFT JOIN amblist ON medical_notice.amblist_rowid = amblist.rowid WHERE amblist.rzi=? AND amblist.lpk=?");
     result.planCount = dbGetFn("SELECT COUNT(*) FROM treatment_plan WHERE treatment_plan.rzi=? AND treatment_plan.lpk=?");
+    result.procCount = dbGetFn("SELECT COUNT(*) FROM procedure JOIN amblist ON procedure.amblist_rowid = amblist.rowid WHERE procedure.removed = 0 AND amblist.rzi = ? AND amblist.lpk = ?");
+    result.procHISnhif = dbGetFn("SELECT COUNT(*) FROM procedure JOIN amblist ON procedure.amblist_rowid = amblist.rowid WHERE procedure.his_index != 0 AND procedure.removed = 0 AND procedure.financing_source = 2 AND amblist.rzi = ? AND amblist.lpk = ?");
+    result.procHISother = dbGetFn("SELECT COUNT(*) FROM procedure JOIN amblist ON procedure.amblist_rowid = amblist.rowid WHERE procedure.his_index != 0 AND procedure.removed = 0 AND procedure.financing_source != 2 AND amblist.rzi = ? AND amblist.lpk = ?");
+
     db.newStatement("SELECT COUNT(*) FROM financial WHERE financial.practice_rzi=?");
     db.bind(1, practiceRzi);
 

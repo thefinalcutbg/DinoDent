@@ -53,4 +53,6 @@ namespace Crypto
 
     // Get country code
     std::string get_country_from_x509(x509_st* cert);
+
+    std::string hmacSha256(const std::string& input, const std::string& secret);
 }

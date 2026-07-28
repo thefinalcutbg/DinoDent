@@ -6,6 +6,7 @@
 #include "src/Version.h"
 #include "Network/NetworkManager.h"
 #include "GlobalSettings.h"
+#include "Network/crypto.h"
 #include "Model/FreeFunctions.h"
 #include "Database/DbTelemetry.h"
 #include "Database/DbDoctor.h"
@@ -16,6 +17,8 @@ void Telemetry::sendData()
 	Json::Value telemetry;
 
 	telemetry["id"] = GlobalSettings::telemetryId();
+    telemetry["practice_id"] = Crypto::hmacSha256(User::practice().rziCode, "telemetry");
+    telemetry["doctor_id"] = Crypto::hmacSha256(User::doctor().LPK, "telemetry");
 	telemetry["last_login_date"] = FreeFn::getTimeStampLocal();
 	telemetry["version"] = Version::current().toString();
 	telemetry["is_admin"] = User::isAdmin();
@@ -26,16 +29,20 @@ void Telemetry::sendData()
 	auto dbData = DbTelemetry::getData(User::practice().rziCode, User::doctor().LPK);
 
 	telemetry["amb_count"] = dbData.ambCount;
+    telemetry["amb_his"] = dbData.ambHISCount;
 	telemetry["perio_count"] = dbData.perioCount;
 	telemetry["prescr_count"] = dbData.prescrCount;
 	telemetry["inv_count"] = dbData.invoiceCount;
 	telemetry["patient_count"] = dbData.patientCount;
 	telemetry["notice_count"] = dbData.noticeCount;
     telemetry["plan_count"] = dbData.planCount;
-	telemetry["has_tablet"] = User::signatureTablet().getHisIdx() > 0;
+    telemetry["has_tablet"] = User::signatureTablet().getHisIdx();
 	telemetry["has_calendar"] = !DbDoctor::calendarRefreshToken(User::doctor().LPK).empty();
 	telemetry["has_sms"] = User::settings().sms_settings.hasCredentials();
 	telemetry["db_type"] = static_cast<int>(GlobalSettings::getDbSettings().mode);
+    telemetry["proc_count"] = dbData.procCount;
+    telemetry["proc_his_nhif"] = dbData.procHISnhif;
+    telemetry["proc_his_other"] = dbData.procHISother;
 
 	int os = -1;
 

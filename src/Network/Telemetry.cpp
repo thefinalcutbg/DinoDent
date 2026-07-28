@@ -18,7 +18,7 @@ void Telemetry::sendData()
 
 	telemetry["id"] = GlobalSettings::telemetryId();
     telemetry["practice_id"] = Crypto::hmacSha256(User::practice().rziCode, "telemetry");
-    telemetry["doctor_id"] = Crypto::hmacSha256(User::doctor().LPK, "telemetry");
+    telemetry["dentist_id"] = Crypto::hmacSha256(User::doctor().LPK, "telemetry");
 	telemetry["last_login_date"] = FreeFn::getTimeStampLocal();
 	telemetry["version"] = Version::current().toString();
 	telemetry["is_admin"] = User::isAdmin();

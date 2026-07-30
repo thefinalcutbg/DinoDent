@@ -76,8 +76,6 @@ QString linkify(const QString& plain)
 
 QString priceRangeToString(const std::pair<double, double> priceRange)
 {
-    static const bool doublePricing = Date::currentDate() < Date(8, 8, 2026);
-
     constexpr double EUR_TO_BGN = 1.95583;
 
     auto levAmountToString = [&](double eur) -> QString {
@@ -95,11 +93,6 @@ QString priceRangeToString(const std::pair<double, double> priceRange)
     // Single price
     if (priceRange.first == priceRange.second) {
         QString result = priceToString(priceRange.first, 2026);
-
-        if (doublePricing) {
-            result += " / " + levToString(priceRange.first);
-        }
-
         return result;
     }
 
@@ -107,14 +100,5 @@ QString priceRangeToString(const std::pair<double, double> priceRange)
     result += "-";
     result += priceToString(priceRange.second, 2026);
 
-    if (!doublePricing) {
-        return result;
-    }
-
-    QString levRange = levAmountToString(priceRange.first);
-    levRange += "-";
-    levRange += levToString(priceRange.second);
-
-    result += " / " + levRange;
     return result;
 }

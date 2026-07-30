@@ -76,16 +76,6 @@ QString linkify(const QString& plain)
 
 QString priceRangeToString(const std::pair<double, double> priceRange)
 {
-    constexpr double EUR_TO_BGN = 1.95583;
-
-    auto levAmountToString = [&](double eur) -> QString {
-        return roundDouble(eur * EUR_TO_BGN);
-    };
-
-    auto levToString = [&](double eur) -> QString {
-        return levAmountToString(eur) + QChar(0x00A0) + "лв.";
-    };
-
     if(!priceRange.first && !priceRange.second){
         return priceToString(0, 2026);
     }

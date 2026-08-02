@@ -1,6 +1,7 @@
 #include "CalendarJsonParser.h"
 #include <json/json.h>
 #include <QDateTime>
+#include <QColor>
 
 static void parseEventSpecificProperties(Json::Value& json, CalendarEvent& event)
 {
@@ -64,6 +65,11 @@ CalendarEvent CalendarJsonParser::parseEvent(const std::string& response)
 	json.removeMember("kind");
 	json.removeMember("description");
 
+    if (json.isMember("eventLabelId")) {
+        e.labelId = json["eventLabelId"].asString();
+        json.removeMember("eventLabelId");
+    }
+
 	parseEventSpecificProperties(json, e);
 
 	e.json = Json::FastWriter().write(json);
@@ -100,6 +106,12 @@ std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string&
 		item.removeMember("end");
 		item.removeMember("description");
 
+        if (item.isMember("eventLabelId")) {
+            e.labelId = item["eventLabelId"].asString();
+            item.removeMember("eventLabelId");
+        }
+
+
 		parseEventSpecificProperties(item, e);;
 
 		e.json = Json::FastWriter().write(item);
@@ -109,8 +121,6 @@ std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string&
 
 	return result;
 }
-
-
 
 std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event, const std::string& timeZone)
 {
@@ -133,8 +143,8 @@ std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event, cons
     end["timeZone"] = "Europe/Sofia";
 
 	json["end"] = end;
-
-	json["summary"] = event.summary;
+    json["eventLabelId"] = event.labelId;
+    json["summary"] = event.summary;
 
 	json["description"] = event.description;
 
@@ -167,4 +177,36 @@ std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event, cons
 	}
 
 	return Json::FastWriter().write(json);
+}
+
+std::map<std::string, QColor> CalendarJsonParser::parseCalendarColors(const std::string &response)
+{
+    std::map<std::string, QColor> result;
+
+    Json::Value json;
+    Json::Reader reader;
+
+    if (!reader.parse(response, json)) return result;
+
+    Json::Value& eventLabels =
+        json["labelProperties"]["eventLabels"];
+
+    if (!eventLabels.isArray()) return result;
+
+
+    for (const Json::Value& label : eventLabels) {
+        std::string id = label["id"].asString();
+
+        QColor color(
+            QString::fromStdString(
+                label["backgroundColor"].asString()
+                )
+            );
+
+        if (!id.empty() && color.isValid()) {
+            result[id] = color;
+        }
+    }
+
+    return result;
 }

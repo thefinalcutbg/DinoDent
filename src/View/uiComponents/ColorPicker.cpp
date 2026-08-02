@@ -39,21 +39,9 @@ ColorPicker::ColorPicker(QWidget* widget) :QPushButton(widget)
 
     //setPopupMode(QToolButton::ToolButtonPopupMode::InstantPopup);
 
-    QMenu* contextMenu = new QMenu(this);
+    contextMenu = new QMenu(this);
     
-    
-    for (auto& color : getAvailableColors()) {
-
-        QAction* a = new QAction();
-
-        a->setIcon(createIcon(color , QRect{ 0,0,22,22 }));
-
-        a->setIconVisibleInMenu(true);
-
-        connect(a, &QAction::triggered, this, [=, this] { setColor(color); });
-
-        contextMenu->addAction(a);
-    }
+    addCustomColors(getAvailableColors());
 
     connect(this, &QPushButton::clicked, this, [=, this] {
         contextMenu->move(this->mapToGlobal(rect().bottomLeft()));
@@ -77,7 +65,6 @@ QIcon ColorPicker::createIcon(const QColor& c, const QRect& rect)
 
         QColor color = c;
         color.setAlpha(255);
-
 
         painter.setPen(color);
         painter.setBrush(color);
@@ -112,4 +99,23 @@ void ColorPicker::setColor(const QColor& color_)
     selected_color = color_;
 
     setIcon(createIcon(color_, QRect{ 0,0,22,22 }));
+}
+
+void ColorPicker::addCustomColors(const std::vector<QColor> &colors)
+{
+    contextMenu->clear();
+
+    for (auto& color : colors) {
+
+        QAction* a = new QAction();
+
+        a->setIcon(createIcon(color , QRect{ 0,0,22,22 }));
+
+        a->setIconVisibleInMenu(true);
+
+        connect(a, &QAction::triggered, this, [=, this] { setColor(color); });
+
+        contextMenu->addAction(a);
+    }
+
 }

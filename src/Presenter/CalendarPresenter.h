@@ -51,11 +51,13 @@ class CalendarPresenter : public TabInstance
 
 	CalendarEvent clipboard_event;
 
-	enum QueryType { GetCalendars, GetEvents, UploadEvent, DeleteEvent, NoReply=99 };
+    enum QueryType { GetCalendars, GetEvents, UploadEvent, DeleteEvent, GetCalendarColors, NoReply=99 };
 
 	static std::pair<QDate, QDate> getTodaysWeek();
 
 	void requestEvents(bool searchCache = true);
+
+    void requestCalendarColors();
 
 	void sendEventQuery(const CalendarEvent& event);
 

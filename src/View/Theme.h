@@ -30,7 +30,7 @@ namespace Theme
 	QString colorToString(const QColor& color);
 	QString getFancyStylesheet();
 	QString getPopupMenuStylesheet();
-    QStyle* fusionStyle(); //for custom buttons on macos to slove the margin problem. Fix leak!
+    QStyle* fusionStyle();
     void cleanUpFusionStyle();
     void applyShadow(QWidget* w,
         int blur = 24,

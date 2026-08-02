@@ -25,8 +25,8 @@ const QString s_emailPrefix = "🦷 ";
 std::unordered_map<QString, CompleterData> s_completer;
 
 CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *parent) :
-	m_result(event),
-	QDialog(parent)
+    QDialog(parent),
+    m_result(event)
 {
 	ui.setupUi(this);
 
@@ -35,7 +35,17 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		:
 		"Ново посещение"
 	);
-	
+
+    std::vector<QColor> colors;
+
+    colors.push_back(QColor());
+
+    for(auto& [id, color] : Calendar::labelIdColorMap){
+        colors.push_back(color);
+    }
+
+    ui.colorPicker->addCustomColors(colors);
+
 	//removing the email prefix if present
 	QString summary = event.summary.c_str();
 
@@ -61,7 +71,19 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		m_result.description = ui.descriptionEdit->text().toStdString();
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
-		
+
+        auto event_color = ui.colorPicker->color();
+
+        for(auto& [colorId, color] : Calendar::labelIdColorMap){
+
+            if(event_color == color){
+                m_result.labelId = colorId;
+                break;
+            }
+
+            m_result.labelId.clear();
+        }
+
 		if(s_completer.count(summary))
 		{
 			auto& data = s_completer[summary];
@@ -146,6 +168,9 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.summaryEdit->setText(m_result.summary.c_str());
 	ui.descriptionEdit->setText(m_result.description.c_str());
 
+    if(Calendar::labelIdColorMap.count(event.labelId)){
+        ui.colorPicker->setColor(Calendar::labelIdColorMap[event.labelId]);
+    }
 
 	ui.summaryEdit->setFocus();
 

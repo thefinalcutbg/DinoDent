@@ -136,7 +136,17 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
         view->setCalendarList(m_calendars, currentCalendar);
 
+        requestCalendarColors();
+
+    }
+        break;
+
+    case QueryType::GetCalendarColors:
+    {
+        Calendar::labelIdColorMap = CalendarJsonParser::parseCalendarColors(reply);
+
         requestEvents();
+
     }
         break;
 
@@ -214,7 +224,7 @@ void CalendarPresenter::calendarIndexChanged(int idx)
     DbDoctor::setCurrentCalendarIdx(idx, User::doctor().LPK);
     currentCalendar = idx;
 
-    requestEvents();
+    requestCalendarColors();
 }
 
 void CalendarPresenter::nextWeekRequested()
@@ -456,6 +466,25 @@ void CalendarPresenter::requestEvents(bool searchCache)
     );
 }
 
+void CalendarPresenter::requestCalendarColors()
+{
+    if(currentCalendar == -1) return;
+
+    auto& calendarId = m_calendars[currentCalendar].id;
+
+    const QString encodedId = QString::fromLatin1(QUrl::toPercentEncoding(QString::fromStdString(calendarId)));
+
+    Google::query(
+        QStringLiteral(
+            "https://www.googleapis.com/calendar/v3/calendars/")
+            + encodedId,
+        {},
+        "GET",
+        {},
+        QueryType::GetCalendarColors
+    );
+}
+
 void CalendarPresenter::setClipboard(const CalendarEvent& e)
 {
     clipboard_event = e;
@@ -482,6 +511,7 @@ void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
         QVariantMap parameters;
         parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
         parameters["eventId"] = event.id.c_str();
+        parameters["eventLabelVersion"] = 1;
 
         if (event.email.size()) {
             parameters["sendUpdates"] = "all";
@@ -498,6 +528,7 @@ void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
     //add new
     QVariantMap parameters;
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
+    parameters["eventLabelVersion"] = 1;
 
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events",

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Model/CalendarStructs.h"
+#include <map>
 
 namespace CalendarJsonParser
 {
@@ -9,5 +10,6 @@ namespace CalendarJsonParser
 	CalendarEvent parseEvent(const std::string& response);
 	std::vector<CalendarEvent> parseEventList(const std::string& response);
     std::string writeEventQuery(const CalendarEvent& event, const std::string& timeZone);
+    std::map<std::string, QColor> parseCalendarColors(const std::string& response);
 
 }

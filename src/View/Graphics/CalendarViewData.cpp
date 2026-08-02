@@ -51,6 +51,10 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 		
 		entity->event_list_index = i;
 
+        if(Calendar::labelIdColorMap.count(event.labelId)){
+            entity->colorLabel = Calendar::labelIdColorMap[event.labelId];
+        }
+
 		//for events under 15 minutes
 		if (!entity->span) {
 			entity->span = 1;
@@ -214,16 +218,31 @@ void CalendarViewData::EventEntity::paintPixmap()
 	QPainterPath path;
 	path.addRoundedRect(QRectF(2,2,cell_width-4, eventHeight-4), 7, 7);
 
-	
-	p.fillPath(path, m_hovered ? Theme::inactiveTabBGHover : Theme::inactiveTabBG);
-	p.setPen(Theme::mainBackgroundColor);
+    auto bgColor = Theme::inactiveTabBG;
+    auto hoverColor = Theme::inactiveTabBGHover;
+    auto borderColor = Theme::mainBackgroundColor;
+    auto textColor = Theme::fontTurquoise;
+
+    if(colorLabel.isValid()){
+        p.setOpacity(0.5);
+        bgColor = colorLabel;
+        hoverColor = colorLabel.darker(140);
+        borderColor = colorLabel.darker(105);
+        textColor = colorLabel.darker();
+    }
+
+    p.fillPath(path, m_hovered ? hoverColor : bgColor);
+
+    p.setOpacity(1);
+
+    p.setPen(borderColor);
 	p.drawPath(path);
 	QFont font = p.font();
 	font.setBold(true);
 
 	p.setFont(font);
 
-	p.setPen(Theme::fontTurquoise);
+    p.setPen(textColor);
 
 	QRect textRect(5, 4, cell_width-10, eventHeight-6);
 	

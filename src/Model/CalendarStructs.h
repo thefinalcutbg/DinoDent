@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <QDateTime>
+#include <map>
+#include <QColor>
 
 struct Patient;
 
@@ -10,6 +12,8 @@ struct Calendar
 	std::string id;
 	std::string etag;
     std::string timeZone;
+
+    static inline std::map<std::string, QColor> labelIdColorMap;
 };
 
 struct CalendarEvent
@@ -31,4 +35,7 @@ struct CalendarEvent
 
 	//color from the local db
 	std::string colorRgb;
+    //color id from the calendar map
+    std::string labelId;
 };
+

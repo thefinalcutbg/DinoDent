@@ -8,8 +8,6 @@
 
 class CalendarViewData {
 
-private:
-
 	struct EventEntity {
 
 		static inline qreal pixelRatio = 1;
@@ -24,6 +22,8 @@ private:
 
 		bool hasPatient = false;
 		QColor patient_color;
+
+        QColor colorLabel;
 
 		QPixmap px = {};
 
@@ -41,8 +41,7 @@ private:
 		int cell_height = -1;
 		void paintPixmap();
 		bool m_hovered = false;
-	};
-
+    };
 
 	std::map<int, std::shared_ptr<EventEntity>> coordinatesMap;
 	
@@ -83,5 +82,4 @@ public:
 
 	//returns the columns and rows which has to be updated
 	std::vector<std::pair<int, int>> setHovered(int column, int row);
-
 };

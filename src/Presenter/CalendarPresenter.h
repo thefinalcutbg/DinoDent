@@ -103,6 +103,7 @@ public:
 	void currentWeekRequested();
 	void moveEvent(int index);
 	void newDocRequested(int index, TabType type);
+    void patientEditRequested(int index);
 	void addEvent(const QTime& t, int daysFromMonday, int duration);
 	void editEvent(int index);
 	void deleteEvent(int index);

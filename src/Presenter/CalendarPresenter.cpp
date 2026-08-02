@@ -337,6 +337,42 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
 
 }
 
+void CalendarPresenter::patientEditRequested(int index)
+{
+    auto e = getEvent(index);
+
+    if (!e) return;
+
+    auto event = *e;
+
+    auto patientRowId = DbPatient::getPatientRowid(event.patientFname, event.patientBirth);
+    auto patient = DbPatient::get(patientRowId);
+
+    PatientDialogPresenter d(patient);
+
+    auto result = d.getPatient();
+
+    if(!result) return;
+
+    event.patientBirth = result->birth.to8601();
+    event.patientFname = result->FirstName;
+    event.colorRgb = result->colorNameRgb;
+
+    bool hasEmailSync = QString(event.summary.c_str()).startsWith("🦷 ");
+
+    event.summary = hasEmailSync ? "🦷 " : "";
+
+    event.summary += result->firstLastName();
+
+    if(result->phone.size()){
+        event.summary += " " + result->phone;
+    }
+
+    birthName_color_map = DbPatient::getBirthNameColorMap();
+
+    sendEventQuery(event);
+}
+
 void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duration)
 {
     QDateTime from(shownWeek.first.addDays(daysFromMonday), t);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>421</width>
-    <height>290</height>
+    <height>299</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -36,13 +36,13 @@
       <widget class="QLabel" name="iconLabel">
        <property name="minimumSize">
         <size>
-         <width>23</width>
+         <width>0</width>
          <height>21</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>21</width>
+         <width>16777215</width>
          <height>21</height>
         </size>
        </property>
@@ -53,6 +53,9 @@
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
      </item>

@@ -83,11 +83,11 @@ public:
 signals:
 
 	void newDocRequested(int eventIndex, TabType type);
+    void patientEditRequested(int eventIndex);
 	void eventEditRequested(int eventIndex);
 	void moveEventRequested(int eventIndex);
 	void deleteEventRequested(int eventIndex);
 	void eventAddRequested(const QTime& t, int daysFromMonday, int minDuration);
 	void eventDurationChange(int eventIndx, int minDuration);
 	void operationCanceled();
-
 };

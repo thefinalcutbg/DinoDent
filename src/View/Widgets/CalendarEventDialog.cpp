@@ -74,14 +74,14 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
         auto event_color = ui.colorPicker->color();
 
+        m_result.labelId.clear();
+
         for(auto& [colorId, color] : Calendar::labelIdColorMap){
 
             if(event_color == color){
                 m_result.labelId = colorId;
                 break;
             }
-
-            m_result.labelId.clear();
         }
 
 		if(s_completer.count(summary))

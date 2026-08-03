@@ -17,8 +17,12 @@ void Telemetry::sendData()
 	Json::Value telemetry;
 
 	telemetry["id"] = GlobalSettings::telemetryId();
-    telemetry["practice_id"] = Crypto::hmacSha256(User::practice().rziCode, "telemetry");
-    telemetry["dentist_id"] = Crypto::hmacSha256(User::doctor().LPK, "telemetry");
+
+    if(User::practice().rziCode != "0000000000"){
+        telemetry["practice_id"] = Crypto::hmacSha256(User::practice().rziCode, "telemetry");
+        telemetry["dentist_id"] = Crypto::hmacSha256(User::doctor().LPK, "telemetry");
+    }
+
 	telemetry["last_login_date"] = FreeFn::getTimeStampLocal();
 	telemetry["version"] = Version::current().toString();
 	telemetry["is_admin"] = User::isAdmin();
@@ -36,7 +40,7 @@ void Telemetry::sendData()
 	telemetry["patient_count"] = dbData.patientCount;
 	telemetry["notice_count"] = dbData.noticeCount;
     telemetry["plan_count"] = dbData.planCount;
-    telemetry["has_tablet"] = User::signatureTablet().getHisIdx();
+    telemetry["tablet_type"] = User::signatureTablet().getHisIdx();
 	telemetry["has_calendar"] = !DbDoctor::calendarRefreshToken(User::doctor().LPK).empty();
 	telemetry["has_sms"] = User::settings().sms_settings.hasCredentials();
 	telemetry["db_type"] = static_cast<int>(GlobalSettings::getDbSettings().mode);

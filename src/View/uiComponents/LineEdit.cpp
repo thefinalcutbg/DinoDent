@@ -40,7 +40,17 @@ void LineEdit::setValidAppearence(bool valid)
 		return;
 	}
 
-	setStyleSheet("border: 1px solid red;");
+#ifdef Q_OS_MACOS
+    setStyleSheet(
+        "LineEdit {"
+        "    border: 2px solid red;"
+        "    border-radius: 6px;"
+        "    padding: 1px 3px;"
+        "}"
+        );
+#else
+    setStyleSheet("LineEdit { border: 1px solid red; }");
+#endif
 
 	if (AbstractUIElement::validator != nullptr && errorLabel != nullptr)
 			errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));

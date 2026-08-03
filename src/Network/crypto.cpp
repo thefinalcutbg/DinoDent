@@ -1,6 +1,8 @@
 #pragma once
 #include "crypto.h"
 
+#include <array>
+
 #include <ctime>
 
 #include <libxml/parser.h>

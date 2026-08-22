@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QVariantAnimation>
 #include <QEasingCurve>
+#include <QMouseEvent>
 
 #include "View/Theme.h"
 #include "View/Widgets/GlobalWidgets.h"
@@ -175,18 +176,26 @@ bool IconButton::eventFilter(QObject*, QEvent* e)
         break;
 
     case QEvent::MouseButtonPress:
-        if (isEnabled()) {
+    {
+        auto* mouseEvent = static_cast<QMouseEvent*>(e);
+
+        if (isEnabled() && mouseEvent->button() == Qt::LeftButton) {
             m_clicked = true;
             update();
         }
         break;
+    }
 
     case QEvent::MouseButtonRelease:
-        if (isEnabled()) {
+    {
+        auto* mouseEvent = static_cast<QMouseEvent*>(e);
+
+        if (mouseEvent->button() == Qt::LeftButton) {
             m_clicked = false;
             update();
         }
         break;
+    }
 
     default:
         break;

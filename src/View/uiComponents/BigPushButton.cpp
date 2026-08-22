@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QIcon>
 #include <QEvent>
+#include <QMouseEvent>
 #include <QPainterPath>
 #include "View/Theme.h"
 #include <QApplication>
@@ -120,7 +121,6 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
     if (e->type() == QEvent::Enter) {
         m_hover = true;
 
-        // Animate hover in
         if (hoverAnimation) {
             hoverAnimation->stop();
             hoverAnimation->setStartValue(hoverProgress);
@@ -134,10 +134,8 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
     }
 
     if (e->type() == QEvent::Leave) {
-
         m_hover = false;
 
-        // Animate hover out
         if (hoverAnimation) {
             hoverAnimation->stop();
             hoverAnimation->setStartValue(hoverProgress);
@@ -151,18 +149,21 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
     }
 
     if (e->type() == QEvent::MouseButtonPress) {
-        // Preserve original behavior: cancel hover on press
-        m_hover = false;
+        auto* mouseEvent = static_cast<QMouseEvent*>(e);
 
-        if (hoverAnimation) {
-            hoverAnimation->stop();
-            hoverAnimation->setStartValue(hoverProgress);
-            hoverAnimation->setEndValue(0.0);
-            hoverAnimation->start();
-        }
-        else {
-            hoverProgress = 0.0;
-            update();
+        if (mouseEvent->button() == Qt::LeftButton) {
+            m_hover = false;
+
+            if (hoverAnimation) {
+                hoverAnimation->stop();
+                hoverAnimation->setStartValue(hoverProgress);
+                hoverAnimation->setEndValue(0.0);
+                hoverAnimation->start();
+            }
+            else {
+                hoverProgress = 0.0;
+                update();
+            }
         }
     }
 

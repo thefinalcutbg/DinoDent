@@ -331,6 +331,21 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
         if (!result) return;
 
         tab.patientRowId = result->rowid;
+
+		//update the event with the new patient data (similar to patientEditRequested)
+        event->patientBirth = result->birth.to8601();
+        event->patientFname = result->FirstName;
+        event->colorRgb = result->colorNameRgb;
+
+        event->summary = result->firstLastName();
+
+        if(result->phone.size()){
+        event->summary += " " + result->phone;
+        }
+
+        birthName_color_map = DbPatient::getBirthNameColorMap();
+
+        sendEventQuery(*event);
     }
 
     TabPresenter::get().open(tab, true);

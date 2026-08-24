@@ -97,6 +97,10 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 				m_result.summary = summary.toStdString();
 			}
 		}
+		else {
+			m_result.patientFname.clear();
+			m_result.patientBirth.clear();
+		}
 
 		smsLogic();
 

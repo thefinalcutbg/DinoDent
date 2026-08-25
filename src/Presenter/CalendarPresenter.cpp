@@ -365,6 +365,10 @@ void CalendarPresenter::patientEditRequested(int index)
 
     PatientDialogPresenter d(patient);
 
+    if(patient.rowid == 0) {
+        d = PatientDialogPresenter("Нов пациент", event.summary);
+    }
+
     auto result = d.getPatient();
 
     if(!result) return;

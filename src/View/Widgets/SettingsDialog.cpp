@@ -443,6 +443,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		if (!result.size()) return;
 
 		ui.sqlEdit->setText(result);
+		emit ui.sqlButton->clicked();
 	});
 }
 

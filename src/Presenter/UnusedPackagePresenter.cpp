@@ -66,6 +66,7 @@ void UnusedPackagePresenter::setView(UnusedPackageView* view)
 	view->addTable(s_data);
 	view->setSumLabel(m_sum);
 	view->setSettings(s_settings);
+    view->addTable(s_data);
 }
 
 void UnusedPackagePresenter::buttonPressed(const UnusedPackageSettings& s)

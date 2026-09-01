@@ -9,6 +9,5 @@ public:
 	PackageCounter(const std::vector<ProcedurePackage>& packages);
     void insertCode(int code);
     bool insertAndValidate(int code, bool adult);
-	void setPregnantProperty();
 };
 

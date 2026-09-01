@@ -193,7 +193,7 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 		//NHIF PARTIAL
 		{
 			{101, "97017-00"},
-			{101, "97017-01"},
+			{103, "97017-01"},
 			{301, "97546-00"}, //!!
 			{301, "97546-01"}, //!!
 			{332, "97423-00"}, //!!
@@ -217,7 +217,7 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 		//NHIF FULL
 		{
 			{101, "97017-00"},
-			{101, "97017-01"},
+			{103, "97017-01"},
 
 			{301, "97546-03"}, //!!
 			{301, "97546-02"}, //!!
@@ -243,7 +243,7 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 		{
 			
 			{101, "97017-00"},
-			{101, "97017-01"},
+			{103, "97017-01"},
 			{301, "97546-00"}, //!!
 			{301, "97546-01"}, //!!
 			{508, "97311-11"}, //!!

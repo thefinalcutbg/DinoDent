@@ -273,11 +273,6 @@ bool AmbListValidator::validatePackage(const std::vector<ProcedureSummary> &sour
     {
         auto& procedure = procedures[i];
 
-        //additional pregnant exam code
-        if (procedure.code.ACHICode() == "97017-01") {
-            packageCounter.setPregnantProperty();
-        }
-
         if (!packageCounter.insertAndValidate(
                 procedure.code.nhifCode(),
                 patient.isAdult(procedure.date))

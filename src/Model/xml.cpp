@@ -216,11 +216,6 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
             auto activityCode = procedure.code.nhifCode();
 
-            //NHIF idiotic exception:
-            if (procedure.code.ACHICode() == "97017-01") {
-                activityCode = 103;
-            }
-
             service->SetAttribute("activityCode", activityCode);
             service->SetAttribute("ACHIcode", procedure.code.ACHICode());
 

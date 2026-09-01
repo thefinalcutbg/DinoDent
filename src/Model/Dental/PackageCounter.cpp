@@ -32,18 +32,3 @@ bool PackageCounter::insertAndValidate(int code, bool adult)
 
     return true;
 }
-
-void PackageCounter::setPregnantProperty()
-{
-	//adding additional exam during pregnancy
-	for (auto& procedurePackage : packages) {
-		for (auto& c : procedurePackage.codes) {
-			if (c == 101) {
-				procedurePackage.limit_adult ++;
-				procedurePackage.limit_minor ++;
-				return;
-			}
-		}
-	}
-}
-

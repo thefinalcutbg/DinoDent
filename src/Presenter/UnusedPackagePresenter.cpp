@@ -233,7 +233,11 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	procedures.insert(procedures.end(), dbProcedures.begin(), dbProcedures.end());
 
-	int max_procedures = patient.isAdult() ? 3 : 4;
+	int max_procedures = 4;
+	
+	if(patient.isAdult() && Date::currentDate() < Date(1,11,2026)){
+		max_procedures = 3;
+	}
 
 	int procedure_counter = 0;
 	Date exam;

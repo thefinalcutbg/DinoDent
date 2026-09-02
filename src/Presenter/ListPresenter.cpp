@@ -616,7 +616,11 @@ void ListPresenter::calculateNhifPackage()
     bool upperDenture = false;
     bool lowerDenture = false;
 
-    maxProcedures = patient->isAdult(m_amblist.getDate()) ? 3 : 4;
+    maxProcedures = 4;
+    
+    if(patient->isAdult(m_amblist.getDate()) && m_amblist.getDate() < Date(1,11,2026)){
+        maxProcedures = 3;
+	}
 
     static const std::set<int> packageCodes{ 301, 332, 333, 508, 509 };
 

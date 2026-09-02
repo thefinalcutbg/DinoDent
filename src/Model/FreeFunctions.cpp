@@ -10,6 +10,7 @@
 #include <QTextStream>
 #include <QStringConverter>
 #include <QStandardPaths>
+#include <QInputDialog>
 
 std::string FreeFn::formatDouble(const double& price)
 {
@@ -242,12 +243,10 @@ void FreeFn::restartApplication()
 void FreeFn::exportToCSV(const std::vector<std::string>& data, int columnCount)
 {
     if (data.empty() || columnCount <= 0) return;
-
-    if(data.size()% columnCount != 0) return;
+    if (data.size() % columnCount != 0) return;
 
     QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     QString defaultFilePath = QDir(desktopPath).filePath("export.csv");
-
 
     QString filename = QFileDialog::getSaveFileName(
         nullptr,
@@ -258,33 +257,68 @@ void FreeFn::exportToCSV(const std::vector<std::string>& data, int columnCount)
 
     if (filename.isEmpty()) return;
 
-    if (!filename.endsWith(".csv", Qt::CaseInsensitive))  filename += ".csv";
+    if (!filename.endsWith(".csv", Qt::CaseInsensitive)) 
+        filename += ".csv";
+
+    QStringList delimiterOptions = {
+        "Точка и запетая ( ; )",
+        "Запетая ( , )",
+        "Табулация (Tab)",
+        "Вертикална черта ( | )"
+    };
+
+    int defaultDelimiter = QLocale::system().decimalPoint() == ',' ? 0 : 1;
+
+    bool ok = false;
+
+    QString selectedDelimiter = QInputDialog::getItem(
+        nullptr,
+        "Разделител",
+        "Изберете разделител на колоните:",
+        delimiterOptions,
+        defaultDelimiter,
+        false,
+        &ok
+    );
+
+    if (!ok) return;
+
+    QChar separator;
+
+    if (selectedDelimiter == delimiterOptions[0])
+        separator = ';';
+    else if (selectedDelimiter == delimiterOptions[1])
+        separator = ',';
+    else if (selectedDelimiter == delimiterOptions[2])
+        separator = '\t';
+    else
+        separator = '|';
+
 
     QFile file(filename);
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) return;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
+        return;
 
     QTextStream output(&file);
     output.setEncoding(QStringConverter::Utf8);
     output.setGenerateByteOrderMark(true);
 
-    QChar separator = QLocale::system().decimalPoint() == ',' ? ';' : ',';
-
     auto escapeCsvValue = [separator](QString value) -> QString
-        {
-            value.replace("\"", "\"\"");
+    {
+        value.replace("\"", "\"\"");
 
-            bool mustQuote =
-                value.contains(separator) ||
-                value.contains('"') ||
-                value.contains('\n') ||
-                value.contains('\r');
+        bool mustQuote =
+            value.contains(separator) ||
+            value.contains('"') ||
+            value.contains('\n') ||
+            value.contains('\r');
 
-            if (mustQuote)
-                value = "\"" + value + "\"";
+        if (mustQuote)
+            value = "\"" + value + "\"";
 
-            return value;
-        };
+        return value;
+    };
 
     for (int i = 0; i < static_cast<int>(data.size()); ++i)
     {
@@ -294,12 +328,15 @@ void FreeFn::exportToCSV(const std::vector<std::string>& data, int columnCount)
         bool lastValue = (i == static_cast<int>(data.size()) - 1);
 
         if (lastColumn) {
-            if (!lastValue) output << '\n';
+            if (!lastValue)
+                output << '\n';
         }
         else {
             output << separator;
         }
     }
 
-	ModalDialogBuilder::openExplorer(file.fileName().toStdString());
+    file.close();
+
+    ModalDialogBuilder::openExplorer(filename.toStdString());
 }

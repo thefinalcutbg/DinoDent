@@ -1149,6 +1149,7 @@ void ListPresenter::openDetails()
     }
     
     openDetails(m_selectedIndexes[0]);
+    view->focusTeethView(true);
 }
 
 void ListPresenter::refreshProcedureView()

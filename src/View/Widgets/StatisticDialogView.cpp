@@ -42,7 +42,8 @@ std::array<std::pair<QString, ProcedureType>, (int)ProcedureType::MaxCount>s_idx
 
 	std::make_pair(QString("Други процедури"), ProcedureType::General),
 	std::make_pair(QString("Други процедури засягащи зъб/зъби"), ProcedureType::ToothNonSpecific),
-	std::make_pair(QString("Обща анестезия"), ProcedureType::Anesthesia)
+	std::make_pair(QString("Обща анестезия"), ProcedureType::Anesthesia),
+	std::make_pair(QString("Интраорална рентгенография"), ProcedureType::RangedStatus)
 };
 
 StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *parent)

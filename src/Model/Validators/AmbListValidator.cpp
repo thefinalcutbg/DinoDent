@@ -424,7 +424,7 @@ std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
 {
     if (!User::settings().nhifDailyLimitCheck) return {};
 
-    constexpr int maxLimit = 360;
+    int maxLimit = User::doctor().specialty == NhifSpecialty::General ? 360 : 480;
 
     auto dontSum = [](int code)->bool
     {

@@ -17,7 +17,7 @@ bool Print::printHirbNoDeclaration(const Patient* patient, const std::string& pd
             "<br>(подчертава се съответното качество)"
         );
 
-        return PrintPrv::printLogic(report, "");
+        return report.printReport();
     }
 
     //chose declarator type:

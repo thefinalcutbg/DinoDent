@@ -99,7 +99,5 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
 
     report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
-    report.printReport();
-
-
+    PrintPrv::printLogic(report, std::string());
 }

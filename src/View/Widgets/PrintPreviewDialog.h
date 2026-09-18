@@ -2,7 +2,12 @@
 
 #include <QDialog>
 #include "ui_PrintPreviewDialog.h"
+
+#ifdef Q_OS_WIN //in MSVC build limereport is dynamic lib
+#include <LimeReport/include/lrreportengine.h>
+#else
 #include "lrreportengine.h"
+#endif
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PrintPreviewDialogClass; };

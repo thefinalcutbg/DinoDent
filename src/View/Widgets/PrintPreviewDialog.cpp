@@ -12,7 +12,7 @@ PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 
 	setWindowTitle("Предварителен преглед");
 
-    setWindowFlag(Qt::WindowMaximizeButtonHint, true
+    setWindowFlag(Qt::WindowMaximizeButtonHint, true);
 
     QSize defaultSize(1100, 850);
     QRect available = screen()->availableGeometry();

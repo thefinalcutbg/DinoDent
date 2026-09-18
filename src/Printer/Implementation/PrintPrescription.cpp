@@ -79,6 +79,6 @@ bool Print::prescription(const Prescription& prescr, const Patient& patient, con
         return report.printToPDF(filename.c_str());
     }
 
-    return report.printReport();
+    return PrintPrv::printLogic(report, filename);
 
 }

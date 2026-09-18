@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>8</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -48,7 +48,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Нов амбулаторен лист</string>
+          <string>Портребителски интерфейс</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_27">
           <item>
@@ -83,6 +83,13 @@
            <widget class="QCheckBox" name="autoHospitalCheck">
             <property name="text">
              <string>Автоматично известяване за наличие на активна хоспитализация</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="printPrevCheck">
+            <property name="text">
+             <string>Показвай предварителен преглед при печат</string>
             </property>
            </widget>
           </item>

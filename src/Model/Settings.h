@@ -25,6 +25,7 @@ struct Settings //only practice-specific settings
 	bool getHisHistoryAuto{ false };
 	bool getPisHistoryAuto{ false };
 	bool getNraStatusAuto{ false };
+	bool printPreview{ false };
 	bool getHirbNoAuto{ false };
 	bool nhifDailyLimitCheck{ false };
 	bool nhifWeekendCheck{ false };

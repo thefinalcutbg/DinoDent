@@ -541,6 +541,7 @@
     <ClCompile Include="src\View\Widgets\InputDialog.cpp" />
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PriceInputDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\PrintPreviewDialog.cpp" />
     <ClCompile Include="src\View\Widgets\SignatureViewDialog.cpp" />
     <ClCompile Include="src\View\Widgets\SplashScreen.cpp" />
     <ClCompile Include="src\View\Widgets\StatisticDialogView.cpp" />
@@ -898,6 +899,7 @@
     <QtMoc Include="src\View\SubWidgets\PerioSummary.h" />
     <QtMoc Include="src\View\Widgets\PlannedProcedureDialog.h" />
     <QtMoc Include="src\View\Widgets\PriceInputDialog.h" />
+    <QtMoc Include="src\View\Widgets\PrintPreviewDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -1009,6 +1011,7 @@
     <QtUic Include="src\View\Widgets\InputDialog.ui" />
     <QtUic Include="src\View\Widgets\InvoicePrintDialog.ui" />
     <QtUic Include="src\View\Widgets\PriceInputDialog.ui" />
+    <QtUic Include="src\View\Widgets\PrintPreviewDialog.ui" />
     <QtUic Include="src\View\Widgets\SignatureViewDialog.ui" />
     <QtUic Include="src\View\Widgets\StatisticDialogView.ui" />
     <QtUic Include="src\View\Widgets\TableViewDialog.ui" />

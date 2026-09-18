@@ -1,8 +1,20 @@
 #include "PrintPrv.h"
+#include "View/Widgets/PrintPreviewDialog.h"
+#include "Model/User.h"
 
 bool PrintPrv::printLogic(LimeReport::ReportEngine& report, const std::string& filepath)
 {
     if (filepath.empty()) {
+
+		if (User::practice().settings.printPreview) 
+        {
+            PrintPreviewDialog d(report);
+
+            if(d.exec() != QDialog::Accepted) {
+                return false;
+			}
+        }
+
         return report.printReport();
     }
 

@@ -41,5 +41,5 @@ void Print::saveNhifSpecReport(const NhifSpecReport& spec_report)
 
     report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
-    report.printReport();
+    PrintPrv::printLogic(report, std::string());
 }

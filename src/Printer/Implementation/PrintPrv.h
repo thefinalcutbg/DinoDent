@@ -1,3 +1,4 @@
+﻿#pragma once
 #include "Printer/Print.h"
 
 #include <QtGlobal>

@@ -392,6 +392,7 @@ std::string Parser::write(const Settings& settings)
 	json["pisCheck"] = settings.getPisHistoryAuto;
 	json["nraCheck"] = settings.getNraStatusAuto;
 	json["hisCheck"] = settings.getHisHistoryAuto;
+	json["printPreview"] = settings.printPreview;
 	json["hirbnoCheck"] = settings.getHirbNoAuto;
 	json["dailyLimitCheck"] = settings.nhifDailyLimitCheck;
 	json["weekendCheck"] = settings.nhifWeekendCheck;
@@ -428,6 +429,7 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.getHisHistoryAuto = json["hisCheck"].asBool(),
 		.getPisHistoryAuto = json["pisCheck"].asBool(),
 		.getNraStatusAuto = json["nraCheck"].asBool(),
+		.printPreview = json["printPreview"].asBool(),
 		.getHirbNoAuto = json["hirbnoCheck"].asBool(),
 		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
 		.nhifWeekendCheck = json["weekendCheck"].asBool(),

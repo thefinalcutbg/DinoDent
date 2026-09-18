@@ -1,6 +1,8 @@
 #include "PrintPreviewDialog.h"
 #include <QGraphicsItem>
 #include <QScrollBar>
+#include <QScreen>
+#include "View/CommonIcon.h"
 
 PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 	: QDialog(nullptr)
@@ -9,9 +11,25 @@ PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 	ui->setupUi(this);
 
 	setWindowTitle("Предварителен преглед");
-    
-    resize(1100, 850);
+
+    setWindowFlag(Qt::WindowMaximizeButtonHint, true
+
+    QSize defaultSize(1100, 850);
+    QRect available = screen()->availableGeometry();
+
+    if (defaultSize.width() > available.width() || 
+        defaultSize.height() > available.height())
+    {
+        setWindowState(windowState() | Qt::WindowMaximized); 
+    }  
+    else 
+    {
+        resize(defaultSize);
+    }
+
     setWindowFlag(Qt::WindowMaximizeButtonHint, true);
+
+	ui->printButton->setIcon(CommonIcon::getPixmap(CommonIcon::Type::PRINT));
 
     ui->view->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     ui->view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);

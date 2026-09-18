@@ -29,7 +29,7 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 	contents += bind("lrn", ref.lrn);
 	contents += bind("authoredOn", ref.date.to8601());
 	contents += bind("category", getNhifCategory());
-	contents += bind("type", ref.reason.getIndex());
+	contents += bind("type", ref.reason.getIndex()+1);
 	contents += bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion());
 	contents += bind("basedOn", examNrn);
 	contents += bind("financingSource", 2);

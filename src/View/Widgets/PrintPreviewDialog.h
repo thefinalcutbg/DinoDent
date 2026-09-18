@@ -2,7 +2,7 @@
 
 #include <QDialog>
 #include "ui_PrintPreviewDialog.h"
-#include <LimeReport/include/lrreportengine.h>
+#include "lrreportengine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PrintPreviewDialogClass; };

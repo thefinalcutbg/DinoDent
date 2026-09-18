@@ -28,17 +28,21 @@ PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 
     ui->view->setScene(scene);
 
-    QRectF sceneRect = scene->itemsBoundingRect();
-
-    scene->setSceneRect(sceneRect);
+    QRectF pagesBounds;
 
     for (QGraphicsItem* item : scene->items()) {
         if (item->parentItem()) continue;
+
         QRectF rect = item->sceneBoundingRect();
-        if (!rect.isEmpty()) pageRects.append(rect);
+        if (rect.isEmpty()) continue;
+
+        pageRects.append(rect);
+        pagesBounds = pagesBounds.isNull() ? rect : pagesBounds.united(rect);
     }
 
     std::sort(pageRects.begin(), pageRects.end(), [](const QRectF& a, const QRectF& b) { return a.top() < b.top(); });
+
+    scene->setSceneRect(pagesBounds);
 
     pageCount = pageRects.size();
     ui->pageSpin->setMaximum(pageCount);
@@ -71,21 +75,36 @@ PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 
 }
 
-void PrintPreviewDialog::fitSceneWidth() {
-        QRectF rect = scene->sceneRect();
-        if (rect.width() <= 0) return;
+void PrintPreviewDialog::fitSceneWidth()
+{
+    if (pageRects.isEmpty()) return;
 
-        constexpr qreal margin = 30.0;
-        qreal availableWidth = ui->view->viewport()->width() - margin * 2.0;
-        if (availableWidth <= 0) return;
+    QRectF bounds = pageRects.first();
+    for (int i = 1; i < pageRects.size(); ++i) bounds = bounds.united(pageRects[i]);
 
-        QPointF topCenter = ui->view->mapToScene(QPoint(ui->view->viewport()->width() / 2, 0));
+    if (bounds.width() <= 0) return;
 
-        ui->view->resetTransform();
-        ui->view->scale(availableWidth / rect.width(), availableWidth / rect.width());
+    constexpr qreal margin = 30.0;
+    qreal availableWidth = ui->view->viewport()->width() - margin * 2.0;
+    if (availableWidth <= 0) return;
 
-        QPoint p = ui->view->mapFromScene(topCenter);
-        ui->view->verticalScrollBar()->setValue(ui->view->verticalScrollBar()->value() + p.y());
+    qreal currentY = ui->view->mapToScene(QPoint(0, ui->view->viewport()->height() / 2)).y();
+
+    ui->view->resetTransform();
+
+    qreal factor = availableWidth / bounds.width();
+    ui->view->scale(factor, factor);
+
+    qreal visibleWidth = ui->view->viewport()->width() / factor;
+
+    ui->view->setSceneRect(
+        bounds.center().x() - visibleWidth / 2.0,
+        bounds.top(),
+        visibleWidth,
+        bounds.height()
+        );
+
+    ui->view->centerOn(bounds.center().x(), currentY);
 }
 
 void PrintPreviewDialog::gotoPage(int page)

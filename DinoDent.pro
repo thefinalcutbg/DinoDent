@@ -367,6 +367,7 @@ HEADERS += \
     src/View/Widgets/PracticeSelectorView.h \
     src/View/Widgets/PrescriptionView.h \
     src/View/Widgets/PriceInputDialog.h \
+    src/View/Widgets/PrintPreviewDialog.h \
     src/View/Widgets/ProcedureDialog.h \
     src/View/Widgets/ProcedureEditDialog.h \
     src/View/Widgets/ProcedurePrintSelectDialog.h \
@@ -724,6 +725,7 @@ SOURCES += \
     src/View/Widgets/PracticeSelectorView.cpp \
     src/View/Widgets/PrescriptionView.cpp \
     src/View/Widgets/PriceInputDialog.cpp \
+    src/View/Widgets/PrintPreviewDialog.cpp \
     src/View/Widgets/ProcedureDialog.cpp \
     src/View/Widgets/ProcedureEditDialog.cpp \
     src/View/Widgets/ProcedurePrintSelectDialog.cpp \
@@ -844,6 +846,7 @@ FORMS += \
     src/View/Widgets/PracticeSelectorView.ui \
     src/View/Widgets/PrescriptionView.ui \
     src/View/Widgets/PriceInputDialog.ui \
+    src/View/Widgets/PrintPreviewDialog.ui \
     src/View/Widgets/ProcedureDialog.ui \
     src/View/Widgets/ProcedureEditDialog.ui \
     src/View/Widgets/ProcedurePrintSelectDialog.ui \

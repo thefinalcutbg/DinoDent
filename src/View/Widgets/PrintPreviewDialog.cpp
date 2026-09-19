@@ -14,19 +14,23 @@ PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 
     setWindowFlag(Qt::WindowMaximizeButtonHint, true);
 
-    QSize defaultSize(1100, 850);
+	int dialogWidth = 1100;
+	int dialogHeight = 850;
+
     QRect available = screen()->availableGeometry();
 
-    if (defaultSize.width() > available.width() || 
-        defaultSize.height() > available.height())
+    if(dialogHeight > available.height())
     {
-        setWindowState(windowState() | Qt::WindowMaximized); 
-    }  
-    else 
+        dialogHeight = available.height() - 20;
+	}
+
+    if (dialogWidth > available.width())
     {
-        resize(defaultSize);
+        dialogWidth = available.width() - 10;
     }
 
+    resize(QSize(dialogWidth, dialogHeight));
+ 
     setWindowFlag(Qt::WindowMaximizeButtonHint, true);
 
 	ui->printButton->setIcon(CommonIcon::getPixmap(CommonIcon::Type::PRINT));

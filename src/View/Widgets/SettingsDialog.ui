@@ -48,7 +48,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Портребителски интерфейс</string>
+          <string>Потребителски интерфейс</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_27">
           <item>

@@ -6,9 +6,9 @@ std::string InsuranceStatus::getYearsText() const
 
 	std::string result =
 		status == Insured::Yes ?
-		"Пациентът е здравно осигурен."
+		"Пациентът е здравноосигурен."
 		:
-		"Пациентът не е здравно осигурен!";
+		"Пациентът не е здравноосигурен!";
 
 	if (yearsMonths.size()) {
 		result += "\n\nМесеци без здравно осигуряване: \t";

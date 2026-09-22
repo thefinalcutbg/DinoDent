@@ -89,6 +89,7 @@ public:
 	ProcedureListView* getPriceListView();
 	void setSqlTable(const PlainTable& table);
 
+	void setDeclarationTemplates(const std::vector<std::pair<long long, std::string>>& templates);
 	void setPractice(const Practice& practice);
 	void setDoctor(const Doctor& doctor);
 	void setDoctorList(const std::vector<PracticeDoctor>& doctors);

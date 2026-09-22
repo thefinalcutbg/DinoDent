@@ -13,7 +13,7 @@ namespace FilePaths {
 
 	void setSettings(const std::string& dir, const std::vector<DirType> subdirStructure);
 
-	enum DeclarationType{ Denture, HIRBNo, Consent, GDPR };
+	enum DeclarationType : long long { Denture, HIRBNo, Consent, GDPR, Custom };
 
 	std::string get(const AmbList& amb, const Patient& patient, bool nhifForm);
 	std::string get(const Prescription& prescr, const Patient& patient);

@@ -11,6 +11,7 @@ class NhifSpecReport;
 class ProcedureTemplateModel;
 struct Prescription;
 struct TreatmentPlan;
+struct DeclarationTemplate;
 
 namespace Print
 {
@@ -34,7 +35,8 @@ namespace Print
 	bool printHirbNoDeclaration(const Patient* patient, const std::string& pdfFilename = {});
 	bool gdpr(const Patient& patient, const std::string& pdfFilename = {});
     bool priceList(ProcedureTemplateModel& m);
-
+	bool printDeclarationTemplate(const DeclarationTemplate& d, const Patient& p, const std::string& pdfFilename = {});
+	void previewDeclarationTemplate(const DeclarationTemplate& d);
 	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
 
 	//empty stuff

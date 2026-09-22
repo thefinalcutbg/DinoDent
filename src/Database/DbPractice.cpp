@@ -1,6 +1,7 @@
 #include "DbPractice.h"
 #include "Database.h"
 #include "Model/Parser.h"
+#include "Model/DeclarationTemplate.h"
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
@@ -309,6 +310,82 @@ bool DbPractice::setCodeValues(const std::string& code, const std::pair<double, 
     db.bind(4, priceRange.second);
 
     return db.execute();
+}
+
+bool DbPractice::insertDeclaration(const DeclarationTemplate& decl, const std::string& rziCode)
+{
+	std::string query = "INSERT INTO declaration_template (practice_rzi, header, subheader, body, footer) VALUES(?,?,?,?,?)";
+
+    Db db(query);
+
+	db.bind(1, rziCode);
+	db.bind(2, decl.header);
+	db.bind(3, decl.subheader);
+	db.bind(4, decl.body);
+	db.bind(5, decl.footer);
+
+	return db.execute();
+}
+
+std::vector<std::pair<long long, std::string>> DbPractice::getDeclarationList(const std::string& rziCode)
+{
+	std::string query = "SELECT rowid, header FROM declaration_template WHERE practice_rzi=?";
+    
+    Db db(query);
+
+	db.bind(1, rziCode);
+
+	std::vector<std::pair<long long, std::string>> result;
+
+    while(db.hasRows()){
+        DeclarationTemplate decl;;
+        result.push_back({ db.asRowId(0), db.asString(1) });
+	}
+
+    return result;
+}
+
+DeclarationTemplate DbPractice::getDeclaration(long long rowid)
+{
+	std::string query = "SELECT header, subheader, body, footer FROM declaration_template WHERE rowid=?";
+
+	Db db(query);
+
+	db.bind(1, rowid);
+
+	DeclarationTemplate decl;
+
+    while(db.hasRows()){
+        decl.rowid = rowid;
+        decl.header = db.asString(0);
+        decl.subheader = db.asString(1);
+        decl.body = db.asString(2);
+        decl.footer = db.asString(3);
+	}
+
+	return decl;
+}
+
+bool DbPractice::updateDeclaration(const DeclarationTemplate& decl)
+{
+	std::string query = "UPDATE declaration_template SET header=?, subheader=?, body=?, footer=? WHERE rowid=?";
+
+	Db db(query);
+
+	db.bind(1, decl.header);
+	db.bind(2, decl.subheader);
+	db.bind(3, decl.body);
+	db.bind(4, decl.footer);
+	db.bind(5, decl.rowid);
+
+	return db.execute();
+}
+
+bool DbPractice::deleteDeclaration(long long rowid)
+{
+	Db db("DELETE FROM declaration_template WHERE rowid=?");
+	db.bind(1, rowid);
+	return db.execute();
 }
 
 std::set<int> DbPractice::getUnfavEkatte(const std::string &rziCode)

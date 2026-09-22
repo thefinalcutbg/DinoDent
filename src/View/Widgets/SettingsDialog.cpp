@@ -13,6 +13,9 @@
 #include "View/Widgets/NotesTemplateDialog.h"
 #include "View/Theme.h"
 #include "View/Widgets/UnfavourableDialog.h"
+#include "View/Widgets/DeclarationTemplateDialog.h"
+
+#include "Database/DbPractice.h"
 #include "Model/FreeFunctions.h"
 
 SettingsDialog::SettingsDialog(QDialog* parent)
@@ -58,6 +61,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	ui.updateMedButton->setIcon(CommonIcon::getPixmap(CommonIcon::PRESCR));
 	ui.sqlTable->setModel(&sql_table_model);
 	ui.sqlTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+	ui.addDecl->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.editDecl->setIcon(QIcon(":/icons/icon_edit.png"));
+	ui.deleteDecl->setIcon(QIcon(":/icons/icon_remove.png"));
 
 	ui.doctorList->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	ui.doctorList->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -151,6 +158,55 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		refreshDirStructureUI();
 	});
 
+	//currently declaration CRUD logic is implemented in the view
+
+	connect(ui.addDecl, &QPushButton::clicked, this, [&] {
+
+		DeclarationTemplateDialog d(DeclarationTemplate{});
+
+		auto result = d.getResult();
+
+		if(result)
+		{
+			DbPractice::insertDeclaration(result.value(), User::practice().rziCode);
+		}
+
+		setDeclarationTemplates(DbPractice::getDeclarationList(User::practice().rziCode));
+	});
+
+	connect(ui.editDecl, &QPushButton::clicked, this, [&] {
+
+		if (!ui.declarationList->currentItem()) return;
+
+		long long rowid = ui.declarationList->currentItem()->data(Qt::UserRole).toLongLong();
+
+		DeclarationTemplateDialog d(DbPractice::getDeclaration(rowid));
+
+		auto result = d.getResult();
+
+		if(result)
+		{
+			DbPractice::updateDeclaration(result.value());
+		}
+
+		setDeclarationTemplates(DbPractice::getDeclarationList(User::practice().rziCode));
+
+	});
+
+	connect(ui.declarationList, &QListWidget::itemDoubleClicked, this, [&] { emit ui.editDecl->click(); });
+
+	connect (ui.deleteDecl, &QPushButton::clicked, this, [&] {
+
+		if (!ui.declarationList->currentItem()) return;
+
+		auto answer = ModalDialogBuilder::askDialog("Сигурни ли сте, че искате да изтриете избраната декларация?", false);
+
+		if (!answer) return;
+
+		long long rowid = ui.declarationList->currentItem()->data(Qt::UserRole).toLongLong();
+		DbPractice::deleteDeclaration(rowid);
+		setDeclarationTemplates(DbPractice::getDeclarationList(User::practice().rziCode));
+	});
 
 	//practice validators
 	ui.practiceNameEdit->setInputValidator(&not_empty_validator);
@@ -661,6 +717,22 @@ void SettingsDialog::refreshDirStructureUI()
 	ui.subDirEdit->setText(text);
 }
 
+void SettingsDialog::setDeclarationTemplates(const std::vector<std::pair<long long, std::string>>& templates)
+{
+	int lastSelectedRow = ui.declarationList->currentRow();
+
+	ui.declarationList->clear();
+
+	for(auto & t : templates)
+	{
+		auto item = new QListWidgetItem(QString::fromStdString(t.second));
+		item->setData(Qt::UserRole, QVariant::fromValue(t.first));
+		ui.declarationList->addItem(item);
+	}
+
+	ui.declarationList->setCurrentRow(lastSelectedRow);
+}
+
 void SettingsDialog::setPractice(const Practice& practice)
 {
 	ui.practiceNameEdit->setText(QString::fromStdString(practice.name));
@@ -677,6 +749,7 @@ void SettingsDialog::setPractice(const Practice& practice)
 	ui.ibanEdit->setText(practice.iban.c_str());
 	ui.bicEdit->setText(practice.bic.c_str());
 
+	setDeclarationTemplates(DbPractice::getDeclarationList(practice.rziCode));
 
 	ui.practicePassEdit->setEchoMode(
 		practice.pass.empty() ? QLineEdit::Normal : QLineEdit::Password

@@ -1,6 +1,5 @@
 #include "PrintPrv.h"
 
-
 bool Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 {
     InvoicePrintDialog d;

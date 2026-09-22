@@ -38,7 +38,6 @@ class ListView : public ShadowBakeWidget
     ProcedureTableModel model;
 
     bool eventFilter(QObject* obj, QEvent* event) override;
-
     void nhifChanged();
 
 public:
@@ -70,6 +69,7 @@ public:
     void setHisButtonText(const HisButtonProperties& prop);
     void showAddPlannedButton(bool show);
 	void setNhifPackage(int exam, int max, int count, bool upDenture, bool lowDent, bool hasInsurance);
+    void setDeclarationMenuOptions(const std::vector<std::pair<long long, std::string>> options);
     ~ListView();
 
 private:

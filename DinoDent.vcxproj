@@ -240,6 +240,7 @@
     <ClCompile Include="src\Printer\Implementation\PrintAmb.cpp" />
     <ClCompile Include="src\Printer\FilePaths.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintConsent.cpp" />
+    <ClCompile Include="src\Printer\Implementation\PrintDeclarationTemplate.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintDentureDeclaration.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintGDPR.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintInvoice.cpp" />
@@ -264,6 +265,7 @@
     <ClCompile Include="src\View\uiComponents\RoundedFrame.cpp" />
     <ClCompile Include="src\View\uiComponents\SmoothWheelScroll.cpp" />
     <ClCompile Include="src\View\Widgets\DbSettingsDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\DeclarationTemplateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicationTemplateDialog.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
     <ClCompile Include="src\View\SubWidgets\SnapshotViewer.cpp" />
@@ -596,6 +598,7 @@
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\Dental\TreatmentPlan.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />
+    <ClInclude Include="src\Model\DeclarationTemplate.h" />
     <ClInclude Include="src\Network\BulkRequester.h" />
     <ClInclude Include="src\Network\SMS\Mobica.h" />
     <ClInclude Include="src\Network\SMS\SMSMessage.h" />
@@ -886,6 +889,7 @@
     <QtMoc Include="src\View\Widgets\ErrorDetailedDialog.h" />
     <QtMoc Include="src\View\Widgets\CertificateListDialog.h" />
     <QtMoc Include="src\View\Widgets\DbSettingsDialog.h" />
+    <QtMoc Include="src\View\Widgets\DeclarationTemplateDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
@@ -968,6 +972,7 @@
     <QtUic Include="src\View\SubWidgets\PriceInputWidget.ui" />
     <QtUic Include="src\View\SubWidgets\SMSTemplate.ui" />
     <QtUic Include="src\View\Widgets\DbSettingsDialog.ui" />
+    <QtUic Include="src\View\Widgets\DeclarationTemplateDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicationTemplateDialog.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
     <QtUic Include="src\View\SubWidgets\SnapshotViewer.ui" />

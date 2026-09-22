@@ -6,6 +6,7 @@
 #include "View/uiComponents/MouseWheelGuard.h"
 #include "View/SubWidgets/ReferralTile.h"
 #include "View/SubWidgets/MedicalNoticeTile.h"
+#include "Printer/FilePaths.h"
 #include "Model/User.h"
 #include <QIcon>
 
@@ -132,7 +133,7 @@ ListView::ListView(QWidget* parent)
     connect(ui.declarationButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->printDeclarations(); });
     connect(ui.treatmentPlanButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createTreatmentPlan(); });
     connect(ui.deleteProcedure, &QAbstractButton::clicked, this, [=, this]
-        {
+    {
 
 			if (!presenter) return;
 
@@ -438,7 +439,7 @@ void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());
-
+	
     bool showSync = false;//prop.buttonText != "Изпрати към НЗИС";
     ui.syncButton->setHidden(!showSync);
 }
@@ -494,6 +495,30 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 	if(!hasInsurance) text += "</span>";
 
 	ui.historyButton->setRichText(text);
+}
+
+void ListView::setDeclarationMenuOptions(const std::vector<std::pair<long long, std::string>> options)
+{
+	QMenu* menu = new QMenu(ui.declarationButton);
+
+	menu->setStyleSheet(Theme::getPopupMenuStylesheet());
+
+	for (int i = 0; i < options.size(); i++){
+		QAction* a = new QAction(options[i].second.c_str(), menu);
+		connect(a, &QAction::triggered, [=] { presenter->printDeclaration(options[i].first); });
+		
+		if (options[i].first == 4) {
+			menu->addSeparator();
+		}
+
+		menu->addAction(a);
+	}
+
+	QPoint pos = ui.declarationButton->mapToGlobal(QPoint(0,0));
+	pos.ry() -= menu->sizeHint().height();
+	menu->exec(pos);
+
+	menu->deleteLater();
 }
 
 ListView::~ListView()

@@ -133,14 +133,16 @@ std::string FilePaths::get(DeclarationType declType, const Patient& patient)
         "Декларации за тотални протези НЗОК",
         "Декларации за активна здравна книжка",
         "Информирани съгласия",
-        "Декларации за защита на лични данни"
+        "Декларации за защита на лични данни",
+        "Персонализирани декларации"
     };
 
     const std::string declStrShort[] = {
         "DENTURE",
         "HIRBNo",
         "CONSENT",
-        "GDPR"
+        "GDPR",
+        "CUSTOM_DECL" + std::to_string(declType - 4)
     };
 
     auto filename = 

@@ -1,6 +1,7 @@
 #include "ListPresenter.h"
 
 #include "GlobalSettings.h"
+#include "Database/DbPractice.h"
 #include "Database/DbReferral.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
@@ -26,6 +27,7 @@
 #include "View/Widgets/SignatureViewDialog.h"
 #include "View/Widgets/ListView.h"
 #include "View/Widgets/TabView.h"
+#include "View/Widgets/DeclarationTemplateDialog.h"
 
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
@@ -1722,40 +1724,46 @@ void ListPresenter::createTreatmentPlan()
 
 void ListPresenter::printDeclarations()
 {
-
-    std::vector<std::string> optionName = {
-        "Информирано съгласие",
-        "Декларация за GDPR"
-    };
-
-    std::vector<FilePaths::DeclarationType> optionValue = {
-        FilePaths::Consent,
-        FilePaths::GDPR
-    };
+    std::vector<std::pair<long long, std::string>> menuOptions;
 
     if (User::hasNhifContract()) {
+        menuOptions = {
+            {FilePaths::Denture, "Декларация за тотални протези"},
+            {FilePaths::HIRBNo, "Декларация за валидна здравна книжка"}
+        };
+    };
 
-        optionName = {
-            "Информирано съгласие",
-            "Декларация за тотални протези",
-            "Декларация за валидна здравна книжка",
-            "Декларация за GDPR"
-        };
-    
-        optionValue = {
-            FilePaths::Consent,
-            FilePaths::Denture,
-            FilePaths::HIRBNo,
-            FilePaths::GDPR
-        };
+    menuOptions.push_back({FilePaths::Consent, "Информирано съгласие" });
+    menuOptions.push_back({ FilePaths::GDPR, "Декларация за GDPR" });
+
+    for (auto& [rowid, title] : DbPractice::getDeclarationList(User::practice().rziCode))
+    {
+        menuOptions.push_back({ FilePaths::Custom + rowid, title });
     }
 
-    //choose declaration
-    int result = ModalDialogBuilder::openButtonDialog(optionName, "Изберете декларация");
+    if (User::isAdmin()) {
+        menuOptions.push_back({ FilePaths::Custom, "Добави шаблон за декларация" });
+    }
 
-    if (result == -1) return;
+    view->setDeclarationMenuOptions(menuOptions);
 
-    auto declarationType = optionValue[result];
+}
+
+void ListPresenter::printDeclaration(long long index)
+{
+    if (index == FilePaths::Custom) {
+
+        DeclarationTemplateDialog d({});
+        
+        auto result = d.getResult();
+
+        if (result) {
+            DbPractice::insertDeclaration(result.value(), User::practice().rziCode);
+        }
+
+        return;
+    }
+
 
     //choose signing, if enabled
     bool pdfSign = false;
@@ -1763,7 +1771,6 @@ void ListPresenter::printDeclarations()
 
     if(User::signatureTablet().isPDFconfigured())
     {
-
         int dResult = ModalDialogBuilder::openButtonDialog({
             "Подписване с пен таблет",
             "Принтиране"
@@ -1778,33 +1785,41 @@ void ListPresenter::printDeclarations()
 
             pdfSign = true;
 
-            filepath = FilePaths::get(declarationType, *patient);
+            filepath = FilePaths::get(static_cast<FilePaths::DeclarationType>(index), *patient);
 
             if (filepath.empty()) return;
         }
     }
 
-    //executing
+     bool success = false;
 
-    bool success = false;
+    //predefined declarations:
+    if (index < FilePaths::Custom) {
+        switch(index)
+        {
+            case FilePaths::DeclarationType::Denture: 
+                success = Print::printDentureDeclaration(patient.get(), &m_amblist, filepath); break;
+            case FilePaths::DeclarationType::HIRBNo: 
+                success = Print::printHirbNoDeclaration(patient.get(), filepath); break;
+            case FilePaths::DeclarationType::Consent: 
+                success = Print::consent(*patient, filepath); break;
+            case FilePaths::DeclarationType::GDPR: 
+                success = Print::gdpr(*patient, filepath); break;
+            default: return;
+        }
+    }
+    else {
 
-    switch(declarationType)
-    {
-        case FilePaths::DeclarationType::Denture: 
-            success = Print::printDentureDeclaration(patient.get(), &m_amblist, filepath); break;
-        case FilePaths::DeclarationType::HIRBNo: 
-            success = Print::printHirbNoDeclaration(patient.get(), filepath); break;
-        case FilePaths::DeclarationType::Consent: 
-            success = Print::consent(*patient, filepath); break;
-        case FilePaths::DeclarationType::GDPR: 
-            success = Print::gdpr(*patient, filepath); break;
-        default: return;
+        auto d = DbPractice::getDeclaration(index - FilePaths::Custom);
+
+        if (!d.rowid) return;
+
+        success = Print::printDeclarationTemplate(d, *patient, filepath);
     }
 
     if (success && pdfSign) {
         User::signatureTablet().signPdf(filepath);
     }
-
 }
 
 void ListPresenter::hisButtonPressed()

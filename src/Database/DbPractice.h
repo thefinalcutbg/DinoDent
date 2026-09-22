@@ -3,6 +3,8 @@
 #include <set>
 #include "Model/UserStructs.h"
 
+struct DeclarationTemplate;
+
 namespace DbPractice
 {
 	Practice getPractice(const std::string rhiCode);
@@ -19,6 +21,12 @@ namespace DbPractice
     std::unordered_map<std::string, std::pair<double, double>> getCodeValues(const std::string& rziCode);
     std::pair<double, double> getCodeValue(const std::string& code, const std::string& rziCode);
     bool setCodeValues(const std::string& code, const std::pair<double, double>& priceRange, const std::string& rziCode);
+
+	bool insertDeclaration(const DeclarationTemplate& decl, const std::string& rziCode);
+	std::vector<std::pair<long long, std::string>> getDeclarationList(const std::string& rziCode);
+	DeclarationTemplate getDeclaration(long long rowid);
+	bool updateDeclaration(const DeclarationTemplate& decl);
+	bool deleteDeclaration(long long rowid);
 
 	bool practiceExists(const std::string& rzi);
 	bool noPractices();

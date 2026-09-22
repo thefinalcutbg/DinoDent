@@ -3,6 +3,7 @@
 #include <QScrollBar>
 #include <QScreen>
 #include "View/CommonIcon.h"
+#include "View/ModalDialogBuilder.h"   
 
 PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 	: QDialog(nullptr)
@@ -43,10 +44,7 @@ PrintPreviewDialog::PrintPreviewDialog(LimeReport::ReportEngine& r)
 
     scene = r.createPreviewScene(ui->view);
 
-    if (!scene) {
-    updatePageControls();
-    return;
-    }
+    if (!scene) return;
 
     ui->view->setScene(scene);
 

@@ -135,6 +135,7 @@ public:
     void createPrescription();
     void createTreatmentPlan();
     void printDeclarations();
+    void printDeclaration(long long index);
 
     void hisButtonPressed();
 	void cancelHisAmbList();

@@ -24,8 +24,8 @@ void generateReport(LimeReport::ReportEngine& report, const DeclarationTemplate&
 		part.replace(DeclarationTemplate::addresstag, formatTag(p.getFullAddress()));
 		part.replace(DeclarationTemplate::phonetag, formatTag(p.phone));
 		part.replace(DeclarationTemplate::emailtag, formatTag(p.email));
-		part.replace(DeclarationTemplate::birthtag, formatTag(p.birth.toBgStandard()));
-		part.replace(DeclarationTemplate::currentdatetag, formatTag(Date::currentDate().toBgStandard()));
+		part.replace(DeclarationTemplate::birthtag, formatTag(p.birth.toBgStandard(true)));
+		part.replace(DeclarationTemplate::currentdatetag, formatTag(Date::currentDate().toBgStandard(true)));
 		part.replace(DeclarationTemplate::doctorNametag, formatTag(User::doctor().getFullName(true)));
 		part.replace(DeclarationTemplate::dentistLPKtag, formatTag(User::doctor().LPK));
 		part.replace(DeclarationTemplate::dentistPhonetag, formatTag(User::doctor().phone));

@@ -59,6 +59,8 @@ DeclarationTemplateDialog::DeclarationTemplateDialog(const DeclarationTemplate& 
 
 	connect(ui.okButton, &QPushButton::clicked, this, [this]() {
 
+		if (!checkForm()) return;
+
 		m_result = DeclarationTemplate{
 			.rowid = m_rowid,
 			.header = ui.headerEdit->text().toStdString(),
@@ -67,9 +69,7 @@ DeclarationTemplateDialog::DeclarationTemplateDialog(const DeclarationTemplate& 
 			.footer = ui.footerEdit->text().toStdString()
 		};
 
-		if (!checkForm()) return;
-
-		close();
+		accept();
 	});
 	
 }

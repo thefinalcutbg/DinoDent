@@ -81,6 +81,7 @@ HEADERS += \
     src/Model/CalendarStructs.h \
     src/Model/Country.h \
     src/Model/Date.h \
+    src/Model/DeclarationTemplate.h \
     src/Model/Dental/AmbList.h \
     src/Model/Dental/BridgeAlgorithms.h \
     src/Model/Dental/Dental.h \
@@ -331,6 +332,7 @@ HEADERS += \
     src/View/Widgets/CertificateListDialog.h \
     src/View/Widgets/ChatDialog.h \
     src/View/Widgets/DbSettingsDialog.h \
+    src/View/Widgets/DeclarationTemplateDialog.h \
     src/View/Widgets/DetailedStatus.h \
     src/View/Widgets/DinoDent.h \
     src/View/Widgets/DoctorSettingsDialog.h \
@@ -609,6 +611,7 @@ SOURCES += \
     src/Printer/FilePaths.cpp \
     src/Printer/Implementation/PrintAmb.cpp \
     src/Printer/Implementation/PrintConsent.cpp \
+    src/Printer/Implementation/PrintDeclarationTemplate.cpp \
     src/Printer/Implementation/PrintDentureDeclaration.cpp \
     src/Printer/Implementation/PrintGDPR.cpp \
     src/Printer/Implementation/PrintHIRBNoDeclaration.cpp \
@@ -690,6 +693,7 @@ SOURCES += \
     src/View/Widgets/CertificateListDialog.cpp \
     src/View/Widgets/ChatDialog.cpp \
     src/View/Widgets/DbSettingsDialog.cpp \
+    src/View/Widgets/DeclarationTemplateDialog.cpp \
     src/View/Widgets/DetailedStatus.cpp \
     src/View/Widgets/DinoDent.cpp \
     src/View/Widgets/DoctorSettingsDialog.cpp \
@@ -812,6 +816,7 @@ FORMS += \
     src/View/Widgets/CertificateListDialog.ui \
     src/View/Widgets/ChatDialog.ui \
     src/View/Widgets/DbSettingsDialog.ui \
+    src/View/Widgets/DeclarationTemplateDialog.ui \
     src/View/Widgets/DetailedStatus.ui \
     src/View/Widgets/DinoDent.ui \
     src/View/Widgets/DoctorSettingsDialog.ui \

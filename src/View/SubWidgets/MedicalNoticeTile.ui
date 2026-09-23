@@ -6,14 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>255</width>
+    <width>221</width>
     <height>121</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MedicalNoticeTile</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -94,43 +100,26 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="numLabel">
-         <property name="text">
-          <string>number</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::TextFormat::RichText</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="dateLabel">
-         <property name="text">
-          <string>date</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::TextFormat::RichText</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QLabel" name="numLabel">
+       <property name="text">
+        <string>number</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::TextFormat::RichText</enum>
+       </property>
+      </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
+      <widget class="QLabel" name="dateLabel">
+       <property name="text">
+        <string>date</string>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="textFormat">
+        <enum>Qt::TextFormat::RichText</enum>
        </property>
-      </spacer>
+      </widget>
      </item>
     </layout>
    </item>

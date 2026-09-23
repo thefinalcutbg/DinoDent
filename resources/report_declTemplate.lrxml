@@ -22,11 +22,11 @@
               <children Type="Collection">
                 <item ClassName="VLayout" Type="Object">
                   <objectName Type="QString">VerticalLayout1</objectName>
-                  <geometry Type="QRect" height="156" width="1976" x="12" y="34"/>
+                  <geometry Type="QRect" height="156" width="1902" x="49" y="47"/>
                   <children Type="Collection">
                     <item ClassName="TextItem" Type="Object">
                       <objectName Type="QString">TextItem3</objectName>
-                      <geometry Type="QRect" height="78" width="1976" x="0" y="0"/>
+                      <geometry Type="QRect" height="78" width="1902" x="0" y="0"/>
                       <children Type="Collection"/>
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
@@ -71,7 +71,7 @@
                     </item>
                     <item ClassName="TextItem" Type="Object">
                       <objectName Type="QString">TextItem4</objectName>
-                      <geometry Type="QRect" height="78" width="1976" x="0" y="78"/>
+                      <geometry Type="QRect" height="78" width="1902" x="0" y="78"/>
                       <children Type="Collection"/>
                       <zOrder Type="qreal" Value="-1"/>
                       <borders Type="enumAndFlags" Value="0"/>
@@ -156,7 +156,7 @@
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem2</objectName>
-                  <geometry Type="QRect" height="78" width="1976" x="12" y="28"/>
+                  <geometry Type="QRect" height="78" width="1900" x="50" y="31"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -236,7 +236,7 @@
               <children Type="Collection">
                 <item ClassName="TextItem" Type="Object">
                   <objectName Type="QString">TextItem1</objectName>
-                  <geometry Type="QRect" height="78" width="1976" x="8" y="197"/>
+                  <geometry Type="QRect" height="78" width="1899" x="51" y="197"/>
                   <children Type="Collection"/>
                   <zOrder Type="qreal" Value="0"/>
                   <borders Type="enumAndFlags" Value="0"/>
@@ -322,7 +322,7 @@
           <isExtendedInDesignMode Type="bool" Value="0"/>
           <extendedHeight Type="int" Value="1000"/>
           <pageIsTOC Type="bool" Value="0"/>
-          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="1"/>
           <endlessHeight Type="bool" Value="0"/>
           <printable Type="bool" Value="1"/>
           <printerName Type="QString"></printerName>

@@ -499,7 +499,7 @@ void ListView::setNhifPackage(int exam, int max, int count, bool upDenture, bool
 
 void ListView::setDeclarationMenuOptions(const std::vector<std::pair<long long, std::string>> options)
 {
-	QMenu* menu = new QMenu(ui.declarationButton);
+    QMenu* menu = new QMenu(this);
 
 	menu->setStyleSheet(Theme::getPopupMenuStylesheet());
 

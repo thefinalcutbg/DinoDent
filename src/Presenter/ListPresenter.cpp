@@ -576,7 +576,7 @@ void ListPresenter::calculateNhifPackage()
     {
         //in case the monthly report from the last month is not yet sent to NHIF
 
-        if (currentDate.day < 7) //last month report has to be sent by the 5th workday of the month
+        if (currentDate.day < 5) //last month report has to be sent by the 3rd workday of the month
         { 
             std::vector<Procedure> lastMonthProceduresNhif;
 

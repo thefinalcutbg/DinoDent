@@ -555,11 +555,8 @@ void ListPresenter::calculateNhifPackage()
 
     auto nhifProcedures = *patient->PISHistory;
 
-    //if not sent to his
-    if(m_amblist.nrn.empty() || !m_amblist.his_updated)
-    {
-
-    //getting the procedures from current month from HIS:
+    if (m_amblist.nrn.empty() || m_amblist.his_updated) {
+         //getting the procedures from current month from HIS:
          if(patient->HISHistory) {
             for(auto& p : *patient->HISHistory) {
                 if (p.isNhif() && 
@@ -572,6 +569,11 @@ void ListPresenter::calculateNhifPackage()
 		    }
          }
 
+    }
+
+    //if not sent to his
+    if(m_amblist.nrn.empty() || !m_amblist.his_updated)
+    {
         //in case the monthly report from the last month is not yet sent to NHIF
 
         if (currentDate.day < 7) //last month report has to be sent by the 5th workday of the month

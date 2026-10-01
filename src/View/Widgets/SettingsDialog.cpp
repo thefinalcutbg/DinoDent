@@ -208,6 +208,15 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		setDeclarationTemplates(DbPractice::getDeclarationList(User::practice().rziCode));
 	});
 
+	connect(ui.declarationList, &QListWidget::itemSelectionChanged, this, [&] {
+		auto hasSelection = ui.declarationList->selectedItems().size();
+		ui.deleteDecl->setDisabled(!hasSelection);
+		ui.editDecl->setDisabled(!hasSelection);
+	});
+
+	ui.deleteDecl->setDisabled(true);
+	ui.editDecl->setDisabled(true);
+
 	//practice validators
 	ui.practiceNameEdit->setInputValidator(&not_empty_validator);
 	ui.rziEdit->setInputValidator(&rzi_validator);

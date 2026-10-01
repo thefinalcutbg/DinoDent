@@ -62,12 +62,6 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 		m_result.summary = summary.toStdString();
 
-		if (m_prefixRemoved) {
-			//adding the email prefix
-			summary = s_emailPrefix + summary;
-			m_result.summary = summary.toStdString();
-		}
-
 		m_result.description = ui.descriptionEdit->text().toStdString();
 		m_result.start = ui.startDateTimeEdit->dateTime();
 		m_result.end = ui.endDateTimeEdit->dateTime();
@@ -103,6 +97,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 		}
 
 		smsLogic();
+
+		
+		if (m_prefixRemoved) {
+			//adding the email prefix
+			summary = s_emailPrefix + summary;
+			m_result.summary = summary.toStdString();
+		}
 
 		accept();
 

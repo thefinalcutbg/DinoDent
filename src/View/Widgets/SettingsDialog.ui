@@ -1705,7 +1705,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Добави лекар</string>
+                 <string>Добави</string>
                 </property>
                </widget>
               </item>
@@ -1718,9 +1718,25 @@
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Премахни лекар</string>
+                 <string>Премахни</string>
                 </property>
                </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_38">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>120</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <spacer name="verticalSpacer">
@@ -1843,6 +1859,22 @@
                <string>Изтрий</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_39">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>120</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
             <item>
              <spacer name="verticalSpacer_3">

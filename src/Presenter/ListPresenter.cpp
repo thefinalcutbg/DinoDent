@@ -113,7 +113,7 @@ void ListPresenter::setHisButtonToView()
     }
 }
 
-void ListPresenter::makeEditedOnTimeChange()
+void ListPresenter::makeEditedOnTimeChange(bool treatmentEndChanged)
 {
     m_amblist.signature_bitmap = {};
     m_amblist.signature_data.clear();
@@ -128,15 +128,58 @@ void ListPresenter::makeEditedOnTimeChange()
 
     }
 
-    //auto change treatment end for daily sheets
-    if (!User::practice().generateMonthlySheets() &&
-        Date(m_amblist.treatment_end) != Date(m_amblist.date)
-    )
-    {
-        m_amblist.treatment_end = Date(m_amblist.date).to8601() + m_amblist.treatment_end.substr(10);
-        view->setTreatmentEnd(m_amblist.treatment_end);
-    }
+    auto monthlySheets = User::practice().generateMonthlySheets();
 
+    auto startDate = Date(m_amblist.date);
+	auto endDate = Date(m_amblist.treatment_end);
+
+    if (!treatmentEndChanged) //a.k.a. ambDate changed
+    {
+		endDate.month = startDate.month;
+		endDate.year = startDate.year;
+
+        if(!monthlySheets || endDate.day < startDate.day) {
+            endDate.day = startDate.day;
+		}
+
+		m_amblist.treatment_end = endDate.to8601() + m_amblist.treatment_end.substr(10);
+        
+        if(m_amblist.treatment_end < m_amblist.date) {
+            m_amblist.treatment_end = m_amblist.date;
+		}
+
+		view->setTreatmentEnd(m_amblist.treatment_end);
+    }
+    else {
+		
+		startDate.month = endDate.month;
+        startDate.year = endDate.year;
+
+        if (!monthlySheets || startDate.day > endDate.day) {
+            startDate.day = endDate.day;
+        }
+
+		m_amblist.date = startDate.to8601() + m_amblist.date.substr(10);
+    
+        if (m_amblist.date > m_amblist.treatment_end) {
+            m_amblist.date = m_amblist.treatment_end;
+        }
+
+		view->setDateTime(m_amblist.date);
+    }
+    
+    for(auto& p : m_amblist.procedures) {
+			
+		p.date.month = startDate.month;
+		p.date.year = startDate.year;
+
+        if(!monthlySheets || p.date.day < startDate.day) {
+            p.date.day = startDate.day;
+		}
+	}
+
+    view->setProcedures(m_amblist.procedures.list());
+    
 	TabInstance::makeEdited();
 }
 
@@ -929,30 +972,14 @@ void ListPresenter::setAmbDateTime(const std::string& datetime)
 {
     m_amblist.date = datetime;
 
-    if (!User::practice().generateMonthlySheets()) {
-
-        auto pDate = Date(datetime);
-
-        for (auto& p : m_amblist.procedures) {
-            p.date = pDate;
-        }
-
-        view->setProcedures(m_amblist.procedures.list());
-    }
-
-    if(m_amblist.treatment_end < datetime){
-        m_amblist.treatment_end = datetime;
-        view->setTreatmentEnd(m_amblist.treatment_end);
-	}
-
-    makeEditedOnTimeChange();
+    makeEditedOnTimeChange(false);
 }
 
 void ListPresenter::setTreatmentEndTime(const std::string& datetime)
 {
     m_amblist.treatment_end = datetime;
 
-    makeEditedOnTimeChange();
+    makeEditedOnTimeChange(true);
 }
 
 void ListPresenter::checkPention()

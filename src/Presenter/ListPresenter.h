@@ -64,7 +64,7 @@ class ListPresenter : public TabInstance
     void statusChanged();
     void setHisButtonToView();
     void makeEdited() override;
-    void makeEditedOnTimeChange();
+    void makeEditedOnTimeChange(bool treatmentEndChanged);
     void printPrv(bool toPdf);
     void fetchListProcedures(const std::string& nrn);
 	void handleBulkRequestResult(const BulkRequester::Result& result);

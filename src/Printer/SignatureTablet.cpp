@@ -10,10 +10,11 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/Prescription/Prescription.h"
 #include "Model/Financial/Invoice.h"
+#include "Network/crypto.h"
 #include "View/ModalDialogBuilder.h"
 
 #ifdef Q_OS_WIN
-#include "Network/crypto.h"
+
 #include <QAxWidget>
 #include <QAxObject>
 #include "Model/Patient.h"
@@ -89,8 +90,12 @@ std::string SignatureTablet::defaultPDFSignerLocation(int modelIdx)
 	return "C:/Program Files/signotec/signoSign2/signoSign2.exe";
 }
 
-#ifdef Q_OS_WIN
+
 PatientSignature SignatureTablet::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
+
+#ifndef Q_OS_WIN
+    return {};
+#else
 
     const QString licence = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI3YmM5Y2IxYWIxMGE0NmUxODI2N2E5MTJkYTA2ZTI3NiIsImV4cCI6MjE0NzQ4MzY0NywiaWF0IjoxNTYwOTUwMjcyLCJyaWdodHMiOlsiU0lHX1NES19DT1JFIiwiU0lHQ0FQVFhfQUNDRVNTIl0sImRldmljZXMiOlsiV0FDT01fQU5ZIl0sInR5cGUiOiJwcm9kIiwibGljX25hbWUiOiJTaWduYXR1cmUgU0RLIiwid2Fjb21faWQiOiI3YmM5Y2IxYWIxMGE0NmUxODI2N2E5MTJkYTA2ZTI3NiIsImxpY191aWQiOiJiODUyM2ViYi0xOGI3LTQ3OGEtYTlkZS04NDlmZTIyNmIwMDIiLCJhcHBzX3dpbmRvd3MiOltdLCJhcHBzX2lvcyI6W10sImFwcHNfYW5kcm9pZCI6W10sIm1hY2hpbmVfaWRzIjpbXX0.ONy3iYQ7lC6rQhou7rz4iJT_OJ20087gWz7GtCgYX3uNtKjmnEaNuP3QkjgxOK_vgOrTdwzD-nm-ysiTDs2GcPlOdUPErSp_bcX8kFBZVmGLyJtmeInAW6HuSp2-57ngoGFivTH_l1kkQ1KMvzDKHJbRglsPpd4nVHhx9WkvqczXyogldygvl0LRidyPOsS5H2GYmaPiyIp9In6meqeNQ1n9zkxSHo7B11mp_WXJXl0k1pek7py8XYCedCNW5qnLi4UCNlfTd6Mk9qz31arsiWsesPeR9PN121LBJtiPi023yQU8mgb9piw_a-ccciviJuNsEuRDN3sGnqONG3dMSA";
 
@@ -148,8 +153,14 @@ PatientSignature SignatureTablet::signWithWacom(const std::string& what, const s
             reinterpret_cast<const unsigned char*>(bitmap.constData()),
             reinterpret_cast<const unsigned char*>(bitmap.constData()) + bitmap.size())
     };
-
+#endif
 }
+
+
+#ifdef Q_OS_MACOS
+#include "SignotecMacOS.h"
+using namespace SignotecMacOS;
+#endif
 
 PatientSignature SignatureTablet::signWithSignotec(const std::string& what, const std::string& who)
 {
@@ -166,12 +177,23 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
     STSensorSetSignRect(0, 0, 0, 0);
 
     //SETTING SIGNER NAME
-
+#ifdef Q_OS_WIN
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
 
     std::wstring name = L"Подписващ: " + conv.from_bytes(who);
     STDisplaySetFont(L"Arial", 35, STPAD_FONT_BOLD);
     STDisplaySetText(10, STDisplayGetHeight() - 45, kLeft, name.data());    // goes to foreground (target 0)
+#endif
+
+#ifdef Q_OS_MACX
+    // Display functions don't work yet
+    auto name = (QString::fromUtf8("Подписващ: ") +
+                 QString::fromUtf8(who.data(), static_cast<qsizetype>(who.size()))).toStdWString();
+
+    if (STDisplaySetFont(L"Arial", 35, STPAD_FONT_BOLD) < 0 ||
+        STDisplaySetText(10, STDisplayGetHeight() - 45, kLeft, name.c_str()) < 0)
+        return {};
+#endif
 
     //SETTING HASH
 
@@ -268,18 +290,6 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
     return {};
 }
 
-#else
-PatientSignature SignatureTablet::signWithSignotec(const std::string& what, const std::string& who)
-{
-    return {};
-}
-
-PatientSignature SignatureTablet::signWithWacom(const std::string& what, const std::string& who, const std::string& why) {
-    return {};
-}
-
-#endif
-
 
 PatientSignature SignatureTablet::getPatientSignature(const std::string& what, const std::string& who, const std::string& why)
 {
@@ -291,4 +301,5 @@ PatientSignature SignatureTablet::getPatientSignature(const std::string& what, c
 
 	return signWithSignotec(what, who);
 }
+
 

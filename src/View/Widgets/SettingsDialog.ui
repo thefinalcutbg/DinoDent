@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -467,16 +467,9 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_35">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_31">
          <property name="text">
-          <string>Път към софтуера за PDF подписване (само за декларации и информирани съгласия):</string>
+          <string>Път към софтуер за PDF подписване (само за декларации и информирани съгласия):</string>
          </property>
         </widget>
        </item>

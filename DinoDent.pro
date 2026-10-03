@@ -24,11 +24,16 @@ LIBS += \
     -L$$DEPFOLDER/opt/libp11/lib/ -lp11 \
 }
 
-macx:{
+macx {
 
 #the mac version uses macports for dependencies, because we need universial binaries
   QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
   DEPFOLDER = /opt/local
+
+  HEADERS += src/Printer/SignotecMacOS.h
+  SOURCES += src/Printer/SignotecMacOS.cpp
+  INCLUDEPATH += $$DEPFOLDER/include/hidapi
+  LIBS += -L$$DEPFOLDER/lib -lhidapi
   OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl
   LIBS += -L$$DEPFOLDER/lib -lxml2 -lp11 -lcrypto -lssl
 

@@ -35,9 +35,16 @@ public:
 
 	enum DeclarationType { Denture, HIRBNo, Consent, GDPR };
 
-	static std::string defaultPDFSignerLocation(int modelIdx);
+    static std::string defaultPDFSignerLocation(int modelIdx);
 
-	static inline const std::array<std::string, 14> s_models = {
+    static inline const std::array<std::string,
+#ifdef Q_OS_WIN
+    14
+#else
+    11
+#endif
+
+    > s_models = {
 		"",
 		"Evolis Sig100 Lite",
 		"Evolis Sig100",
@@ -48,10 +55,12 @@ public:
 		"Signotec Omega",
 		"Signotec Zeta",
 		"Signotec Gamma",
-		"Signotec Delta",
-		"Wacom STU-43x",
+        "Signotec Delta"
+#ifdef Q_OS_WIN
+        ,"Wacom STU-43x",
 		"Wacom STU-53x",
 		"Wacom STU-54x"
+#endif
 	};
 
 	enum Manufacturer { NONE, EVOLIS, SIGNOTEC, WACOM };

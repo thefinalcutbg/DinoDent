@@ -173,9 +173,10 @@ void ListPresenter::makeEditedOnTimeChange(bool treatmentEndChanged)
 		p.date.month = startDate.month;
 		p.date.year = startDate.year;
 
-        if(!monthlySheets || p.date.day < startDate.day) {
-            p.date.day = startDate.day;
-		}
+        if (!monthlySheets || p.date.day < startDate.day) { p.date.day = startDate.day; }
+
+        if (p.date.day > endDate.day) { p.date.day = endDate.day; }
+        
 	}
 
     view->setProcedures(m_amblist.procedures.list());
@@ -815,7 +816,7 @@ bool ListPresenter::isValid()
 
         if (p.date.month != date.month || p.date.year != date.year)
         {
-            ModalDialogBuilder::showError("Процедурите и амбулаторният лист трябва да са от един и същи месец!");
+            ModalDialogBuilder::showError("Датата на процедурите и тази на амбулаторния лист трябва да са от един и същи месец!");
             return false;
         }
 
@@ -864,6 +865,35 @@ void ListPresenter::putExamFirst()
         m_amblist.procedures.end(),
         [](const auto& p) { return p.code.type() == ProcedureType::FullExam; }
     );
+}
+
+void ListPresenter::syncAmbDate(const Date& procedureDate)
+{
+	//ensure that all procedures are in the same month
+    for(auto& p : m_amblist.procedures) {
+        p.date.month = procedureDate.month;
+        p.date.year = procedureDate.year;
+	}
+	
+    auto startDate = Date(m_amblist.date);
+    
+	startDate.month = procedureDate.month;
+	startDate.year = procedureDate.year;
+
+    if(startDate.day > procedureDate.day){
+		startDate.day = procedureDate.day;
+	}
+
+	m_amblist.date = startDate.to8601() + m_amblist.date.substr(10);
+
+	view->setDateTime(m_amblist.date); //update view
+
+    makeEditedOnTimeChange(false); //execute treatment end logic
+    
+	if (Date(m_amblist.treatment_end)  < procedureDate.to8601()){
+        m_amblist.treatment_end = procedureDate.to8601() + m_amblist.treatment_end.substr(10);
+        view->setTreatmentEnd(m_amblist.treatment_end);
+	}
 }
 
 
@@ -1226,6 +1256,10 @@ void ListPresenter::addProcedure()
 
     dynamicNhifConversion();
 
+    putExamFirst();
+
+	syncAmbDate(procedures[0].date);
+
     makeEdited();
 
     refreshProcedureView();
@@ -1289,6 +1323,8 @@ void ListPresenter::editProcedure(int index)
     m_amblist.procedures.replaceProcedure(m, index);
 
     dynamicNhifConversion();
+
+    syncAmbDate(result->date);
 
     makeEdited();
 

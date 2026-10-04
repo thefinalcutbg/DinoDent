@@ -52,7 +52,6 @@ class ListPresenter : public TabInstance
 
     EMedicalNotice::Issue eMedicalNoticeIssue;
     EMedicalNotice::Cancel eMedicalNoticeCancel;
-    
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -60,6 +59,7 @@ class ListPresenter : public TabInstance
 
     bool isValid();
     void putExamFirst();
+    void syncAmbDate(const Date& procedureDate);
     void refreshProcedureView();
     void statusChanged();
     void setHisButtonToView();

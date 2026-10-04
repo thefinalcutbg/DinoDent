@@ -27,6 +27,17 @@ sudo apt install \
     libp11-dev \
     libssl-dev
 ```
+On Arch Linux use:
+
+```bash
+sudo pacman -S --needed \
+    base-devel \
+    pkgconf \
+    hidapi \
+    libxml2 \
+    libp11 \
+    openssl
+```
 
 ### Signature pads
 

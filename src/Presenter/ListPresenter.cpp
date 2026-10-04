@@ -1285,8 +1285,10 @@ void ListPresenter::addPlannedProcedure()
         return;
     }
 
+	auto sheetDate = m_amblist.getDate();
+
     for(auto& p : planned){
-        p.date = Date::currentDate();
+		p.date = sheetDate.isTheSameMonthAs(Date::currentDate()) ? Date::currentDate() : Date(m_amblist.treatment_end);
         p.LPK = User::doctor().LPK;
 
         if (User::settings().forceNoFinancingSource) {

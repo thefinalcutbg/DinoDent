@@ -8,7 +8,7 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <QNetworkReply>
-#include <QAUthenticator>
+#include <QAuthenticator>
 #include <QFile>
 #include <QSslKey>
 

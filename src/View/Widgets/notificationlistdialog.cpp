@@ -1,4 +1,4 @@
-#include "NotificationListDialog.h"
+#include "notificationlistdialog.h"
 #include "ui_notificationlistdialog.h"
 
 #include <QPainter>

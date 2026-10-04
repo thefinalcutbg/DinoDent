@@ -24,7 +24,8 @@
 #include "Presenter/CalendarPresenter.h"
 
 #include "View/Widgets/SplashScreen.h"
-#include "View/Widgets/NotificationListDialog.h"
+#include "View/Widgets/notificationdialog.h"
+#include "View/Widgets/notificationlistdialog.h"
 #include "View/Widgets/DinoDent.h"
 #include "View/Widgets/SettingsDialog.h"
 

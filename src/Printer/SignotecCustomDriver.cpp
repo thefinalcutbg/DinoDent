@@ -36,8 +36,8 @@
 
 #include <QBuffer>
 #include <QByteArray>
-#include <QCryptographicHash>
 #include <QDebug>
+#include <QCryptographicHash>
 #include <QImage>
 #include <QPainter>
 
@@ -662,7 +662,6 @@ static bool startReceiving()
                                 throw std::runtime_error("HID read failed");
                             if (count > 0)
                             {
-                                qDebug().noquote() << "[Signotec RX]" << QByteArray(reinterpret_cast<const char *>(buffer.data()), count).toHex(' ');
                                 if (count != 61)
                                     throw std::runtime_error("Unexpected HID report size");
                                 InputReport report{};
@@ -737,7 +736,6 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
     if (!device)
         return std::nullopt;
 
-    qDebug().noquote() << "[Signotec TX]" << QByteArray(reinterpret_cast<const char *>(request.data()), request.size()).toHex(' ');
     if (hid_write(device, request.data(), request.size()) != 64)
         return std::nullopt;
 
@@ -748,8 +746,6 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
         std::array<unsigned char, 62> buffer{};
 
         const int count = hid_read_timeout(device, buffer.data(), buffer.size(), 50);
-        if (count > 0)
-            qDebug().noquote() << "[Signotec RX]" << QByteArray(reinterpret_cast<const char *>(buffer.data()), count).toHex(' ');
 
         if (count == 0)
             continue;

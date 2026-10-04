@@ -17,7 +17,7 @@
 #include "View/Widgets/GlobalWidgets.h"
 #include "View/Widgets/AboutDialog.h"
 #include "View/Widgets/SplashScreen.h"
-#include "View/Widgets/NotificationListDialog.h"
+#include "View/Widgets/notificationlistdialog.h"
 
 #include "Model/User.h"
 #include "Model/User.h"

@@ -1,5 +1,5 @@
-#include "NotificationDialog.h"
-#include "ui_NotificationDialog.h"
+#include "notificationdialog.h"
+#include "ui_notificationdialog.h"
 #include <QPainter>
 
 QStringList s_singular = {"Ден", "Месец", "Година"};

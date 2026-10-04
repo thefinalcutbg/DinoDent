@@ -1,4 +1,4 @@
-#include "HisDental.h"
+#include "Model/Dental/HISDental.h"
 #include <map>
 #include <functional>
 #include <algorithm>

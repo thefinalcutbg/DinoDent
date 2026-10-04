@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "Network/AbstractReplyHandler.h"
-#include "Network/SMS/SmsMessage.h"
+#include "Network/SMS/SMSMessage.h"
 
 class AbstractReplyHandler;
 

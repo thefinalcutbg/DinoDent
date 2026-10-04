@@ -12,7 +12,7 @@
 #include "Presenter/MedicalStatusPresenter.h"
 #include "Presenter/TabPresenter.h"
 
-#include "View/Widgets/NotificationDialog.h"
+#include "View/Widgets/notificationdialog.h"
 #include "View/SubWidgets/PatientTileInfo.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/MultilineDialog.h"

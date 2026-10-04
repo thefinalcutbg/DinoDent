@@ -17,13 +17,20 @@ unix:!macx{
     SOURCES += src/Printer/SignotecCustomDriver.cpp
 #the unix version uses homebrew for dependencies management
 
-  DEPFOLDER = /home/linuxbrew/.linuxbrew
+DEPFOLDER = /home/linuxbrew/.linuxbrew
 
-LIBS += \
-    -L$$DEPFOLDER/opt/libxml2/lib -lxml2 \
-    -L$$DEPFOLDER/opt/openssl@3/lib/ -lssl \
-    -L$$DEPFOLDER/opt/openssl@3/lib/ -lcrypto \
-    -L$$DEPFOLDER/opt/libp11/lib/ -lp11 \
+    INCLUDEPATH += \
+        $$DEPFOLDER/opt/hidapi/include/hidapi \
+        $$DEPFOLDER/opt/libxml2/include/libxml2 \
+        $$DEPFOLDER/opt/libp11/include
+
+
+    LIBS += \
+        -L$$DEPFOLDER/opt/hidapi/lib -lhidapi-hidraw \
+        -L$$DEPFOLDER/opt/libxml2/lib -lxml2 \
+        -L$$DEPFOLDER/opt/libp11/lib -lp11
+
+    LIBS += -lssl -lcrypto
 }
 
 macx {
@@ -362,7 +369,7 @@ HEADERS += \
     src/View/Widgets/MultilineDialog.h \
     src/View/Widgets/NewDocDialog.h \
     src/View/Widgets/NotesTemplateDialog.h \
-    src/View/Widgets/NotificationDialog.h \
+    src/View/Widgets/notificationdialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
     src/View/Widgets/PerioStatusView.h \
@@ -722,7 +729,7 @@ SOURCES += \
     src/View/Widgets/MultilineDialog.cpp \
     src/View/Widgets/NewDocDialog.cpp \
     src/View/Widgets/NotesTemplateDialog.cpp \
-    src/View/Widgets/NotificationDialog.cpp \
+    src/View/Widgets/notificationdialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientHistoryDialog.cpp \
     src/View/Widgets/PerioStatusView.cpp \

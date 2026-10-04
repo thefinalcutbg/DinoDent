@@ -63,24 +63,24 @@ void TabTitle::setData(const TabName& tabData)
 void TabTitle::setCurrentAppearence(bool current)
 {
 
-	if (current) {
-		setStyleSheet(
-			"QLabel{color:" + Theme::colorToString(Theme::fontTurquoise) + "}"
-            "QPushButton{color:" + Theme::colorToString(Theme::fontRed) + "background-color:transparent; } "
-			"QPushButton:hover{color:" + Theme::colorToString(Theme::fontRedClicked) + "}"
-            "QPushButton:pressed:hover{color: darkred; background-color:transparent;}"
+    if (current) {
+        setStyleSheet(
+            "QLabel{color:" + Theme::colorToString(Theme::fontTurquoise) + "}"
+            "QPushButton{color:" + Theme::colorToString(Theme::fontRed) + "; background:transparent; border:none; } "
+            "QPushButton:hover{color:" + Theme::colorToString(Theme::fontRedClicked) + "; background:transparent; border:none; }"
+            "QPushButton:pressed{color:darkred; background:transparent; border:none;}"
 
-		);
-	}
-	else
-	{
-		setStyleSheet(
-			"QLabel{color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "}"
-            "QPushButton{color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "background-color:transparent; } "
-			"QPushButton:hover{color:" + Theme::colorToString(Theme::fontRedClicked) + "}"
-            "QPushButton:pressed:hover{color: darkred; background-color:transparent;}"
-		);
-	}
+            );
+    }
+    else
+    {
+        setStyleSheet(
+            "QLabel{color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "}"
+            "QPushButton{color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; background:transparent; border:none; } "
+            "QPushButton:hover{color:" + Theme::colorToString(Theme::fontRedClicked) + "; background:transparent; border:none; }"
+            "QPushButton:pressed{color:darkred; background:transparent; border:none;}"
+            );
+    }
 }
 
 void TabTitle::mouseReleaseEvent(QMouseEvent* event)

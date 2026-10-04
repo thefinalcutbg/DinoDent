@@ -19,24 +19,24 @@ enum TabletType : unsigned int
     Delta = 0x0015
 };
 // STRSASetHash supports SHA-1 and SHA-256; the SDK rejects SHA-512.
-enum HashAlgorithm
+enum HASHALGO
 {
     kSha1 = 0,
     kSha256 = 1
 };
-enum HashValue
+enum HASHVALUE
 {
     kCombination = 0,
     kHash1 = 1,
     kHash2 = 2
 };
-enum RSAScheme
+enum RSASCHEME
 {
     kNoHashOID = 0,
     kPKCS1_V1_5 = 1,
     kPSS = 2
 };
-enum CertType
+enum CERTTYPE
 {
     kCert_DER = 0,
     kCSR_DER = 1,
@@ -58,18 +58,21 @@ enum Align
     kRight = 2
 };
 
+inline constexpr long STPAD_FONT_BOLD=1;
+constexpr std::uint32_t RGB(unsigned r, unsigned g, unsigned b){ return (r&255)|((g&255)<<8)|((b&255)<<16);}
+
 long STDeviceOpen(long index, bool erase);
 long STErase();
 long STSensorSetSignRect(long x, long y, long width, long height);
 long STDisplaySetFont(const wchar_t *name, long size, long options);
 long STDisplayGetHeight();
 long STDisplaySetText(long x, long y, Align alignment, const wchar_t *text);
-long STRSASetHash(const unsigned char *hash, HashAlgorithm algorithm, long options);
+long STRSASetHash(const unsigned char *hash, HASHALGO algorithm, long options);
 long STSignatureStart();
 long STSignatureRetry();
 long STSignatureStop();
 long STSignatureConfirm();
-long STRSASign(unsigned char *buffer, long *size, RSAScheme scheme, HashValue value, long options);
+long STRSASign(unsigned char *buffer, long *size, RSASCHEME scheme, HASHVALUE value, long options);
 long STRSAGetSignData(unsigned char *buffer, long *size, long options);
 long STRSASaveSigningCertAsStream(unsigned char *buffer, long *size, unsigned type);
 long STSignatureSaveAsStreamEx(unsigned char *buffer, long *size, long resolution, long width, long height, unsigned type, long penWidth, unsigned color, long options);

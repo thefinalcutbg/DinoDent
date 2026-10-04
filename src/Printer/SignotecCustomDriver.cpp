@@ -1,7 +1,7 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#include "SignotecMacOS.h"
+#include "SignotecCustomDriver.h"
 
 // Reading guide:
 // 1. SignData and SignatureImage build the exported files locally.
@@ -331,7 +331,7 @@ class SignatureImage
 const auto vendorId = 0x2133;
 hid_device *device = nullptr;
 SignotecDriver::TabletType tabletType = SignotecDriver::TabletType::None;
-SignotecDriver::HashAlgorithm s_algorithm;
+SignotecDriver::HASHALGO s_algorithm;
 std::vector<unsigned char> s_digest;
 
 struct PenSample
@@ -373,7 +373,7 @@ static long fail(const char *message)
 }
 
 // The hash enum describes the caller's digest; unsupported algorithms return 0.
-static size_t digestSize(SignotecDriver::HashAlgorithm algorithm)
+static size_t digestSize(SignotecDriver::HASHALGO algorithm)
 {
     switch (algorithm)
     {
@@ -970,7 +970,7 @@ long SignotecDriver::STSensorSetSignRect(long x, long y, long width, long height
     }
 }
 
-long SignotecDriver::STRSASetHash(const unsigned char *hash, HashAlgorithm algorithm, long options)
+long SignotecDriver::STRSASetHash(const unsigned char *hash, HASHALGO algorithm, long options)
 {
     s_lastError.clear();
     try
@@ -1480,7 +1480,7 @@ long SignotecDriver::STSignatureConfirm()
     }
 }
 
-long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSAScheme scheme, HashValue value, long options)
+long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSASCHEME scheme, HASHVALUE value, long options)
 {
     s_lastError.clear();
     try
@@ -1489,7 +1489,7 @@ long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSAScheme sche
             return fail("STRSASign failed: invalid state, arguments or device response");
 
         // Only this signing combination has been implemented.
-        if (scheme != RSAScheme::kPSS || value != HashValue::kCombination || options != 0)
+        if (scheme != RSASCHEME::kPSS || value != HASHVALUE::kCombination || options != 0)
             return fail("STRSASign failed: invalid state, arguments or device response");
 
         if (!s_confirmed || s_signature.empty())
@@ -1532,7 +1532,7 @@ long SignotecDriver::STRSASaveSigningCertAsStream(unsigned char *buffer, long *s
         if (!device || !size || !s_confirmed)
             return fail("STRSASaveSigningCertAsStream failed: invalid state, arguments or device response");
 
-        if (type != CertType::kCert_DER)
+        if (type != CERTTYPE::kCert_DER)
             return fail("STRSASaveSigningCertAsStream failed: invalid state, arguments or device response");
 
         if (!loadCertificate())

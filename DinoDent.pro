@@ -13,6 +13,8 @@ include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport sourc
 
 unix:!macx{
 
+    HEADERS += src/Printer/SignotecCustomDriver.h
+    SOURCES += src/Printer/SignotecCustomDriver.cpp
 #the unix version uses homebrew for dependencies management
 
   DEPFOLDER = /home/linuxbrew/.linuxbrew
@@ -30,8 +32,8 @@ macx {
   QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
   DEPFOLDER = /opt/local
 
-  HEADERS += src/Printer/SignotecMacOS.h
-  SOURCES += src/Printer/SignotecMacOS.cpp
+  HEADERS += src/Printer/SignotecCustomDriver.h
+  SOURCES += src/Printer/SignotecCustomDriver.cpp
   INCLUDEPATH += $$DEPFOLDER/include/hidapi
   LIBS += -L$$DEPFOLDER/lib -lhidapi
   OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl

@@ -11,26 +11,18 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 14.0
 CONFIG += no_zint no_svg no_formdesigner no_embedded_designer #limereport options
 include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport source code
 
-unix:!macx{
+unix:!macx {
 
     HEADERS += src/Printer/SignotecCustomDriver.h
     SOURCES += src/Printer/SignotecCustomDriver.cpp
-#the unix version uses homebrew for dependencies management
 
-DEPFOLDER = /home/linuxbrew/.linuxbrew
+    CONFIG += link_pkgconfig
 
-    INCLUDEPATH += \
-        $$DEPFOLDER/opt/hidapi/include/hidapi \
-        $$DEPFOLDER/opt/libxml2/include/libxml2 \
-        $$DEPFOLDER/opt/libp11/include
-
-
-    LIBS += \
-        -L$$DEPFOLDER/opt/hidapi/lib -lhidapi-hidraw \
-        -L$$DEPFOLDER/opt/libxml2/lib -lxml2 \
-        -L$$DEPFOLDER/opt/libp11/lib -lp11
-
-    LIBS += -lssl -lcrypto
+    PKGCONFIG += \
+        hidapi-hidraw \
+        libxml-2.0 \
+        libp11 \
+        openssl
 }
 
 macx {

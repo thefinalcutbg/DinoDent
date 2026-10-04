@@ -876,24 +876,27 @@ void ListPresenter::syncAmbDate(const Date& procedureDate)
 	}
 	
     auto startDate = Date(m_amblist.date);
-    
+	auto endDate = Date(m_amblist.treatment_end);
+
+    //treatment start logic
 	startDate.month = procedureDate.month;
 	startDate.year = procedureDate.year;
 
-    if(startDate.day > procedureDate.day){
-		startDate.day = procedureDate.day;
-	}
+    if(startDate.day > procedureDate.day){ startDate.day = procedureDate.day; }
 
 	m_amblist.date = startDate.to8601() + m_amblist.date.substr(10);
 
 	view->setDateTime(m_amblist.date); //update view
-
-    makeEditedOnTimeChange(false); //execute treatment end logic
     
-	if (Date(m_amblist.treatment_end)  < procedureDate.to8601()){
-        m_amblist.treatment_end = procedureDate.to8601() + m_amblist.treatment_end.substr(10);
-        view->setTreatmentEnd(m_amblist.treatment_end);
-	}
+    //reatment end logic
+
+	endDate.month = procedureDate.month;
+	endDate.year = procedureDate.year;
+
+	if (endDate < procedureDate){ endDate.day = procedureDate.day; }
+
+     m_amblist.treatment_end = endDate.to8601() + m_amblist.treatment_end.substr(10);
+     view->setTreatmentEnd(m_amblist.treatment_end);
 }
 
 
@@ -1324,7 +1327,7 @@ void ListPresenter::editProcedure(int index)
 
     dynamicNhifConversion();
 
-    syncAmbDate(result->date);
+    syncAmbDate(m_amblist.procedures[index].date);
 
     makeEdited();
 

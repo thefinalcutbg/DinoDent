@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=DinoDent
+Comment=Dental practice management software
+Exec=DinoDent
+Icon=dinodent
+Categories=Office;MedicalSoftware;
+Terminal=false

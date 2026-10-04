@@ -45,7 +45,7 @@ bool UpdateService::restartForUpdate(bool forceUpdate)
 #endif
 
 #ifdef Q_OS_LINUX
-    return false;
+	branch = "linux";
 #endif
 
     if (GlobalSettings::devBranch()) {
@@ -86,6 +86,9 @@ bool UpdateService::restartForUpdate(bool forceUpdate)
 
         case QDialog::Accepted:
         {
+#ifdef Q_OS_LINUX
+		    return QDesktopServices::openUrl(QUrl(linkAddress.c_str()));
+#endif
             UpdateDownloader d(linkAddress.c_str());
             d.exec();
 

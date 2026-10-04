@@ -1,57 +1,134 @@
-# How to build:
+# How to build
 
-# Building on Linux or macOS
-Use the included Qt pro file. It is configured to use the Homebrew directories for dependencies under Linux and MacPorts under macOS (because of the universal libraries). The include.zip file, which contains the headers of the libraries and some header-only libraries, has to be extracted beside the src folder. You will also need the LimeReport source code from GitHub, which is linked statically (revisit the path to LimeReport source in the DinoDent.pro file). The build is tested under Qt 6.5 and OpenSSL 3.
+## Building on Linux
 
-# Building on Windows
+Use the included Qt `.pro` file.
 
-## Building dependencies:
+The `include.zip` file contains the bundled headers/source files and several header-only dependencies. Extract it into the main DinoDent project directory, so that the `include` folder is beside the `src` folder.
 
-For convinience the source of Sqlite3, JsonCpp and TinyXml is already included and configured to be built and linked statically by CMake. You have to build the other dependencies yourself.
+You will also need the [LimeReport](https://github.com/fralx/LimeReport) source code. It is linked statically through its `.pri` file, so make sure the path to the LimeReport source in `DinoDent.pro` is correct.
+
+The build is tested with Qt 6.8.3 and OpenSSL 3.
+
+### Dependencies
+
+On Linux, system dependencies are installed using the distribution package manager and detected through `pkg-config`.
+
+On Ubuntu/Debian install the required development packages with:
+
+```bash
+sudo apt update
+
+sudo apt install \
+    build-essential \
+    pkg-config \
+    libhidapi-dev \
+    libxml2-dev \
+    libp11-dev \
+    libssl-dev
+```
+
+### Signature pads
+
+DinoDent uses a custom HID-based implementation for communication with supported signotec/Evolis signature pads on Linux.
+
+Linux normally restricts direct access to HID devices. A udev rule may therefore be required.
+
+## Building on macOS
+
+Use the included Qt `.pro` file.
+
+The `include.zip` file contains the bundled headers/source files and several header-only dependencies. Extract it into the main DinoDent project directory, so that the `include` folder is beside the `src` folder.
+
+You will also need the [LimeReport](https://github.com/fralx/LimeReport) source code. It is linked statically through its `.pri` file, so make sure the path to the LimeReport source in `DinoDent.pro` is correct.
+
+The macOS build uses MacPorts for external dependencies because universal `x86_64`/`arm64` libraries are required.
+
+The build is tested with Qt 6.8.3 and OpenSSL 3.
+
+---
+
+## Building on Windows
+
+### Building dependencies
+
+For convenience, the source code of SQLite3, JsonCpp and TinyXml is already included and configured to be built and linked statically. You have to build the remaining dependencies yourself.
 
 ### LimeReport
-This library is required for generating and printing the ambulatory sheets and invoices. Go to [https://github.com/fralx/LimeReport](https://github.com/fralx/LimeReport) and download the source code. Build it as dynamic library with CMake (or use QtCreator with the provided *.pri file). The additional QZint dependency is not required, so if you are building with Cmake, be sure to turn the option off. If you want to run DinoDent in debug mode, be sure to build another binary of LimeReport in Debug configuration, since the Qt Print Module has different binaries for Debug and Release.
 
-### OpenSsl
+Go to [https://github.com/fralx/LimeReport](https://github.com/fralx/LimeReport) and download the source code.
 
-Provide OpenSsl for your system. OpenSsl is a dependency of libp11. Use the one distributed by the Qt Maintaince tool.
+Build it as a dynamic library with CMake, or use Qt Creator with the provided `.pri` file.
 
-### libXml2
+The additional QZint dependency is not required, so if you are building with CMake, make sure to disable it.
 
-This library is required for the canonnicalization of the xml file during the signing. Download the latest release from [https://github.com/GNOME/libxml2/](https://github.com/GNOME/libxml2/)
-It is strongly advisable to build it without libxslt and iconv to reduce dependency hell. If you are on Windows, start configure.js from the win32 folder with cscript from the console and set the parameters and the desired directories using this command:
-```
+If you want to run DinoDent in Debug mode, build a separate Debug version of LimeReport, since Qt PrintSupport uses different binaries for Debug and Release builds.
+
+### OpenSSL
+
+Provide OpenSSL for your system. OpenSSL is also a dependency of libp11.
+
+You can use the OpenSSL version distributed through the Qt Maintenance Tool.
+
+### libxml2
+
+This library is required for XML canonicalization during signing.
+
+Download the latest release from:
+
+[https://github.com/GNOME/libxml2](https://github.com/GNOME/libxml2)
+
+It is advisable to build it without `libxslt` and `iconv` to reduce unnecessary dependencies.
+
+On Windows, open the `win32` directory and run `configure.js` with `cscript`, specifying the desired include and library directories:
+
+```text
 cscript configure.js iconv=no xslt=no include=c:\YourIncludeDir lib=c:\YourBinariesDir
 ```
 
-Then type:
-```
+Then run:
+
+```text
 nmake install
 ```
 
-Wait for the build process to finish. This generates several binaries, but the one you need is called libxml2. The binaries whose names end _a are not required.
+After the build finishes, several binaries will be generated. The one required by DinoDent is `libxml2`. Binaries whose names end in `_a` are not required.
 
+### libp11
 
-### Libp11
+This library provides the PKCS#11 interface.
 
-This library is responsible for the PKCS11 interface. Go to [https://github.com/OpenSC/libp11](https://github.com/OpenSC/libp11) and download the latest release. Build the library following the instructions, or directly use the provided binaries from earlier releases for your OS. After the build process is finished, there will be 2 binaries - libp11 and pkcs11
+Go to:
 
+[https://github.com/OpenSC/libp11](https://github.com/OpenSC/libp11)
 
+and download the latest release.
 
-If you have followed everything  as described, you'll have all of the required binaries:
+Build the library according to the project instructions, or use the provided binaries from an earlier compatible release.
 
-- limereport-qt6 (LimeReport)
+After the build process is complete, there will be two relevant binaries:
 
-- libcrypto (OpenSSL)
+- `libp11`
+- `pkcs11`
 
-- libssl (OpenSSL)
+If everything has been configured correctly, you should now have all required external binaries:
 
-- libxml2 (LibXml2)
+- `limereport-qt6` (LimeReport)
+- `libcrypto` (OpenSSL)
+- `libssl` (OpenSSL)
+- `libxml2` (libxml2)
+- `libp11` (libp11)
+- `pkcs11` (libp11)
 
-- libp11 (Libp11)
+### Building DinoDent itself
 
-- pkcs11 (Libp11)
+On Windows, use the included Microsoft Visual Studio project file.
 
-## Building DinoDent itself
+Configure your Qt version and set the Linker Additional Library Directories so that they point to the libraries you built above.
 
-On Windows use the included MS Visual Studio project file. Configure your Qt version. Configure the Linker Additional Directories, so that they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. lib/debug/limereport and lib/release/limereport).
+The LimeReport Debug and Release binaries must be linked according to the current project build configuration, so keep them in separate directories, for example:
+
+```text
+lib/debug/limereport
+lib/release/limereport
+```

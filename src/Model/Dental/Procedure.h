@@ -3,6 +3,7 @@
 #include <array>
 #include <variant>
 #include <optional>
+#include <algorithm>
 
 #include "Model/Date.h"
 #include "ProcedureCode.h"

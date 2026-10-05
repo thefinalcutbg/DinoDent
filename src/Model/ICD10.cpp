@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <json/json.h>
+#include <algorithm>
 
 #include "Resources.h"
 

@@ -1,6 +1,7 @@
 ﻿#include "UpdateService.h"
 #include "Network/NetworkManager.h"
 #include <QNetworkReply>
+#include <QProcess>
 #include "View/ModalDialogBuilder.h"
 #include <QEventLoop>
 #include <json/json.h>
@@ -87,7 +88,10 @@ bool UpdateService::restartForUpdate(bool forceUpdate)
         case QDialog::Accepted:
         {
 #ifdef Q_OS_LINUX
-		    return QDesktopServices::openUrl(QUrl(linkAddress.c_str()));
+            return QProcess::startDetached(
+                "xdg-open",
+                { QString::fromStdString(linkAddress) }
+                );
 #endif
             UpdateDownloader d(linkAddress.c_str());
             d.exec();

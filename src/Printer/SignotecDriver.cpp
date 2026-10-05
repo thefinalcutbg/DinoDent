@@ -52,7 +52,7 @@
 namespace
 {
 using Bytes = std::vector<unsigned char>;
-// SIG200 display support uses the Omega protocol (model 11).
+// The verified LCD transport is Omega-compatible; additional models are provisional.
 static bool hasDisplay = false;
 static int displayWidth = 320;
 static int displayHeight = 160;
@@ -80,9 +80,17 @@ struct ExportCalibration
     unsigned calibratedWidth, calibratedHeight;
     unsigned pressureMin, pressureMax;
     unsigned normalizedWidth, resolution;
+    unsigned sensorWidth = 4096, sensorHeight = 4096;
+    unsigned rawPressure = 16384, sensorFormat = 1, pressureLevels = 1024;
+    unsigned normalizedHeight = 4096, resolutionY = 0;
+    bool directPressure = false, experimental = false;
 };
+static std::optional<ExportCalibration> selectedCalibration;
+static unsigned captureSampleRate = 250;
 static ExportCalibration exportCalibration()
 {
+    if (selectedCalibration)
+        return *selectedCalibration;
     if (hasDisplay)
         return {111, 640, 480, -19, -33, 686, 527, 2984, 5544, 5461, 1365};
     return {101, 320, 160, 0, 0, 320, 160, 1828, 4900, 8192, 2242};
@@ -109,9 +117,9 @@ inline Bytes signMetadata(const Bytes &documentHash, std::int64_t timestamp)
         metadata[2 + i] = static_cast<unsigned char>(static_cast<std::uint64_t>(timestamp) >> (8 * i));
 
     // Metadata offsets verified against SDK exports for both models.
-    put16(metadata, 10, 1); // Sensor format.
-    put16(metadata, 12, 4096);
-    put16(metadata, 14, 4096);
+    put16(metadata, 10, calibration.sensorFormat); // Sensor format.
+    put16(metadata, 12, calibration.sensorWidth);
+    put16(metadata, 14, calibration.sensorHeight);
     put16(metadata, 16, calibration.width);
     put16(metadata, 18, calibration.height);
     put16(metadata, 20, static_cast<unsigned>(calibration.offsetX));
@@ -119,13 +127,13 @@ inline Bytes signMetadata(const Bytes &documentHash, std::int64_t timestamp)
     put16(metadata, 24, calibration.calibratedWidth); // Sensor calibration area.
     put16(metadata, 26, calibration.calibratedHeight);
     put16(metadata, 28, hasDisplay ? 0 : mode); // Preserve the verified Lite format; SIG200 rotation is zero.
-    put32(metadata, 30, 16384); // Raw pressure range.
+    put32(metadata, 30, calibration.rawPressure); // Raw pressure range.
     put16(metadata, 34, calibration.pressureMin);  // Pressure calibration.
     put16(metadata, 36, calibration.pressureMax);
-    put16(metadata, 38, 1024);
+    put16(metadata, 38, calibration.pressureLevels);
     put16(metadata, 44, calibration.width);
     put16(metadata, 46, calibration.height);
-    put16(metadata, 48, 250);  // Samples per second.
+    put16(metadata, 48, captureSampleRate);  // Samples per second.
     put16(metadata, 50, mode); // Internal hash identifiers: SHA-1 = 1, SHA-256 = 2.
     put16(metadata, 52, mode);
     put16(metadata, 54, static_cast<unsigned>(documentHash.size()));
@@ -172,11 +180,11 @@ class SignData
         put16(header, 8, calibration.modelTag);
         put16(header, 10, 0x10);
         put16(header, 12, calibration.resolution);
-        put16(header, 14, calibration.resolution);
+        put16(header, 14, calibration.resolutionY ? calibration.resolutionY : calibration.resolution);
         put16(header, 16, calibration.normalizedWidth);
-        put16(header, 18, 4096);
+        put16(header, 18, calibration.normalizedHeight);
         put16(header, 20, 4);
-        put16(header, 26, 1023);
+        put16(header, 26, calibration.pressureLevels - 1);
         uncompressed_ = header;
         uncompressed_.insert(uncompressed_.end(), payload.begin(), payload.end());
         // qCompress prefixes a four-byte Qt length; the SDK expects only zlib.
@@ -239,19 +247,41 @@ inline std::vector<RenderPoint> calibratedPoints(const std::vector<PenSample> &s
     std::uint32_t previous = 0;
     for (const auto &p : samples)
     {
-        if (p.x > 4096 || p.y > 4096)
+        if (p.x > calibration.sensorWidth || p.y > calibration.sensorHeight)
             continue;
         // Convert the calibrated display position back into normalized sensor
         // units. Discard points outside the visible signing area, like the SDK.
-        double x = (double(p.x) * calibration.calibratedWidth / 4096 + calibration.offsetX) * 4096 / calibration.width;
-        double y = (double(p.y) * calibration.calibratedHeight / 4096 + calibration.offsetY) * 4096 / calibration.height;
-        if (x < 0 || x > 4096 || y < 0 || y > 4096)
+        double x = (double(p.x) * calibration.calibratedWidth / calibration.sensorWidth + calibration.offsetX) * calibration.sensorWidth / calibration.width;
+        double y = (double(p.y) * calibration.calibratedHeight / calibration.sensorHeight + calibration.offsetY) * calibration.sensorHeight / calibration.height;
+        if (x < 0 || x > calibration.sensorWidth || y < 0 || y > calibration.sensorHeight)
             continue;
-        x *= double(calibration.width) / calibration.height;
+        const double sensorAspect = double(calibration.sensorWidth) / calibration.sensorHeight;
+        const double displayAspect = double(calibration.width) / calibration.height;
+        if (displayAspect > sensorAspect)
+            x *= displayAspect / sensorAspect;
+        else
+            y *= sensorAspect / displayAspect;
         double resistance = p.z1 ? static_cast<double>(static_cast<std::int64_t>(p.x) * (int(p.z2) - int(p.z1)) / p.z1) : 0;
         resistance = std::min(resistance, 16383.0);
         double pressure;
-        if (resistance < 0)
+        if (calibration.directPressure)
+        {
+            // ERT uses the pressure word directly, not the resistive z1/z2 formula.
+            // A 0xffff word is an out-of-range marker in SDK sensor formats 2/3.
+            if (p.z1 == 0xffff || p.z1 == 0)
+            {
+                pressure = -1;
+                afterLift = true;
+            }
+            else if (afterLift)
+            {
+                pressure = 0;
+                afterLift = false;
+            }
+            else
+                pressure = std::min(double(p.z1), double(calibration.pressureLevels - 1));
+        }
+        else if (resistance < 0)
         {
             pressure = -1;
             afterLift = true;
@@ -266,7 +296,7 @@ inline std::vector<RenderPoint> calibratedPoints(const std::vector<PenSample> &s
             double clamped = std::clamp(resistance, double(calibration.pressureMin), double(calibration.pressureMax));
             pressure = std::clamp((pressureRange - (clamped - calibration.pressureMin)) * 1024.0 / pressureRange, 1.0, 1023.0);
         }
-        if (static_cast<std::uint32_t>(p.time - previous) > 2)
+        if (static_cast<std::uint32_t>(p.time - previous) > std::max(2u, captureSampleRate / 125))
             pressure = 0;
         previous = p.time;
         result.push_back({x, y, pressure, p.time});
@@ -287,7 +317,8 @@ class SignatureImage
         auto points = calibratedPoints(samples);
         const auto calibration = exportCalibration();
         const double scale = double(ppi) / calibration.resolution;
-        QImage canvas(static_cast<int>(std::ceil(calibration.normalizedWidth * scale)) + 16, static_cast<int>(std::ceil(4096 * scale)) + 16, QImage::Format_ARGB32_Premultiplied);
+        const double scaleY = double(ppi) / (calibration.resolutionY ? calibration.resolutionY : calibration.resolution);
+        QImage canvas(static_cast<int>(std::ceil(calibration.normalizedWidth * scale)) + 16, static_cast<int>(std::ceil(calibration.normalizedHeight * scaleY)) + 16, QImage::Format_ARGB32_Premultiplied);
         if (canvas.isNull())
             throw std::runtime_error("Cannot allocate signature image");
         canvas.fill(Qt::transparent);
@@ -298,14 +329,14 @@ class SignatureImage
         bool down = false;
         for (const auto &p : points)
         {
-            QPointF current(8 + p.x * scale, 8 + p.y * scale);
+            QPointF current(8 + p.x * scale, 8 + p.y * scaleY);
             if (p.pressure <= 0)
             {
                 previous = current;
                 down = false;
                 continue;
             }
-            double width = (ppi / 160.0) * (0.6 + 2.4 * std::sqrt(p.pressure / 1023.0));
+            double width = (ppi / 160.0) * (0.6 + 2.4 * std::sqrt(p.pressure / (calibration.pressureLevels - 1)));
             painter.setPen(QPen(Qt::blue, down ? (width + previousWidth) / 2 : width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             if (down)
                 painter.drawLine(previous, current);
@@ -371,7 +402,7 @@ class SignatureImage
 const auto vendorId = 0x2133;
 hid_device *device = nullptr;
 SignotecDriver::TabletType tabletType = SignotecDriver::TabletType::None;
-SignotecDriver::HashAlgorithm s_algorithm;
+SignotecDriver::HASHALGO s_algorithm;
 std::vector<unsigned char> s_digest;
 
 struct PenSample
@@ -413,7 +444,7 @@ static long fail(const char *message)
 }
 
 // The hash enum describes the caller's digest; unsupported algorithms return 0.
-static size_t digestSize(SignotecDriver::HashAlgorithm algorithm)
+static size_t digestSize(SignotecDriver::HASHALGO algorithm)
 {
     switch (algorithm)
     {
@@ -980,6 +1011,84 @@ static bool uploadDisplayImage(const QImage &image, int x, int y)
 static bool loadCertificate();
 static bool verifySignature(const Bytes &streamHash);
 
+// USB product IDs and information-query model IDs have matched on tested pads.
+static bool supportedProduct(unsigned id)
+{
+    return id == 1 || id == 5 || id == 11 || id == 15 || id == 21;
+}
+
+static bool configureModel(const InputReport &info, unsigned productId, const std::wstring &productName)
+{
+    const unsigned model = read32(info.data() + 3);
+    const unsigned width = read32(info.data() + 19);
+    const unsigned sensorWidth = read32(info.data() + 31);
+    const unsigned sensorHeight = read32(info.data() + 35);
+    const unsigned pressure = read32(info.data() + 39);
+    const unsigned format = read32(info.data() + 43);
+    const unsigned physicalWidth = read32(info.data() + 51);
+    const unsigned physicalHeight = read32(info.data() + 55);
+    if (!supportedProduct(model) || model != productId || sensorWidth == 0 || sensorWidth > 65535 || sensorHeight == 0 || sensorHeight > 65535 || pressure < 2 || pressure > 65535 || format < 1 || format > 3)
+        return false;
+    QString name = QString::fromStdWString(productName).toLower();
+    // Sigma and Sigma Lite share a PID. Require a recognizable product string
+    // rather than risk sending LCD commands to a headless or unknown variant.
+    const bool lite = model == 1 && name.contains("lite");
+    if (model == 1 && !lite && !name.contains("sig100") && !name.contains("sig 100") && !name.contains("sigma"))
+        return false;
+    unsigned expectedWidth = 0, height = 0;
+    switch (model)
+    {
+    case 1: expectedWidth = 320; height = 160; break;
+    case 5: expectedWidth = 320; height = 200; break;
+    case 11: expectedWidth = 640; height = 480; break;
+    case 15: expectedWidth = 800; height = 480; break;
+    case 21: expectedWidth = 1280; height = 800; break;
+    default: return false;
+    }
+    if (width != expectedWidth || physicalWidth < 10000 || physicalHeight < 10000 || physicalWidth > 1000000 || physicalHeight > 1000000)
+        return false;
+    hasDisplay = !lite;
+    displayWidth = width;
+    displayHeight = height;
+    tabletType = static_cast<SignotecDriver::TabletType>(model);
+    selectedCalibration.reset();
+    const bool knownSensor = sensorWidth == 4096 && sensorHeight == 4096 && pressure == 16384 && format == 1;
+    const bool verifiedLite = lite && knownSensor && physicalWidth == 92780 && physicalHeight == 46390;
+    const bool verifiedOmega = model == 11 && knownSensor && physicalWidth == 101570 && physicalHeight == 76180;
+    if (verifiedLite || verifiedOmega)
+        return true;
+    if (model == 11 || lite)
+        return false; // Do not silently reinterpret an unrecognized tested-model variant.
+
+    // Provisional calibration: full sensor mapped onto the documented display.
+    // No invented per-unit margins. Replace these values after an SDK capture.
+    ExportCalibration calibration{model + 100, width, height, 0, 0, width, height, 0, pressure - 1, 0, 0};
+    calibration.sensorWidth = sensorWidth;
+    calibration.sensorHeight = sensorHeight;
+    calibration.sensorFormat = format;
+    calibration.rawPressure = pressure;
+    calibration.directPressure = model == 5 || model == 15 || model == 21;
+    calibration.pressureLevels = calibration.directPressure ? pressure : 1024;
+    if (!calibration.directPressure)
+    {
+        calibration.pressureMin = 1828; // Sigma LCD: provisional Lite calibration.
+        calibration.pressureMax = 4900;
+        if (!knownSensor)
+            return false;
+    }
+    const double aspect = double(width) / height;
+    calibration.normalizedWidth = static_cast<unsigned>(std::max(double(sensorWidth), sensorHeight * aspect));
+    calibration.normalizedHeight = static_cast<unsigned>(std::max(double(sensorHeight), sensorWidth / aspect));
+    calibration.resolution = static_cast<unsigned>(std::lround(calibration.normalizedWidth * 25400.0 / physicalWidth));
+    calibration.resolutionY = static_cast<unsigned>(std::lround(calibration.normalizedHeight * 25400.0 / physicalHeight));
+    if (calibration.normalizedWidth > 65535 || calibration.normalizedHeight > 65535 || calibration.resolution == 0 || calibration.resolution > 65535 || calibration.resolutionY == 0 || calibration.resolutionY > 65535)
+        return false;
+    calibration.experimental = true;
+    selectedCalibration = calibration;
+    qWarning() << "[Signotec EXPERIMENTAL] model" << model << "display" << width << height << "sensor" << sensorWidth << sensorHeight << "pressure" << pressure << "format" << format << "physical micrometres" << physicalWidth << physicalHeight << "uses estimated calibration and Omega LCD commands; needs hardware verification";
+    return true;
+}
+
 // Public API: open, configure, capture, then export.
 
 long SignotecDriver::STDeviceOpen(long index, bool erase)
@@ -1001,19 +1110,25 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
             }
         } guard{list};
         long current = 0;
+        unsigned selectedProduct = 0;
+        std::wstring selectedProductName;
         for (auto *entry = list; entry; entry = entry->next)
         {
-            if ((entry->product_id != 0x0001 && entry->product_id != 0x000b) || !entry->path || entry->usage_page != 0xffff || entry->usage != 0xff)
+            if (!supportedProduct(entry->product_id) || !entry->path || entry->usage_page != 0xffff || entry->usage != 0xff)
                 continue;
             if (current++ != index)
                 continue;
+            selectedProduct = entry->product_id;
+            selectedProductName = entry->product_string ? entry->product_string : L"";
             device = hid_open_path(entry->path);
             break;
         }
         if (!device)
-            return fail("Cannot open the selected Sigma interface");
+            return fail("Cannot open the selected Signotec HID interface");
         s_openedIndex = index;
         tabletType = Sigma;
+        selectedCalibration.reset();
+        captureSampleRate = 250;
         hasDisplay = false;
         displayWidth = 320;
         displayHeight = 160;
@@ -1025,23 +1140,14 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
         OutputReport query{};
         query[2] = 0x1f;
         auto info = exchangeReport(query, 0x20, 0x1f);
-        const bool isLite = info && read32(info->data() + 3) == 1 && read32(info->data() + 19) == 320 && read32(info->data() + 23) == 160 && read32(info->data() + 51) == 92780 && read32(info->data() + 55) == 46390;
-        const bool isSig200 = info && read32(info->data() + 3) == 11 && read32(info->data() + 19) == 640 && read32(info->data() + 23) == 960 && read32(info->data() + 51) == 101570 && read32(info->data() + 55) == 76180;
-        const bool supported = (isLite || isSig200) && read32(info->data() + 31) == 4096 && read32(info->data() + 35) == 4096 && read32(info->data() + 39) == 16384 && read32(info->data() + 43) == 1;
-        if (isSig200)
-        {
-            tabletType = Omega;
-            hasDisplay = true;
-            displayWidth = 640;
-            displayHeight = 480;
-        }
+        const bool supported = info && configureModel(*info, selectedProduct, selectedProductName);
         if (!supported)
         {
             hid_close(device);
             device = nullptr;
             s_openedIndex = -1;
             tabletType = None;
-            return fail("Unsupported tablet geometry or failed information query");
+            return fail("Unsupported model, missing Sigma product identity, or invalid tablet information; see HID trace");
         }
         if (hasDisplay)
         {
@@ -1063,14 +1169,23 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
             OutputReport mode{};
             mode[1] = 0xa4;
             if (!exchangeReport(mode, 0x90))
+            {
+                STDeviceClose(index);
                 return fail("Display mode initialization failed");
+            }
             OutputReport querySetting{};
             querySetting[2] = 0x3f;
             if (!exchangeReport(querySetting, 0x20, 0x3f))
+            {
+                STDeviceClose(index);
                 return fail("Display configuration query failed");
+            }
             querySetting[2] = 0x23;
             if (!exchangeReport(querySetting, 0x20, 0x23))
+            {
+                STDeviceClose(index);
                 return fail("Capture configuration query failed");
+            }
         }
         if (erase && STErase() < 0)
         {
@@ -1151,7 +1266,7 @@ long SignotecDriver::STSensorSetSignRect(long x, long y, long width, long height
     }
 }
 
-long SignotecDriver::STRSASetHash(const unsigned char *hash, HashAlgorithm algorithm, long options)
+long SignotecDriver::STRSASetHash(const unsigned char *hash, HASHALGO algorithm, long options)
 {
     s_lastError.clear();
     try
@@ -1369,7 +1484,12 @@ long SignotecDriver::STSignatureStart()
                 OutputReport samplingQuery{};
                 samplingQuery[2] = 0x31;
                 const auto samplingReply = exchangeReport(samplingQuery, 0x20, 0x31);
-                require(samplingReply && read32(samplingReply->data() + 3) == 250);
+                require(samplingReply.has_value());
+                captureSampleRate = read32(samplingReply->data() + 3);
+                require(captureSampleRate >= 100 && captureSampleRate <= 1000);
+                if (!exportCalibration().experimental)
+                    require(captureSampleRate == 250);
+                qDebug() << "[Signotec] capture samples per second" << captureSampleRate;
             }
             else
             {
@@ -1558,6 +1678,8 @@ long SignotecDriver::STDeviceClose(long index)
 
         s_captureTimestamp = 0;
         tabletType = TabletType::None;
+        selectedCalibration.reset();
+        captureSampleRate = 250;
         receiveFailed = false;
         clearExports();
         s_captureStarted = false;
@@ -1700,7 +1822,7 @@ long SignotecDriver::STSignatureConfirm()
     }
 }
 
-long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSAScheme scheme, HashValue value, long options)
+long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSASCHEME scheme, HASHVALUE value, long options)
 {
     s_lastError.clear();
     try
@@ -1709,7 +1831,7 @@ long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSAScheme sche
             return fail("STRSASign failed: invalid state, arguments or device response");
 
         // Only this signing combination has been implemented.
-        if (scheme != RSAScheme::kPSS || value != HashValue::kCombination || options != 0)
+        if (scheme != RSASCHEME::kPSS || value != HASHVALUE::kCombination || options != 0)
             return fail("STRSASign failed: invalid state, arguments or device response");
 
         if (!s_confirmed || s_signature.empty())
@@ -1752,7 +1874,7 @@ long SignotecDriver::STRSASaveSigningCertAsStream(unsigned char *buffer, long *s
         if (!device || !size || !s_confirmed)
             return fail("STRSASaveSigningCertAsStream failed: invalid state, arguments or device response");
 
-        if (type != CertType::kCert_DER)
+        if (type != CERTTYPE::kCert_DER)
             return fail("STRSASaveSigningCertAsStream failed: invalid state, arguments or device response");
 
         if (!loadCertificate())
@@ -1953,7 +2075,7 @@ long SignotecDriver::STDisplayGetHeight()
     return displayHeight;
 }
 
-long SignotecDriver::STDisplaySetText(long x, long y, Align alignment, const wchar_t *text)
+long SignotecDriver::STDisplaySetText(long x, long y, ALIGN alignment, const wchar_t *text)
 {
     s_lastError.clear();
     if (!hasDisplay)

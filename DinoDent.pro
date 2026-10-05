@@ -13,9 +13,6 @@ include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport sourc
 
 unix:!macx {
 
-    HEADERS += src/Printer/SignotecCustomDriver.h
-    SOURCES += src/Printer/SignotecCustomDriver.cpp
-
     CONFIG += link_pkgconfig
 
     PKGCONFIG += \
@@ -31,8 +28,6 @@ macx {
   QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
   DEPFOLDER = /opt/local
 
-  HEADERS += src/Printer/SignotecCustomDriver.h
-  SOURCES += src/Printer/SignotecCustomDriver.cpp
   INCLUDEPATH += $$DEPFOLDER/include/hidapi
   LIBS += -L$$DEPFOLDER/lib -lhidapi
   OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl
@@ -260,6 +255,7 @@ HEADERS += \
     src/Printer/Implementation/PrintPrv.h \
     src/Printer/Print.h \
     src/Printer/SignatureTablet.h \
+	src/Printer/SignotecDriver.h \
     src/Resources.h \
     src/Tests/CrudTest.h \
     src/Version.h \
@@ -629,6 +625,7 @@ SOURCES += \
     src/Printer/Implementation/PrintPrv.cpp \
     src/Printer/Implementation/PrintReferral.cpp \
     src/Printer/SignatureTablet.cpp \
+	src/Printer/SignotecDriver.cpp \
     src/Resources.cpp \
     src/Tests/CrudTest.cpp \
     src/View/CommonIcon.cpp \

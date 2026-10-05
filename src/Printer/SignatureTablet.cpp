@@ -158,7 +158,7 @@ PatientSignature SignatureTablet::signWithWacom(const std::string& what, const s
 
 
 #ifndef Q_OS_WIN
-#include "SignotecCustomDriver.h"
+#include "SignotecDriver.h"
 using namespace SignotecDriver;
 #endif
 

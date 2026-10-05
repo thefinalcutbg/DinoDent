@@ -5,7 +5,10 @@
 // Call public APIs from one controlling thread. A background reader captures pen reports.
 // HID exchanges share a mutex with the reader. Stop pauses it; Close joins it.
 // Return -1 on error; STGetLastError() returns the calling thread's last error.
-// Tested device: Sigma Lite. SHA-1/SHA-256; full rectangle only. Display stubs.
+// Tested: SIG100 Lite and SIG200/Omega. User confirmed macOS operation.
+// Experimental: SIG100/Sigma LCD, Zeta, Gamma/Sig Activ and Delta (USB HID).
+// Their display protocol and estimated calibration require real hardware tests.
+// SHA-1/SHA-256, full rectangle, left-aligned text and the PNG preset below.
 namespace SignotecDriver
 {
 
@@ -22,7 +25,8 @@ enum TabletType : unsigned int
 enum HASHALGO
 {
     kSha1 = 0,
-    kSha256 = 1
+    kSha256 = 1,
+    kSha512 = 2 // SDK name retained; this signing protocol still rejects SHA-512.
 };
 enum HASHVALUE
 {
@@ -43,7 +47,7 @@ enum CERTTYPE
     kCert_PEM = 2,
     kCSR_PEM = 3
 };
-enum FileType
+enum FILETYPE
 {
     kTiff = 0,
     kPng = 1,
@@ -51,22 +55,34 @@ enum FileType
     kJpeg = 3,
     kGif = 4
 };
-enum Align
+enum ALIGN
 {
     kLeft = 0,
     kCenter = 1,
-    kRight = 2
+    kRight = 2,
+    kLeftCenteredVertically,
+    kCenterCenteredVertically,
+    kRightCenteredVertically,
+    kLeftNoWrap,
+    kCenterNoWrap,
+    kRightNoWrap
 };
 
-inline constexpr long STPAD_FONT_BOLD=1;
-constexpr std::uint32_t RGB(unsigned r, unsigned g, unsigned b){ return (r&255)|((g&255)<<8)|((b&255)<<16);}
+
+// Source compatibility with the earlier custom header. Prefer SDK names above.
+using HashAlgorithm = HASHALGO;
+using HashValue = HASHVALUE;
+using RSAScheme = RSASCHEME;
+using CertType = CERTTYPE;
+using FileType = FILETYPE;
+using Align = ALIGN;
 
 long STDeviceOpen(long index, bool erase);
 long STErase();
 long STSensorSetSignRect(long x, long y, long width, long height);
 long STDisplaySetFont(const wchar_t *name, long size, long options);
 long STDisplayGetHeight();
-long STDisplaySetText(long x, long y, Align alignment, const wchar_t *text);
+long STDisplaySetText(long x, long y, ALIGN alignment, const wchar_t *text);
 long STRSASetHash(const unsigned char *hash, HASHALGO algorithm, long options);
 long STSignatureStart();
 long STSignatureRetry();
@@ -82,4 +98,4 @@ std::string STGetLastError();
 } // namespace SignotecDriver
 // SignData options: 0 = qCompress/zlib, 1 = uncompressed.
 // PNG preset: 160 ppi, width/height/penWidth 0, blue COLORREF 0x00ff0000, options 0x5000.
-// PNG is rendered locally, not pixel-identical to the SDK. macOS hardware is unverified.
+// PNG is rendered locally, not pixel-identical to the SDK. Additional models remain unverified on hardware.

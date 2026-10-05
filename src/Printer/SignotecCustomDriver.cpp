@@ -1,7 +1,7 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#include "SignotecCustomDriver.h"
+#include "SignotecDriver.h"
 
 // Reading guide:
 // 1. SignData and SignatureImage build the exported files locally.
@@ -36,10 +36,13 @@
 
 #include <QBuffer>
 #include <QByteArray>
-#include <QDebug>
 #include <QCryptographicHash>
+#include <QDebug>
 #include <QImage>
 #include <QPainter>
+#include <QFont>
+#include <QFontMetrics>
+#include <QGuiApplication>
 
 #include <openssl/core_names.h>
 #include <openssl/crypto.h>
@@ -49,6 +52,13 @@
 namespace
 {
 using Bytes = std::vector<unsigned char>;
+// SIG200 display support uses the Omega protocol (model 11).
+static bool hasDisplay = false;
+static int displayWidth = 320;
+static int displayHeight = 160;
+static QFont displayFont;
+static QImage displayBackground;
+
 static void put32(Bytes &b, size_t p, unsigned long value)
 {
     for (unsigned i = 0; i < 4; ++i)
@@ -61,7 +71,23 @@ static unsigned long get32(const Bytes &b, size_t p)
         v |= static_cast<unsigned long>(b.at(p + i)) << (8 * i);
     return v;
 }
-// Reconstructed SIG100 Lite RSA SignData format; no vendor SDK dependency.
+// Calibration for the two verified models. The LCD sensor extends beyond its
+// visible area, so raw coordinates need both scaling and an offset.
+struct ExportCalibration
+{
+    unsigned modelTag, width, height;
+    int offsetX, offsetY;
+    unsigned calibratedWidth, calibratedHeight;
+    unsigned pressureMin, pressureMax;
+    unsigned normalizedWidth, resolution;
+};
+static ExportCalibration exportCalibration()
+{
+    if (hasDisplay)
+        return {111, 640, 480, -19, -33, 686, 527, 2984, 5544, 5461, 1365};
+    return {101, 320, 160, 0, 0, 320, 160, 1828, 4900, 8192, 2242};
+}
+// Reconstructed SIG100 Lite and SIG200 SignData; no vendor SDK dependency.
 // The AES key remains owned by the capture session. This module only receives
 // encrypted metadata, the pad-wrapped key, and the original encrypted reports.
 namespace direct
@@ -76,26 +102,29 @@ inline Bytes signMetadata(const Bytes &documentHash, std::int64_t timestamp)
     if (documentHash.size() != 20 && documentHash.size() != 32)
         throw std::runtime_error("SignData requires SHA-1 or SHA-256");
     const unsigned mode = documentHash.size() == 20 ? 1 : 2;
+    const auto calibration = exportCalibration();
     Bytes metadata(128, 0);
     put16(metadata, 0, 2); // Metadata version.
     for (unsigned i = 0; i < 8; ++i)
         metadata[2 + i] = static_cast<unsigned char>(static_cast<std::uint64_t>(timestamp) >> (8 * i));
 
-    // These offsets and calibration values match the tested SIG100 Lite format.
+    // Metadata offsets verified against SDK exports for both models.
     put16(metadata, 10, 1); // Sensor format.
     put16(metadata, 12, 4096);
     put16(metadata, 14, 4096);
-    put16(metadata, 16, 320);
-    put16(metadata, 18, 160);
-    put16(metadata, 24, 320); // Full signing area.
-    put16(metadata, 26, 160);
-    put16(metadata, 28, mode);
+    put16(metadata, 16, calibration.width);
+    put16(metadata, 18, calibration.height);
+    put16(metadata, 20, static_cast<unsigned>(calibration.offsetX));
+    put16(metadata, 22, static_cast<unsigned>(calibration.offsetY));
+    put16(metadata, 24, calibration.calibratedWidth); // Sensor calibration area.
+    put16(metadata, 26, calibration.calibratedHeight);
+    put16(metadata, 28, hasDisplay ? 0 : mode); // Preserve the verified Lite format; SIG200 rotation is zero.
     put32(metadata, 30, 16384); // Raw pressure range.
-    put16(metadata, 34, 1828);  // Pressure calibration.
-    put16(metadata, 36, 4900);
+    put16(metadata, 34, calibration.pressureMin);  // Pressure calibration.
+    put16(metadata, 36, calibration.pressureMax);
     put16(metadata, 38, 1024);
-    put16(metadata, 44, 320);
-    put16(metadata, 46, 160);
+    put16(metadata, 44, calibration.width);
+    put16(metadata, 46, calibration.height);
     put16(metadata, 48, 250);  // Samples per second.
     put16(metadata, 50, mode); // Internal hash identifiers: SHA-1 = 1, SHA-256 = 2.
     put16(metadata, 52, mode);
@@ -136,14 +165,15 @@ class SignData
         payload.insert(payload.end(), encryptedMetadata.begin(), encryptedMetadata.end());
         payload.insert(payload.end(), stream.begin(), stream.end());
         // SDK default normalized geometry for this model, full-screen capture.
+        const auto calibration = exportCalibration();
         Bytes header(28, 0);
         put32(header, 0, 11);
         put32(header, 4, 1);
-        put16(header, 8, 101);
+        put16(header, 8, calibration.modelTag);
         put16(header, 10, 0x10);
-        put16(header, 12, 2242);
-        put16(header, 14, 2242);
-        put16(header, 16, 8192);
+        put16(header, 12, calibration.resolution);
+        put16(header, 14, calibration.resolution);
+        put16(header, 16, calibration.normalizedWidth);
         put16(header, 18, 4096);
         put16(header, 20, 4);
         put16(header, 26, 1023);
@@ -198,10 +228,12 @@ struct RenderPoint
     double x, y, pressure;
     std::uint32_t time;
 };
-// SIG100 Lite sensor format 1. Derived from the SDK's raw resistance and
+// Both tested tablets use sensor format 1. Derived from the SDK's raw resistance and
 // calibration conversion (3BB91 and 46D8B in the inspected x64 library).
 inline std::vector<RenderPoint> calibratedPoints(const std::vector<PenSample> &samples)
 {
+    const auto calibration = exportCalibration();
+    const double pressureRange = calibration.pressureMax - calibration.pressureMin + 1;
     std::vector<RenderPoint> result;
     bool afterLift = false;
     std::uint32_t previous = 0;
@@ -209,6 +241,13 @@ inline std::vector<RenderPoint> calibratedPoints(const std::vector<PenSample> &s
     {
         if (p.x > 4096 || p.y > 4096)
             continue;
+        // Convert the calibrated display position back into normalized sensor
+        // units. Discard points outside the visible signing area, like the SDK.
+        double x = (double(p.x) * calibration.calibratedWidth / 4096 + calibration.offsetX) * 4096 / calibration.width;
+        double y = (double(p.y) * calibration.calibratedHeight / 4096 + calibration.offsetY) * 4096 / calibration.height;
+        if (x < 0 || x > 4096 || y < 0 || y > 4096)
+            continue;
+        x *= double(calibration.width) / calibration.height;
         double resistance = p.z1 ? static_cast<double>(static_cast<std::int64_t>(p.x) * (int(p.z2) - int(p.z1)) / p.z1) : 0;
         resistance = std::min(resistance, 16383.0);
         double pressure;
@@ -224,13 +263,13 @@ inline std::vector<RenderPoint> calibratedPoints(const std::vector<PenSample> &s
         }
         else
         {
-            double clamped = std::clamp(resistance, 1828.0, 4900.0);
-            pressure = std::clamp((3073.0 - (clamped - 1828.0)) * 1024.0 / 3073.0, 1.0, 1023.0);
+            double clamped = std::clamp(resistance, double(calibration.pressureMin), double(calibration.pressureMax));
+            pressure = std::clamp((pressureRange - (clamped - calibration.pressureMin)) * 1024.0 / pressureRange, 1.0, 1023.0);
         }
         if (static_cast<std::uint32_t>(p.time - previous) > 2)
             pressure = 0;
         previous = p.time;
-        result.push_back({double(p.x) * 2, double(p.y), pressure, p.time});
+        result.push_back({x, y, pressure, p.time});
     }
     return result;
 }
@@ -246,8 +285,9 @@ class SignatureImage
     {
         constexpr int ppi = 160;
         auto points = calibratedPoints(samples);
-        const double scale = ppi / 2242.0;
-        QImage canvas(static_cast<int>(std::ceil(8192 * scale)) + 16, static_cast<int>(std::ceil(4096 * scale)) + 16, QImage::Format_ARGB32_Premultiplied);
+        const auto calibration = exportCalibration();
+        const double scale = double(ppi) / calibration.resolution;
+        QImage canvas(static_cast<int>(std::ceil(calibration.normalizedWidth * scale)) + 16, static_cast<int>(std::ceil(4096 * scale)) + 16, QImage::Format_ARGB32_Premultiplied);
         if (canvas.isNull())
             throw std::runtime_error("Cannot allocate signature image");
         canvas.fill(Qt::transparent);
@@ -331,7 +371,7 @@ class SignatureImage
 const auto vendorId = 0x2133;
 hid_device *device = nullptr;
 SignotecDriver::TabletType tabletType = SignotecDriver::TabletType::None;
-SignotecDriver::HASHALGO s_algorithm;
+SignotecDriver::HashAlgorithm s_algorithm;
 std::vector<unsigned char> s_digest;
 
 struct PenSample
@@ -373,7 +413,7 @@ static long fail(const char *message)
 }
 
 // The hash enum describes the caller's digest; unsupported algorithms return 0.
-static size_t digestSize(SignotecDriver::HASHALGO algorithm)
+static size_t digestSize(SignotecDriver::HashAlgorithm algorithm)
 {
     switch (algorithm)
     {
@@ -662,6 +702,7 @@ static bool startReceiving()
                                 throw std::runtime_error("HID read failed");
                             if (count > 0)
                             {
+                                qDebug().noquote() << "[Signotec RX]" << QByteArray(reinterpret_cast<const char *>(buffer.data()), count).toHex(' ');
                                 if (count != 61)
                                     throw std::runtime_error("Unexpected HID report size");
                                 InputReport report{};
@@ -690,7 +731,11 @@ static bool startReceiving()
                     receiveFailed = true;
                     receiving = false;
                 }
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                // hid_read_timeout already waits when no input is available.
+                // Sleeping after every report can round up to a Windows timer tick
+                // and overflow the HID input queue at 250 reports per second.
+                if (!receiving)
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
         });
     }
@@ -709,6 +754,18 @@ static bool resetSigningSession()
 
     if (!device)
         return false;
+
+    if (hasDisplay)
+    {
+        OutputReport reset{};
+        reset[1] = 0xa8;
+        reset[2] = 0x80;
+        const bool resetDone = exchangeReport(reset, 0x90).has_value();
+        OutputReport stop{};
+        stop[1] = 0x83;
+        const bool stopped = exchangeReport(stop, 0x93).has_value();
+        return resetDone && stopped;
+    }
 
     // Stop capture: 83 -> 93.
     OutputReport stopRequest{};
@@ -736,16 +793,22 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
     if (!device)
         return std::nullopt;
 
+    qDebug().noquote() << "[Signotec TX]" << QByteArray(reinterpret_cast<const char *>(request.data()), request.size()).toHex(' ');
     if (hid_write(device, request.data(), request.size()) != 64)
         return std::nullopt;
 
-    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    // SIG200 RSA signing took approximately 4.6 seconds in the SDK capture.
+    const bool generatingSignature = request[1] == 0xa8 && read32(request.data() + 2) == 0x10;
+    const auto timeout = std::chrono::seconds(generatingSignature ? 15 : 2);
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
 
     while (std::chrono::steady_clock::now() < deadline)
     {
         std::array<unsigned char, 62> buffer{};
 
         const int count = hid_read_timeout(device, buffer.data(), buffer.size(), 50);
+        if (count > 0)
+            qDebug().noquote() << "[Signotec RX]" << QByteArray(reinterpret_cast<const char *>(buffer.data()), count).toHex(' ');
 
         if (count == 0)
             continue;
@@ -770,6 +833,15 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
         case 0x43:
         case 0x44:
             if (!processPenReport(response))
+                return std::nullopt;
+            break;
+
+        case 0x51:
+        case 0x52:
+        case 0x53:
+        case 0x54:
+            // SIG200 can report unencrypted pen movement before capture starts.
+            if (s_captureStarted)
                 return std::nullopt;
             break;
 
@@ -834,6 +906,77 @@ static bool setSetting(Setting selector, std::uint32_t value)
     return result.has_value() && *result == value;
 }
 
+// Clear the LCD without changing the cached name/background.
+static bool clearDisplay()
+{
+    OutputReport request{};
+    request[1] = 0xa6;
+    request[2] = 0xff;
+    request[3] = 0xff;
+    write32(request.data() + 14, displayWidth);
+    write32(request.data() + 18, displayHeight);
+    return exchangeReport(request, 0x90).has_value();
+}
+
+// Pixels are packed continuously, MSB first, with no padding at row ends.
+// A literal RLE block has a length byte (1..63), followed by its bytes.
+static bool uploadDisplayImage(const QImage &image, int x, int y)
+{
+    Bytes pixels((image.width() * image.height() + 7) / 8, 0);
+    for (int row = 0; row < image.height(); ++row)
+        for (int column = 0; column < image.width(); ++column)
+        {
+            const int pixel = row * image.width() + column;
+            if (qGray(image.pixel(column, row)) < 128)
+                pixels[pixel / 8] |= 0x80 >> (pixel % 8);
+        }
+    Bytes encoded;
+    for (size_t offset = 0; offset < pixels.size();)
+    {
+        const size_t count = std::min(size_t(63), pixels.size() - offset);
+        encoded.push_back(static_cast<unsigned char>(count));
+        encoded.insert(encoded.end(), pixels.begin() + offset, pixels.begin() + offset + count);
+        offset += count;
+    }
+    OutputReport header{};
+    header[1] = 0x84;
+    write32(header.data() + 2, x);
+    write32(header.data() + 6, y);
+    write32(header.data() + 10, image.width());
+    write32(header.data() + 14, image.height());
+    write32(header.data() + 18, 3);
+    write32(header.data() + 22, 0xffff);
+    if (!exchangeReport(header, 0x90))
+        return false;
+    std::lock_guard<std::mutex> lock(deviceMutex);
+    for (size_t offset = 0; offset < encoded.size(); offset += 62)
+    {
+        OutputReport report{};
+        report[1] = 0x60;
+        const size_t count = std::min(size_t(62), encoded.size() - offset);
+        std::copy_n(encoded.data() + offset, count, report.data() + 2);
+        qDebug().noquote() << "[Signotec TX]" << QByteArray(reinterpret_cast<const char *>(report.data()), report.size()).toHex(' ');
+        if (hid_write(device, report.data(), report.size()) != report.size())
+            return false;
+    }
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    while (std::chrono::steady_clock::now() < deadline)
+    {
+        std::array<unsigned char, 62> reply{};
+        const int count = hid_read_timeout(device, reply.data(), reply.size(), 50);
+        if (count == 0)
+            continue;
+        if (count != 61)
+            return false;
+        qDebug().noquote() << "[Signotec RX]" << QByteArray(reinterpret_cast<const char *>(reply.data()), count).toHex(' ');
+        if (reply[0] == 0x94)
+            return true;
+        if (reply[0] != 0x40 && reply[0] != 0x50)
+            return false;
+    }
+    return false;
+}
+
 static bool loadCertificate();
 static bool verifySignature(const Bytes &streamHash);
 
@@ -848,7 +991,7 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
             return fail("Already open or invalid device index");
         if (hid_init() != 0)
             return fail("HIDAPI initialization failed");
-        auto *list = hid_enumerate(vendorId, 0x0001);
+        auto *list = hid_enumerate(vendorId, 0);
         struct Guard
         {
             hid_device_info *list;
@@ -860,7 +1003,7 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
         long current = 0;
         for (auto *entry = list; entry; entry = entry->next)
         {
-            if (!entry->path || entry->usage_page != 0xffff || entry->usage != 0xff)
+            if ((entry->product_id != 0x0001 && entry->product_id != 0x000b) || !entry->path || entry->usage_page != 0xffff || entry->usage != 0xff)
                 continue;
             if (current++ != index)
                 continue;
@@ -871,6 +1014,10 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
             return fail("Cannot open the selected Sigma interface");
         s_openedIndex = index;
         tabletType = Sigma;
+        hasDisplay = false;
+        displayWidth = 320;
+        displayHeight = 160;
+        displayBackground = QImage();
         receiveFailed = false;
         s_captureStarted = false;
         clearExports();
@@ -878,15 +1025,16 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
         OutputReport query{};
         query[2] = 0x1f;
         auto info = exchangeReport(query, 0x20, 0x1f);
-        const bool supported = info && read32(info->data() + 3) == 1 // Model.
-                               && read32(info->data() + 19) == 320   // Logical width.
-                               && read32(info->data() + 23) == 160   // Logical height.
-                               && read32(info->data() + 31) == 4096  // Sensor X range.
-                               && read32(info->data() + 35) == 4096  // Sensor Y range.
-                               && read32(info->data() + 39) == 16384 // Pressure range.
-                               && read32(info->data() + 43) == 1     // Sensor format.
-                               && read32(info->data() + 51) == 92780 // Physical dimensions reported by this model.
-                               && read32(info->data() + 55) == 46390;
+        const bool isLite = info && read32(info->data() + 3) == 1 && read32(info->data() + 19) == 320 && read32(info->data() + 23) == 160 && read32(info->data() + 51) == 92780 && read32(info->data() + 55) == 46390;
+        const bool isSig200 = info && read32(info->data() + 3) == 11 && read32(info->data() + 19) == 640 && read32(info->data() + 23) == 960 && read32(info->data() + 51) == 101570 && read32(info->data() + 55) == 76180;
+        const bool supported = (isLite || isSig200) && read32(info->data() + 31) == 4096 && read32(info->data() + 35) == 4096 && read32(info->data() + 39) == 16384 && read32(info->data() + 43) == 1;
+        if (isSig200)
+        {
+            tabletType = Omega;
+            hasDisplay = true;
+            displayWidth = 640;
+            displayHeight = 480;
+        }
         if (!supported)
         {
             hid_close(device);
@@ -895,10 +1043,39 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
             tabletType = None;
             return fail("Unsupported tablet geometry or failed information query");
         }
-        if (!resetSigningSession() || !setSetting(Setting::CaptureMode, 1) || (erase && STErase() < 0))
+        if (hasDisplay)
+        {
+            OutputReport wake{};
+            wake[1] = 0x85;
+            if (!exchangeReport(wake, 0x90))
+            {
+                STDeviceClose(index);
+                return fail("Display initialization failed");
+            }
+        }
+        if (!resetSigningSession() || !setSetting(Setting::CaptureMode, 1))
         {
             STDeviceClose(index);
             return fail("Tablet initialization failed");
+        }
+        if (hasDisplay)
+        {
+            OutputReport mode{};
+            mode[1] = 0xa4;
+            if (!exchangeReport(mode, 0x90))
+                return fail("Display mode initialization failed");
+            OutputReport querySetting{};
+            querySetting[2] = 0x3f;
+            if (!exchangeReport(querySetting, 0x20, 0x3f))
+                return fail("Display configuration query failed");
+            querySetting[2] = 0x23;
+            if (!exchangeReport(querySetting, 0x20, 0x23))
+                return fail("Capture configuration query failed");
+        }
+        if (erase && STErase() < 0)
+        {
+            STDeviceClose(index);
+            return fail("Initial display erase failed");
         }
         return 0;
     }
@@ -919,6 +1096,14 @@ long SignotecDriver::STErase()
     {
         if (!device || s_captureStarted || s_confirmed)
             return fail("Erase requires an open, stopped session");
+
+        if (hasDisplay)
+        {
+            if (!clearDisplay())
+                return fail("Display clear failed");
+            displayBackground = QImage();
+            return 0;
+        }
 
         OutputReport request{};
 
@@ -951,8 +1136,8 @@ long SignotecDriver::STSensorSetSignRect(long x, long y, long width, long height
 
         return setSetting(Setting::RectStartX, 0) &&
                        setSetting(Setting::RectStartY, 0) &&
-                       setSetting(Setting::RectExtentX, 320) &&
-                       setSetting(Setting::RectExtentY, 160)
+                       setSetting(Setting::RectExtentX, displayWidth) &&
+                       setSetting(Setting::RectExtentY, displayHeight)
                    ? 0
                    : fail("STSensorSetSignRect: command failed");
     }
@@ -966,7 +1151,7 @@ long SignotecDriver::STSensorSetSignRect(long x, long y, long width, long height
     }
 }
 
-long SignotecDriver::STRSASetHash(const unsigned char *hash, HASHALGO algorithm, long options)
+long SignotecDriver::STRSASetHash(const unsigned char *hash, HashAlgorithm algorithm, long options)
 {
     s_lastError.clear();
     try
@@ -1001,8 +1186,12 @@ long SignotecDriver::STSignatureStart()
             return fail("Start requires a fresh SHA-1 or SHA-256 capture session");
         clearExports();
 
-        if (!resetSigningSession())
+        // SIG200 initialization is completed by Open (or Stop for Retry).
+        // Its rectangle must be established before the encryption session.
+        if (!hasDisplay && !resetSigningSession())
             return fail("STSignatureStart failed: invalid state, arguments or device response");
+        if (hasDisplay && (!setSetting(Setting::CaptureMode, 1) || STSensorSetSignRect(0, 0, 0, 0) < 0))
+            return fail("SIG200 capture configuration failed");
 
         EVP_CIPHER_CTX_free(sampleDecryptor);
         sampleDecryptor = nullptr;
@@ -1130,7 +1319,7 @@ long SignotecDriver::STSignatureStart()
 
             const std::uint32_t header[] = {
                 read32(info->data() + 15),                                // Numeric serial
-                2,                                                        // Stream format
+                hasDisplay ? 0u : 2u, // Stream format
                 read32(capabilities->data() + 39) & ~std::uint32_t(1024), // Capability flags
                 (*info)[12],                                              // Firmware fields
                 (*info)[11]};
@@ -1175,16 +1364,24 @@ long SignotecDriver::STSignatureStart()
             require(extendedCommand(ExtendedId::CryptoOperation, static_cast<std::uint32_t>(CryptoOperation::ApplyDocumentHash)));
             // 6. Configure and start capture.
 
-            require(setSetting(Setting::CaptureMode, 1));
-
-            const auto samplingRate =
-                writeSetting(Setting::SamplingRate, 0xFFFFFFFFu);
-
-            require(samplingRate.has_value() && *samplingRate == 250);
-
-            require(STSensorSetSignRect(0, 0, 0, 0) == 0);
-            require(setSetting(Setting::CaptureGate, 1));
-            require(STErase() == 0);
+            if (hasDisplay)
+            {
+                OutputReport samplingQuery{};
+                samplingQuery[2] = 0x31;
+                const auto samplingReply = exchangeReport(samplingQuery, 0x20, 0x31);
+                require(samplingReply && read32(samplingReply->data() + 3) == 250);
+            }
+            else
+            {
+                require(setSetting(Setting::CaptureMode, 1));
+                const auto samplingRate = writeSetting(Setting::SamplingRate, 0xFFFFFFFFu);
+                require(samplingRate.has_value() && *samplingRate == 250);
+                require(STSensorSetSignRect(0, 0, 0, 0) == 0);
+            }
+            if (!hasDisplay)
+                require(setSetting(Setting::CaptureGate, 1));
+            if (!hasDisplay)
+                require(STErase() == 0);
 
             OutputReport startRequest{};
             startRequest[1] = 0x82;
@@ -1279,8 +1476,9 @@ long SignotecDriver::STSignatureStop()
         const bool stopped = exchangeReport(request, 0x93).has_value();
 
         // Attempt both settings even if an earlier operation failed.
-        const bool modeSet = setSetting(Setting::CaptureMode, 1);
-        const bool gateDisabled = setSetting(Setting::CaptureGate, 0);
+        // SIG200 must receive the biometric hash before changing capture settings.
+        const bool modeSet = hasDisplay || setSetting(Setting::CaptureMode, 1);
+        const bool gateDisabled = hasDisplay || setSetting(Setting::CaptureGate, 0);
 
         s_captureStarted = false;
         if (!stopped || !modeSet || !gateDisabled || receiveFailed)
@@ -1322,6 +1520,22 @@ long SignotecDriver::STDeviceClose(long index)
             try
             {
                 success = resetSigningSession();
+                if (hasDisplay)
+                {
+                    // Leave the LCD clean and restore the SDK's idle display mode.
+                    const bool cleared = clearDisplay();
+                    OutputReport idle{};
+                    idle[1] = 0xa0;
+                    const bool stoppedDisplay = exchangeReport(idle, 0x90).has_value();
+                    idle = {};
+                    idle[1] = 0x85;
+                    const bool resetDisplay = exchangeReport(idle, 0x90).has_value();
+                    idle = {};
+                    idle[1] = 0xa4;
+                    idle[2] = 1;
+                    const bool idleMode = exchangeReport(idle, 0x90).has_value();
+                    success = success && cleared && stoppedDisplay && resetDisplay && idleMode;
+                }
             }
             catch (...)
             {
@@ -1375,6 +1589,11 @@ long SignotecDriver::STSignatureRetry()
         if (STSignatureStop() < 0)
             return fail("STSignatureRetry failed: invalid state, arguments or device response");
 
+        if (hasDisplay)
+        {
+            if (!clearDisplay() || (!displayBackground.isNull() && !uploadDisplayImage(displayBackground, 0, 0)))
+                return fail("Cannot restore the display after Retry");
+        }
         return STSignatureStart();
     }
     catch (const std::exception &error)
@@ -1434,6 +1653,9 @@ long SignotecDriver::STSignatureConfirm()
             if (!writeObject(ExtendedId::SampleStreamHash, tabletHash))
                 return fail("STSignatureConfirm failed: invalid state, arguments or device response");
 
+            if (hasDisplay && !setSetting(Setting::CaptureMode, 1))
+                return fail("Cannot switch SIG200 to stopped mode after hash upload");
+
             // 3. Generate the signature.
             // Argument 1 reproduces the tested PSS/combination flow.
             if (!extendedCommand(ExtendedId::GenerateSignature, 1))
@@ -1455,6 +1677,8 @@ long SignotecDriver::STSignatureConfirm()
                 clearExports();
                 return fail("Tablet signature verification failed");
             }
+            if (hasDisplay && !clearDisplay())
+                return fail("Signature verified, but display clear failed");
             s_confirmed = true;
 
             return 0;
@@ -1476,7 +1700,7 @@ long SignotecDriver::STSignatureConfirm()
     }
 }
 
-long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSASCHEME scheme, HASHVALUE value, long options)
+long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSAScheme scheme, HashValue value, long options)
 {
     s_lastError.clear();
     try
@@ -1485,7 +1709,7 @@ long SignotecDriver::STRSASign(unsigned char *buffer, long *size, RSASCHEME sche
             return fail("STRSASign failed: invalid state, arguments or device response");
 
         // Only this signing combination has been implemented.
-        if (scheme != RSASCHEME::kPSS || value != HASHVALUE::kCombination || options != 0)
+        if (scheme != RSAScheme::kPSS || value != HashValue::kCombination || options != 0)
             return fail("STRSASign failed: invalid state, arguments or device response");
 
         if (!s_confirmed || s_signature.empty())
@@ -1528,7 +1752,7 @@ long SignotecDriver::STRSASaveSigningCertAsStream(unsigned char *buffer, long *s
         if (!device || !size || !s_confirmed)
             return fail("STRSASaveSigningCertAsStream failed: invalid state, arguments or device response");
 
-        if (type != CERTTYPE::kCert_DER)
+        if (type != CertType::kCert_DER)
             return fail("STRSASaveSigningCertAsStream failed: invalid state, arguments or device response");
 
         if (!loadCertificate())
@@ -1709,23 +1933,69 @@ long SignotecDriver::STSignatureSaveAsStreamEx(unsigned char *buffer, long *size
     }
 }
 
-// Display stubs: the tested Sigma Lite has no LCD.
-long SignotecDriver::STDisplaySetFont(const wchar_t *, long, long)
+// Fonts are rendered on the host. No font command is sent to the tablet.
+long SignotecDriver::STDisplaySetFont(const wchar_t *name, long size, long options)
 {
     s_lastError.clear();
+    if (!hasDisplay)
+        return 0;
+    if (!device || !name || size <= 0 || size > 480 || (options & ~1L))
+        return fail("Expected a font name, pixel size 1..480, and normal/bold options");
+    displayFont = QFont(QString::fromWCharArray(name));
+    displayFont.setPixelSize(static_cast<int>(size));
+    displayFont.setBold((options & 1) != 0);
     return 0;
 }
 
 long SignotecDriver::STDisplayGetHeight()
 {
     s_lastError.clear();
-    return 160;
+    return displayHeight;
 }
 
-long SignotecDriver::STDisplaySetText(long, long, Align, const wchar_t *)
+long SignotecDriver::STDisplaySetText(long x, long y, Align alignment, const wchar_t *text)
 {
     s_lastError.clear();
-    return 0;
+    if (!hasDisplay)
+        return 0;
+    try
+    {
+        if (!device || s_captureStarted || s_confirmed || !text || alignment != kLeft || x < 0 || y < 0 || x >= displayWidth || y >= displayHeight)
+            return fail("Display text requires a stopped session and an in-bounds, left-aligned position");
+        if (!qobject_cast<QGuiApplication *>(QCoreApplication::instance()))
+            return fail("Text rendering requires QApplication or QGuiApplication");
+        const QString label = QString::fromWCharArray(text);
+        if (label.isEmpty())
+            return 0;
+        QFontMetrics metrics(displayFont);
+        const int width = std::min(metrics.horizontalAdvance(label), displayWidth - static_cast<int>(x));
+        const int height = std::min(metrics.height(), displayHeight - static_cast<int>(y));
+        if (width <= 0 || height <= 0)
+            return fail("Text has no drawable area");
+        QImage image(width, height, QImage::Format_RGB32);
+        if (image.isNull())
+            return fail("Cannot allocate text bitmap");
+        image.fill(Qt::white);
+        QPainter painter(&image);
+        painter.setFont(displayFont);
+        painter.setPen(Qt::black);
+        painter.drawText(0, metrics.ascent(), label);
+        painter.end();
+        if (!uploadDisplayImage(image, x, y))
+            return fail("Text bitmap upload failed");
+        if (displayBackground.isNull())
+        {
+            displayBackground = QImage(displayWidth, displayHeight, QImage::Format_RGB32);
+            displayBackground.fill(Qt::white);
+        }
+        QPainter background(&displayBackground);
+        background.drawImage(x, y, image);
+        return width;
+    }
+    catch (const std::exception &error)
+    {
+        return fail(error.what());
+    }
 }
 
 void SignotecDriver::STControlExit()

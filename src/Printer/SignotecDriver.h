@@ -10,8 +10,16 @@
 // Their display protocol and estimated calibration require real hardware tests.
 // SHA-1/SHA-256, full rectangle, left-aligned text and the PNG preset below.
 
-#define RGB(r,g,b)          ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
-#define STPAD_FONT_BOLD					0x01
+
+// Windows COLORREF byte order: 0x00BBGGRR (not Qt's QRgb layout).
+// Keep the native Windows macro when it has already been included.
+#ifndef RGB
+#define RGB(r, g, b) ((static_cast<unsigned int>(r) & 0xffu) | ((static_cast<unsigned int>(g) & 0xffu) << 8) | ((static_cast<unsigned int>(b) & 0xffu) << 16))
+#endif
+
+#ifndef STPAD_FONT_BOLD
+#define STPAD_FONT_BOLD 0x01
+#endif
 
 namespace SignotecDriver
 {

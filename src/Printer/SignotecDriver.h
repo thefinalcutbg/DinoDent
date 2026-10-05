@@ -9,6 +9,10 @@
 // Experimental: SIG100/Sigma LCD, Zeta, Gamma/Sig Activ and Delta (USB HID).
 // Their display protocol and estimated calibration require real hardware tests.
 // SHA-1/SHA-256, full rectangle, left-aligned text and the PNG preset below.
+
+#define RGB(r,g,b)          ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
+#define STPAD_FONT_BOLD					0x01
+
 namespace SignotecDriver
 {
 

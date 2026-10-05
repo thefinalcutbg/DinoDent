@@ -273,7 +273,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Месечни отчети и известия</string>
+            <string>НЗОК отчети и известия</string>
            </property>
            <property name="text">
             <string> Pis</string>

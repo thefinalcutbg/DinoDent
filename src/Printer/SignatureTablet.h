@@ -2,6 +2,7 @@
 #include <array>
 #include <string>
 #include <vector>
+#include <QtVersion>
 
 struct AmbList;
 struct Prescription;

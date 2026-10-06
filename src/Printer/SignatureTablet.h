@@ -41,9 +41,8 @@ public:
 #ifdef Q_OS_WIN
     14
 #else
-    9
+    10
 #endif
-
     > s_models = {
 		"",
 		"Evolis Sig100 Lite",

@@ -41,7 +41,7 @@ public:
 #ifdef Q_OS_WIN
     14
 #else
-    11
+    9
 #endif
 
     > s_models = {
@@ -55,9 +55,9 @@ public:
 		"Signotec Omega",
 		"Signotec Zeta",
 		"Signotec Gamma",
-        "Signotec Delta"
 #ifdef Q_OS_WIN
-        ,"Wacom STU-43x",
+        "Signotec Delta",
+        "Wacom STU-43x",
 		"Wacom STU-53x",
 		"Wacom STU-54x"
 #endif

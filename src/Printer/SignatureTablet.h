@@ -2,6 +2,7 @@
 #include <array>
 #include <string>
 #include <vector>
+#include <QtVersion>
 
 struct AmbList;
 struct Prescription;
@@ -41,9 +42,8 @@ public:
 #ifdef Q_OS_WIN
     14
 #else
-    11
+    10
 #endif
-
     > s_models = {
 		"",
 		"Evolis Sig100 Lite",
@@ -55,9 +55,9 @@ public:
 		"Signotec Omega",
 		"Signotec Zeta",
 		"Signotec Gamma",
-        "Signotec Delta"
 #ifdef Q_OS_WIN
-        ,"Wacom STU-43x",
+        "Signotec Delta",
+        "Wacom STU-43x",
 		"Wacom STU-53x",
 		"Wacom STU-54x"
 #endif

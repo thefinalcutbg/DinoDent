@@ -573,7 +573,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Месечни отчети и известия</string>
+         <string>НЗОК отчети и известия</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
@@ -682,9 +682,9 @@
         <property name="geometry">
          <rect>
           <x>140</x>
-          <y>360</y>
+          <y>330</y>
           <width>461</width>
-          <height>160</height>
+          <height>171</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">

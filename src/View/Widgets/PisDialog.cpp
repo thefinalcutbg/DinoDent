@@ -6,7 +6,7 @@ PisDialog::PisDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Месечни отчети и известия");
+	setWindowTitle("НЗОК отчети и известия");
 	setWindowIcon(QIcon(":/icons/icon_nhif.png"));
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 

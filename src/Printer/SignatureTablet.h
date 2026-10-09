@@ -42,20 +42,20 @@ public:
 #ifdef Q_OS_WIN
     14
 #else
-    10
+    4
 #endif
     > s_models = {
 		"",
 		"Evolis Sig100 Lite",
 		"Evolis Sig100",
 		"Evolis Sig200",
+#ifdef Q_OS_WIN
 		"Evolis Sig Active",
 		"Signotec Sigma LITE",
 		"Signotec Sigma",
 		"Signotec Omega",
 		"Signotec Zeta",
 		"Signotec Gamma",
-#ifdef Q_OS_WIN
         "Signotec Delta",
         "Wacom STU-43x",
 		"Wacom STU-53x",

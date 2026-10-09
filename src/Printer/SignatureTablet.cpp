@@ -182,7 +182,7 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
                  QString::fromUtf8(who.data(), static_cast<qsizetype>(who.size()))).toStdWString();
 
     if (STDisplaySetFont(L"Arial", 16, STPAD_FONT_BOLD) < 0 ||
-        STDisplaySetText(5, STDisplayGetHeight() - 45, kLeft, name.c_str()) < 0)
+        STDisplaySetText(5, STDisplayGetHeight() - 20, kLeft, name.c_str()) < 0)
         return {};
 
     //SETTING HASH

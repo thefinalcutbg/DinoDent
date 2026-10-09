@@ -112,6 +112,16 @@ cp -L -- "$QT_DIR"/plugins/platforms/libqwayland*.so "$APPDIR/usr/plugins/platfo
 mkdir -p "$APPDIR/usr/plugins/wayland-shell-integration"
 cp -L -- "$QT_DIR"/plugins/wayland-shell-integration/*.so \
     "$APPDIR/usr/plugins/wayland-shell-integration/"
+# Include Qt Wayland client-side window decorations
+mkdir -p "$APPDIR/usr/plugins/wayland-decoration-client"
+
+cp -L -- "$QT_DIR"/plugins/wayland-decoration-client/*.so \
+    "$APPDIR/usr/plugins/wayland-decoration-client/"
+
+# Verify that the plugins can resolve their dependencies
+for plugin in "$APPDIR/usr/plugins/wayland-decoration-client/"*.so; do
+    check_deps "$plugin"
+done
 # Qt loads OpenSSL with dlopen(), so make sure both matching system libraries
 # are present even if linuxdeploy did not discover them.
 cp -L -- "$CRYPTO_LIB" "$SSL_LIB" "$APPDIR/usr/lib/"

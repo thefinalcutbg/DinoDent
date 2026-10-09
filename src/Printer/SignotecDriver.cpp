@@ -49,11 +49,140 @@
 #include <openssl/evp.h>
 #include <openssl/x509.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <setupapi.h>
+#include <winusb.h>
+#pragma comment(lib, "setupapi.lib")
+#pragma comment(lib, "winusb.lib")
+#endif
+
 namespace
 {
 using Bytes = std::vector<unsigned char>;
-// The verified LCD transport is Omega-compatible; additional models are provisional.
+#ifdef _WIN32
+// The vendor Windows INF binds some pads to WinUSB instead of HIDClass.
+// Preserve the HID-facing report convention: a zero prefix on writes only.
+struct WinUsbTransport
+{
+    HANDLE file = INVALID_HANDLE_VALUE;
+    WINUSB_INTERFACE_HANDLE usb = nullptr;
+    UCHAR input = 0, output = 0;
+    static constexpr GUID interfaceGuid{0x4d51d267,0xef80,0x4593,{0xb7,0x8c,0x55,0xd9,0x31,0x6a,0xfd,0xb5}};
+    struct Candidate { std::wstring path; unsigned product; };
+    static std::vector<Candidate> enumerate()
+    {
+        std::vector<Candidate> result;
+        HDEVINFO list = SetupDiGetClassDevsW(&interfaceGuid,nullptr,nullptr,DIGCF_PRESENT|DIGCF_DEVICEINTERFACE);
+        if (list == INVALID_HANDLE_VALUE) return result;
+        for (DWORD index=0;;++index)
+        {
+            SP_DEVICE_INTERFACE_DATA item{}; item.cbSize=sizeof(item);
+            if (!SetupDiEnumDeviceInterfaces(list,nullptr,&interfaceGuid,index,&item)) break;
+            DWORD size=0;
+            SetupDiGetDeviceInterfaceDetailW(list,&item,nullptr,0,&size,nullptr);
+            if (!size) continue;
+            std::vector<unsigned char> buffer(size);
+            auto detail=reinterpret_cast<SP_DEVICE_INTERFACE_DETAIL_DATA_W*>(buffer.data());
+            detail->cbSize=sizeof(*detail);
+            if (!SetupDiGetDeviceInterfaceDetailW(list,&item,detail,size,nullptr,nullptr)) continue;
+            const QString path=QString::fromWCharArray(detail->DevicePath).toLower();
+            const int pid=path.indexOf("pid_");
+            if (!path.contains("vid_2133") || pid<0) continue;
+            bool valid=false;
+            const unsigned product=path.mid(pid+4,4).toUInt(&valid,16);
+            if (valid) result.push_back({detail->DevicePath,product});
+        }
+        SetupDiDestroyDeviceInfoList(list);
+        return result;
+    }
+    void close()
+    {
+        if (usb) WinUsb_Free(usb);
+        if (file!=INVALID_HANDLE_VALUE) CloseHandle(file);
+        usb=nullptr; file=INVALID_HANDLE_VALUE; input=output=0;
+    }
+    bool open(const Candidate& candidate,std::wstring& name)
+    {
+        file=CreateFileW(candidate.path.c_str(),GENERIC_READ|GENERIC_WRITE,
+                         FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,FILE_FLAG_OVERLAPPED,nullptr);
+        if (file==INVALID_HANDLE_VALUE || !WinUsb_Initialize(file,&usb))
+        { const DWORD error=GetLastError(); close(); SetLastError(error); return false; }
+        USB_DEVICE_DESCRIPTOR descriptor{}; ULONG size=0;
+        if (!WinUsb_GetDescriptor(usb,USB_DEVICE_DESCRIPTOR_TYPE,0,0,reinterpret_cast<PUCHAR>(&descriptor),sizeof(descriptor),&size)
+            || size!=sizeof(descriptor) || descriptor.idVendor!=0x2133 || descriptor.idProduct!=candidate.product)
+        { close(); SetLastError(ERROR_INVALID_DATA); return false; }
+        USB_INTERFACE_DESCRIPTOR iface{};
+        if (!WinUsb_QueryInterfaceSettings(usb,0,&iface)) {close(); return false;}
+        for (UCHAR i=0;i<iface.bNumEndpoints;++i)
+        {
+            WINUSB_PIPE_INFORMATION pipe{};
+            if (!WinUsb_QueryPipe(usb,0,i,&pipe) || pipe.MaximumPacketSize!=64 || pipe.PipeType!=UsbdPipeTypeInterrupt) continue;
+            if (pipe.PipeId==0x81) input=pipe.PipeId;
+            if (pipe.PipeId==0x02) output=pipe.PipeId;
+        }
+        if (!input || !output) {close(); SetLastError(ERROR_NOT_SUPPORTED); return false;}
+        std::array<unsigned char,256> text{};
+        USHORT language=0x0409;
+        if (WinUsb_GetDescriptor(usb,USB_STRING_DESCRIPTOR_TYPE,0,0,text.data(),static_cast<ULONG>(text.size()),&size) && size>=4)
+            language=static_cast<USHORT>(text[2]|(text[3]<<8));
+        if (WinUsb_GetDescriptor(usb,USB_STRING_DESCRIPTOR_TYPE,descriptor.iProduct,language,text.data(),static_cast<ULONG>(text.size()),&size)
+            && size>=2 && text[0]>=2 && text[0]<=size && text[0]%2==0)
+            for (unsigned i=2;i<text[0];i+=2) name.push_back(static_cast<wchar_t>(text[i]|(text[i+1]<<8)));
+        ULONG timeout=3000;
+        if (!WinUsb_SetPipePolicy(usb,output,PIPE_TRANSFER_TIMEOUT,sizeof(timeout),&timeout)) {close(); return false;}
+        return true;
+    }
+    int write(const unsigned char* bytes,size_t size)
+    {
+        if (size!=64 || bytes[0]!=0) return -1;
+        ULONG written=0;
+        if (!WinUsb_WritePipe(usb,output,const_cast<PUCHAR>(bytes+1),63,&written,nullptr) || written!=63)
+        {qWarning()<<"WinUSB write failed"<<GetLastError()<<written;return -1;}
+        return 64;
+    }
+    int read(unsigned char* bytes,size_t capacity,int milliseconds)
+    {
+        ULONG timeout=static_cast<ULONG>(std::max(1,milliseconds));
+        if (!WinUsb_SetPipePolicy(usb,input,PIPE_TRANSFER_TIMEOUT,sizeof(timeout),&timeout)) return -1;
+        std::array<unsigned char,64> packet{}; ULONG received=0;
+        if (!WinUsb_ReadPipe(usb,input,packet.data(),static_cast<ULONG>(packet.size()),&received,nullptr))
+        {
+            const auto error=GetLastError();
+            if (error==ERROR_SEM_TIMEOUT) return 0;
+            qWarning()<<"WinUSB read failed"<<error;return -1;
+        }
+        if (received>capacity) return -1;
+        std::copy_n(packet.data(),received,bytes); return static_cast<int>(received);
+    }
+};
+static WinUsbTransport winUsb;
+#endif
+static int tabletWrite(hid_device* handle,const unsigned char* bytes,size_t size)
+{
+#ifdef _WIN32
+    if (winUsb.usb) return winUsb.write(bytes,size);
+#endif
+    return hid_write(handle,bytes,size);
+}
+static int tabletRead(hid_device* handle,unsigned char* bytes,size_t size,int timeout)
+{
+#ifdef _WIN32
+    if (winUsb.usb) return winUsb.read(bytes,size,timeout);
+#endif
+    return hid_read_timeout(handle,bytes,size,timeout);
+}
+static void tabletClose(hid_device* handle)
+{
+#ifdef _WIN32
+    if (winUsb.usb) {winUsb.close();return;}
+#endif
+    hid_close(handle);
+}
+// SIG100 LCD transport follows SDK USB captures; hardware validation is pending.
 static bool hasDisplay = false;
+static bool sigmaDisplay = false;
+static bool sigmaBackgroundSaved = false;
 static int displayWidth = 320;
 static int displayHeight = 160;
 static QFont displayFont;
@@ -728,7 +857,7 @@ static bool startReceiving()
                         if (receiving)
                         {
                             std::array<unsigned char, 62> buffer{};
-                            int count = hid_read_timeout(device, buffer.data(), buffer.size(), 50);
+                            int count = tabletRead(device, buffer.data(), buffer.size(), 50);
                             if (count < 0)
                                 throw std::runtime_error("HID read failed");
                             if (count > 0)
@@ -825,7 +954,7 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
         return std::nullopt;
 
     qDebug().noquote() << "[Signotec TX]" << QByteArray(reinterpret_cast<const char *>(request.data()), request.size()).toHex(' ');
-    if (hid_write(device, request.data(), request.size()) != 64)
+    if (tabletWrite(device, request.data(), request.size()) != 64)
         return std::nullopt;
 
     // SIG200 RSA signing took approximately 4.6 seconds in the SDK capture.
@@ -837,7 +966,7 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
     {
         std::array<unsigned char, 62> buffer{};
 
-        const int count = hid_read_timeout(device, buffer.data(), buffer.size(), 50);
+        const int count = tabletRead(device, buffer.data(), buffer.size(), 50);
         if (count > 0)
             qDebug().noquote() << "[Signotec RX]" << QByteArray(reinterpret_cast<const char *>(buffer.data()), count).toHex(' ');
 
@@ -941,26 +1070,32 @@ static bool setSetting(Setting selector, std::uint32_t value)
 static bool clearDisplay()
 {
     OutputReport request{};
-    request[1] = 0xa6;
+    request[1] = sigmaDisplay ? 0x86 : 0xa6;
     request[2] = 0xff;
     request[3] = 0xff;
-    write32(request.data() + 14, displayWidth);
-    write32(request.data() + 18, displayHeight);
-    return exchangeReport(request, 0x90).has_value();
+    if (!sigmaDisplay)
+    {
+        write32(request.data() + 14, displayWidth);
+        write32(request.data() + 18, displayHeight);
+    }
+    const bool success = exchangeReport(request, 0x90).has_value();
+    if (success) sigmaBackgroundSaved = false;
+    return success;
 }
 
-// Pixels are packed continuously, MSB first, with no padding at row ends.
-// A literal RLE block has a length byte (1..63), followed by its bytes.
-static bool uploadDisplayImage(const QImage &image, int x, int y)
+// SIG100: raw MSB-first rows padded to a byte. Omega: continuous bits + RLE.
+static Bytes encodeDisplayImage(const QImage &image)
 {
-    Bytes pixels((image.width() * image.height() + 7) / 8, 0);
+    const int strideBits = sigmaDisplay ? ((image.width() + 7) / 8) * 8 : image.width();
+    Bytes pixels((strideBits * image.height() + 7) / 8, 0);
     for (int row = 0; row < image.height(); ++row)
         for (int column = 0; column < image.width(); ++column)
         {
-            const int pixel = row * image.width() + column;
+            const int pixel = row * strideBits + column;
             if (qGray(image.pixel(column, row)) < 128)
                 pixels[pixel / 8] |= 0x80 >> (pixel % 8);
         }
+    if (sigmaDisplay) return pixels;
     Bytes encoded;
     for (size_t offset = 0; offset < pixels.size();)
     {
@@ -969,14 +1104,23 @@ static bool uploadDisplayImage(const QImage &image, int x, int y)
         encoded.insert(encoded.end(), pixels.begin() + offset, pixels.begin() + offset + count);
         offset += count;
     }
+    return encoded;
+}
+
+static bool uploadDisplayImage(const QImage &image, int x, int y)
+{
+    const Bytes encoded = encodeDisplayImage(image);
     OutputReport header{};
     header[1] = 0x84;
     write32(header.data() + 2, x);
     write32(header.data() + 6, y);
     write32(header.data() + 10, image.width());
     write32(header.data() + 14, image.height());
-    write32(header.data() + 18, 3);
-    write32(header.data() + 22, 0xffff);
+    if (!sigmaDisplay)
+    {
+        write32(header.data() + 18, 3);
+        write32(header.data() + 22, 0xffff);
+    }
     if (!exchangeReport(header, 0x90))
         return false;
     std::lock_guard<std::mutex> lock(deviceMutex);
@@ -987,14 +1131,14 @@ static bool uploadDisplayImage(const QImage &image, int x, int y)
         const size_t count = std::min(size_t(62), encoded.size() - offset);
         std::copy_n(encoded.data() + offset, count, report.data() + 2);
         qDebug().noquote() << "[Signotec TX]" << QByteArray(reinterpret_cast<const char *>(report.data()), report.size()).toHex(' ');
-        if (hid_write(device, report.data(), report.size()) != report.size())
+        if (tabletWrite(device, report.data(), report.size()) != report.size())
             return false;
     }
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
     while (std::chrono::steady_clock::now() < deadline)
     {
         std::array<unsigned char, 62> reply{};
-        const int count = hid_read_timeout(device, reply.data(), reply.size(), 50);
+        const int count = tabletRead(device, reply.data(), reply.size(), 50);
         if (count == 0)
             continue;
         if (count != 61)
@@ -1010,6 +1154,16 @@ static bool uploadDisplayImage(const QImage &image, int x, int y)
 
 static bool loadCertificate();
 static bool verifySignature(const Bytes &streamHash);
+static size_t signingKeyBytes()
+{
+    const unsigned char* cursor=s_certificate.data();
+    std::unique_ptr<X509,decltype(&X509_free)> cert(d2i_X509(nullptr,&cursor,static_cast<long>(s_certificate.size())),X509_free);
+    if (!cert || cursor!=s_certificate.data()+s_certificate.size()) return 0;
+    std::unique_ptr<EVP_PKEY,decltype(&EVP_PKEY_free)> key(X509_get_pubkey(cert.get()),EVP_PKEY_free);
+    if (!key || !EVP_PKEY_is_a(key.get(),"RSA")) return 0;
+    const int bits=EVP_PKEY_get_bits(key.get());
+    return bits==1024 || bits==2048 ? static_cast<size_t>(bits/8) : 0;
+}
 
 // USB product IDs and information-query model IDs have matched on tested pads.
 static bool supportedProduct(unsigned id)
@@ -1048,6 +1202,7 @@ static bool configureModel(const InputReport &info, unsigned productId, const st
     if (width != expectedWidth || physicalWidth < 10000 || physicalHeight < 10000 || physicalWidth > 1000000 || physicalHeight > 1000000)
         return false;
     hasDisplay = !lite;
+    sigmaDisplay = model == 1 && !lite;
     displayWidth = width;
     displayHeight = height;
     tabletType = static_cast<SignotecDriver::TabletType>(model);
@@ -1085,7 +1240,7 @@ static bool configureModel(const InputReport &info, unsigned productId, const st
         return false;
     calibration.experimental = true;
     selectedCalibration = calibration;
-    qWarning() << "[Signotec EXPERIMENTAL] model" << model << "display" << width << height << "sensor" << sensorWidth << sensorHeight << "pressure" << pressure << "format" << format << "physical micrometres" << physicalWidth << physicalHeight << "uses estimated calibration and Omega LCD commands; needs hardware verification";
+    qWarning() << "[Signotec EXPERIMENTAL] model" << model << "display" << width << height << "sensor" << sensorWidth << sensorHeight << "pressure" << pressure << "format" << format << "physical micrometres" << physicalWidth << physicalHeight << (sigmaDisplay ? "uses captured SIG100 LCD commands and estimated calibration" : "uses estimated calibration and Omega LCD commands") << "; needs hardware verification";
     return true;
 }
 
@@ -1121,15 +1276,37 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
             selectedProduct = entry->product_id;
             selectedProductName = entry->product_string ? entry->product_string : L"";
             device = hid_open_path(entry->path);
+            if (!device)
+                return fail("HID device found but could not be opened; close other tablet applications");
+            qDebug()<<"[Signotec transport] HID";
             break;
         }
+#ifdef _WIN32
         if (!device)
-            return fail("Cannot open the selected Signotec HID interface");
+        {
+            for (const auto& candidate : WinUsbTransport::enumerate())
+            {
+                if (!supportedProduct(candidate.product)) continue;
+                if (current++ != index) continue;
+                selectedProduct=candidate.product;
+                if (!winUsb.open(candidate,selectedProductName))
+                    return fail(("WinUSB device found but open failed (Windows error "+std::to_string(GetLastError())+")").c_str());
+                // Opaque token only; transport wrappers never pass it to HIDAPI.
+                device=reinterpret_cast<hid_device*>(&winUsb);
+                qDebug()<<"[Signotec transport] WinUSB"<<QString::fromStdWString(selectedProductName);
+                break;
+            }
+        }
+#endif
+        if (!device)
+            return fail("No supported Signotec device found through HID or the vendor WinUSB interface");
         s_openedIndex = index;
         tabletType = Sigma;
         selectedCalibration.reset();
         captureSampleRate = 250;
         hasDisplay = false;
+        sigmaDisplay = false;
+        sigmaBackgroundSaved = false;
         displayWidth = 320;
         displayHeight = 160;
         displayBackground = QImage();
@@ -1143,13 +1320,13 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
         const bool supported = info && configureModel(*info, selectedProduct, selectedProductName);
         if (!supported)
         {
-            hid_close(device);
+            tabletClose(device);
             device = nullptr;
             s_openedIndex = -1;
             tabletType = None;
             return fail("Unsupported model, missing Sigma product identity, or invalid tablet information; see HID trace");
         }
-        if (hasDisplay)
+        if (hasDisplay && !sigmaDisplay)
         {
             OutputReport wake{};
             wake[1] = 0x85;
@@ -1167,15 +1344,16 @@ long SignotecDriver::STDeviceOpen(long index, bool erase)
         if (hasDisplay)
         {
             OutputReport mode{};
-            mode[1] = 0xa4;
-            if (!exchangeReport(mode, 0x90))
+            mode[1] = sigmaDisplay ? 0xad : 0xa4;
+            if (sigmaDisplay) { mode[2] = 7; mode[3] = 4; mode[4] = 1; }
+            if (!exchangeReport(mode, sigmaDisplay ? 0x9a : 0x90))
             {
                 STDeviceClose(index);
                 return fail("Display mode initialization failed");
             }
             OutputReport querySetting{};
             querySetting[2] = 0x3f;
-            if (!exchangeReport(querySetting, 0x20, 0x3f))
+            if (!sigmaDisplay && !exchangeReport(querySetting, 0x20, 0x3f))
             {
                 STDeviceClose(index);
                 return fail("Display configuration query failed");
@@ -1307,6 +1485,18 @@ long SignotecDriver::STSignatureStart()
             return fail("STSignatureStart failed: invalid state, arguments or device response");
         if (hasDisplay && (!setSetting(Setting::CaptureMode, 1) || STSensorSetSignRect(0, 0, 0, 0) < 0))
             return fail("SIG200 capture configuration failed");
+
+        if (sigmaDisplay && !sigmaBackgroundSaved)
+        {
+            OutputReport display{};
+            display[1] = 0x85;
+            if (!exchangeReport(display, 0x90)) return fail("SIG100 display activation failed");
+            display = {};
+            display[1] = 0x8c;
+            display[2] = 1;
+            if (!exchangeReport(display, 0x90)) return fail("SIG100 background save failed");
+            sigmaBackgroundSaved = true;
+        }
 
         EVP_CIPHER_CTX_free(sampleDecryptor);
         sampleDecryptor = nullptr;
@@ -1640,7 +1830,21 @@ long SignotecDriver::STDeviceClose(long index)
             try
             {
                 success = resetSigningSession();
-                if (hasDisplay)
+                if (sigmaDisplay)
+                {
+                    const bool cleared = clearDisplay();
+                    const bool gateDisabled = setSetting(Setting::CaptureGate, 0);
+                    OutputReport idle{};
+                    idle[1] = 0xad; idle[2] = 7; idle[3] = 4;
+                    const bool modeSet = exchangeReport(idle, 0x9a).has_value();
+                    idle = {};
+                    idle[1] = 0x8a;
+                    write32(idle.data() + 25, displayWidth);
+                    write32(idle.data() + 29, displayHeight);
+                    const bool restored = exchangeReport(idle, 0x90).has_value();
+                    success = success && cleared && gateDisabled && modeSet && restored;
+                }
+                else if (hasDisplay)
                 {
                     // Leave the LCD clean and restore the SDK's idle display mode.
                     const bool cleared = clearDisplay();
@@ -1663,7 +1867,7 @@ long SignotecDriver::STDeviceClose(long index)
             }
 
             joinReceiver();
-            hid_close(device);
+            tabletClose(device);
             device = nullptr;
         }
 
@@ -1711,7 +1915,24 @@ long SignotecDriver::STSignatureRetry()
         if (STSignatureStop() < 0)
             return fail("STSignatureRetry failed: invalid state, arguments or device response");
 
-        if (hasDisplay)
+        if (sigmaDisplay)
+        {
+            // SDK finalizes the discarded stream before restoring saved background.
+            Bytes digest(s_digest.size());
+            unsigned int size = 0;
+            if (EVP_Digest(s_encryptedStream.data(), s_encryptedStream.size(), digest.data(), &size,
+                           s_algorithm == kSha1 ? EVP_sha1() : EVP_sha256(), nullptr) != 1 || size != digest.size())
+                return fail("SIG100 Retry stream hash failed");
+            std::reverse(digest.begin(), digest.end());
+            if (!writeObject(ExtendedId::SampleStreamHash, digest) || !setSetting(Setting::CaptureMode, 1))
+                return fail("SIG100 Retry stop finalization failed");
+            OutputReport restore{};
+            restore[1] = 0x8c;
+            restore[3] = 1;
+            restore[4] = 1;
+            if (!exchangeReport(restore, 0x90)) return fail("SIG100 Retry background restore failed");
+        }
+        else if (hasDisplay)
         {
             if (!clearDisplay() || (!displayBackground.isNull() && !uploadDisplayImage(displayBackground, 0, 0)))
                 return fail("Cannot restore the display after Retry");
@@ -1783,18 +2004,22 @@ long SignotecDriver::STSignatureConfirm()
             if (!extendedCommand(ExtendedId::GenerateSignature, 1))
                 return fail("STSignatureConfirm failed: invalid state, arguments or device response");
 
-            // 4. Retrieve the 256-byte RSA signature.
+            // The result object is 256 bytes; older Sigma keys use its first 128.
             auto signature = readObject(ExtendedId::ResultBuffer, 256);
 
             if (!signature || signature->size() != 256)
                 return fail("STSignatureConfirm failed: invalid state, arguments or device response");
 
+            if (!loadCertificate()) return fail("Cannot load tablet signing certificate");
+            const size_t keyBytes=signingKeyBytes();
+            if (!keyBytes) return fail("Unsupported tablet RSA signing key size");
+            signature->resize(keyBytes);
             // Convert from the tablet's byte order to the usual
             // big-endian RSA signature representation.
             std::reverse(signature->begin(), signature->end());
 
             s_signature = std::move(*signature);
-            if (!loadCertificate() || !verifySignature(streamHash))
+            if (!verifySignature(streamHash))
             {
                 clearExports();
                 return fail("Tablet signature verification failed");
@@ -1937,16 +2162,17 @@ static bool verifySignature(const Bytes &streamHash)
     if (!certificate || cursor != s_certificate.data() + s_certificate.size())
         return false;
     std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)> key(X509_get_pubkey(certificate.get()), EVP_PKEY_free);
-    if (!key || !EVP_PKEY_is_a(key.get(), "RSA") || EVP_PKEY_get_bits(key.get()) != 2048 || s_signature.size() != 256)
+    const size_t keyBytes=signingKeyBytes();
+    if (!key || !keyBytes || s_signature.size() != keyBytes)
         return false;
     std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> context(EVP_PKEY_CTX_new(key.get(), nullptr), EVP_PKEY_CTX_free);
     if (!context || EVP_PKEY_verify_recover_init(context.get()) <= 0 || EVP_PKEY_CTX_set_rsa_padding(context.get(), RSA_NO_PADDING) <= 0)
         return false;
-    std::array<unsigned char, 256> encoded{};
+    Bytes encoded(keyBytes);
     size_t size = encoded.size();
-    if (EVP_PKEY_verify_recover(context.get(), encoded.data(), &size, s_signature.data(), s_signature.size()) <= 0 || size != 256)
+    if (EVP_PKEY_verify_recover(context.get(), encoded.data(), &size, s_signature.data(), s_signature.size()) <= 0 || size != keyBytes)
         return false;
-    if (encoded[255] != 0xbc || (encoded[0] & 0x80))
+    if (encoded.back() != 0xbc || (encoded[0] & 0x80))
         return false;
     // Recover the PSS data block using MGF1, then check its padding and salt.
     const auto algorithm = hashSize == 20 ? QCryptographicHash::Sha1 : QCryptographicHash::Sha256;
@@ -2103,7 +2329,7 @@ long SignotecDriver::STDisplaySetText(long x, long y, ALIGN alignment, const wch
         painter.setPen(Qt::black);
         painter.drawText(0, metrics.ascent(), label);
         painter.end();
-        if (!uploadDisplayImage(image, x, y))
+        if (!sigmaDisplay && !uploadDisplayImage(image, x, y))
             return fail("Text bitmap upload failed");
         if (displayBackground.isNull())
         {
@@ -2112,6 +2338,15 @@ long SignotecDriver::STDisplaySetText(long x, long y, ALIGN alignment, const wch
         }
         QPainter background(&displayBackground);
         background.drawImage(x, y, image);
+        background.end();
+        if (sigmaDisplay)
+        {
+            // Full 320-pixel rows avoid the pad's ambiguous sub-byte rectangle
+            // alignment. Keep the requested text position inside this canvas.
+            if (!uploadDisplayImage(displayBackground, 0, 0))
+                return fail("SIG100 background bitmap upload failed");
+            sigmaBackgroundSaved = false;
+        }
         return width;
     }
     catch (const std::exception &error)
@@ -2142,7 +2377,7 @@ static struct DriverShutdown
         joinReceiver();
         if (device)
         {
-            hid_close(device);
+            tabletClose(device);
             device = nullptr;
         }
         EVP_CIPHER_CTX_free(sampleDecryptor);
@@ -2150,3 +2385,4 @@ static struct DriverShutdown
         clearAesKey();
     }
 } driverShutdown;
+

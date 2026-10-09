@@ -2507,9 +2507,6 @@
     <QtRcc Include="resources\Resource.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="INSTALL.md" />
     <None Include="README.md" />
   </ItemGroup>

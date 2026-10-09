@@ -271,7 +271,7 @@ void BrowserPresenter::deleteCurrentSelection()
 
 	warningMsg += endString.at(ui_state.model_type);
 
-	if (!ModalDialogBuilder::askDialog(warningMsg))
+    if (!ModalDialogBuilder::askDialog(warningMsg, false))
 		return;
 
 	for (auto& row : m_selectedInstances)

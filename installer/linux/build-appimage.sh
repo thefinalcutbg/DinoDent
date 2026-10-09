@@ -10,7 +10,6 @@ DESKTOP_FILE="$SCRIPT_DIR/dinodent.desktop"
 ICON_FILE="$SCRIPT_DIR/dinodent.png"
 LINUXDEPLOY="$TOOLS_DIR/linuxdeploy-x86_64.AppImage"
 QT_PLUGIN="$TOOLS_DIR/linuxdeploy-plugin-qt-x86_64.AppImage"
-APPIMAGETOOL="$TOOLS_DIR/appimagetool-x86_64.AppImage"
 DINO_BIN="/home/thefinalcut/dev/build-DinoDent-Desktop_Qt_6_8_3-Release/DinoDent"
 QMAKE="/home/thefinalcut/dev/Qt/6.8.3/gcc_64/bin/qmake"
 FCITX_PLUGIN="$HOME/dev/fcitx5-qt/build/qt6/platforminputcontext/libfcitx5platforminputcontextplugin.so"
@@ -59,10 +58,7 @@ fi
 if [[ ! -f "$QT_PLUGIN" ]]; then
     wget -O "$QT_PLUGIN" https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 fi
-if [[ ! -f "$APPIMAGETOOL" ]]; then
-    wget -O "$APPIMAGETOOL" https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
-fi
-chmod +x "$LINUXDEPLOY" "$QT_PLUGIN" "$APPIMAGETOOL"
+chmod +x "$LINUXDEPLOY" "$QT_PLUGIN"
 
 [[ -z "$(ldd "$DINO_BIN" | grep 'not found' || true)" ]] || fail "DinoDent has missing shared libraries"
 
@@ -94,7 +90,7 @@ export QMAKE="$QMAKE"
 export PATH="$TOOLS_DIR:$PATH"
 
 # Deploy executable, Qt and regular runtime dependencies.
-# Packaging is intentionally performed separately with appimagetool.
+# Package only after the extra plugins and libraries have been installed.
 "$LINUXDEPLOY" \
     --appdir "$APPDIR" \
     --executable "$DINO_BIN" \
@@ -143,22 +139,24 @@ fi
 cp -L -- "$ICON_FILE" "$APPDIR/dinodent.png"
 ln -sfn -- usr/share/applications/dinodent.desktop "$APPDIR/dinodent.desktop"
 
-# Self-contained launcher. Do not force Fcitx for users with another IME.
-cat > "$APPDIR/AppRun" <<'APPRUN'
-#!/bin/sh
-HERE="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-export LD_LIBRARY_PATH="$HERE/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-export QT_PLUGIN_PATH="$HERE/usr/plugins"
-exec "$HERE/usr/bin/DinoDent" "$@"
-APPRUN
-chmod +x "$APPDIR/AppRun"
+# Preserve linuxdeploy's generated AppRun and the Qt environment hooks.
+# Do not replace it with a shell launcher or force a particular input method.
+require_file "$APPDIR/AppRun"
+[[ -x "$APPDIR/AppRun" ]] || fail "AppRun is not executable"
 
 # The output filename is stable and goes directly to installer/compiled.
 # Build to a fresh path, then replace the previous output atomically.
 # This also avoids appimagetool failing to overwrite a read-only old AppImage.
 TEMP_APPIMAGE="$OUTPUT_DIR/.DinoDent-$$-x86_64.AppImage"
 trap 'rm -f -- "$TEMP_APPIMAGE"; restore_sql_plugins; cleanup_desktop' EXIT
-ARCH=x86_64 "$APPIMAGETOOL" "$APPDIR" "$TEMP_APPIMAGE"
+# Reuse the cached linuxdeploy output plugin, as in the original working build.
+# A separately downloaded appimagetool can introduce a different runtime.
+(
+    cd "$TOOLS_DIR"
+    ARCH=x86_64 LDAI_OUTPUT="$TEMP_APPIMAGE" \
+        "$LINUXDEPLOY" --appdir "$APPDIR" --output appimage
+)
+require_file "$TEMP_APPIMAGE"
 mv -f -- "$TEMP_APPIMAGE" "$FINAL_APPIMAGE"
 chmod +x "$FINAL_APPIMAGE"
 printf '\nAppImage created: %s\n' "$FINAL_APPIMAGE"

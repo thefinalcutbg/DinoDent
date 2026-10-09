@@ -177,23 +177,13 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
     STSensorSetSignRect(0, 0, 0, 0);
 
     //SETTING SIGNER NAME
-#ifdef Q_OS_WIN
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
 
-    std::wstring name = L"Подписващ: " + conv.from_bytes(who);
-    STDisplaySetFont(L"Arial", 35, STPAD_FONT_BOLD);
-    STDisplaySetText(10, STDisplayGetHeight() - 45, kLeft, name.data());    // goes to foreground (target 0)
-#endif
-
-#ifdef Q_OS_MACX
-    // Display functions don't work yet
     auto name = (QString::fromUtf8("Подписващ: ") +
                  QString::fromUtf8(who.data(), static_cast<qsizetype>(who.size()))).toStdWString();
 
-    if (STDisplaySetFont(L"Arial", 35, STPAD_FONT_BOLD) < 0 ||
-        STDisplaySetText(10, STDisplayGetHeight() - 45, kLeft, name.c_str()) < 0)
+    if (STDisplaySetFont(L"Arial", 16, STPAD_FONT_BOLD) < 0 ||
+        STDisplaySetText(5, STDisplayGetHeight() - 45, kLeft, name.c_str()) < 0)
         return {};
-#endif
 
     //SETTING HASH
 

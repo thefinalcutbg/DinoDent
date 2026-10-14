@@ -590,7 +590,8 @@ void ListPresenter::calculateNhifPackage()
         m_amblist.getDate().isFromPreviousMonths(currentDate) ||
 		!patient->insuranceStatus ||
         patient->insuranceStatus->status == Insured::NoData ||
-        !patient->PISHistory
+        !patient->PISHistory ||
+        !patient->HISHistory
         ) {
 
         view->setNhifPackage(0, 0, 0, 0, 0, 0);

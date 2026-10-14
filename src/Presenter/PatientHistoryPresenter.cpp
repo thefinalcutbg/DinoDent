@@ -140,6 +140,20 @@ void PatientHistoryPresenter::procedureRefreshRequested(Procedure::DatabaseSourc
 
 					patient.PISHistory = pis_data;
 					view.setProcedures(patient.PISHistory.value(), source);
+
+					//also fetch his history
+
+					if (!HISHistory) {
+						
+						his_service.sendRequest(patient, true,
+							[=](const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshot)
+							{
+								if (!procedures.has_value()) return;
+
+								patient.HISHistory = procedures;
+							});
+
+					}
 				}
 			);
 			break;

@@ -545,7 +545,7 @@ struct PenSample
 
 using OutputReport = std::array<unsigned char, 64>;
 using InputReport = std::array<unsigned char, 61>;
-static std::optional<InputReport> exchangeReport(const OutputReport &request, unsigned char expectedOpcode, int expectedSelector = -1);
+static std::optional<InputReport> exchangeReport(const OutputReport &request, unsigned char expectedOpcode, int expectedSelector = -1, bool* hashRejected = nullptr);
 
 static std::vector<PenSample> s_penSamples;
 static std::vector<unsigned char> s_encryptedStream;
@@ -660,7 +660,7 @@ static void write32(unsigned char *destination, std::uint32_t value)
         destination[i] = static_cast<unsigned char>(value >> (8 * i));
 }
 
-static bool writeObject(ExtendedId id, const std::vector<unsigned char> &data)
+static bool writeObject(ExtendedId id, const std::vector<unsigned char> &data, bool* hashRejected = nullptr)
 {
     if (!device || data.empty())
         return false;
@@ -686,7 +686,7 @@ static bool writeObject(ExtendedId id, const std::vector<unsigned char> &data)
 
         std::copy_n(data.data() + offset, chunkSize, request.data() + 14);
 
-        if (!exchangeReport(request, 0x90))
+        if (!exchangeReport(request, 0x90, -1, hashRejected))
             return false;
 
         offset += chunkSize;
@@ -946,8 +946,9 @@ static bool resetSigningSession()
     return stopped && reset;
 }
 
-static std::optional<InputReport> exchangeReport(const OutputReport &request, unsigned char expectedOpcode, int expectedSelector)
+static std::optional<InputReport> exchangeReport(const OutputReport &request, unsigned char expectedOpcode, int expectedSelector, bool* hashRejected)
 {
+    if (hashRejected) *hashRejected = false;
     std::lock_guard<std::mutex> lock(deviceMutex);
 
     if (!device)
@@ -980,6 +981,14 @@ static std::optional<InputReport> exchangeReport(const OutputReport &request, un
 
         std::copy_n(buffer.begin(), response.size(), response.begin());
 
+        // Only the observed explicit stream-hash rejection permits a format retry.
+        // Timeouts, disconnects and unrelated replies must fail normally.
+        if (hashRejected && request[1] == 0xa8 &&
+            read32(request.data() + 2) == static_cast<std::uint32_t>(ExtendedId::SampleStreamHash) &&
+            response[0] == 0x98 && read32(response.data() + 1) == 0x105) {
+            *hashRejected = true;
+            return std::nullopt;
+        }
         const auto opcode = response[0];
 
         // Return the reply we were waiting for.
@@ -1901,6 +1910,36 @@ long SignotecDriver::STDeviceClose(long index)
     }
 }
 
+// Keep the accepted header in s_encryptedStream: verification and SignData export
+// must describe exactly the stream whose hash the tablet accepted.
+static bool uploadStreamHash(Bytes& digest, bool (*upload)(ExtendedId, const Bytes&, bool*) = writeObject)
+{
+    if (s_encryptedStream.size() < 20 || !hasDocumentHash())
+        return false;
+    const auto originalFormat = read32(s_encryptedStream.data() + 4);
+    const int attempts = sigmaDisplay && (originalFormat == 0 || originalFormat == 2) ? 2 : 1;
+    for (int attempt = 0; attempt < attempts; ++attempt) {
+        const auto format = attempt == 0 ? originalFormat : (originalFormat == 0 ? 2u : 0u);
+        write32(s_encryptedStream.data() + 4, format);
+        digest.resize(s_digest.size());
+        unsigned int size = 0;
+        if (EVP_Digest(s_encryptedStream.data(), s_encryptedStream.size(), digest.data(), &size,
+                       s_algorithm == SignotecDriver::kSha1 ? EVP_sha1() : EVP_sha256(), nullptr) != 1 || size != digest.size())
+            break;
+        Bytes tabletHash(digest.rbegin(), digest.rend());
+        bool rejected = false;
+        if (upload(ExtendedId::SampleStreamHash, tabletHash, &rejected)) {
+            qInfo() << "[Signotec] Accepted stream format" << format;
+            return true;
+        }
+        if (!rejected) break;
+        qWarning() << "[Signotec] Tablet rejected stream format" << format;
+    }
+    write32(s_encryptedStream.data() + 4, originalFormat);
+    digest.clear();
+    return false;
+}
+
 long SignotecDriver::STSignatureRetry()
 {
     s_lastError.clear();
@@ -1918,13 +1957,10 @@ long SignotecDriver::STSignatureRetry()
         if (sigmaDisplay)
         {
             // SDK finalizes the discarded stream before restoring saved background.
-            Bytes digest(s_digest.size());
-            unsigned int size = 0;
-            if (EVP_Digest(s_encryptedStream.data(), s_encryptedStream.size(), digest.data(), &size,
-                           s_algorithm == kSha1 ? EVP_sha1() : EVP_sha256(), nullptr) != 1 || size != digest.size())
-                return fail("SIG100 Retry stream hash failed");
-            std::reverse(digest.begin(), digest.end());
-            if (!writeObject(ExtendedId::SampleStreamHash, digest) || !setSetting(Setting::CaptureMode, 1))
+            Bytes digest;
+            if (!uploadStreamHash(digest))
+                return fail("SIG100 Retry stream hash upload failed (formats 0/2)");
+            if (!setSetting(Setting::CaptureMode, 1))
                 return fail("SIG100 Retry stop finalization failed");
             OutputReport restore{};
             restore[1] = 0x8c;
@@ -1980,21 +2016,9 @@ long SignotecDriver::STSignatureConfirm()
             for (const auto &sample : s_penSamples)
                 renderSamples.push_back({sample.counter, sample.x, sample.y, sample.z1, sample.z2});
             s_image = std::make_unique<direct::SignatureImage>(renderSamples);
-            // 1. Calculate the selected hash over the complete encrypted stream,
-            // including its header and sample-count fields.
-            Bytes streamHash(s_digest.size());
-            unsigned int hashSize = 0;
-
-            const int result = EVP_Digest(s_encryptedStream.data(), s_encryptedStream.size(), streamHash.data(), &hashSize, s_algorithm == kSha1 ? EVP_sha1() : EVP_sha256(), nullptr);
-
-            if (result != 1 || hashSize != streamHash.size())
-                return fail("STSignatureConfirm failed: invalid state, arguments or device response");
-
-            // 2. The tablet expects the digest bytes in reverse order.
-            std::vector<unsigned char> tabletHash(streamHash.rbegin(), streamHash.rend());
-
-            if (!writeObject(ExtendedId::SampleStreamHash, tabletHash))
-                return fail("STSignatureConfirm failed: invalid state, arguments or device response");
+            Bytes streamHash;
+            if (!uploadStreamHash(streamHash))
+                return fail("Biometric stream hash upload failed; see stream-format diagnostics");
 
             if (hasDisplay && !setSetting(Setting::CaptureMode, 1))
                 return fail("Cannot switch SIG200 to stopped mode after hash upload");

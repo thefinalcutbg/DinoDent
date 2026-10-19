@@ -28,6 +28,7 @@
 #include "View/Widgets/ListView.h"
 #include "View/Widgets/TabView.h"
 #include "View/Widgets/DeclarationTemplateDialog.h"
+#include "View/Widgets/SickLeaveDialog.h"
 
 #include "Printer/Print.h"
 #include "Printer/FilePaths.h"
@@ -1794,6 +1795,15 @@ void ListPresenter::createPrescription()
 void ListPresenter::createTreatmentPlan()
 {
     TabPresenter::get().openTreatmentPlan(*this->patient.get());
+}
+
+void ListPresenter::createSickLeave()
+{
+    SickLeave s;
+
+    SickLeaveDialog d(s);
+
+    d.exec();
 }
 
 void ListPresenter::printDeclarations()

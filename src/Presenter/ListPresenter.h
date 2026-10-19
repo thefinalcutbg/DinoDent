@@ -134,6 +134,7 @@ public:
     void createPerioMeasurment();
     void createPrescription();
     void createTreatmentPlan();
+    void createSickLeave();
     void printDeclarations();
     void printDeclaration(long long index);
 

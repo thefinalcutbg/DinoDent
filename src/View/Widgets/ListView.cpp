@@ -58,6 +58,7 @@ ListView::ListView(QWidget* parent)
 	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.treatmentPlanButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.sickLeaveButton->setIcon(QIcon(":/icons/icon_add.png"));
     ui.declarationButton->setIcon(QIcon(":/icons/icon_print.png"));
 	ui.simpleGraphicsButton->setBackgroundColor(Theme::border);
 	ui.simpleGraphicsButton->setHoverColor(Theme::mainBackgroundColor);
@@ -75,6 +76,7 @@ ListView::ListView(QWidget* parent)
     ui.declarationButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
     ui.treatmentPlanButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.sickLeaveButton->setHoverColor(Theme::mainBackgroundColor);
     ui.syncButton->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.nssiButton->setGraphicsEffect(nullptr);
@@ -132,7 +134,8 @@ ListView::ListView(QWidget* parent)
     connect(ui.medicalNoticeButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addMedicalNotice(); });
     connect(ui.declarationButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->printDeclarations(); });
     connect(ui.treatmentPlanButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createTreatmentPlan(); });
-    connect(ui.deleteProcedure, &QAbstractButton::clicked, this, [=, this]
+    connect(ui.sickLeaveButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createSickLeave(); });
+	connect(ui.deleteProcedure, &QAbstractButton::clicked, this, [=, this]
     {
 
 			if (!presenter) return;

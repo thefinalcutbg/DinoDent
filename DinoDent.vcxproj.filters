@@ -1095,6 +1095,9 @@
     <ClCompile Include="src\Printer\Implementation\PrintDeclarationTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Widgets\SickLeaveDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\SqliteBackend.h">
@@ -2260,6 +2263,9 @@
     <QtMoc Include="src\View\Widgets\DeclarationTemplateDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\SickLeaveDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2503,6 +2509,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\DeclarationTemplateDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\SickLeaveDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

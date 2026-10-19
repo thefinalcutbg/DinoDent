@@ -599,6 +599,7 @@
     <ClInclude Include="src\Model\Dental\TreatmentPlan.h" />
     <ClInclude Include="src\Model\GlobalSettingsData.h" />
     <ClInclude Include="src\Model\DeclarationTemplate.h" />
+    <ClInclude Include="src\Model\SickLeave.h" />
     <ClInclude Include="src\Network\BulkRequester.h" />
     <ClInclude Include="src\Network\SMS\Mobica.h" />
     <ClInclude Include="src\Network\SMS\SMSMessage.h" />

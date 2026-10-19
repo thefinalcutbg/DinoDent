@@ -1850,6 +1850,9 @@
     <ClInclude Include="src\Model\DeclarationTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\SickLeave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">

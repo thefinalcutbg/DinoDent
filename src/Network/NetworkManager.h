@@ -39,6 +39,14 @@ namespace NetworkManager
 		AbstractReplyHandler* handler
 	);
 
+	void sendRequestToNssiSickLeave(
+		const std::string& soapRequest,
+		PKCS11& token,
+		AbstractReplyHandler* handler,
+		const std::string& serviceUrl,
+		const std::string& soapAction
+	);
+
 	void sendRequestToMobicaSms(
 		const std::string& jsonRequest,
 		const std::string& url,

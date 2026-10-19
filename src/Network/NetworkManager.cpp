@@ -170,6 +170,33 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
 
 }
 
+void NetworkManager::sendRequestToNssiSickLeave(const std::string& soapRequest, PKCS11& token, AbstractReplyHandler* handler, const std::string& serviceUrl, const std::string& soapAction)
+{
+    QSslConfiguration config = QSslConfiguration::defaultConfiguration();
+   
+    config.setProtocol(QSsl::SslProtocol::TlsV1_2);
+
+    config.setLocalCertificate(QSslCertificate(token.pem_x509cert().c_str()));
+
+    config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey(true)), QSsl::KeyType::PrivateKey));
+
+    QNetworkRequest request{QUrl(QString::fromStdString(serviceUrl))};
+    request.setSslConfiguration(config);
+
+    // SOAP 1.1
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml; charset=utf-8");
+
+
+    QByteArray action("\"");
+    action.append(soapAction.c_str());
+    action.append('"');
+
+    request.setRawHeader("SOAPAction", action);
+    request.setRawHeader("Accept", "text/xml, application/xml");
+
+    postRequest(request, handler, soapRequest);
+}
+
 void NetworkManager::sendRequestToMobicaSms(const std::string& jsonRequest, const std::string& url, AbstractReplyHandler* handler)
 {
     QNetworkRequest request(QUrl(url.c_str()));

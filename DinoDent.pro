@@ -71,6 +71,7 @@ HEADERS += \
     src/Database/DbPrescription.h \
     src/Database/DbProcedure.h \
     src/Database/DbReferral.h \
+    src/Database/DbSickLeave.h \
     src/Database/DbStatistics.h \
     src/Database/DbTelemetry.h \
     src/Database/DbTreatmentPlan.h \
@@ -147,6 +148,7 @@ HEADERS += \
     src/Model/Referrals/Referral.h \
     src/Model/Referrals/ReferralData.h \
     src/Model/Settings.h \
+    src/Model/SickLeave.h \
     src/Model/Specialty.h \
     src/Model/TabType.h \
     src/Model/TableRows.h \
@@ -304,6 +306,7 @@ HEADERS += \
     src/View/SubWidgets/ProcedureListView.h \
     src/View/SubWidgets/ReferralTile.h \
     src/View/SubWidgets/SMSTemplate.h \
+    src/View/SubWidgets/SickLeaveTile.h \
     src/View/SubWidgets/SnapshotViewer.h \
     src/View/SubWidgets/SurfacePanel.h \
     src/View/SubWidgets/TabTitle.h \
@@ -357,6 +360,7 @@ HEADERS += \
     src/View/Widgets/MultilineDialog.h \
     src/View/Widgets/NewDocDialog.h \
     src/View/Widgets/NotesTemplateDialog.h \
+    src/View/Widgets/SickLeaveDialog.h \
     src/View/Widgets/notificationdialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientHistoryDialog.h \
@@ -458,6 +462,7 @@ SOURCES += \
     src/Database/DbPrescription.cpp \
     src/Database/DbProcedure.cpp \
     src/Database/DbReferral.cpp \
+    src/Database/DbSickLeave.cpp \
     src/Database/DbStatistics.cpp \
     src/Database/DbTelemetry.cpp \
     src/Database/DbTreatmentPlan.cpp \
@@ -666,6 +671,7 @@ SOURCES += \
     src/View/SubWidgets/ProcedureListView.cpp \
     src/View/SubWidgets/ReferralTile.cpp \
     src/View/SubWidgets/SMSTemplate.cpp \
+    src/View/SubWidgets/SickLeaveTile.cpp \
     src/View/SubWidgets/SnapshotViewer.cpp \
     src/View/SubWidgets/SurfacePanel.cpp \
     src/View/SubWidgets/TabTitle.cpp \
@@ -718,6 +724,7 @@ SOURCES += \
     src/View/Widgets/MultilineDialog.cpp \
     src/View/Widgets/NewDocDialog.cpp \
     src/View/Widgets/NotesTemplateDialog.cpp \
+    src/View/Widgets/SickLeaveDialog.cpp \
     src/View/Widgets/notificationdialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientHistoryDialog.cpp \
@@ -806,6 +813,7 @@ FORMS += \
     src/View/SubWidgets/ProcedureListView.ui \
     src/View/SubWidgets/ReferralTile.ui \
     src/View/SubWidgets/SMSTemplate.ui \
+    src/View/SubWidgets/SickLeaveTile.ui \
     src/View/SubWidgets/SnapshotViewer.ui \
     src/View/SubWidgets/SurfacePanel.ui \
     src/View/SubWidgets/TabTitle.ui \
@@ -863,6 +871,7 @@ FORMS += \
     src/View/Widgets/ReportFilesView.ui \
     src/View/Widgets/ReportView.ui \
     src/View/Widgets/SettingsDialog.ui \
+    src/View/Widgets/SickLeaveDialog.ui \
     src/View/Widgets/SignatureViewDialog.ui \
     src/View/Widgets/StatisticDialogView.ui \
     src/View/Widgets/TabView.ui \

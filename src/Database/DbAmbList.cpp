@@ -9,6 +9,7 @@
 #include "Model/FreeFunctions.h"
 #include "Database/DbReferral.h"
 #include "Database/DbMedicalNotice.h"
+#include "Database/DbSickLeave.h"
 
 long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
@@ -46,6 +47,8 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     DbReferral::saveReferrals(sheet.referrals, rowID, db);
 
     DbMedicalNotice::save(sheet.medical_notices, rowID, db);
+
+    DbSickLeave::saveSickLeave(sheet.sickLeave_notices, sheet.rowid, db);
 
     return rowID;
 
@@ -87,6 +90,7 @@ void DbAmbList::update(const AmbList& sheet)
     DbProcedure::saveProcedures(sheet.rowid, sheet.procedures.list(), sheet.procedures.removedProcedures(), db);
     DbReferral::saveReferrals(sheet.referrals, sheet.rowid, db);
     DbMedicalNotice::save(sheet.medical_notices, sheet.rowid, db);
+    DbSickLeave::saveSickLeave(sheet.sickLeave_notices, sheet.rowid, db);
 }
 
 AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
@@ -192,6 +196,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     ambList.procedures.setRemovedProcedures(DbProcedure::getProcedures(ambList.rowid, db, false, true));
     ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
     ambList.medical_notices = DbMedicalNotice::get(ambList.rowid, db);
+    ambList.sickLeave_notices = DbSickLeave::getSickLeave(ambList.rowid, db);
 
     return ambList;
 }
@@ -231,6 +236,8 @@ AmbList DbAmbList::getListData(long long rowId)
     ambList.procedures.setRemovedProcedures(DbProcedure::getProcedures(ambList.rowid, db, false, true));
     ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
     ambList.medical_notices = DbMedicalNotice::get(ambList.rowid, db);
+    ambList.sickLeave_notices = DbSickLeave::getSickLeave(ambList.rowid, db);
+
     return ambList;
 
 }

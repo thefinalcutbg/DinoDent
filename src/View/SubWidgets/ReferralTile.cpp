@@ -21,6 +21,7 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 
 	ui.printButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteButton->setHoverColor(Theme::fontRedClicked);
+	ui.hisButton->setHoverColor(Theme::mainBackgroundColor);
 
 	if (ref.type != ReferralType::MH119 && ref.type != ReferralType::MDD4)
 	{

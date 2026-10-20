@@ -7,6 +7,7 @@
 #include "Database/DbProcedure.h"
 #include "Database/DbPatient.h"
 #include "Database/DbMedicalNotice.h"
+#include "Database/DbSickLeave.h"
 #include "Database/DbTreatmentPlan.h"
 
 #include "Model/User.h"
@@ -1806,16 +1807,33 @@ void ListPresenter::createSickLeave()
     if (!result) return;
 
     m_amblist.sickLeave_notices.push_back(result.value());
-
+    DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
     view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 }
 
 void ListPresenter::editSickLeave(int index)
 {
+    SickLeaveDialog d(m_amblist.sickLeave_notices[index]);
+
+    auto result = d.getResult();
+
+    if (!result) return;
+
+    m_amblist.sickLeave_notices[index] = result.value();
+    DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 }
 
 void ListPresenter::removeSickLeave(int index)
 {
+    auto& sl = m_amblist.sickLeave_notices[index];
+
+    if (sl.number.empty()) {
+        m_amblist.sickLeave_notices.erase(m_amblist.sickLeave_notices.begin() + index);
+        DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
+        view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
+        return;
+    }
 }
 
 void ListPresenter::printSickLeave(int index)
@@ -1824,6 +1842,7 @@ void ListPresenter::printSickLeave(int index)
 
 void ListPresenter::sendSickLeaveToNSSI(int index)
 {
+
 }
 
 void ListPresenter::printDeclarations()

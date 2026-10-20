@@ -1101,6 +1101,9 @@
     <ClCompile Include="src\View\SubWidgets\SickLeaveTile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\DbSickLeave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\SqliteBackend.h">
@@ -1857,6 +1860,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\SickLeave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbSickLeave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

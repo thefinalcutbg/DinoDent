@@ -11,6 +11,8 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 {
 	ui->setupUi(this);
 
+	setWindowTitle("Болничен лист");
+
 	for (auto& [idx, descr] : SickLeave::reasons) {
 		ui->reasonCombo->addItem(QString::fromStdString(descr), idx);
 	}
@@ -57,28 +59,13 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 
 	ui->icdEdit->setCompletions(completionList);
 	ui->icdEdit->completer()->setFilterMode(Qt::MatchContains);
+	ui->icdEdit->setErrorLabel(ui->errorLabel);
 
 	connect(ui->icdEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
-		//no diagnosis
-		if (text.isEmpty()) {
-			ui->icdButton->setText("МКБ 10");
-			ui->errorLabel->clear();
-			return;
-		}
-
 		auto& icdCode = ICD10::getCodeFromName(text.toStdString());
 
-		//valid code
-		if (icdCode.size()) {
-			ui->errorLabel->clear();
-			ui->icdButton->setText(icdCode.c_str());
-			return;
-		}
-
-		//invalid code
-		ui->errorLabel->setText("Невалидна МКБ диагноза");
-		ui->icdButton->setText("МКБ 10");
+		ui->icdButton->setText(icdCode.size() ? icdCode.c_str() : "МКБ 10");
 
 	});
 
@@ -103,7 +90,7 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	ui->date->set_Date(notice.date);
 	ui->fromDateEdit->set_Date(notice.startDate);
 	ui->toDateEdit->set_Date(notice.endDate);
-	ui->icdButton->setText(notice.diagnosis.icd.isValid() ? notice.diagnosis.icd.code().c_str() : "Изберете");
+	ui->icdButton->setText(notice.diagnosis.icd.isValid() ? notice.diagnosis.icd.code().c_str() : "МКБ 10");
 	ui->icdEdit->setText(notice.diagnosis.icd.name().c_str());
 	ui->diagDescrEdit->setText(notice.diagnosis.additional_descr.c_str());
 	ui->notesEdit->setPlainText(notice.additionalNote.c_str());
@@ -114,11 +101,17 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 
 	ui->cityLineEdit->setInputValidator(&city_validator);
 	ui->empolyerEdit->setInputValidator(&not_empty_validator);
-	ui->icdEdit->setInputValidator(&not_empty_validator);
+	ui->icdEdit->setInputValidator(&icd_validator);
 
 	connect(ui->okButton, &QPushButton::clicked, this, [&] {
 
 		if (!isValid()) return;
+
+		if (m_result->number.size()) {
+			ModalDialogBuilder::showMessage("Болничният лист вече е изпратен към НОИ и промените няма да бъдат запазени");
+			reject();
+			return;
+		}
 
 		m_result->employerCity = ui->empolyerEdit->text().toStdString();
 		
@@ -136,6 +129,12 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 		m_result->profession = ui->professionEdit->getText();
 		m_result->position = ui->positionEdit->getText();
 
+		m_result->regimeType = ui->regimeCombo->itemData(ui->regimeCombo->currentIndex()).toInt();
+		m_result->reasonCode = ui->reasonCombo->itemData(ui->reasonCombo->currentIndex()).toInt();
+		m_result->noteCode = ui->noteCombo->itemData(ui->noteCombo->currentIndex()).toInt();
+
+		m_result->isContinuation = ui->continuationCheck->isChecked();
+
 		accept();
 
 	});
@@ -143,8 +142,23 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 
 bool SickLeaveDialog::isValid() 
 {
-	if (!ui->cityLineEdit->validateInput()) { ui->cityLineEdit->setFocus(); return false; }
-	if (!ui->empolyerEdit->validateInput()) { ui->empolyerEdit->setFocus(); return false; }
+	AbstractUIElement* validatableUI[] = {
+		ui->icdEdit,
+		ui->empolyerEdit,
+		ui->cityLineEdit
+	};
+
+	for (auto e : validatableUI) {
+
+		auto valid = e->validateInput();
+
+		if (!valid) {
+			e->set_focus();
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void SickLeaveDialog::paintEvent(QPaintEvent* e)

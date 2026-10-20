@@ -17,6 +17,7 @@ MedicalNoticeTile::MedicalNoticeTile(const MedicalNotice& notice, int index, QWi
 	ui.hisButton->setIcon(QIcon(":/icons/icon_his.png"));
 
 	ui.deleteButton->setHoverColor(Theme::fontRedClicked);
+	ui.hisButton->setHoverColor(Theme::mainBackgroundColor);
 
 	bool hasNrn = notice.nrn.size();
 

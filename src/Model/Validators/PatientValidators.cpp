@@ -1,5 +1,6 @@
 ﻿#include "PatientValidators.h"
 #include <regex>
+#include "Model/ICD10.h"
 
 const std::string EgnValidator::invalid{ "Невалиден ЕГН" };
 
@@ -150,6 +151,14 @@ bool CityValidator::validateInput(const std::string& text)
 {
     return Ekatte::isValidStr(text);
 }
+
+bool ICDValidator::validateInput(const std::string& text)
+{
+    if (allowEmpty && text.empty()) return true;
+
+    return ICD10::getCodeFromName(text).size();
+}
+
 
 EgnLnchValidator::EgnLnchValidator()
 {

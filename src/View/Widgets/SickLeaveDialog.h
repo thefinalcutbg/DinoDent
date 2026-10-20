@@ -18,6 +18,7 @@ class SickLeaveDialog : public QDialog
 
 	NotEmptyValidator not_empty_validator;
 	CityValidator city_validator;
+	ICDValidator icd_validator{ false };
 
 	void paintEvent(QPaintEvent* e) override;
 	bool isValid();

@@ -56,6 +56,15 @@ public:
 	bool validateInput(const std::string& text);
 };
 
+class ICDValidator : public Validator
+{
+	static inline const std::string invalidICD = "Невалидна диагноза";
+	bool allowEmpty = true;
+public:
+	ICDValidator(bool allowEmpty = true) : allowEmpty(allowEmpty) { _errorMsg = &invalidICD; }
+	bool validateInput(const std::string& text);
+};
+
 class EgnLnchValidator : public Validator
 {
 	EgnValidator egn_val;

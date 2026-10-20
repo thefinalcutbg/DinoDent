@@ -222,6 +222,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbSickLeave.cpp" />
     <ClCompile Include="src\Database\RqliteBackend.cpp" />
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="include\json\jsoncpp.cpp" />
@@ -583,6 +584,7 @@
     <ClCompile Include="src\View\Widgets\WelcomeWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Database\DbSickLeave.h" />
     <ClInclude Include="src\Database\RqliteBackend.h" />
     <ClInclude Include="src\Database\Database.h" />
     <ClInclude Include="include\json\json-forwards.h" />

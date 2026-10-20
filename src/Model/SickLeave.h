@@ -83,8 +83,6 @@ struct SickLeave
 
     int regimeType{ 4 };
 
-    std::string medicalExamNumber; //nrn
-
     Date startDate = Date::currentDate();
     Date endDate = Date::currentDate(); // Inclusive
 
@@ -96,8 +94,6 @@ struct SickLeave
     Ekatte employerCity;
     std::string profession;
     std::string position;
-
-    std::optional<Date> medicalCheckDate; //followup
 
     int noteCode;
     std::string additionalNote;

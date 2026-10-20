@@ -2,11 +2,12 @@
 #include <QPainter>
 #include "View/ModalDialogBuilder.h"
 #include <json/json.h>
-#include "Resources.h".
+#include "Resources.h"
 
 SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	: QDialog(nullptr)
 	, ui(new Ui::SickLeaveDialogClass())
+	, m_result(notice)
 {
 	ui->setupUi(this);
 
@@ -110,12 +111,57 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	ui->empolyerEdit->set_Text(notice.employerName);
 	ui->professionEdit->set_Text(notice.profession);
 	ui->positionEdit->set_Text(notice.position);
+
+	ui->cityLineEdit->setInputValidator(&city_validator);
+	ui->empolyerEdit->setInputValidator(&not_empty_validator);
+	ui->icdEdit->setInputValidator(&not_empty_validator);
+
+	connect(ui->okButton, &QPushButton::clicked, this, [&] {
+
+		if (!isValid()) return;
+
+		m_result->employerCity = ui->empolyerEdit->text().toStdString();
+		
+		m_result->date = ui->date->getDate();
+		m_result->startDate = ui->fromDateEdit->getDate();
+		m_result->endDate = ui->toDateEdit->getDate();
+
+		m_result->diagnosis.icd = ICD10(ui->icdButton->text().toStdString());
+		m_result->diagnosis.additional_descr = ui->diagDescrEdit->text().toStdString();
+
+		m_result->additionalNote = ui->notesEdit->toPlainText().toStdString();
+
+		m_result->employerCity = Ekatte(ui->cityLineEdit->getText());
+		m_result->employerName = ui->empolyerEdit->getText();
+		m_result->profession = ui->professionEdit->getText();
+		m_result->position = ui->positionEdit->getText();
+
+		accept();
+
+	});
+}
+
+bool SickLeaveDialog::isValid() 
+{
+	if (!ui->cityLineEdit->validateInput()) { ui->cityLineEdit->setFocus(); return false; }
+	if (!ui->empolyerEdit->validateInput()) { ui->empolyerEdit->setFocus(); return false; }
 }
 
 void SickLeaveDialog::paintEvent(QPaintEvent* e)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);
+}
+
+std::optional<SickLeave> SickLeaveDialog::getResult()
+{
+	auto result = exec();
+
+	if (result != QDialog::Accepted) {
+		m_result.reset();
+	}
+
+	return m_result;
 }
 
 SickLeaveDialog::~SickLeaveDialog()

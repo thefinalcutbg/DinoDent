@@ -128,13 +128,19 @@ public:
     void printReferral(int index);
     void sendReferralToHis(int index);
 
+    void createSickLeave();
+    void editSickLeave(int index);
+    void removeSickLeave(int index);
+    void printSickLeave(int index);
+    void sendSickLeaveToNSSI(int index);
+
     void setNhifData(const NhifSheetData& data);
     
     void createInvoice();
     void createPerioMeasurment();
     void createPrescription();
     void createTreatmentPlan();
-    void createSickLeave();
+
     void printDeclarations();
     void printDeclaration(long long index);
 

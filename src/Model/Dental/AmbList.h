@@ -11,8 +11,10 @@
 #include "Model/Dental/ProcedureContainer.h"
 #include "Model/Referrals/Referral.h"
 #include "Model/MedicalNotice.h"
+#include "Model/SickLeave.h"
 #include "Model/Dental/NhifSheetData.h"
 #include "Model/FreeFunctions.h"
+
 
 struct AmbList
 {
@@ -40,6 +42,7 @@ struct AmbList
 
 	std::vector<Referral> referrals;
 	std::vector<MedicalNotice> medical_notices;
+	std::vector<SickLeave> sickLeave_notices;
 
 	std::vector<unsigned char> signature_bitmap;
     std::string signature_data;

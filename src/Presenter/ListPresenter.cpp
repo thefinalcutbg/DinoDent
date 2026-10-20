@@ -382,7 +382,7 @@ void ListPresenter::setDataToView()
 
     view->setNotes(patient->teethNotes);
 
-    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
     refreshProcedureView();
     dynamicNhifConversion();
@@ -1432,7 +1432,7 @@ void ListPresenter::addMedicalNotice()
 
     m_amblist.medical_notices.push_back(*result);
 
-    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
     if (!m_amblist.isNew()) {
         DbMedicalNotice::save(m_amblist.medical_notices, m_amblist.rowid);
@@ -1454,7 +1454,7 @@ void ListPresenter::editMedicalNotice(int index)
 
     nList[index] = *result;
 
-    if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+    if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
 
     if (!m_amblist.isNew()) {
@@ -1484,7 +1484,7 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
 
             ModalDialogBuilder::showMessage("Медицинската бележка е изпратено успешно");
 
-            if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+            if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
         }
     );
@@ -1503,7 +1503,7 @@ void ListPresenter::removeMedicalNotice(int index)
             DbMedicalNotice::save(m_amblist.medical_notices, m_amblist.rowid);
         }
 
-        if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+        if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
         return;
     }
@@ -1518,7 +1518,7 @@ void ListPresenter::removeMedicalNotice(int index)
 
             ModalDialogBuilder::showMessage("Медицинската бележка е анулирана успешно!");
 
-            if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+            if (isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
         }
     );
 }
@@ -1600,7 +1600,7 @@ void ListPresenter::addReferral(ReferralType type)
 
     m_amblist.referrals.push_back(*result);
 
-    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
     dynamicNhifConversion();
    
@@ -1626,7 +1626,7 @@ void ListPresenter::editReferral(int index)
 
     m_amblist.referrals[index] = *result;
 
-    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
     if (!m_amblist.isNew()) {
         DbReferral::saveReferrals(m_amblist.referrals, m_amblist.rowid);
@@ -1687,7 +1687,7 @@ void ListPresenter::sendReferralToHis(int index)
                 DbReferral::saveReferrals(m_amblist.referrals, m_amblist.rowid);
 
                 if (isCurrent()) {
-                    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+                    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
                 }
             }
         );
@@ -1707,7 +1707,7 @@ void ListPresenter::removeReferral(int index)
 
         rList.erase(rList.begin() + index);
 
-        if(isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+        if(isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
         dynamicNhifConversion();
 
@@ -1735,7 +1735,7 @@ void ListPresenter::removeReferral(int index)
 
                 dynamicNhifConversion();
 
-                if(isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices);
+                if(isCurrent()) view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
                 refreshTabName();
 
@@ -1799,11 +1799,31 @@ void ListPresenter::createTreatmentPlan()
 
 void ListPresenter::createSickLeave()
 {
-    SickLeave s;
+    SickLeaveDialog d(SickLeave{});
 
-    SickLeaveDialog d(s);
+    auto result = d.getResult();
 
-    d.exec();
+    if (!result) return;
+
+    m_amblist.sickLeave_notices.push_back(result.value());
+
+    view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
+}
+
+void ListPresenter::editSickLeave(int index)
+{
+}
+
+void ListPresenter::removeSickLeave(int index)
+{
+}
+
+void ListPresenter::printSickLeave(int index)
+{
+}
+
+void ListPresenter::sendSickLeaveToNSSI(int index)
+{
 }
 
 void ListPresenter::printDeclarations()

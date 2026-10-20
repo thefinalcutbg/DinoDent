@@ -6,6 +6,7 @@
 #include "View/uiComponents/MouseWheelGuard.h"
 #include "View/SubWidgets/ReferralTile.h"
 #include "View/SubWidgets/MedicalNoticeTile.h"
+#include "View/SubWidgets/SickLeaveTile.h"
 #include "Printer/FilePaths.h"
 #include "Model/User.h"
 #include <QIcon>
@@ -402,7 +403,7 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav, bool showN
 	ui.pentionTaxButton->setHidden(!showNSSI);
 }
 
-void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices)
+void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices, const std::vector<SickLeave>& sickNotices)
 {
 	auto shadowTargets = std::vector<QWidget*>{
 	ui.patientInfoTile,
@@ -432,6 +433,16 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
         connect(noticeWidget, &MedicalNoticeTile::sendToHis, this, [=, this](int index) {presenter->sendMedicalNoticeToHis(index); });
 		ui.docsLayout->addWidget(noticeWidget);
 		shadowTargets.push_back(noticeWidget);
+	}
+
+	for (std::size_t i = 0; i < sickNotices.size(); i++) {
+		SickLeaveTile* sickNotice = new SickLeaveTile(sickNotices[i], i, this);
+		connect(sickNotice, &SickLeaveTile::remove, this, [=, this](int index) {presenter->removeSickLeave(index); });
+		connect(sickNotice, &SickLeaveTile::clicked, this, [=, this](int index) {presenter->editSickLeave(index); });
+		connect(sickNotice, &SickLeaveTile::print,  this, [=, this](int index) {presenter->printSickLeave(index); });
+		connect(sickNotice, &SickLeaveTile::sendToNSSI, this, [=, this](int index) {presenter->sendSickLeaveToNSSI(index); });
+		ui.docsLayout->addWidget(sickNotice);
+		shadowTargets.push_back(sickNotice);
 	}
 
 	setShadowTargets(shadowTargets);

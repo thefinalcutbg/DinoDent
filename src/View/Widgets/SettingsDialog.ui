@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>956</width>
-    <height>657</height>
+    <height>675</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -1331,6 +1331,12 @@
          </item>
          <item>
           <widget class="QGroupBox" name="groupBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="title">
             <string>Данни за фирмата</string>
            </property>
@@ -1640,12 +1646,6 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>130</height>
-               </size>
-              </property>
               <property name="editTriggers">
                <set>QAbstractItemView::EditTrigger::AnyKeyPressed</set>
               </property>
@@ -1736,13 +1736,10 @@
                 <property name="orientation">
                  <enum>Qt::Orientation::Vertical</enum>
                 </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Policy::Expanding</enum>
-                </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>40</width>
-                  <height>20</height>
+                  <width>20</width>
+                  <height>40</height>
                  </size>
                 </property>
                </spacer>
@@ -1816,6 +1813,12 @@
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_7">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>Шаблони за декларации</string>
          </property>
@@ -1877,7 +1880,7 @@
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -1886,6 +1889,84 @@
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_51">
+         <item>
+          <widget class="QCheckBox" name="sickLeaveCheck">
+           <property name="text">
+            <string>Номера на уникални болнични листове от</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="LeadingZeroSpinBox" name="sickLeaveFrom">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="prefix">
+            <string>E</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_45">
+           <property name="text">
+            <string>до</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="LeadingZeroSpinBox" name="sickLeaveTo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="prefix">
+            <string>E</string>
+           </property>
+           <property name="value">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_40">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -2553,6 +2634,11 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LeadingZeroSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>View/uiComponents/LeadingZeroSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>AutoCompleteLineEdit</class>

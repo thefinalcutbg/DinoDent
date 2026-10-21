@@ -32,6 +32,9 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 
+	ui.sickLeaveFrom->setDisabled(true);
+	ui.sickLeaveTo->setDisabled(true);
+
 	ui.addSubdir->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.removeSubdir->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.addDoctor->setIcon(QIcon(":/icons/icon_add.png"));
@@ -173,6 +176,11 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		setDeclarationTemplates(DbPractice::getDeclarationList(User::practice().rziCode));
 
+	});
+
+	connect(ui.sickLeaveCheck, &QCheckBox::toggled, this, [&](bool checked) {
+		ui.sickLeaveFrom->setDisabled(!checked);
+		ui.sickLeaveTo->setDisabled(!checked);
 	});
 
 	connect(ui.declarationList, &QListWidget::itemDoubleClicked, this, [&] { emit ui.editDecl->click(); });
@@ -741,6 +749,12 @@ void SettingsDialog::setPractice(const Practice& practice)
 	ui.ibanEdit->setText(practice.iban.c_str());
 	ui.bicEdit->setText(practice.bic.c_str());
 
+	if (practice.sickLeaveNumbers.first) {
+		ui.sickLeaveCheck->setChecked(true);
+		ui.sickLeaveFrom->setValue(practice.sickLeaveNumbers.first);
+		ui.sickLeaveTo->setValue(practice.sickLeaveNumbers.second);
+	}
+
 	setDeclarationTemplates(DbPractice::getDeclarationList(practice.rziCode));
 
 	ui.practicePassEdit->setEchoMode(
@@ -846,6 +860,10 @@ Practice SettingsDialog::getPractice()
 		c.nra_pass = ui.nraPass->getText();
 		c.nssi_pass = ui.nssiPass->getText();
 		p.nhif_contract.emplace(c);
+	}
+
+	if (ui.sickLeaveCheck->isChecked()) {
+		p.sickLeaveNumbers = { ui.sickLeaveFrom->value(), ui.sickLeaveTo->value() };
 	}
 
 	return p;

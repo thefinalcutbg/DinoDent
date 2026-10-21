@@ -109,6 +109,8 @@ struct Practice
 
 	std::optional<NhifContract> nhif_contract;
 
+	std::pair<long long, long long> sickLeaveNumbers = { 0, 0 };
+
 	bool generateMonthlySheets() const {
 		return nhif_contract.has_value() || settings.preferMonthlySheets;
 	}

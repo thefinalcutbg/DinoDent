@@ -56,4 +56,5 @@ void DbUpdater::updateDb(DbBackend* backend_ptr)
 	DbUpdates::commonUpdate(38, backend_ptr);
 	DbUpdates::commonUpdate(39, backend_ptr);
 	DbUpdates::commonUpdate(40, backend_ptr);
+	DbUpdates::commonUpdate(41, backend_ptr);
 }

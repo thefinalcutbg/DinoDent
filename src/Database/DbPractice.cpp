@@ -5,7 +5,7 @@
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, street_address, legal_entity, pass, vat, nhif_contract, settings, self_insured_id, bank, iban, bic "
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, street_address, legal_entity, pass, vat, nhif_contract, settings, self_insured_id, bank, iban, bic, sickLeaveFrom, sickLeaveTo "
         "FROM practice WHERE rzi = ?";
 
     Practice practice;
@@ -33,6 +33,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.bank = db.asString(12);
         practice.iban = db.asString(13);
         practice.bic = db.asString(14);
+        practice.sickLeaveNumbers = { db.asLongLong(15), db.asLongLong(16) };
 
     }
 
@@ -56,7 +57,9 @@ bool DbPractice::updatePractice(const Practice& practice, const std::string& cur
         "self_insured_id=?, "
         "bank=?, "
         "iban=?, "
-        "bic=? "
+        "bic=?, "
+        "sickLeaveFrom=?, "
+        "sickLeaveTo=? "
         "WHERE rzi=?"
     );
 
@@ -73,7 +76,9 @@ bool DbPractice::updatePractice(const Practice& practice, const std::string& cur
     db.bind(11, practice.bank);
     db.bind(12, practice.iban);
     db.bind(13, practice.bic);
-    db.bind(14, currentRZI);
+    db.bind(14, practice.sickLeaveNumbers.first);
+    db.bind(15, practice.sickLeaveNumbers.second);
+    db.bind(16, currentRZI);
 
     if (!db.execute()) return false;
 
@@ -110,8 +115,8 @@ bool DbPractice::insertPractice(const Practice& practice)
 
     Db db(
         "INSERT INTO practice "
-        "(rzi, name, bulstat, firm_address, practice_address, street_address, pass, legal_entity, vat, nhif_contract, settings, self_insured_id, bank, iban, bic) "
-        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        "(rzi, name, bulstat, firm_address, practice_address, street_address, pass, legal_entity, vat, nhif_contract, settings, self_insured_id, bank, iban, bic, sickLeaveFrom, sickLeaveTo) "
+        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, practice.rziCode);
@@ -129,6 +134,8 @@ bool DbPractice::insertPractice(const Practice& practice)
     db.bind(13, practice.bank);
     db.bind(14, practice.iban);
     db.bind(15, practice.bic);
+    db.bind(16, practice.sickLeaveNumbers.first);
+    db.bind(17, practice.sickLeaveNumbers.second);
 
     return db.execute();
 

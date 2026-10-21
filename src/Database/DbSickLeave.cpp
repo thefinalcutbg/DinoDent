@@ -33,7 +33,6 @@ std::vector<SickLeave> DbSickLeave::getSickLeave(long long ambListId, Db& db)
         s.employerCity = Ekatte(db.asInt(11));
         s.profession = db.asString(12);
         s.position = db.asString(13);
-
         s.noteCode = db.asInt(14);
         s.additionalNote = db.asString(15);
         s.isCancelled = db.asBool(16);
@@ -78,7 +77,6 @@ void DbSickLeave::saveSickLeave(const std::vector<SickLeave>& sickLeave, long lo
         db.bind(12, s.employerCity.getIdxAsInt());
         db.bind(13, s.profession);
         db.bind(14, s.position);
-
         db.bind(15, s.noteCode);
         db.bind(16, s.additionalNote);
         db.bind(17, s.isCancelled);

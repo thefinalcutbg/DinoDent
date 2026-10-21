@@ -1,0 +1,4 @@
+PRAGMA user_version=41;
+ALTER TABLE practice ADD COLUMN sickLeaveFrom INTEGER;
+ALTER TABLE practice ADD COLUMN sickLeaveTo INTEGER;
+CREATE TABLE sick_leave ( rowid INTEGER PRIMARY KEY NOT NULL, amblist_rowid INTEGER REFERENCES amblist (rowid) ON DELETE SET NULL ON UPDATE CASCADE, number TEXT NOT NULL, date TEXT NOT NULL, is_continuation INTEGER NOT NULL, regime_type INTEGER NOT NULL, start_date TEXT NOT NULL, end_date TEXT NOT NULL, diagnosis TEXT NOT NULL, diagnosis_description TEXT, reason_code INTEGER NOT NULL, employer_name TEXT, employer_city INTEGER, profession TEXT, position TEXT, note_code INTEGER NOT NULL, additional_note TEXT, is_cancelled INTEGER NOT NULL );

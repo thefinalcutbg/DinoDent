@@ -1020,7 +1020,7 @@ void ListPresenter::setTreatmentEndTime(const std::string& datetime)
 
 void ListPresenter::checkPention()
 {
-    nssiService.sendRequest(*patient);
+    pentionService.sendRequest(*patient);
 }
 
 void ListPresenter::addFinancialReceipt()
@@ -1800,6 +1800,13 @@ void ListPresenter::createTreatmentPlan()
 
 void ListPresenter::createSickLeave()
 {
+    auto number = DbSickLeave::getNumber();
+
+    if (!number) {
+        ModalDialogBuilder::showMessage("Не са открити свободни номера за болнични листове");
+        return;
+    }
+
     SickLeaveDialog d(SickLeave{});
 
     auto result = d.getResult();
@@ -1828,12 +1835,21 @@ void ListPresenter::removeSickLeave(int index)
 {
     auto& sl = m_amblist.sickLeave_notices[index];
 
-    if (sl.number.empty()) {
+    if (!sl.number) {
         m_amblist.sickLeave_notices.erase(m_amblist.sickLeave_notices.begin() + index);
         DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
         view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
         return;
     }
+
+    auto reason = ModalDialogBuilder::inputDialog(
+		"Основание за анулиране на болничен лист:",
+		"Анулиране на болничен лист"
+	);
+
+    if (reason.empty()) return;
+
+    sickLeaveService.sendRequest(*patient.get(), sl, m_amblist.nrn, reason);
 }
 
 void ListPresenter::printSickLeave(int index)
@@ -1842,7 +1858,20 @@ void ListPresenter::printSickLeave(int index)
 
 void ListPresenter::sendSickLeaveToNSSI(int index)
 {
+    if (m_amblist.nrn.empty()) {
+        ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
+        return;
+    }
 
+    auto& sl = m_amblist.sickLeave_notices[index];
+    sl.number = DbSickLeave::getNumber();
+
+    if (!sl.number) {
+        ModalDialogBuilder::showMessage("Не са открити свободни номера за болнични листове");
+        return;
+    }
+
+    sickLeaveService.sendRequest(*patient.get(), sl, m_amblist.nrn);
 }
 
 void ListPresenter::printDeclarations()

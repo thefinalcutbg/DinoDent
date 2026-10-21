@@ -76,7 +76,7 @@ struct SickLeave
 
     long long rowid{ 0 };
 
-    std::string number;
+    long long number{ 0 };
     Date date{ Date::currentDate() };
 
 	bool isContinuation{ false };
@@ -86,7 +86,7 @@ struct SickLeave
     Date startDate = Date::currentDate();
     Date endDate = Date::currentDate(); // Inclusive
 
-    Diagnosis diagnosis;
+    ICD10 diagnosis;
 
     int reasonCode{ 1 };
 
@@ -95,9 +95,14 @@ struct SickLeave
     std::string profession;
     std::string position;
 
+    Date checkup = Date::currentDate();
+
     int noteCode;
     std::string additionalNote;
 
     bool isCancelled = false;
+
+    int daysCount() const { return startDate.daysToInclusive(endDate); }
+    std::string dayCountWords() const { return Date::daysToBulgarian(daysCount()); }
 
 };

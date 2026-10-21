@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>416</width>
-    <height>637</height>
+    <width>605</width>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,7 +42,7 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>9</hour>
+            <hour>3</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
@@ -114,6 +114,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon</enum>
+            </property>
            </widget>
           </item>
           <item>
@@ -123,6 +126,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon</enum>
             </property>
            </widget>
           </item>
@@ -175,19 +181,6 @@
         </item>
        </layout>
       </item>
-      <item>
-       <widget class="AutoCompleteLineEdit" name="diagDescrEdit">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>1000</number>
-        </property>
-        <property name="placeholderText">
-         <string>Допълнителни уточнения към диагнозата</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -222,12 +215,12 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>5</hour>
+            <hour>23</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
             <month>12</month>
-            <day>27</day>
+            <day>26</day>
            </datetime>
           </property>
           <property name="minimumDate">
@@ -272,12 +265,12 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>3</hour>
+            <hour>23</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
             <month>12</month>
-            <day>27</day>
+            <day>26</day>
            </datetime>
           </property>
           <property name="minimumDate">
@@ -286,6 +279,9 @@
             <month>1</month>
             <day>1</day>
            </date>
+          </property>
+          <property name="displayFormat">
+           <string>dd.MM.yyyy</string>
           </property>
           <property name="calendarPopup">
            <bool>true</bool>
@@ -308,18 +304,85 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>(включително)</string>
+           <string>(вкл.)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string> Контролен преглед:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="DateEdit" name="checkupDate">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+          </property>
+          <property name="showGroupSeparator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="maximumDateTime">
+           <datetime>
+            <hour>21</hour>
+            <minute>59</minute>
+            <second>59</second>
+            <year>9999</year>
+            <month>12</month>
+            <day>26</day>
+           </datetime>
+          </property>
+          <property name="minimumDate">
+           <date>
+            <year>1900</year>
+            <month>1</month>
+            <day>1</day>
+           </date>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+          <property name="date">
+           <date>
+            <year>1900</year>
+            <month>1</month>
+            <day>1</day>
+           </date>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="continuationCheck">
-        <property name="text">
-         <string>Продължение на предишен болничен лист</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QCheckBox" name="continuationCheck">
+          <property name="text">
+           <string>Продължение на предишен болничен лист</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -448,7 +511,7 @@
            </sizepolicy>
           </property>
           <property name="sizeAdjustPolicy">
-           <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+           <enum>QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon</enum>
           </property>
          </widget>
         </item>

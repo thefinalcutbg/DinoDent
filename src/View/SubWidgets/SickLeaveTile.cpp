@@ -22,14 +22,14 @@ SickLeaveTile::SickLeaveTile(const SickLeave& notice, int index, QWidget* parent
 
 	ui->printButton->setHoverColor(Theme::mainBackgroundColor);
 	ui->deleteButton->setHoverColor(Theme::fontRedClicked);
-	ui->nssiButton->setHoverColor(Theme::fontRedClicked);
+	ui->nssiButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QString numLabelText = "<b>Номер:</b> ";
 
-	numLabelText.append(notice.number.size() ? QString::fromStdString(notice.number) : QString("Не е изпратен към НОИ"));
+	numLabelText.append(notice.number ? "E" + QString::number(notice.number) : QString("Не е изпратен към НОИ"));
 
 	ui->numLabel->setText(numLabelText);
-	ui->nssiButton->setHidden(notice.number.size());
+	ui->nssiButton->setHidden(notice.number);
 	
 	ui->dateLabel->setText("<b>Дата:</b> " + QString::fromStdString(notice.date.toBgStandard(true)));
 	ui->title->setText("<b>Болничен лист</b>");

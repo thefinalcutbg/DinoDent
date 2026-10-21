@@ -1,12 +1,39 @@
 #include "DbSickLeave.h"
 #include "Database/Database.h"
+#include "Model/User.h"
+
+long long DbSickLeave::getNumber()
+{
+    auto [next, last] = User::practice().sickLeaveNumbers;
+    if (next <= 0 || last < next) return 0;
+
+    Db db(
+        "SELECT DISTINCT number FROM sick_leave "
+        "WHERE number BETWEEN ? AND ? "
+        "ORDER BY number"
+    );
+
+    db.bind(1, next);
+    db.bind(2, last);
+
+    while (db.hasRows())
+    {
+        if (db.asLongLong(0) != next) break;
+
+        if (next == last) return 0;
+
+        ++next;
+    }
+
+    return next;
+}
 
 std::vector<SickLeave> DbSickLeave::getSickLeave(long long ambListId, Db& db)
 {
     db.newStatement(
         "SELECT rowid, number, date, is_continuation, regime_type, "
-        "start_date, end_date, diagnosis, diagnosis_description, reason_code, employer_name, "
-        "employer_city, profession, position, note_code, additional_note, is_cancelled "
+        "start_date, end_date, diagnosis, reason_code, employer_name, "
+        "employer_city, profession, position, note_code, additional_note, is_cancelled, checkup_date "
         "FROM sick_leave WHERE amblist_rowid=? ORDER BY rowid"
     );
 
@@ -20,22 +47,22 @@ std::vector<SickLeave> DbSickLeave::getSickLeave(long long ambListId, Db& db)
         auto& s = result.back();
 
         s.rowid = db.asRowId(0);
-        s.number = db.asString(1);
+        s.number = db.asLongLong(1);
         s.date = db.asString(2);
         s.isContinuation = db.asBool(3);
         s.regimeType = db.asInt(4);
         s.startDate = db.asString(5);
         s.endDate = db.asString(6);
-        s.diagnosis.icd = db.asString(7);
-        s.diagnosis.additional_descr = db.asString(8);
-        s.reasonCode = db.asInt(9);
-        s.employerName = db.asString(10);
-        s.employerCity = Ekatte(db.asInt(11));
-        s.profession = db.asString(12);
-        s.position = db.asString(13);
-        s.noteCode = db.asInt(14);
-        s.additionalNote = db.asString(15);
-        s.isCancelled = db.asBool(16);
+        s.diagnosis = db.asString(7);
+        s.reasonCode = db.asInt(8);
+        s.employerName = db.asString(9);
+        s.employerCity = Ekatte(db.asInt(10));
+        s.profession = db.asString(11);
+        s.position = db.asString(12);
+        s.noteCode = db.asInt(13);
+        s.additionalNote = db.asString(14);
+        s.isCancelled = db.asBool(15);
+        s.checkup = db.asString(16);
     }
 
     return result;
@@ -58,8 +85,8 @@ void DbSickLeave::saveSickLeave(const std::vector<SickLeave>& sickLeave, long lo
         db.newStatement(
             "INSERT INTO sick_leave "
             "(amblist_rowid, number, date, is_continuation, regime_type, "
-            "start_date, end_date, diagnosis, diagnosis_description, reason_code, employer_name, "
-            "employer_city, profession, position, note_code, additional_note, is_cancelled) "
+            "start_date, end_date, diagnosis, reason_code, employer_name, "
+            "employer_city, profession, position, note_code, additional_note, is_cancelled, checkup_date) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );
 
@@ -70,16 +97,16 @@ void DbSickLeave::saveSickLeave(const std::vector<SickLeave>& sickLeave, long lo
         db.bind(5, s.regimeType);
         db.bind(6, s.startDate.to8601());
         db.bind(7, s.endDate.to8601());
-        db.bind(8, s.diagnosis.icd.code());
-        db.bind(9, s.diagnosis.additional_descr);
-        db.bind(10, s.reasonCode);
-        db.bind(11, s.employerName);
-        db.bind(12, s.employerCity.getIdxAsInt());
-        db.bind(13, s.profession);
-        db.bind(14, s.position);
-        db.bind(15, s.noteCode);
-        db.bind(16, s.additionalNote);
-        db.bind(17, s.isCancelled);
+        db.bind(8, s.diagnosis.code());
+        db.bind(9, s.reasonCode);
+        db.bind(10, s.employerName);
+        db.bind(11, s.employerCity.getIdxAsInt());
+        db.bind(12, s.profession);
+        db.bind(13, s.position);
+        db.bind(14, s.noteCode);
+        db.bind(15, s.additionalNote);
+        db.bind(16, s.isCancelled);
+        db.bind(17, s.checkup.to8601());
 
         db.execute();
     }

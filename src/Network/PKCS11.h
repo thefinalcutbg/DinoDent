@@ -18,6 +18,7 @@ struct X509Details
 	std::string validFrom8601;
 	std::string validTo8601;
 	std::string driverPath;
+	std::string serialNumber;
 
 	bool isValid() const;
 
@@ -82,6 +83,8 @@ public:
 	static void setDriverPaths(const std::vector<std::string>& driverPaths);
 
 	static void cleanup();
+
+	const X509Details& getDetails() const { return m_cert_details; }
 
 	~PKCS11();
 };

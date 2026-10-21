@@ -39,6 +39,38 @@ const std::array<std::string, 29> regionCode{
     "JAM"
 };
 
+static const std::array<std::string, 29> regionNames{
+    "",
+    "Благоевград",
+    "Бургас",
+    "Варна",
+    "Велико Търново",
+    "Видин",
+    "Враца",
+    "Габрово",
+    "Добрич",
+    "Кърджали",
+    "Кюстендил",
+    "Ловеч",
+    "Монтана",
+    "Пазарджик",
+    "Перник",
+    "Плевен",
+    "Пловдив",
+    "Разград",
+    "Русе",
+    "Силистра",
+    "Сливен",
+    "Смолян",
+    "София (столица)",
+    "София",
+    "Стара Загора",
+    "Търговище",
+    "Хасково",
+    "Шумен",
+    "Ямбол"
+};
+
 std::unordered_map<int, EkatteData> s_idxToData;
 std::unordered_map<std::string, int> s_stringToIdx;
 std::unordered_map<int, int> s_hr_to_ekatte;
@@ -199,6 +231,15 @@ const std::string& Ekatte::getRegionCode() const
     if (!ekatteIdx) return regionCode[0];
 
     return regionCode[rhif];
+}
+
+const std::string& Ekatte::getRegionName() const
+{
+    if (!ekatteIdx || rhif <= 0 || rhif >= static_cast<int>(regionNames.size())) {
+        return regionNames[0];
+    }
+
+    return regionNames[rhif];
 }
 
 const std::unordered_map<std::string, int>& Ekatte::cityNameToIdx() { return s_stringToIdx; }

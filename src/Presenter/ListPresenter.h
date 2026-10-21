@@ -16,6 +16,7 @@
 #include "Network/HIS/EReferral.h"
 #include "Network/HIS/EMedicalNotice.h"
 #include "Network/NRA/NssiPentionService.h"
+#include "Network/NRA/NSSISickLeaveService.h"
 #include "Presenter/PatientInfoPresenter.h"
 #include "Network/BulkRequester.h"
 
@@ -40,8 +41,9 @@ class ListPresenter : public TabInstance
 
 	BulkRequester bulkRequester;
    
-    NssiPentionService nssiService;
- 
+    NssiPentionService pentionService;
+    NSSISickLeaveService sickLeaveService;
+
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::Augment eDentalAugmentService;

@@ -92,7 +92,7 @@ X509Details::X509Details(x509_st* cert, const std::string& driverPath) :
 
 	name = getData(subjectName, NID_commonName);
 	organization = getData(subjectName, NID_organizationName);
-
+	serialNumber = getData(subjectName, NID_serialNumber);
 	X509_NAME* issuerName = X509_get_issuer_name(cert);
 
 	issuer = getData(issuerName, NID_commonName);

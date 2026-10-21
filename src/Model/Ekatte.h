@@ -34,6 +34,7 @@ public:
     bool isUnfav() const { return s_unfavList.count(ekatteIdx); }
 	int getIdxAsInt() const { return ekatteIdx; }
 	const std::string& getRegionCode() const;
+	const std::string& getRegionName() const;
 	static const std::unordered_map<std::string, int>& cityNameToIdx();
 	bool operator==(const Ekatte& rhs) const {
 		return ekatteIdx == rhs.ekatteIdx;

@@ -24,6 +24,11 @@ public:
     Date yesterday() const;
     Date tomorrow() const;
 
+    // Counts both dates; throws for invalid dates or a reversed range.
+    int daysToInclusive(const Date& end) const;
+    // Bulgarian wording for 1..999 days; throws outside that range.
+    static std::string daysToBulgarian(int days);
+
     bool isDefault() const;
 
     static Date getBirthdateFromEgn(const std::string& egn);

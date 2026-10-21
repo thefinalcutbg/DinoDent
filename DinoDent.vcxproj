@@ -234,6 +234,7 @@
     <ClCompile Include="src\Model\Dental\HisSnapshot.cpp" />
     <ClCompile Include="src\Model\Dental\TreatmentPlan.cpp" />
     <ClCompile Include="src\Network\BulkRequester.cpp" />
+    <ClCompile Include="src\Network\NRA\NSSISickLeaveService.cpp" />
     <ClCompile Include="src\Network\SMS\Mobica.cpp" />
     <ClCompile Include="src\Network\SMS\SMSMessage.cpp" />
     <ClCompile Include="src\Presenter\PatientHistoryPresenter.cpp" />
@@ -605,6 +606,7 @@
     <ClInclude Include="src\Model\DeclarationTemplate.h" />
     <ClInclude Include="src\Model\SickLeave.h" />
     <ClInclude Include="src\Network\BulkRequester.h" />
+    <ClInclude Include="src\Network\NRA\NSSISickLeaveService.h" />
     <ClInclude Include="src\Network\SMS\Mobica.h" />
     <ClInclude Include="src\Network\SMS\SMSMessage.h" />
     <ClInclude Include="src\Presenter\PatientHistoryPresenter.h" />

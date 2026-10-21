@@ -43,14 +43,6 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 
 
 	QStringList completionList;
-	completionList.reserve(diagnosisList.size());
-
-	for (auto& d : diagnosisList) completionList.append(d.asCString());
-
-	ui->diagDescrEdit->setCompletions(completionList);
-
-	completionList.clear();
-
 	completionList.reserve(ICD10::getDentalICDCodes().size());
 
 	for (auto& d : ICD10::getDentalICDCodes()) {
@@ -90,15 +82,14 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	ui->date->set_Date(notice.date);
 	ui->fromDateEdit->set_Date(notice.startDate);
 	ui->toDateEdit->set_Date(notice.endDate);
-	ui->icdButton->setText(notice.diagnosis.icd.isValid() ? notice.diagnosis.icd.code().c_str() : "МКБ 10");
-	ui->icdEdit->setText(notice.diagnosis.icd.name().c_str());
-	ui->diagDescrEdit->setText(notice.diagnosis.additional_descr.c_str());
+	ui->checkupDate->set_Date(notice.checkup);
+	ui->icdButton->setText(notice.diagnosis.isValid() ? notice.diagnosis.code().c_str() : "МКБ 10");
+	ui->icdEdit->setText(notice.diagnosis.name().c_str());
 	ui->notesEdit->setPlainText(notice.additionalNote.c_str());
 	ui->cityLineEdit->setText(notice.employerCity.getString(false).c_str());
 	ui->empolyerEdit->set_Text(notice.employerName);
 	ui->professionEdit->set_Text(notice.profession);
 	ui->positionEdit->set_Text(notice.position);
-
 	ui->cityLineEdit->setInputValidator(&city_validator);
 	ui->empolyerEdit->setInputValidator(&not_empty_validator);
 	ui->icdEdit->setInputValidator(&icd_validator);
@@ -107,7 +98,7 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 
 		if (!isValid()) return;
 
-		if (m_result->number.size()) {
+		if (m_result->number) {
 			ModalDialogBuilder::showMessage("Болничният лист вече е изпратен към НОИ и промените няма да бъдат запазени");
 			reject();
 			return;
@@ -118,9 +109,9 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 		m_result->date = ui->date->getDate();
 		m_result->startDate = ui->fromDateEdit->getDate();
 		m_result->endDate = ui->toDateEdit->getDate();
+		m_result->checkup = ui->checkupDate->getDate();
 
-		m_result->diagnosis.icd = ICD10(ui->icdButton->text().toStdString());
-		m_result->diagnosis.additional_descr = ui->diagDescrEdit->text().toStdString();
+		m_result->diagnosis = ICD10(ui->icdButton->text().toStdString());
 
 		m_result->additionalNote = ui->notesEdit->toPlainText().toStdString();
 
@@ -128,7 +119,7 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 		m_result->employerName = ui->empolyerEdit->getText();
 		m_result->profession = ui->professionEdit->getText();
 		m_result->position = ui->positionEdit->getText();
-
+		
 		m_result->regimeType = ui->regimeCombo->itemData(ui->regimeCombo->currentIndex()).toInt();
 		m_result->reasonCode = ui->reasonCombo->itemData(ui->reasonCombo->currentIndex()).toInt();
 		m_result->noteCode = ui->noteCombo->itemData(ui->noteCombo->currentIndex()).toInt();

@@ -1,6 +1,8 @@
 ﻿#include "Date.h"
 
 #include <set>
+#include <stdexcept>
+#include <limits>
 #include <QDate>
 #include <json/json.h>
 #include "Resources.h"
@@ -341,3 +343,76 @@ int Date::currentDay() { return QDate::currentDate().day(); }
 int Date::currentMonth() { return QDate::currentDate().month(); }
 int Date::currentYear() { return QDate::currentDate().year(); }
 
+
+int Date::daysToInclusive(const Date& end) const
+{
+    const QDate first(year, month, day);
+    const QDate last(end.year, end.month, end.day);
+
+    if (!first.isValid() || !last.isValid() || last < first) {
+        throw std::invalid_argument("Invalid date range");
+    }
+
+    const auto days = first.daysTo(last) + 1;
+    if (days > std::numeric_limits<int>::max()) {
+        throw std::overflow_error("Date range is too large");
+    }
+
+    return static_cast<int>(days);
+}
+
+std::string Date::daysToBulgarian(int days)
+{
+    if (days < 1 || days > 999) {
+        return ("Невалиден брой дни");
+    }
+
+    static const std::string units[] = {
+        "", "един", "два", "три", "четири",
+        "пет", "шест", "седем", "осем", "девет"
+    };
+
+    static const std::string teens[] = {
+        "десет", "единадесет", "дванадесет", "тринадесет",
+        "четиринадесет", "петнадесет", "шестнадесет",
+        "седемнадесет", "осемнадесет", "деветнадесет"
+    };
+
+    static const std::string tens[] = {
+        "", "", "двадесет", "тридесет", "четиридесет",
+        "петдесет", "шестдесет", "седемдесет", "осемдесет", "деветдесет"
+    };
+
+    static const std::string hundreds[] = {
+        "", "сто", "двеста", "триста", "четиристотин",
+        "петстотин", "шестстотин", "седемстотин", "осемстотин", "деветстотин"
+    };
+
+    std::string result;
+
+    if (days >= 100) {
+        result = hundreds[days / 100];
+        days %= 100;
+
+        if (days == 0) return result;
+
+        // "сто и пет", "сто и двадесет", but "сто двадесет и пет".
+        if (days < 20 || days % 10 == 0) {
+            result += " и ";
+        }
+        else {
+            result += " ";
+        }
+    }
+
+    if (days < 10) return result + units[days];
+    if (days < 20) return result + teens[days - 10];
+
+    result += tens[days / 10];
+
+    if (days % 10 != 0) {
+        result += " и " + units[days % 10];
+    }
+
+    return result;
+}

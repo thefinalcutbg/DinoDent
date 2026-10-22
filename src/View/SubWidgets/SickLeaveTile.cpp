@@ -30,6 +30,7 @@ SickLeaveTile::SickLeaveTile(const SickLeave& notice, int index, QWidget* parent
 
 	ui->numLabel->setText(numLabelText);
 	ui->nssiButton->setHidden(notice.number);
+	ui->printButton->setHidden(!notice.number);
 	
 	ui->dateLabel->setText("<b>Дата:</b> " + QString::fromStdString(notice.date.toBgStandard(true)));
 	ui->title->setText("<b>Болничен лист</b>");

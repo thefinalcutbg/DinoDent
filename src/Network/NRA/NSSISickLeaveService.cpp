@@ -1,16 +1,16 @@
 #include "NSSISickLeaveService.h"
+
+#include <TinyXML/tinyxml.h>
+
 #include "View/ModalDialogBuilder.h"
 #include "Network/GetHSM.h"
 #include "Network/NetworkManager.h"
 #include "Model/User.h"
 #include "Model/FreeFunctions.h"
 
-void NSSISickLeaveService::parseReply(const std::string& reply)
-{
-	ModalDialogBuilder::showMultilineDialog(reply);
-}
 
-std::string tag(const std::string& name, const std::string& value)
+
+std::string NSSISickLeaveService::tag(const std::string& name, const std::string& value)
 {
     std::string escaped;
 
@@ -26,29 +26,12 @@ std::string tag(const std::string& name, const std::string& value)
     return "<" + name + ">" + escaped + "</" + name + ">";
 }
 
-std::string tag(const std::string& name, long long value)
+std::string NSSISickLeaveService::tag(const std::string& name, long long value)
 {
     return tag(name, std::to_string(value));
 }
 
-std::pair<std::string, std::string> splitName(const std::string& text)
-{
-    auto start = text.find_first_not_of(" \t\r\n");
-    if (start == std::string::npos) return {};
-
-    auto separator = text.find_first_of(" \t\r\n-", start);
-    if (separator == std::string::npos)
-        return { text.substr(start), "" };
-
-    auto rest = text.find_first_not_of(" \t\r\n-", separator);
-
-    return {
-        text.substr(start, separator - start),
-        rest == std::string::npos ? "" : text.substr(rest)
-    };
-}
-
-std::string regimenXml(int regimeType, int days)
+std::string  NSSISickLeaveService::regimenXml(int regimeType, int days)
 {
     if (regimeType < 1 || regimeType > 7 || days < 1 || days > 999) {
         return "Невалиден режим или брой дни";
@@ -83,13 +66,15 @@ std::string regimenXml(int regimeType, int days)
     return xml;
 }
 
-bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& sickLeave, const std::string& nrn, const std::string& deleteReason)
+bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& sickLeave, const std::string& nrn, const std::string& deleteReason, decltype(m_callback) callback)
 {
 	if (awaiting_reply) return true;
 
 	auto hsm = GetHSM::get(show_dialogs);
 
 	if (!hsm) { return false; }
+
+    m_callback = callback;
 
     auto currentDate = Date::currentDate();
 
@@ -103,7 +88,6 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
     query.reserve(5000);
 
     auto& practice = User::practice();
-    auto [ptype, pname] = splitName(practice.name);
     auto& doctor = User::doctor();
 
     auto& q = query;
@@ -320,4 +304,165 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
     );
 
     return true;
+}
+
+std::string elementText(TiXmlElement* parent, const char* name)
+{
+    TiXmlElement* element = parent->FirstChildElement(name);
+    const char* text = element ? element->GetText() : nullptr;
+    return text ? text : "";
+}
+
+static void appendXmlText(const TiXmlNode* node, std::string& output)
+{
+    if (!node) return;
+
+    if (const TiXmlText* text = node->ToText()) {
+        const std::string value = text->Value();
+
+        if (value.find_first_not_of(" \t\r\n") != std::string::npos) {
+            if (!output.empty()) output += '\n';
+            output += value;
+        }
+        return;
+    }
+
+    for (const TiXmlNode* child = node->FirstChild();
+         child;
+         child = child->NextSibling()) {
+        appendXmlText(child, output);
+    }
+}
+
+static std::string sectionText(TiXmlElement* parent, const char* name)
+{
+    std::string text;
+    if (parent) {
+        appendXmlText(parent->FirstChildElement(name), text);
+    }
+    return text;
+}
+
+void NSSISickLeaveService::parseReply(const std::string& reply)
+{
+    auto cb = std::move(m_callback);
+
+    const auto showReadError = []() {
+        ModalDialogBuilder::showMessage(
+            "Грешка при прочитане на отговора от НОИ.");
+    };
+
+    TiXmlDocument soap;
+    soap.Parse(reply.c_str(), nullptr, TIXML_ENCODING_UTF8);
+
+    if (soap.Error()) { showReadError(); return; }
+
+    TiXmlElement* envelope = soap.RootElement();
+    TiXmlElement* body = envelope ? envelope->FirstChildElement("soap:Body") : nullptr;
+    TiXmlElement* fault = body ? body->FirstChildElement("soap:Fault") : nullptr;
+
+    if (fault) {
+        std::string message = elementText(fault, "faultstring");
+        std::string detail = sectionText(fault, "detail");
+
+        if (message.empty()) {
+            message = "Грешка при обработка на заявката от НОИ.";
+        }
+
+        if (!detail.empty()) {
+            message += "\n\n" + detail;
+        }
+
+        ModalDialogBuilder::showError(message);
+        return;
+    }
+
+    TiXmlElement* response = body ? body->FirstChildElement("ePCLoadSaveXMLNewResponse") : nullptr;
+    TiXmlElement* payload = response ? response->FirstChildElement("ePCLoadSaveXMLNewResult") : nullptr;
+
+    if (!payload) { showReadError(); return; }
+
+    TiXmlDocument inner;
+    TiXmlElement* root = payload->FirstChildElement("root");
+
+    // If there is no nested root, parse the escaped XML text.
+    if (!root) {
+        const char* xmlText = payload->GetText();
+
+        if (!xmlText) { showReadError(); return; }
+
+        inner.Parse(xmlText, nullptr, TIXML_ENCODING_UTF8);
+
+        if (inner.Error()) { showReadError(); return; }
+
+        root = inner.RootElement();
+    }
+
+    TiXmlElement* result = root ? root->FirstChildElement("result") : nullptr;
+
+    if (!result) { showReadError(); return; }
+
+    std::string systemError = elementText(result, "SysError");
+
+    if (systemError.find_first_not_of(" \t\r\n") != std::string::npos) {
+        ModalDialogBuilder::showError(systemError);
+        return;
+    }
+
+    std::string errorMessage;
+
+    const auto collectErrors = [&](const char* sectionName) {
+        TiXmlElement* rejected = result->FirstChildElement(sectionName);
+
+        for (TiXmlElement* pc = rejected
+                 ? rejected->FirstChildElement("PC") : nullptr;
+             pc;
+             pc = pc->NextSiblingElement("PC"))
+        {
+            TiXmlElement* errors = pc->FirstChildElement("Errors");
+
+            for (TiXmlElement* error = errors
+                     ? errors->FirstChildElement("Error") : nullptr;
+                 error;
+                 error = error->NextSiblingElement("Error"))
+            {
+                const std::string text = elementText(error, "ErrText");
+
+                if (!text.empty()) {
+                    if (!errorMessage.empty()) errorMessage += "\n";
+                    errorMessage += text;
+                }
+            }
+        }
+    };
+
+    collectErrors("A_III_1_ErrDetails"); // Error on submition
+    collectErrors("A_III_2_ErrDetails"); // Error on cancellation
+
+    if (!errorMessage.empty()) {
+        ModalDialogBuilder::showError(errorMessage);
+    }
+
+    const auto notifyAccepted = [&](const char* sectionName,
+                                    const char* detailsName) {
+        TiXmlElement* accepted = result->FirstChildElement(sectionName);
+        TiXmlElement* details = accepted
+            ? accepted->FirstChildElement(detailsName) : nullptr;
+
+        for (TiXmlElement* pc = details
+                 ? details->FirstChildElement("PC") : nullptr;
+             pc;
+             pc = pc->NextSiblingElement("PC"))
+                    {
+            const std::string sickLeaveNumber =
+                elementText(pc, "PatientsChartNumber");
+
+            if (cb && sickLeaveNumber.size() > 1) {
+                cb(std::stoll(sickLeaveNumber.substr(1)));
+            }
+        }
+    };
+
+    notifyAccepted("A_I_1", "A_I_1_Details");
+    notifyAccepted("A_II_1", "A_II_1_Details");
 }

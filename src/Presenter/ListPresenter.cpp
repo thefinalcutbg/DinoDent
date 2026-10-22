@@ -1816,6 +1816,8 @@ void ListPresenter::createSickLeave()
     m_amblist.sickLeave_notices.push_back(result.value());
     DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
     view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
+
+    sendSickLeaveToNSSI(m_amblist.sickLeave_notices.size() - 1);
 }
 
 void ListPresenter::editSickLeave(int index)
@@ -1849,7 +1851,21 @@ void ListPresenter::removeSickLeave(int index)
 
     if (reason.empty()) return;
 
-    sickLeaveService.sendRequest(*patient.get(), sl, m_amblist.nrn, reason);
+    sickLeaveService.sendRequest(*patient.get(), sl, m_amblist.nrn, reason, [=, this](long long number) {
+
+        if (!number) return;
+
+        m_amblist.sickLeave_notices[index].isCancelled = true;
+
+        DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
+
+         ModalDialogBuilder::showMessage("Болничният лист е анулиран успешно");
+
+        if (!isCurrent()) return;
+
+        view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
+
+    });
 }
 
 void ListPresenter::printSickLeave(int index)
@@ -1864,14 +1880,32 @@ void ListPresenter::sendSickLeaveToNSSI(int index)
     }
 
     auto& sl = m_amblist.sickLeave_notices[index];
-    sl.number = DbSickLeave::getNumber();
+    auto number = DbSickLeave::getNumber();
 
-    if (!sl.number) {
+    if (!number) {
         ModalDialogBuilder::showMessage("Не са открити свободни номера за болнични листове");
         return;
     }
 
-    sickLeaveService.sendRequest(*patient.get(), sl, m_amblist.nrn);
+    sl.number = number; //setting temporary number
+
+    sickLeaveService.sendRequest(*patient.get(), sl, m_amblist.nrn, {}, [=, this](long long number) {
+
+        if (!number) return;
+
+        m_amblist.sickLeave_notices[index].number = number;
+
+        DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
+
+        ModalDialogBuilder::showMessage("Болничният лист е изпратен успешно");
+
+        if (!isCurrent()) return;
+
+        view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
+
+    });
+
+    sl.number = 0; //resetting it back, because we have to take it from the callback to be sure
 }
 
 void ListPresenter::printDeclarations()

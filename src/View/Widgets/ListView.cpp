@@ -436,6 +436,9 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 	}
 
 	for (std::size_t i = 0; i < sickNotices.size(); i++) {
+
+		if (sickNotices[i].isCancelled) continue;
+
 		SickLeaveTile* sickNotice = new SickLeaveTile(sickNotices[i], i, this);
 		connect(sickNotice, &SickLeaveTile::remove, this, [=, this](int index) {presenter->removeSickLeave(index); });
 		connect(sickNotice, &SickLeaveTile::clicked, this, [=, this](int index) {presenter->editSickLeave(index); });

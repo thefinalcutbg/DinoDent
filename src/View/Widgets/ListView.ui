@@ -927,25 +927,6 @@
           </widget>
          </item>
          <item>
-          <widget class="BigPushButton" name="sickLeaveButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Болничен лист</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="BigPushButton" name="medicalNoticeButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -996,6 +977,31 @@
           </widget>
          </item>
          <item>
+          <widget class="BigPushButton" name="addRefButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Направление</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_6">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
@@ -1032,31 +1038,6 @@
           </spacer>
          </item>
          <item>
-          <widget class="BigPushButton" name="addRefButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>200</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Направление</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="BigPushButton" name="invoiceButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1078,6 +1059,25 @@
            </property>
            <property name="text">
             <string>Фактура    </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="BigPushButton" name="sickLeaveButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Болничен лист</string>
            </property>
           </widget>
          </item>

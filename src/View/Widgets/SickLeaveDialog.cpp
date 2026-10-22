@@ -3,11 +3,14 @@
 #include "View/ModalDialogBuilder.h"
 #include <json/json.h>
 #include "Resources.h"
+#include "Presenter/NewDocPresenter.h" 
+#include "Database/DbPatient.h" 
 
 SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	: QDialog(nullptr)
 	, ui(new Ui::SickLeaveDialogClass())
 	, m_result(notice)
+
 {
 	ui->setupUi(this);
 
@@ -25,6 +28,10 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 		ui->noteCombo->addItem(QString::fromStdString(descr), idx);
 	}
 
+	for (auto [idx, descr] : SickLeave::relationships) {
+		ui->relationshipCombo->addItem(QString::fromStdString(descr), idx);
+	}
+
 	connect(ui->icdButton, &QPushButton::clicked, this, [&] {
 
 			auto result = ModalDialogBuilder::icdDialog(ui->icdButton->text().toStdString());
@@ -36,11 +43,12 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 			}
 	});
 
+	connect(ui->caregiverButton, &QPushButton::clicked, this, [&] { addCaregiver(); });
+
 	//setting autocomplete diagnosis
 	Json::Value diagnosisList;
 
 	Json::Reader().parse(Resources::fromPath(":/json/json_diagnosisText.json"), diagnosisList);
-
 
 	QStringList completionList;
 	completionList.reserve(ICD10::getDentalICDCodes().size());
@@ -61,6 +69,9 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 
 	});
 
+	connect(ui->reasonCombo, &QComboBox::currentIndexChanged, this, [&] { caregiverLogic(); });
+	connect(ui->noteCombo, &QComboBox::currentIndexChanged, this, [&] { caregiverLogic(); });
+
 	auto setComboIndexByUserValue = [](QComboBox* combo, int index) {
 
 		for (int i = 0; i < combo->count(); i++) {
@@ -71,6 +82,7 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 		}
 	};
 
+	setComboIndexByUserValue(ui->relationshipCombo, notice.relationship);
 	setComboIndexByUserValue(ui->reasonCombo, notice.reasonCode);
 	setComboIndexByUserValue(ui->noteCombo, notice.noteCode);
 	setComboIndexByUserValue(ui->regimeCombo, notice.regimeType);
@@ -92,7 +104,21 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	ui->positionEdit->set_Text(notice.position);
 	ui->cityLineEdit->setInputValidator(&city_validator);
 	ui->empolyerEdit->setInputValidator(&not_empty_validator);
+	ui->professionEdit->setInputValidator(&not_empty_validator);
+	ui->positionEdit->setInputValidator(&not_empty_validator);
 	ui->icdEdit->setInputValidator(&icd_validator);
+
+	caregiverLogic();
+
+	m_caregiver_rowid = notice.caregiver_rowid;
+
+	ui->relationshipCombo->setDisabled(!m_caregiver_rowid);
+
+	if (m_caregiver_rowid) {
+		auto p = DbPatient::get(m_caregiver_rowid);
+		ui->caregiverButton->setText(p.firstLastName().c_str());
+		
+	}
 
 	connect(ui->okButton, &QPushButton::clicked, this, [&] {
 
@@ -119,16 +145,18 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 		m_result->employerName = ui->empolyerEdit->getText();
 		m_result->profession = ui->professionEdit->getText();
 		m_result->position = ui->positionEdit->getText();
-		
+		m_result->caregiver_rowid = m_caregiver_rowid;
 		m_result->regimeType = ui->regimeCombo->itemData(ui->regimeCombo->currentIndex()).toInt();
 		m_result->reasonCode = ui->reasonCombo->itemData(ui->reasonCombo->currentIndex()).toInt();
 		m_result->noteCode = ui->noteCombo->itemData(ui->noteCombo->currentIndex()).toInt();
-
+		m_result->relationship = ui->relationshipCombo->itemData(ui->relationshipCombo->currentIndex()).toInt();
 		m_result->isContinuation = ui->continuationCheck->isChecked();
 
 		accept();
 
 	});
+
+	ui->icdEdit->setFocus();
 }
 
 bool SickLeaveDialog::isValid() 
@@ -136,7 +164,9 @@ bool SickLeaveDialog::isValid()
 	AbstractUIElement* validatableUI[] = {
 		ui->icdEdit,
 		ui->empolyerEdit,
-		ui->cityLineEdit
+		ui->cityLineEdit,
+		ui->professionEdit,
+		ui->positionEdit
 	};
 
 	for (auto e : validatableUI) {
@@ -150,6 +180,37 @@ bool SickLeaveDialog::isValid()
 	}
 
 	return true;
+}
+
+void SickLeaveDialog::addCaregiver()
+{
+	auto parent = NewDocPresenter("Избор на получател на болничния лист").open();
+
+	if (!parent) return;
+
+	ui->caregiverButton->setText(parent->firstLastName().c_str());
+
+	m_caregiver_rowid = parent->rowid;
+
+	ui->relationshipCombo->setDisabled(false);
+
+}
+
+void SickLeaveDialog::caregiverLogic()
+{
+	auto reasonCode = ui->reasonCombo->itemData(ui->reasonCombo->currentIndex()).toInt();
+	auto noteCode = m_result->noteCode = ui->noteCombo->itemData(ui->noteCombo->currentIndex()).toInt();
+
+	bool showCaregiver = reasonCode == 26 || reasonCode == 27 || noteCode == 10 || noteCode == 11;
+
+	if (!showCaregiver == ui->caregiverFrame->isHidden()) return;
+
+	ui->caregiverFrame->setHidden(!showCaregiver);
+
+	//simply resetting everything
+	ui->relationshipCombo->setDisabled(true);
+	m_caregiver_rowid = 0;
+	ui->caregiverButton->setText("Добави получател на болничния лист");
 }
 
 void SickLeaveDialog::paintEvent(QPaintEvent* e)

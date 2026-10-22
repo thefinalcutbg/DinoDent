@@ -19,9 +19,12 @@ class SickLeaveDialog : public QDialog
 	NotEmptyValidator not_empty_validator;
 	CityValidator city_validator;
 	ICDValidator icd_validator{ false };
-
+	void caregiverLogic();
 	void paintEvent(QPaintEvent* e) override;
 	bool isValid();
+	void addCaregiver();
+
+	long long m_caregiver_rowid = 0;
 
 public:
 	SickLeaveDialog(const SickLeave& notice);

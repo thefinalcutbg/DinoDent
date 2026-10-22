@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>605</width>
-    <height>654</height>
+    <width>675</width>
+    <height>648</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,12 +42,12 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>3</hour>
+            <hour>13</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
             <month>12</month>
-            <day>24</day>
+            <day>23</day>
            </datetime>
           </property>
           <property name="minimumDate">
@@ -215,7 +215,7 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>23</hour>
+            <hour>9</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
@@ -331,7 +331,7 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>21</hour>
+            <hour>7</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
@@ -522,6 +522,60 @@
         <property name="placeholderText">
          <string>Уточнения в свободен текст</string>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="caregiverFrame">
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Plain</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="caregiverButton">
+           <property name="text">
+            <string>Добави получател на болничния лист</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_13">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Родствена връзка на пациента с получателя:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="relationshipCombo">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

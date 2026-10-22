@@ -7,7 +7,7 @@
 #include "Network/NetworkManager.h"
 #include "Model/User.h"
 #include "Model/FreeFunctions.h"
-
+#include "Database/DbPatient.h"
 
 
 std::string NSSISickLeaveService::tag(const std::string& name, const std::string& value)
@@ -89,6 +89,7 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
 
     auto& practice = User::practice();
     auto& doctor = User::doctor();
+    auto recipient = sickLeave.caregiver_rowid ? DbPatient::get(sickLeave.caregiver_rowid) : patient;
 
     auto& q = query;
 
@@ -124,20 +125,20 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
 
         q += "<Insured>";
             q += "<InsuredNames>";
-            q += tag("FirstName", patient.FirstName);
-            q += tag("SurName", patient.MiddleName);
-            q += tag("FamilyName", patient.LastName);
+            q += tag("FirstName", recipient.FirstName);
+            q += tag("SurName", recipient.MiddleName);
+            q += tag("FamilyName", recipient.LastName);
             q += "</InsuredNames>";
 
-        q += tag("EGN", patient.id);
-        q += tag("FlagEGN", patient.type == Patient::EGN ? 0 : 2);
-        q += tag("EGNAge", patient.getAge(sickLeave.date));
-        q += tag("Sex", patient.sex);
+        q += tag("EGN", recipient.id);
+        q += tag("FlagEGN", recipient.type == Patient::EGN ? 0 : 2);
+        q += tag("EGNAge", recipient.getAge(sickLeave.date));
+        q += tag("Sex", recipient.sex);
 
         q += "<InsuredAddress>";
-            q += tag("PatientsAddressObl", patient.city.getRegionCode());
-            q += tag("PatientsAddressCity", patient.city.getString());
-            q += tag("PatientsAddress", patient.address);
+            q += tag("PatientsAddressObl", recipient.city.getRegionCode());
+            q += tag("PatientsAddressCity", recipient.city.getString());
+            q += tag("PatientsAddress", recipient.address);
         q += "</InsuredAddress>";
         q += "</Insured>";
 
@@ -192,7 +193,29 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
 <PregnancyDeliveryDate_Month/>
 <PregnancyDeliveryDate_Year/>
 </PregnancyDeliveryDate>
+)xml";
 
+        if (sickLeave.caregiver_rowid) {
+            q += "<SickFamilyMember>";
+            q += tag("TypeSickCode", sickLeave.relationship);
+            q += tag("TypeSickName", sickLeave.relationships.at(sickLeave.relationship));
+            q += "<SickFamilyMemberNames>";
+            q += tag("NamesSick_FirstName", patient.FirstName);
+            q += tag("NamesSick_SurName", patient.MiddleName);
+            q += tag("NamesSick_FamilyName", patient.LastName);
+            q += "</SickFamilyMemberNames>";
+            q += tag("EGNSick", patient.id);
+            q += tag("FlagEGNSick", patient.type == Patient::EGN ? 0 : 2);
+            q += "</SickFamilyMember>";
+
+            q += "<DateMedicalCheck>";
+            q += tag("DateMedicalCheckDay", sickLeave.checkup.day);
+            q += tag("DateMedicalCheckMonth", sickLeave.checkup.month);
+            q += tag("DateMedicalCheckYear", sickLeave.checkup.year);
+            q += "</DateMedicalCheck>";
+        }
+        else {
+                   q+= +R"xml(
 <SickFamilyMember>
 <TypeSickCode/>
 <TypeSickName/>
@@ -207,12 +230,8 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
 <FlagEGNSick/>
 </SickFamilyMember>
 )xml";
+        }
 
-        q += "<DateMedicalCheck>";
-            q += tag("DateMedicalCheckDay", sickLeave.checkup.day);
-            q += tag("DateMedicalCheckMonth", sickLeave.checkup.month);
-            q += tag("DateMedicalCheckYear", sickLeave.checkup.year);
-        q += "</DateMedicalCheck>";
 
         q += R"xml(
 <LKKDecision>

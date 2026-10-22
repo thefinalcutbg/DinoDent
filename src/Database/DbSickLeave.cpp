@@ -33,7 +33,7 @@ std::vector<SickLeave> DbSickLeave::getSickLeave(long long ambListId, Db& db)
     db.newStatement(
         "SELECT rowid, number, date, is_continuation, regime_type, "
         "start_date, end_date, diagnosis, reason_code, employer_name, "
-        "employer_city, profession, position, note_code, additional_note, is_cancelled, checkup_date "
+        "employer_city, profession, position, note_code, additional_note, is_cancelled, checkup_date, caregiver_rowid, relationship "
         "FROM sick_leave WHERE amblist_rowid=? ORDER BY rowid"
     );
 
@@ -63,6 +63,8 @@ std::vector<SickLeave> DbSickLeave::getSickLeave(long long ambListId, Db& db)
         s.additionalNote = db.asString(14);
         s.isCancelled = db.asBool(15);
         s.checkup = db.asString(16);
+        s.caregiver_rowid = db.asRowId(17);
+        s.relationship = db.asInt(18);
     }
 
     return result;
@@ -86,8 +88,8 @@ void DbSickLeave::saveSickLeave(const std::vector<SickLeave>& sickLeave, long lo
             "INSERT INTO sick_leave "
             "(amblist_rowid, number, date, is_continuation, regime_type, "
             "start_date, end_date, diagnosis, reason_code, employer_name, "
-            "employer_city, profession, position, note_code, additional_note, is_cancelled, checkup_date) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            "employer_city, profession, position, note_code, additional_note, is_cancelled, checkup_date, caregiver_rowid, relationship) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );
 
         db.bind(1, ambListId);
@@ -107,6 +109,14 @@ void DbSickLeave::saveSickLeave(const std::vector<SickLeave>& sickLeave, long lo
         db.bind(15, s.additionalNote);
         db.bind(16, s.isCancelled);
         db.bind(17, s.checkup.to8601());
+        if (s.caregiver_rowid) {
+            db.bind(18, s.caregiver_rowid);
+            db.bind(19, s.relationship);
+        }
+        else {
+            db.bindNull(18);
+            db.bindNull(19);
+        }
 
         db.execute();
     }

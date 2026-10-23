@@ -443,6 +443,7 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 		connect(sickNotice, &SickLeaveTile::remove, this, [=, this](int index) {presenter->removeSickLeave(index); });
 		connect(sickNotice, &SickLeaveTile::clicked, this, [=, this](int index) {presenter->editSickLeave(index); });
 		connect(sickNotice, &SickLeaveTile::print,  this, [=, this](int index) {presenter->printSickLeave(index); });
+		connect(sickNotice, &SickLeaveTile::saveAsPdf, this, [=, this](int index) {presenter->saveSickLeaveAsPDF(index); });
 		connect(sickNotice, &SickLeaveTile::sendToNSSI, this, [=, this](int index) {presenter->sendSickLeaveToNSSI(index); });
 		ui.docsLayout->addWidget(sickNotice);
 		shadowTargets.push_back(sickNotice);

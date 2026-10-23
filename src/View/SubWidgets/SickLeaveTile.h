@@ -29,6 +29,7 @@ signals:
 	void print(int index);
 	void remove(int index);
 	void sendToNSSI(int index);
+	void saveAsPdf(int index);
 
 private:
 	Ui::SickLeaveTileClass *ui;

@@ -134,6 +134,7 @@ public:
     void editSickLeave(int index);
     void removeSickLeave(int index);
     void printSickLeave(int index);
+    void saveSickLeaveAsPDF(int index);
     void sendSickLeaveToNSSI(int index);
 
     void setNhifData(const NhifSheetData& data);

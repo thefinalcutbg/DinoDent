@@ -15,12 +15,15 @@ SickLeaveTile::SickLeaveTile(const SickLeave& notice, int index, QWidget* parent
 	ui->printButton->setIcon(QIcon(":/icons/icon_print.png"));
 	ui->deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui->nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
+	ui->pdfButton->setIcon(QIcon(":/icons/icon_pdf.png"));
 
 	ui->printButton->setGraphicsEffect(nullptr);
 	ui->deleteButton->setGraphicsEffect(nullptr);
 	ui->nssiButton->setGraphicsEffect(nullptr);
+	ui->pdfButton->setGraphicsEffect(nullptr);
 
 	ui->printButton->setHoverColor(Theme::mainBackgroundColor);
+	ui->pdfButton->setHoverColor(Theme::mainBackgroundColor);
 	ui->deleteButton->setHoverColor(Theme::fontRedClicked);
 	ui->nssiButton->setHoverColor(Theme::mainBackgroundColor);
 
@@ -31,6 +34,7 @@ SickLeaveTile::SickLeaveTile(const SickLeave& notice, int index, QWidget* parent
 	ui->numLabel->setText(numLabelText);
 	ui->nssiButton->setHidden(notice.number);
 	ui->printButton->setHidden(!notice.number);
+	ui->pdfButton->setHidden(!notice.number);
 	
 	ui->dateLabel->setText("<b>Дата:</b> " + QString::fromStdString(notice.date.toBgStandard(true)));
 	ui->title->setText("<b>Болничен лист</b>");
@@ -43,6 +47,7 @@ SickLeaveTile::SickLeaveTile(const SickLeave& notice, int index, QWidget* parent
 	connect(ui->printButton, &QPushButton::clicked, [&] { print(m_index); });
 	connect(ui->deleteButton, &QPushButton::clicked, [&] { remove(m_index); });
 	connect(ui->nssiButton, &QPushButton::clicked, [&] { sendToNSSI(m_index); });
+	connect(ui->pdfButton, &QPushButton::clicked, [&] { saveAsPdf(m_index); });
 	
 }
 void SickLeaveTile::paintEvent(QPaintEvent*)

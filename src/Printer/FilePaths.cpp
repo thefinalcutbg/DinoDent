@@ -8,6 +8,7 @@
 #include "Model/Prescription/Prescription.h"
 #include "Model/Financial/Invoice.h"
 #include "Model/Dental/TreatmentPlan.h"
+#include "Model/SickLeave.h"
 #include "View/ModalDialogBuilder.h"
 
 std::vector<DirType> subdir_structure;
@@ -125,6 +126,13 @@ std::string FilePaths::get(const Invoice& invoice)
     filename += ".pdf";
     return getPath(subdir, filename);
 
+}
+
+std::string FilePaths::get(const SickLeave& sickLeave, const Patient& patient)
+{
+    auto filename = "SICKLEAVE_E" + std::to_string(sickLeave.number) + ".pdf";
+
+    return getPath(patient, sickLeave.date, "Болнични листове", filename);
 }
 
 std::string FilePaths::get(DeclarationType declType, const Patient& patient)

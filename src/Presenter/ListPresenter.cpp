@@ -1870,6 +1870,18 @@ void ListPresenter::removeSickLeave(int index)
 
 void ListPresenter::printSickLeave(int index)
 {
+    Print::sickLeave(*patient.get(), m_amblist.sickLeave_notices.at(index), m_amblist.nrn, std::string());
+}
+
+void ListPresenter::saveSickLeaveAsPDF(int index)
+{
+    auto path = FilePaths::get(m_amblist.sickLeave_notices.at(index), *patient.get());
+
+    bool success = Print::sickLeave(*patient.get(), m_amblist.sickLeave_notices.at(index), m_amblist.nrn, path);
+
+    if (success) {
+        ModalDialogBuilder::openExplorer(path);
+    }
 }
 
 void ListPresenter::sendSickLeaveToNSSI(int index)

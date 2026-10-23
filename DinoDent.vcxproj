@@ -252,6 +252,7 @@
     <ClCompile Include="src\Printer\Implementation\PrintPriceList.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintPrv.cpp" />
     <ClCompile Include="src\Printer\Implementation\PrintReferral.cpp" />
+    <ClCompile Include="src\Printer\Implementation\PrintSickLeave.cpp" />
     <ClCompile Include="src\Printer\SignatureTablet.cpp" />
     <ClCompile Include="src\Network\GetHSM.cpp" />
     <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp" />

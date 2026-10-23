@@ -1104,6 +1104,12 @@
     <ClCompile Include="src\Database\DbSickLeave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\NRA\NSSISickLeaveService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer\Implementation\PrintSickLeave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\SqliteBackend.h">
@@ -1863,6 +1869,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbSickLeave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NRA\NSSISickLeaveService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

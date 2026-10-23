@@ -12,6 +12,7 @@ class ProcedureTemplateModel;
 struct Prescription;
 struct TreatmentPlan;
 struct DeclarationTemplate;
+struct SickLeave;
 
 namespace Print
 {
@@ -38,6 +39,7 @@ namespace Print
 	bool printDeclarationTemplate(const DeclarationTemplate& d, const Patient& p, const std::string& pdfFilename = {});
 	void previewDeclarationTemplate(const DeclarationTemplate& d);
 	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
+	bool sickLeave(const Patient& p, const SickLeave& sickLeave, const std::string& nrn, const std::string filename);
 
 	//empty stuff
 	void consent();

@@ -45,7 +45,7 @@ namespace Print
 	void consent();
 	void gdpr();
 	void ambList();
-
+	void sickLeave();
 
 	void saveFsicalReportToPDF(const FiscalReport& report);
 	void saveNhifSpecReport(const NhifSpecReport& report);

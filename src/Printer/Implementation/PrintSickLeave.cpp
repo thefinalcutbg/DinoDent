@@ -15,7 +15,7 @@ bool Print::sickLeave(const Patient& p, const SickLeave& sickLeave, const std::s
 
 	 report.dataManager()->setReportVariable("sickNumber", "E" +  QString::number(sickLeave.number));
 	 report.dataManager()->setReportVariable("nrn", nrn.c_str());
-	 report.dataManager()->setReportVariable("address_by_activity", User::practice().practice_address.getString().c_str());
+	 report.dataManager()->setReportVariable("address_by_activity", User::practice().practice_address.getString().c_str() + QString(" ") + User::practice().street_address.c_str());
 	 report.dataManager()->setReportVariable(recipient.type == Patient::EGN ? "egn" : "lnch", "X");
 	 report.dataManager()->setReportVariable(recipient.type == Patient::Male ? "male" : "female", "X");
 	 report.dataManager()->setReportVariable(sickLeave.isContinuation ? "continuation" : "primary", "X");
@@ -73,4 +73,23 @@ bool Print::sickLeave(const Patient& p, const SickLeave& sickLeave, const std::s
 
 	 return PrintPrv::printLogic(report, filename);
 
+}
+
+
+void Print::sickLeave()
+{
+    auto report = LimeReport::ReportEngine();
+
+	auto& practice = User::practice();
+	auto& doctor = User::doctor();
+	
+    report.loadFromFile(":/reports/report_sickLeave.lrxml");
+
+	report.dataManager()->setReportVariable("practiceName", QString::fromStdString(practice.name));
+	report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
+	report.dataManager()->setReportVariable("address_by_activity", User::practice().practice_address.getString().c_str() + QString(" ") + practice.street_address.c_str());
+    report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
+
+	report.printReport();
 }

@@ -1,7 +1,7 @@
 #include "PrintPrv.h"
 
 #include "View/TableModels/ProcedureTableModel.h"
-
+#include "Model/SickLeave.h"
 bool Print::ambList(
     const AmbList& amb,
     const Patient& patient,

@@ -193,6 +193,7 @@ HEADERS += \
     src/Network/IRC/IRC.h \
     src/Network/IRC/IRCInterface.h \
     src/Network/IRC/Nickname.h \
+    src/Network/NRA/NSSISickLeaveService.h \
     src/Network/NRA/NraStatusService.h \
     src/Network/NRA/NssiPentionService.h \
     src/Network/NetworkManager.h \
@@ -556,6 +557,7 @@ SOURCES += \
     src/Network/IRC/IRC.cpp \
     src/Network/IRC/IRCInterface.cpp \
     src/Network/IRC/Nickname.cpp \
+    src/Network/NRA/NSSISickLeaveService.cpp \
     src/Network/NRA/NraStatusService.cpp \
     src/Network/NRA/NssiPentionService.cpp \
     src/Network/NetworkManager.cpp \
@@ -629,6 +631,7 @@ SOURCES += \
     src/Printer/Implementation/PrintPriceList.cpp \
     src/Printer/Implementation/PrintPrv.cpp \
     src/Printer/Implementation/PrintReferral.cpp \
+    src/Printer/Implementation/PrintSickLeave.cpp \
     src/Printer/SignatureTablet.cpp \
 	src/Printer/SignotecDriver.cpp \
     src/Resources.cpp \

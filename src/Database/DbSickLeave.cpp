@@ -28,10 +28,8 @@ long long DbSickLeave::getNumber()
     return next;
 }
 
-long long DbSickLeave::getFreeNumberCount()
+long long DbSickLeave::getFreeNumberCount(long long first, long long last)
 {
-    const auto& [first, last] = User::practice().sickLeaveNumbers;
-
     if (first <= 0 || last < first) return 0;
 
     Db db(

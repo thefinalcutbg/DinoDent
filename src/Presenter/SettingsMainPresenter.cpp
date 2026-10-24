@@ -413,9 +413,9 @@ void SettingsMainPresenter::hisImport()
 	his_fetch_service.sendRequest(nrn, importToDb);
 }
 
-void SettingsMainPresenter::checkSickLeaveAvailability()
+void SettingsMainPresenter::checkSickLeaveAvailability(long long from, long long to)
 {
-	auto count = DbSickLeave::getFreeNumberCount();
+	auto count = DbSickLeave::getFreeNumberCount(from, to);
 
 	if (!count) {
 		ModalDialogBuilder::showMessage("Не са открити свободни уникални номера за болнични листове");

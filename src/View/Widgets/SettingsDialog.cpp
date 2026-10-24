@@ -185,7 +185,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	});
 
 	connect(ui.remainingSickLeaveButton, &QPushButton::clicked, this, [&] {
-		presenter.checkSickLeaveAvailability();
+		presenter.checkSickLeaveAvailability(ui.sickLeaveFrom->value(), ui.sickLeaveTo->value());
 	});
 
 	connect(ui.declarationList, &QListWidget::itemDoubleClicked, this, [&] { emit ui.editDecl->click(); });

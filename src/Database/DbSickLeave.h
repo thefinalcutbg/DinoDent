@@ -7,7 +7,7 @@ namespace DbSickLeave
 {
 
 	long long getNumber();
-	long long getFreeNumberCount();
+	long long getFreeNumberCount(long long from, long long to);
 	std::vector<SickLeave> getSickLeave(long long ambListId, Db& db);
 	void saveSickLeave(const std::vector<SickLeave>& sickLeave, long long ambListId);
 	void saveSickLeave(const std::vector<SickLeave>& sickLeave, long long ambListId, Db& db);

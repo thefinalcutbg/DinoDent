@@ -1958,6 +1958,9 @@
            <property name="text">
             <string>Проверка за оставащ брой</string>
            </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
          <item>

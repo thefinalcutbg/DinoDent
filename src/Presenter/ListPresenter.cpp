@@ -1817,7 +1817,9 @@ void ListPresenter::createSickLeave()
     DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
     view->setAdditionalDocuments(m_amblist.referrals, m_amblist.medical_notices, m_amblist.sickLeave_notices);
 
-    sendSickLeaveToNSSI(m_amblist.sickLeave_notices.size() - 1);
+    if (m_amblist.nrn.size()) {
+        sendSickLeaveToNSSI(m_amblist.sickLeave_notices.size() - 1);
+    }
 }
 
 void ListPresenter::editSickLeave(int index)
@@ -1911,7 +1913,9 @@ void ListPresenter::sendSickLeaveToNSSI(int index)
 
         ModalDialogBuilder::showMessage("Болничният лист е изпратен успешно");
 
-        auto count = DbSickLeave::getFreeNumberCount();
+        auto& [first, last] = User::practice().sickLeaveNumbers;
+
+        auto count = DbSickLeave::getFreeNumberCount(first, last);
 
         if (count < 5) {
             ModalDialogBuilder::showMessage("Оставащ брой уникални номера на болнични листове: " + std::to_string(count));

@@ -108,6 +108,19 @@ SickLeaveDialog::SickLeaveDialog(const SickLeave& notice)
 	ui->positionEdit->setInputValidator(&not_empty_validator);
 	ui->icdEdit->setInputValidator(&icd_validator);
 
+	connect(ui->toDateEdit, &QDateEdit::dateChanged, this, [&](QDate date) { 
+		ui->checkupDate->setDate(date); 
+		if (date < ui->fromDateEdit->date()) {
+			ui->fromDateEdit->setDate(date);
+		}
+	});
+
+	connect(ui->fromDateEdit, &QDateEdit::dateChanged, this, [&](QDate date) {
+		if (date > ui->toDateEdit->date()) {
+			ui->toDateEdit->setDate(date);
+		}
+	});
+
 	caregiverLogic();
 
 	m_caregiver_rowid = notice.caregiver_rowid;

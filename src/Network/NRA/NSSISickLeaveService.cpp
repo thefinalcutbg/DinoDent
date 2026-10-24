@@ -207,12 +207,6 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
             q += tag("EGNSick", patient.id);
             q += tag("FlagEGNSick", patient.type == Patient::EGN ? 0 : 2);
             q += "</SickFamilyMember>";
-
-            q += "<DateMedicalCheck>";
-            q += tag("DateMedicalCheckDay", sickLeave.checkup.day);
-            q += tag("DateMedicalCheckMonth", sickLeave.checkup.month);
-            q += tag("DateMedicalCheckYear", sickLeave.checkup.year);
-            q += "</DateMedicalCheck>";
         }
         else {
                    q+= +R"xml(
@@ -232,6 +226,11 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
 )xml";
         }
 
+        q += "<DateMedicalCheck>";
+        q += tag("DateMedicalCheckDay", sickLeave.checkup.day);
+        q += tag("DateMedicalCheckMonth", sickLeave.checkup.month);
+        q += tag("DateMedicalCheckYear", sickLeave.checkup.year);
+        q += "</DateMedicalCheck>";
 
         q += R"xml(
 <LKKDecision>

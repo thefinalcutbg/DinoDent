@@ -296,7 +296,7 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
             q += tag("DateExportYear", currentDate.year);
             q += "</DateExport>";
 
-            q += tag("Source", "206730307");
+            q += tag("Source", User::practice().bulstat);
             q += "</RowNumber>";
             
             q += R"xml(
@@ -305,8 +305,6 @@ bool NSSISickLeaveService::sendRequest(const Patient& patient, const SickLeave& 
   </soap:Body>
 </soap:Envelope>
 )xml";
-
-    ModalDialogBuilder::showMultilineDialog(query);
 
     const std::string serviceUrl =  "https://ebenefits.nssi.bg/ePCWSUploadDataOnline/ePCUploadDataOnline.asmx";
 
@@ -421,6 +419,13 @@ void NSSISickLeaveService::parseReply(const std::string& reply)
 
     if (!result) { showReadError(); return; }
 
+    std::string kepError = elementText(result, "KEPCheck");
+
+    if (kepError.find_first_not_of(" \t\r\n") != std::string::npos) {
+        ModalDialogBuilder::showError(kepError);
+        return;
+    }
+
     std::string systemError = elementText(result, "SysError");
 
     if (systemError.find_first_not_of(" \t\r\n") != std::string::npos) {
@@ -439,12 +444,29 @@ void NSSISickLeaveService::parseReply(const std::string& reply)
              pc = pc->NextSiblingElement("PC"))
         {
             TiXmlElement* errors = pc->FirstChildElement("Errors");
+            bool cancellationHandled = false;
 
             for (TiXmlElement* error = errors
                      ? errors->FirstChildElement("Error") : nullptr;
                  error;
                  error = error->NextSiblingElement("Error"))
             {
+                const std::string code = elementText(error, "ErrCode");
+
+                if (std::string(sectionName) == "A_III_2_ErrDetails" &&
+                    code == "1205")
+                {
+                    const std::string number =
+                        elementText(pc, "PatientsChartNumber");
+
+                    if (!cancellationHandled && cb && number.size() > 1) {
+                        cb(std::stoll(number.substr(1)));
+                        cancellationHandled = true;
+                    }
+
+                    continue;
+                }
+
                 const std::string text = elementText(error, "ErrText");
 
                 if (!text.empty()) {
@@ -454,6 +476,13 @@ void NSSISickLeaveService::parseReply(const std::string& reply)
             }
         }
     };
+
+    collectErrors("A_III_1_ErrDetails");
+    collectErrors("A_III_2_ErrDetails");
+
+    if (!errorMessage.empty()) {
+        ModalDialogBuilder::showError(errorMessage);
+    }
 
     collectErrors("A_III_1_ErrDetails"); // Error on submition
     collectErrors("A_III_2_ErrDetails"); // Error on cancellation

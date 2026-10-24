@@ -181,6 +181,11 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	connect(ui.sickLeaveCheck, &QCheckBox::toggled, this, [&](bool checked) {
 		ui.sickLeaveFrom->setDisabled(!checked);
 		ui.sickLeaveTo->setDisabled(!checked);
+		ui.remainingSickLeaveButton->setDisabled(!checked);
+	});
+
+	connect(ui.remainingSickLeaveButton, &QPushButton::clicked, this, [&] {
+		presenter.checkSickLeaveAvailability();
 	});
 
 	connect(ui.declarationList, &QListWidget::itemDoubleClicked, this, [&] { emit ui.editDecl->click(); });

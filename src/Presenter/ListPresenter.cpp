@@ -1895,7 +1895,7 @@ void ListPresenter::sendSickLeaveToNSSI(int index)
     auto number = DbSickLeave::getNumber();
 
     if (!number) {
-        ModalDialogBuilder::showMessage("Не са открити свободни номера за болнични листове");
+        ModalDialogBuilder::showMessage("Не са открити свободни уникални номера за болнични листове");
         return;
     }
 
@@ -1910,6 +1910,12 @@ void ListPresenter::sendSickLeaveToNSSI(int index)
         DbSickLeave::saveSickLeave(m_amblist.sickLeave_notices, m_amblist.rowid);
 
         ModalDialogBuilder::showMessage("Болничният лист е изпратен успешно");
+
+        auto count = DbSickLeave::getFreeNumberCount();
+
+        if (count < 5) {
+            ModalDialogBuilder::showMessage("Оставащ брой уникални номера на болнични листове: " + std::to_string(count));
+        }
 
         if (!isCurrent()) return;
 

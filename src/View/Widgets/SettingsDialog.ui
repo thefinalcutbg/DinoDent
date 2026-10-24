@@ -1895,7 +1895,7 @@
          <item>
           <widget class="QCheckBox" name="sickLeaveCheck">
            <property name="text">
-            <string>Номера на уникални болнични листове от</string>
+            <string>Уникални номера за болнични листове: от</string>
            </property>
           </widget>
          </item>
@@ -1950,6 +1950,13 @@
            </property>
            <property name="value">
             <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="remainingSickLeaveButton">
+           <property name="text">
+            <string>Проверка за оставащ брой</string>
            </property>
           </widget>
          </item>

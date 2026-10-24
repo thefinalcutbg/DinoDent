@@ -28,6 +28,27 @@ long long DbSickLeave::getNumber()
     return next;
 }
 
+long long DbSickLeave::getFreeNumberCount()
+{
+    const auto& [first, last] = User::practice().sickLeaveNumbers;
+
+    if (first <= 0 || last < first) return 0;
+
+    Db db(
+        "SELECT COUNT(DISTINCT number) FROM sick_leave "
+        "WHERE number BETWEEN ? AND ?"
+    );
+
+    db.bind(1, first);
+    db.bind(2, last);
+
+    if (db.hasRows()) {
+        return last - first + 1 - db.asLongLong(0);
+    }
+
+    return 0;
+}
+
 std::vector<SickLeave> DbSickLeave::getSickLeave(long long ambListId, Db& db)
 {
     db.newStatement(

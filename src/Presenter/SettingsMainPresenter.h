@@ -45,6 +45,7 @@ public:
 	void printEmptyDocs();
     void practiceTabFocused(); //need to refresh the doctor list
 	void hisImport();
+	void checkSickLeaveAvailability();
 	void balanceRequested(const std::string& usr, const std::string& pass);
 
 };

@@ -5,6 +5,7 @@
 #include "Database/Database.h"
 #include "Database/DbPatient.h"
 #include "Database/DbAmbList.h"
+#include "Database/DbSickLeave.h"
 
 #include "Network/GetHSM.h" 
 #include "Network/NetworkManager.h"
@@ -410,6 +411,18 @@ void SettingsMainPresenter::hisImport()
 	if (!nrn.size()) return;
 
 	his_fetch_service.sendRequest(nrn, importToDb);
+}
+
+void SettingsMainPresenter::checkSickLeaveAvailability()
+{
+	auto count = DbSickLeave::getFreeNumberCount();
+
+	if (!count) {
+		ModalDialogBuilder::showMessage("Не са открити свободни уникални номера за болнични листове");
+	}
+	else {
+		ModalDialogBuilder::showMessage("Оставащ брой уникални номера: " + std::to_string(count));
+	}
 }
 
 void SettingsMainPresenter::balanceRequested(const std::string& usr, const std::string& pass)

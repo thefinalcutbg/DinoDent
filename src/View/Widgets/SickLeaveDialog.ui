@@ -42,7 +42,7 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>13</hour>
+            <hour>11</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
@@ -215,7 +215,7 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>9</hour>
+            <hour>7</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
@@ -331,7 +331,7 @@
           </property>
           <property name="maximumDateTime">
            <datetime>
-            <hour>7</hour>
+            <hour>5</hour>
             <minute>59</minute>
             <second>59</second>
             <year>9999</year>
@@ -548,7 +548,7 @@
          <item>
           <widget class="QPushButton" name="caregiverButton">
            <property name="text">
-            <string>Добави получател на болничния лист</string>
+            <string>Добави ползвател на болничния лист</string>
            </property>
           </widget>
          </item>
@@ -561,7 +561,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Родствена връзка на пациента с получателя:</string>
+            <string>Родствена връзка на пациента с ползвателя:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>

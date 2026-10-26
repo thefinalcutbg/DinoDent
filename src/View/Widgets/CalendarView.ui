@@ -258,7 +258,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Търсене</string>
+             <string>Търсене (Ctrl+F)</string>
             </property>
             <property name="text">
              <string>search</string>

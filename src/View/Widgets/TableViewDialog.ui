@@ -3,7 +3,7 @@
  <class>TableViewDialogClass</class>
  <widget class="QDialog" name="TableViewDialogClass">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModality::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -30,7 +30,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Търсене</string>
+        <string>Търсене:</string>
        </property>
       </widget>
      </item>
@@ -47,7 +47,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

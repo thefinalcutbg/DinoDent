@@ -1,5 +1,6 @@
 ﻿#include "CalendarPresenter.h"
 
+#include <ranges>
 
 #include "Database/DbDoctor.h"
 #include "Database/DbPatient.h"
@@ -493,7 +494,7 @@ void CalendarPresenter::searchCalendar(const std::string& pageToken)
     if (currentCalendar < 0 || currentCalendar >= static_cast<int>(m_calendars.size())) return;
 
     if (pageToken.empty()) {
-        auto search = ModalDialogBuilder::inputDialog("Търсене:", "Търсене в календара");
+        auto search = ModalDialogBuilder::inputDialog("Търсене в календара:", "График на посещенията");
         if (search.empty()) return;
         m_searchText = search;
         m_searchEventsCache.clear();
@@ -699,7 +700,7 @@ void CalendarPresenter::handleSearchResult(const std::string& searchResult)
     table.addColumn(PlainColumn{"Дата и час", 250});
     table.addColumn(PlainColumn("Събитие"));
 
-    for (const auto& event : m_searchEventsCache) {
+    for (const auto& event : m_searchEventsCache | std::views::reverse) {
 
         std::string summary;
 
@@ -728,7 +729,7 @@ void CalendarPresenter::handleSearchResult(const std::string& searchResult)
     model.setTableData(table);
     
     TableViewDialog dialog(model, 0, {}, nullptr);
-    dialog.setWindowTitle("Търсене в календара");
+    dialog.setWindowTitle("График на посещенията");
     if (dialog.exec() != QDialog::Accepted) return;
 
     auto date = QDate::fromString(QString::fromStdString(dialog.getResult().substr(0, 10)), "dd.MM.yyyy");

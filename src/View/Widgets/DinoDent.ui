@@ -195,7 +195,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Нов финансов документ (Ctrl+F)</string>
+            <string>Нов финансов документ (Ctrl+I)</string>
            </property>
            <property name="text">
             <string>Invoice</string>

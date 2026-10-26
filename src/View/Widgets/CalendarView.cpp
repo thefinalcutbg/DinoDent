@@ -4,6 +4,7 @@
 #include <QOAuthHttpServerReplyHandler>
 #include <QDateTime>
 #include <QHeaderView>
+#include <QShortcut>
 #include <QScrollBar>
 #include "View/Theme.h"
 #include <QPainter>
@@ -87,6 +88,11 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::patientEditRequested, this, [&](int index){ presenter->patientEditRequested(index); });
     connect(calendarWidget, &QCalendarWidget::clicked, this, [&](QDate date) { if (presenter)presenter->dateRequested(date); calendarWidget->close();  });
     connect(ui.searchButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->searchCalendar(); });
+
+    
+    QShortcut* searchShortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
+    searchShortcut->setContext(Qt::ShortcutContext::ApplicationShortcut);
+    QObject::connect(searchShortcut, &QShortcut::activated, [&] { presenter->searchCalendar(); });
 
     auto nextWeekShortcut = new QShortcut(QKeySequence(Qt::Key_Right), this);
     connect(nextWeekShortcut, &QShortcut::activated, this, [=, this] {

@@ -2,6 +2,8 @@
 #include "Presenter/TabInstance.h"
 #include "Model/CalendarStructs.h"
 #include "Network/SMS/Mobica.h"
+#include "Network/Calendar/CalendarJsonParser.h"
+#include <QVariantMap>
 #include <QString>
 #include <QDate>
 
@@ -51,7 +53,7 @@ class CalendarPresenter : public TabInstance
 
 	CalendarEvent clipboard_event;
 
-    enum QueryType { GetCalendars, GetEvents, UploadEvent, DeleteEvent, GetCalendarColors, NoReply=99 };
+    enum QueryType { GetCalendars, GetEvents, UploadEvent, DeleteEvent, GetCalendarColors, SearchEvents, NoReply=99 };
 
 	static std::pair<QDate, QDate> getTodaysWeek();
 
@@ -69,6 +71,10 @@ class CalendarPresenter : public TabInstance
 
 	std::vector<CalendarEvent>* getEvents();
 	CalendarEvent* getEvent(int eventIndex);
+
+	void handleSearchResult(const std::string& searchResult);
+	std::string m_searchText;
+    std::vector<CalendarJsonParser::SearchEvent> m_searchEventsCache;
 
 	Mobica::SendSMS m_smsService;
 	void cancelEventSmsNofifyLogic(const CalendarEvent& e);
@@ -111,6 +117,7 @@ public:
 	void durationChange(int eventIdx, int duration);
 	void refresh();
 	void cancelMove();
+	void searchCalendar(const std::string& pageToken = {});
 
 	~CalendarPresenter();
 };

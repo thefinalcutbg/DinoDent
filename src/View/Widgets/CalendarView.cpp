@@ -39,11 +39,13 @@ CalendarView::CalendarView(QWidget* parent)
     ui.nextWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.exitButton->setHoverColor(Theme::fontRedClicked);
     ui.refreshButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.searchButton->setHoverColor(Theme::mainBackgroundColor);
 
     ui.authButton->setIcon(QIcon(":/icons/icon_google.png"));
     ui.exitButton->setIcon(QIcon(":/icons/icon_remove.png"));
     ui.refreshButton->setIcon(QIcon(":/icons/icon_sync.png"));
-    
+    ui.searchButton->setIcon(QIcon(":/icons/icon_search.png"));
+
     auto font = ui.calendarButton->font();
     font.setPointSize(font.pointSize() * 2);
     font.setBold(true);
@@ -84,6 +86,7 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::newDocRequested, this, [&](int index, TabType type) { presenter->newDocRequested(index, type); });
     connect(ui.calendarTable, &CalendarTable::patientEditRequested, this, [&](int index){ presenter->patientEditRequested(index); });
     connect(calendarWidget, &QCalendarWidget::clicked, this, [&](QDate date) { if (presenter)presenter->dateRequested(date); calendarWidget->close();  });
+    connect(ui.searchButton, &QPushButton::clicked, this, [=, this] { if(presenter) presenter->searchCalendar(); });
 
     auto nextWeekShortcut = new QShortcut(QKeySequence(Qt::Key_Right), this);
     connect(nextWeekShortcut, &QShortcut::activated, this, [=, this] {

@@ -17,6 +17,8 @@
 
 #include "Network/Calendar/Google.h"
 #include "Network/Calendar/CalendarJsonParser.h"
+#include "View/Widgets/TableViewDialog.h"
+#include "View/TableModels/PlainTableModel.h"
 
 CalendarPresenter::CalendarPresenter(TabView* tabView) :
     TabInstance(tabView, TabType::Calendar, nullptr),
@@ -213,7 +215,14 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
     }
         break;
 
+    case QueryType::SearchEvents:
+    {
+        handleSearchResult(reply);
+        break;
+    }
+
     case QueryType::NoReply:
+        m_searchEventsCache.clear();
         ModalDialogBuilder::showMessage("Неуспешна връзка с Google Calendar");
         return;
     }
@@ -479,6 +488,41 @@ void CalendarPresenter::cancelMove()
     clearClipboard();
 }
 
+void CalendarPresenter::searchCalendar(const std::string& pageToken)
+{
+    if (currentCalendar < 0 || currentCalendar >= static_cast<int>(m_calendars.size())) return;
+
+    if (pageToken.empty()) {
+        auto search = ModalDialogBuilder::inputDialog("Търсене:", "Търсене в календара");
+        if (search.empty()) return;
+        m_searchText = search;
+        m_searchEventsCache.clear();
+    }
+
+    QVariantMap parameters;
+    parameters["q"] = QString::fromStdString(m_searchText);
+    parameters["singleEvents"] = "true";
+    parameters["orderBy"] = "startTime";
+    parameters["maxResults"] = 100;
+    parameters["timeZone"] = "Europe/Sofia";
+
+    QString calendarId = QString::fromLatin1(QUrl::toPercentEncoding( QString::fromStdString(m_calendars[currentCalendar].id)));
+
+    if (!pageToken.empty()) {
+        parameters["pageToken"] = QString::fromStdString(pageToken);
+    }
+
+    view->setDisabled(true);
+
+    Google::query(
+        QStringLiteral("https://www.googleapis.com/calendar/v3/calendars/") + calendarId + "/events",
+        parameters,
+        "GET",
+        {},
+        QueryType::SearchEvents
+    );
+}
+
 CalendarPresenter::~CalendarPresenter()
 {
     Google::setReciever(nullptr);
@@ -493,7 +537,6 @@ std::pair<QDate, QDate> CalendarPresenter::getTodaysWeek()
 
 void CalendarPresenter::requestEvents(bool searchCache)
 {
-
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
 
     auto key = getCacheKey();
@@ -632,6 +675,65 @@ CalendarEvent* CalendarPresenter::getEvent(int eventIndex)
     if (eventIndex < 0 || eventIndex >= events->size()) return nullptr;
 
     return &events->at(eventIndex);
+}
+
+void CalendarPresenter::handleSearchResult(const std::string& searchResult)
+{
+    const auto result = CalendarJsonParser::parseSearchResult(searchResult);
+
+    if (!result) {
+        m_searchEventsCache.clear();
+        ModalDialogBuilder::showError("Неуспешно търсене в Google Calendar.");
+        return;
+    }
+
+    m_searchEventsCache.insert(m_searchEventsCache.end(),
+        result->events.begin(), result->events.end());
+
+    if (!result->nextPageToken.empty()) {
+        searchCalendar(result->nextPageToken);
+        return;
+    }
+
+    PlainTable table;
+    table.addColumn(PlainColumn{"Дата и час", 250});
+    table.addColumn(PlainColumn("Събитие"));
+
+    for (const auto& event : m_searchEventsCache) {
+
+        std::string summary;
+
+        if (summary.empty()) summary = "Без заглавие";
+        if (event.allDay) summary += " (целодневно)";
+
+        auto dateTime = event.date.toString("dd.MM.yyyy");
+
+        if (!event.allDay) {
+            dateTime += " ";
+            dateTime += event.start.toString("HH:mm");
+        }
+
+        table.addCell(0, PlainCell{.data = dateTime.toStdString() });
+        table.addCell(1, PlainCell{.data = event.summary});
+    }
+
+    m_searchEventsCache.clear();
+
+    if (table.rowCount() == 0) {
+        ModalDialogBuilder::showMessage("Няма намерени събития.");
+        return;
+    }
+
+    PlainTableModel model;
+    model.setTableData(table);
+    
+    TableViewDialog dialog(model, 0, {}, nullptr);
+    dialog.setWindowTitle("Търсене в календара");
+    if (dialog.exec() != QDialog::Accepted) return;
+
+    auto date = QDate::fromString(QString::fromStdString(dialog.getResult().substr(0, 10)), "dd.MM.yyyy");
+
+    if (date.isValid()) dateRequested(date);
 }
 
 void CalendarPresenter::cancelEventSmsNofifyLogic(const CalendarEvent& e)

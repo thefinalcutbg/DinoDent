@@ -3,6 +3,53 @@
 #include <QDateTime>
 #include <QColor>
 
+std::optional<CalendarJsonParser::SearchResult> CalendarJsonParser::parseSearchResult(const std::string& response)
+{
+    Json::Reader reader;
+    Json::Value json;
+    if (!reader.parse(response, json) || !json.isObject() ||
+        json.isMember("error") || !json["kind"].isString() ||
+        json["kind"].asString() != "calendar#events" ||
+        (json.isMember("items") && !json["items"].isArray()) ||
+        (json.isMember("nextPageToken") && !json["nextPageToken"].isString())) {
+        return std::nullopt;
+    }
+
+    SearchResult result;
+    if (json.isMember("nextPageToken")) {
+        result.nextPageToken = json["nextPageToken"].asString();
+    }
+
+    for (const auto& item : json["items"]) {
+        if (!item.isObject()) continue;
+        if (item["status"].isString() && item["status"].asString() == "cancelled") continue;
+
+        const auto& start = item["start"];
+        if (!start.isObject()) continue;
+
+        SearchEvent event;
+        if (item["summary"].isString()) event.summary = item["summary"].asString();
+
+        if (start.isMember("dateTime")) {
+            if (!start["dateTime"].isString()) continue;
+            event.start = QDateTime::fromString(
+                QString::fromStdString(start["dateTime"].asString()), Qt::ISODate).toLocalTime();
+            if (!event.start.isValid()) continue;
+            event.date = event.start.date();
+        }
+        else {
+            if (!start["date"].isString()) continue;
+            event.allDay = true;
+            event.date = QDate::fromString(
+                QString::fromStdString(start["date"].asString()), Qt::ISODate);
+        }
+
+        if (event.date.isValid()) result.events.push_back(event);
+    }
+
+    return result;
+}
+
 static void parseEventSpecificProperties(Json::Value& json, CalendarEvent& event)
 {
 

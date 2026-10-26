@@ -20,13 +20,15 @@ TableViewDialog::TableViewDialog(QAbstractTableModel& model, int column, const s
 	ui.tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.tableView->verticalHeader()->setDefaultSectionSize(20);
 	ui.tableView->setWordWrap(false);
-	ui.tableView->setColumnWidth(0, 70);
+	ui.tableView->setColumnWidth(0, 120);
 	//ui.tableView->setColumnWidth(1, 200);
 	ui.tableView->setColumnWidth(2, 50);
 	ui.tableView->setColumnWidth(3, 150);
 	ui.tableView->setColumnWidth(4, 50);
 	ui.tableView->setColumnWidth(5, 150);
 	ui.tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+
+	ui.tableView->resizeColumnToContents(0);
 
     connect(ui.searchEdit, &QLineEdit::textChanged, this, [=, this](const QString& text)
 		{

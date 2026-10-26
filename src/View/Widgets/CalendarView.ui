@@ -38,7 +38,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -240,6 +240,28 @@
             </property>
             <property name="text">
              <string>&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="IconButton" name="searchButton">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Търсене</string>
+            </property>
+            <property name="text">
+             <string>search</string>
             </property>
            </widget>
           </item>

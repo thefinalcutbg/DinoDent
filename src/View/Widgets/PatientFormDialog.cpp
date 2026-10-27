@@ -181,7 +181,8 @@ void PatientFormDialog::patientTypeChanged(int patientType)
 
 void PatientFormDialog::nationalityAddressDynamicChange()
 {
-    if(ui.countryCombo->isVisible() && !ui.countryCombo->currentText().startsWith("BG")){
+
+    if(!ui.foreignerGroup->isHidden() && !ui.countryCombo->currentText().startsWith("BG")){
         ui.cityLineEdit->setCompleter(nullptr);
         ui.cityLineEdit->setInputValidator(&notEmpty_validator);
     }

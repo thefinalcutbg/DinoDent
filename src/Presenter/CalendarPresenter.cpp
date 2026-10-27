@@ -494,7 +494,7 @@ void CalendarPresenter::searchCalendar(const std::string& pageToken)
     if (currentCalendar < 0 || currentCalendar >= static_cast<int>(m_calendars.size())) return;
 
     if (pageToken.empty()) {
-        auto search = ModalDialogBuilder::inputDialog("Търсене в календара:", "График на посещенията");
+        auto search = ModalDialogBuilder::inputDialog("Търсене:", "График на посещенията");
         if (search.empty()) return;
         m_searchText = search;
         m_searchEventsCache.clear();
@@ -729,7 +729,8 @@ void CalendarPresenter::handleSearchResult(const std::string& searchResult)
     model.setTableData(table);
     
     TableViewDialog dialog(model, 0, {}, nullptr);
-    dialog.setWindowTitle("График на посещенията");
+    dialog.setWindowTitle("Резултати от търсенето");
+    dialog.hideSearchBar();
     if (dialog.exec() != QDialog::Accepted) return;
 
     auto date = QDate::fromString(QString::fromStdString(dialog.getResult().substr(0, 10)), "dd.MM.yyyy");

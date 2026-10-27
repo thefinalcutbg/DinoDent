@@ -66,6 +66,11 @@ std::string TableViewDialog::getResult()
 	
 }
 
+void TableViewDialog::hideSearchBar()
+{
+	ui.searchFrame->setHidden(true);
+}
+
 TableViewDialog::~TableViewDialog()
 {
 

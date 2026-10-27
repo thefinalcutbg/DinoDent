@@ -17,6 +17,7 @@ class TableViewDialog : public QDialog
 public:
 	TableViewDialog(QAbstractTableModel& model, int column, const std::string& code = std::string(), QWidget* parent = nullptr);
 	std::string getResult();
+	void hideSearchBar();
 	~TableViewDialog();
 
 private:

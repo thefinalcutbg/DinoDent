@@ -257,7 +257,7 @@ void PatientHistoryDialog::setHospitalizations(const std::vector<Hospitalization
 
 void PatientHistoryDialog::setPatientNoteFlags(const std::array<std::string, 32>& notes)
 {
-	ui.snapshotViewer->getTeethScene()->setNotes(notes);
+	ui.snapshotViewer->setToothNotes(notes);
 }
 
 void PatientHistoryDialog::hideNhif(bool hidden)

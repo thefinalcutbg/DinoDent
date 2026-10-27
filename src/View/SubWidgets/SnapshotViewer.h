@@ -11,7 +11,7 @@ class SnapshotViewer : public QWidget
 
 	TeethViewScene* teeth_scene;
 	std::vector<HisSnapshot> m_snapshots;
-
+	std::array<std::string, 32> m_notes;
 	void paintEvent(QPaintEvent* e) override;
 
 	void displaySnapshotToView(const HisSnapshot& h);
@@ -20,6 +20,7 @@ public:
 	SnapshotViewer(QWidget *parent = nullptr);
 	TeethViewScene* getTeethScene() { return teeth_scene; }
 	void setSnapshots(const std::vector<HisSnapshot>& snapshots);
+	void setToothNotes(const std::array<std::string, 32> notes);
 	const HisSnapshot* getCurrentSnapshot() const;
 	bool isMostRecent() const;
 	~SnapshotViewer();

@@ -51,6 +51,12 @@ void SnapshotViewer::setSnapshots(const std::vector<HisSnapshot>& snapshots)
     }
 }
 
+void SnapshotViewer::setToothNotes(const std::array<std::string, 32> notes)
+{
+    teeth_scene->setNotes(notes);
+    m_notes = notes;
+}
+
 const HisSnapshot* SnapshotViewer::getCurrentSnapshot() const
 {
     if (m_snapshots.empty()) return nullptr;
@@ -75,9 +81,9 @@ void SnapshotViewer::displaySnapshotToView(const HisSnapshot& s)
 {
     for (int i = 0; i < 32; i++)
     {
-        teeth_scene->display(ToothPaintHint(s.teeth[i]));
+        teeth_scene->display(ToothPaintHint(s.teeth[i], m_notes[i]));
     }
-
+    
     teeth_scene->setProcedures(s.affected_teeth);
 
     ui.nextButton->setDisabled(false);

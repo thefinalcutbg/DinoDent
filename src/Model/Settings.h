@@ -8,9 +8,9 @@ struct Settings //only practice-specific settings
 		std::string usr;
 		std::string pass;
 		std::string notifTemplate =
-			"Записан час при <ЛДМ> /<ТЕЛ>/ на <ДАТА> от <ЧАС>";
+			"Записан час при <ЛДМ> за <ДЕН>, <ДАТА> <ЧАС>";
 		std::string reminderTemplate =
-            "Напомняне за час при <ЛДМ> утре/<ДАТА>/ от <ЧАС>";
+            "Напомняне за час при <ЛДМ> на <ДАТА> <ЧАС>";
 		std::string cancelTemplate =
 			"Часът Ви при <ЛДМ> на <ДАТА> от <ЧАС> е отменен";
         int reminder_hours = 24;

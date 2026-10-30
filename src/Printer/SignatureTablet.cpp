@@ -162,17 +162,26 @@ PatientSignature SignatureTablet::signWithWacom(const std::string& what, const s
 using namespace SignotecDriver;
 #endif
 
+#include <QCoreApplication>
+
 PatientSignature SignatureTablet::signWithSignotec(const std::string& what, const std::string& who)
 {
+    static const auto shutdownConnection = QObject::connect(
+    QCoreApplication::instance(),
+    &QCoreApplication::aboutToQuit,
+    [] { STControlExit(); });
+
     PatientSignature ps;
 
     long size = 0;
 
     std::vector<unsigned char> buffer(size);
 
-    if (STDeviceOpen(0, true) < 0) {
-        return ps;
-    }
+    if (STDeviceOpen(0, true) < 0) return ps;
+
+    struct DeviceGuard {
+    ~DeviceGuard() { STDeviceClose(0); }
+    } closeGuard;
 
     STSensorSetSignRect(0, 0, 0, 0);
 
@@ -193,11 +202,7 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
 
     //CAPTURING SIGNATURE:
 
-    if (STSignatureStart() < 0) {
-        STDeviceClose(0);
-        STControlExit();
-        return ps;
-    }
+    if (STSignatureStart() < 0) return ps;
 
     int dialogResult = 1; // 0 - OK, 1 - Retry, -1 or 2 - Cancel
 
@@ -211,8 +216,6 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
 
         if (dialogResult == 2 || dialogResult == -1) {
             STSignatureStop();
-            STDeviceClose(0);
-            STControlExit();
             return ps;
         }
 
@@ -236,12 +239,7 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
 
     STRSAGetSignData(nullptr, &size, 0);
 
-    if (!size)
-    {
-        STDeviceClose(0);
-        STControlExit();
-        return ps;
-    }
+    if (!size) return ps;
 
     buffer = std::vector<unsigned char>(size);
 
@@ -266,9 +264,6 @@ PatientSignature SignatureTablet::signWithSignotec(const std::string& what, cons
     ps.bitmap.resize(size);
 
     STSignatureSaveAsStreamEx(ps.bitmap.data(), &size, 160, 0, 0, kPng, 0, RGB(0, 0, 255), (long)0x1000 | 0x4000);// | 0x0001 | 0x0100);
-
-    STDeviceClose(0);
-    STControlExit();
 
     //checking if patient has signed something at all
     for (auto byte : ps.bitmap) {

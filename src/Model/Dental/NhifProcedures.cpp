@@ -318,7 +318,7 @@ std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
 std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 {
 	for (auto& u : m_NRDlist) 
-		if (ambDate > u.date) 
+		if (ambDate >= u.date) 
 			return u.packages;
 
 	return std::vector<ProcedurePackage>();

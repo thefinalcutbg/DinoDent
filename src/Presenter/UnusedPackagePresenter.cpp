@@ -219,10 +219,15 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	auto currentDate = Date::currentDate();
 
+	auto localDbDateFrom = s_settings.pisCheckEnabled ? 
+		Date(1, currentDate.month, m_year)
+		:
+		Date(1, 1, m_year);
+
 	auto dbProcedures = DbProcedure::getNhifSummary(
 		patient.rowid,
 		0,
-		Date(1, currentDate.month, m_year),
+		localDbDateFrom,
 		Date(31, 12, m_year)
 	);
 

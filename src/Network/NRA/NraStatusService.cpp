@@ -65,7 +65,7 @@ void NraStatusService::parseReply(const std::string& reply)
 
 		int insuredCode = std::stoi(patient.Child(0).ToElement()->GetText());
 
-        DbPatient::setPepsi(patient_rowid, insuredCode != 1 || insuredCode != 2);
+        DbPatient::setPepsi(patient_rowid, insuredCode != 1 insuredCode != 2);
 
 		switch(insuredCode)
 		{

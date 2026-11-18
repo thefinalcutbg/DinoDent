@@ -1,0 +1,135 @@
+﻿#include "NraStatusService.h"
+#include "Model/User.h"
+#include "View/ModalDialogBuilder.h"
+#include "Network/NetworkManager.h"
+#include "Model/Patient.h"
+#include "Database/DbPatient.h"
+
+void NraStatusService::parseReply(const std::string& reply)
+{
+    auto cb = std::move(m_callback);
+
+    m_callback = nullptr;
+
+    if(cb == nullptr) return;
+
+		TiXmlDocument doc;
+
+		if (reply.empty()) {
+            cb({});
+			return;
+		}
+
+		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+		if (!doc.RootElement()) {
+            cb({});
+			return;
+		}
+
+		TiXmlHandle statusHandle(&doc);
+
+		auto patient =
+			statusHandle
+			.FirstChildElement()			  //response
+			.FirstChildElement();			  //patient OR error
+
+
+		if (patient.FirstChild().ToElement() == nullptr) {
+            cb({});
+			return;
+		}
+
+		if (patient.ToElement()->ValueStr() == "ns0:Error") {
+			ModalDialogBuilder::showError(
+				patient.Child(1).ToElement()->GetText()
+			);
+            cb({});
+			return;
+		}
+
+		MissingPeriods periods;
+
+		for (auto period = patient.FirstChildElement("ns0:PeriodDetails").ToElement();
+			period != nullptr;
+			period = period->NextSiblingElement("ns0:PeriodDetails")
+			) {
+
+			int year{ 0 }, month{ 0 };
+			period->Attribute("Mnt", &month);
+			period->Attribute("Yr", &year);
+
+			periods[year].push_back(month);
+
+		}
+
+		int insuredCode = std::stoi(patient.Child(0).ToElement()->GetText());
+
+        DbPatient::setPepsi(patient_rowid, insuredCode != 1 && insuredCode != 2);
+
+		switch(insuredCode)
+		{
+            case 1: cb(InsuranceStatus{ Insured::Yes, periods }); break;
+            case 2: cb(InsuranceStatus{ Insured::No, periods }); break;
+            default:
+                cb(InsuranceStatus{Insured::NoData}); break;
+		}
+
+}
+
+#include <QDateTime>
+
+bool NraStatusService::sendRequest(const Patient& p, std::function<void(const std::optional<InsuranceStatus>&)> callback, bool showDialogs, const Date& date )
+{
+    patient_rowid = 0;
+
+	if (p.type == Patient::EU) return false;
+
+	m_callback = callback;
+
+	this->show_dialogs = showDialogs;
+
+	auto& practice = User::practice();
+
+	if (!practice.hasNraAccess())
+	{
+		if (showDialogs) {
+			ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НАП");
+		}
+		return false;
+	}
+
+	auto time =
+		date.to8601() +
+		"T" +
+		QTime::currentTime().toString("hh:mm:ss").toStdString();
+	//+ ".0Z";
+
+	std::string query{
+
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?> "
+			"<PIS_Request xmlns=\"request.ws.nhif\" "
+						 "ReqDate=\"" + time + "\" " +
+						 "RespType = \"0\" "
+						 "RCZNo=\"" + practice.rziCode + "\" "
+						 "RCZEik = \"" + practice.bulstat + "\" "
+						 "RCZPassword=\"" + practice.nhif_contract->nra_pass + "\">"
+			 "<Patient>"
+			  "<PIN>" + p.id + "</PIN>"
+			  "<PINType>" + std::to_string(p.type - 1) + "</PINType>"
+			  "<ChkDt>" + date.to8601() + "T00:00:00" + "</ChkDt>"
+			"</Patient>"
+			"</PIS_Request>"
+
+	};
+
+	awaiting_reply = true;
+
+    if(p.type == Patient::EGN){
+        patient_rowid = p.rowid;
+    }
+
+	NetworkManager::sendRequestToNra(query, this);
+
+	return true;
+}

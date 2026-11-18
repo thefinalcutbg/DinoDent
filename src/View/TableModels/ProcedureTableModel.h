@@ -22,7 +22,7 @@ class ProcedureTableModel : public QAbstractTableModel
 	Qt::DropActions supportedDropActions() const override;
 	bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& index) override;
 
-    static constexpr int proceduresColumnCount = 9;
+    static constexpr int proceduresColumnCount = 10;
 
 public:
 

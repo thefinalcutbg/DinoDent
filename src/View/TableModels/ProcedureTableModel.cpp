@@ -90,7 +90,8 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
                 case 5: return "НЗОК";
                 case 6: return "КСМП";
                 case 7: return "Извършил";
-                case 8: return "Бележки";
+				case 8: return "НРН";
+                case 9: return "Бележки";
             }
         }
     }
@@ -184,11 +185,13 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                case 5: return m_procedures[row].nhifCode;
                case 6: return m_procedures[row].ACHICode;
                case 7: return m_procedures[row].doctor;
-               case 8: return m_procedures[row].notes;
+               case 8: return m_procedures[row].nrn;
+               case 9: return m_procedures[row].notes;
+
                default: break;
             }
         case Qt::TextAlignmentRole:
-             if (column == 1 || column == 3 || column == 5 || column == 6 || column == 7)
+             if (column == 1 || column == 3 || column == 5 || column == 6 || column == 7 || column == 8)
                 return int(Qt::AlignCenter);
         }
 

@@ -50,9 +50,11 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	ui.procedureTable->setColumnWidth(3, 65);
 	ui.procedureTable->setColumnWidth(4, 200);
 	ui.procedureTable->setColumnWidth(5, 65);
-	ui.procedureTable->setColumnWidth(6, 100);
-	ui.procedureTable->setColumnWidth(8, 200);
-	
+	ui.procedureTable->setColumnWidth(6, 120);
+	ui.procedureTable->setColumnWidth(8, 120);
+
+	ui.procedureTable->horizontalHeader()->setSectionResizeMode(9, QHeaderView::Stretch);
+
 	setTableViewDefaults(ui.procedureTable);
 	setTableViewDefaults(ui.hospiTable);
 	setTableViewDefaults(ui.docDetailsView);
@@ -145,19 +147,22 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 		ui.applyPISProcedures->show();
 		ui.refreshProcedures->setDisabled(false);
 		ui.procedureTable->setColumnHidden(7, true); 
+		ui.procedureTable->setColumnHidden(8, true);
 		presenter.procedureSourceChanged(Procedure::DatabaseSource::PIS); 
 	});
 
 	connect(ui.hisProcRadio, &QRadioButton::clicked, this, [&]{
 		ui.applyPISProcedures->hide();
 		ui.refreshProcedures->setDisabled(false);
-		ui.procedureTable->setColumnHidden(7, true); 
+		ui.procedureTable->setColumnHidden(7, false); 
+		ui.procedureTable->setColumnHidden(8, false);
 		presenter.procedureSourceChanged(Procedure::DatabaseSource::HIS); 
 	});
 	connect(ui.localProcRadio, &QRadioButton::clicked, this, [&]{
 		ui.applyPISProcedures->hide();
 		ui.refreshProcedures->setDisabled(true);
 		ui.procedureTable->setColumnHidden(7, false); 
+		ui.procedureTable->setColumnHidden(8, true);
 		presenter.procedureSourceChanged(Procedure::DatabaseSource::Local); 
 	});
 

@@ -26,7 +26,7 @@ class PatientHistoryPresenter {
 	PatientHistoryDialog view;
 
 	DentalActivitiesService pis_service;
-	EDental::GetStatusAndProcedures his_service;
+	EDental::FetchStatusAndProcedures his_service;
 	EHospitalization::Fetch eHospitalizationFetch;
 
 	std::variant<std::monostate, std::vector<Procedure>*, ToothContainer> result;

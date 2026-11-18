@@ -73,15 +73,20 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history, Proce
 	ui.tableView->setColumnWidth(7, 150);
 	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+	ui.tableView->horizontalHeader()->setSectionResizeMode(9, QHeaderView::Stretch);
 	ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+	if(checkboxValue == Procedure::HIS)
+		ui.tableView->showColumn(8);
+	else
+		ui.tableView->hideColumn(8);
 
 	//ensuring ui change, if the model is set programatically
 
 	ui.buttonGroup->blockSignals(true);
 
 		switch (checkboxValue) {
-		case Procedure::HIS: ui.hisCheck->setChecked(true); break;
+		case Procedure::HIS: ui.hisCheck->setChecked(true);  break;
 		case Procedure::PIS: ui.pisCheck->setChecked(true); break;
 		case Procedure::Local: ui.localCheck->setChecked(true); break;
 	}

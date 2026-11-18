@@ -127,8 +127,9 @@ void TableView::setAmbListLayout()
     setColumnWidth(5, 70);
     setColumnWidth(6, 100);
     hideColumn(7);
+	hideColumn(8);
 
-    horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(9, QHeaderView::Stretch);
 
     setShowGrid(false);
 }
@@ -149,7 +150,7 @@ void TableView::setProcedureHistoryLayout()
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(9, QHeaderView::Stretch);
     setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
     setShowGrid(false);
 }

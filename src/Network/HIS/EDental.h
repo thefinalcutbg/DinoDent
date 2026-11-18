@@ -105,4 +105,19 @@ namespace EDental {
 
 		using HisService::show_dialogs;
 	};
+
+	class FetchStatusAndProcedures : private HisService
+	{
+		std::function<void(const std::optional<std::vector<Procedure>>& sheets, const std::vector<HisSnapshot>& snapshots)> m_callback;
+		void parseReply(const std::string& reply) override;
+
+		public:
+			FetchStatusAndProcedures() : HisService("D005", "/v1/edental/record/fetch") {}
+
+			bool sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback);
+
+			bool awaitingReply() { return awaiting_reply; }
+
+			using HisService::show_dialogs;
+	};
 }

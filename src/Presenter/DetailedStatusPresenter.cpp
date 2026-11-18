@@ -28,7 +28,7 @@ DetailedStatusPresenter::DetailedStatusPresenter(int toothIdx, const Patient& pa
 	if(patient.HISHistory) {
 		for (auto& p : patient.HISHistory.value()) {
 			
-			if (p.affectsToothIdx(toothIdx))
+			if (p.affectsToothIdx(toothIdx) && p.code.type() != ProcedureType::FullExam)
 			{
 				m_procedures.push_back(p);
 			}

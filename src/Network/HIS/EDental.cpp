@@ -539,3 +539,107 @@ void EDental::Fetch::parseReply(const std::string& reply)
 	m_callback = nullptr;
 
 }
+
+bool EDental::FetchStatusAndProcedures::sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback)
+{
+	this->show_dialogs = showDialogs;
+
+	m_callback = callback;
+
+	std::string contents;
+
+	contents += bind("identifierType", patient.type);
+	contents += bind("identifier", patient.id);
+
+	return HisService::sendRequestToHis(contents);
+}
+
+void EDental::FetchStatusAndProcedures::parseReply(const std::string& reply)
+{
+	 if(!m_callback) return;
+
+    auto cb = std::move(m_callback);
+
+	if (reply.empty()) {
+        cb({}, {});
+		return;
+	}
+
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		if (show_dialogs) {
+			ModalDialogBuilder::showError(errors);
+		}
+        cb({}, {});
+		return;
+	}
+
+		TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	auto content = docHandle.
+		FirstChild().				//message
+		Child(1).ToElement();		//contents
+	
+	if (!content) {
+		m_callback = nullptr;
+		return;
+	}
+
+	//Procedures:
+	std::vector<Procedure> procedures;
+
+	for (auto result = content->FirstChildElement("nhis:results"); result != nullptr; result = result->NextSiblingElement("nhis:results"))
+	{
+		auto ambXml = result->FirstChildElement("nhis:dentalTreatment");
+
+		if (getInt(ambXml, "status") == 3) continue; //cancelled
+
+		if (!ambXml) continue;
+
+		std::string LPK = getString(result->FirstChildElement("nhis:performer"), "pmi");
+
+		std::string nrn = getString(ambXml, "nrnDental");
+
+		for (auto& p : getProceduresFromHis(ambXml, true)) {
+			p.LPK = LPK;
+			p.nrn = nrn;
+			procedures.push_back(p);
+		}
+	}
+
+	std::sort(procedures.begin(), procedures.end(), [](const Procedure& a, const Procedure& b) { return a.date < b.date; });
+
+	//Snapshots:
+	std::vector<HisSnapshot> snapshots;
+
+	snapshots.reserve(procedures.size());
+
+	for (auto& p : procedures)
+	{
+		snapshots.emplace_back();
+
+		auto& snapshot = snapshots.back();
+
+		snapshot.date = p.date;
+		snapshot.affected_teeth = p.getArrayIndexes();
+		snapshot.procedure_name = p.code.name();
+		snapshot.procedure_diagnosis = p.diagnosis.getDiagnosisText();
+		snapshot.procedure_note = p.notes;
+		snapshot.financing = p.financingSource;
+
+		if(snapshots.size() > 1) snapshot.teeth = snapshots[snapshots.size()-2].teeth;
+		
+		p.applyProcedure(snapshot.teeth);
+	}
+
+	std::reverse(procedures.begin(), procedures.end());
+
+    cb(procedures, snapshots);
+
+
+}

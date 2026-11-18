@@ -602,66 +602,58 @@ void ListPresenter::calculateNhifPackage()
 
     auto nhifProcedures = *patient->PISHistory;
 
-    if (m_amblist.nrn.empty() || m_amblist.his_updated) {
-         //getting the procedures from current month from HIS:
-         if(patient->HISHistory) {
-            for(auto& p : *patient->HISHistory) {
-                if (p.isNhif() && 
-                    p.date.month == currentDate.month && 
-                    p.date.year == currentDate.year
-                    ) 
-                {
-                    nhifProcedures.push_back(p);
-                }
-		    }
-         }
-
-    }
-
-    //if not sent to his
-    if(m_amblist.nrn.empty() || !m_amblist.his_updated)
-    {
-        //in case the monthly report from the last month is not yet sent to NHIF
-
-        if (currentDate.day < 5) //last month report has to be sent by the 3rd workday of the month
-        { 
-            std::vector<Procedure> lastMonthProceduresNhif;
-
-            for (auto& p : nhifProcedures) {
-                if (p.date.isFromLastMonth(currentDate)) {
-                    lastMonthProceduresNhif.push_back(p);
-                }
-            }
-
-            std::vector<Procedure> lastMonthProceduresOtherDb; 
-
-            //usiong either HIS history or local database
-            for (auto& p : patient->HISHistory ? 
-                *patient->HISHistory 
-                : 
-                DbProcedure::getPatientProcedures(patient->rowid))
+    if (patient->HISHistory) {
+        for (auto& p : *patient->HISHistory) {
+            if (p.isNhif() &&
+                p.date.month == currentDate.month &&
+                p.date.year == currentDate.year &&
+                p.nrn != m_amblist.nrn
+                )
             {
-                    if (p.date.isFromLastMonth(currentDate) && p.isNhif()) {
-                        lastMonthProceduresOtherDb.push_back(p);
-                    }
-            }
-            
-            //it means the report hasn't been sent to NHIF yet, so we need to add the procedures from the database
-            if (lastMonthProceduresOtherDb.size() > lastMonthProceduresNhif.size()) {
-                for (auto& p : lastMonthProceduresOtherDb) {
-                    nhifProcedures.push_back(p);
-                }
-            }
-        }
-
-        //getting procedures from the current ambulatory sheet
-
-        for (auto& p : m_amblist.procedures) {
-            if (p.isNhif()) {
                 nhifProcedures.push_back(p);
             }
         }
     }
+
+    if (currentDate.day < 5) //last month report has to be sent by the 3rd workday of the month
+    { 
+        std::vector<Procedure> lastMonthProceduresNhif;
+
+        for (auto& p : nhifProcedures) {
+            if (p.date.isFromLastMonth(currentDate)) {
+                lastMonthProceduresNhif.push_back(p);
+            }
+        }
+
+        std::vector<Procedure> lastMonthProceduresOtherDb; 
+
+        //usiong either HIS history or local database
+        for (auto& p : patient->HISHistory ? 
+            *patient->HISHistory 
+            : 
+            DbProcedure::getPatientProcedures(patient->rowid))
+        {
+                if (p.date.isFromLastMonth(currentDate) && p.isNhif()) {
+                    lastMonthProceduresOtherDb.push_back(p);
+                }
+        }
+            
+        //it means the report hasn't been sent to NHIF yet, so we need to add the procedures from the database
+        if (lastMonthProceduresOtherDb.size() > lastMonthProceduresNhif.size()) {
+            for (auto& p : lastMonthProceduresOtherDb) {
+                nhifProcedures.push_back(p);
+            }
+        }
+    }
+
+    //getting procedures from the current ambulatory sheet
+
+    for (auto& p : m_amblist.procedures) {
+        if (p.isNhif()) {
+            nhifProcedures.push_back(p);
+        }
+    }
+    
         
     int exam = 0;
     int maxProcedures = 0;

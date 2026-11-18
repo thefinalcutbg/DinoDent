@@ -19,5 +19,6 @@ struct QProcedure
 	QString notes;
 	Procedure::DatabaseSource db_source;
 	bool is_planned{ false };
+	QString nrn;
 };
 

@@ -408,7 +408,9 @@ std::pair<std::string, std::vector<unsigned char>> HisService::generatePatientSi
 
 		xmlBlock += openTag("signer");
 
-		xmlBlock += bind("identifierType", parent->type);
+		int parentIdType = parent->type == Patient::EU ? 5 : parent->type;
+
+		xmlBlock += bind("identifierType", parentIdType);
 		xmlBlock += bind("identifier", parent->id);
 
 		xmlBlock += openTag("name");
@@ -525,7 +527,7 @@ std::string HisService::getFormattedStrName(TiXmlElement* parent, const std::str
 	return toFormat.toStdString();
 }
 
-std::vector<Procedure> HisService::getProceduresFromHis(TiXmlElement* e)
+std::vector<Procedure> HisService::getProceduresFromHis(TiXmlElement* e, bool includeExam)
 {
 	std::vector<Procedure> procedures;
 
@@ -562,7 +564,7 @@ std::vector<Procedure> HisService::getProceduresFromHis(TiXmlElement* e)
 			}
 		}
 
-		if (p.code.type() != ProcedureType::FullExam){
+		if (p.code.type() != ProcedureType::FullExam || includeExam){
 			p.HIS_fetched_result = HISHistoryAlgorithms::getHisToothContainer(*procXml);
 		}
 

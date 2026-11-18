@@ -82,6 +82,8 @@ struct Procedure
 
     double price {0}; //temporary variable - not save anywhere in db
 
+	std::string nrn; //temporary variable - not save anywhere in db
+
     long long planned_procedure_idx{0};
 
     static std::string getToothString(const AffectedTeeth& teeth);

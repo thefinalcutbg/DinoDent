@@ -14,7 +14,8 @@ QProcedure::QProcedure(const Procedure& p) :
 	doctor(QString::fromStdString(User::getNameFromLPKorRHIF(p.LPK))),
 	notes(QString::fromStdString(p.notes)),
 	db_source(p.db_source),
-	is_planned(p.planned_procedure_idx != 0)
+	is_planned(p.planned_procedure_idx != 0),
+	nrn(QString::fromStdString(p.nrn))
 {
 	if (p.his_index) db_source = Procedure::HIS;
 }

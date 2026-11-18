@@ -19,7 +19,7 @@ class BulkRequester
 	EAllergy::Fetch eAllergyFetchService;
 	EClinicalCondition::Fetch eClinicalConditionFetchService;
 	EHospitalization::Fetch eHospitalizationFetchService;
-	EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
+	EDental::FetchStatusAndProcedures eDentalGetStatusAndProceduresService;
 
 	std::vector<std::function<bool()>> steps;
 

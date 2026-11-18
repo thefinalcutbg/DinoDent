@@ -209,32 +209,13 @@ bool AmbListValidator::isValidAccordingToHIS()
 {
     if(!patient.HISHistory) return true;
 
-    //not validating edited sheets because user can change the date of the procedure
-    if(ambList.nrn.size() && !ambList.his_updated) return true;
-
     std::vector<ProcedureSummary> hisHistory;
 
     for (auto& pHis : *patient.HISHistory) {
 
         if(!pHis.isNhif()) continue;
 
-        bool skipProcedure = false;
-
-        for(auto& p : m_procedures){
-
-            if(!p.his_index) continue;
-
-            if(p.getToothIndex() == pHis.getToothIndex() &&
-                p.date == pHis.date &&
-                p.code.code() == pHis.code.code()
-                ) {
-                skipProcedure = true;
-                break;
-            }
-        }
-
-        //skipping procedure, because it is in the current amb sheet
-        if(skipProcedure) continue;
+		if (pHis.nrn == ambList.nrn) continue;
 
         hisHistory.push_back(ProcedureSummary{
             .date = pHis.date,

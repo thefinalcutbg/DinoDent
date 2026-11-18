@@ -11,6 +11,7 @@ struct Patient;
 class NraStatusService final : protected AbstractReplyHandler
 {
 	std::function<void(const std::optional<InsuranceStatus>&)> m_callback;
+    long long patient_rowid = 0; //for pepsi update
 	void parseReply(const std::string& reply) override;
 public:
 	bool sendRequest(

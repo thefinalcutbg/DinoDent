@@ -3,6 +3,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Network/NetworkManager.h"
 #include "Model/Patient.h"
+#include "Database/DbPatient.h"
 
 void NraStatusService::parseReply(const std::string& reply)
 {
@@ -64,11 +65,14 @@ void NraStatusService::parseReply(const std::string& reply)
 
 		int insuredCode = std::stoi(patient.Child(0).ToElement()->GetText());
 
+        DbPatient::setPepsi(patient_rowid, insuredCode != 1 || insuredCode != 2);
+
 		switch(insuredCode)
 		{
             case 1: cb(InsuranceStatus{ Insured::Yes, periods }); break;
             case 2: cb(InsuranceStatus{ Insured::No, periods }); break;
-            default: cb(InsuranceStatus{Insured::NoData}); break;
+            default:
+                cb(InsuranceStatus{Insured::NoData}); break;
 		}
 
 }
@@ -77,6 +81,8 @@ void NraStatusService::parseReply(const std::string& reply)
 
 bool NraStatusService::sendRequest(const Patient& p, std::function<void(const std::optional<InsuranceStatus>&)> callback, bool showDialogs, const Date& date )
 {
+    patient_rowid = 0;
+
 	if (p.type == Patient::EU) return false;
 
 	m_callback = callback;
@@ -118,6 +124,10 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 	};
 
 	awaiting_reply = true;
+
+    if(p.type == Patient::EGN){
+        patient_rowid = p.rowid;
+    }
 
 	NetworkManager::sendRequestToNra(query, this);
 

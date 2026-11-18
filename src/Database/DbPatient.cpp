@@ -551,3 +551,16 @@ TeethNotes DbPatient::getToothNotes(long long patientRowId)
 
     return notes;
 }
+
+bool DbPatient::setPepsi(long long rowid, bool pepsi)
+{
+    if(!rowid) return false;
+
+    Db db("UPDATE patient SET pepsi=? WHERE rowid=?");
+
+    db.bind(1, pepsi);
+    db.bind(2, rowid);
+
+    return db.execute();
+
+}

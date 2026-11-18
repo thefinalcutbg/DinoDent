@@ -33,6 +33,7 @@ const QPixmap& CommonIcon::getPixmap(CommonIcon::Type t)
         s_pixmaps[CommonIcon::CHECKED] = QPixmap(":/icons/icon_apply.png");
         s_pixmaps[CommonIcon::OPEN] = QPixmap(":/icons/icon_open.png");
         s_pixmaps[CommonIcon::REMOVE] = QPixmap(":/icons/icon_remove.png");
+        s_pixmaps[CommonIcon::PEPSI] = QPixmap(":/icons/icon_pepsi.png");
         icon_arr_init = true;
     }
 

@@ -64,6 +64,7 @@
         <file>icon_menu.png</file>
         <file>icon_sms.png</file>
         <file>icon_search.png</file>
+        <file>icon_pepsi.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>
@@ -178,6 +179,7 @@
         <file>db_migrateTo39.txt</file>
         <file>db_migrateTo40.txt</file>
         <file>db_migrateTo41.txt</file>
+        <file>db_migrateTo42.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

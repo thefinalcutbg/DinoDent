@@ -20,7 +20,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     tableView.addColumn({"Телефон",120,PlainColumn::Center});
 
     std::string query =
-        "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, color FROM patient ORDER BY bday DESC, id ASC";
+        "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, color, pepsi FROM patient ORDER BY (pepsi IS NOT NULL AND pepsi <> 0) ASC, bday DESC, id ASC;";
 
     for (Db db(query);db.hasRows();)
     {
@@ -31,21 +31,26 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 
        tableView.addCell(0, { .data = db.asString(1) });
 
+       auto icon = CommonIcon::NOICON;
+
+       if(db.asBool(6)) { icon = CommonIcon::BDAY; }
+
+       if(db.asBool(8)) { icon = CommonIcon::PEPSI; }
+
        tableView.addCell(1, { 
            .data = FreeFn::getPatientName(db.asString(2),
            db.asString(3),
            db.asString(4)),
-           .icon = db.asBool(6) ?
-                CommonIcon::BDAY
-                :
-                CommonIcon::NOICON
+           .icon = icon
        });
 
        tableView.addCell(2, { 
            .data = db.asString(5)
        });
 
-       tableView.setIndicatorToLastRow(db.asString(7));
+       if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(7));
+       }
     }
 
     return std::make_pair(rows, tableView);
@@ -61,7 +66,7 @@ std::pair <std::vector<RowInstance>, PlainTable> getTreatmentPlans(const Date& f
     "treatment_plan.rowid, treatment_plan.date,"
     "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
     "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
-    "patient.color "
+    "patient.color, patient.pepsi "
     "FROM treatment_plan "
     "JOIN patient ON treatment_plan.patient_rowid = patient.rowid "
     "WHERE strftime('%Y-%m-%d', treatment_plan.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
@@ -86,6 +91,17 @@ std::pair <std::vector<RowInstance>, PlainTable> getTreatmentPlans(const Date& f
         row.rowID = db.asRowId(0);
         row.patientRowId = db.asRowId(2);
 
+        auto icon = CommonIcon::NOICON;
+
+        if(db.asBool(8)) { icon = CommonIcon::BDAY; }
+
+        if(db.asBool(10)) { icon = CommonIcon::PEPSI; }
+
+        //Color
+        if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(9));
+        }
+
         //Date
         tableView.addCell(0, {.data = Date(db.asString(1)).toBgStandard()});
 
@@ -95,14 +111,12 @@ std::pair <std::vector<RowInstance>, PlainTable> getTreatmentPlans(const Date& f
         //Name
         tableView.addCell(2, {
             .data = FreeFn::getPatientName(db.asString(4), db.asString(5), db.asString(6)),
-            .icon = db.asBool(8) ? CommonIcon::BDAY : CommonIcon::NOICON
+            .icon = icon
          });
 
         //Phone
         tableView.addCell(3, { .data = db.asString(7)});
 
-        //Color
-        tableView.setIndicatorToLastRow(db.asString(9));
     }
 
     return std::make_pair(rows, tableView);
@@ -135,7 +149,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
         "amblist.his_updated, "
         "patient.color, "
-		"amblist.sig_bitmap NOT NULL AS sig "
+        "amblist.sig_bitmap NOT NULL AS sig, pepsi "
         "FROM amblist "
         "JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
@@ -200,21 +214,28 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         //ID
         tableView.addCell(2, { .data = db.asString(7) });
 
+        auto icon = CommonIcon::NOICON;
+
+        if(db.asBool(12)) { icon = CommonIcon::BDAY; }
+
+        if(db.asBool(16)) { icon = CommonIcon::PEPSI; }
+
+        //Color
+        if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(14));
+        }
+
+
         //Name
         tableView.addCell(3, {
              .data = FreeFn::getPatientName(db.asString(8), db.asString(9), db.asString(10)),
-             .icon = db.asBool(12) ?
-                    CommonIcon::BDAY
-                    :
-                    CommonIcon::NOICON
+             .icon = icon
         });
 
         //Phone
         tableView.addCell(4, { .data = db.asString(11)
         });
 
-        //Color
-        tableView.setIndicatorToLastRow(db.asString(14));
     }
         
     return std::make_pair(rows, tableView);
@@ -234,7 +255,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
 
     std::string query =
         "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
-        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, patient.color "
+        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, patient.color, pepsi "
         "FROM periostatus INNER JOIN patient ON periostatus.patient_rowid = patient.rowid "
 
         "WHERE "
@@ -257,17 +278,24 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
 
         tableView.addCell(1, { .data = db.asString(3) });
 
+        auto icon = CommonIcon::NOICON;
+
+        if(db.asBool(8)) { icon = CommonIcon::BDAY; }
+
+        if(db.asBool(10)) { icon = CommonIcon::PEPSI; }
+
+        //Color
+        if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(9));
+        }
+
+
         tableView.addCell(2, {
              .data = FreeFn::getPatientName(db.asString(4), db.asString(5), db.asString(6)),
-             .icon = db.asBool(8) ?
-                    CommonIcon::BDAY
-                    :
-                    CommonIcon::NOICON
+             .icon = icon
         });
 
         tableView.addCell(3, { .data = db.asString(7) });
-
-        tableView.setIndicatorToLastRow(db.asString(9));
     }
 
     return std::make_pair(rows, tableView);
@@ -356,7 +384,8 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
         "patient.lname, "
         "patient.phone, "
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday, "
-        "patient.color "
+        "patient.color, "
+        "patient.pepsi "
         "FROM prescription INNER JOIN patient ON prescription.patient_rowid = patient.rowid "
         "WHERE "
         "prescription.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
@@ -390,21 +419,27 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
        //ID
        tableView.addCell(2, { .data = db.asString(4) });
 
+       auto icon = CommonIcon::NOICON;
+
+       if(db.asBool(9)) { icon = CommonIcon::BDAY; }
+
+       if(db.asBool(11)) { icon = CommonIcon::PEPSI; }
+
+       //Color
+       if(icon == CommonIcon::NOICON){
+           tableView.setIndicatorToLastRow(db.asString(10));
+       }
+
+
        //NAME
        tableView.addCell(3, { 
            .data = FreeFn::getPatientName(db.asString(5), db.asString(6), db.asString(7)),
-            .icon = db.asBool(9) ?
-                   CommonIcon::BDAY
-                   :
-                   CommonIcon::NOICON
+            .icon = icon
            });
 
        //PHONE
        tableView.addCell(4, { .data = db.asString(8)
            });
-
-       //COLOR
-       tableView.setIndicatorToLastRow(db.asString(10));
     }
 
     return std::make_pair(rows, tableView);

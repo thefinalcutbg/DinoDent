@@ -41,6 +41,8 @@ namespace DbPatient
 
 	bool hasNhifProceduresFromDentist(long long patientRowid, const std::string& rzi, const std::string& lpk);
 
+    bool setPepsi(long long patient_rowid, bool pepsi);
+
     TeethNotes getToothNotes(long long patientRowId);
 };
 

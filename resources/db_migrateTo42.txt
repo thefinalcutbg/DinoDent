@@ -1,0 +1,2 @@
+PRAGMA user_version=42;
+ALTER TABLE patient ADD COLUMN pepsi INTEGER DEFAULT (0);

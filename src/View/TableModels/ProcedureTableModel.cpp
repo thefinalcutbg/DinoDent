@@ -170,6 +170,11 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                 }
 				return QVariant();
                 break;
+            case 8:
+                if (m_procedures[row].nrn.size()) {
+                    return QIcon(":/icons/icon_his.png");
+                }
+				return QVariant();
             default:
                 return QVariant();
             }

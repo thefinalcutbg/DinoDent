@@ -486,10 +486,9 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 	
 }
 
-
 std::string Procedure::getToothString() const
 {
-	if (HIS_fetched_result) {
+	if (HIS_fetched_result && code.type() != ProcedureType::FullExam) {
 		return HIS_fetched_result->getToothString();
 	}
 

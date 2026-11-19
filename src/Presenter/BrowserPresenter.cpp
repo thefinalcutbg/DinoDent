@@ -9,7 +9,6 @@
 #include "Database/DbBrowser.h"
 #include "Database/DbPatient.h"
 #include "Database/DbTreatmentPlan.h"
-
 #include "Model/FreeFunctions.h"
 
 #include <map>
@@ -433,6 +432,87 @@ void BrowserPresenter::exportToCsv()
 	}
 
 	FreeFn::exportToCSV(csvTable, vatAmount ? columnCount : columnCount - 2);
+}
+
+#include "View/Widgets/UpdateDialog.h"
+
+void BrowserPresenter::calculatePepsi()
+{
+	static UpdateDialog* dialog{ nullptr };
+	static int counter{ 0 };
+
+	auto abort = [this]() {
+		auto* closingDialog = dialog;
+		dialog = nullptr;
+
+		if (closingDialog) {
+			closingDialog->blockSignals(true);
+			closingDialog->close();
+			closingDialog->deleteLater();
+		}
+		counter = 0;
+		pepsi_patients.clear();
+		refreshModel();
+	};
+
+	if(pepsi_patients.empty()) {
+
+		pepsi_patients = DbPatient::getPepsiPatients();
+		counter = 0;
+
+		dialog = new UpdateDialog(view);
+		dialog->setWindowIcon(QIcon(":/icons/icon_pepsi.png"));
+		dialog->setWindowTitle("Проверка за починали пациенти");
+		dialog->setRange(pepsi_patients.size());
+		dialog->setLabelText("Моля изчакайте...");
+		dialog->show();
+		dialog->setModal(false);
+
+		QObject::connect(dialog, &UpdateDialog::rejected, dialog, [=]() { abort(); });
+	}
+
+	nraService.sendRequest(
+			DbPatient::get(pepsi_patients[pepsi_patients.size()-1].first),
+			[this, abort](const std::optional<InsuranceStatus>& status) {
+
+				if(!status) {
+					ModalDialogBuilder::showError("Грешка при проверката на здравноосигурителния статус.");
+					abort();
+					return;
+				}
+
+				if (pepsi_patients.empty()) {
+					abort();
+					return;
+				}
+
+				dialog->increment();
+
+				auto realPepsi = status && status->status == Insured::NoData;
+
+				if(realPepsi != pepsi_patients.back().second) {
+					DbPatient::setPepsi(pepsi_patients.back().first, realPepsi);
+
+					if (realPepsi) {
+						counter++;
+
+						if (dialog) {
+							dialog->setLabelText("Брой  починали пациенти: " + QString::number(counter));
+						}
+					}
+				}
+
+				if(pepsi_patients.size()) pepsi_patients.pop_back();
+			
+				if (pepsi_patients.empty()) {
+					abort();
+					return;
+				}
+
+				calculatePepsi();
+			},
+			false
+		);
 }
 
 void BrowserPresenter::sendSms()

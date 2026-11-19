@@ -6,6 +6,7 @@
 #include "Model/TableRows.h"
 #include "Model/PlainTable.h"
 #include "Model/User.h"
+#include "Network/NRA/NraStatusService.h"
 
 class BrowserDialog;
 
@@ -20,6 +21,9 @@ struct BrowserUiState {
 class BrowserPresenter
 {
 	BrowserDialog* view{ nullptr };
+
+	NraStatusService nraService;
+	std::vector<std::pair<long long, bool>> pepsi_patients;
 
 	static inline BrowserUiState ui_state;
 
@@ -52,5 +56,6 @@ public:
 	void sendSms();
 	void createNotification();
 	void exportToCsv();
+	void calculatePepsi();
 };
 

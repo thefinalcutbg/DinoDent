@@ -157,6 +157,11 @@ void UnusedPackagePresenter::step2_insuranceCheck(const std::optional<InsuranceS
 	};
 
 	if (status.value().status != Insured::Yes) {
+
+		if(m_queue.front().type == Patient::EGN && status.value().status == Insured::NoData) {
+			DbPatient::setPepsi(m_queue.front().rowid, true);
+		}
+
 		popQueue();
 		step1_localDbCheck();
 		return;

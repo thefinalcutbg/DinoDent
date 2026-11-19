@@ -486,6 +486,19 @@ LIMIT 1
     return false;
 }
 
+std::vector<std::pair<long long, bool>> DbPatient::getPepsiPatients()
+{
+    std::vector<std::pair<long long, bool>> result;
+
+    Db db("SELECT rowid, pepsi FROM patient WHERE type=1");
+
+    while (db.hasRows()) {
+        result.emplace_back(db.asRowId(0), db.asBool(1));
+    }
+
+    return result;
+}
+
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)
 {
     db.newStatement(

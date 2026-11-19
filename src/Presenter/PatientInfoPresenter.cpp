@@ -174,6 +174,10 @@ void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatu
 
     patient->insuranceStatus = status_result.value();
 
+    if(patient->type == Patient::EGN) {
+		DbPatient::setPepsi(patient->rowid, status_result->status == Insured::NoData);
+	}
+
     if (m_isCurrent) {
         view->setPatient(*patient, patientAge);
     }

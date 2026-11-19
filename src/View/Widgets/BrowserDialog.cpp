@@ -44,6 +44,7 @@ BrowserDialog::BrowserDialog()
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.csvButton->setIcon(QIcon(":/icons/icon_csv.png"));
+	ui.pepsiButton->setIcon(QIcon(":/icons/icon_pepsi.png"));
 
 	ui.tabBar->setExpanding(false);
 	ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
@@ -110,7 +111,8 @@ BrowserDialog::BrowserDialog()
     connect(ui.tableView, &ListTable::deletePressed, this, [&] { ui.deleteButton->click(); });
 
     connect(ui.deleteButton, &QPushButton::clicked, this, [&]{ presenter.deleteCurrentSelection(); });
-
+	
+    connect(ui.pepsiButton, &QPushButton::clicked, this, [&]{ presenter.calculatePepsi(); });
 
     connect(ui.openDocButton, &QPushButton::clicked, this, [&] {
 
@@ -347,6 +349,7 @@ void BrowserDialog::calculateUiState()
 	ui.fromDateEdit->setHidden(patientSection);
 	ui.toDateEdit->setHidden(patientSection);
 	ui.csvButton->setHidden(!financialSection);
+	ui.pepsiButton->setHidden(!patientSection || !User::practice().hasNraAccess());
 }
 
 bool BrowserDialog::eventFilter(QObject *obj, QEvent *e)

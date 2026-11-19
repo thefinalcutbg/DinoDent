@@ -6,8 +6,14 @@ UpdateDialog::UpdateDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 	setWindowTitle("Обновяване на базата данни");
+	setStyleSheet("QDialog { background-color: white; }");
 }
 
+void UpdateDialog::setLabelText(const QString& text)
+{
+	ui.label->setText(text);
+	QCoreApplication::processEvents();
+}
 
 void UpdateDialog::setRange(int range)
 {

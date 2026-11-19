@@ -241,6 +241,9 @@
               <property name="text">
                <string>Запази като CSV</string>
               </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -258,6 +261,19 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pepsiButton">
+              <property name="toolTip">
+               <string>Проверка за починали пациенти</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="deleteButton">

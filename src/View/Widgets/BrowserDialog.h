@@ -35,6 +35,7 @@ private:
 public:
     BrowserDialog();
 
+	void scrollToBottom();
 	void setUiState(const BrowserUiState& state) ;
     void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn, int dateColumn);
 	void setPreview(const PlainTable& t) ;

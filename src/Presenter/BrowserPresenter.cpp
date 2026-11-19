@@ -450,7 +450,6 @@ void BrowserPresenter::calculatePepsi()
 			closingDialog->close();
 			closingDialog->deleteLater();
 		}
-		counter = 0;
 		pepsi_patients.clear();
 		refreshModel();
 	};
@@ -506,6 +505,9 @@ void BrowserPresenter::calculatePepsi()
 			
 				if (pepsi_patients.empty()) {
 					abort();
+					if (counter) {
+						view->scrollToBottom();
+					}
 					return;
 				}
 

@@ -171,6 +171,11 @@ void BrowserDialog::datesChanged()
     presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date()));
 }
 
+void BrowserDialog::scrollToBottom()
+{
+	ui.tableView->scrollToBottom();
+}
+
 void BrowserDialog::setUiState(const BrowserUiState& state)
 {	
     QSignalBlocker blockers[4] = {

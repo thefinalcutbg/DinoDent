@@ -97,9 +97,14 @@ std::string User::getNameFromLPK(const std::string& LPK, bool prefix)
 {
 	std::string result = prefix ? doctorPrefix : "";
 
-    if (s_names.count(LPK)) return doctorPrefix + s_names[LPK];
+    if (s_names.count(LPK)) {
+        result += s_names[LPK];
+    }
+    else {
+		result = LPK;
+    }
 
-    return LPK;
+    return result;
 
 }
 /*

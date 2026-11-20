@@ -97,11 +97,6 @@ std::pair <std::vector<RowInstance>, PlainTable> getTreatmentPlans(const Date& f
 
         if(db.asBool(10)) { icon = CommonIcon::PEPSI; }
 
-        //Color
-        if(icon == CommonIcon::NOICON){
-            tableView.setIndicatorToLastRow(db.asString(9));
-        }
-
         //Date
         tableView.addCell(0, {.data = Date(db.asString(1)).toBgStandard()});
 
@@ -116,6 +111,11 @@ std::pair <std::vector<RowInstance>, PlainTable> getTreatmentPlans(const Date& f
 
         //Phone
         tableView.addCell(3, { .data = db.asString(7)});
+
+        //Color
+        if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(9));
+        }
 
     }
 
@@ -220,12 +220,6 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
 
         if(db.asBool(16)) { icon = CommonIcon::PEPSI; }
 
-        //Color
-        if(icon == CommonIcon::NOICON){
-            tableView.setIndicatorToLastRow(db.asString(14));
-        }
-
-
         //Name
         tableView.addCell(3, {
              .data = FreeFn::getPatientName(db.asString(8), db.asString(9), db.asString(10)),
@@ -235,6 +229,13 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         //Phone
         tableView.addCell(4, { .data = db.asString(11)
         });
+
+        //Color
+        if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(14));
+        }
+
+
 
     }
         
@@ -284,18 +285,18 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
 
         if(db.asBool(10)) { icon = CommonIcon::PEPSI; }
 
-        //Color
-        if(icon == CommonIcon::NOICON){
-            tableView.setIndicatorToLastRow(db.asString(9));
-        }
-
-
         tableView.addCell(2, {
              .data = FreeFn::getPatientName(db.asString(4), db.asString(5), db.asString(6)),
              .icon = icon
         });
 
         tableView.addCell(3, { .data = db.asString(7) });
+
+        //Color
+        if(icon == CommonIcon::NOICON){
+            tableView.setIndicatorToLastRow(db.asString(9));
+        }
+
     }
 
     return std::make_pair(rows, tableView);
@@ -425,12 +426,6 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
 
        if(db.asBool(11)) { icon = CommonIcon::PEPSI; }
 
-       //Color
-       if(icon == CommonIcon::NOICON){
-           tableView.setIndicatorToLastRow(db.asString(10));
-       }
-
-
        //NAME
        tableView.addCell(3, { 
            .data = FreeFn::getPatientName(db.asString(5), db.asString(6), db.asString(7)),
@@ -438,8 +433,13 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
            });
 
        //PHONE
-       tableView.addCell(4, { .data = db.asString(8)
-           });
+       tableView.addCell(4, { .data = db.asString(8) });
+       
+       //Color
+       if(icon == CommonIcon::NOICON){
+           tableView.setIndicatorToLastRow(db.asString(10));
+       }
+
     }
 
     return std::make_pair(rows, tableView);
@@ -552,7 +552,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         table.addCell(0, { .data = date, .icon = nhif ? CommonIcon::NHIF : CommonIcon::NOICON });
         table.addCell(1, { .data = docTypeString, .icon = docTypeIcon });
         table.addCell(2, { .data = nrn, .icon = his_icon});
-        table.addCell(3, { .data = User::getNameFromLPK(db.asString(7)) });
+        table.addCell(3, { .data = User::getNameFromLPK(db.asString(7), type != static_cast<int>(TabType::Financial)) });
        
         
     }

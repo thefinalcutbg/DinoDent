@@ -21,7 +21,7 @@ namespace User
     bool isCurrentUser(const std::string& LPK);
 	bool isAdmin();
 	void refereshPracticeDoctor();
-	std::string getNameFromLPKorRHIF(const std::string& LPK);
+	std::string getNameFromLPK(const std::string& LPK, bool prefix = true);
     std::pair<double, double> getPrice(const std::string& achiCode);
 	bool hasNhifContract();
 	bool isIncognito();

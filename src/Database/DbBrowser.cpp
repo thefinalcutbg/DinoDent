@@ -552,7 +552,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         table.addCell(0, { .data = date, .icon = nhif ? CommonIcon::NHIF : CommonIcon::NOICON });
         table.addCell(1, { .data = docTypeString, .icon = docTypeIcon });
         table.addCell(2, { .data = nrn, .icon = his_icon});
-        table.addCell(3, { .data = User::getNameFromLPKorRHIF(db.asString(7)) });
+        table.addCell(3, { .data = User::getNameFromLPK(db.asString(7)) });
        
         
     }

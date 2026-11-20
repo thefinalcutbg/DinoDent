@@ -1,9 +1,12 @@
 ﻿#include "User.h"
 
-#include "Database/DbDoctor.h"
+#include <json/json.h>
 #include <unordered_map>
-#include "Model/Validators/LpkValidator.h"
+
+#include "Database/DbDoctor.h"
 #include "Database/DbPractice.h"
+#include "Model/Validators/LpkValidator.h"
+#include "Resources.h"
 
 static Practice s_practice;
 static Doctor s_doctor;
@@ -14,6 +17,14 @@ std::unordered_map<std::string, std::string> s_names;
 void User::initialize()
 {
     s_names = DbDoctor::getPracticeAndDoctorNames();
+
+	Json::Value root;
+	Json::Reader reader;
+	reader.parse(Resources::fromPath(":/json/json_bzs.json"), root);
+
+    for (const auto& id : root.getMemberNames()) {
+        s_names.emplace(id, root[id].asString());
+    }
 }
 
 
@@ -82,9 +93,11 @@ void User::refereshPracticeDoctor()
    s_doctor.specialty = static_cast<NhifSpecialty>(std::get<1>(DbDoctor::getAdminAndSpecialty(s_doctor.LPK, s_practice.rziCode)));
 }
 
-std::string User::getNameFromLPKorRHIF(const std::string& LPK)
+std::string User::getNameFromLPK(const std::string& LPK, bool prefix)
 {
-    if (s_names.count(LPK)) return s_names[LPK];
+	std::string result = prefix ? doctorPrefix : "";
+
+    if (s_names.count(LPK)) return doctorPrefix + s_names[LPK];
 
     return LPK;
 

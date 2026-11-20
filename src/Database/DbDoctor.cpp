@@ -181,7 +181,7 @@ std::unordered_map<std::string, std::string> DbDoctor::getPracticeAndDoctorNames
 
     while (db.hasRows())
     {
-        doctorNames[db.asString(0)] = doctorPrefix + db.asString(1)+ " " + db.asString(2);
+        doctorNames[db.asString(0)] = db.asString(1)+ " " + db.asString(2);
     }
 
     db.newStatement("SELECT rzi, name FROM practice"); 

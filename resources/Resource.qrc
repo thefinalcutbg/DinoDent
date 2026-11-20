@@ -122,6 +122,7 @@
         <file>json_country.json</file>
         <file>json_hrToEkatte.json</file>
         <file>json_icd10.json</file>
+        <file>json_bzs.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

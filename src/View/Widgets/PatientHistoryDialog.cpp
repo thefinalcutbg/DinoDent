@@ -51,6 +51,7 @@ PatientHistoryDialog::PatientHistoryDialog(PatientHistoryPresenter& p, QWidget *
 	ui.procedureTable->setColumnWidth(4, 200);
 	ui.procedureTable->setColumnWidth(5, 65);
 	ui.procedureTable->setColumnWidth(6, 120);
+	ui.procedureTable->setColumnWidth(7, 160);
 	ui.procedureTable->setColumnWidth(8, 120);
 
 	ui.procedureTable->horizontalHeader()->setSectionResizeMode(9, QHeaderView::Stretch);

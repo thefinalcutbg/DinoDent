@@ -106,8 +106,9 @@ bool initFunction() {
 
     try { Db db; } catch (...) { return false; }
 
+    SplashScreen::showMessage("Зареждане на регистъра на БЗС");
     User::initialize();
-
+    
     SplashScreen::showMessage("Стартиране на DinoDent...");
 
     return true;

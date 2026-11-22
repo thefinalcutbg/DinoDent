@@ -399,8 +399,9 @@ void CalendarTable::paintEvent(QPaintEvent* e)
 
     int currentMinutes = currentTime.hour() * 60 + currentTime.minute();
 
-    double pixelsPerMinute = (double)viewport()->height() / 1440.0;
-    int y = (int)(pixelsPerMinute * currentMinutes) - verticalOffset();
+    const int row = currentMinutes / 15;
+    const int y = rowViewportPosition(row)
+        + rowHeight(row) * (currentMinutes % 15) / 15;
 
     int x = columnViewportPosition(m_today_column);
     int w = columnWidth(m_today_column);

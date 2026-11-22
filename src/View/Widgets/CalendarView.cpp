@@ -13,6 +13,40 @@
 #include "View/uiComponents/CalendarWidget.h"
 #include "View/uiComponents/SmoothWheelScroll.h"
 
+namespace {
+class CalendarHourLabels : public QWidget
+{
+    CalendarTable* table;
+
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter painter(this);
+        auto labelFont = font();
+        labelFont.setBold(true);
+        painter.setFont(labelFont);
+        painter.setPen(Qt::darkCyan);
+        const int textHeight = painter.fontMetrics().height();
+
+        for (int hour = 1; hour < 24; ++hour) {
+            const int y = mapFromGlobal(table->viewport()->mapToGlobal(
+                QPoint(0, table->rowViewportPosition(hour * 4)))).y();
+            painter.drawText(QRect(0, y - textHeight / 2, width(), textHeight),
+                Qt::AlignCenter, QTime(hour, 0).toString("HH:mm"));
+        }
+    }
+
+public:
+    CalendarHourLabels(CalendarTable* table, QWidget* parent)
+        : QWidget(parent), table(table)
+    {
+        connect(table->verticalHeader(), &QHeaderView::geometriesChanged,
+            this, [this] { update(); });
+        connect(table->verticalScrollBar(), &QScrollBar::valueChanged,
+            this, [this] { update(); });
+    }
+};
+}
+
 CalendarView::CalendarView(QWidget* parent)
     : QWidget(parent)
 {
@@ -223,62 +257,38 @@ void CalendarView::initTable()
         ui.calendarTable->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
     }
 
-    //(/¯◡ ‿ ◡)/¯ ~ magic, magic 
     int rowHeight = 14;
-    int tableHeight = 2303;
-    int topOffset = 88;
-    int bottomOffset = 16;
-    int hourLabelWidth = 60;
+    auto hourFont = font();
+    hourFont.setBold(true);
+    const int hourLabelWidth = qMax(60, QFontMetrics(hourFont).horizontalAdvance("00:00") + 12);
 
 #ifdef Q_OS_MAC
-    int hourLabelHeight = 94;
     rowHeight = 25;
-    tableHeight = 2000;
-    topOffset = 90;
-    bottomOffset = 26;
 #endif
 
-    ui.tableTopSpacer->changeSize(20, topOffset);
+    ui.calendarTable->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
     for (int i = 0; i < 24*4; i++) {
 
         ui.calendarTable->setRowHeight(i, rowHeight);
     }
 
-    ui.calendarTable->setMinimumHeight(tableHeight);
+    // The outer scroll area scrolls the entire day. Use Qt's actual row
+    // heights, including any minimum imposed by the system text size.
+    ui.calendarTable->setFixedHeight(ui.calendarTable->verticalHeader()->length());
 
     ui.calendarTable->verticalHeader()->hide();
     ui.calendarTable->horizontalHeader()->hide();
 
 
-    for (int i = 0; i < 23; i++)
-    {
-        QLabel* l = new QLabel(this);
-
-        auto hour = i + 1;
-
-        QString labelText = "<b><font color=DarkCyan>";// + Theme::colorToString(Theme::fontTurquoiseClicked) + ">";
-        labelText += hour < 10 ? "0" : "";
-        labelText += QString::number(hour);
-        labelText += ":00";
-        labelText += "</font></b>";
-
-        l->setText(labelText);
-
-        l->setMinimumWidth(hourLabelWidth);
-#ifdef Q_OS_MAC
-        l->setMinimumHeight(hourLabelHeight);
-        l->setMaximumHeight(hourLabelHeight);
-#endif
-        l->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
-        ui.hourLayout->addWidget(l);
-    }
+    auto* hourLabels = new CalendarHourLabels(ui.calendarTable, ui.scrollAreaWidgetContents);
+    hourLabels->setFixedWidth(hourLabelWidth);
+    ui.hourLayout->setContentsMargins(0, 0, 0, 0);
+    ui.hourLayout->setSpacing(0);
+    ui.hourLayout->addWidget(hourLabels);
     
     ui.weekSpacerBegin->setMaximumWidth(hourLabelWidth);
     ui.weekSpacerEnd->changeSize(16, 10);
-
-    auto tableBottomSpacer = new QSpacerItem(20, bottomOffset, QSizePolicy::Minimum, QSizePolicy::Fixed);
-    ui.hourLayout->addItem(tableBottomSpacer);
 }
 
 void CalendarView::paintEvent(QPaintEvent*)

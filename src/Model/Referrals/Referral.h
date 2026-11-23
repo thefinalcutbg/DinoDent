@@ -2,7 +2,7 @@
 
 #include <variant>
 #include <array>
-
+#include "Model/Dental/ToothUtils.h"
 #include "Model/Date.h"
 #include "ReferralData.h"
 
@@ -71,6 +71,31 @@ public:
 
 	inline bool isSentToHIS() const {
 		return nrn.size();
+	}
+
+	std::string getReason() const {
+
+		std::string result;
+
+		switch (type) {
+		case ReferralType::MH119: {
+			const auto& mh119 = std::get<MH119Data>(data);
+			result += mh119.description;
+			break;
+		}
+		case ReferralType::MDD4: {
+			const auto& mdd4 = std::get<MDD4Data>(data);
+			if (!mdd4.isOPG()) {
+				result += "Сегментна снимка на зъб " + std::to_string(ToothUtils::getToothNumber(mdd4.tooth_idx, false));
+			}
+			else {
+				result += "Ортопантомография";
+			}
+			break;
+		}
+		}
+
+		return result;
 	}
 
 	std::string getNumber() const;

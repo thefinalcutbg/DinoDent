@@ -23,6 +23,16 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 	ui.deleteButton->setHoverColor(Theme::fontRedClicked);
 	ui.hisButton->setHoverColor(Theme::mainBackgroundColor);
 
+
+	ui.diagnosisLabel->setText("<b>Диагноза:</b> " + QString::fromStdString(ref.diagnosis.getText()));
+	
+	auto reason = ref.getReason();
+
+	if (reason.size()) {
+		ui.reasonLabel->setText("<b>Причина:</b> " + QString::fromStdString(reason));
+	}
+
+
 	if (ref.type != ReferralType::MH119 && ref.type != ReferralType::MDD4)
 	{
 		ui.printButton->hide();

@@ -78,21 +78,22 @@ public:
 		std::string result;
 
 		switch (type) {
-		case ReferralType::MH119: {
-			const auto& mh119 = std::get<MH119Data>(data);
-			result += mh119.description;
-			break;
-		}
-		case ReferralType::MDD4: {
-			const auto& mdd4 = std::get<MDD4Data>(data);
-			if (!mdd4.isOPG()) {
-				result += "Сегментна снимка на зъб " + std::to_string(ToothUtils::getToothNumber(mdd4.tooth_idx, false));
+			case ReferralType::MH119:
+				result = std::get<MH119Data>(data).description;  
+				break;
+		
+			case ReferralType::MDD4: {
+
+				const auto& mdd4 = std::get<MDD4Data>(data);
+
+				if (!mdd4.isOPG()) {
+					result = "Сегментна снимка на зъб " + std::to_string(ToothUtils::getToothNumber(mdd4.tooth_idx, false));
+				}
+				else {
+					result = "Ортопантомография";
+				}
+				break;
 			}
-			else {
-				result += "Ортопантомография";
-			}
-			break;
-		}
 		}
 
 		return result;

@@ -23,13 +23,23 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 	ui.deleteButton->setHoverColor(Theme::fontRedClicked);
 	ui.hisButton->setHoverColor(Theme::mainBackgroundColor);
 
+	auto diagnosisText = QString::fromStdString(ref.diagnosis.getText());
 
-	ui.diagnosisLabel->setText("<b>Диагноза:</b> " + QString::fromStdString(ref.diagnosis.getText()));
-	
-	auto reason = ref.getReason();
+	if (diagnosisText.size() > 50) {
+		diagnosisText = diagnosisText.left(50) + "...";
+	}
+
+	ui.diagnosisLabel->setText("<b>Диагноза:</b> " + diagnosisText);
+
+	auto reason = QString::fromStdString(ref.getReason());
 
 	if (reason.size()) {
-		ui.reasonLabel->setText("<b>Причина:</b> " + QString::fromStdString(reason));
+
+		if (reason.size() > 50) {
+			reason = reason.left(50) + "...";
+		}
+
+		ui.reasonLabel->setText("<b>Причина:</b> " + reason);
 	}
 
 

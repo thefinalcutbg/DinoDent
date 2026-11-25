@@ -336,22 +336,28 @@ void ListPresenter::fetchListProcedures(const std::string& nrn)
 {
     eDentalFetchService.sendRequest(nrn,
         [&](const AmbList& result, const Patient& patient) {
-                
-		    	m_amblist.nrn = result.nrn;
-                m_amblist.procedures = result.procedures;
-				m_amblist.his_updated = true;
-                
-				DbAmbList::update(m_amblist);
 
-                refreshTabName();
+			m_amblist.procedures = result.procedures;
+			m_amblist.nrn = result.nrn;
+			m_amblist.lrn = result.lrn;
+			m_amblist.date = result.date;
+			m_amblist.treatment_end = result.treatment_end;
+			m_amblist.basedOn = result.basedOn;
+			m_amblist.teeth = result.teeth;
+			m_amblist.his_updated = true;
 
-                if (isCurrent())
-                {
-                    setHisButtonToView();
-                    view->setProcedures(m_amblist.procedures.list());
-                }
+			DbAmbList::update(m_amblist);
 
-                ModalDialogBuilder::showMessage("Амбулаторният лист е синхронизиран с НЗИС успешно");
+			edited = false;
+
+            refreshTabName();
+
+            if (isCurrent())
+            {
+				setDataToView();
+            }
+
+            ModalDialogBuilder::showMessage("Амбулаторният лист е синхронизиран с НЗИС успешно");
         }
 	);
 }

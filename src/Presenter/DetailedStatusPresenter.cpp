@@ -6,6 +6,7 @@
 #include "View/Graphics/PaintHint.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/DetailedStatus.h"
+#include "Model/User.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(int toothIdx, const Patient& patient)
     : view(nullptr),
@@ -82,6 +83,7 @@ void DetailedStatusPresenter::tableOptionChanged(bool local, bool his, bool pis)
 		his ? Procedure::DatabaseSource::HIS :
 		pis ? Procedure::DatabaseSource::PIS :
 		Procedure::DatabaseSource::UnknownSource;
+	m_source = requestedSource;
 
 	for (auto& p : m_procedures) {
 
@@ -93,6 +95,31 @@ void DetailedStatusPresenter::tableOptionChanged(bool local, bool his, bool pis)
 	}
 
 	view->setHistoryData(toDisplay, requestedSource);
+}
+
+void DetailedStatusPresenter::checkDoctorNames()
+{
+	if (bzs_service.awaitingReply()) return;
+
+	std::vector<std::string> lpk_list;
+	for (const auto& procedure : m_procedures) {
+		if (!procedure.LPK.empty() && User::getNameFromLPK(procedure.LPK, false) == procedure.LPK) {
+			lpk_list.push_back(procedure.LPK);
+		}
+	}
+
+	if (lpk_list.empty()) return;
+
+	bzs_service.sendRequest(lpk_list, [this](const std::map<std::string, std::string>& names) {
+		User::addDoctorNames(names);
+		if (!view) return;
+
+		tableOptionChanged(
+			m_source == Procedure::Local,
+			m_source == Procedure::HIS,
+			m_source == Procedure::PIS
+		);
+	});
 }
 
 void DetailedStatusPresenter::okPressed()
@@ -118,7 +145,9 @@ void DetailedStatusPresenter::open(Procedure::DatabaseSource s)
 		);
 	}
 
+	checkDoctorNames();
 	d.exec();
+	view = nullptr;
 }
 
 

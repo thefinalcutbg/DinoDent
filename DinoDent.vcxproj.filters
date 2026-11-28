@@ -1038,6 +1038,9 @@
     <ClCompile Include="src\Network\BulkRequester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\BZSRegisterService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Database\DbTreatmentPlan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1836,6 +1839,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\BulkRequester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\BZSRegisterService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbTreatmentPlan.h">

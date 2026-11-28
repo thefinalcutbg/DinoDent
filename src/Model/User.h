@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 #include "UserStructs.h"
 #include "Printer/SignatureTablet.h"
 
@@ -22,6 +23,7 @@ namespace User
 	bool isAdmin();
 	void refereshPracticeDoctor();
 	std::string getNameFromLPK(const std::string& LPK, bool prefix = true);
+	void addDoctorNames(const std::map<std::string, std::string>& names);
     std::pair<double, double> getPrice(const std::string& achiCode);
 	bool hasNhifContract();
 	bool isIncognito();

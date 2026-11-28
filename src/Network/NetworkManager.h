@@ -8,6 +8,10 @@ class QNetworkAccessManager;
 
 namespace NetworkManager
 {
+	void sendRequestToBzsRegister(
+		const std::string& lpk,
+		AbstractReplyHandler* handler
+	);
 
 	void sendRequestToPis(
 		const std::string& soapRequest,

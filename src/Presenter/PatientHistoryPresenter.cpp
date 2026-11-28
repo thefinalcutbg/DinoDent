@@ -151,6 +151,7 @@ void PatientHistoryPresenter::procedureRefreshRequested(Procedure::DatabaseSourc
 								if (!procedures.has_value()) return;
 
 								patient.HISHistory = procedures;
+								checkDoctorNames();
 							});
 
 					}
@@ -172,6 +173,7 @@ void PatientHistoryPresenter::procedureRefreshRequested(Procedure::DatabaseSourc
 					patient.HISHistory = procedures;
 					HISHistory = procedures;
 					view.setProcedures(procedures.value(), source);
+					checkDoctorNames();
 
 				}
 			);
@@ -180,6 +182,41 @@ void PatientHistoryPresenter::procedureRefreshRequested(Procedure::DatabaseSourc
 }
 
 
+
+void PatientHistoryPresenter::checkDoctorNames()
+{
+	if (!patient.HISHistory) return;
+
+	if (bzs_service.awaitingReply()) {
+		doctorNamesCheckPending = true;
+		return;
+	}
+
+	std::vector<std::string> lpk_list;
+
+	for (const auto& procedure : *patient.HISHistory) {
+		if (User::getNameFromLPK(procedure.LPK, false) == procedure.LPK) {
+			lpk_list.push_back(procedure.LPK);
+		}
+	}
+
+	if (lpk_list.empty()) return;
+
+	bzs_service.sendRequest(lpk_list, [this](const std::map<std::string, std::string>& names) {
+
+		User::addDoctorNames(names);
+
+		if (patient.HISHistory) {
+			view.setProcedures(*patient.HISHistory, Procedure::HIS);
+		}
+
+		// A newer HIS reply may have arrived while the register lookup was running.
+		if (doctorNamesCheckPending) {
+			doctorNamesCheckPending = false;
+			checkDoctorNames();
+		}
+	});
+}
 
 void PatientHistoryPresenter::statusSourceChanged(Procedure::DatabaseSource source)
 {
@@ -228,6 +265,10 @@ void PatientHistoryPresenter::statusRefreshRequested()
 
 			if (!procedures) return;
 
+			HISHistory = procedures;
+			patient.HISHistory = procedures;
+			checkDoctorNames();
+
 			if (snapshots.empty()) {
 				ModalDialogBuilder::showMessage(
 					"За този пациент не са намерени данни в НЗИС"
@@ -238,8 +279,6 @@ void PatientHistoryPresenter::statusRefreshRequested()
 			his_snapshots = snapshots;
 
 			view.setSnapshots(snapshots, Procedure::HIS);
-			HISHistory = procedures;
-			patient.HISHistory = procedures;
 		}
 	);
 

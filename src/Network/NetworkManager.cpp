@@ -7,6 +7,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSslKey>
+#include <QUrlQuery>
 
 #include "PKCS11.h"
 #include "AbstractReplyHandler.h"
@@ -212,6 +213,25 @@ void NetworkManager::sendTelemetry(const std::string& json)
     QNetworkRequest request(QUrl("https://charmquark.xyz:18080/telemetry"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     getManager()->post(request, json.c_str());
+}
+
+void NetworkManager::sendRequestToBzsRegister(
+    const std::string& lpk, AbstractReplyHandler* handler)
+{
+    QUrl url("https://pub.registerbzs.org/reg.php");
+    QUrlQuery query;
+    query.addQueryItem("name", "");
+    query.addQueryItem("midname", "");
+    query.addQueryItem("surname", "");
+    query.addQueryItem("uin", QString::fromStdString(lpk));
+    query.addQueryItem("sp", "");
+    query.addQueryItem("kol", "0");
+    query.addQueryItem("Submit", QString::fromUtf8(" търси "));
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    request.setRawHeader("Accept", "text/html");
+    postRequest(request, handler, "");
 }
 
 void NetworkManager::requestChallenge()

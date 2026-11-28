@@ -17,7 +17,7 @@ std::unordered_map<std::string, std::string> s_names;
 void User::initialize()
 {
     s_names = DbDoctor::getPracticeAndDoctorNames();
-
+    return;
 	Json::Value root;
 	Json::Reader reader;
 	reader.parse(Resources::fromPath(":/json/json_bzs.json"), root);
@@ -93,6 +93,13 @@ void User::refereshPracticeDoctor()
    s_doctor.specialty = static_cast<NhifSpecialty>(std::get<1>(DbDoctor::getAdminAndSpecialty(s_doctor.LPK, s_practice.rziCode)));
 }
 
+void User::addDoctorNames(const std::map<std::string, std::string>& names)
+{
+    for (const auto& [lpk, name] : names) {
+        s_names.insert_or_assign(lpk, name);
+    }
+}
+
 std::string User::getNameFromLPK(const std::string& LPK, bool prefix)
 {
 	std::string result = prefix ? doctorPrefix : "";
@@ -105,7 +112,6 @@ std::string User::getNameFromLPK(const std::string& LPK, bool prefix)
     }
 
     return result;
-
 }
 /*
 double User::getPrice(int procedureCode)

@@ -5,6 +5,7 @@
 
 #include "Model/Patient.h"
 #include "Model/Dental/Procedure.h"
+#include "Network/BZSRegisterService.h"
 
 class DetailedStatus;
 
@@ -13,6 +14,9 @@ class DetailedStatusPresenter
 	DetailedStatus* view{ nullptr };
 
 	std::vector<Procedure> m_procedures;
+	Procedure::DatabaseSource m_source = Procedure::UnknownSource;
+	BZSRegisterService bzs_service;
+	void checkDoctorNames();
 
 	const Patient& m_patient;
 

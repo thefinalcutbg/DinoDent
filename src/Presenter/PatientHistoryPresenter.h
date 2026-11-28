@@ -5,6 +5,7 @@
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/HIS/EDental.h"
 #include "Network/HIS/EHospitalization.h"
+#include "Network/BZSRegisterService.h"
 #include "Model/TableRows.h"
 #include <variant>
 #include <vector>
@@ -28,6 +29,9 @@ class PatientHistoryPresenter {
 	DentalActivitiesService pis_service;
 	EDental::FetchStatusAndProcedures his_service;
 	EHospitalization::Fetch eHospitalizationFetch;
+	BZSRegisterService bzs_service;
+	bool doctorNamesCheckPending = false;
+	void checkDoctorNames();
 
 	std::variant<std::monostate, std::vector<Procedure>*, ToothContainer> result;
 

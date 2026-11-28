@@ -329,7 +329,7 @@ void ReportPresenter::finish()
 	int maxMinutesAllowed = NhifProcedures::getMonthlyLimit(Date(1, month, year), User::doctor().specialty);
 
 	if (maxMinutesAllowed < sumMinutes) {
-		errors.append("\nМесечният лимит по НЗОК е надвишен с " + std::to_string(sumMinutes - maxMinutesAllowed) + " минути\n");
+		errors.append("\nМесечният лимит по НЗОК е надвишен с " + std::to_string(sumMinutes - maxMinutesAllowed) + " минути");
 	}
 
 	if (!errors.empty()) {
@@ -341,6 +341,7 @@ void ReportPresenter::finish()
 	auto priceSuffix = year >= 2026 || (year == 2025 && month == 12) ? " €" : " лв.";
 	
 	view->appendText(
+		"\n"
 		"Минути дейност: " + std::to_string(sumMinutes) + " мин.\n"
 		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + " мин.\n"
 		"Очаквана сума : " + FreeFn::formatDouble(sumPrice) + priceSuffix

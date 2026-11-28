@@ -31,6 +31,7 @@ struct AmbListValidator
 public:
 	AmbListValidator(const AmbList& list, const Patient& patient);
 	bool ambListIsValid();
+	bool exceededMonthlyLimit();
 	const std::string& getErrorMsg();
 };
 

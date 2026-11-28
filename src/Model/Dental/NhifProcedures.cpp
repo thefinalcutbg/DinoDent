@@ -315,6 +315,16 @@ std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
 	return std::make_pair(value.patient_price, value.nhif_price);
 }
 
+int NhifProcedures::getDailyLimit(NhifSpecialty specialty)
+{
+	return specialty == NhifSpecialty::General ? 360 : 480;
+}
+
+int NhifProcedures::getMonthlyLimit(const Date& date, NhifSpecialty specialty)
+{
+	return getDailyLimit(specialty) * Date::getWorkdaysOfMonth(date.month, date.year);
+}
+
 std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 {
 	for (auto& u : m_NRDlist) 

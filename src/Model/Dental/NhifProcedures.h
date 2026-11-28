@@ -15,6 +15,8 @@ namespace NhifProcedures
 	std::vector<ProcedureCode> getNhifProceduresLegacy(Date date, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecificationType specification);
 	std::vector<ProcedureCode> getNhifProcedures(Date date, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecificationType specification);
 	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecificationType specification);
+	int getMonthlyLimit(const Date& date, NhifSpecialty specialty);
+	int getDailyLimit(NhifSpecialty specialty);
 	double getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification);
 	double getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification);
 	PriceValue getPriceValue(const PriceKey& key, const Date& date);

@@ -326,13 +326,10 @@ void ReportPresenter::finish()
 		sumPrice += procedurePrice;
 	}
 	
-	int minutesPerDay = User::doctor().specialty == NhifSpecialty::General ? 360 : 480;
-
-	int maxMinutesAllowed = Date::getWorkdaysOfMonth(month, year) * minutesPerDay;
+	int maxMinutesAllowed = NhifProcedures::getMonthlyLimit(Date(1, month, year), User::doctor().specialty);
 
 	if (maxMinutesAllowed < sumMinutes) {
-		errors.append("Надвишени лимит минути по НЗОК (" + std::to_string(sumMinutes)
-			+ " от максимално позволени " + std::to_string(maxMinutesAllowed) + ")\n");
+		errors.append("\nМесечният лимит по НЗОК е надвишен с " + std::to_string(sumMinutes - maxMinutesAllowed) + " минути!\n");
 	}
 
 	if (!errors.empty()) {

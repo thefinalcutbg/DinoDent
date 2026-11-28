@@ -837,13 +837,17 @@ bool ListPresenter::isValid()
 
     AmbListValidator checker(m_amblist, *patient);
 
-    if (checker.ambListIsValid()) return true;
+    if (!checker.ambListIsValid() &&
+        !ModalDialogBuilder::askDialog(checker.getErrorMsg() + "\nЖелаете ли да запазите листа въпреки това?")) {
+        return false;
+    }
+    
+    if (checker.exceededMonthlyLimit() && 
+        !ModalDialogBuilder::askDialog(checker.getErrorMsg() + "\nЖелаете ли да запазите листа въпреки това?")) {
+        return false;
+	}
 
-    return 
-        ModalDialogBuilder::askDialog(
-            checker.getErrorMsg() + 
-            "\nЖелаете ли да запазите листа въпреки това?" 
-    );
+    return true;
 
 }
 

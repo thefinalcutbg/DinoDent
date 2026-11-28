@@ -401,11 +401,38 @@ bool AmbListValidator::procedureOnExtractedTooth()
     return false;
 }
 
+bool AmbListValidator::exceededMonthlyLimit()
+{
+	if (m_procedures.empty()) return false;
+
+	auto procedureCodes = DbProcedure::getMonthlyNhifProcedureCodes(ambListDate, ambList.rowid);
+
+    for(auto& p : m_procedures) {
+        procedureCodes.push_back(p.code.nhifCode());
+	}
+    
+	int monthlyDurationMinutes = 0;
+
+    for(auto& code : procedureCodes) {
+        monthlyDurationMinutes += NhifProcedures::getDuration(code.nhifCode());
+	}
+
+	int maxLimit = NhifProcedures::getMonthlyLimit(ambListDate, User::doctor().specialty);
+
+    if(monthlyDurationMinutes > maxLimit) {
+        _error = "Месечният лимит по НЗОК е надвишен с " + std::to_string(monthlyDurationMinutes - maxLimit) + " минути";
+        return true;
+    }
+
+	return false;
+
+}
+
 std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
 {
     if (!User::settings().nhifDailyLimitCheck) return {};
 
-    int maxLimit = User::doctor().specialty == NhifSpecialty::General ? 360 : 480;
+    int maxLimit = NhifProcedures::getDailyLimit(User::doctor().specialty);
 
     auto dontSum = [](int code)->bool
     {

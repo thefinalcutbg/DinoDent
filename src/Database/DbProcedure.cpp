@@ -515,6 +515,38 @@ std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date, long long
 	return result;
 }
 
+std::vector<ProcedureCode> DbProcedure::getMonthlyNhifProcedureCodes(const Date& amblistDate, long long excludeAmblistRowid)
+{
+	const auto lastDay = amblistDate.getMaxDateOfMonth();
+	const Date firstDay{ 1, lastDay.month, lastDay.year };
+	std::vector<ProcedureCode> result;
+
+	Db db;
+	db.newStatement(
+		"SELECT procedure.code FROM procedure "
+		"JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+		"WHERE procedure.date BETWEEN ? AND ? "
+		"AND procedure.financing_source=2 "
+		"AND procedure.amblist_rowid!=? "
+		"AND amblist.lpk=? "
+		"AND amblist.rzi=? "
+		"AND procedure.removed=0 "
+		"ORDER BY procedure.rowid"
+	);
+	db.bind(1, firstDay.to8601());
+	db.bind(2, lastDay.to8601());
+	db.bind(3, excludeAmblistRowid);
+	db.bind(4, User::doctor().LPK);
+	db.bind(5, User::practice().rziCode);
+
+	while (db.hasRows())
+	{
+		result.push_back(db.asString(0));
+	}
+
+	return result;
+}
+
 Date DbProcedure::getLastVisitDate(long long patientRowid)
 {
     Db db;

@@ -2,6 +2,7 @@
 
 #include "Model/TableStructs.h"
 #include "Model/Dental/Procedure.h"
+#include <string>
 #include <vector>
 
 class Date;
@@ -26,6 +27,8 @@ namespace DbProcedure
     std::vector<Procedure> getToothProcedures(long long patientRowId, int tooth);
     std::vector<Procedure> getPatientProcedures(long long patientRowid);
     std::vector<int> getDailyNhifProcedures(const Date& date, long long excludeAmblistRowid);
+    // Includes the entire calendar month containing the excluded ambulatory sheet's date.
+    std::vector<ProcedureCode> getMonthlyNhifProcedureCodes(const Date& amblistDate, long long excludeAmblistRowid);
     Date getLastVisitDate(long long patientRowid);
 };
 

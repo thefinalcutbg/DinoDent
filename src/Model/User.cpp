@@ -17,7 +17,7 @@ std::unordered_map<std::string, std::string> s_names;
 void User::initialize()
 {
     s_names = DbDoctor::getPracticeAndDoctorNames();
-    return;
+
 	Json::Value root;
 	Json::Reader reader;
 	reader.parse(Resources::fromPath(":/json/json_bzs.json"), root);

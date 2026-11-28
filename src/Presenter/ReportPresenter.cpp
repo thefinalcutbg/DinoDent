@@ -329,7 +329,7 @@ void ReportPresenter::finish()
 	int maxMinutesAllowed = NhifProcedures::getMonthlyLimit(Date(1, month, year), User::doctor().specialty);
 
 	if (maxMinutesAllowed < sumMinutes) {
-		errors.append("\nМесечният лимит по НЗОК е надвишен с " + std::to_string(sumMinutes - maxMinutesAllowed) + " минути!\n");
+		errors.append("\nМесечният лимит по НЗОК е надвишен с " + std::to_string(sumMinutes - maxMinutesAllowed) + " минути\n");
 	}
 
 	if (!errors.empty()) {
